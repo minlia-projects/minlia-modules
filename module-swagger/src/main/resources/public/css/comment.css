@@ -1,0 +1,94 @@
+.pagecolor {
+	background: #F5F5F5;
+}
+
+.page {
+	margin-left: 0.66rem;
+	margin-right: 0.66rem;
+}
+
+.gray14txt {
+	color: #BCBCBC;
+	font-size: 0.9rem;
+}
+
+.gray12txt {
+	color: #BCBCBC;
+	font-size: 0.8rem;
+}
+
+.gray10txt {
+	color: #BCBCBC;
+	font-size: 0.67rem;
+}
+
+.black14txt {
+	color: #040404;
+	font-size: 0.9rem;
+}
+
+.black30txt {
+	color: #040404;
+	font-size: 2rem;
+}
+
+.white14txt {
+	color: #FFFFFF;
+	font-size: 0.9rem;
+}
+
+.white30txt {
+	color: #FFFFFF;
+	font-size: 1rem;
+}
+
+.white12txt {
+	color: #FFFFFF;
+	font-size: 0.8rem;
+}
+
+.white10txt {
+	color: #FFFFFF;
+	font-size: 0.66rem;
+}
+
+.black10txt {
+	color: #040404;
+	font-size: 0.6rem;
+}
+
+.black12txt {
+	color: #040404;
+	font-size: 0.8rem;
+}
+
+.green14txt {
+	color: #40D1C2;
+	font-size: 0.9rem;
+}
+
+.line {
+	border-top: 1px solid #BCBCBC;
+}
+
+.linegray {
+	border-top: 1px solid #F5F5F5;
+}
+
+.linedashed {
+	border-top: 1px dashed #BCBCBC;
+}
+
+.clearfix {
+	overflow: hidden;
+	zoom: 1
+}
+
+
+/**开启3d硬件加速*/
+.device3d {
+	transform: translateZ(0);
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-o-transform: translateZ(0);
+}

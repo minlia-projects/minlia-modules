@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.minlia.cloud.autoconfiguration.MinliaCloudAutoConfiguration,\
+org.springframework.data.mybatis.autoconfiguration.MybatisRepositoriesAutoConfiguration
+

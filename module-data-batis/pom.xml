@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.minlia.cloud.modules</groupId>
+    <artifactId>module-data-batis</artifactId>
+    <version>1.0.0.RELEASE</version>
+    <packaging>jar</packaging>
+    <name>Module Data Batis</name>
+
+    <parent>
+        <groupId>com.minlia.cloud</groupId>
+        <artifactId>minlia-cloud-parent</artifactId>
+        <version>1.0.0.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <httpcore.version>4.4.4</httpcore.version>
+        <jjwt.version>0.7.0</jjwt.version>
+        <spring.data.mybatis.version>1.0.16.RELEASE</spring.data.mybatis.version>
+    </properties>
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.minlia.cloud</groupId>
+            <artifactId>minlia-cloud-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+
+        <!--<dependency>-->
+            <!--<groupId>org.projectlombok</groupId>-->
+            <!--<artifactId>lombok</artifactId>-->
+            <!--<scope>compile</scope>-->
+            <!--<version>${lombok.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.lazyluke</groupId>-->
+            <!--<artifactId>log4jdbc-remix</artifactId>-->
+            <!--<version>0.2.7</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+       
+       
+        <!--<dependency>-->
+        <!--<groupId>mysql</groupId>-->
+        <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>ke.co.suncha</groupId>-->
+            <!--<artifactId>tembo</artifactId>-->
+            <!--<version>2016.10-SNAPSHOT</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>ke.co.suncha</groupId>-->
+            <!--<artifactId>tembo</artifactId>-->
+            <!--<version>2016.10-SNAPSHOT</version>-->
+        <!--</dependency>-->
+
+
+        <!--<dependency>-->
+        <!--<groupId>org.lazyluke</groupId>-->
+        <!--<artifactId>log4jdbc-remix</artifactId>-->
+        <!--<version>0.2.7</version>-->
+        <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.ifrabbit</groupId>
+            <artifactId>spring-data-mybatis</artifactId>
+            <version>1.0.16.1.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ifrabbit</groupId>
+            <artifactId>spring-boot-starter-data-mybatis</artifactId>
+            <version>${spring.data.mybatis.version}</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <!--<plugin>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<addResources>true</addResources>-->
+            <!--<mainClass>com.microsoft.apps.application.platform.Application</mainClass>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<goals>-->
+            <!--<goal>repackage</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+
+
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
