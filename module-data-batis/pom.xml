@@ -19,7 +19,9 @@
     <properties>
         <httpcore.version>4.4.4</httpcore.version>
         <jjwt.version>0.7.0</jjwt.version>
-        <spring.data.mybatis.version>1.0.16.RELEASE</spring.data.mybatis.version>
+        <spring.data.mybatis.version>1.0.17.RELEASE</spring.data.mybatis.version>
+        <spring.data.mybatis.starter.version>1.0.8.RELEASE</spring.data.mybatis.starter.version>
+
     </properties>
     <dependencies>
 
@@ -67,35 +69,18 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>ke.co.suncha</groupId>-->
-            <!--<artifactId>tembo</artifactId>-->
-            <!--<version>2016.10-SNAPSHOT</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>ke.co.suncha</groupId>-->
-            <!--<artifactId>tembo</artifactId>-->
-            <!--<version>2016.10-SNAPSHOT</version>-->
-        <!--</dependency>-->
 
-
-        <!--<dependency>-->
-        <!--<groupId>org.lazyluke</groupId>-->
-        <!--<artifactId>log4jdbc-remix</artifactId>-->
-        <!--<version>0.2.7</version>-->
-        <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>com.ifrabbit</groupId>
             <artifactId>spring-data-mybatis</artifactId>
-            <version>1.0.16.1.RELEASE</version>
+            <version>${spring.data.mybatis.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.ifrabbit</groupId>
             <artifactId>spring-boot-starter-data-mybatis</artifactId>
-            <version>${spring.data.mybatis.version}</version>
+            <version>${spring.data.mybatis.starter.version}</version>
         </dependency>
     </dependencies>
 

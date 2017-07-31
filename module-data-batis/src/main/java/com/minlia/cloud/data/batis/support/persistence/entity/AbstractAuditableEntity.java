@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
-import org.springframework.data.mybatis.annotations.DynamicSearch;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -15,7 +14,6 @@ import java.util.Map;
 
 @MappedSuperclass
 @javax.persistence.MappedSuperclass
-@DynamicSearch
 @Data
 public abstract class AbstractAuditableEntity<ID extends Serializable> implements Persistable,Serializable {
 

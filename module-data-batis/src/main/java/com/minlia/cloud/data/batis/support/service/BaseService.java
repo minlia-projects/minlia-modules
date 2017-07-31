@@ -1,6 +1,5 @@
 package com.minlia.cloud.data.batis.support.service;
 
-import com.minlia.cloud.body.query.PageableResponseBody;
 import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.data.batis.support.persistence.SpecificationDetail;
 import com.minlia.cloud.data.batis.support.persistence.entity.AbstractAuditableEntity;
@@ -116,58 +115,6 @@ public interface BaseService<REPOSITORY extends AbstractRepository<ENTITY, PK>, 
      * @return
      */
     public List<ENTITY> findAll(SpecificationDetail specificationDetail);
-
-    /**
-     * 根据搜索条件、不存在的实体进行搜索
-     *
-     * @param pm
-     * @param specificationDetail
-     * @param isBasic
-     * @return
-     */
-    public PageableResponseBody<ENTITY> findBasePage(PageableResponseBody<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail, boolean isBasic);
-
-    /**
-     * 动态分页查询(自定义)
-     *
-     * @param pm                  分页对象
-     * @param specificationDetail 动态条件对象
-     * @param selectStatement     自定义数据集合sql名称
-     * @param countStatement      自定义数据总数sql名称
-     * @return
-     */
-    public PageableResponseBody<ENTITY> findBasePage(PageableResponseBody<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail, String selectStatement, String countStatement);
-
-    /**
-     * 动态分页查询
-     *
-     * @param pm                  分页对象
-     * @param specificationDetail 动态条件对象
-     * @param isBasic             是否关联对象查询
-     * @return
-     */
-    public PageableResponseBody<ENTITY> findBasePage(PageableResponseBody<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail, Boolean isBasic);
-
-    /**
-     * 动态分页查询
-     *
-     * @param pm                  分页对象
-     * @param specificationDetail 动态条件对象
-     * @param isBasic             是否关联对象查询
-     * @param selectStatement     自定义数据集合sql名称
-     * @param countStatement      自定义数据总数sql名称
-     * @return
-     */
-    public PageableResponseBody<ENTITY> findBasePage(PageableResponseBody<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail, Boolean isBasic, String selectStatement, String countStatement);
-
-    /**
-     * 动态分页查询
-     *
-     * @param pm                  分页对象
-     * @param specificationDetail 动态条件对象
-     * @return
-     */
-    public PageableResponseBody<ENTITY> findPage(PageableResponseBody<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail);
 
 
     /**
