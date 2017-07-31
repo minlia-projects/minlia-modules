@@ -39,31 +39,12 @@
         </dependency>
 
 
-        <!--<dependency>-->
-            <!--<groupId>org.projectlombok</groupId>-->
-            <!--<artifactId>lombok</artifactId>-->
-            <!--<scope>compile</scope>-->
-            <!--<version>${lombok.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.lazyluke</groupId>-->
-            <!--<artifactId>log4jdbc-remix</artifactId>-->
-            <!--<version>0.2.7</version>-->
-            <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-       
-       
-        <!--<dependency>-->
-        <!--<groupId>mysql</groupId>-->
-        <!--<artifactId>mysql-connector-java</artifactId>-->
-        <!--</dependency>-->
+
 
         <dependency>
             <groupId>javax.servlet</groupId>
