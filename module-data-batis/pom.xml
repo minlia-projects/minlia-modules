@@ -2,7 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-data-batis</artifactId>
     <version>1.0.0.RELEASE</version>
@@ -21,9 +20,7 @@
         <jjwt.version>0.7.0</jjwt.version>
         <spring.data.mybatis.version>1.0.17.RELEASE</spring.data.mybatis.version>
         <spring.data.mybatis.starter.version>1.0.8.RELEASE</spring.data.mybatis.starter.version>
-
     </properties>
-
 
     <build>
         <plugins>
@@ -42,8 +39,6 @@
             <!--</execution>-->
             <!--</executions>-->
             <!--</plugin>-->
-
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -120,7 +115,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -140,7 +134,6 @@
             <version>0.2.7</version>
         </dependency>
     </dependencies>
-
 
 
 </project>
