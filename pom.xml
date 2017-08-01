@@ -20,23 +20,6 @@
     <modules>
     <module>module-swagger</module>
     <module>module-data-batis</module>
-        <!--<module>module-attachment</module>
-        <module>module-starter-data-query</module>
-        <module>module-starter-swagger</module>
-        <module>module-starter-aliyun-oss</module>
-        <module>module-starter-aliyun-sms</module>
-        <module>module-security-core</module>-->
-        <!--<module>module-security</module>-->
-        <!--<module>module-language</module>
-        <module>module-navigation</module>
-        <module>module-bible</module>
-        <module>module-approval</module>
-        <module>module-relationship</module>
-        <module>weixin-java-tools</module>
-        <module>module-wechat-boot-starter</module>
 
-        <module>module-starter-wechat-mp</module>
-        <module>module-starter-wechat-miniapp</module>
-        <module>module-system-notification</module>-->
     </modules>
 </project>
