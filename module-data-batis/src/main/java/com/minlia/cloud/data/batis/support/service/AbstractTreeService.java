@@ -6,7 +6,6 @@ import com.minlia.cloud.body.query.TreeQuery;
 import com.minlia.cloud.data.batis.support.persistence.entity.AbstractStatefulEntity;
 import com.minlia.cloud.data.batis.support.persistence.entity.AbstractTreeEntity;
 import com.minlia.cloud.data.batis.support.repository.AbstractTreeRepository;
-import com.minlia.cloud.exception.ApiException;
 import com.minlia.cloud.utils.Assert;
 import com.minlia.cloud.utils.PreconditionsHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -47,15 +46,16 @@ public abstract class AbstractTreeService<REPOSITORY extends AbstractTreeReposit
     public ENTITY save(ENTITY entity) {
         String oldParentIds = entity.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
         if (entity.getParentId() != null) {
-            ENTITY parent = repository.findOneById(entity.getParentId());
-            if (parent == null || PreconditionsHelper.isEmpty(parent.getId()))
-                throw new ApiException("无法获取模块的父节点，插入失败");
-            if (parent != null) {
-                parent.setLeaf(false);
-//                checkSave(parent);
-                repository.save(parent);
-            }
-            entity.setParentIds(PreconditionsHelper.toAppendStr(parent.getParentIds(), parent.getId(), ","));
+            //TODO
+//            ENTITY parent = repository.findOne((Long)entity.getParentId());
+//            if (parent == null || PreconditionsHelper.isEmpty(parent.getId()))
+//                throw new ApiException("无法获取模块的父节点，插入失败");
+//            if (parent != null) {
+//                parent.setLeaf(false);
+////                checkSave(parent);
+//                repository.save(parent);
+//            }
+//            entity.setParentIds(PreconditionsHelper.toAppendStr(parent.getParentIds(), parent.getId(), ","));
         }
 
         if (PreconditionsHelper.isNotEmpty(entity.getId())) {

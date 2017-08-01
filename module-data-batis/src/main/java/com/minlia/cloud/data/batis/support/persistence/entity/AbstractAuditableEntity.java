@@ -57,11 +57,11 @@ public abstract class AbstractAuditableEntity<ID extends Serializable> implement
     protected String sqlConditionDsf;
 
 
-    @javax.persistence.Transient
-    @Transient
-    @JsonIgnore
-    @XmlTransient
-    protected String dbName ="mysql";
+//    @javax.persistence.Transient
+//    @Transient
+//    @JsonIgnore
+//    @XmlTransient
+//    protected String dbName ="mysql";
 
 
     @JsonIgnore

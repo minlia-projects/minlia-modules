@@ -117,6 +117,9 @@ public interface BaseService<REPOSITORY extends AbstractRepository<ENTITY, PK>, 
     public List<ENTITY> findAll(SpecificationDetail specificationDetail);
 
 
+
+
+
     /**
      * 根据多个属性进行查询，检查实体是否存在，不存在则返回Boolean.TRUE
      *

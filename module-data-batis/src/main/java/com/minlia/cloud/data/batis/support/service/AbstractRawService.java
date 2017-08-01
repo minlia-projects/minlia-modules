@@ -2,14 +2,13 @@ package com.minlia.cloud.data.batis.support.service;
 
 import com.minlia.cloud.body.query.PageableResponseBody;
 import com.minlia.cloud.data.batis.support.persistence.QuerySpecifications;
-import com.minlia.cloud.data.batis.support.persistence.SpecificationDetail;
 import com.minlia.cloud.data.batis.support.persistence.entity.AbstractDataEntity;
 import com.minlia.cloud.data.batis.support.persistence.entity.AbstractStatefulEntity;
 import com.minlia.cloud.data.batis.support.query.QueryCondition;
 import com.minlia.cloud.data.batis.support.repository.AbstractRepository;
 import com.minlia.cloud.utils.Assert;
-import com.minlia.cloud.utils.PreconditionsHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -84,15 +83,21 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository<E
         return findPageQuery(pm, queryConditions, true);
     }
 
+    @Autowired
+    QuerySpecifications spec;
+
     public PageableResponseBody<ENTITY> findPageQuery(PageableResponseBody<ENTITY> pm, List<QueryCondition> authQueryConditions, boolean isBasic) {
-        SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.buildSpecification(pm.getQueryConditionJson(),
-                persistentClass,
-                QueryCondition.ne(AbstractStatefulEntity.F_STATUS, AbstractStatefulEntity.FLAG_DELETE));
-        if (PreconditionsHelper.isNotEmpty(authQueryConditions))
-            specificationDetail.orAll(authQueryConditions);
-//		specificationDetail.setPersistentClass();
-        return findBasePage(pm, specificationDetail, isBasic);
+//        SpecificationDetail<ENTITY> specificationDetail = spec.buildSpecification(pm.getQueryConditionJson(),
+//                persistentClass,
+//                QueryCondition.ne(AbstractStatefulEntity.F_STATUS, AbstractStatefulEntity.FLAG_DELETE));
+//        if (PreconditionsHelper.isNotEmpty(authQueryConditions))
+//            specificationDetail.orAll(authQueryConditions);
+////		specificationDetail.setPersistentClass();
+//        return findBasePage(pm, specificationDetail, isBasic);
+        return null;
     }
+
+
 
 
 }

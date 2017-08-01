@@ -33,9 +33,6 @@ public abstract class AbstractEntity extends AbstractDataEntity<Long> {
 
     @PrePersist
     public void preInssert() {
-//        if (StringUtils.isEmpty(id)) {
-//            setId(IdGen.uuid());
-//        }
     }
 
     //

@@ -23,47 +23,6 @@
         <spring.data.mybatis.starter.version>1.0.8.RELEASE</spring.data.mybatis.starter.version>
 
     </properties>
-    <dependencies>
-
-
-        <dependency>
-            <groupId>com.minlia.cloud</groupId>
-            <artifactId>minlia-cloud-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.ifrabbit</groupId>
-            <artifactId>spring-data-mybatis</artifactId>
-            <version>${spring.data.mybatis.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ifrabbit</groupId>
-            <artifactId>spring-boot-starter-data-mybatis</artifactId>
-            <version>${spring.data.mybatis.starter.version}</version>
-        </dependency>
-    </dependencies>
 
 
     <build>
@@ -110,4 +69,66 @@
             </plugin>
         </plugins>
     </build>
+
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.minlia.cloud</groupId>
+            <artifactId>minlia-cloud-starter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.ifrabbit</groupId>
+            <artifactId>spring-data-mybatis</artifactId>
+            <version>${spring.data.mybatis.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ifrabbit</groupId>
+            <artifactId>spring-boot-starter-data-mybatis</artifactId>
+            <version>${spring.data.mybatis.starter.version}</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.194</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.41</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+
+
 </project>

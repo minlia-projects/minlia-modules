@@ -7,6 +7,7 @@ import com.minlia.cloud.body.query.PageableResponseBody;
 import com.minlia.cloud.data.batis.support.persistence.QuerySpecifications;
 import com.minlia.cloud.data.batis.support.persistence.SpecificationDetail;
 import com.minlia.cloud.data.batis.support.persistence.entity.AbstractAuditableEntity;
+import com.minlia.cloud.data.batis.support.query.ApiSearchRequestBody;
 import com.minlia.cloud.data.batis.support.repository.AbstractRepository;
 import com.minlia.cloud.data.batis.support.util.QueryUtil;
 import com.minlia.cloud.utils.Assert;
@@ -28,23 +29,22 @@ import java.util.Map;
  * Created by will on 8/1/17.
  */
 @Slf4j
-public abstract class AbstractReadonlyService<REPOSITORY extends AbstractRepository<ENTITY, PK>, ENTITY extends AbstractAuditableEntity, PK extends Serializable> implements ReadonlyService<REPOSITORY,ENTITY,PK>{
-
+public abstract class AbstractReadonlyService<REPOSITORY extends AbstractRepository<ENTITY, PK>, ENTITY extends AbstractAuditableEntity, PK extends Serializable> implements ReadonlyService<REPOSITORY, ENTITY, PK> {
 
     @Autowired
     protected REPOSITORY repository;
 
     protected Class<ENTITY> persistentClass;
 
-//    public AbstractBaseService() {
-//        Class<?> c = getClass();
-//        Type type = c.getGenericSuperclass();
-//        if (type instanceof ParameterizedType) {
-//            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-//            persistentClass = (Class<ENTITY>) parameterizedType[1];
-////            repository =  (REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[0].getClass().getName(),repository);
-//        }
-//    }
+    public AbstractReadonlyService() {
+        Class<?> c = getClass();
+        Type type = c.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+            persistentClass = (Class<ENTITY>) parameterizedType[1];
+//            repository =  (REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[0].getClass().getName(),repository);
+        }
+    }
 
 
     public ENTITY findOne(Map<String, Object> paramsMap, String... columns) {
@@ -191,4 +191,22 @@ public abstract class AbstractReadonlyService<REPOSITORY extends AbstractReposit
     public PageableResponseBody<ENTITY> findPage(PageableResponseBody<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail) {
         return findBasePage(pm, specificationDetail, true);
     }
+
+
+    @Autowired
+    QuerySpecifications spec;
+
+
+    /**
+     * 动态集合查询
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Page<ENTITY> findAll(ApiSearchRequestBody body,Pageable pageable) {
+//        return this.findAll(spec.buildSpecification(body),pageable);
+        return null;
+    }
+
+
+
 }

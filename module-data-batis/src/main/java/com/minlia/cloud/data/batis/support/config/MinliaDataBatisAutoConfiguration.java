@@ -27,20 +27,14 @@ import java.util.Date;
 @Configuration
 @ConditionalOnClass(com.minlia.cloud.autoconfiguration.MinliaCloudAutoConfiguration.class)
 @Slf4j
+/**
+ * Minlia Data Batis Auto Configuration
+ */
 public class MinliaDataBatisAutoConfiguration {
 
-
-    //OK
-    @org.springframework.boot.autoconfigure.domain.EntityScan(basePackages = {".**.domain", ".**.model"})
-//, basePackageClasses = {Jsr310JpaConverters.class}
-    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true)
-//    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-    @Configuration
-    @ConditionalOnClass(MinliaCloudAutoConfiguration.class)
-    public static class EnableMinliaCloudJpaRepository {
-    }
-
-
+    /**
+     * Batis Configuration
+     */
     @EntityScan(basePackages = {".**.domain", ".**.model"})
     @Configuration
     @EnableMybatisRepositories(
@@ -90,9 +84,33 @@ public class MinliaDataBatisAutoConfiguration {
 
         @Override
         public void setResourceLoader(ResourceLoader resourceLoader) {
-
             this.resourceLoader = resourceLoader;
         }
     }
+
+
+
+
+
+
+
+
+
+
+    /**
+     * JPA Configuration
+     */
+    @org.springframework.boot.autoconfigure.domain.EntityScan(basePackages = {".**.domain", ".**.model"})
+//, basePackageClasses = {Jsr310JpaConverters.class}
+    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true)
+//    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
+    @Configuration
+    @ConditionalOnClass(MinliaCloudAutoConfiguration.class)
+    public static class EnableMinliaCloudJpaRepository {}
+
+
+
+
+
 
 }
