@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 @JSONType(ignores = {"data"})
-public class DefaultPageRequest<T> implements Pageable, Serializable {
+public class DefaultPageRequest<ENTITY> implements Pageable, Serializable {
 
     public static final String F_DATA = "data";
     private static final long serialVersionUID = 1L;
@@ -37,7 +37,7 @@ public class DefaultPageRequest<T> implements Pageable, Serializable {
     private long recordsTotal;
     private int draw;
     @JSONField(name = "data", serialzeFeatures = {SerializerFeature.WriteNullListAsEmpty})
-    private List<T> data;
+    private List<ENTITY> data;
 
     public DefaultPageRequest() {
     }
@@ -53,7 +53,7 @@ public class DefaultPageRequest<T> implements Pageable, Serializable {
         this(page, size, null);
     }
 
-    public DefaultPageRequest(int page, int size, List<T> dataList, long recordsTotal) {
+    public DefaultPageRequest(int page, int size, List<ENTITY> dataList, long recordsTotal) {
         this(page, size, null);
         setData(dataList);
         setRecordsTotal(recordsTotal);
@@ -100,11 +100,11 @@ public class DefaultPageRequest<T> implements Pageable, Serializable {
         this.recordsTotal = recordsTotal;
     }
 
-    public List<T> getData() {
+    public List<ENTITY> getData() {
         return data;
     }
 
-    public void setData(List<T> data) {
+    public void setData(List<ENTITY> data) {
         this.data = data;
     }
 
@@ -125,7 +125,7 @@ public class DefaultPageRequest<T> implements Pageable, Serializable {
         this.draw = draw;
     }
 
-    public void setPageInstance(Page<T> page) {
+    public void setPageInstance(Page<ENTITY> page) {
         setData(page.getContent());
         setRecordsTotal(page.getTotalElements());
     }
@@ -279,18 +279,18 @@ public class DefaultPageRequest<T> implements Pageable, Serializable {
         return new PageRequest(0, getPageSize(), getSort());
     }
 
-    public <S> DefaultPageRequest<S> map(Converter<? super T, ? extends S> converter) {
+    public <S> DefaultPageRequest<S> map(Converter<? super ENTITY, ? extends S> converter) {
         return new DefaultPageRequest(this.getPage(), this.getSize(),
                 this.getConvertedContent(converter), this.getRecordsTotal());
     }
 
-    protected <S> List<S> getConvertedContent(Converter<? super T, ? extends S> converter) {
+    protected <S> List<S> getConvertedContent(Converter<? super ENTITY, ? extends S> converter) {
         Assert.notNull(converter, "Converter must not be null!");
         List<S> result = new ArrayList(this.data.size());
         Iterator var3 = this.data.iterator();
 
         while (var3.hasNext()) {
-            T element = (T) var3.next();
+            ENTITY element = (ENTITY) var3.next();
             result.add(converter.convert(element));
         }
 
