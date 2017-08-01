@@ -53,6 +53,8 @@ public class RoleSimpleRepositoryTests {
     RoleRepository  roleRepository;
     @Autowired
     GroupRepository groupRepository;
+
+
     Role manager, tester, developer, assistant;
     Group group1, group2;
 

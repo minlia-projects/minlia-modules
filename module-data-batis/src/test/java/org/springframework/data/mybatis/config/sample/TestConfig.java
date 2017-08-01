@@ -24,7 +24,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.mybatis.replication.datasource.ReplicationRoutingDataSource;
 import org.springframework.data.mybatis.replication.transaction.ReadWriteManagedTransactionFactory;
@@ -85,15 +84,15 @@ public class TestConfig implements ResourceLoaderAware {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean
-    public AuditorAware<Long> auditorAware() {
-        return new AuditorAware<Long>() {
-            @Override
-            public Long getCurrentAuditor() {
-                return 1001L;
-            }
-        };
-    }
+//    @Bean
+//    public AuditorAware<Long> auditorAware() {
+//        return new AuditorAware<Long>() {
+//            @Override
+//            public Long getCurrentAuditor() {
+//                return 1001L;
+//            }
+//        };
+//    }
 
     @Bean
     public AuditDateAware<Date> auditDateAware() {

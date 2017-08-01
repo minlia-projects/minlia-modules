@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoleServiceImpl extends AbstractBaseService<RoleRepository,Role,Long> implements RoleService {
 
+    public RoleServiceImpl(){
+        super();
+    }
 
 
 

@@ -19,10 +19,12 @@ import java.util.Map;
 
 @Transactional
 @Slf4j
-public abstract class AbstractBaseService<REPOSITORY extends AbstractRepository<ENTITY, PK>, ENTITY extends AbstractAuditableEntity, PK extends Serializable> extends AbstractReadonlyService<REPOSITORY,ENTITY,PK> implements BaseService<REPOSITORY, ENTITY, PK> {
+public abstract class AbstractBaseService<REPOSITORY extends AbstractRepository<ENTITY, PK>, ENTITY extends AbstractAuditableEntity, PK extends Serializable> extends AbstractReadonlyService<REPOSITORY, ENTITY, PK> implements BaseService<REPOSITORY, ENTITY, PK> {
 
 
-
+    public AbstractBaseService(){
+        super();
+    }
     public Boolean doCheckWithEntity(ENTITY entity, Map<String, QueryOperator> maps) {
         boolean rs = false;
         if (PreconditionsHelper.isNotEmpty(entity)) {
@@ -102,7 +104,6 @@ public abstract class AbstractBaseService<REPOSITORY extends AbstractRepository<
     public ENTITY findOne(PK id) {
         return repository.findOne(id);
     }
-
 
 
 }

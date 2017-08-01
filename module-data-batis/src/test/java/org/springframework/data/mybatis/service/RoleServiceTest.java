@@ -68,7 +68,6 @@ public class RoleServiceTest {
 //    @ApiOperation(value = "查询所有子项[根据父code]", notes = "查询所有子项[根据父code]", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @Test
     public void searchByConditions() {
-
         String code="xxx";
 //        Pageable  pageable=new PageRequest(0,10);
         Pageable pageable=new PageRequest(0, 10, new Sort(ASC, "name"));
