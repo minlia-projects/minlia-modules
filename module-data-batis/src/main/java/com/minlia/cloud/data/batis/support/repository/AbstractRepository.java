@@ -17,7 +17,7 @@ import java.util.Map;
 @NoRepositoryBean
 public interface AbstractRepository<ENTITY extends AbstractAuditableEntity, PK extends Serializable> extends MybatisRepository<ENTITY, PK> {
 
-    ENTITY findOne(PK id);
+//    ENTITY findOneById(PK id);
 
 
     ENTITY findOne(boolean isBasic, Map<String, Object> paramsMap, String... columns);

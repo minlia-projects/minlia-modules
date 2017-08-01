@@ -1,17 +1,13 @@
 package org.springframework.data.mybatis.service;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.data.batis.support.persistence.QuerySpecifications;
 import com.minlia.cloud.data.batis.support.query.ApiSearchRequestBody;
 import com.minlia.cloud.data.batis.support.query.QueryCondition;
-import io.swagger.annotations.ApiOperation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,15 +16,9 @@ import org.springframework.data.mybatis.domain.sample.Group;
 import org.springframework.data.mybatis.domain.sample.Role;
 import org.springframework.data.mybatis.repository.RoleSearchRequestBody;
 import org.springframework.data.mybatis.service.sample.RoleService;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,21 +58,26 @@ public class RoleServiceTest {
     }
 
 
-    @Autowired
-    QuerySpecifications spec;
 
 //
 //    @Autowired
 //    BibleItemRepository repository;
 
     //    @PreAuthorize(value = "hasAnyAuthority('" + BibleService.ENTITY_SEARCH + "')")
-    @RequestMapping(value = "{code}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ApiOperation(value = "查询所有子项[根据父code]", notes = "查询所有子项[根据父code]", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody searchByConditions(@PathVariable String code, @PageableDefault Pageable  pageable, @RequestBody ApiSearchRequestBody<RoleSearchRequestBody> body) {
-        body.getConditions().add(new QueryCondition("bible.code", QueryOperator.eq, code));
-        List pageableFound=roleService.findAll(spec.buildSpecification(body));
-        Page pageableFound1=roleService.findAll(body,pageable);
-        return SuccessResponseBody.builder().payload(pageableFound).build();
+//    @RequestMapping(value = "{code}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    @ApiOperation(value = "查询所有子项[根据父code]", notes = "查询所有子项[根据父code]", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Test
+    public void searchByConditions() {
+
+        String code="xxx";
+//        Pageable  pageable=new PageRequest(0,10);
+        Pageable pageable=new PageRequest(0, 10, new Sort(ASC, "name"));
+        ApiSearchRequestBody<RoleSearchRequestBody> body=new ApiSearchRequestBody<>();
+        body.getConditions().add(new QueryCondition("name", QueryOperator.eq, code));
+        List pageableFound=roleService.findAll(QuerySpecifications.buildSpecification(body));
+//        Page pageableFound1=roleService.findAll(body,pageable);
+//        return SuccessResponseBody.builder().payload(pageableFound).build();
+        assertNull(pageableFound);
     }
 
 

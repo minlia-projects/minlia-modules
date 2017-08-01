@@ -2,10 +2,11 @@ package com.minlia.cloud.data.batis.support.persistence;
 
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
+import com.minlia.cloud.body.query.Order;
 import com.minlia.cloud.data.batis.support.query.QueryCondition;
 import com.minlia.cloud.utils.PreconditionsHelper;
-import lombok.extern.slf4j.Slf4j;
-import org.hibernate.criterion.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -15,7 +16,6 @@ import java.util.Collection;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-@Slf4j
 public class SpecificationDetail<T> implements Serializable {
     /**
      *
@@ -25,6 +25,7 @@ public class SpecificationDetail<T> implements Serializable {
      * 属性分隔符
      */
     private static final String PROPERTY_SEPARATOR = ".";
+    protected static Logger logger = LoggerFactory.getLogger(SpecificationDetail.class);
     public Class<T> persistentClass;
     /**
      * and条件
@@ -100,7 +101,7 @@ public class SpecificationDetail<T> implements Serializable {
             try {
                 list = JSONArray.parseArray(queryConditionJson, QueryCondition.class);
             } catch (Exception e) {
-                log.warn(PreconditionsHelper.toAppendStr("queryCondition[", queryConditionJson,
+                logger.warn(PreconditionsHelper.toAppendStr("queryCondition[", queryConditionJson,
                         "] is not json or other error", e.getMessage()));
             }
         }
@@ -159,7 +160,7 @@ public class SpecificationDetail<T> implements Serializable {
             try {
                 list = JSONArray.parseArray(queryConditionJson, QueryCondition.class);
             } catch (Exception e) {
-                log.warn(PreconditionsHelper.toAppendStr("queryCondition[", queryConditionJson,
+                logger.warn(PreconditionsHelper.toAppendStr("queryCondition[", queryConditionJson,
                         "] is not json or other error", e.getMessage()));
             }
         }
@@ -175,7 +176,7 @@ public class SpecificationDetail<T> implements Serializable {
      * @param property 该字段对应变量名
      * @return 链式调用
      */
-    public SpecificationDetail<T> orderAsc(String... property) {
+    public SpecificationDetail<T> orderASC(String... property) {
         if (PreconditionsHelper.isNotEmpty(property)) {
             for (int i = 0; i < property.length; i++) {
                 this.orders.add(Order.asc(property[i]));
@@ -190,7 +191,7 @@ public class SpecificationDetail<T> implements Serializable {
      * @param property 该字段对应变量名
      * @return 链式调用
      */
-    public SpecificationDetail<T> orderDesc(String... property) {
+    public SpecificationDetail<T> orderDESC(String... property) {
         if (PreconditionsHelper.isNotEmpty(property)) {
             for (int i = 0; i < property.length; i++) {
                 this.orders.add(Order.desc(property[i]));

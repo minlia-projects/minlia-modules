@@ -102,10 +102,10 @@ public class MinliaDataBatisAutoConfiguration {
      */
     @org.springframework.boot.autoconfigure.domain.EntityScan(basePackages = {".**.domain", ".**.model"})
 //, basePackageClasses = {Jsr310JpaConverters.class}
-    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true)
+//    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true)
 //    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
     @Configuration
-    @ConditionalOnClass(MinliaCloudAutoConfiguration.class)
+    @ConditionalOnClass(MinliaDataBatisAutoConfiguration.class)
     public static class EnableMinliaCloudJpaRepository {}
 
 

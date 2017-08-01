@@ -1,0 +1,197 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.springframework.data.mybatis.domain.sample.Role">
+    <sql id="TABLE_NAME">DS_ROLE</sql>
+    <sql id="SEQUENCE">call next value for seq_DS_ROLE</sql>
+    <sql id="SELECT_CONDITION_INNER"></sql>
+    <resultMap id="ResultMap" type="org.springframework.data.mybatis.domain.sample.Role">
+        <id property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result property="createdBy" column="createdBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="createdDate" column="createdDate" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result property="description" column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="lastModifiedBy" column="lastModifiedBy" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="status" column="status" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <result property="version" column="version" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        <association property="group" javaType="org.springframework.data.mybatis.domain.sample.Group">
+            <id property="id" column="group.id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+            <result property="code" column="group.code" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <result property="name" column="group.name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+    <insert id="_insert" parameterType="org.springframework.data.mybatis.domain.sample.Role" lang="XML" keyProperty="id"
+            keyColumn="id"><selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">call
+        identity()</selectKey>
+        <![CDATA[insert into DS_ROLE(created_by,created_date,description,last_modified_by,name,status,version,group_id) values(#{createdBy,jdbcType=VARCHAR},#{createdDate,jdbcType=TIMESTAMP},#{description,jdbcType=VARCHAR},#{lastModifiedBy,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{version,jdbcType=INTEGER},#{group.id,jdbcType=BIGINT})]]>
+    </insert>
+    <update id="_update" parameterType="org.springframework.data.mybatis.domain.sample.Role" lang="XML">update DS_ROLE
+        <set>
+            created_by=#{createdBy,jdbcType=VARCHAR},created_date=#{createdDate,jdbcType=TIMESTAMP},description=#{description,jdbcType=VARCHAR},last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR},name=#{name,jdbcType=VARCHAR},status=#{status,jdbcType=INTEGER},version=version+1,group_id=#{group.id}
+        </set>
+        <trim prefix="where" prefixOverrides="and |or ">and id=#{id}and version=#{version}</trim>
+    </update>
+    <update id="_updateIgnoreNull" parameterType="org.springframework.data.mybatis.domain.sample.Role" lang="XML">update
+        DS_ROLE
+        <set>
+            <if test="createdBy != null">created_by=#{createdBy,jdbcType=VARCHAR},</if>
+            <if test="createdDate != null">created_date=#{createdDate,jdbcType=TIMESTAMP},</if>
+            <if test="description != null">description=#{description,jdbcType=VARCHAR},</if>
+            <if test="lastModifiedBy != null">last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR},</if>
+            <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
+            <if test="status != null">status=#{status,jdbcType=INTEGER},</if>version=version+1,
+            <if test="group != null and group.id != null">group_id=#{group.id},</if>
+        </set>
+        <trim prefix="where" prefixOverrides="and |or ">and id=#{id}and version=#{version}</trim>
+    </update>
+    <select id="_getById" parameterType="org.springframework.data.mybatis.domain.sample.Role" resultMap="ResultMap"
+            lang="XML">select "role".id as "id","role".created_by as "createdBy","role".created_date as
+        "createdDate","role".description as "description","role".last_modified_by as "lastModifiedBy","role".name as
+        "name","role".status as "status","role".version as "version","role.group".id as "group.id","role.group".code as
+        "group.code","role.group".name as "group.name" from DS_ROLE "role" left outer join DS_GROUP "role.group" on
+        "role".group_id="role.group".id
+        <trim prefix=" where " prefixOverrides="and |or ">and "role".id=#{id}</trim>
+    </select>
+    <select id="_findAll" resultMap="ResultMap" lang="XML">select "role".id as "id","role".created_by as
+        "createdBy","role".created_date as "createdDate","role".description as "description","role".last_modified_by as
+        "lastModifiedBy","role".name as "name","role".status as "status","role".version as "version","role.group".id as
+        "group.id","role.group".code as "group.code","role.group".name as "group.name" from DS_ROLE "role" left outer
+        join DS_GROUP "role.group" on "role".group_id="role.group".id
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.name != null">and "role".name=#{_condition.name}</if>
+                <if test="_condition != null and _condition.fuzzyName != null">and "role".name like
+                    #{_condition.fuzzyName}
+                </if>
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+        <if test="_ids != null">where "role".id in
+            <foreach item="item" index="index" collection="_ids" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"role\".id","createdBy":"\"role\".created_by","createdDate":"\"role\".created_date","description":"\"role\".description","lastModifiedBy":"\"role\".last_modified_by","name":"\"role\".name","status":"\"role\".status","version":"\"role\".version","group.id":"\"role.group\".id","group.code":"\"role.group\".code","group.name":"\"role.group\".name"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+    </select>
+    <select id="_findBasicAll" resultMap="ResultMap" lang="XML">select "role".id as "id","role".created_by as
+        "createdBy","role".created_date as "createdDate","role".description as "description","role".last_modified_by as
+        "lastModifiedBy","role".name as "name","role".status as "status","role".version as "version","role".group_id as
+        "group.id" from DS_ROLE "role"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.name != null">and "role".name=#{_condition.name}</if>
+                <if test="_condition != null and _condition.fuzzyName != null">and "role".name like
+                    #{_condition.fuzzyName}
+                </if>
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+        <if test="_ids != null">where "role".id in
+            <foreach item="item" index="index" collection="_ids" open="(" separator="," close=")">#{item}</foreach>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"role\".id","createdBy":"\"role\".created_by","createdDate":"\"role\".created_date","description":"\"role\".description","lastModifiedBy":"\"role\".last_modified_by","name":"\"role\".name","status":"\"role\".status","version":"\"role\".version","group.id":"\"role\".group_id"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+    </select>
+    <select id="_count" resultType="long" lang="XML">select count(*) from DS_ROLE "role"</select>
+    <delete id="_deleteById" parameterType="org.springframework.data.mybatis.domain.sample.Role" lang="XML">delete from
+        DS_ROLE "role"
+        <trim prefix=" where " prefixOverrides="and |or ">and id=#{id}</trim>
+    </delete>
+    <delete id="_deleteAll">truncate table DS_ROLE </delete>
+    <select id="_findByPager" resultMap="ResultMap" lang="XML">select "role".id as "id","role".created_by as
+        "createdBy","role".created_date as "createdDate","role".description as "description","role".last_modified_by as
+        "lastModifiedBy","role".name as "name","role".status as "status","role".version as "version","role.group".id as
+        "group.id","role.group".code as "group.code","role.group".name as "group.name" from DS_ROLE "role" left outer
+        join DS_GROUP "role.group" on "role".group_id="role.group".id
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.name != null">and "role".name=#{_condition.name}</if>
+                <if test="_condition != null and _condition.fuzzyName != null">and "role".name like
+                    #{_condition.fuzzyName}
+                </if>
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"role\".id","createdBy":"\"role\".created_by","createdDate":"\"role\".created_date","description":"\"role\".description","lastModifiedBy":"\"role\".last_modified_by","name":"\"role\".name","status":"\"role\".status","version":"\"role\".version","group.id":"\"role.group\".id","group.code":"\"role.group\".code","group.name":"\"role.group\".name"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+        limit #{pageSize} offset #{offset}
+    </select>
+    <select id="_findBasicByPager" resultMap="ResultMap" lang="XML">select "role".id as "id","role".created_by as
+        "createdBy","role".created_date as "createdDate","role".description as "description","role".last_modified_by as
+        "lastModifiedBy","role".name as "name","role".status as "status","role".version as "version","role".group_id as
+        "group.id" from DS_ROLE "role"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.name != null">and "role".name=#{_condition.name}</if>
+                <if test="_condition != null and _condition.fuzzyName != null">and "role".name like
+                    #{_condition.fuzzyName}
+                </if>
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+        <if test="_sorts != null">
+            <bind name="_columnsMap"
+                  value='#{"id":"\"role\".id","createdBy":"\"role\".created_by","createdDate":"\"role\".created_date","description":"\"role\".description","lastModifiedBy":"\"role\".last_modified_by","name":"\"role\".name","status":"\"role\".status","version":"\"role\".version","group.id":"\"role\".group_id"}'/>
+            order by
+            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
+                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
+            </foreach>
+        </if>
+        limit #{pageSize} offset #{offset}
+    </select>
+    <select id="_countByCondition" resultType="long" lang="XML">select count(*) from DS_ROLE "role" left outer join
+        DS_GROUP "role.group" on "role".group_id="role.group".id
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.name != null">and "role".name=#{_condition.name}</if>
+                <if test="_condition != null and _condition.fuzzyName != null">and "role".name like
+                    #{_condition.fuzzyName}
+                </if>
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+    </select>
+    <select id="_countBasicByCondition" resultType="long" lang="XML">select count(*) from DS_ROLE "role"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.name != null">and "role".name=#{_condition.name}</if>
+                <if test="_condition != null and _condition.fuzzyName != null">and "role".name like
+                    #{_condition.fuzzyName}
+                </if>
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+    </select>
+    <select id="_getBasicById" parameterType="org.springframework.data.mybatis.domain.sample.Role" resultMap="ResultMap"
+            lang="XML">select "role".id as "id","role".created_by as "createdBy","role".created_date as
+        "createdDate","role".description as "description","role".last_modified_by as "lastModifiedBy","role".name as
+        "name","role".status as "status","role".version as "version","role".group_id as "group.id" from DS_ROLE "role"
+        <trim prefix=" where " prefixOverrides="and |or ">and "role".id=#{id}</trim>
+    </select>
+    <delete id="_deleteByCondition" lang="XML">delete from DS_ROLE "role"
+        <if test="_condition != null">
+            <trim prefix=" where " prefixOverrides="and |or ">
+                <if test="_condition != null and _condition.name != null">and "role".name=#{_condition.name}</if>
+                <if test="_condition != null and _condition.fuzzyName != null">and "role".name like
+                    #{_condition.fuzzyName}
+                </if>
+                <include refid="SELECT_CONDITION_INNER"/>
+            </trim>
+        </if>
+    </delete>
+</mapper>
