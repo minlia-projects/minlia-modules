@@ -3,12 +3,12 @@ package com.minlia.cloud.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.query.body.ApiSearchRequestBody;
 import com.minlia.cloud.service.IService;
 import com.minlia.cloud.utils.ApiPreconditions;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
@@ -51,18 +51,45 @@ import java.util.List;
 public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, ENTITY extends Persistable<PK>,PK extends Serializable>  implements
         ApiEndpoint<ENTITY,PK> {
 
-//    @Autowired
+    @Autowired
     protected  SERVICE service;
 
     public AbstractApiEndpoint() {
+
+
+
+
+//        Class<Persistable> entityClass=null;
+//
+//
+//        Type type = getClass().getGenericSuperclass();
+//        if (type instanceof  ParameterizedType)
+//        {
+//            ParameterizedType paramType = (ParameterizedType) type;
+//            if (paramType.getActualTypeArguments().length == 2) {
+////                if (paramType.getActualTypeArguments()[1] instanceof TypeVariable) {
+////                    throw new IllegalArgumentException(
+////                            "Can't find class using reflection");
+////                }
+//                else {
+//                    entityClass = (Class<Persistable>) paramType.getActualTypeArguments()[1];
+//                }
+//            } else {
+//                entityClass = (Class<Persistable>) paramType.getActualTypeArguments()[0];
+//            }
+//        } else {
+////            throw new Exception("Can't find class using reflection");
+//        }
+
+
+
         Class<?> c = getClass();
         Type type = c.getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
 
-            Class<ENTITY> clz=(Class<ENTITY>)parameterizedType[1].getClass();
-
-            service=(SERVICE) ContextHolder.getContext().getBean((Class<ENTITY>)service.getClass());
+            Class<Persistable> clz=(Class<Persistable>)parameterizedType[1];
+//            service=(SERVICE) SpringContextHolder.getBean((Class<IService>)parameterizedType[0]);
 
         }
     }

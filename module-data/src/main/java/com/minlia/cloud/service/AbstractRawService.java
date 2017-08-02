@@ -3,7 +3,6 @@ package com.minlia.cloud.service;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.dao.BatisDao;
-import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.query.body.ApiSearchRequestBody;
 import com.minlia.cloud.query.specification.jpa.JpaSpecifications;
 import com.minlia.cloud.repository.AbstractRepository;
@@ -34,7 +33,10 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
     JpaSpecifications jpaSpecifications;
 
     protected Class<ENTITY> clazz;
+
+    @Autowired
     protected REPOSITORY repository;
+    @Autowired
     protected DAO dao;
 
 
@@ -56,9 +58,9 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
         if (type instanceof ParameterizedType) {
             Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
 
-            repository=(REPOSITORY) ContextHolder.getContext().getBean((Class<REPOSITORY>)repository.getClass());
-//            repository=(REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[0].getClass());
-            dao=(DAO)ContextHolder.getContext().getBean((Class<DAO>)repository.getClass());
+//            repository=(REPOSITORY) SpringContextHolder.getBean((Class<AbstractRepository>)parameterizedType[0]);
+//            repository=(REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[2].getClass());
+//            dao=(DAO) SpringContextHolder.getBean((Class<BatisDao>)parameterizedType[1]);
             clazz = (Class<ENTITY>) parameterizedType[2];
 
 
