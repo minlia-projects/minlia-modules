@@ -1,4 +1,3 @@
-
 /*
  *
  *   Copyright 2016 the original author or authors.
@@ -19,7 +18,6 @@
 
 package org.springframework.data.mybatis.repository.support;
 
-import com.minlia.cloud.data.batis.support.SimpleBatisRepository;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,7 +33,7 @@ import java.io.Serializable;
  *
  * @author Jarvis Song
  */
-public class QueryDslMybatisRepository<T, ID extends Serializable> extends SimpleBatisRepository<T, ID> implements QueryDslPredicateExecutor<T> {
+public class QueryDslMybatisRepository<T, ID extends Serializable> extends SimpleMybatisRepository<T, ID> implements QueryDslPredicateExecutor<T> {
 
 
     public QueryDslMybatisRepository(MybatisEntityInformation<T, ID> entityInformation, SqlSessionTemplate sqlSessionTemplate) {

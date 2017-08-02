@@ -97,13 +97,11 @@ public interface MybatisRepository<T, ID extends Serializable>
     <X extends T> int deleteByCondition(X condition);
 
 
+    // extends
 
     List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns);
 
     List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns);
-
-
-
 
 
 }

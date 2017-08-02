@@ -379,25 +379,31 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
 
 
 
-  @Override
-  public List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.putAll(paramsMap);
-    if (null != columns) {
-      params.put("_specifiedFields", columns);
-    }
-    return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
-  }
 
-  @Override
-  public List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns) {
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.putAll(paramsMap);
-    params.put("_sorts", sort);
-    if (null != columns) {
-      params.put("_specifiedFields", columns);
+
+
+  //extends
+    @Override
+    public List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
     }
-    return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
-  }
+
+    @Override
+    public List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        params.put("_sorts", sort);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
+    }
+
+
 
 }

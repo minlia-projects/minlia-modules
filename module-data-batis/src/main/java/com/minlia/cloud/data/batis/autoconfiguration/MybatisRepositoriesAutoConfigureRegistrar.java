@@ -164,6 +164,7 @@ class MybatisRepositoriesAutoConfigureRegistrar extends
             String ss = StreamUtils
                 .copyToString(resource.getInputStream(), Charset.forName("UTF-8"));
             if (StringUtils.isEmpty(ss)) {
+
               continue;
             }
             String[] sss = ss.split("\n");

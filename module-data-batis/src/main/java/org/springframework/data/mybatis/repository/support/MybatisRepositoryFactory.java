@@ -18,7 +18,6 @@
 
 package org.springframework.data.mybatis.repository.support;
 
-import com.minlia.cloud.data.batis.support.SimpleBatisRepository;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mybatis.domains.AuditDateAware;
@@ -91,7 +90,7 @@ public class MybatisRepositoryFactory extends RepositoryFactorySupport {
         if (isQueryDslExecutor(metadata.getRepositoryInterface())) {
             return QueryDslMybatisRepository.class;
         } else {
-            return SimpleBatisRepository.class;
+            return SimpleMybatisRepository.class;
         }
     }
 
