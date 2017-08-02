@@ -20,7 +20,7 @@ package org.springframework.data.mybatis.repository.support;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.data.domain.*;
-import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -36,7 +36,7 @@ import java.util.Map;
  *
  * @author Jarvis Song
  */
-@NoRepositoryBean
+@Repository
 @Transactional(readOnly = true)
 public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSessionRepositorySupport
     implements MybatisRepository<T, ID> {
@@ -371,4 +371,33 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     //FIXME improve delete in batch
     delete(entities);
   }
+
+
+
+
+
+
+
+
+  @Override
+  public List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.putAll(paramsMap);
+    if (null != columns) {
+      params.put("_specifiedFields", columns);
+    }
+    return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
+  }
+
+  @Override
+  public List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns) {
+    Map<String, Object> params = new HashMap<String, Object>();
+    params.putAll(paramsMap);
+    params.put("_sorts", sort);
+    if (null != columns) {
+      params.put("_specifiedFields", columns);
+    }
+    return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
+  }
+
 }

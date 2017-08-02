@@ -28,6 +28,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Mybatis specific extension of {@link org.springframework.data.repository.Repository}.
@@ -94,4 +95,15 @@ public interface MybatisRepository<T, ID extends Serializable>
     void deleteInBatch(Iterable<T> entities);
 
     <X extends T> int deleteByCondition(X condition);
+
+
+
+    List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns);
+
+    List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns);
+
+
+
+
+
 }

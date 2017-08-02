@@ -18,7 +18,6 @@
 
 package com.minlia.cloud.data.batis.autoconfiguration;
 
-import com.minlia.cloud.data.batis.support.BatisRepository;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -37,6 +36,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.data.mybatis.repository.config.MybatisRepositoryConfigExtension;
+import org.springframework.data.mybatis.repository.support.MybatisRepository;
 import org.springframework.data.mybatis.support.SqlSessionFactoryBean;
 import org.springframework.util.StringUtils;
 
@@ -53,7 +53,7 @@ import java.util.Set;
 @ConditionalOnProperty(prefix = "spring.data.mybatis.repositories", name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnBean({DataSource.class})
 @ConditionalOnMissingBean({MybatisRepositoryConfigExtension.class})
-@ConditionalOnClass({BatisRepository.class, SqlSessionFactory.class})
+@ConditionalOnClass({MybatisRepository.class, SqlSessionFactory.class})
 @AutoConfigureAfter({DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class})
 @Import(MybatisRepositoriesAutoConfigureRegistrar.class)
 public class MybatisRepositoriesAutoConfiguration implements ResourceLoaderAware {
