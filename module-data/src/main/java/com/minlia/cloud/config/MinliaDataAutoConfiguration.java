@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * Minlia Data Batis Auto Configuration
  */
-public class MinliaDataBatisAutoConfiguration {
+public class MinliaDataAutoConfiguration {
 
 //    /**
 //     * Batis Configuration
@@ -91,7 +91,7 @@ public class MinliaDataBatisAutoConfiguration {
     @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true,transactionManagerRef = "jpaTransactionManager")//
 //    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
     @Configuration
-    @ConditionalOnClass(MinliaDataBatisAutoConfiguration.class)
+    @ConditionalOnClass(MinliaDataAutoConfiguration.class)
     @EnableTransactionManagement
     public static class EnableMinliaCloudJpaRepository {
 
