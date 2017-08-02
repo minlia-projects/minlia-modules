@@ -1,10 +1,8 @@
 package com.minlia.cloud.service;
 
-import com.minlia.cloud.interfaces.IEntity;
-import com.minlia.cloud.interfaces.IOperations;
+import org.springframework.data.domain.Persistable;
 
-public interface IRawService<ENTITY extends IEntity> extends IOperations<ENTITY> {
+public interface IRawService<T extends Persistable> extends IOperations<T> {
 
-    // search
-
+    //
 }
