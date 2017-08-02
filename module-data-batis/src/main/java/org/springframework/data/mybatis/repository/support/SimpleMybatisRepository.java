@@ -18,21 +18,17 @@
 
 package org.springframework.data.mybatis.repository.support;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.data.domain.*;
+import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 /**
  * Default implementation of the {@link org.springframework.data.repository.CrudRepository}
@@ -40,7 +36,7 @@ import org.springframework.util.Assert;
  *
  * @author Jarvis Song
  */
-@Repository
+@NoRepositoryBean
 @Transactional(readOnly = true)
 public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSessionRepositorySupport
     implements MybatisRepository<T, ID> {

@@ -20,9 +20,6 @@ public class SimpleBatisRepository<ENTITY, PK extends Serializable> extends Simp
         super(entityInformation, sqlSessionTemplate);
     }
 
-
-
-
     @Override
     public List<ENTITY> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
         Map<String, Object> params = new HashMap<String, Object>();
