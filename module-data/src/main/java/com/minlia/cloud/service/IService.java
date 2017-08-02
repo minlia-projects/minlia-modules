@@ -3,7 +3,9 @@ package com.minlia.cloud.service;
 
 import org.springframework.data.domain.Persistable;
 
-public interface IService<T extends Persistable> extends IRawService<T> {
+import java.io.Serializable;
+
+public interface IService<ENTITY extends Persistable,PK extends Serializable> extends IRawService<ENTITY,PK> {
 
     //
 

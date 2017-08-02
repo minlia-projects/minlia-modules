@@ -2,8 +2,12 @@ package com.minlia.cloud.service;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.minlia.cloud.dao.BatisDao;
+import com.minlia.cloud.holder.ContextHolder;
+import com.minlia.cloud.query.body.ApiSearchRequestBody;
+import com.minlia.cloud.query.specification.jpa.JpaSpecifications;
+import com.minlia.cloud.repository.AbstractRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -11,20 +15,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.List;
 
 @Transactional
-public abstract class AbstractRawService<T extends Persistable> implements IRawService<T> {
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+@Slf4j
+public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,DAO extends BatisDao,ENTITY extends Persistable,PK extends Serializable> implements IRawService<ENTITY,PK> {
 
-    protected Class<T> clazz;
+
+    @Autowired
+    JpaSpecifications jpaSpecifications;
+
+    protected Class<ENTITY> clazz;
+    protected REPOSITORY repository;
+    protected DAO dao;
+
 
     @Autowired
     protected ApplicationEventPublisher eventPublisher;
@@ -40,7 +52,9 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
     public AbstractRawService() {
         Type type = getClass().getGenericSuperclass();
         Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-        clazz = (Class<T>) parameterizedType[0];
+        repository=(REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[0].getClass());
+        dao=(DAO)ContextHolder.getContext().getBean(parameterizedType[1].getClass());
+        clazz = (Class<ENTITY>) parameterizedType[2];
     }
 
     // API
@@ -49,14 +63,14 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
 
     @Override
     @Transactional(readOnly = true)
-    public T findOne(final Long id) {
+    public ENTITY findOne(final PK id) {
         return getRepository().findOne(id);
     }
 
 
     @Override
-    public Boolean exists(Long id) {
-        T t = this.findOne(id);
+    public Boolean exists(PK id) {
+        ENTITY t = this.findOne(id);
         if (null == t)
             return Boolean.FALSE;
         else
@@ -67,7 +81,7 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
 
     @Override
     @Transactional(readOnly = true)
-    public Page<T> findAll(Pageable pageable) {
+    public Page<ENTITY> findAll(Pageable pageable) {
         return getRepository().findAll(pageable);
     }
 
@@ -75,27 +89,26 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
 
     @Override
     @Transactional(readOnly = true)
-    public List<T> findAll() {
+    public List<ENTITY> findAll() {
         return Lists.newArrayList(getRepository().findAll());
     }
 
     // save/create/persist
 
-    public T beforeCreated(final T entity) {
+    public ENTITY beforeCreated(final ENTITY entity) {
         return entity;
     }
 
-    public T afterCreated(T persistedEntity) {
+    public ENTITY afterCreated(ENTITY persistedEntity) {
         return persistedEntity;
     }
 
     @Override
-    public T create(T entity) {
+    public ENTITY create(ENTITY entity) {
         Preconditions.checkNotNull(entity);
-
 //        eventPublisher.publishEvent(new BeforeEntityCreateEvent<T>(this, clazz, entity));
         entity = beforeCreated(entity);
-        T persistedEntity = getRepository().save(entity);
+        ENTITY persistedEntity = getRepository().save(entity);
         persistedEntity = afterCreated(persistedEntity);
 //        eventPublisher.publishEvent(new AfterEntityCreateEvent<T>(this, clazz, persistedEntity));
         return persistedEntity;
@@ -104,7 +117,7 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
     // update/merge
 
     @Override
-    public T update(final T entity) {
+    public ENTITY update(final ENTITY entity) {
         Preconditions.checkNotNull(entity);
         return getRepository().save(entity);
     }
@@ -117,10 +130,16 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
     }
 
     @Override
-    public void delete(final Long id) {
-        final T entity = getRepository().findOne(id);
+    public void delete(final PK id) {
+        final ENTITY entity = getRepository().findOne(id);
 //        ServicePreconditions.checkEntityExists(entity);
         getRepository().delete(entity);
+    }
+
+    public void delete(Iterator<PK> ids){
+        while (ids.hasNext()){
+            this.delete(ids.next());
+        }
     }
 
     // count
@@ -132,14 +151,23 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
 
     // template method
 
-    protected abstract JpaRepository<T, Long> getRepository();
+//    protected abstract JpaRepository<ENTITY, PK> getRepository();
 
-     protected JpaSpecificationExecutor<T> getSpecificationExecutor() {
-        return (JpaSpecificationExecutor<T>) getRepository();
+
+    protected  AbstractRepository<ENTITY,PK> getRepository(){
+        return repository;
+    }
+
+    protected BatisDao getDao(){
+        return dao;
+    }
+
+     protected JpaSpecificationExecutor<ENTITY> getSpecificationExecutor() {
+        return (JpaSpecificationExecutor<ENTITY>) getRepository();
      }
 
-     protected QueryDslPredicateExecutor<T> getQueryDslPredicateExecutor() {
-        return (QueryDslPredicateExecutor<T>) getRepository();
+     protected QueryDslPredicateExecutor<ENTITY> getQueryDslPredicateExecutor() {
+        return (QueryDslPredicateExecutor<ENTITY>) getRepository();
      }
 
 
@@ -152,5 +180,16 @@ public abstract class AbstractRawService<T extends Persistable> implements IRawS
         }
         return sortInfo;
     }
+
+
+
+    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable){
+         return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body),pageable);
+    }
+
+    public List<ENTITY> findListByBody(ApiSearchRequestBody body){
+         return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body));
+    }
+
 
 }

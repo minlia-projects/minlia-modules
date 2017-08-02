@@ -1,12 +1,15 @@
 package com.minlia.cloud.service;
 
+import com.minlia.cloud.query.body.ApiSearchRequestBody;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Persistable;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
-public interface IOperations<T extends Serializable> {
+public interface IOperations<ENTITY extends Persistable,PK extends Serializable> {
 
     /**
      * findOne
@@ -14,27 +17,54 @@ public interface IOperations<T extends Serializable> {
      * @param id
      * @return
      */
-    public T findOne(final Long id);
+    public ENTITY findOne(final PK id);
 
     /**
      * - contract: if nothing is found, an empty list will be returned to the calling client <br>
      */
-    public List<T> findAll();
+    public List<ENTITY> findAll();
 
-    Boolean exists(Long id);
 
-    public Page<T> findAll(Pageable pageable);
+    /**
+     * @param body
+     * @return
+     */
+    public List<ENTITY> findListByBody(ApiSearchRequestBody body);
+
+
+    /**
+     * is entity exists
+     * @param id
+     * @return
+     */
+    Boolean exists(PK id);
+
+    public Page<ENTITY> findAll(Pageable pageable);
+
+
+    /**
+     * @param body
+     * @param pageable
+     * @return
+     */
+    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable);
 
 
     // create
-    public T create(T resource);
+    public ENTITY create(ENTITY resource);
 
 
     // update
-    public T update(T resource);
+    public ENTITY update(ENTITY resource);
 
     // delete
-    public void delete(Long id);
+    public void delete(PK id);
+
+    /**
+     * deletion in batch
+     * @param ids
+     */
+    public void delete(Iterator<PK> ids);
 
     /**
      * delete all

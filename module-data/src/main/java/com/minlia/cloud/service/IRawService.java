@@ -2,7 +2,9 @@ package com.minlia.cloud.service;
 
 import org.springframework.data.domain.Persistable;
 
-public interface IRawService<T extends Persistable> extends IOperations<T> {
+import java.io.Serializable;
+
+public interface IRawService<ENTITY extends Persistable,PK extends Serializable> extends IOperations<ENTITY,PK> {
 
     //
 }
