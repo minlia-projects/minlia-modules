@@ -22,73 +22,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 public class MinliaDataAutoConfiguration {
 
-//    /**
-//     * Batis Configuration
-//     */
-//    @EntityScan(basePackages = {".**.domain", ".**.model"})
-//    @Configuration
-//    @EnableMybatisRepositories(
-////            repositoryFactoryBeanClass =
-//
-//            value = {".**.dao"},
-//            mapperLocations = "classpath*:/mappings/modules/*/*Dao.xml"
-//    )
-//    @EnableTransactionManagement
-//    public static class EnableMinliaDataBatisAutoConfiguration implements ResourceLoaderAware {
-//
-////    private final Logger log = LoggerFactory.getLogger(DatabaseAutoConfiguration.class);
-//
-//        private ResourceLoader resourceLoader;
-//
-//        @Bean
-//        public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
-//            SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
-//            factoryBean.setDataSource(dataSource);
-//            factoryBean.setTransactionFactory(new ReadWriteManagedTransactionFactory());
-//            return factoryBean;
-//        }
-//
-//        @Bean
-//        public PlatformTransactionManager transactionManagerBatis(DataSource dataSource) {
-//            return new DataSourceTransactionManager(dataSource);
-//        }
-//
-//
-////    @Bean
-////    public AuditorAware<Long> auditorAware() {
-////        return new AuditorAware<Long>() {
-////            @Override
-////            public Long getCurrentAuditor() {
-////                return 1001L;
-////            }
-////        };
-////    }
-//
-//
-////        @Bean
-////        @ConditionalOnMissingBean
-////        public AuditDateAware<Date> auditDateAware() {
-////            return new AuditDateAware<Date>() {
-////                @Override
-////                public Date getCurrentDate() {
-////                    return new Date();
-////                }
-////            };
-////        }
-//
-//        @Override
-//        public void setResourceLoader(ResourceLoader resourceLoader) {
-//            this.resourceLoader = resourceLoader;
-//        }
-//    }
-
 
     /**
      * JPA Configuration
      */
     @EntityScan(basePackages = {".**.domain", ".**.model"})
-//, basePackageClasses = {Jsr310JpaConverters.class}
-    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true,transactionManagerRef = "jpaTransactionManager")//
+    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true, transactionManagerRef = "jpaTransactionManager")
 //    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
     @Configuration
     @ConditionalOnClass(MinliaDataAutoConfiguration.class)
