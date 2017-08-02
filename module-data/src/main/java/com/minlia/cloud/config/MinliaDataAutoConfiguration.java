@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ConditionalOnClass(com.minlia.cloud.autoconfiguration.MinliaCloudAutoConfiguration.class)
 @Slf4j
 /**
- * Minlia Data Batis Auto Configuration
+ * Minlia Data Auto Configuration
  */
 public class MinliaDataAutoConfiguration {
 
