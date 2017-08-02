@@ -23,5 +23,8 @@ import java.io.Serializable;
 
 public abstract class AbstractService<REPOSITORY extends AbstractRepository,DAO extends BatisDao,ENTITY extends Persistable,PK extends Serializable>  extends AbstractRawService<REPOSITORY,DAO,ENTITY,PK> implements IService<ENTITY,PK> {
 
+    public AbstractService(){
+        super();
+    }
     // API
 }
