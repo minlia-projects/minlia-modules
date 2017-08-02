@@ -18,8 +18,10 @@
     <properties>
         <httpcore.version>4.4.4</httpcore.version>
         <jjwt.version>0.7.0</jjwt.version>
+        <!--<spring.data.mybatis.version>1.0.16.BUILD-SNAPSHOT</spring.data.mybatis.version>-->
+        <!--<spring.data.mybatis.starter.version>1.0.16.BUILD-SNAPSHOT</spring.data.mybatis.starter.version>-->
         <spring.data.mybatis.version>1.0.17.RELEASE</spring.data.mybatis.version>
-        <spring.data.mybatis.starter.version>1.0.8.RELEASE</spring.data.mybatis.starter.version>
+        <spring.data.mybatis.starter.version>1.0.17.RELEASE</spring.data.mybatis.starter.version>
     </properties>
 
     <build>
@@ -108,11 +110,13 @@
             <version>${spring.data.mybatis.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.ifrabbit</groupId>
-            <artifactId>spring-boot-starter-data-mybatis</artifactId>
-            <version>${spring.data.mybatis.starter.version}</version>
-        </dependency>
+
+        <!--disable for custom batisrepository-->
+        <!--<dependency>-->
+            <!--<groupId>com.ifrabbit</groupId>-->
+            <!--<artifactId>spring-boot-starter-data-mybatis</artifactId>-->
+            <!--<version>${spring.data.mybatis.starter.version}</version>-->
+        <!--</dependency>-->
 
 
         <dependency>
@@ -120,11 +124,6 @@
             <artifactId>h2</artifactId>
             <version>1.4.194</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.41</version>
         </dependency>
 
 
