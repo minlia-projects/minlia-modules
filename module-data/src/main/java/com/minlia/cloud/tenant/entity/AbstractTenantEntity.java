@@ -1,21 +1,38 @@
-package com.minlia.cloud.entity;
+package com.minlia.cloud.tenant.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.minlia.cloud.tenant.entity.AbstractTenantEntity;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.minlia.cloud.entity.AbstractLocalizedEntity;
+import com.minlia.cloud.tenant.listener.AbstractTenantEntityListener;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 /**
  * Created by will on 6/22/17.
  */
+@JsonPropertyOrder({"tenantId"})
 @MappedSuperclass
+@Slf4j
+@EntityListeners(AbstractTenantEntityListener.class)
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
 
-public abstract class AbstractEntity extends AbstractTenantEntity {
+public class AbstractTenantEntity extends AbstractLocalizedEntity {
 
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 
     @Override
     @Transient
@@ -38,7 +55,7 @@ public abstract class AbstractEntity extends AbstractTenantEntity {
         if (isEmpty() || obj == null || !getClass().isAssignableFrom(obj.getClass())) {
             return false;
         }
-        AbstractEntity entity = (AbstractEntity) obj;
+        AbstractTenantEntity entity = (AbstractTenantEntity) obj;
         if (entity.isEmpty()) {
             return false;
         }
@@ -47,7 +64,8 @@ public abstract class AbstractEntity extends AbstractTenantEntity {
 
 
     public String toString() {
-        return "AbstractEntity (id=" + this.getId() + ")";
+        return "AbstractTenantEntity (id=" + this.getId() + ")";
     }
+
 
 }
