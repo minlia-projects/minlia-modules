@@ -23,7 +23,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @author Jarvis Song
  */
-@ConfigurationProperties(prefix = org.springframework.data.mybatis.autoconfiguration.MybatisProperties.PREFIX)
+@ConfigurationProperties(prefix =MybatisProperties.PREFIX)
 public class MybatisProperties {
     public static final String PREFIX = "spring.data.mybatis";
 
