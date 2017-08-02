@@ -1,6 +1,9 @@
 package com.minlia.cloud.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.query.body.ApiSearchRequestBody;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -11,7 +14,7 @@ import javax.validation.Valid;
  *
  * @param <ENTITY> Your resource Domain to manage, maybe an entity or DTO class
  */
-public interface ApiEndpoint<ENTITY> {
+public interface ApiEndpoint<ENTITY,PK> {
 
     /**
      * Create a new resource<br />
@@ -27,12 +30,12 @@ public interface ApiEndpoint<ENTITY> {
      * Update an existing resource<br/>
      * REST webservice published : PUT /{id}
      *
-     * @param id       The identifier of the resource to update, usually a Long or String identifier. It is explicitely provided in order to handle cases where the identifier could be changed.
+     * @param id       The identifier of the resource to update, usually a PK or String identifier. It is explicitely provided in order to handle cases where the identifier could be changed.
      * @param resource The resource to update
      * @return OK http status code if the request has been correctly processed, with the updated resource enclosed in the body
      */
 
-    StatefulBody update(@PathVariable Long id, @Valid @RequestBody ENTITY resource);
+    StatefulBody update(@PathVariable PK id, @Valid @RequestBody ENTITY resource);
 
     /**
      * Find all resources, and return a paginated and optionaly sorted collection<br/>
@@ -58,7 +61,7 @@ public interface ApiEndpoint<ENTITY> {
      * @param id The identifier of the resouce to find
      * @return OK http status code if the request has been correctly processed, with resource found enclosed in the body
      */
-    StatefulBody findOne(@PathVariable Long id);
+    StatefulBody findOne(@PathVariable PK id);
 
 
     /**
@@ -68,5 +71,10 @@ public interface ApiEndpoint<ENTITY> {
      *
      * @param id The identifier of the resource to delete
      */
-    StatefulBody delete(@PathVariable Long id);
+    StatefulBody delete(@PathVariable PK id);
+
+
+    public StatefulBody searchPageable(@RequestBody ApiSearchRequestBody body , @PageableDefault Pageable pageable);
+
+    public StatefulBody searchList(@RequestBody ApiSearchRequestBody body);
 }

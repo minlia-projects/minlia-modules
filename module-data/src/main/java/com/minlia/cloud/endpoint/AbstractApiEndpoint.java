@@ -3,12 +3,12 @@ package com.minlia.cloud.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.query.body.ApiSearchRequestBody;
 import com.minlia.cloud.service.IService;
 import com.minlia.cloud.utils.ApiPreconditions;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
  * <p>You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
  * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController</p>
  * <p/>
- * <p>Default implementation uses "id" field (usually a Long) in order to identify resources in web request.
+ * <p>Default implementation uses "id" field (usually a PK) in order to identify resources in web request.
  * If your want to identity resources by a slug (human readable identifier), your should override findOne() method with for example :
  * <p/>
  * <pre>
@@ -47,15 +48,23 @@ import java.util.List;
  * @param <ENTITY> Your resource class to manage, maybe an entity or DTO class
  */
 @Slf4j
-public abstract class AbstractApiEndpoint<SERVICE extends IService, ENTITY extends Persistable>  implements
-        ApiEndpoint<ENTITY> {
+public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, ENTITY extends Persistable<PK>,PK extends Serializable>  implements
+        ApiEndpoint<ENTITY,PK> {
 
-    @Autowired
-    protected SERVICE service;
+//    @Autowired
+    protected  SERVICE service;
 
     public AbstractApiEndpoint() {
-        Type type = getClass().getGenericSuperclass();
-        Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+        Class<?> c = getClass();
+        Type type = c.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+
+            Class<ENTITY> clz=(Class<ENTITY>)parameterizedType[1].getClass();
+
+            service=(SERVICE) ContextHolder.getContext().getBean((Class<ENTITY>)service.getClass());
+
+        }
     }
 
 
@@ -72,7 +81,7 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService, ENTITY exten
 
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //    @RequestMapping(value = "{id}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody update(@PathVariable Long id, @Valid @RequestBody ENTITY resource) {
+    public StatefulBody update(@PathVariable PK id, @Valid @RequestBody ENTITY resource) {
         ApiPreconditions.checkNotNull(id, ApiCode.NOT_FOUND);
         ENTITY retreivedResource = (ENTITY) service.findOne(id);
         ApiPreconditions.checkNotNull(retreivedResource, ApiCode.NOT_FOUND);
@@ -95,7 +104,7 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService, ENTITY exten
 
     @ApiOperation(value = "获取一个指定ID的实体", notes = "获取一个指定ID的实体", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody findOne(@PathVariable Long id) {
+    public StatefulBody findOne(@PathVariable PK id) {
         ApiPreconditions.checkNotNull(id, ApiCode.NOT_FOUND);
         ENTITY retreivedResource = (ENTITY) service.findOne(id);
         ApiPreconditions.checkNotNull(retreivedResource, ApiCode.NOT_FOUND);
@@ -104,7 +113,7 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService, ENTITY exten
 
     @ApiOperation(value = "删除指定ID的实体", notes = "删除指定ID的实体", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody delete(@PathVariable Long id) {
+    public StatefulBody delete(@PathVariable PK id) {
         service.delete(id);
         return SuccessResponseBody.builder().message("OK").build();
     }

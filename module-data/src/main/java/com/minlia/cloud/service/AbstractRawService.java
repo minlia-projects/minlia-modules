@@ -50,11 +50,24 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
      * Enhanced for auto clazz found
      */
     public AbstractRawService() {
-        Type type = getClass().getGenericSuperclass();
-        Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-        repository=(REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[0].getClass());
-        dao=(DAO)ContextHolder.getContext().getBean(parameterizedType[1].getClass());
-        clazz = (Class<ENTITY>) parameterizedType[2];
+
+        Class<?> c = getClass();
+        Type type = c.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+
+            repository=(REPOSITORY) ContextHolder.getContext().getBean((Class<REPOSITORY>)repository.getClass());
+//            repository=(REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[0].getClass());
+            dao=(DAO)ContextHolder.getContext().getBean((Class<DAO>)repository.getClass());
+            clazz = (Class<ENTITY>) parameterizedType[2];
+
+
+        }
+
+
+//        Type type = getClass().getGenericSuperclass();
+//        Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+
     }
 
     // API
