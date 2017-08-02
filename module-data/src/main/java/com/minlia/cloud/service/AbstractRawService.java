@@ -26,7 +26,7 @@ import java.util.List;
 
 @Transactional
 @Slf4j
-public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,DAO extends BatisDao,ENTITY extends Persistable,PK extends Serializable> implements IRawService<ENTITY,PK> {
+public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, DAO extends BatisDao, ENTITY extends Persistable, PK extends Serializable> implements IRawService<ENTITY, PK> {
 
 
     @Autowired
@@ -43,33 +43,17 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
     @Autowired
     protected ApplicationEventPublisher eventPublisher;
 
-    // public AbstractRawService(final Class<T> clazzToSet) {
-    // super();
-    // clazz = clazzToSet;
-    // }
-
     /**
      * Enhanced for auto clazz found
      */
     public AbstractRawService() {
-
         Class<?> c = getClass();
         Type type = c.getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-
-//            repository=(REPOSITORY) SpringContextHolder.getBean((Class<AbstractRepository>)parameterizedType[0]);
-//            repository=(REPOSITORY)ContextHolder.getContext().getBean(parameterizedType[2].getClass());
-//            dao=(DAO) SpringContextHolder.getBean((Class<BatisDao>)parameterizedType[1]);
             clazz = (Class<ENTITY>) parameterizedType[2];
 
-
         }
-
-
-//        Type type = getClass().getGenericSuperclass();
-//        Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-
     }
 
     // API
@@ -91,7 +75,6 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
         else
             return Boolean.TRUE;
     }
-
 
 
     @Override
@@ -151,8 +134,8 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
         getRepository().delete(entity);
     }
 
-    public void delete(Iterator<PK> ids){
-        while (ids.hasNext()){
+    public void delete(Iterator<PK> ids) {
+        while (ids.hasNext()) {
             this.delete(ids.next());
         }
     }
@@ -169,21 +152,21 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
 //    protected abstract JpaRepository<ENTITY, PK> getRepository();
 
 
-    protected  AbstractRepository<ENTITY,PK> getRepository(){
+    protected AbstractRepository<ENTITY, PK> getRepository() {
         return repository;
     }
 
-    protected BatisDao getDao(){
+    protected BatisDao getDao() {
         return dao;
     }
 
-     protected JpaSpecificationExecutor<ENTITY> getSpecificationExecutor() {
+    protected JpaSpecificationExecutor<ENTITY> getSpecificationExecutor() {
         return (JpaSpecificationExecutor<ENTITY>) getRepository();
-     }
+    }
 
-     protected QueryDslPredicateExecutor<ENTITY> getQueryDslPredicateExecutor() {
+    protected QueryDslPredicateExecutor<ENTITY> getQueryDslPredicateExecutor() {
         return (QueryDslPredicateExecutor<ENTITY>) getRepository();
-     }
+    }
 
 
     // template
@@ -197,13 +180,12 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,D
     }
 
 
-
-    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable){
-         return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body),pageable);
+    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable) {
+        return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body), pageable);
     }
 
-    public List<ENTITY> findListByBody(ApiSearchRequestBody body){
-         return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body));
+    public List<ENTITY> findListByBody(ApiSearchRequestBody body) {
+        return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body));
     }
 
 

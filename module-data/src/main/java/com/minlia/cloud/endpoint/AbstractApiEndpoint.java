@@ -55,50 +55,14 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, E
     protected  SERVICE service;
 
     public AbstractApiEndpoint() {
-
-
-
-
-//        Class<Persistable> entityClass=null;
-//
-//
-//        Type type = getClass().getGenericSuperclass();
-//        if (type instanceof  ParameterizedType)
-//        {
-//            ParameterizedType paramType = (ParameterizedType) type;
-//            if (paramType.getActualTypeArguments().length == 2) {
-////                if (paramType.getActualTypeArguments()[1] instanceof TypeVariable) {
-////                    throw new IllegalArgumentException(
-////                            "Can't find class using reflection");
-////                }
-//                else {
-//                    entityClass = (Class<Persistable>) paramType.getActualTypeArguments()[1];
-//                }
-//            } else {
-//                entityClass = (Class<Persistable>) paramType.getActualTypeArguments()[0];
-//            }
-//        } else {
-////            throw new Exception("Can't find class using reflection");
-//        }
-
-
-
         Class<?> c = getClass();
         Type type = c.getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-
             Class<Persistable> clz=(Class<Persistable>)parameterizedType[1];
-//            service=(SERVICE) SpringContextHolder.getBean((Class<IService>)parameterizedType[0]);
 
         }
     }
-
-
-//    private IService service;
-
-//    protected abstract SERVICE getService();
-
 
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //    @RequestMapping( method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
