@@ -19,7 +19,7 @@
 
     <modules>
     <module>module-swagger</module>
-    <module>module-data-batis</module>
+    <module>module-data</module>
 
     </modules>
 </project>
