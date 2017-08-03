@@ -25,7 +25,7 @@ public class BatisSpecifications<PAYLOAD extends SearchRequestBody> {
     public static final String MYBITS_SEARCH_CONDITION = "_condition";
 
 
-    public static final String OPERATOR_FIELD_SUFFIX = "Operator";
+    public static final String OPERATOR_FIELD_SUFFIX = "QueryOperator";
 
     public   <T> com.minlia.cloud.query.specification.batis.SpecificationDetail<T> buildSpecification(ApiSearchRequestBody<PAYLOAD> body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();

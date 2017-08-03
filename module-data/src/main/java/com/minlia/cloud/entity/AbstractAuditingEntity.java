@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.minlia.cloud.entity.listener.AbstractAuditingEntityListener;
 import org.hibernate.envers.Audited;
 import org.joda.time.DateTime;
@@ -53,6 +55,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     @GeneratedValue(strategy = GenerationType.AUTO)
 //, generator = PersistenceConstants.SEQUENCE_GENERATOR_NAME for oracle
     @JsonProperty
+    @JsonSerialize(using=ToStringSerializer.class)
     protected Long id;
 
     /**

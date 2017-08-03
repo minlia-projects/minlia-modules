@@ -32,7 +32,6 @@ public class QueryUtil {
      *
      * @param queryConditionJson 格式
      *                           [{"fieldName":"loginId","operation":"like","weight":0,"value":"ss"}]
-     *
      * @return
      */
     public static List<QueryCondition> convertJsonToQueryCondition(String queryConditionJson) {
@@ -166,9 +165,9 @@ public class QueryUtil {
                             case FrameworkConfiguration.CONDITION_LIKE:
                             case FrameworkConfiguration.CONDITION_ILIKE:
                                 String val = (String) queryCondition.getValue();
-                                buildConditionCaluse(sb, paramFieldName, mybatis);
-                                paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
-                                        ? PreconditionsHelper.toAppendStr("%", val, "%") : val);
+                                buildConditionCaluse(sb, val, mybatis);
+//                                paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
+//                                        ? PreconditionsHelper.toAppendStr("%", val, "%") : val);
                                 break;
                             case FrameworkConfiguration.CONDITION_BETWEEN:
                                 buildConditionCaluse(sb, PreconditionsHelper.toAppendStr(paramFieldName, "1"), mybatis);
@@ -201,7 +200,9 @@ public class QueryUtil {
 
     public static void buildConditionCaluse(StringBuffer sb, Object val, boolean mybatis) {
         if (mybatis)
-            sb.append("#{").append(val).append("}");
+//            sb.append(" #{").append(val).append("}");
+            sb.append(!val.toString().startsWith("%") && !val.toString().endsWith("%")
+                    ? "'"+PreconditionsHelper.toAppendStr("%", val, "%")+"'" : "'"+val+"'");
         else
             sb.append(":").append(val);
     }
