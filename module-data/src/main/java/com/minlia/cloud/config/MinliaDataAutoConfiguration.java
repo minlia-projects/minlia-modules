@@ -1,8 +1,5 @@
 package com.minlia.cloud.config;
 
-import com.minlia.cloud.query.specification.batis.plugins.MapperLoader;
-import com.minlia.cloud.query.specification.batis.plugins.dialect.MySql5Dialect;
-import com.minlia.cloud.query.specification.batis.plugins.plugins.MybatisPageableInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -25,17 +22,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 public class MinliaDataAutoConfiguration {
 
-    @Bean
-    public MybatisPageableInterceptor mybatisPageableInterceptor(){
-        MybatisPageableInterceptor mybatisPageableInterceptor= new MybatisPageableInterceptor();
-        mybatisPageableInterceptor.setDialect(new MySql5Dialect());
-        return mybatisPageableInterceptor;
-    }
-    @Bean
-    public MapperLoader mapperLoader(){
-        MapperLoader mapperLoader= new MapperLoader();
-        return mapperLoader;
-    }
+//    @Bean
+//    public MybatisPageableInterceptor mybatisPageableInterceptor(){
+//        MybatisPageableInterceptor mybatisPageableInterceptor= new MybatisPageableInterceptor();
+//        mybatisPageableInterceptor.setDialect(new MySql5Dialect());
+//        return mybatisPageableInterceptor;
+//    }
+//    @Bean
+//    @Lazy
+//    public MapperLoader mapperLoader(){
+//        MapperLoader mapperLoader= new MapperLoader();
+//        return mapperLoader;
+//    }
 
 //    @Bean
 //    public PaginationStatementInterceptor paginationStatementInterceptor(){
