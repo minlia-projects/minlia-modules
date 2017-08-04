@@ -3,8 +3,6 @@ package com.minlia.cloud.query.specification.jpa;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.query.QueryOperator;
-import com.minlia.cloud.query.condition.QueryCondition;
-import com.minlia.cloud.util.QueryUtil;
 import com.minlia.cloud.utils.PreconditionsHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -40,7 +38,7 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
     /**
      * 排序属性
      */
-    private List< Order> orders = Lists.newArrayList();
+    private List<com.minlia.cloud.query.specification.sort.Order> orders = Lists.newArrayList();
 
     /**
      * 获取Path
@@ -63,12 +61,12 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
         if (PreconditionsHelper.isEmpty(orders)) {
             return orderList;
         }
-        for (Order order : orders) {
+        for (com.minlia.cloud.query.specification.sort.Order order : orders) {
             if (order == null) {
                 continue;
             }
             String property = order.getProperty();
-            Order.Direction direction = order.getDirection();
+            com.minlia.cloud.query.specification.sort.Order.Direction direction = order.getDirection();
             Path<?> path = getPath(root, property);
             if (path == null || direction == null) {
                 continue;
@@ -232,7 +230,7 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
     public SpecificationDetail<T> orderAsc(String... property) {
         if (PreconditionsHelper.isNotEmpty(property)) {
             for (int i = 0; i < property.length; i++) {
-                this.orders.add( Order.asc(property[i]));
+                this.orders.add( com.minlia.cloud.query.specification.sort.Order.asc(property[i]));
             }
         }
         return this;
@@ -247,7 +245,7 @@ public class SpecificationDetail<T> implements Specification<T>, Serializable {
     public SpecificationDetail<T> orderDesc(String... property) {
         if (PreconditionsHelper.isNotEmpty(property)) {
             for (int i = 0; i < property.length; i++) {
-                this.orders.add( Order.desc(property[i]));
+                this.orders.add( com.minlia.cloud.query.specification.sort.Order.desc(property[i]));
             }
         }
         return this;

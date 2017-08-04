@@ -1,24 +1,22 @@
-package com.minlia.cloud.query.condition;
+package com.minlia.cloud.query.specification.batis;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.holder.ContextHolder;
+import com.minlia.cloud.util.SecurityHqlUtil;
 import com.minlia.cloud.utils.Encodes;
 import com.minlia.cloud.utils.PreconditionsHelper;
-import com.minlia.cloud.utils.QueryStatementUtil;
 import com.minlia.cloud.utils.Reflections;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.dialect.Dialect;
+import org.springframework.data.mybatis.annotations.Column;
+import org.springframework.data.mybatis.annotations.Entity;
+import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 
-import static com.google.common.base.CaseFormat.LOWER_CAMEL;
-import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
 @Slf4j
 @Data
@@ -136,12 +134,11 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
     }
 
     public QueryCondition setAnalytiColumn(boolean flag) {
-        this.analytiColumn = flag;
+        this.analytiColumn=flag;
         return this;
     }
-
     public QueryCondition setAnalytiColumnPrefix(String analytiPrefix) {
-        this.analytiColumnPrefix = analytiPrefix;
+        this.analytiColumnPrefix=analytiPrefix;
         return this;
     }
 
@@ -252,10 +249,10 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 
     @JSONField(serialize = false)
     public String getFieldRealColumnName() {
-        if (fieldRealColumnName == null) {
+        if(fieldRealColumnName==null){
             String columnName = null, fieldPropery = fieldName;
-            Class<?> targetPersistentClass = persistentClass;
-            if (analytiColumn) {
+            Class<?> targetPersistentClass=persistentClass;
+            if(analytiColumn){
                 try {
                     if (persistentClass != null && PreconditionsHelper.isNotEmpty(getFieldName())) {
                         String quota = analytiColumnPrefix;
@@ -264,18 +261,18 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
                             Entity entity = Reflections.getAnnotation(targetPersistentClass, Entity.class);
                             quota = null != entity && StringUtils.hasText(entity.name()) ? entity.name() :
                                     StringUtils.uncapitalize(targetPersistentClass.getSimpleName());
-                            if (indexQuote != -1) {
-                                quota += "." + fieldPropery.substring(0, fieldPropery.lastIndexOf("."));
+                            if(indexQuote != -1){
+                                quota+="."+fieldPropery.substring(0, fieldPropery.lastIndexOf("."));
                             }
                         }
                         if (indexQuote != -1) {
                             String[] properties = fieldPropery.split("\\.");
                             int size = properties.length;
-                            for (int i = 0; i < size - 1; i++) {
+                            for(int i =0;i<size-1;i++){
                                 Field field = Reflections.getAccessibleField(targetPersistentClass, properties[i]);
                                 targetPersistentClass = field.getType();
                             }
-                            fieldPropery = properties[size - 1];
+                            fieldPropery = properties[size-1];
                         }
                         Column column = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, Column.class);
                         if (column != null) columnName = column.name();
@@ -283,8 +280,6 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
                         if (PreconditionsHelper.isNotEmpty(columnName)) {
                             Dialect dialect = ContextHolder.getContext().getBean(Dialect.class);
                             fieldRealColumnName = dialect.openQuote() + quota + dialect.closeQuote() + '.' + columnName;
-                        }else{
-                            fieldRealColumnName=LOWER_CAMEL.to(UPPER_UNDERSCORE,fieldPropery);
                         }
                     }
                 } catch (Exception e) {
@@ -294,7 +289,6 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 
         }
         return fieldRealColumnName;
-//        return null;
     }
 
     public QueryOperator getOperate() {
@@ -349,9 +343,9 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
 
     @JSONField(serialize = false)
     public boolean legalityCheck() {
-        return QueryStatementUtil.checkStrForHqlWhere(fieldName)
-                && QueryStatementUtil.checkStrForHqlWhere(operate.getOperator())
-                && QueryStatementUtil.checkStrForHqlWhere(String.valueOf(value));
+        return SecurityHqlUtil.checkStrForHqlWhere(fieldName)
+                && SecurityHqlUtil.checkStrForHqlWhere(operate.getOperator())
+                && SecurityHqlUtil.checkStrForHqlWhere(String.valueOf(value));
     }
 
 
@@ -402,5 +396,5 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
         return !"query".equals(op) ? 999 : 100;
     }
 
-
 }
+

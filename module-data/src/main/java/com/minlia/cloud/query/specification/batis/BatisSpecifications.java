@@ -1,10 +1,11 @@
 package com.minlia.cloud.query.specification.batis;
 
+import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.query.QueryOperator;
-import com.minlia.cloud.query.body.ApiSearchRequestBody;
 import com.minlia.cloud.query.body.SearchRequestBody;
-import com.minlia.cloud.query.condition.QueryCondition;
+import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
+import com.minlia.cloud.utils.PreconditionsHelper;
 import com.minlia.cloud.utils.Reflections;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -27,7 +28,55 @@ public class BatisSpecifications<PAYLOAD extends SearchRequestBody> {
 
     public static final String OPERATOR_FIELD_SUFFIX = "QueryOperator";
 
-    public   <T> com.minlia.cloud.query.specification.batis.SpecificationDetail<T> buildSpecification(ApiSearchRequestBody<PAYLOAD> body) {
+
+
+    public static <T> SpecificationDetail<T> bySearchQueryCondition(final List<QueryCondition> queryConditions) {
+        return new SpecificationDetail<T>().andAll(queryConditions);
+    }
+
+    public static <T> SpecificationDetail<T> bySearchQueryCondition(final List<QueryCondition> queryConditions, QueryCondition... conditions) {
+        return new SpecificationDetail<T>().andAll(queryConditions).and(conditions);
+    }
+
+    public static <T> SpecificationDetail<T> bySearchQueryCondition(QueryCondition... conditions) {
+        return new SpecificationDetail<T>().and(conditions);
+    }
+
+    public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, QueryCondition... conditions) {
+        return buildSpecification(queryConditionJson, null, null, conditions);
+    }
+    public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, Class<T> persistentClass, QueryCondition... conditions) {
+        return buildSpecification(queryConditionJson, null, persistentClass, conditions);
+    }
+    public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson,
+                                                                List<QueryCondition> list,
+                                                                Class<T> persistentClass,
+                                                                QueryCondition... conditions) {
+        if (list == null) list = Lists.newArrayList();
+
+        if (PreconditionsHelper.isNotEmpty(queryConditionJson)) {
+            try {
+                list.addAll(JSONArray.parseArray(queryConditionJson, QueryCondition.class));
+            } catch (Exception e) {
+                log.warn(PreconditionsHelper.toAppendStr("queryCondition[", queryConditionJson,
+                        "] is not json or other error", e.getMessage()));
+            }
+        }
+
+        return new SpecificationDetail<T>().andAll(list).setPersistentClass(persistentClass).and(conditions);
+    }
+
+    public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson,
+                                                                List<QueryCondition> list,
+                                                                QueryCondition... conditions) {
+        return buildSpecification(queryConditionJson, list, null, conditions);
+    }
+
+
+
+
+
+    public   <T>  SpecificationDetail<T> buildSpecification(BatisApiSearchRequestBody<PAYLOAD> body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();
         if (null != body.getPayload()) {
             SearchRequestBody content = body.getPayload();

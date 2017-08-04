@@ -1,7 +1,6 @@
 package com.minlia.cloud.entity.listener;
 
 import com.minlia.cloud.entity.AbstractAuditingEntity;
-import org.joda.time.DateTime;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -22,8 +21,8 @@ public class AbstractAuditingEntityListener {
 
     @PrePersist
     public void AbstractAuditingEntityPrePersist(AbstractAuditingEntity entity) {
-        entity.setCreatedDate(DateTime.now());
-        entity.setLastModifiedDate(DateTime.now());
+//        entity.setCreatedDate(DateTime.now());
+//        entity.setLastModifiedDate(DateTime.now());
         entity.setCreatedBy("");
         entity.setLastModifiedBy("");
 
@@ -36,7 +35,7 @@ public class AbstractAuditingEntityListener {
      */
     @PreUpdate
     public void AbstractAuditingEntityPreUpdate(AbstractAuditingEntity entity) {
-        entity.setLastModifiedDate(DateTime.now());
+//        entity.setLastModifiedDate(DateTime.now());
         entity.setLastModifiedBy("");
     }
 }

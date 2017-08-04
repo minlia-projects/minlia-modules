@@ -2,9 +2,8 @@ package com.minlia.cloud.query.specification.jpa;
 
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.query.QueryOperator;
-import com.minlia.cloud.query.body.ApiSearchRequestBody;
 import com.minlia.cloud.query.body.SearchRequestBody;
-import com.minlia.cloud.query.condition.QueryCondition;
+import com.minlia.cloud.query.specification.jpa.body.JpaApiSearchRequestBody;
 import com.minlia.cloud.utils.Reflections;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -23,7 +22,7 @@ public class JpaSpecifications<PAYLOAD extends SearchRequestBody> {
 
 
 
-    public <T> com.minlia.cloud.query.specification.jpa.SpecificationDetail<T> buildSpecification(ApiSearchRequestBody<PAYLOAD> body) {
+    public <T> com.minlia.cloud.query.specification.jpa.SpecificationDetail<T> buildSpecification(JpaApiSearchRequestBody<PAYLOAD> body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();
         if (null != body.getPayload()) {
             SearchRequestBody content = body.getPayload();

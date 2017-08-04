@@ -3,7 +3,6 @@ package com.minlia.cloud.query.specification.batis;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.query.Order;
-import com.minlia.cloud.query.condition.QueryCondition;
 import com.minlia.cloud.utils.PreconditionsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

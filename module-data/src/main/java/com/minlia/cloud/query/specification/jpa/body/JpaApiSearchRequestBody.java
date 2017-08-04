@@ -1,15 +1,16 @@
-package com.minlia.cloud.query.body;
+package com.minlia.cloud.query.specification.jpa.body;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
-import com.minlia.cloud.query.condition.QueryCondition;
+import com.minlia.cloud.body.Body;
+import com.minlia.cloud.query.body.SearchRequestBody;
+import com.minlia.cloud.query.specification.jpa.QueryCondition;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
 import java.util.List;
 
 //@JSONType(ignores = {"data"})
-public class ApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements Serializable {
+public class JpaApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements Body {
     @JsonIgnore
     private List<QueryCondition> conditions = Lists.newArrayList();
 
@@ -24,7 +25,7 @@ public class ApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements 
         this.payload = payload;
     }
 
-    public ApiSearchRequestBody() {
+    public JpaApiSearchRequestBody() {
     }
 
 

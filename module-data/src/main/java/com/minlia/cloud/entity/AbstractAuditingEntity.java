@@ -23,12 +23,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.minlia.cloud.entity.listener.AbstractAuditingEntityListener;
 import org.hibernate.envers.Audited;
-import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.Date;
 
 //1. 定义实体父类
 @MappedSuperclass
@@ -46,6 +44,10 @@ import java.util.Date;
  * 申明USER为审计人
  * @since 1.0.0
  */
+
+//BATIS
+
+@org.springframework.data.mybatis.annotations.MappedSuperclass
 public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
     /**
@@ -56,6 +58,10 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 //, generator = PersistenceConstants.SEQUENCE_GENERATOR_NAME for oracle
     @JsonProperty
     @JsonSerialize(using=ToStringSerializer.class)
+
+
+    //BATIS
+    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
     protected Long id;
 
     /**
@@ -98,21 +104,13 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     }
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @Fetch(FetchMode.SUBSELECT)
-//    @OrderBy(value = "id")
     private String createdBy;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date createdDate;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @Fetch(FetchMode.SUBSELECT)
-//    @OrderBy(value = "id")
+
     private String lastModifiedBy;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    protected Date lastModifiedDate;
+
 
     public String getCreatedBy() {
 
@@ -124,15 +122,54 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
         this.createdBy = createdBy;
     }
 
-    public DateTime getCreatedDate() {
 
-        return null == createdDate ? null : new DateTime(createdDate);
-    }
 
-    public void setCreatedDate(final DateTime createdDate) {
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @org.springframework.data.mybatis.annotations.Temporal(value = org.springframework.data.mybatis.annotations.Temporal.TemporalType.TIMESTAMP)
+//    protected Date createdDate;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    @org.springframework.data.mybatis.annotations.Temporal(value = org.springframework.data.mybatis.annotations.Temporal.TemporalType.TIMESTAMP)
+//    protected Date lastModifiedDate;
+//
+//
+//    public DateTime getCreatedDate() {
+//
+//        return null == createdDate ? null : new DateTime(createdDate);
+//    }
+//
+//    public void setCreatedDate(final DateTime createdDate) {
+//
+//        this.createdDate = null == createdDate ? null : createdDate.toDate();
+//    }
+//
+//    public DateTime getLastModifiedDate() {
+//
+//        return null == lastModifiedDate ? null : new DateTime(lastModifiedDate);
+//    }
+//
+//    public void setLastModifiedDate(final DateTime lastModifiedDate) {
+//
+//        this.lastModifiedDate = null == lastModifiedDate ? null : lastModifiedDate.toDate();
+//    }
+//    @JsonProperty(value = "createdDate")
+//    public Long createdDateTimestampAsJson() {
+//        if (this.getCreatedDate() != null) {
+//            createdDateTimestamp = this.getCreatedDate().getMillis();
+//        }
+//        return createdDateTimestamp;
+//    }
+//
+//    @JsonProperty(value = "lastModifiedDate")
+//    public Long getDateModifiedAsJson() {
+//        if (this.getLastModifiedDate() != null) {
+//            lastModifiedDateTimestamp = this.getLastModifiedDate().getMillis();
+//        }
+//        return lastModifiedDateTimestamp;
+//    }
 
-        this.createdDate = null == createdDate ? null : createdDate.toDate();
-    }
+
+
+
 
     public String getLastModifiedBy() {
 
@@ -143,44 +180,20 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
         this.lastModifiedBy = lastModifiedBy;
     }
-
-    public DateTime getLastModifiedDate() {
-
-        return null == lastModifiedDate ? null : new DateTime(lastModifiedDate);
-    }
-
-    public void setLastModifiedDate(final DateTime lastModifiedDate) {
-
-        this.lastModifiedDate = null == lastModifiedDate ? null : lastModifiedDate.toDate();
-    }
-
-
     @Transient
+    @org.springframework.data.annotation.Transient
     private Long createdDateTimestamp;
 
     @Transient
+    @org.springframework.data.annotation.Transient
     private Long lastModifiedDateTimestamp;
 
 
-    @JsonProperty(value = "createdDate")
-    public Long createdDateTimestampAsJson() {
-        if (this.getCreatedDate() != null) {
-            createdDateTimestamp = this.getCreatedDate().getMillis();
-        }
-        return createdDateTimestamp;
-    }
-
-    @JsonProperty(value = "lastModifiedDate")
-    public Long getDateModifiedAsJson() {
-        if (this.getLastModifiedDate() != null) {
-            lastModifiedDateTimestamp = this.getLastModifiedDate().getMillis();
-        }
-        return lastModifiedDateTimestamp;
-    }
 
 
     @Override
     @Transient
+    @org.springframework.data.annotation.Transient
     public int hashCode() {
         return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
     }
@@ -193,6 +206,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
      */
     @Override
     @Transient
+    @org.springframework.data.annotation.Transient
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

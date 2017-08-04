@@ -56,6 +56,8 @@ import javax.persistence.Transient;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
 
+
+@org.springframework.data.mybatis.annotations.MappedSuperclass
 public abstract class AbstractLocalizedEntity extends AbstractAuditingEntity {
 
     @JsonIgnore
@@ -71,6 +73,7 @@ public abstract class AbstractLocalizedEntity extends AbstractAuditingEntity {
 
     @Override
     @Transient
+    @org.springframework.data.annotation.Transient
     public int hashCode() {
         return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
     }
@@ -83,6 +86,7 @@ public abstract class AbstractLocalizedEntity extends AbstractAuditingEntity {
      */
     @Override
     @Transient
+    @org.springframework.data.annotation.Transient
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

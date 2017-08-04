@@ -1,11 +1,10 @@
-package com.minlia.cloud.util;
+package com.minlia.cloud.query.specification.batis;
 
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.annotation.SearchField;
 import com.minlia.cloud.body.query.QueryOperator;
-import com.minlia.cloud.query.condition.QueryCondition;
 import com.minlia.cloud.setting.FrameworkConfiguration;
 import com.minlia.cloud.utils.Collections3;
 import com.minlia.cloud.utils.Encodes;
@@ -21,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 @SuppressWarnings("rawtypes")
 public class QueryUtil {
@@ -165,9 +165,9 @@ public class QueryUtil {
                             case FrameworkConfiguration.CONDITION_LIKE:
                             case FrameworkConfiguration.CONDITION_ILIKE:
                                 String val = (String) queryCondition.getValue();
-                                buildConditionCaluse(sb, val, mybatis);
-//                                paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
-//                                        ? PreconditionsHelper.toAppendStr("%", val, "%") : val);
+                                buildConditionCaluse(sb, paramFieldName, mybatis);
+                                paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
+                                        ? PreconditionsHelper.toAppendStr("%", val, "%") : val);
                                 break;
                             case FrameworkConfiguration.CONDITION_BETWEEN:
                                 buildConditionCaluse(sb, PreconditionsHelper.toAppendStr(paramFieldName, "1"), mybatis);
@@ -200,9 +200,7 @@ public class QueryUtil {
 
     public static void buildConditionCaluse(StringBuffer sb, Object val, boolean mybatis) {
         if (mybatis)
-//            sb.append(" #{").append(val).append("}");
-            sb.append(!val.toString().startsWith("%") && !val.toString().endsWith("%")
-                    ? "'"+PreconditionsHelper.toAppendStr("%", val, "%")+"'" : "'"+val+"'");
+            sb.append("#{").append(val).append("}");
         else
             sb.append(":").append(val);
     }

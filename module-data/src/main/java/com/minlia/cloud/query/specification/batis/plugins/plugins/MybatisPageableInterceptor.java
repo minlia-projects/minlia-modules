@@ -4,11 +4,11 @@ package com.minlia.cloud.query.specification.batis.plugins.plugins;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.cloud.query.body.ApiSearchRequestBody;
 import com.minlia.cloud.query.specification.batis.BatisSpecifications;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
+import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
 import com.minlia.cloud.query.specification.batis.plugins.dialect.Dialect;
-import com.minlia.cloud.util.QueryUtil;
+import com.minlia.cloud.query.specification.batis.QueryUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.executor.Executor;
@@ -66,7 +66,7 @@ public class MybatisPageableInterceptor implements Interceptor {
         // 查找方法参数中的 分页请求对象
         Pageable pageRequest = this.findPageableObject(queryArgs[PARAMETER_INDEX]);
         Class<?> entityClass= this.findEntityClass(queryArgs[MAPPED_STATEMENT_INDEX]);
-        ApiSearchRequestBody searchRequestBody = this.findSearchObject(queryArgs[PARAMETER_INDEX]);
+        BatisApiSearchRequestBody searchRequestBody = this.findSearchObject(queryArgs[PARAMETER_INDEX]);
 
         String searchStatement="";
 
@@ -241,15 +241,15 @@ public class MybatisPageableInterceptor implements Interceptor {
      * @param params Mapper接口方法中的参数对象
      * @return
      */
-    private ApiSearchRequestBody findSearchObject(Object params) {
+    private BatisApiSearchRequestBody findSearchObject(Object params) {
 
         if (params == null) {
             return null;
         }
 
         // 单个参数 表现为参数对象
-        if (ApiSearchRequestBody.class.isAssignableFrom(params.getClass())) {
-            return (ApiSearchRequestBody) params;
+        if (BatisApiSearchRequestBody.class.isAssignableFrom(params.getClass())) {
+            return (BatisApiSearchRequestBody) params;
         }
 
         // 多个参数 表现为 ParamMap
@@ -259,8 +259,8 @@ public class MybatisPageableInterceptor implements Interceptor {
             for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
                 Object paramValue = entry.getValue();
 
-                if (paramValue != null && ApiSearchRequestBody.class.isAssignableFrom(paramValue.getClass())) {
-                    return (ApiSearchRequestBody) paramValue;
+                if (paramValue != null && BatisApiSearchRequestBody.class.isAssignableFrom(paramValue.getClass())) {
+                    return (BatisApiSearchRequestBody) paramValue;
                 }
             }
         }
