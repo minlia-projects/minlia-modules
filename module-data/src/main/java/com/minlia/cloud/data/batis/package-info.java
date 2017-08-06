@@ -16,4 +16,4 @@
 /**
  * @author Eddú Meléndez
  */
-package com.minlia.cloud.data;
+package com.minlia.cloud.data.batis;

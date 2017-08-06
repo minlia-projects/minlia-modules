@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.minlia.cloud.data;
+package com.minlia.cloud.data.batis;
 
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ExecutorType;
