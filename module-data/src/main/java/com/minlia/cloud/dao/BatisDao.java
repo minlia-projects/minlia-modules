@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by will on 8/3/17.
  */
-public interface BatisDao<ENTITY extends Persistable<PK>, PK extends Serializable> {
+public interface BatisDao<ENTITY extends Persistable<PK>, PK extends Serializable>{// extends BaseMapper<ENTITY>
 
 //    Page<ENTITY> findAll(BatisApiSearchRequestBody body, Pageable pageable);
 //    List<ENTITY> findAll(BatisApiSearchRequestBody body);

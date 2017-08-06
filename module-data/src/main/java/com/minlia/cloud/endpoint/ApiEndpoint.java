@@ -1,10 +1,6 @@
 package com.minlia.cloud.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
-import com.minlia.cloud.query.specification.jpa.body.JpaApiSearchRequestBody;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -75,7 +71,7 @@ public interface ApiEndpoint<ENTITY,PK> {
     StatefulBody delete(@PathVariable PK id);
 
 
-    public StatefulBody searchPageable(@RequestBody JpaApiSearchRequestBody body , @PageableDefault Pageable pageable);
+//    public StatefulBody searchPageable(@RequestBody JpaApiSearchRequestBody body , @PageableDefault Pageable pageable);
 
-    public StatefulBody searchList(@RequestBody BatisApiSearchRequestBody body);
+//    public StatefulBody searchList(@RequestBody BatisApiSearchRequestBody body);
 }

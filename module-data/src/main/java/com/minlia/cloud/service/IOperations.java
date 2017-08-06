@@ -1,12 +1,8 @@
 package com.minlia.cloud.service;
 
-import com.minlia.cloud.query.specification.batis.SpecificationDetail;
-import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
-import com.minlia.cloud.query.specification.jpa.body.JpaApiSearchRequestBody;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -66,49 +62,49 @@ public interface IOperations<ENTITY extends Persistable,PK extends Serializable>
     public Long count();
 
 
-    /**
-     * @param body
-     * @return
-     */
-    public List<ENTITY> findListByBody(BatisApiSearchRequestBody body);
-    /**
-     * @param body
-     * @param pageable
-     * @return
-     */
-    public Page<ENTITY> findPageByBody(JpaApiSearchRequestBody body, Pageable pageable);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @Transactional(readOnly = true)
-    public Page<ENTITY> findPage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail);
-
-
-    @Transactional(readOnly = true)
-    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, boolean isBasic) ;
-
-    /**
-     * 动态分页查询
-     *
-     * @param pm                  分页对象
-     * @param specificationDetail 动态条件对象
-     * @param isBasic             是否关联对象查询
-     * @param selectStatement     自定义数据集合sql名称
-     * @param countStatement      自定义数据总数sql名称
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, Boolean isBasic, String selectStatement, String countStatement);
+//    /**
+//     * @param body
+//     * @return
+//     */
+//    public List<ENTITY> findListByBody(BatisApiSearchRequestBody body);
+//    /**
+//     * @param body
+//     * @param pageable
+//     * @return
+//     */
+//    public Page<ENTITY> findPageByBody(JpaApiSearchRequestBody body, Pageable pageable);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    @Transactional(readOnly = true)
+//    public Page<ENTITY> findPage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail);
+//
+//
+//    @Transactional(readOnly = true)
+//    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, boolean isBasic) ;
+//
+//    /**
+//     * 动态分页查询
+//     *
+//     * @param pm                  分页对象
+//     * @param specificationDetail 动态条件对象
+//     * @param isBasic             是否关联对象查询
+//     * @param selectStatement     自定义数据集合sql名称
+//     * @param countStatement      自定义数据总数sql名称
+//     * @return
+//     */
+//    @Transactional(readOnly = true)
+//    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, Boolean isBasic, String selectStatement, String countStatement);
 }

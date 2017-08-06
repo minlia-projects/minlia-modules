@@ -3,17 +3,12 @@ package com.minlia.cloud.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
-import com.minlia.cloud.query.specification.jpa.body.JpaApiSearchRequestBody;
 import com.minlia.cloud.service.IService;
 import com.minlia.cloud.utils.ApiPreconditions;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +17,6 @@ import javax.validation.Valid;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * Abstract REST endpoint using a service implementation
@@ -110,16 +104,16 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, E
         return SuccessResponseBody.builder().message("OK").build();
     }
 
-    @ApiOperation(value = "查询并分页", notes = "查询并分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody searchPageable(@RequestBody JpaApiSearchRequestBody body , @PageableDefault Pageable pageable) {
-        Page<ENTITY> found=service.findPageByBody(body,pageable);
-        return SuccessResponseBody.builder().message("OK").payload(found).build();
-    }
-
-    @ApiOperation(value = "查询值集", notes = "查询值集", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody searchList(@RequestBody BatisApiSearchRequestBody body) {
-        List<ENTITY> found=service.findListByBody(body);
-        return SuccessResponseBody.builder().message("OK").payload(found).build();
-    }
+//    @ApiOperation(value = "查询并分页", notes = "查询并分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public StatefulBody searchPageable(@RequestBody JpaApiSearchRequestBody body , @PageableDefault Pageable pageable) {
+//        Page<ENTITY> found=service.findPageByBody(body,pageable);
+//        return SuccessResponseBody.builder().message("OK").payload(found).build();
+//    }
+//
+//    @ApiOperation(value = "查询值集", notes = "查询值集", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public StatefulBody searchList(@RequestBody BatisApiSearchRequestBody body) {
+//        List<ENTITY> found=service.findListByBody(body);
+//        return SuccessResponseBody.builder().message("OK").payload(found).build();
+//    }
 
 }
