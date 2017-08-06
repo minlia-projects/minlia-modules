@@ -47,7 +47,7 @@ import javax.persistence.*;
 
 //BATIS
 
-@org.springframework.data.mybatis.annotations.MappedSuperclass
+//@org.springframework.data.mybatis.annotations.MappedSuperclass
 public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
     /**
@@ -61,7 +61,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
 
     //BATIS
-    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
+//    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
     protected Long id;
 
     /**

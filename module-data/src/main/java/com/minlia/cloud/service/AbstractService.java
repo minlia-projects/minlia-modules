@@ -15,13 +15,13 @@
  */
 package com.minlia.cloud.service;
 
+import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.repository.AbstractRepository;
 import org.springframework.data.domain.Persistable;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
 
 import java.io.Serializable;
 
-public abstract class AbstractService<REPOSITORY extends AbstractRepository,DAO extends MybatisRepository<ENTITY,PK>,ENTITY extends Persistable,PK extends Serializable>  extends AbstractRawService<REPOSITORY,DAO,ENTITY,PK> implements IService<ENTITY,PK> {
+public abstract class AbstractService<REPOSITORY extends AbstractRepository,DAO extends BatisDao,ENTITY extends Persistable,PK extends Serializable>  extends AbstractRawService<REPOSITORY,DAO,ENTITY,PK> implements IService<ENTITY,PK> {
 
     public AbstractService(){
         super();
