@@ -47,22 +47,17 @@ public interface MybatisRepository<T, ID extends Serializable>
 
     <S extends T> S saveIgnoreNull(S entity);
 
-    @Override
+
     <S extends T> List<S> save(Iterable<S> entities);
 
-    @Override
     List<T> findAll();
 
-    @Override
     List<T> findAll(Sort sort);
 
-    @Override
     List<T> findAll(Iterable<ID> ids);
 
-    @Override
     <S extends T> List<S> findAll(Example<S> example);
 
-    @Override
     <S extends T> List<S> findAll(Example<S> example, Sort sort);
 
     T findBasicOne(ID id, String... columns);
@@ -81,6 +76,19 @@ public interface MybatisRepository<T, ID extends Serializable>
     <X extends T> Long countAll(X condition);
 
 
+    T findOne(boolean isBasic, Map<String, Object> paramsMap, String... columns);
+
+    List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns);
+
+    List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns);
+
+    Page<T> findAll(boolean isBasic, Pageable pageable, Map<String, Object> paramsMap, String... columns);
+
+    Page<T> findAll(String selectStatement, String countStatement, Pageable pageable, Map<String, Object> paramsMap, String... columns);
+
+    Long countAll(boolean isBasic, Map<String, Object> paramsMap);
+
+
     /*** Query with non association ***/
 
     <X extends T> T findBasicOne(X condition, String... columns);
@@ -96,21 +104,4 @@ public interface MybatisRepository<T, ID extends Serializable>
     void deleteInBatch(Iterable<T> entities);
 
     <X extends T> int deleteByCondition(X condition);
-
-
-    // extends
-
-    T findOne(boolean isBasic, Map<String, Object> paramsMap, String... columns);
-
-    List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns);
-
-    List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns);
-
-    Page<T> findAll(boolean isBasic, Pageable pageable, Map<String, Object> paramsMap, String... columns);
-
-    Page<T> findAll(String selectStatement, String countStatement, Pageable pageable, Map<String, Object> paramsMap, String... columns);
-
-    Long countAll(boolean isBasic, Map<String, Object> paramsMap);
-
-
 }

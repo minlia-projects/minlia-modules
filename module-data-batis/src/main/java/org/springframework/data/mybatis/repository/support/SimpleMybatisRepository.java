@@ -31,8 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Default implementation of the {@link org.springframework.data.repository.CrudRepository}
- * interface.
+ * Default implementation of the {@link org.springframework.data.repository.CrudRepository} interface.
  *
  * @author Jarvis Song
  */
@@ -57,7 +56,6 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
         this.entityInformation = entityInformation;
     }
 
-
     @Override
     protected String getNamespace() {
         return entityInformation.getJavaType().getName();
@@ -68,10 +66,13 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <S extends T> S insert(S entity) {
         entityInformation.setCreatedDate(entity);
         entityInformation.setCreatedBy(entity);
-
+        entityInformation.setLastModifiedBy(entity);
+        entityInformation.setLastModifiedDate(entity);
+        entityInformation.preInssert(entity);
         if (entityInformation.hasVersion()) {
             entityInformation.setVersion(entity, 0);
         }
+
 
         insert(STATEMENT_INSERT, entity);
         return entity;
@@ -82,7 +83,7 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <S extends T> S update(S entity) {
         entityInformation.setLastModifiedDate(entity);
         entityInformation.setLastModifiedBy(entity);
-
+        entityInformation.preUpdate(entity);
         int row = update(STATEMENT_UPDATE, entity);
         if (row == 0) {
             throw new MybatisNoHintException("update effect 0 row, maybe version control lock occurred.");
@@ -98,7 +99,7 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     public <S extends T> S updateIgnoreNull(S entity) {
         entityInformation.setLastModifiedDate(entity);
         entityInformation.setLastModifiedBy(entity);
-
+        entityInformation.preUpdate(entity);
         int row = update(STATEMENT_UPDATE_IGNORE_NULL, entity);
         if (row == 0) {
             throw new MybatisNoHintException("update effect 0 row, maybe version control lock occurred.");
@@ -113,7 +114,6 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     @Transactional
     public <S extends T> S save(S entity) {
         Assert.notNull(entity, "entity can not be null");
-
         if (entityInformation.isNew(entity)) {
             // insert
             insert(entity);
@@ -220,9 +220,7 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     @Override
     @Transactional
     public <S extends T> List<S> save(Iterable<S> entities) {
-        if (null == entities) {
-            return Collections.emptyList();
-        }
+        if (null == entities) return Collections.emptyList();
         for (S entity : entities) {
             save(entity);
         }
@@ -315,6 +313,58 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
     }
 
     @Override
+    public T findOne(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectOne(isBasic ? "_findBasicAll" : "_findAll", params);
+    }
+
+    @Override
+    public List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
+    }
+
+    @Override
+    public List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        params.put("_sorts", sort);
+        if (null != columns) {
+            params.put("_specifiedFields", columns);
+        }
+        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
+    }
+
+    @Override
+    public Page<T> findAll(boolean isBasic, Pageable pageable, Map<String, Object> paramsMap, String... columns) {
+        return findByPager(pageable, isBasic ? "_findBasicByPager" : "_findByPager",
+                isBasic ? "_countBasicByCondition" : "_countByCondition", null, paramsMap, columns);
+
+    }
+
+    @Override
+    public Page<T> findAll(String selectStatement, String countStatement, Pageable pageable, Map<String, Object> paramsMap, String... columns) {
+        return findByPager(pageable, selectStatement, countStatement, null, paramsMap, columns);
+
+    }
+
+    @Override
+    public Long countAll(boolean isBasic, Map<String, Object> paramsMap) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.putAll(paramsMap);
+        return selectOne(isBasic ? "_countBasicByCondition" : "_countByCondition", params);
+    }
+
+
+    @Override
     public <X extends T> T findBasicOne(X condition, String... columns) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("_condition", condition);
@@ -371,61 +421,4 @@ public class SimpleMybatisRepository<T, ID extends Serializable> extends SqlSess
         //FIXME improve delete in batch
         delete(entities);
     }
-
-
-    //extends
-
-
-    @Override
-    public Page<T> findAll(boolean isBasic, Pageable pageable, Map<String, Object> paramsMap, String... columns) {
-        return findByPager(pageable, isBasic ? "_findBasicByPager" : "_findByPager",
-                isBasic ? "_countBasicByCondition" : "_countByCondition", null, paramsMap, columns);
-
-    }
-
-    @Override
-    public Page<T> findAll(String selectStatement, String countStatement, Pageable pageable, Map<String, Object> paramsMap, String... columns) {
-        return findByPager(pageable, selectStatement, countStatement, null, paramsMap, columns);
-
-    }
-
-
-    @Override
-    public List<T> findAll(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
-        if (null != columns) {
-            params.put("_specifiedFields", columns);
-        }
-        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
-    }
-
-    @Override
-    public List<T> findAll(boolean isBasic, Sort sort, Map<String, Object> paramsMap, String... columns) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
-        params.put("_sorts", sort);
-        if (null != columns) {
-            params.put("_specifiedFields", columns);
-        }
-        return selectList(isBasic ? "_findBasicAll" : "_findAll", params);
-    }
-
-    @Override
-    public Long countAll(boolean isBasic, Map<String, Object> paramsMap) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
-        return selectOne(isBasic ? "_countBasicByCondition" : "_countByCondition", params);
-    }
-
-    @Override
-    public T findOne(boolean isBasic, Map<String, Object> paramsMap, String... columns) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.putAll(paramsMap);
-        if (null != columns) {
-            params.put("_specifiedFields", columns);
-        }
-        return selectOne(isBasic ? "_findBasicAll" : "_findAll", params);
-    }
-
 }

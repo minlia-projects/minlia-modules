@@ -1,5 +1,6 @@
 package com.minlia.cloud.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.minlia.cloud.tenant.entity.AbstractTenantEntity;
@@ -25,6 +26,7 @@ public abstract class AbstractEntity extends AbstractTenantEntity {
     @Override
     @Transient
     @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     public int hashCode() {
         return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
     }
@@ -38,6 +40,7 @@ public abstract class AbstractEntity extends AbstractTenantEntity {
     @Override
     @Transient
     @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

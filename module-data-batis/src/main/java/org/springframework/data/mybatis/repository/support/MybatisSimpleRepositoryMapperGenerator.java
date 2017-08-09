@@ -24,7 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mapping.*;
 import org.springframework.data.mapping.model.MappingException;
-import org.springframework.data.mybatis.annotations.*;
+import org.springframework.data.mybatis.annotations.Condition;
+import org.springframework.data.mybatis.annotations.Conditions;
+import org.springframework.data.mybatis.annotations.DynamicSearch;
 import org.springframework.data.mybatis.mapping.*;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
 import org.springframework.data.mybatis.repository.dialect.identity.IdentityColumnSupport;
@@ -176,7 +178,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
         builder.append(MAPPER_END);
         String result = builder.toString();
 
-
+        System.out.println(result);
         return result;
     }
 
@@ -201,6 +203,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                     builder.append(dialect.wrapColumnName(property.getColumnName())).append("=").append(dialect.wrapColumnName(property.getColumnName())).append("+1,");
                     return;
                 }
+                if (!property.updatable()) return;
                 if (ignoreNull) {
                     builder.append("<if test=\"" + property.getName() + " != null\">");
                 }
@@ -240,6 +243,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
                 if ((ass instanceof MybatisManyToOneAssociation)) {
                     MybatisManyToOneAssociation association = (MybatisManyToOneAssociation) ass;
+                    if (!association.updatable()) return;
                     if (ignoreNull) {
                         builder.append("<if test=\"" + association.getInverse().getName() + " != null and " + association.getInverse().getName() + "." + association.getObverse().getName() + " != null\">");
                     }
@@ -278,7 +282,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
         MybatisPersistentProperty versionProperty = persistentEntity.getVersionProperty();
         if (null != versionProperty) {
-            builder.append("and ").append(dialect.wrapColumnName(versionProperty.getColumnName())).append("=").append("#{").append(versionProperty.getName()).append("}");
+            builder.append(" and ").append(dialect.wrapColumnName(versionProperty.getColumnName())).append("=").append("#{").append(versionProperty.getName()).append("}");
         }
 
         builder.append("</trim>");
@@ -456,9 +460,13 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
     private String buildCondition() {
         final StringBuilder builder = new StringBuilder();
+        if (persistentEntity.findAnnotation(DynamicSearch.class) != null) {
+            builder.append(" ${_sqlConditionDsf} ");
+        }
         persistentEntity.doWithProperties(new PropertyHandler<MybatisPersistentProperty>() {
             @Override
             public void doWithPersistentProperty(MybatisPersistentProperty property) {
+
                 Set<Condition> conditions = new HashSet<Condition>();
                 Condition cond = property.findAnnotation(Condition.class);
                 if (null != cond) {
@@ -675,6 +683,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                         return;
                     }
                 }
+                if (!property.insertable()) return;
                 builder.append(dialect.wrapColumnName(property.getColumnName())).append(",");
             }
         });
@@ -700,6 +709,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
 
                 if ((ass instanceof MybatisManyToOneAssociation)) {
                     MybatisManyToOneAssociation association = (MybatisManyToOneAssociation) ass;
+                    if (!association.insertable()) return;
                     builder.append(dialect.wrapColumnName(association.getJoinColumnName())).append(",");
                     return;
                 }
@@ -731,6 +741,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                         }
                         return;
                     }
+                    if (!property.insertable()) return;
                     IdentityColumnSupport identityColumnSupport = dialect.getIdentityColumnSupport();
                     if (property.getIdGenerationType() == IDENTITY || (property.getIdGenerationType() == AUTO && identityColumnSupport.supportsIdentityColumns())) {
                         return;
@@ -763,6 +774,7 @@ public class MybatisSimpleRepositoryMapperGenerator {
                 }
                 if ((ass instanceof MybatisManyToOneAssociation)) {
                     MybatisManyToOneAssociation association = (MybatisManyToOneAssociation) ass;
+                    if (!association.insertable()) return;
                     builder.append("#{").append(association.getInverse().getName()).append(".").append(association.getObverse().getName()).append(",jdbcType=").append(association.getObverse().getJdbcType()).append("},");
                     return;
                 }
@@ -776,6 +788,8 @@ public class MybatisSimpleRepositoryMapperGenerator {
         builder.append(")]]>");
 
         builder.append("</insert>");
+
+
     }
 
 

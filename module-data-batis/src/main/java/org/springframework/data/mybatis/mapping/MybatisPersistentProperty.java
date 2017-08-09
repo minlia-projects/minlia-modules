@@ -32,6 +32,10 @@ public interface MybatisPersistentProperty extends PersistentProperty<MybatisPer
 
     String getColumnName();
 
+    boolean insertable();
+
+    boolean updatable();
+
     boolean isToOneAssociation();
 
     boolean isCompositeId();

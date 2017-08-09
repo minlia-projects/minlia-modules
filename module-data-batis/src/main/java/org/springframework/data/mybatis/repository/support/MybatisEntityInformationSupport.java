@@ -19,10 +19,10 @@
 package org.springframework.data.mybatis.repository.support;
 
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.data.domain.Persistable;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.domains.AuditDateAware;
+import org.springframework.data.mybatis.domains.Persistable;
 import org.springframework.data.mybatis.mapping.MybatisMappingContext;
 import org.springframework.data.repository.core.support.AbstractEntityInformation;
 import org.springframework.util.Assert;
@@ -40,8 +40,8 @@ public abstract class MybatisEntityInformationSupport<T, ID extends Serializable
 
 
     protected final PersistentEntity<T, ?> persistentEntity;
-    protected final AuditorAware<?>        auditorAware;
-    protected final AuditDateAware<?>      auditDateAware;
+    protected final AuditorAware<?> auditorAware;
+    protected final AuditDateAware<?> auditDateAware;
 
     /**
      * Creates a new {@link AbstractEntityInformation} from the given domain class.
@@ -59,18 +59,6 @@ public abstract class MybatisEntityInformationSupport<T, ID extends Serializable
         this.auditDateAware = auditDateAware;
     }
 
-    @Override
-    public String getEntityName() {
-        Class<T> domainClass = getJavaType();
-        Entity entity = domainClass.getAnnotation(Entity.class);
-        if (null != entity && StringUtils.hasText(entity.name())) {
-            return entity.name();
-        }
-
-        return domainClass.getSimpleName();
-    }
-
-
     public static <T, ID extends Serializable> MybatisEntityInformation<T, ID> getEntityInformation(MybatisMappingContext mappingContext,
                                                                                                     AuditorAware<?> auditorAware,
                                                                                                     AuditDateAware<?> auditDateAware,
@@ -82,6 +70,17 @@ public abstract class MybatisEntityInformationSupport<T, ID extends Serializable
         }
 
         return new MybatisMetamodelEntityInformation<T, ID>(persistentEntity, auditorAware, auditDateAware, domainClass);
+    }
+
+    @Override
+    public String getEntityName() {
+        Class<T> domainClass = getJavaType();
+        Entity entity = domainClass.getAnnotation(Entity.class);
+        if (null != entity && StringUtils.hasText(entity.name())) {
+            return entity.name();
+        }
+
+        return domainClass.getSimpleName();
     }
 
 }

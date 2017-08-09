@@ -18,9 +18,10 @@
 
 package org.springframework.data.mybatis.repository.support;
 
-import java.io.Serializable;
 import org.springframework.data.mybatis.repository.query.MybatisEntityMetadata;
 import org.springframework.data.repository.core.EntityInformation;
+
+import java.io.Serializable;
 
 /**
  * mybatis entity information.
@@ -28,21 +29,26 @@ import org.springframework.data.repository.core.EntityInformation;
  * @author Jarvis Song
  */
 public interface MybatisEntityInformation<T, ID extends Serializable>
-    extends EntityInformation<T, ID>, MybatisEntityMetadata<T> {
+        extends EntityInformation<T, ID>, MybatisEntityMetadata<T> {
 
 
-  int increaseVersion(T entity);
+    int increaseVersion(T entity);
 
-  void setVersion(T entity, int version);
+    void setVersion(T entity, int version);
 
-  boolean hasVersion();
+    boolean hasVersion();
 
-  void setCreatedDate(T entity);
+    void preInssert(T entity);
 
-  void setLastModifiedDate(T entity);
+    void preUpdate(T entity);
 
-  void setCreatedBy(T entity);
 
-  void setLastModifiedBy(T entity);
+    void setCreatedDate(T entity);
+
+    void setLastModifiedDate(T entity);
+
+    void setCreatedBy(T entity);
+
+    void setLastModifiedBy(T entity);
 
 }

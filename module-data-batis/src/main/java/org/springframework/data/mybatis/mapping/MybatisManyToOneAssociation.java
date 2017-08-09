@@ -21,7 +21,6 @@ package org.springframework.data.mybatis.mapping;
 import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.mybatis.annotations.JoinColumn;
-import org.springframework.data.util.ParsingUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -85,5 +84,11 @@ public class MybatisManyToOneAssociation extends MybatisAssociation {
         return null;
     }
 
+    public boolean insertable() {
+        return null != joinColumn ? joinColumn.insertable() : true;
+    }
 
+    public boolean updatable() {
+        return null != joinColumn ? joinColumn.updatable() : true;
+    }
 }
