@@ -2,7 +2,6 @@ package com.minlia.cloud.service;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.query.specification.jpa.JpaSpecifications;
 import com.minlia.cloud.repository.AbstractRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,7 @@ import java.util.List;
 
 @Transactional
 @Slf4j
-public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, DAO extends BatisDao, ENTITY extends Persistable, PK extends Serializable> implements IRawService<ENTITY, PK> {
+public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,  ENTITY extends Persistable, PK extends Serializable> implements IRawService<ENTITY, PK> {
 
 
     @Autowired
@@ -35,8 +34,8 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, 
 
     @Autowired
     protected REPOSITORY repository;
-    @Autowired
-    protected DAO dao;
+//    @Autowired
+//    protected DAO dao;
 
 
     @Autowired
@@ -155,9 +154,9 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, 
         return repository;
     }
 
-    protected BatisDao getDao() {
-        return dao;
-    }
+//    protected BatisDao getDao() {
+//        return dao;
+//    }
 
     protected JpaSpecificationExecutor<ENTITY> getSpecificationExecutor() {
         return (JpaSpecificationExecutor<ENTITY>) getRepository();
@@ -186,6 +185,60 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, 
 //    public List<ENTITY> findListByBody(ApiSearchRequestBody body) {
 //        return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body));
 //    }
+
+
+
+//    @Transactional(readOnly = true)
+//    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, boolean isBasic) {
+//        return findBasePage(pm, specificationDetail, isBasic, null, null);
+//    }
+
+
+
+    /**
+     * 动态分页查询
+     *
+     * @param pm                  分页对象
+     * @param specificationDetail 动态条件对象
+     * @param isBasic             是否关联对象查询
+     * @param selectStatement     自定义数据集合sql名称
+     * @param countStatement      自定义数据总数sql名称
+     * @return
+     */
+//    @Transactional(readOnly = true)
+//    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean isBasic, String selectStatement, String countStatement) {
+//        try {
+//            Map<String, Object> paramsMap = Maps.newHashMap();
+//            specificationDetail.setPersistentClass(persistentClass);
+//            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
+//                    specificationDetail.getAndQueryConditions(),
+//                    specificationDetail.getOrQueryConditions(),
+//                    null,
+//                    paramsMap, true);
+//            paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
+//            paramsMap.put(DynamicSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+//
+//
+//            Boolean pageInstance= PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement);
+//
+//            if(pageInstance) {
+//                pm.setPageInstance(repository.findAll(selectStatement, countStatement, pm, paramsMap));
+//            }else{
+//                pm.setPageInstance(repository.findAll(isBasic, pm, paramsMap));
+//            }
+//
+////            pm.setPageInstance(PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement) ?
+////                    repository.findAll(selectStatement, countStatement, pm, paramsMap) :
+////                    repository.findAll(isBasic, pm, paramsMap));
+//            return pm;
+//        } catch (Exception e) {
+//            log.error("error: {}", e);
+//            Assert.buildException(e.getMessage());
+//        }
+//        return null;
+//    }
+
+
 
 
 }
