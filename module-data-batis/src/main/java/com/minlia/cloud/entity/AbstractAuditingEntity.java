@@ -52,8 +52,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     /**
      * ID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
 //, generator = PersistenceConstants.SEQUENCE_GENERATOR_NAME for oracle
     @JsonProperty
     @JsonSerialize(using=ToStringSerializer.class)
@@ -61,7 +60,11 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
 
     //BATIS
-//    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
+    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
+
+
     @SearchField
     @org.springframework.data.mybatis.annotations.Column(name = "id")
     @JSONField
