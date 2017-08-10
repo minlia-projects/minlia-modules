@@ -88,9 +88,10 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
         SpecificationDetail<ENTITY> specificationDetail = BatisSpecifications.buildSpecification(pm.getQueryConditionJson(),
                 persistentClass,
                 queryCondition);
-        if(PublicUtil.isNotEmpty(authQueryConditions))
+        if(PublicUtil.isNotEmpty(authQueryConditions)) {
             specificationDetail.orAll(authQueryConditions);
-//		specificationDetail.setPersistentClass();
+
+        }
         return findBasePage(pm, specificationDetail, isBasic);
     }
 

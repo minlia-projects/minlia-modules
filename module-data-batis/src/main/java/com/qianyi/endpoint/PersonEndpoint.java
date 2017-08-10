@@ -1,7 +1,9 @@
 package com.qianyi.endpoint;
 
+import com.google.common.collect.Lists;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.query.Order;
 import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.data.batis.service.PageModel;
 import com.minlia.cloud.endpoint.AbstractApiEndpoint;
@@ -74,6 +76,8 @@ public class PersonEndpoint extends AbstractApiEndpoint<PersonService, Person, L
                 QueryCondition.ne("id", 1l));
 //        spec.orAll(orQueryConditions);
 
+        spec.setOrders(Lists.newArrayList(new Order("id", Order.Direction.desc)));
+
 //        Page<Person> list = personDao.findBasicAll();//
 
 //        Person person=personDao.findById(1l);
@@ -82,9 +86,9 @@ public class PersonEndpoint extends AbstractApiEndpoint<PersonService, Person, L
 //        log.debug("List {}",list);
 
 
-//        pm.setSortDefaultName(Sort.Direction.DESC, DataEntity.F_LASTMODIFIEDDATE);
-//        personQueryService.findPage(pm, SecurityUtil.dataScopeFilter(
-//                SecurityUtil.getCurrentUserId(), "this", ""));
+
+//        PageModel<Person> pm=new PageModel<>(0,10);
+//        PageModel<Person> found1 =  personQueryService.findPageQuery(pm,body.getConditions(),true);
 //        JSON rs = JsonUtil.getInstance().toJsonObject(pm);
 //        return ResultBuilder.buildObject(rs);
 
@@ -95,7 +99,6 @@ public class PersonEndpoint extends AbstractApiEndpoint<PersonService, Person, L
 //        starWebService.getStarWebServiceSoap().getActionResult();
 //        starWebService.getStarWebServiceSoap().setMeterSwitchStatus();
 //        starWebService.getStarWebServiceSoap().GetMeterkWh();
-
 
         PageModel<Person> found =  personQueryService.findBasePage(new PageModel(),spec,false);
 
