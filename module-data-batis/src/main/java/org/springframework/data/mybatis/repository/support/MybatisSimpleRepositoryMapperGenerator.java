@@ -42,7 +42,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.springframework.data.mybatis.annotations.Id.GenerationType.*;
+import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
+
+//import static org.springframework.data.mybatis.annotations.Id.GenerationType.*;
 
 /**
  * generate basic mapper for simple repository automatic.

@@ -20,10 +20,15 @@ package org.springframework.data.mybatis.domains;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Id;
+//import org.springframework.data.mybatis.annotations.Id;
 import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
-import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import static javax.persistence.GenerationType.AUTO;
+
+//import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO;
 
 
 /**
@@ -48,7 +53,8 @@ public abstract class LongId implements Persistable<Long> {
     }
 
     @Override
-    @Id(strategy = AUTO)
+    @Id
+    @GeneratedValue(strategy = AUTO)
     public Long getId() {
         return id;
     }

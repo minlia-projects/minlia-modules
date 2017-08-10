@@ -61,7 +61,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
 
     //BATIS
-    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
+//    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
     @SearchField
     @org.springframework.data.mybatis.annotations.Column(name = "id")
     @JSONField

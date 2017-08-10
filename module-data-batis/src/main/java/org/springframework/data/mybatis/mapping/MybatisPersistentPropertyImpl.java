@@ -25,10 +25,13 @@ import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.model.AnnotationBasedPersistentProperty;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
 import org.springframework.data.mybatis.annotations.*;
-import org.springframework.data.mybatis.annotations.Id.GenerationType;
+//import org.springframework.data.mybatis.annotations.Id.GenerationType;
 import org.springframework.data.util.ParsingUtils;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -207,11 +210,11 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         if (!isIdProperty()) {
             return null;
         }
-        Id id = findAnnotation(Id.class);
-        if (null == id) {
+        GeneratedValue generatedValue = findAnnotation(GeneratedValue.class);
+        if (null == generatedValue) {
             return null;
         }
-        return id.strategy();
+        return generatedValue.strategy();
     }
 
     @Override
