@@ -38,7 +38,7 @@ public class Person extends AbstractAuditingEntity {
 
 
     @OneToOne
-    @JoinColumn(name = "iphone_id")
+    @JoinColumn(name = "iphone2_id")
     private Iphone iphone;
 
 
