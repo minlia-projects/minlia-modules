@@ -75,12 +75,24 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
      * Inspired from jpa persistent property impl
      */
     private static final Collection<Class<? extends Annotation>> ID_ANNOTATIONS;
+    private static final Collection<Class<? extends Annotation>> ASSOCIATION_ANNOTATIONS;
     static {
 
         Set<Class<? extends Annotation>> annotations = new HashSet<Class<? extends Annotation>>();
         annotations.add(Id.class);
         annotations.add(EmbeddedId.class);
         ID_ANNOTATIONS = Collections.unmodifiableSet(annotations);
+
+
+         annotations = new HashSet<Class<? extends Annotation>>();
+        annotations.add(OneToMany.class);
+        annotations.add(OneToOne.class);
+        annotations.add(ManyToMany.class);
+        annotations.add(ManyToOne.class);
+        annotations.add(Embedded.class);
+
+        ASSOCIATION_ANNOTATIONS = Collections.unmodifiableSet(annotations);
+
     }
 
 
@@ -188,6 +200,24 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         return UNDEFINED;
     }
 
+
+
+    @Override
+    public boolean isAssociation() {
+
+        for (Class<? extends Annotation> annotationType : ASSOCIATION_ANNOTATIONS) {
+            if (findAnnotation(annotationType) != null) {
+                return true;
+            }
+        }
+
+        if (getType().isAnnotationPresent(Embeddable.class)) {
+            return true;
+        }
+
+        return false;
+    }
+
     @Override
     public String getColumnName() {
 
@@ -251,4 +281,24 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         }
         return null;
     }
+
+
+//    @Override
+//    public String toString() {
+//
+//        if (annotationCache.isEmpty()) {
+//            populateAnnotationCache(field);
+//        }
+//
+//        StringBuilder builder = new StringBuilder();
+//
+//        for (Annotation annotation : annotationCache.values()) {
+//            if (annotation != null) {
+//                builder.append(annotation.toString()).append(" ");
+//            }
+//        }
+//
+//        return builder.toString() + super.toString();
+//    }
+
 }

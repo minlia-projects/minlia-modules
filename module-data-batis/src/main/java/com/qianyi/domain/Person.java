@@ -33,7 +33,7 @@ public class Person extends AbstractAuditingEntity {
     @ManyToMany
     @JoinTable(name = "map_team_people",
             inverseJoinColumns = {@javax.persistence.JoinColumn(name = "team_id", referencedColumnName = "id")},
-            joinColumns  = {@javax.persistence.JoinColumn(name = "people_id", referencedColumnName = "id")})
+            joinColumns  = {@javax.persistence.JoinColumn(name = "person_id", referencedColumnName = "id")})
     private Set<Team> team;
 
 
