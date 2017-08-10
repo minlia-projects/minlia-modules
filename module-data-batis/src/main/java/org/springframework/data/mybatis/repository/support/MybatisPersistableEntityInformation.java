@@ -19,9 +19,9 @@
 package org.springframework.data.mybatis.repository.support;
 
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mybatis.domains.AuditDateAware;
-import org.springframework.data.mybatis.domains.Persistable;
 import org.springframework.data.repository.core.support.AbstractEntityInformation;
 
 import java.io.Serializable;
@@ -53,13 +53,13 @@ public class MybatisPersistableEntityInformation<T extends Persistable<ID>, ID e
         return entity.getId();
     }
 
-    @Override
-    public void preInssert(T entity) {
-        entity.preInssert();
-    }
+//    @Override
+//    public void prePersist(T entity) {
+//        entity.prePersist();
+//    }
 
-    @Override
-    public void preUpdate(T entity) {
-        entity.preUpdate();
-    }
+//    @Override
+//    public void preUpdate(T entity) {
+//        entity.preUpdate();
+//    }
 }

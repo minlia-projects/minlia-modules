@@ -34,8 +34,6 @@ import org.springframework.data.mapping.PersistentPropertyAccessor;
 import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.repository.core.support.AbstractEntityInformation;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -125,29 +123,29 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
     }
 
 
-    @Override
-    public void preInssert(T entity) {
+//    @Override
+//    public void prePersist(T entity) {
+//
+//        Method method = getAnnotaionMethod(entity, PrePersist.class);
+//        try {
+//            if (method != null)
+//                method.invoke(entity);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-        Method method = getAnnotaionMethod(entity, PrePersist.class);
-        try {
-            if (method != null)
-                method.invoke(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void preUpdate(T entity) {
-        Method method = getAnnotaionMethod(entity, PreUpdate.class);
-        try {
-            if (method != null)
-                method.invoke(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+//    @Override
+//    public void preUpdate(T entity) {
+//        Method method = getAnnotaionMethod(entity, PreUpdate.class);
+//        try {
+//            if (method != null)
+//                method.invoke(entity);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     private void setAuditDate(PersistentProperty<?> property, T entity, Class<? extends Annotation> annotationType, boolean isCheckVal) {
 

@@ -38,10 +38,9 @@ public interface MybatisEntityInformation<T, ID extends Serializable>
 
     boolean hasVersion();
 
-    void preInssert(T entity);
+//    void prePersist(T entity);
 
-    void preUpdate(T entity);
-
+//    void preUpdate(T entity);
 
     void setCreatedDate(T entity);
 
