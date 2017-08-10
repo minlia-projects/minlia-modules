@@ -20,9 +20,9 @@ package org.springframework.data.mybatis.mapping;
 
 import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PersistentProperty;
-import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.JoinColumn;
 
 
 /**
