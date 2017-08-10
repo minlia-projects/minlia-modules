@@ -4,6 +4,7 @@ import org.springframework.data.mybatis.annotations.JoinColumn;
 import org.springframework.data.mybatis.annotations.JoinTable;
 import org.springframework.util.StringUtils;
 
+
 /**
  * @author Jarvis Song
  */

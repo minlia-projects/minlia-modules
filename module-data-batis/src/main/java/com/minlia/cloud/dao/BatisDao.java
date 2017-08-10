@@ -10,6 +10,8 @@ import java.io.Serializable;
  * Created by will on 8/3/17.
  */
 @NoRepositoryBean
-public interface BatisDao<ENTITY extends Persistable<PK>, PK extends Serializable> extends MybatisRepository<ENTITY, PK> {// extends BaseMapper<ENTITY>
+public interface BatisDao<ENTITY extends Persistable<PK>, PK extends Serializable> extends MybatisRepository<ENTITY, PK> {
+
+    // extends BaseMapper<ENTITY>
 
 }

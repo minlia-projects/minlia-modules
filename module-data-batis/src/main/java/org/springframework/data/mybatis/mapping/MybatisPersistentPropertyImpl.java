@@ -181,6 +181,8 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         JdbcType t = javaTypesMappedToJdbcTypes.get(type);
         if (null != t) {
             return t;
+        }else{
+            System.out.println("FUCK");
         }
 
         return UNDEFINED;

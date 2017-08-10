@@ -1,21 +1,12 @@
 package com.qianyi.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.entity.AbstractAuditingEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.List;
-
-//import org.springframework.data.mybatis.annotations.Column;
-
-/**
- * Created by qianyi on 2017/8/1.
- */
+import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -23,53 +14,34 @@ import java.util.List;
 @Getter
 @Setter
 
-//BATIS
-//@org.springframework.data.mybatis.annotations.Entity(name = "person")
 public class Person extends AbstractAuditingEntity {
 
 
 
-//    /**
-//     * ID
-//     */
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-////, generator = PersistenceConstants.SEQUENCE_GENERATOR_NAME for oracle
-//    @JsonProperty
-//    @JsonSerialize(using=ToStringSerializer.class)
-//
-//
-//    //BATIS
-//    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
-//    @Column(name = "id")
-//    protected Long id;
-
 
     @JsonProperty
-//    @Column(name = "name")
     private String name;
 
     @JsonProperty
-//    @Column(name = "email")
     private String email;
-//
-//    @JsonProperty
-////    @Column(name = "enabled")
-//    private Boolean enabled;
 
-    @JsonProperty
-//    @Column(name = "people_id")
-    private Long peopleId;
-
-//    @OneToOne
-//    @org.springframework.data.mybatis.annotations.OneToOne
-//    private Category category;
+//    @OneToMany
+//    @JoinColumn(name = "person_id")
+//    private Set<Cellphone> cellphone;
 
 
-    @Transient
-    @org.springframework.data.annotation.Transient
-    @JSONField(serialize = false)
-    private List<Person> people;
+    @ManyToMany
+    @JoinTable(name = "map_team_people",
+            inverseJoinColumns = {@javax.persistence.JoinColumn(name = "team_id", referencedColumnName = "id")},
+            joinColumns  = {@javax.persistence.JoinColumn(name = "people_id", referencedColumnName = "id")})
+    private Set<Team> team;
+
+
+    @OneToOne
+    @JoinColumn(name = "iphone_id")
+    private Iphone iphone;
+
+
 
 
 
