@@ -20,7 +20,6 @@ package org.springframework.data.mybatis.repository.support;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mapping.PersistentEntity;
-import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.mybatis.domains.Persistable;
 import org.springframework.data.mybatis.mapping.MybatisMappingContext;
@@ -28,6 +27,7 @@ import org.springframework.data.repository.core.support.AbstractEntityInformatio
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.Entity;
 import java.io.Serializable;
 
 /**

@@ -21,11 +21,12 @@ package org.springframework.data.mybatis.mapping;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.mapping.SimplePropertyHandler;
 import org.springframework.data.mapping.model.BasicPersistentEntity;
-import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.util.ParsingUtils;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Comparator;
 
 /**
@@ -103,9 +104,9 @@ public class MybatisPersistentEntityImpl<T> extends BasicPersistentEntity<T, Myb
 
     @Override
     public String getTableName() {
-        Entity entity = getType().getAnnotation(Entity.class);
-        if (null != entity && StringUtils.hasText(entity.table())) {
-            return entity.table();
+        Table table = getType().getAnnotation(Table.class);
+        if (null != table && StringUtils.hasText(table.name())) {
+            return table.name();
         }
 
         return ParsingUtils.reconcatenateCamelCase(getType().getSimpleName(), "_");

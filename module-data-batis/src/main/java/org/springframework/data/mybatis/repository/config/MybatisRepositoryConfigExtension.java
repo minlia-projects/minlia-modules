@@ -25,7 +25,6 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.annotation.Persistent;
-import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.mapping.MybatisMappingContext;
 import org.springframework.data.mybatis.repository.dialect.DialectFactoryBean;
 import org.springframework.data.mybatis.repository.support.MybatisRepository;
@@ -39,6 +38,7 @@ import org.springframework.data.repository.core.support.AbstractRepositoryMetada
 import org.springframework.data.repository.util.TxUtils;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.Entity;
 import java.lang.annotation.Annotation;
 import java.util.*;
 

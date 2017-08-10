@@ -24,7 +24,7 @@ import java.util.List;
 @Setter
 
 //BATIS
-@org.springframework.data.mybatis.annotations.Entity(name = "person")
+//@org.springframework.data.mybatis.annotations.Entity(name = "person")
 public class Person extends AbstractAuditingEntity {
 
 

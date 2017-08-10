@@ -20,6 +20,7 @@ import com.qianyi.service.PersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,9 +54,16 @@ public class PersonEndpoint extends AbstractApiEndpoint<PersonService, Person, L
 
     @PostMapping("daoFind")
     public StatefulBody daoFind(@PageableDefault Pageable pageable, @RequestBody BatisApiSearchRequestBody<PersonSearchRequestBody> body) {
-        body.getConditions().add(new QueryCondition("name", QueryOperator.like, "%x%"));
-        body.getConditions().add(new QueryCondition("email", QueryOperator.like, "%x%"));
+        body.getConditions().add(new QueryCondition("name", QueryOperator.like, "%"));
+//        body.getConditions().add(new QueryCondition("email", QueryOperator.like, "%x%"));
 
+
+
+        Person person=new Person();
+        String name=RandomStringUtils.randomAlphabetic(4);
+        person.setName(name);
+        person.setEmail(name+"@qq.com");
+        personDao.insert(person);
 
 //        Page<Person> page=personDao.findAll(batisSpecifications.buildSpecification(body),pageable);
 
