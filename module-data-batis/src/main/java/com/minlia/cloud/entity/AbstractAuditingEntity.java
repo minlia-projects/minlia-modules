@@ -66,7 +66,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
 
     @SearchField
-    @org.springframework.data.mybatis.annotations.Column(name = "id")
+//    @org.springframework.data.mybatis.annotations.Column(name = "id")
     @JSONField
     protected Long id;
 

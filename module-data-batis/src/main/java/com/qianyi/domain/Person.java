@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.entity.AbstractAuditingEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mybatis.annotations.Column;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.util.List;
+
+//import org.springframework.data.mybatis.annotations.Column;
 
 /**
  * Created by qianyi on 2017/8/1.
@@ -45,19 +46,19 @@ public class Person extends AbstractAuditingEntity {
 
 
     @JsonProperty
-    @Column(name = "name")
+//    @Column(name = "name")
     private String name;
 
     @JsonProperty
-    @Column(name = "email")
+//    @Column(name = "email")
     private String email;
+//
+//    @JsonProperty
+////    @Column(name = "enabled")
+//    private Boolean enabled;
 
     @JsonProperty
-    @Column(name = "enabled")
-    private Boolean enabled;
-
-    @JsonProperty
-    @Column(name = "people_id")
+//    @Column(name = "people_id")
     private Long peopleId;
 
 //    @OneToOne

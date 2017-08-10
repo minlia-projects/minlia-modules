@@ -9,12 +9,18 @@ import com.minlia.cloud.utils.PreconditionsHelper;
 import com.minlia.cloud.utils.Reflections;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
-import org.springframework.data.mybatis.annotations.Column;
-import org.springframework.data.mybatis.annotations.Entity;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
+import org.springframework.data.util.ParsingUtils;
+import org.springframework.util.StringUtils;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+
+//import org.springframework.data.mybatis.annotations.Entity;
+
+//import org.springframework.data.mybatis.annotations.Column;
 
 
 @Slf4j
@@ -274,7 +280,13 @@ public class QueryCondition implements Comparable<QueryCondition>, java.io.Seria
                             fieldPropery = properties[size-1];
                         }
                         Column column = Reflections.getAnnotationByClazz(targetPersistentClass, fieldPropery, Column.class);
-                        if (column != null) columnName = column.name();
+                        if (column != null) {
+                            columnName = column.name();
+                        }else{
+                            //Added for no Column annotation defined
+                            columnName= ParsingUtils.reconcatenateCamelCase(fieldPropery, "_");
+                        }
+
 
                         if (PreconditionsHelper.isNotEmpty(columnName)) {
                             Dialect dialect = ContextHolder.getContext().getBean(Dialect.class);

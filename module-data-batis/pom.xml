@@ -204,6 +204,13 @@
         </dependency>
 
 
+        <dependency>
+
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-swagger</artifactId>
+            <version>1.0.0.RELEASE</version>
+
+        </dependency>
 
     </dependencies>
 

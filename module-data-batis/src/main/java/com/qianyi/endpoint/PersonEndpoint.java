@@ -21,7 +21,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -92,10 +91,10 @@ public class PersonEndpoint extends AbstractApiEndpoint<PersonService, Person, L
 
         PageModel<Person> found =  personQueryService.findBasePage(new PageModel(),spec,false);
 
-        Person person = new Person();
-        person.setName("Smith");
-        Example<Person> example = Example.of(person);
-        Page<Person> results = personRepository.findAll(example,pageable);
+//        Person person = new Person();
+//        person.setName("Smith");
+//        Example<Person> example = Example.of(person);
+//        Page<Person> results = personRepository.findAll(example,pageable);
 
 
 //        PageModel<Person> personPage = personQueryService.findPageQuery(new PageModel(), Lists.newArrayList(), false);

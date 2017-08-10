@@ -24,20 +24,19 @@ import org.springframework.data.mapping.Association;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.model.AnnotationBasedPersistentProperty;
 import org.springframework.data.mapping.model.SimpleTypeHolder;
-import org.springframework.data.mybatis.annotations.*;
-//import org.springframework.data.mybatis.annotations.Id.GenerationType;
 import org.springframework.data.util.ParsingUtils;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.ibatis.type.JdbcType.*;
+
+//import org.springframework.data.mybatis.annotations.*;
+//import org.springframework.data.mybatis.annotations.Id.GenerationType;
 
 /**
  * @author Jarvis Song
@@ -69,8 +68,32 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         javaTypesMappedToJdbcTypes.put(Float.class, REAL);
         javaTypesMappedToJdbcTypes.put(Double.class, DOUBLE);
 
-
     }
+
+
+    /**
+     * Inspired from jpa persistent property impl
+     */
+    private static final Collection<Class<? extends Annotation>> ID_ANNOTATIONS;
+    static {
+
+        Set<Class<? extends Annotation>> annotations = new HashSet<Class<? extends Annotation>>();
+        annotations.add(Id.class);
+        annotations.add(EmbeddedId.class);
+        ID_ANNOTATIONS = Collections.unmodifiableSet(annotations);
+    }
+
+
+    @Override
+    public boolean isIdProperty() {
+        for (Class<? extends Annotation> annotation : ID_ANNOTATIONS) {
+            if (isAnnotationPresent(annotation)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     /**
@@ -173,6 +196,7 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
 
         return ParsingUtils.reconcatenateCamelCase(getName(), "_");
     }
+
 
     @Override
     public boolean insertable() {

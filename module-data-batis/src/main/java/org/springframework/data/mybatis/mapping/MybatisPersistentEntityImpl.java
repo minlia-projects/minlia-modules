@@ -49,10 +49,26 @@ public class MybatisPersistentEntityImpl<T> extends BasicPersistentEntity<T, Myb
         this.context = context;
     }
 
+
+
     @Override
     public MybatisMappingContext getContext() {
         return this.context;
     }
+
+
+
+    /**
+     * if no Id annotation then return isIdProperty
+     * @param property
+     * @return
+     */
+    @Override
+    protected MybatisPersistentProperty returnPropertyIfBetterIdPropertyCandidateOrNull(MybatisPersistentProperty property) {
+        return property.isIdProperty() ? property : null;
+    }
+
+
 
     @Override
     public String getEntityName() {
