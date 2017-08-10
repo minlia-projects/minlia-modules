@@ -58,7 +58,6 @@ import javax.persistence.Transient;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
 
 
-@org.springframework.data.mybatis.annotations.MappedSuperclass
 public abstract class AbstractLocalizedEntity extends AbstractAuditingEntity {
 
     @JsonIgnore

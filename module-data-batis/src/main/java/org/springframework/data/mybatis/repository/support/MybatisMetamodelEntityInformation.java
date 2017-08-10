@@ -18,6 +18,11 @@
 
 package org.springframework.data.mybatis.repository.support;
 
+//import org.springframework.data.annotation.CreatedBy;
+//import org.springframework.data.annotation.CreatedDate;
+//import org.springframework.data.annotation.LastModifiedBy;
+//import org.springframework.data.annotation.LastModifiedDate;
+
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -26,11 +31,11 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mapping.PersistentEntity;
 import org.springframework.data.mapping.PersistentProperty;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
-import org.springframework.data.mybatis.annotations.PreInssert;
-import org.springframework.data.mybatis.annotations.PreUpdate;
 import org.springframework.data.mybatis.domains.AuditDateAware;
 import org.springframework.data.repository.core.support.AbstractEntityInformation;
 
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -123,7 +128,7 @@ public class MybatisMetamodelEntityInformation<T, ID extends Serializable> exten
     @Override
     public void preInssert(T entity) {
 
-        Method method = getAnnotaionMethod(entity, PreInssert.class);
+        Method method = getAnnotaionMethod(entity, PrePersist.class);
         try {
             if (method != null)
                 method.invoke(entity);

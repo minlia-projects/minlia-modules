@@ -21,14 +21,15 @@ package org.springframework.data.mybatis.domains;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.mybatis.annotations.Condition;
-//import org.springframework.data.mybatis.annotations.Id;
-import org.springframework.data.mybatis.annotations.MappedSuperclass;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 import static javax.persistence.GenerationType.AUTO;
+
+//import org.springframework.data.mybatis.annotations.Id;
 
 //import static org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO;
 
