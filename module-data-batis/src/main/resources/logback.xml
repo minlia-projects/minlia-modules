@@ -142,6 +142,8 @@
             <!--<charset>GBK</charset>-->
         </encoder>
     </appender>
+
+    <logger name="com" level="DEBUG"/>
     <logger name="com.minlia" level="DEBUG"/>
     <logger name="org.springframework.data.mybatis" level="DEBUG"/>
     <logger name="org.springframework.aop.aspectj" level="ERROR"/>
@@ -178,6 +180,8 @@
     <logger name="jdbc.audit" level="ERROR"/>
     <logger name="jdbc.sqltiming" level="ERROR"/>
     <logger name="jdbc.sqlonly" level="INFO"/>
+    <logger name="org.apache.ibatis" level="DEBUG"/>
+    <logger name="org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer" level="ERROR"/>
 
     <!--<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">-->
     <!--<resetJUL>true</resetJUL>-->

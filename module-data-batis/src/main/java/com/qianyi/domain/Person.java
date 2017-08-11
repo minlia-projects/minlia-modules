@@ -8,15 +8,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Set;
 
-
 @Entity
 @Table(name = "person")
 @Getter
 @Setter
-
 public class Person extends AbstractAuditingEntity {
-
-
 
 
     @JsonProperty
@@ -25,28 +21,22 @@ public class Person extends AbstractAuditingEntity {
     @JsonProperty
     private String email;
 
-
     @JsonProperty
+    @Column(name = "enabled")
     private Boolean enabled;
 
-//    @OneToMany
-//    @JoinColumn(name = "person_id")
-//    private Set<Cellphone> cellphone;
+    @OneToMany
+    private Set<Cellphone> cellphone;
 
 
     @ManyToMany
     @JoinTable(name = "map_team_people",
             inverseJoinColumns = {@javax.persistence.JoinColumn(name = "team_id", referencedColumnName = "id")},
-            joinColumns  = {@javax.persistence.JoinColumn(name = "person_id", referencedColumnName = "id")})
+            joinColumns = {@javax.persistence.JoinColumn(name = "person_id", referencedColumnName = "id")})
     private Set<Team> team;
 
-
     @OneToOne
-    @JoinColumn(name = "iphone2_id")
     private Iphone iphone;
-
-
-
 
 
 }

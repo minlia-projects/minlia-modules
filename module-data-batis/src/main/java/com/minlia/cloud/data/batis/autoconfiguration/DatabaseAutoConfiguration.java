@@ -18,14 +18,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 import java.util.Date;
 
-@EntityScan(basePackages = {".**.domain", ".**.model"})
-@Configuration
-@EnableMybatisRepositories(
-        value = {".**.dao"},
-        mapperLocations = "classpath*:/**/*Dao.xml"
-        ,transactionManagerRef = "batisTransactionManager"
-)
 
+@Configuration
+
+@EntityScan(basePackages = {".**.domain", ".**.model"})
+@EnableMybatisRepositories(value = {".**.dao"}, mapperLocations = {"classpath:**/dao/*Dao.xml"}, transactionManagerRef = "batisTransactionManager")
 public class DatabaseAutoConfiguration implements ResourceLoaderAware {
 
     private final Logger log = LoggerFactory.getLogger(DatabaseAutoConfiguration.class);
@@ -36,7 +33,7 @@ public class DatabaseAutoConfiguration implements ResourceLoaderAware {
     public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
-        ReadWriteManagedTransactionFactory factory=new ReadWriteManagedTransactionFactory();
+        ReadWriteManagedTransactionFactory factory = new ReadWriteManagedTransactionFactory();
         factoryBean.setTransactionFactory(factory);
 
         return factoryBean;

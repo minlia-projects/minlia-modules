@@ -18,6 +18,7 @@
 
 package org.springframework.data.mybatis.repository.query;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.data.mybatis.mapping.MybatisMappingContext;
 import org.springframework.data.mybatis.repository.dialect.Dialect;
@@ -37,6 +38,7 @@ import java.lang.reflect.Method;
  *
  * @author Jarvis Song
  */
+@Slf4j
 public final class MybatisQueryLookupStrategy {
 
     private MybatisQueryLookupStrategy() {
@@ -113,9 +115,12 @@ public final class MybatisQueryLookupStrategy {
             if (null != query) {
                 return query;
             }
+
 //            String name = method.getNamedQueryName();
 //            if (namedQueries.hasQuery(name)) {
-//                return MybatisQueryFactory.INSTANCE.fromMethodWithQueryString(sqlSessionTemplate, method, namedQueries.getQuery(name), evaluationContextProvider);
+//                log.debug("name {}",name);
+////                return MybatisQueryFactory.INSTANCE.fromMethodWithQueryString(sqlSessionTemplate, method,  namedQueries.getQuery(name), evaluationContextProvider);
+//                return null;
 //            }
             throw new IllegalStateException(
                     String.format("Did neither find a NamedQuery nor an annotated query for method %s!", method));

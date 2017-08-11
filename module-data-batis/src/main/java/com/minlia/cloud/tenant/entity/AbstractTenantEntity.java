@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
 
-//@org.springframework.data.mybatis.annotations.MappedSuperclass
+@org.springframework.data.mybatis.annotations.MappedSuperclass
 public class AbstractTenantEntity extends AbstractLocalizedEntity {
 
     private String tenantId;

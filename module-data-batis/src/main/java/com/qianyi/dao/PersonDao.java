@@ -8,7 +8,4 @@ import com.qianyi.domain.Person;
  */
 public interface PersonDao extends BatisDao<Person,Long> {
 
-
-
-
 }

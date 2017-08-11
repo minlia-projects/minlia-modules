@@ -46,7 +46,7 @@ import javax.persistence.*;
  * 申明USER为审计人
  * @since 1.0.0
  */
-//@org.springframework.data.mybatis.annotations.MappedSuperclass
+@org.springframework.data.mybatis.annotations.MappedSuperclass
 public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
     /**
