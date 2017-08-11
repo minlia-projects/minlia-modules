@@ -20,12 +20,12 @@ package com.microsoft.crm.v1.dao;
 
 import com.microsoft.crm.v1.domain.Role;
 import com.microsoft.crm.v1.domain.User;
+import com.minlia.cloud.dao.BatisDao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mybatis.repository.annotation.Query;
-import org.springframework.data.mybatis.repository.support.MybatisRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
@@ -36,7 +36,7 @@ import java.util.Set;
 /**
  * @author Jarvis Song
  */
-public interface UserDao extends MybatisRepository<User, Integer>, UserDaoCustom {
+public interface UserDao extends  BatisDao<User,Long>, UserDaoCustom{
 
     @Query(operation = Query.Operation.select_list)
     List<User> findUseMapper(@Param("lastname") String lastname);

@@ -21,12 +21,9 @@ public class Person extends AbstractAuditingEntity {
     @JsonProperty
     private String email;
 
-    @JsonProperty
-    @Column(name = "enabled")
-    private Boolean enabled;
 
-    @OneToMany
-    private Set<Cellphone> cellphone;
+//    @OneToMany
+//    private Set<Cellphone> cellphone;
 
 
     @ManyToMany

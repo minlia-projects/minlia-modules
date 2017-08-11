@@ -10,6 +10,8 @@ import com.minlia.cloud.query.specification.batis.SpecificationDetail;
 import com.minlia.cloud.utils.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Persistable;
 
 import java.io.Serializable;
@@ -23,7 +25,7 @@ import java.util.Map;
  */
 @Slf4j
 public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
-        ENTITY extends Persistable<PK>, PK extends Serializable> implements BatisQueryService<REPOSITORY,ENTITY,PK> {
+        ENTITY extends Persistable<PK>, PK extends Serializable> implements BatisQueryService<REPOSITORY, ENTITY, PK> {
 
     public Class<ENTITY> persistentClass;
 
@@ -43,14 +45,14 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
     /**
      * 动态分页查询
      *
-     * @param pm                  分页对象
+     * @param pageable            分页对象
      * @param specificationDetail 动态条件对象
      * @param isBasic             是否关联对象查询
      * @param selectStatement     自定义数据集合sql名称
      * @param countStatement      自定义数据总数sql名称
      * @return
      */
-    public PageModel<ENTITY> findBasePage(PageModel<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail, Boolean isBasic, String selectStatement, String countStatement) {
+    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, Boolean isBasic, String selectStatement, String countStatement) {
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
             specificationDetail.setPersistentClass(persistentClass);
@@ -66,15 +68,18 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
             Boolean pageInstance = PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement);
 
             if (pageInstance) {
-                pm.setPageInstance(repository.findAll(selectStatement, countStatement, pm, paramsMap));
+
+                return repository.findAll(selectStatement, countStatement, pageable, paramsMap);
+//                pageable.setPageInstance(repository.findAll(selectStatement, countStatement, pageable, paramsMap));
             } else {
-                pm.setPageInstance(repository.findAll(isBasic, pm, paramsMap));
+//                pageable.setPageInstance(repository.findAll(isBasic, pageable, paramsMap));
+                return repository.findAll(isBasic, pageable, paramsMap);
             }
 
-//            pm.setPageInstance(PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement) ?
-//                    repository.findAll(selectStatement, countStatement, pm, paramsMap) :
-//                    repository.findAll(isBasic, pm, paramsMap));
-            return pm;
+//            pageable.setPageInstance(PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement) ?
+//                    repository.findAll(selectStatement, countStatement, pageable, paramsMap) :
+//                    repository.findAll(isBasic, pageable, paramsMap));
+//            return pageable;
         } catch (Exception e) {
             log.error("error: {}", e);
             Assert.buildException(e.getMessage());
@@ -82,24 +87,22 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
         return null;
     }
 
-    public PageModel<ENTITY> findPageQuery(PageModel<ENTITY> pm, List<QueryCondition> authQueryConditions, boolean isBasic) {
-        QueryCondition queryCondition=QueryCondition.ne("enabled",false);
+    public Page<ENTITY> findPageQuery(Pageable pageable, List<QueryCondition> authQueryConditions, boolean isBasic) {
+        QueryCondition queryCondition = QueryCondition.ne("enabled", false);
 //        QueryCondition queryCondition1=QueryCondition.gt(BaseEntity.F_VERSION, 0);
-        SpecificationDetail<ENTITY> specificationDetail = BatisSpecifications.buildSpecification(pm.getQueryConditionJson(),
+        SpecificationDetail<ENTITY> specificationDetail = BatisSpecifications.buildSpecification("",
                 persistentClass,
                 queryCondition);
-        if(PublicUtil.isNotEmpty(authQueryConditions)) {
+        if (PublicUtil.isNotEmpty(authQueryConditions)) {
             specificationDetail.orAll(authQueryConditions);
 
         }
-        return findBasePage(pm, specificationDetail, isBasic);
+        return findBasePage(pageable, specificationDetail, isBasic);
     }
 
 
-
-
-    public PageModel<ENTITY> findBasePage(PageModel<ENTITY> pm, SpecificationDetail<ENTITY> specificationDetail, boolean isBasic) {
-        return findBasePage(pm, specificationDetail, isBasic, null, null);
+    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, boolean isBasic) {
+        return findBasePage(pageable, specificationDetail, isBasic, null, null);
     }
 
 

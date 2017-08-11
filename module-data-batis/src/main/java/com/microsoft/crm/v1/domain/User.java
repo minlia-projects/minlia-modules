@@ -1,14 +1,13 @@
 
 package com.microsoft.crm.v1.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.minlia.cloud.entity.AbstractEntity;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mybatis.annotations.Condition;
-import org.springframework.data.mybatis.annotations.DynamicSearch;
 
 import javax.persistence.*;
 import java.util.*;
-
-import static org.springframework.data.repository.query.parser.Part.Type.LIKE;
 
 /**
  * @author Jarvis Song
@@ -16,22 +15,34 @@ import static org.springframework.data.repository.query.parser.Part.Type.LIKE;
 
 @Entity
 @Table(name = "DS_USER")
-@DynamicSearch
-public class User {
+//@DynamicSearch
+public class User extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    @Condition
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Integer id;
+//    @Condition
     @Column(name = "FIRSTNAME")
+    @JsonProperty
+    @JSONField
     private String firstname;
-    @Condition(type = LIKE)
+//    @Condition(type = LIKE)
     @Column(name = "LASTNAME")
+    @JsonProperty
+    @JSONField
     private String lastname;
+    @JsonProperty
+    @JSONField
     private int age;
+    @JsonProperty
+    @JSONField
     private boolean active;
+    @JsonProperty
+    @JSONField
     private Date createdAt;
 
+    @JsonProperty
+    @JSONField
     @Column(name = "EMAIL_ADDRESS")
     private String emailAddress;
 
@@ -42,8 +53,15 @@ public class User {
     private Set<User> colleagues;
     @ManyToOne
     @JoinColumn(name = "MANAGER_ID")
+    @JsonProperty
+    @JSONField
     private User manager;
     @ManyToMany
+    @JoinTable(name = "ds_user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id", referencedColumnName = "ID"))
+    @JsonProperty
+    @JSONField
     private Set<Role> roles;
 
     @Embedded
@@ -125,21 +143,21 @@ public class User {
 //        System.out.println(this.getClass().getName() + "preUpdate............");
 //    }
 
-    /**
-     * @return the id
-     */
-    public Integer getId() {
-
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-
-        this.id = id;
-    }
+//    /**
+//     * @return the id
+//     */
+//    public Integer getId() {
+//
+//        return id;
+//    }
+//
+//    /**
+//     * @param id the id to set
+//     */
+//    public void setId(Integer id) {
+//
+//        this.id = id;
+//    }
 
     /**
      * Returns the firstname.

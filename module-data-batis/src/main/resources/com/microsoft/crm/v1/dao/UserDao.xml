@@ -3,7 +3,7 @@
 <mapper namespace="com.microsoft.crm.v1.domain.User">
 
     <select id="findUseMapper" resultType="com.microsoft.crm.v1.domain.User" lang="XML">
-        SELECT ID AS id, FIRSTNAME AS firstname, LASTNAME AS lastname FROM DS_USER WHERE LASTNAME = #{lastname};
+        SELECT ID AS id, FIRSTNAME AS firstname, LASTNAME AS lastname FROM DS_USER WHERE LASTNAME like #{lastname} order by ID DESC
     </select>
     <select id="findUseMapper" resultType="com.microsoft.crm.v1.domain.User" lang="XML"
             databaseId="postgres">

@@ -76,6 +76,7 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
      */
     private static final Collection<Class<? extends Annotation>> ID_ANNOTATIONS;
     private static final Collection<Class<? extends Annotation>> ASSOCIATION_ANNOTATIONS;
+
     static {
 
         Set<Class<? extends Annotation>> annotations = new HashSet<Class<? extends Annotation>>();
@@ -84,7 +85,7 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         ID_ANNOTATIONS = Collections.unmodifiableSet(annotations);
 
 
-         annotations = new HashSet<Class<? extends Annotation>>();
+        annotations = new HashSet<Class<? extends Annotation>>();
         annotations.add(OneToMany.class);
         annotations.add(OneToOne.class);
         annotations.add(ManyToMany.class);
@@ -105,7 +106,6 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         }
         return false;
     }
-
 
 
     /**
@@ -193,13 +193,12 @@ class MybatisPersistentPropertyImpl extends AnnotationBasedPersistentProperty<My
         JdbcType t = javaTypesMappedToJdbcTypes.get(type);
         if (null != t) {
             return t;
-        }else{
+        } else {
             System.out.println("FUCK");
         }
 
         return UNDEFINED;
     }
-
 
 
     @Override

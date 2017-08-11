@@ -5,7 +5,6 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.body.query.Order;
 import com.minlia.cloud.body.query.QueryOperator;
-import com.minlia.cloud.data.batis.service.PageModel;
 import com.minlia.cloud.endpoint.AbstractApiEndpoint;
 import com.minlia.cloud.query.specification.batis.BatisSpecifications;
 import com.minlia.cloud.query.specification.batis.QueryCondition;
@@ -100,7 +99,7 @@ public class PersonEndpoint extends AbstractApiEndpoint<PersonService, Person, L
 //        starWebService.getStarWebServiceSoap().setMeterSwitchStatus();
 //        starWebService.getStarWebServiceSoap().GetMeterkWh();
 
-        PageModel<Person> found =  personQueryService.findBasePage(new PageModel(),spec,false);
+        Page<Person> found =  personQueryService.findBasePage(pageable,spec,false);
 
 //        Person person = new Person();
 //        person.setName("Smith");
