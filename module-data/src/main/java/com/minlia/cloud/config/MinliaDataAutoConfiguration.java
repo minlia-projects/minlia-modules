@@ -47,28 +47,23 @@ public class MinliaDataAutoConfiguration {
      * JPA Configuration
      */
     @EntityScan(basePackages = {".**.domain", ".**.model"})
-    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true, transactionManagerRef = "jpaTransactionManager")
+//    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true, transactionManagerRef = "jpaTransactionManager")
 //    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
     @Configuration
     @ConditionalOnClass(MinliaDataAutoConfiguration.class)
 
     public static class EnableMinliaCloudJpaRepository {
-
-        @Autowired
-        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
-
-        @Primary
-        @Bean
-        public JpaTransactionManager jpaTransactionManager() {
-            JpaTransactionManager transactionManager = new JpaTransactionManager();
-            transactionManager.setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
-            return transactionManager;
-        }
-
-
-
-
-
+//
+//        @Autowired
+//        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
+//
+//        @Primary
+//        @Bean
+//        public JpaTransactionManager jpaTransactionManager() {
+//            JpaTransactionManager transactionManager = new JpaTransactionManager();
+//            transactionManager.setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
+//            return transactionManager;
+//        }
     }
 
 
