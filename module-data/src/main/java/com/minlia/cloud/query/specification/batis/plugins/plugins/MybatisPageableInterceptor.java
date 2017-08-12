@@ -4,9 +4,9 @@ package com.minlia.cloud.query.specification.batis.plugins.plugins;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.cloud.query.specification.batis.BatisSpecifications;
+import com.minlia.cloud.query.specification.batis.QuerySpecifications;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
-import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
+import com.minlia.cloud.query.specification.batis.body.ApiSearchRequestBody;
 import com.minlia.cloud.query.specification.batis.plugins.dialect.Dialect;
 import com.minlia.cloud.query.specification.batis.QueryUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,7 @@ public class MybatisPageableInterceptor implements Interceptor {
         // 查找方法参数中的 分页请求对象
         Pageable pageRequest = this.findPageableObject(queryArgs[PARAMETER_INDEX]);
         Class<?> entityClass= this.findEntityClass(queryArgs[MAPPED_STATEMENT_INDEX]);
-        BatisApiSearchRequestBody searchRequestBody = this.findSearchObject(queryArgs[PARAMETER_INDEX]);
+        ApiSearchRequestBody searchRequestBody = this.findSearchObject(queryArgs[PARAMETER_INDEX]);
 
         String searchStatement="";
 
@@ -86,14 +86,14 @@ public class MybatisPageableInterceptor implements Interceptor {
         if (null != searchRequestBody) {
             log.debug("With ApiSearchRequestBody {}",searchRequestBody);
 
-            BatisSpecifications spec=ContextHolder.getContext().getBean(BatisSpecifications.class);
+            QuerySpecifications spec=ContextHolder.getContext().getBean(QuerySpecifications.class);
             SpecificationDetail specificationDetail= spec.buildSpecification(searchRequestBody);
             log.debug("With SpecificationDetail {}",specificationDetail);
 
             Map<String, Object> paramsMap = Maps.newHashMap();
             specificationDetail.setPersistentClass(entityClass);
             String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
-                        specificationDetail.getOrQueryConditions(), Lists.newArrayList(BatisSpecifications.MYBITS_SEARCH_PARAMS_MAP),
+                        specificationDetail.getOrQueryConditions(), Lists.newArrayList(QuerySpecifications.MYBITS_SEARCH_PARAMS_MAP),
                         paramsMap, true);
 
             log.debug("With sqlConditionDsf {}",sqlConditionDsf);
@@ -114,10 +114,10 @@ public class MybatisPageableInterceptor implements Interceptor {
 //                specificationDetail.setPersistentClass(persistentClass);
 //                String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
 //                        specificationDetail.getOrQueryConditions(),
-//                        Lists.newArrayList(BatisSpecifications.MYBITS_SEARCH_PARAMS_MAP),
+//                        Lists.newArrayList(QuerySpecifications.MYBITS_SEARCH_PARAMS_MAP),
 //                        paramsMap, true);
-//                paramsMap.put(BatisSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
-//                paramsMap.put(BatisSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+//                paramsMap.put(QuerySpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
+//                paramsMap.put(QuerySpecifications.MYBITS_SEARCH_CONDITION, new Object());
 //
 ////                return PublicUtil.isNotEmpty(specificationDetail.getOrders()) ?
 ////                        repository.findAll(false, new Sort(toOrders(specificationDetail.getOrders())), paramsMap) :
@@ -241,15 +241,15 @@ public class MybatisPageableInterceptor implements Interceptor {
      * @param params Mapper接口方法中的参数对象
      * @return
      */
-    private BatisApiSearchRequestBody findSearchObject(Object params) {
+    private ApiSearchRequestBody findSearchObject(Object params) {
 
         if (params == null) {
             return null;
         }
 
         // 单个参数 表现为参数对象
-        if (BatisApiSearchRequestBody.class.isAssignableFrom(params.getClass())) {
-            return (BatisApiSearchRequestBody) params;
+        if (ApiSearchRequestBody.class.isAssignableFrom(params.getClass())) {
+            return (ApiSearchRequestBody) params;
         }
 
         // 多个参数 表现为 ParamMap
@@ -259,8 +259,8 @@ public class MybatisPageableInterceptor implements Interceptor {
             for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
                 Object paramValue = entry.getValue();
 
-                if (paramValue != null && BatisApiSearchRequestBody.class.isAssignableFrom(paramValue.getClass())) {
-                    return (BatisApiSearchRequestBody) paramValue;
+                if (paramValue != null && ApiSearchRequestBody.class.isAssignableFrom(paramValue.getClass())) {
+                    return (ApiSearchRequestBody) paramValue;
                 }
             }
         }

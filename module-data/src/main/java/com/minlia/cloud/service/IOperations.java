@@ -66,13 +66,13 @@ public interface IOperations<ENTITY extends Persistable,PK extends Serializable>
 //     * @param body
 //     * @return
 //     */
-//    public List<ENTITY> findListByBody(BatisApiSearchRequestBody body);
+//    public List<ENTITY> findListByBody(ApiSearchRequestBody body);
 //    /**
 //     * @param body
 //     * @param pageable
 //     * @return
 //     */
-//    public Page<ENTITY> findPageByBody(BatisApiSearchRequestBody body, Pageable pageable);
+//    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable);
 //
 //
 //

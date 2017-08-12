@@ -180,11 +180,11 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, 
     }
 
 
-//    public Page<ENTITY> findPageByBody(BatisApiSearchRequestBody body, Pageable pageable) {
+//    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable) {
 //        return getDao().findAll(batisSpecifications.buildSpecification(body), pageable);
 //    }
 ////
-//    public List<ENTITY> findListByBody(BatisApiSearchRequestBody body) {
+//    public List<ENTITY> findListByBody(ApiSearchRequestBody body) {
 //        return getDao().findAll(batisSpecifications.buildSpecification(body));
 //    }
 

@@ -111,7 +111,7 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, E
 //    }
 //
 //    @ApiOperation(value = "查询值集", notes = "查询值集", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public StatefulBody searchList(@RequestBody BatisApiSearchRequestBody body) {
+//    public StatefulBody searchList(@RequestBody ApiSearchRequestBody body) {
 //        List<ENTITY> found=service.findListByBody(body);
 //        return SuccessResponseBody.builder().message("OK").payload(found).build();
 //    }

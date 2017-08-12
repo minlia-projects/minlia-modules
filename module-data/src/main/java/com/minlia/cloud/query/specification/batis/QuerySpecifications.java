@@ -6,7 +6,7 @@ import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.data.batis.PublicUtil;
 import com.minlia.cloud.data.batis.Reflections;
 import com.minlia.cloud.query.body.SearchRequestBody;
-import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
+import com.minlia.cloud.query.specification.batis.body.ApiSearchRequestBody;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.collections.CollectionUtils;
@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 @Slf4j
-public class BatisSpecifications {
+public class QuerySpecifications {
 
 
     public static final String MYBITS_SEARCH_PARAMS_MAP = "paramsMap";
@@ -67,7 +67,7 @@ public class BatisSpecifications {
 
     public static final String OPERATOR_FIELD_SUFFIX="Operator";
 
-    public  static <T>   SpecificationDetail<T> buildSpecification(BatisApiSearchRequestBody body) {
+    public  static <T>   SpecificationDetail<T> buildSpecification(ApiSearchRequestBody body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();
         if (null != body.getPayload()) {
             SearchRequestBody content = body.getPayload();

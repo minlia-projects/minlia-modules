@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 //@JSONType(ignores = {"payload"})
-public class BatisApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements Body {
+public class ApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements Body {
     @JsonIgnore
     private List<QueryCondition> conditions = Lists.newArrayList();
 
@@ -25,7 +25,7 @@ public class BatisApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implem
         this.payload = payload;
     }
 
-    public BatisApiSearchRequestBody() {
+    public ApiSearchRequestBody() {
     }
 
 

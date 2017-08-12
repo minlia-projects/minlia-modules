@@ -3,7 +3,7 @@ package com.minlia.cloud.data.batis.service;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.data.batis.PublicUtil;
-import com.minlia.cloud.query.specification.batis.BatisSpecifications;
+import com.minlia.cloud.query.specification.batis.QuerySpecifications;
 import com.minlia.cloud.query.specification.batis.QueryCondition;
 import com.minlia.cloud.query.specification.batis.QueryUtil;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
@@ -61,8 +61,8 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
                     specificationDetail.getOrQueryConditions(),
                     null,
                     paramsMap, true);
-            paramsMap.put(BatisSpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
-            paramsMap.put(BatisSpecifications.MYBITS_SEARCH_CONDITION, new Object());
+            paramsMap.put(QuerySpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
+            paramsMap.put(QuerySpecifications.MYBITS_SEARCH_CONDITION, new Object());
 
 
             Boolean pageInstance = PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement);
@@ -90,7 +90,7 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
     public Page<ENTITY> findPageQuery(Pageable pageable, List<QueryCondition> authQueryConditions, boolean isBasic) {
         QueryCondition queryCondition = QueryCondition.ne("enabled", false);
 //        QueryCondition queryCondition1=QueryCondition.gt(BaseEntity.F_VERSION, 0);
-        SpecificationDetail<ENTITY> specificationDetail = BatisSpecifications.buildSpecification("",
+        SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.buildSpecification("",
                 persistentClass,
                 queryCondition);
         if (PublicUtil.isNotEmpty(authQueryConditions)) {
