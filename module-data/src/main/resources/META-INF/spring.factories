@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.cloud.config.MinliaDataAutoConfiguration
+com.minlia.cloud.config.CloudDataJpaAutoConfiguration

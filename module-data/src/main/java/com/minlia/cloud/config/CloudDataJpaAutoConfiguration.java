@@ -1,16 +1,10 @@
 package com.minlia.cloud.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
@@ -23,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 
 @EnableTransactionManagement
-public class MinliaDataAutoConfiguration {
+public class CloudDataJpaAutoConfiguration {
 
 //    @Bean
 //    public MybatisPageableInterceptor mybatisPageableInterceptor(){
@@ -50,7 +44,7 @@ public class MinliaDataAutoConfiguration {
 //    @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true, transactionManagerRef = "jpaTransactionManager")
 //    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
     @Configuration
-    @ConditionalOnClass(MinliaDataAutoConfiguration.class)
+    @ConditionalOnClass(CloudDataJpaAutoConfiguration.class)
 
     public static class EnableMinliaCloudJpaRepository {
 //
