@@ -3,6 +3,7 @@ package com.microsoft.crm.v1.endpoint;
 import com.google.common.collect.Lists;
 import com.microsoft.crm.v1.dao.UserDao;
 import com.microsoft.crm.v1.domain.User;
+import com.microsoft.crm.v1.repository.UserRepository;
 import com.microsoft.crm.v1.service.UserQueryService;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
@@ -42,6 +43,8 @@ public class UserEndpoint {
     @Autowired
     UserQueryService userQueryService;
 
+    @Autowired
+    UserRepository userRepository;
 
     @ApiOperation(
             value = "获取一个指定ID的实体",
@@ -77,8 +80,16 @@ public class UserEndpoint {
         user.setFirstname(name);
         user.setLastname(lastname);
         user.setEmailAddress(name+"@qq.com");
-        userDao.insert(user);
+//        userDao.insert(user);
 
+
+        userRepository.save(user);
+
+
+//        userRepository.findOne(2l);
+
+        userRepository.getOne(1l);
+        log.debug("userRepository.findOne {}",userRepository);
 
         return SuccessResponseBody.builder().payload(found).build();
     }
