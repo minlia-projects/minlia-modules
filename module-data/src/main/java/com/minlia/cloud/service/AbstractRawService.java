@@ -24,16 +24,18 @@ import java.util.List;
 
 @Transactional
 @Slf4j
-public abstract class AbstractRawService<REPOSITORY extends AbstractRepository,  ENTITY extends Persistable, PK extends Serializable> implements IRawService<ENTITY, PK> {
+public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, ENTITY extends Persistable, PK extends Serializable> implements IRawService<ENTITY, PK> {
 
 
     @Autowired
     JpaSpecifications jpaSpecifications;
 
+
     protected Class<ENTITY> clazz;
 
     @Autowired
     protected REPOSITORY repository;
+
 //    @Autowired
 //    protected DAO dao;
 
@@ -178,12 +180,12 @@ public abstract class AbstractRawService<REPOSITORY extends AbstractRepository, 
     }
 
 
-//    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable) {
-//        return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body), pageable);
+//    public Page<ENTITY> findPageByBody(BatisApiSearchRequestBody body, Pageable pageable) {
+//        return getDao().findAll(batisSpecifications.buildSpecification(body), pageable);
 //    }
-//
-//    public List<ENTITY> findListByBody(ApiSearchRequestBody body) {
-//        return getSpecificationExecutor().findAll(jpaSpecifications.buildSpecification(body));
+////
+//    public List<ENTITY> findListByBody(BatisApiSearchRequestBody body) {
+//        return getDao().findAll(batisSpecifications.buildSpecification(body));
 //    }
 
 

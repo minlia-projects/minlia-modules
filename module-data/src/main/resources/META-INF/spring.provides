@@ -1,1 +1,1 @@
-provides: minlia-data-batis
+provides: module-data,spring-data-batis-starter

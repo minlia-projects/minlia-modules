@@ -72,7 +72,7 @@ public interface IOperations<ENTITY extends Persistable,PK extends Serializable>
 //     * @param pageable
 //     * @return
 //     */
-//    public Page<ENTITY> findPageByBody(JpaApiSearchRequestBody body, Pageable pageable);
+//    public Page<ENTITY> findPageByBody(BatisApiSearchRequestBody body, Pageable pageable);
 //
 //
 //
@@ -87,13 +87,13 @@ public interface IOperations<ENTITY extends Persistable,PK extends Serializable>
 //
 //
 //
-//
+////
 //    @Transactional(readOnly = true)
-//    public Page<ENTITY> findPage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail);
-//
-//
+//    public Page<ENTITY> findPage( SpecificationDetail<ENTITY> specificationDetail,Pageable pageable);
+////
+////
 //    @Transactional(readOnly = true)
-//    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, boolean isBasic) ;
+//    public Page<ENTITY> findBasePage( SpecificationDetail<ENTITY> specificationDetail, Pageable pageable,boolean isBasic) ;
 //
 //    /**
 //     * 动态分页查询

@@ -5,11 +5,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.annotation.SearchField;
 import com.minlia.cloud.body.query.QueryOperator;
+import com.minlia.cloud.data.batis.Encodes;
+import com.minlia.cloud.data.batis.Reflections;
+import com.minlia.cloud.data.batis.PublicUtil;
+import com.minlia.cloud.data.batis.Collections3;
 import com.minlia.cloud.setting.FrameworkConfiguration;
-import com.minlia.cloud.utils.Collections3;
-import com.minlia.cloud.utils.Encodes;
-import com.minlia.cloud.utils.PreconditionsHelper;
-import com.minlia.cloud.utils.Reflections;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 
 @SuppressWarnings("rawtypes")
 public class QueryUtil {
@@ -36,11 +35,11 @@ public class QueryUtil {
      */
     public static List<QueryCondition> convertJsonToQueryCondition(String queryConditionJson) {
         List<QueryCondition> list = null;
-        if (PreconditionsHelper.isNotEmpty(queryConditionJson)) {
+        if (PublicUtil.isNotEmpty(queryConditionJson)) {
             try {
                 list = JSONArray.parseArray(queryConditionJson, QueryCondition.class);
             } catch (Exception e) {
-                logger.warn(PreconditionsHelper.toAppendStr("queryCondition[", queryConditionJson,
+                logger.warn(PublicUtil.toAppendStr("queryCondition[", queryConditionJson,
                         "] is not json or other error", e.getMessage()));
             }
         }
@@ -77,7 +76,7 @@ public class QueryUtil {
     public static String convertQueryConditionToStr(List<QueryCondition> andQueryConditionList, List<QueryCondition> orQueryConditionList, List<String> argList,
                                                     Map<String, Object> paramMap, boolean isMybatis) {
 
-        return PreconditionsHelper.toAppendStr(convertQueryConditionToStr(andQueryConditionList, argList, paramMap, isMybatis, true),
+        return PublicUtil.toAppendStr(convertQueryConditionToStr(andQueryConditionList, argList, paramMap, isMybatis, true),
                 convertQueryConditionToStr(orQueryConditionList, argList, paramMap, isMybatis, false));
     }
 
@@ -97,12 +96,12 @@ public class QueryUtil {
     public static String convertQueryConditionToStr(List<QueryCondition> queryConditionList, List<String> argList,
                                                     Map<String, Object> paramMap, boolean mybatis, boolean isAnd) {
         StringBuffer sb = new StringBuffer();
-        if (PreconditionsHelper.isNotEmpty(queryConditionList)) {
+        if (PublicUtil.isNotEmpty(queryConditionList)) {
             if (paramMap == null)
                 paramMap = Maps.newHashMap();
             java.util.Collections.sort(queryConditionList);
             //前缀解析
-            String argStr = PreconditionsHelper.isNotEmpty(argList) ? Collections3.convertToString(argList, ".") + "." : "", operate = null;
+            String argStr = PublicUtil.isNotEmpty(argList) ? Collections3.convertToString(argList, ".") + "." : "", operate = null;
             for (QueryCondition queryCondition : queryConditionList) {
                 if (queryCondition.isIngore())
                     continue;
@@ -123,7 +122,7 @@ public class QueryUtil {
                 }
                 //sql合法性检查
                 if (queryCondition != null && queryCondition.legalityCheck()) {
-                    if (PreconditionsHelper.isEmpty(operate))
+                    if (PublicUtil.isEmpty(operate))
                         queryCondition.setOperate(QueryOperator.eq.getOperator());
                     sb.append(" ").append(isAnd ? FrameworkConfiguration.CONDITION_AND : FrameworkConfiguration.CONDITION_OR)
                             .append(FrameworkConfiguration.SPACE).append(queryCondition.isAnalytiColumn() ? queryCondition.getFieldRealColumnName()
@@ -131,10 +130,10 @@ public class QueryUtil {
                             .append(operate);
                     if (!QueryOperator.isNotNull.equals(queryCondition.getOperate())
                             && !QueryOperator.isNull.equals(queryCondition.getOperate())) {
-                        String paramFieldName = PreconditionsHelper.toAppendStr(argStr, queryCondition.getFieldName())
+                        String paramFieldName = PublicUtil.toAppendStr(argStr, queryCondition.getFieldName())
                                 .replace(".", "_");
                         if (paramFieldName.contains(","))
-                            paramFieldName = PreconditionsHelper.getRandomString(6);
+                            paramFieldName = PublicUtil.getRandomString(6);
                         switch (operate) {
                             case FrameworkConfiguration.CONDITION_IN:
                             case FrameworkConfiguration.CONDITION_NOTIN:
@@ -145,19 +144,19 @@ public class QueryUtil {
                                 }
                                 if (queryCondition.getValue() instanceof Collection) {
                                     Collection col = (Collection) queryCondition.getValue();
-                                    if (PreconditionsHelper.isNotEmpty(col)) {
+                                    if (PublicUtil.isNotEmpty(col)) {
                                         sb.append(" (");
                                         Integer i = 0;
                                         for (Iterator iterator = col.iterator(); iterator.hasNext(); i++) {
-                                            buildConditionCaluse(sb, PreconditionsHelper.toAppendStr(paramFieldName, i), mybatis);
+                                            buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, i), mybatis);
                                             sb.append(", ");
-                                            paramMap.put(PreconditionsHelper.toAppendStr(paramFieldName, i),
+                                            paramMap.put(PublicUtil.toAppendStr(paramFieldName, i),
                                                     getQueryValue(queryCondition, iterator.next()));
                                         }
                                         sb.delete(sb.lastIndexOf(","), sb.length()).append(")");
                                     }
                                 } else {
-                                    logger.warn(PreconditionsHelper.toAppendStr("queryFieldName[", paramFieldName,
+                                    logger.warn(PublicUtil.toAppendStr("queryFieldName[", paramFieldName,
                                             "] operation is '", operate, "', but value[",
                                             queryCondition.getValue(), "] is not Collection, please check!!!"));
                                 }
@@ -167,12 +166,12 @@ public class QueryUtil {
                                 String val = (String) queryCondition.getValue();
                                 buildConditionCaluse(sb, paramFieldName, mybatis);
                                 paramMap.put(paramFieldName, !val.startsWith("%") && !val.toString().endsWith("%")
-                                        ? PreconditionsHelper.toAppendStr("%", val, "%") : val);
+                                        ? PublicUtil.toAppendStr("%", val, "%") : val);
                                 break;
                             case FrameworkConfiguration.CONDITION_BETWEEN:
-                                buildConditionCaluse(sb, PreconditionsHelper.toAppendStr(paramFieldName, "1"), mybatis);
+                                buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "1"), mybatis);
                                 sb.append(" and ");
-                                buildConditionCaluse(sb, PreconditionsHelper.toAppendStr(paramFieldName, "2"), mybatis);
+                                buildConditionCaluse(sb, PublicUtil.toAppendStr(paramFieldName, "2"), mybatis);
                                 paramMap.put(paramFieldName + "1", getQueryValue(queryCondition, null));
                                 paramMap.put(paramFieldName + "2",
                                         getQueryValue(queryCondition, queryCondition.getEndValue()));
@@ -184,13 +183,13 @@ public class QueryUtil {
                         }
                     }
                 } else {
-                    logger.warn(PreconditionsHelper.toAppendStr("Illegal query conditions ---------> queryFieldName[",
+                    logger.warn(PublicUtil.toAppendStr("Illegal query conditions ---------> queryFieldName[",
                             queryCondition.getFieldName(), "]  operation[", operate, "] value[",
                             queryCondition.getValue(), "], please check!!!"));
                 }
             }
         }
-        if (PreconditionsHelper.isNotEmpty(sb.toString())) {
+        if (PublicUtil.isNotEmpty(sb.toString())) {
             if (!isAnd) {
                 sb.delete(0, 4).insert(0, " and (").append(")");
             }
@@ -209,11 +208,11 @@ public class QueryUtil {
         String type = queryCondition.getAttrType();
         if (val == null)
             val = queryCondition.getValue();
-        if (PreconditionsHelper.isNotEmpty(type) && PreconditionsHelper.isNotEmpty(val)) {
+        if (PublicUtil.isNotEmpty(type) && PublicUtil.isNotEmpty(val)) {
             if ("Integer".equalsIgnoreCase(type) || "int".equalsIgnoreCase(type)) {
-                val = PreconditionsHelper.parseInt(val, 0);
+                val = PublicUtil.parseInt(val, 0);
             } else if ("Long".equalsIgnoreCase(type)) {
-                val = PreconditionsHelper.parseLong(val, 0l);
+                val = PublicUtil.parseLong(val, 0l);
             } else if ("Short".equalsIgnoreCase(type)) {
                 val = Short.parseShort(String.valueOf(val));
             } else if ("Float".equalsIgnoreCase(type)) {
@@ -221,7 +220,7 @@ public class QueryUtil {
             } else if ("Double".equalsIgnoreCase(type)) {
                 val = Double.parseDouble(String.valueOf(val));
             } else if ("Date".equalsIgnoreCase(type)) {
-                val = PreconditionsHelper.parseDate(String.valueOf(val), queryCondition.getFormat());
+                val = PublicUtil.parseDate(String.valueOf(val), queryCondition.getFormat());
             }
         }
         return val;
@@ -240,7 +239,7 @@ public class QueryUtil {
         StringBuffer sb = new StringBuffer(hql);
         if (paramMap != null) {
             String where = convertQueryConditionToStr(queryConditionList, argList, paramMap);
-            if (PreconditionsHelper.isNotEmpty(where)) {
+            if (PublicUtil.isNotEmpty(where)) {
                 String upper = hql.toUpperCase();
                 int lastIndexWhere = upper.lastIndexOf(" WHERE "), lastIndexOrder = upper.lastIndexOf(" ORDER ");
                 if (lastIndexWhere == -1) {
@@ -275,7 +274,7 @@ public class QueryUtil {
      */
     public static List<QueryCondition> convertObjectToQueryCondition(Object entity, Map<String, QueryOperator> operateMap, Class<?> persistentClass) {
         List<QueryCondition> list = Lists.newArrayList();
-        if (PreconditionsHelper.isNotEmpty(entity)) {
+        if (PublicUtil.isNotEmpty(entity)) {
             Object val = null;
             String key = null;
             SearchField an = null;
@@ -283,7 +282,7 @@ public class QueryUtil {
             List<Object> paramEntityList = Lists.newArrayList();
             paramEntityList.add(Lists.newArrayList(entity, argList));
             Object obj = null;
-            while (PreconditionsHelper.isNotEmpty(paramEntityList)) {
+            while (PublicUtil.isNotEmpty(paramEntityList)) {
                 List<Object> tempList = Lists.newArrayList(paramEntityList);
                 paramEntityList.clear();
                 // proxy.getClass().getMethod("clearCount").invoke(proxy);
@@ -291,7 +290,7 @@ public class QueryUtil {
                 for (Object objItem : tempList) {
                     if (objItem instanceof Collection) {
                         List<Object> objItemList = (List<Object>) objItem;
-                        if (PreconditionsHelper.isEmpty(objItemList)) {
+                        if (PublicUtil.isEmpty(objItemList)) {
                             continue;
                         } else {
                             obj = objItemList.get(0);
@@ -310,16 +309,16 @@ public class QueryUtil {
                             logger.info("key:{} exception:{} ", key, e.getMessage());
                             continue;
                         }
-                        if (PreconditionsHelper.isNotEmpty(val) && an != null) {
+                        if (PublicUtil.isNotEmpty(val) && an != null) {
                             if (Reflections.checkClassIsBase(val.getClass().getName())) {
                                 argList.add(key);
                                 paramEntityList.add(Lists.newArrayList(val, Lists.newArrayList(argList)));
                                 argList.remove(key);
                             } else {
-                                if (PreconditionsHelper.isNotEmpty(argList))
-                                    key = PreconditionsHelper.toAppendStr(Collections3.convertToString(argList, "."), ".", key);
+                                if (PublicUtil.isNotEmpty(argList))
+                                    key = PublicUtil.toAppendStr(Collections3.convertToString(argList, "."), ".", key);
                                 list.add(new QueryCondition(key,
-                                        PreconditionsHelper.isNotEmpty(operateMap) && PreconditionsHelper.isNotEmpty(operateMap.get(key))
+                                        PublicUtil.isNotEmpty(operateMap) && PublicUtil.isNotEmpty(operateMap.get(key))
                                                 ? operateMap.get(key) : an.op(),
                                         val, persistentClass));
                             }
@@ -450,3 +449,4 @@ public class QueryUtil {
     }
 
 }
+

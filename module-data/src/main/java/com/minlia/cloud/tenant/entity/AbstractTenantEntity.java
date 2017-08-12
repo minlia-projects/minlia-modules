@@ -1,5 +1,6 @@
 package com.minlia.cloud.tenant.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,7 +23,7 @@ import javax.persistence.Transient;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
 
-//@org.springframework.data.mybatis.annotations.MappedSuperclass
+@org.springframework.data.mybatis.annotations.MappedSuperclass
 public class AbstractTenantEntity extends AbstractLocalizedEntity {
 
     private String tenantId;
@@ -36,8 +37,10 @@ public class AbstractTenantEntity extends AbstractLocalizedEntity {
     }
 
     @Override
+
     @Transient
-//    @org.springframework.data.annotation.Transient
+    @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     public int hashCode() {
         return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
     }
@@ -50,7 +53,8 @@ public class AbstractTenantEntity extends AbstractLocalizedEntity {
      */
     @Override
     @Transient
-//    @org.springframework.data.annotation.Transient
+    @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

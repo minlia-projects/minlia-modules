@@ -15,18 +15,21 @@
  */
 package com.minlia.cloud.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.minlia.cloud.entity.listener.AbstractAuditingEntityListener;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.mybatis.annotations.DynamicSearch;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 //1. 定义实体父类
 @MappedSuperclass
@@ -37,33 +40,37 @@ import javax.persistence.*;
 //@EntityListeners(value = {AbstractAuditingEntityListener.class})
 // 4. 定义Json检测特征
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)@DynamicSearch
 /**
  * 审计父实体
- *
  * 申明USER为审计人
  * @since 1.0.0
  */
-
-//BATIS
-
-//@org.springframework.data.mybatis.annotations.MappedSuperclass
+@org.springframework.data.mybatis.annotations.MappedSuperclass
 public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
     /**
      * ID
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
 //, generator = PersistenceConstants.SEQUENCE_GENERATOR_NAME for oracle
-    @JsonProperty
-    @JsonSerialize(using=ToStringSerializer.class)
 
 
-    //BATIS
-//    @org.springframework.data.mybatis.annotations.Id(strategy = org.springframework.data.mybatis.annotations.Id.GenerationType.AUTO)
-    protected Long id;
+//由父类提供, 不需要了
+//    @JsonProperty
+//    @JsonSerialize(using=ToStringSerializer.class)
+//    @Column(name = "id")
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @SearchField
+//    @JSONField
+//    protected Long id;
 
+
+    @JsonProperty(value = "id")
+    @JSONField(name = "id")
+    public Long getIdAsJson(){
+        return getId();
+    }
     /**
      * 应用系统ID
      */
@@ -74,6 +81,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
      */
     @Column(name = "enabled")
     @JsonIgnore
+    @JSONField(serialize = false,deserialize = true)
     private Boolean enabled = Boolean.TRUE;
 
 
@@ -85,13 +93,13 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
      *
      * @return
      */
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     // @Enumerated(value = EnumType.ORDINAL)
 
@@ -182,10 +190,12 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     }
     @Transient
     @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     private Long createdDateTimestamp;
 
     @Transient
     @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     private Long lastModifiedDateTimestamp;
 
 
@@ -193,6 +203,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
     @Override
     @Transient
+    @JSONField(serialize = false)
     @org.springframework.data.annotation.Transient
     public int hashCode() {
         return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
@@ -207,6 +218,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     @Override
     @Transient
     @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;
@@ -233,6 +245,8 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
      * @return 是否为空
      */
     @Transient
+    @org.springframework.data.annotation.Transient
+    @JSONField(serialize = false)
     public boolean isEmpty() {
         return getId() == null;
     }

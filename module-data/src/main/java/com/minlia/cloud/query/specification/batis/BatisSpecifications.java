@@ -3,32 +3,25 @@ package com.minlia.cloud.query.specification.batis;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.query.QueryOperator;
+import com.minlia.cloud.data.batis.PublicUtil;
+import com.minlia.cloud.data.batis.Reflections;
 import com.minlia.cloud.query.body.SearchRequestBody;
 import com.minlia.cloud.query.specification.batis.body.BatisApiSearchRequestBody;
-import com.minlia.cloud.utils.PreconditionsHelper;
-import com.minlia.cloud.utils.Reflections;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
 @Slf4j
-@Service
-public class BatisSpecifications<PAYLOAD extends SearchRequestBody> {
+public class BatisSpecifications {
 
 
     public static final String MYBITS_SEARCH_PARAMS_MAP = "paramsMap";
     public static final String MYBITS_SEARCH_DSF = "_sqlConditionDsf";
     public static final String MYBITS_SEARCH_CONDITION = "_condition";
-
-
-    public static final String OPERATOR_FIELD_SUFFIX = "QueryOperator";
-
-
 
     public static <T> SpecificationDetail<T> bySearchQueryCondition(final List<QueryCondition> queryConditions) {
         return new SpecificationDetail<T>().andAll(queryConditions);
@@ -54,11 +47,11 @@ public class BatisSpecifications<PAYLOAD extends SearchRequestBody> {
                                                                 QueryCondition... conditions) {
         if (list == null) list = Lists.newArrayList();
 
-        if (PreconditionsHelper.isNotEmpty(queryConditionJson)) {
+        if (PublicUtil.isNotEmpty(queryConditionJson)) {
             try {
                 list.addAll(JSONArray.parseArray(queryConditionJson, QueryCondition.class));
             } catch (Exception e) {
-                log.warn(PreconditionsHelper.toAppendStr("queryCondition[", queryConditionJson,
+                log.warn(PublicUtil.toAppendStr("queryCondition[", queryConditionJson,
                         "] is not json or other error", e.getMessage()));
             }
         }
@@ -72,11 +65,9 @@ public class BatisSpecifications<PAYLOAD extends SearchRequestBody> {
         return buildSpecification(queryConditionJson, list, null, conditions);
     }
 
+    public static final String OPERATOR_FIELD_SUFFIX="Operator";
 
-
-
-
-    public   <T>  SpecificationDetail<T> buildSpecification(BatisApiSearchRequestBody<PAYLOAD> body) {
+    public  static <T>   SpecificationDetail<T> buildSpecification(BatisApiSearchRequestBody body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();
         if (null != body.getPayload()) {
             SearchRequestBody content = body.getPayload();
