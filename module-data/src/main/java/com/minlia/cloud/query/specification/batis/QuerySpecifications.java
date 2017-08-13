@@ -5,8 +5,8 @@ import com.google.common.collect.Lists;
 import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.data.batis.PublicUtil;
 import com.minlia.cloud.data.batis.Reflections;
-import com.minlia.cloud.query.body.SearchRequestBody;
-import com.minlia.cloud.query.specification.batis.body.ApiSearchRequestBody;
+import com.minlia.cloud.query.body.QueryRequestBody;
+import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.collections.CollectionUtils;
@@ -67,10 +67,10 @@ public class QuerySpecifications {
 
     public static final String OPERATOR_FIELD_SUFFIX="Operator";
 
-    public  static <T>   SpecificationDetail<T> buildSpecification(ApiSearchRequestBody body) {
+    public  static <T>   SpecificationDetail<T> buildSpecification(ApiQueryRequestBody body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();
         if (null != body.getPayload()) {
-            SearchRequestBody content = body.getPayload();
+            QueryRequestBody content = body.getPayload();
             List<Field> fields = FieldUtils.getAllFieldsList(content.getClass());
 
             for (Field field : fields) {

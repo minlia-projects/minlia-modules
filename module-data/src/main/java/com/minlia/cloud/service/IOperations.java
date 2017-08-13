@@ -66,13 +66,13 @@ public interface IOperations<ENTITY extends Persistable,PK extends Serializable>
 //     * @param body
 //     * @return
 //     */
-//    public List<ENTITY> findListByBody(ApiSearchRequestBody body);
+//    public List<ENTITY> findListByBody(ApiQueryRequestBody body);
 //    /**
 //     * @param body
 //     * @param pageable
 //     * @return
 //     */
-//    public Page<ENTITY> findPageByBody(ApiSearchRequestBody body, Pageable pageable);
+//    public Page<ENTITY> findPageByBody(ApiQueryRequestBody body, Pageable pageable);
 //
 //
 //

@@ -73,5 +73,5 @@ public interface ApiEndpoint<ENTITY,PK> {
 
 //    public StatefulBody searchPageable(@RequestBody JpaApiSearchRequestBody body , @PageableDefault Pageable pageable);
 
-//    public StatefulBody searchList(@RequestBody ApiSearchRequestBody body);
+//    public StatefulBody searchList(@RequestBody ApiQueryRequestBody body);
 }

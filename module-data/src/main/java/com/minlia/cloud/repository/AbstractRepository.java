@@ -12,7 +12,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.io.Serializable;
 
 @NoRepositoryBean
-public interface AbstractRepository<ENTITY extends Persistable, PK extends Serializable> extends JpaRepository<ENTITY, PK>,QueryDslPredicateExecutor<ENTITY>,JpaSpecificationExecutor<ENTITY> {
+public interface AbstractRepository<ENTITY extends Persistable, PK extends Serializable> extends JpaRepository<ENTITY, PK>,JpaSpecificationExecutor<ENTITY> {//,QueryDslPredicateExecutor<ENTITY>
 
 
 

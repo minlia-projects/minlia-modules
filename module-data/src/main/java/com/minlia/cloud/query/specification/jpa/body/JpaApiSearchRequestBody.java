@@ -3,14 +3,14 @@ package com.minlia.cloud.query.specification.jpa.body;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Body;
-import com.minlia.cloud.query.body.SearchRequestBody;
+import com.minlia.cloud.query.body.QueryRequestBody;
 import com.minlia.cloud.query.specification.jpa.QueryCondition;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
 //@JSONType(ignores = {"data"})
-public class JpaApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements Body {
+public class JpaApiSearchRequestBody<PAYLOAD extends QueryRequestBody> implements Body {
     @JsonIgnore
     private List<QueryCondition> conditions = Lists.newArrayList();
 

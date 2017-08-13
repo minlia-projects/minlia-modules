@@ -2,7 +2,7 @@ package com.minlia.cloud.query.specification.jpa;
 
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.query.QueryOperator;
-import com.minlia.cloud.query.body.SearchRequestBody;
+import com.minlia.cloud.query.body.QueryRequestBody;
 import com.minlia.cloud.query.specification.jpa.body.JpaApiSearchRequestBody;
 import com.minlia.cloud.utils.Reflections;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class JpaSpecifications<PAYLOAD extends SearchRequestBody> {
+public class JpaSpecifications<PAYLOAD extends QueryRequestBody> {
 
     public static final String QUERYOPERATOR_FIELD_SUFFIX = "QueryOperator";
 
@@ -25,7 +25,7 @@ public class JpaSpecifications<PAYLOAD extends SearchRequestBody> {
     public <T> com.minlia.cloud.query.specification.jpa.SpecificationDetail<T> buildSpecification(JpaApiSearchRequestBody<PAYLOAD> body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();
         if (null != body.getPayload()) {
-            SearchRequestBody content = body.getPayload();
+            QueryRequestBody content = body.getPayload();
             List<Field> fields = FieldUtils.getAllFieldsList(content.getClass());
 
             for (Field field : fields) {

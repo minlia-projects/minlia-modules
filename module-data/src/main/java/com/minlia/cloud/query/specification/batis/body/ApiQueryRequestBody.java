@@ -3,14 +3,14 @@ package com.minlia.cloud.query.specification.batis.body;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Body;
-import com.minlia.cloud.query.body.SearchRequestBody;
+import com.minlia.cloud.query.body.QueryRequestBody;
 import com.minlia.cloud.query.specification.batis.QueryCondition;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
 //@JSONType(ignores = {"payload"})
-public class ApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements Body {
+public class ApiQueryRequestBody<PAYLOAD extends QueryRequestBody> implements Body {
     @JsonIgnore
     private List<QueryCondition> conditions = Lists.newArrayList();
 
@@ -25,7 +25,7 @@ public class ApiSearchRequestBody<PAYLOAD extends SearchRequestBody> implements 
         this.payload = payload;
     }
 
-    public ApiSearchRequestBody() {
+    public ApiQueryRequestBody() {
     }
 
 
