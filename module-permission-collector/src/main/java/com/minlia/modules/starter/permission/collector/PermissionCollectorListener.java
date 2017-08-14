@@ -4,6 +4,7 @@ import com.minlia.modules.starter.permission.collector.annotations.Permissions;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -11,6 +12,7 @@ import java.lang.reflect.Method;
 /**
  * Created by qianyi on 2017/8/14.
  */
+@Component
 public class PermissionCollectorListener  implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
