@@ -19,4 +19,14 @@
         <module>module-swagger</module>
         <module>module-data</module>
     </modules>
+
+
+<scm>
+        <url>https://github.com/minlia-projects/minlia-modules</url>
+        <connection>scm:git:git://github.com/minlia-projects/minlia-modules.git</connection>
+        <developerConnection>scm:git:https://github.com/minlia-projects/minlia-modules.git
+        </developerConnection>
+      <tag>HEAD</tag>
+  </scm>
+
 </project>
