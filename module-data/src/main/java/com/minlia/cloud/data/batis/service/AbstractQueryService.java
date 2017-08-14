@@ -56,7 +56,8 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
             specificationDetail.setPersistentClass(persistentClass);
-            ApiPreconditions.checkNotNull(persistentClass, ApiCode.NOT_NULL,"QueryService无正确的参数,请带参数使用");
+            String reason=String.format("%s无正确的参数化类型,请带参数使用. 如: UserQueryService<UserDao,User,Long>",this.getClass().getName());
+            ApiPreconditions.checkNotNull(persistentClass, ApiCode.NOT_NULL,reason);
             String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
                     specificationDetail.getAndQueryConditions(),
                     specificationDetail.getOrQueryConditions(),
