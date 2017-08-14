@@ -9,9 +9,9 @@
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
-    <artifactId>module-permission-collector</artifactId>
+    <artifactId>module-security</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <name>Module Permission Collector</name>
+    <name>Module Security</name>
 
     <dependencies>
         <dependency>
@@ -21,16 +21,15 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-security</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
