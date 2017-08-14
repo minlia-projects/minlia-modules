@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.modules.starter.permission.collector.dao.PermissionDao">
+    <select id="findByCode" resultType="com.minlia.modules.starter.permission.collector.entity.Permission">
+        SELECT  ID as id,
+                code as code,
+               description as description
+        FROM TPL_Permission t
+            where  t.code=#{code}
+              LIMIT 1 ;
+    </select>
+</mapper>
