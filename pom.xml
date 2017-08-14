@@ -4,7 +4,7 @@
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>minlia-modules</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0.RELEASE</version>
     <packaging>pom</packaging>
     <name>Minlia Modules Parent</name>
 
@@ -12,7 +12,7 @@
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
         <version>1.0.0.RELEASE</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <modules>
@@ -26,7 +26,7 @@
         <connection>scm:git:git://github.com/minlia-projects/minlia-modules.git</connection>
         <developerConnection>scm:git:https://github.com/minlia-projects/minlia-modules.git
         </developerConnection>
-      <tag>HEAD</tag>
+      <tag>minlia-modules-1.0.0.RELEASE</tag>
   </scm>
 
 </project>

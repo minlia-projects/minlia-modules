@@ -4,12 +4,12 @@
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
         <artifactId>minlia-modules</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0.RELEASE</version>
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-swagger</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0.RELEASE</version>
     <name>Module Swagger</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
