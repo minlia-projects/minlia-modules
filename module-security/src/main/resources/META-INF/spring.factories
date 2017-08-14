@@ -1,2 +1,2 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-#com.minlia.modules.starter.permission.collector.autoconfiguration.PermissionCollectorAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.minlia.modules.security.ModuleSecurityAutoConfiguration
