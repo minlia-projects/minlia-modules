@@ -1,5 +1,6 @@
 package com.minlia.modules.security.model.token;
 
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.model.Scopes;
 import com.minlia.modules.security.model.UserContext;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -32,12 +34,9 @@ public class JwtTokenFactory {
      * @return
      */
     public AccessJwtToken createAccessJwtToken(UserContext userContext) {
-        if (StringUtils.isBlank(userContext.getUsername())) 
+        if (StringUtils.isBlank(userContext.getUsername())) {
             throw new IllegalArgumentException("Cannot create JWT Token without username");
-
-        if (userContext.getAuthorities() == null || userContext.getAuthorities().isEmpty())
-            throw new IllegalArgumentException("User doesn't have any permissions");
-
+        }
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
 

@@ -1,7 +1,10 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minlia.modules.security.authentication.credential.WithUsernameCredential;
+import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.modules.security.authentication.credential.LoginCredentials;
+import com.minlia.modules.security.authentication.credential.LoginCredential;
+import com.minlia.modules.security.code.SecurityApiCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,16 +50,46 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
             SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken());
         }
 
-        WithUsernameCredential credential = objectMapper.readValue(request.getReader(), WithUsernameCredential.class);
+        LoginCredentials credential = objectMapper.readValue(request.getReader(), LoginCredentials.class);
 
-        if (StringUtils.isBlank(credential.getUsername()) || StringUtils.isBlank(credential.getPassword())) {
-            SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken());
-        }
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credential.getUsername(), credential.getPassword());
+        LoginCredential loginCredential=convertToLoginCredential(credential);
+        preConditions(loginCredential);
 
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginCredential.getLogin(), loginCredential.getPassword());
         return this.getAuthenticationManager().authenticate(token);
     }
+
+
+    private LoginCredential convertToLoginCredential(LoginCredentials credential) {
+        ApiPreconditions.checkNotNull(credential, SecurityApiCode.INVALID_CREDENTIAL);
+
+        if(!StringUtils.isEmpty(credential.getCellphone())){
+            return new LoginCredential(credential.getCellphone(),credential.getPassword());
+        }
+
+        if(!StringUtils.isEmpty(credential.getEmail())){
+            return new LoginCredential(credential.getEmail(),credential.getPassword());
+        }
+
+        if(!StringUtils.isEmpty(credential.getUsername())){
+            return new LoginCredential(credential.getUsername(),credential.getPassword());
+        }
+        return new LoginCredential();
+    }
+
+    /**
+     * 前置校验, 是否只传入了一组登录对象
+     * @param credential
+     */
+    private void preConditions(LoginCredential credential){
+
+        if (StringUtils.isBlank(credential.getLogin()) || StringUtils.isBlank(credential.getPassword())) {
+            SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken());
+        }
+    }
+
+
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,

@@ -3,16 +3,14 @@ package com.minlia.cloud.data.batis.service;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.data.batis.PublicUtil;
-import com.minlia.cloud.query.specification.batis.QuerySpecifications;
 import com.minlia.cloud.query.specification.batis.QueryCondition;
+import com.minlia.cloud.query.specification.batis.QuerySpecifications;
 import com.minlia.cloud.query.specification.batis.QueryUtil;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
 import com.minlia.cloud.utils.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Persistable;
+import org.springframework.data.domain.*;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -66,7 +64,7 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
 
 
             Boolean pageInstance = PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement);
-
+            pageable = constructPageable(pageable);
             if (pageInstance) {
 
                 return repository.findAll(selectStatement, countStatement, pageable, paramsMap);
@@ -85,6 +83,30 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
             Assert.buildException(e.getMessage());
         }
         return null;
+    }
+
+    private Pageable constructPageable(Pageable pageable) {
+        Integer size = 15;
+        Integer page = 0;
+
+        Sort.Direction direction = Sort.Direction.DESC;
+
+        String property = "id";
+
+        if ((pageable.getPageSize() < 1000) || pageable.getPageSize() > 0) {
+            size = pageable.getPageSize();
+        }
+
+        if (pageable.getPageNumber() > -1) {
+            page = pageable.getPageNumber();
+        }
+
+        if (null != pageable.getSort()) {
+            return new PageRequest(page, size, pageable.getSort());
+        }
+
+        return new PageRequest(page, size, direction, property);
+
     }
 
     public Page<ENTITY> findPageQuery(Pageable pageable, List<QueryCondition> authQueryConditions, boolean isBasic) {

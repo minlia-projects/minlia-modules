@@ -88,11 +88,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-//    protected OpenIdAuthenticationProcessingFilter buildOpenIdAuthenticationProcessingFilter() throws Exception {
-//        OpenIdAuthenticationProcessingFilter filter = new OpenIdAuthenticationProcessingFilter(WECHAT_OPENID_LOGIN_ENTRY_POINT, successHandler, failureHandler, objectMapper);
-//        filter.setAuthenticationManager(this.authenticationManager);
-//        return filter;
-//    }
 
     @Bean
     @Override
@@ -103,7 +98,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(ajaxAuthenticationProvider);
-//        auth.authenticationProvider(openIdAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
 

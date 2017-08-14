@@ -21,34 +21,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * Minlia Data Auto Configuration
  */
-
 @EnableTransactionManagement
 public class CloudDataJpaAutoConfiguration {
-
-//    @Bean
-//    public MybatisPageableInterceptor mybatisPageableInterceptor(){
-//        MybatisPageableInterceptor mybatisPageableInterceptor= new MybatisPageableInterceptor();
-//        mybatisPageableInterceptor.setDialect(new MySql5Dialect());
-//        return mybatisPageableInterceptor;
-//    }
-//    @Bean
-//    @Lazy
-//    public MapperLoader mapperLoader(){
-//        MapperLoader mapperLoader= new MapperLoader();
-//        return mapperLoader;
-//    }
-
-//    @Bean
-//    public PaginationStatementInterceptor paginationStatementInterceptor(){
-//        return new PaginationStatementInterceptor();
-//    }
 
     /**
      * JPA Configuration
      */
     @EntityScan(basePackages = {".**.domain", ".**.model"})
     @EnableJpaRepositories(value = {".**.repository"}, considerNestedRepositories = true, transactionManagerRef = "jpaTransactionManager")
-//    @EnableJpaAuditing(auditorAwareRef = "auditorAware")
     @Configuration
     @ConditionalOnClass(CloudDataJpaAutoConfiguration.class)
     public static class EnableMinliaCloudJpaRepository {

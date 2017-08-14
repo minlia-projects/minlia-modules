@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.minlia.cloud.tenant.entity.AbstractTenantEntity;
+import org.springframework.data.mybatis.annotations.DynamicSearch;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -15,7 +16,7 @@ import javax.persistence.Transient;
 //JPA
 @MappedSuperclass
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)@DynamicSearch
 
 
 //Batis
