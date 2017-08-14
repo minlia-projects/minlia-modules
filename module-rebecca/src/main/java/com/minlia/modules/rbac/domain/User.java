@@ -52,7 +52,6 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
      */
     private String password;
     @SearchField
-    @Column(name = "first_name")
     private String firstName;
     @SearchField
     private String lastName;
