@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>0.0.18.RELEASE</version>
+        <version>1.0.0.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -33,19 +33,19 @@
     <build>
         <plugins>
             <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<addResources>true</addResources>-->
-                    <!--<mainClass>com.microsoft.crm.v1.Application</mainClass>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>repackage</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<addResources>true</addResources>-->
+            <!--<mainClass>com.microsoft.crm.v1.Application</mainClass>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<goals>-->
+            <!--<goal>repackage</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -199,14 +199,14 @@
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-swagger</artifactId>
-            <version>0.0.17-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
 
         <dependency>
             <groupId>com.minlia.cloud.thirdparty</groupId>
             <artifactId>spring-data-batis-starter</artifactId>
-            <version>0.0.17-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
 

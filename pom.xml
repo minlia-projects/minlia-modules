@@ -12,14 +12,12 @@
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>0.0.18.RELEASE</version>
+        <version>1.0.0.RELEASE</version>
         <relativePath/>
     </parent>
 
-
     <modules>
-    <module>module-swagger</module>
-    <module>module-data</module>
-
+        <module>module-swagger</module>
+        <module>module-data</module>
     </modules>
 </project>
