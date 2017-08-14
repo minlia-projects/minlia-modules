@@ -5,20 +5,18 @@
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.0.RELEASE</version>
+        <version>0.0.18.RELEASE</version>
         <relativePath/>
     </parent>
 
-
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-swagger</artifactId>
-    <version>1.0.13.RELEASE</version>
+    <version>0.0.17-SNAPSHOT</version>
     <name>Module Swagger</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <swagger.version>2.5.0</swagger.version>
-        <!--<io.springfox.swagger2.version>2.7.0-SNAPSHOT</io.springfox.swagger2.version>-->
         <lombok.version>1.16.12</lombok.version>
 
         <springdata.commons.version>1.13.6.RELEASE</springdata.commons.version>
@@ -122,12 +120,12 @@
 
 
             <!--<plugin>-->
-                <!--<groupId>com.mysema.maven</groupId>-->
-                <!--<artifactId>apt-maven-plugin</artifactId>-->
+            <!--<groupId>com.mysema.maven</groupId>-->
+            <!--<artifactId>apt-maven-plugin</artifactId>-->
             <!--</plugin>-->
             <!--<plugin>-->
-                <!--<groupId>org.bsc.maven</groupId>-->
-                <!--<artifactId>maven-processor-plugin</artifactId>-->
+            <!--<groupId>org.bsc.maven</groupId>-->
+            <!--<artifactId>maven-processor-plugin</artifactId>-->
             <!--</plugin>-->
             <plugin>
                 <groupId>org.projectlombok</groupId>

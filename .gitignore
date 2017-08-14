@@ -4,6 +4,10 @@
 /src/main/webapp/dist
 .settings/
 
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
 ######################
 # Node
 ######################

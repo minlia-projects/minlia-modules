@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-data</artifactId>
-    <version>1.0.13.RELEASE</version>
+    <version>0.0.17-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Module Data</name>
 
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.0.RELEASE</version>
+        <version>0.0.18.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
 
 
@@ -199,14 +199,14 @@
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-swagger</artifactId>
-            <version>1.0.13.RELEASE</version>
+            <version>0.0.17-SNAPSHOT</version>
         </dependency>
 
 
         <dependency>
             <groupId>com.minlia.cloud.thirdparty</groupId>
             <artifactId>spring-data-batis-starter</artifactId>
-            <version>1.0.13.RELEASE</version>
+            <version>0.0.17-SNAPSHOT</version>
         </dependency>
 
 
