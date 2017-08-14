@@ -195,17 +195,17 @@
         <!--</dependency>-->
 
 
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-swagger</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.minlia.cloud.modules</groupId>-->
+            <!--<artifactId>module-swagger</artifactId>-->
+            <!--<version>${project.version}</version>-->
+        <!--</dependency>-->
 
 
         <dependency>
             <groupId>com.minlia.cloud.thirdparty</groupId>
             <artifactId>spring-data-batis-starter</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0.RELEASE</version>
         </dependency>
 
 
