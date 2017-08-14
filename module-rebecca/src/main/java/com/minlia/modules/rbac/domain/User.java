@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.cloud.annotation.SearchField;
 import com.minlia.cloud.entity.AbstractEntity;
 import com.minlia.modules.security.authentication.credential.*;
 import lombok.Builder;
@@ -23,33 +24,39 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
      * 用户名
      */
     @Column(unique = true)
+    @SearchField
     private String username;
 
     /**
      * 手机号码
      */
     @Column(unique = true)
+    @SearchField
     private String cellphone;
 
     /**
      * 邮箱
      */
     @Column(unique = true)
+    @SearchField
     private String email;
 
     /**
      * Global User Identity
      */
+    @SearchField
     private String guid;
 
     /**
      * 密码
      */
     private String password;
-
+    @SearchField
+    @Column(name = "first_name")
     private String firstName;
+    @SearchField
     private String lastName;
-
+    @SearchField
     private String fullName;
 
     private String nickName;

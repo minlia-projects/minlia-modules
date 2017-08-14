@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.cloud.entity.AbstractLocalizedEntity;
 import com.minlia.cloud.tenant.listener.AbstractTenantEntityListener;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mybatis.annotations.DynamicSearch;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -21,7 +22,7 @@ import javax.persistence.Transient;
 @EntityListeners(AbstractTenantEntityListener.class)
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)@DynamicSearch
 
 @org.springframework.data.mybatis.annotations.MappedSuperclass
 public class AbstractTenantEntity extends AbstractLocalizedEntity {

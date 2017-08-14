@@ -1,12 +1,14 @@
 package com.minlia.cloud.data.batis.service;
 
 import com.google.common.collect.Maps;
+import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.data.batis.PublicUtil;
 import com.minlia.cloud.query.specification.batis.QueryCondition;
 import com.minlia.cloud.query.specification.batis.QuerySpecifications;
 import com.minlia.cloud.query.specification.batis.QueryUtil;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.cloud.utils.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,7 @@ public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
             specificationDetail.setPersistentClass(persistentClass);
+            ApiPreconditions.checkNotNull(persistentClass, ApiCode.NOT_NULL,"QueryService无正确的参数,请带参数使用");
             String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
                     specificationDetail.getAndQueryConditions(),
                     specificationDetail.getOrQueryConditions(),

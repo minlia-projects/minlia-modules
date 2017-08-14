@@ -20,16 +20,16 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.minlia.cloud.annotation.SearchField;
 import com.minlia.cloud.entity.listener.AbstractAuditingEntityListener;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mybatis.annotations.DynamicSearch;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 //1. 定义实体父类
 @MappedSuperclass
@@ -56,14 +56,17 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 
 
 //由父类提供, 不需要了
-//    @JsonProperty
-//    @JsonSerialize(using=ToStringSerializer.class)
-//    @Column(name = "id")
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @SearchField
-//    @JSONField
-//    protected Long id;
+//由于在搜索时找不到 显示为 where null !=1 and null like'%x%' order by `user`.id DESC limit 10 offset 0
+//需要在字段处定义Column(name="id")
+
+    @JsonProperty
+    @JsonSerialize(using=ToStringSerializer.class)
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SearchField
+    @JSONField
+    protected Long id;
 
 
     @JsonProperty(value = "id")
