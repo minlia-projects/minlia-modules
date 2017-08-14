@@ -8,9 +8,9 @@
     <name>Module Data</name>
 
     <parent>
-        <groupId>com.minlia.cloud</groupId>
-        <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.0.RELEASE</version>
+        <groupId>com.minlia.cloud.modules</groupId>
+        <artifactId>minlia-modules</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
