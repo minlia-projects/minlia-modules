@@ -77,7 +77,7 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
 
@@ -204,7 +204,7 @@
         <dependency>
             <groupId>com.minlia.cloud.thirdparty</groupId>
             <artifactId>spring-data-batis-starter</artifactId>
-            <version>1.0.1.RELEASE</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
 

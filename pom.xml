@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.1.RELEASE</version>
+        <version>1.0.1-SNAPSHOT</version>
         <relativePath />
     </parent>
 
