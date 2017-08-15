@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by will on 8/2/17.
  */
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/user")
 @Slf4j
 @Api(tags = "用户1", value = "用户1", description = "用户1")
 public class UserEndpoint {
