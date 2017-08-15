@@ -62,7 +62,7 @@ public class UserEndpoint {
 //                QueryCondition.ne(Person.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"),
                 QueryCondition.ne("id", 1l));
 //        spec.orAll(orQueryConditions);
-        spec.setOrders(Lists.newArrayList(new Order("id", Order.Direction.desc)));
+        spec.setOrders(Lists.newArrayList(new Order("id", Order.Direction.asc)));
 
 
 //        userDao.findByOverrridingMethod();
