@@ -211,7 +211,7 @@
 ////    public PageModel<T> findBasePage(PageModel<T> pm, SpecificationDetail<T> specificationDetail, Boolean isBasic, String selectStatement, String countStatement) {
 ////        try {
 ////            Map<String, Object> paramsMap = Maps.newHashMap();
-////            specificationDetail.setPersistentClass(persistentClass);
+////            specificationDetail.setPersistentClass(clazz);
 ////            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
 ////                    specificationDetail.getAndQueryConditions(),
 ////                    specificationDetail.getOrQueryConditions(),

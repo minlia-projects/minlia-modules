@@ -23,7 +23,12 @@ import java.util.Set;
 public interface UserDao extends BatisDao<User, Long>,UserDaoCustom  {
 
     //    @Query(basic = true, operation = Query.Operation.select_one)
+
+
+
     public User findOneByUsernameOrEmailOrCellphone(String username, String email, String cellphone);
+    public User findOneByUsernameOrEmailOrCellphone();
+
 
     @Transactional(readOnly = true)
     @Query(value = "findUseMapper444")

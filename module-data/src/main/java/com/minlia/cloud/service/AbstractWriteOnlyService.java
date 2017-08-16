@@ -1,36 +1,34 @@
 package com.minlia.cloud.service;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.dao.BatisDao;
-import com.minlia.cloud.data.batis.PublicUtil;
-import com.minlia.cloud.query.body.QueryRequestBody;
-import com.minlia.cloud.query.specification.batis.QueryCondition;
-import com.minlia.cloud.query.specification.batis.QuerySpecifications;
-import com.minlia.cloud.query.specification.batis.QueryUtil;
-import com.minlia.cloud.query.specification.batis.SpecificationDetail;
-import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
-import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.cloud.utils.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Persistable;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Created by henry on 16/08/2017.
  */
 @Slf4j
-public class IWriteOnlyOperationsImpl<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements IWriteOnlyOperations<ENTITY, PK> {
+public abstract class AbstractWriteOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements WriteOnlyService<DAO,ENTITY, PK> {
 
-    public Class<ENTITY> persistentClass;
+    public Class<ENTITY> clazz;
 
     @Autowired
     protected DAO dao;
+
+    public AbstractWriteOnlyService() {
+        Class<?> c = getClass();
+        Type type = c.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+            clazz = (Class<ENTITY>) parameterizedType[2];
+        }
+    }
+
 
     @Override
     public ENTITY save(ENTITY entity) {

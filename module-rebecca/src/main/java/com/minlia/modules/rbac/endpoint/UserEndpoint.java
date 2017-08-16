@@ -68,17 +68,15 @@ public class UserEndpoint {
 //        userDao.findByOverrridingMethod();
 
 
-
-
 //        List<User> userFound=userDao.findUseMapper("%x%");
 
-        User user=new User();
-        String name= RandomStringUtils.randomAlphabetic(4);
-        String lastname= RandomStringUtils.randomAlphabetic(4);
+        User user = new User();
+        String name = RandomStringUtils.randomAlphabetic(4);
+        String lastname = RandomStringUtils.randomAlphabetic(4);
 
         user.setFirstName(name);
         user.setLastName(lastname);
-        user.setEmail(name+"@qq.com");
+        user.setEmail(name + "@qq.com");
         user.setUsername(name);
         user.setPassword(bCryptPasswordEncoder.encode("admin"));
 
@@ -92,15 +90,14 @@ public class UserEndpoint {
 //        user.setTime(new Date());
 
 
-
         userDao.insert(user);
 
-         user=new User();
-         name= RandomStringUtils.randomAlphabetic(4);
-         lastname= RandomStringUtils.randomAlphabetic(4);
+        user = new User();
+        name = RandomStringUtils.randomAlphabetic(4);
+        lastname = RandomStringUtils.randomAlphabetic(4);
         user.setFirstName(name);
         user.setLastName(lastname);
-        user.setEmail(name+"@qq.com");
+        user.setEmail(name + "@qq.com");
         user.setUsername(name);
         user.setPassword(bCryptPasswordEncoder.encode("admin"));
 
@@ -117,14 +114,14 @@ public class UserEndpoint {
 //      User us=  userRepository.findOne(2l);
 //        log.debug("userRepository.findOne {}",us);
 
-        User user1 =userDao.findOne(1l);
+        User user1 = userDao.findOne(1l);
 
-        log.debug("userRepository.findOne {}",user1);
+        log.debug("userRepository.findOne {}", user1);
 
 //        List<User> users = userRepository.findAll();
 
 
-        Page<User> found =  userQueryService.findBasePage(pageable,spec,true);
+        Page<User> found = userQueryService.findAll(true, spec, pageable);
         return SuccessResponseBody.builder().payload(found).build();
     }
 

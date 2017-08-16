@@ -14,22 +14,7 @@
 
 
     <select id="findUseMapper22" resultType="com.minlia.modules.rbac.domain.User" lang="XML">
-        SELECT
-        *
-        from user as user
-
-        where 1=1
-
-        and user.first_name like #{p0}
-
-        <if test="_sorts != null">
-            <bind name="_columnsMap"
-                  value='#{"id":"`user`.id", "accountExpired":"`user`.account_expired","appId":"`user`.app_id","cellphone":"`user`.cellphone","credentialsExpired":"`user`.credentials_expired","createdBy":"`user`.created_by","email":"`user`.email","expired":"`user`.expired","enabled":"`user`.enabled","firstName":"`user`.first_name","fullName":"`user`.full_name","guid":"`user`.guid","lastName":"`user`.last_name","locked":"`user`.locked","locale":"`user`.locale","lastModifiedBy":"`user`.last_modified_by","nickName":"`user`.nick_name","password":"`user`.password","tenantId":"`user`.tenant_id","username":"`user`.username"}'/>
-            order by
-            <foreach item="item" index="idx" collection="_sorts" open="" separator="," close=""><if
-                    test="item.ignoreCase">lower(</if>${_columnsMap[item.property]}<if test="item.ignoreCase">)</if> ${item.direction}
-            </foreach>
-        </if>
+        SELECT * from user as user where  user.first_name like #{p0}
         <include refid="LIMIT" />
     </select>
 

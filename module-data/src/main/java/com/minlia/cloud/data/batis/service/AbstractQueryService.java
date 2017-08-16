@@ -34,14 +34,14 @@
 //public class AbstractQueryService<REPOSITORY extends BatisDao<ENTITY, PK>,
 //        ENTITY extends Persistable<PK>, PK extends Serializable> implements BatisQueryService<REPOSITORY, ENTITY, PK> {
 //
-//    public Class<ENTITY> persistentClass;
+//    public Class<ENTITY> clazz;
 //
 //    public AbstractQueryService() {
 //        Class<?> c = getClass();
 //        Type type = c.getGenericSuperclass();
 //        if (type instanceof ParameterizedType) {
 //            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
-//            persistentClass = (Class<ENTITY>) parameterizedType[1];
+//            clazz = (Class<ENTITY>) parameterizedType[1];
 //        }
 //    }
 //
@@ -83,9 +83,9 @@
 //    public Page<ENTITY> findBasePage(Pageable pageable, SpecificationDetail<ENTITY> specificationDetail, Boolean isBasicPropertyLimited, String selectStatement, String countStatement) {
 //        try {
 //            Map<String, Object> paramsMap = Maps.newHashMap();
-//            specificationDetail.setPersistentClass(persistentClass);
+//            specificationDetail.setPersistentClass(clazz);
 //            String reason = String.format("%s无正确的参数化类型,请带参数使用. 如: UserQueryService<UserDao,User,Long>", this.getClass().getName());
-//            ApiPreconditions.checkNotNull(persistentClass, ApiCode.NOT_NULL, reason);
+//            ApiPreconditions.checkNotNull(clazz, ApiCode.NOT_NULL, reason);
 //            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
 //                    specificationDetail.getAndQueryConditions(),
 //                    specificationDetail.getOrQueryConditions(),
@@ -135,7 +135,7 @@
 //    public Page<ENTITY> findPageQuery(Pageable pageable, List<QueryCondition> authQueryConditions, Boolean isBasicPropertyLimited) {
 //        QueryCondition queryCondition = new QueryCondition();
 //        SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.buildSpecification("",
-//                persistentClass,
+//                clazz,
 //                queryCondition);
 //        if (PublicUtil.isNotEmpty(authQueryConditions)) {
 //            specificationDetail.orAll(authQueryConditions);
@@ -160,9 +160,9 @@
 //    public List<ENTITY> findAll(SpecificationDetail specificationDetail, Boolean isBasicPropertyLimited) {
 //        try {
 //            Map<String, Object> paramsMap = Maps.newHashMap();
-//            specificationDetail.setPersistentClass(persistentClass);
+//            specificationDetail.setPersistentClass(clazz);
 //            String reason = String.format("%s无正确的参数化类型,请带参数使用. 如: UserQueryService<UserDao,User,Long>", this.getClass().getName());
-//            ApiPreconditions.checkNotNull(persistentClass, ApiCode.NOT_NULL, reason);
+//            ApiPreconditions.checkNotNull(clazz, ApiCode.NOT_NULL, reason);
 //            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
 //                    specificationDetail.getOrQueryConditions(),
 //                    Lists.newArrayList(QuerySpecifications.MYBITS_SEARCH_PARAMS_MAP),
@@ -192,7 +192,7 @@
 //        boolean rs = false;
 //        if (PublicUtil.isNotEmpty(entity)) {
 //            Map<String, Object> paramsMap = Maps.newHashMap();
-//            List<QueryCondition> conditionList = QueryUtil.convertObjectToQueryCondition(entity, maps, persistentClass);
+//            List<QueryCondition> conditionList = QueryUtil.convertObjectToQueryCondition(entity, maps, clazz);
 //            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(conditionList,
 //                    null,
 //                    paramsMap, true, true);
@@ -305,7 +305,7 @@
 //    public List<ENTITY> findAll(SpecificationDetail specificationDetail) {
 //        try {
 //            Map<String, Object> paramsMap = Maps.newHashMap();
-//            specificationDetail.setPersistentClass(persistentClass);
+//            specificationDetail.setPersistentClass(clazz);
 //            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
 //                    specificationDetail.getOrQueryConditions(),
 //                    Lists.newArrayList(QuerySpecifications.MYBITS_SEARCH_PARAMS_MAP),

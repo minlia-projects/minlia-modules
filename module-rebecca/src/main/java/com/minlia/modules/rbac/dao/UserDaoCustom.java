@@ -12,6 +12,6 @@ import org.springframework.data.mybatis.repository.annotation.Query;
 public interface UserDaoCustom {
 
     @Query
-    Page<User> findUseMapper22(Pageable pageable,@Param("name") String name);
+    Page<User> findUseMapper22(Pageable pageable, String... name);
 
 }

@@ -1,6 +1,6 @@
 package com.minlia.cloud.service;
 
-import com.minlia.cloud.query.body.QueryRequestBody;
+import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.query.specification.batis.QueryCondition;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
 import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
@@ -17,7 +17,7 @@ import java.util.List;
  * Created by henry on 16/08/2017.
  */
 @Transactional(readOnly = true)
-public interface IReadOnlyOperations<ENTITY extends Persistable, PK extends Serializable> {
+public interface ReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> {
 
     /**
      * is entity exists
@@ -130,7 +130,7 @@ public interface IReadOnlyOperations<ENTITY extends Persistable, PK extends Seri
      * @param pageable
      * @return
      */
-    public Page<ENTITY> findAll(ApiQueryRequestBody<QueryRequestBody> body, Pageable pageable);
+    public Page<ENTITY> findAll(ApiQueryRequestBody body, Pageable pageable);
 
     /**
      * find all briefly by ApiQueryRequestBody
@@ -139,7 +139,7 @@ public interface IReadOnlyOperations<ENTITY extends Persistable, PK extends Seri
      * @param pageable
      * @return
      */
-    public Page<ENTITY> findAllBriefly(ApiQueryRequestBody<QueryRequestBody> body, Pageable pageable);
+    public Page<ENTITY> findAllBriefly(ApiQueryRequestBody body, Pageable pageable);
 
     /**
      * find all briefly or not by ApiQueryRequestBody
@@ -149,7 +149,7 @@ public interface IReadOnlyOperations<ENTITY extends Persistable, PK extends Seri
      * @param pageable
      * @return
      */
-    public Page<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody<QueryRequestBody> body, Pageable pageable);
+    public Page<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody body, Pageable pageable);
 
     /**
      * find all by QueryCondition list in pages

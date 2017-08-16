@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.data.batis.PublicUtil;
-import com.minlia.cloud.query.body.QueryRequestBody;
 import com.minlia.cloud.query.specification.batis.QueryCondition;
 import com.minlia.cloud.query.specification.batis.QuerySpecifications;
 import com.minlia.cloud.query.specification.batis.QueryUtil;
@@ -12,12 +11,13 @@ import com.minlia.cloud.query.specification.batis.SpecificationDetail;
 import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.cloud.utils.Assert;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +25,22 @@ import java.util.Map;
  * Created by henry on 16/08/2017.
  */
 @Slf4j
-public class IReadOnlyOperationsImpl<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements IReadOnlyOperations<ENTITY, PK> {
+public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements ReadOnlyService<DAO,ENTITY, PK> {
 
-    public Class<ENTITY> persistentClass;
+    public Class<ENTITY> clazz;
 
     @Autowired
     protected DAO dao;
+
+    public AbstractReadOnlyService() {
+        Class<?> c = getClass();
+        Type type = c.getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
+            clazz = (Class<ENTITY>) parameterizedType[2];
+        }
+    }
+
 
     @Override
     public Boolean exists(PK id) {
@@ -92,6 +102,7 @@ public class IReadOnlyOperationsImpl<DAO extends BatisDao<ENTITY, PK>, ENTITY ex
 
     @Override
     public List<ENTITY> findAll(SpecificationDetail<ENTITY> specificationDetail) {
+//        return findAll(specificationDetail);
         return null;
     }
 
@@ -106,19 +117,19 @@ public class IReadOnlyOperationsImpl<DAO extends BatisDao<ENTITY, PK>, ENTITY ex
     }
 
     @Override
-    public Page<ENTITY> findAll(ApiQueryRequestBody<QueryRequestBody> body, Pageable pageable) {
+    public Page<ENTITY> findAll(ApiQueryRequestBody body, Pageable pageable) {
         SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.bySearchQueryCondition(body.getConditions());
         return this.findAll(specificationDetail, pageable);
     }
 
     @Override
-    public Page<ENTITY> findAllBriefly(ApiQueryRequestBody<QueryRequestBody> body, Pageable pageable) {
+    public Page<ENTITY> findAllBriefly(ApiQueryRequestBody body, Pageable pageable) {
         SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.bySearchQueryCondition(body.getConditions());
         return this.findAllBriefly(specificationDetail, pageable);
     }
 
     @Override
-    public Page<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody<QueryRequestBody> body, Pageable pageable) {
+    public Page<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody body, Pageable pageable) {
         return null;
     }
 
@@ -136,10 +147,10 @@ public class IReadOnlyOperationsImpl<DAO extends BatisDao<ENTITY, PK>, ENTITY ex
     public Page<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions, Pageable pageable) {
         QueryCondition queryCondition = new QueryCondition();
         SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.buildSpecification("",
-                persistentClass,
+                clazz,
                 queryCondition);
         if (PublicUtil.isNotEmpty(queryConditions)) {
-            specificationDetail.orAll(queryConditions);
+            specificationDetail.andAll(queryConditions);
         }
         return findAll(isBrief, specificationDetail, pageable);
     }
@@ -172,9 +183,9 @@ public class IReadOnlyOperationsImpl<DAO extends BatisDao<ENTITY, PK>, ENTITY ex
     public Page<ENTITY> findAll(Boolean isBrief, SpecificationDetail<ENTITY> specificationDetail, String selectStatement, String countStatement, Pageable pageable) {
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
-            specificationDetail.setPersistentClass(persistentClass);
+            specificationDetail.setPersistentClass(clazz);
             String reason = String.format("%s无正确的参数化类型,请带参数使用. 如: UserQueryService<UserDao,User,Long>", this.getClass().getName());
-            ApiPreconditions.checkNotNull(persistentClass, ApiCode.NOT_NULL, reason);
+            ApiPreconditions.checkNotNull(clazz, ApiCode.NOT_NULL, reason);
             String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
                     specificationDetail.getAndQueryConditions(),
                     specificationDetail.getOrQueryConditions(),
