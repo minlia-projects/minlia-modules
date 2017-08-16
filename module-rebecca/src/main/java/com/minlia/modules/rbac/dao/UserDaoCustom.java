@@ -1,6 +1,7 @@
 package com.minlia.modules.rbac.dao;
 
 import com.minlia.modules.rbac.domain.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mybatis.repository.annotation.Query;
@@ -11,6 +12,6 @@ import org.springframework.data.mybatis.repository.annotation.Query;
 public interface UserDaoCustom {
 
     @Query
-    Page<User> findUseMapper22(Pageable pageable);
+    Page<User> findUseMapper22(Pageable pageable,@Param("name") String name);
 
 }
