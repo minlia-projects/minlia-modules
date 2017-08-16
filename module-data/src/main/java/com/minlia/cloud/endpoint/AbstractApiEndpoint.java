@@ -3,7 +3,7 @@ package com.minlia.cloud.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.service.IService;
+import com.minlia.cloud.service.IReadWriteOperations;
 import com.minlia.cloud.utils.ApiPreconditions;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ import java.lang.reflect.Type;
  * @param <ENTITY> Your resource class to manage, maybe an entity or DTO class
  */
 @Slf4j
-public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, ENTITY extends Persistable<PK>,PK extends Serializable>  implements
+public abstract class AbstractApiEndpoint<SERVICE extends IReadWriteOperations<ENTITY,PK>, ENTITY extends Persistable<PK>,PK extends Serializable>  implements
         ApiEndpoint<ENTITY,PK> {
 
     @Autowired
@@ -62,14 +62,14 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, E
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //    @RequestMapping( method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody create(@Valid @RequestBody ENTITY resource) {
-        return SuccessResponseBody.builder().payload(service.create(resource)).build();
+        return SuccessResponseBody.builder().payload(service.save(resource)).build();
     }
 
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //    @RequestMapping(value = "{id}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody update(@PathVariable PK id, @Valid @RequestBody ENTITY resource) {
         ApiPreconditions.checkNotNull(id, ApiCode.NOT_FOUND);
-        ENTITY retreivedResource = (ENTITY) service.findOne(id);
+        ENTITY retreivedResource = (ENTITY) service.getOne(id);
         ApiPreconditions.checkNotNull(retreivedResource, ApiCode.NOT_FOUND);
         return SuccessResponseBody.builder().payload(service.update(resource)).build();
     }
@@ -92,7 +92,7 @@ public abstract class AbstractApiEndpoint<SERVICE extends IService<ENTITY,PK>, E
 //    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody findOne(@PathVariable PK id) {
         ApiPreconditions.checkNotNull(id, ApiCode.NOT_FOUND);
-        ENTITY retreivedResource = (ENTITY) service.findOne(id);
+        ENTITY retreivedResource = (ENTITY) service.getOne(id);
         ApiPreconditions.checkNotNull(retreivedResource, ApiCode.NOT_FOUND);
         return SuccessResponseBody.builder().payload(retreivedResource).build();
     }
