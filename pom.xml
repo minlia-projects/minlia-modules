@@ -18,6 +18,8 @@
     <modules>
         <module>module-swagger</module>
         <module>module-data</module>
+        <module>module-security</module>
+        <module>module-rebecca</module>
     </modules>
 
 
