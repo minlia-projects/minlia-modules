@@ -27,7 +27,7 @@ public interface ApiWriteOnlyEndpoint<RESOURCE, PK> extends ApiEndpoint<RESOURCE
      * @return OK http status code if the request has been correctly processed, with the updated resource enclosed in the body
      */
 
-    StatefulBody update(@PathVariable PK id, @Valid @RequestBody RESOURCE resource);
+    StatefulBody update(@Valid @RequestBody RESOURCE resource);
 
     /**
      * Delete a resource by its identifier<br />
