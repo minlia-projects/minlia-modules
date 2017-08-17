@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -181,6 +182,7 @@ public final class Http {
         protected Boolean followRedirects;
         protected HttpUriRequest request;
 
+
         /**
          * Creates a new builder object for the given URL.
          *
@@ -305,6 +307,10 @@ public final class Http {
             this.client = client;
             return this;
         }
+        public HttpRequestBuilder useDefaultHttpClient() {
+            this.client = HttpClientBuilder.create().build();
+            return this;
+        }
 
         /**
          * Adds the given {@linkplain RequestCustomizer request customizer} to
@@ -419,6 +425,16 @@ public final class Http {
             return new FileResponseHandler(target, url).handleResponse(response);
         }
 
+        public <T> T asObject(final Class<? extends T> clz ) throws IOException {
+            if (clz == null) {
+                throw new NullPointerException("ResponseHandler must not be null.");
+            }
+
+            final HttpResponse response = asResponse();
+            ObjectResponseHandler handler=new ObjectResponseHandler(clz);
+           return (T)handler.handleResponse(response);
+        }
+
         /**
          * Executes this request and processes the response using the given
          * response handler.
@@ -435,6 +451,7 @@ public final class Http {
             final HttpResponse response = asResponse();
             return handler.handleResponse(response);
         }
+
 
         /**
          * Executes this request and aborts immediately after execution using
@@ -574,6 +591,8 @@ public final class Http {
         }
 
     }
+
+    
 
     // Request builders
 
