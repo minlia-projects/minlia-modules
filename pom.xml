@@ -16,6 +16,7 @@
     </parent>
 
     <modules>
+        <module>module-http</module>
         <module>module-swagger</module>
         <module>module-data</module>
         <module>module-security</module>
