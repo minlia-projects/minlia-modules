@@ -11,7 +11,5 @@ import java.io.Serializable;
  */
 @NoRepositoryBean
 public interface BatisDao<ENTITY extends Persistable<PK>, PK extends Serializable> extends MybatisRepository<ENTITY, PK> {
-
-    // extends BaseMapper<ENTITY>
-
+    //No any methods here
 }

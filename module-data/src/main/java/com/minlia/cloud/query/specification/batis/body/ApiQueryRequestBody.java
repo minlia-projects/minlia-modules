@@ -9,7 +9,9 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-//@JSONType(ignores = {"payload"})
+/**
+ * @param <PAYLOAD>
+ */
 public class ApiQueryRequestBody<PAYLOAD extends QueryRequestBody> implements Body {
     @JsonIgnore
     private List<QueryCondition> conditions = Lists.newArrayList();
