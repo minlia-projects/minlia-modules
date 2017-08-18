@@ -1,10 +1,10 @@
 package com.minlia.cloud.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.dao.BatisDao;
 import com.minlia.cloud.data.batis.PublicUtil;
-import com.minlia.cloud.query.specification.batis.QueryCondition;
 import com.minlia.cloud.query.specification.batis.QuerySpecifications;
 import com.minlia.cloud.query.specification.batis.QueryUtil;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
@@ -13,7 +13,10 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.cloud.utils.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -25,7 +28,7 @@ import java.util.Map;
  * Created by henry on 16/08/2017.
  */
 @Slf4j
-public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements ReadOnlyService<DAO,ENTITY, PK> {
+public class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements ReadOnlyService<DAO, ENTITY, PK> {
 
     public Class<ENTITY> clazz;
 
@@ -44,7 +47,7 @@ public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, 
 
     @Override
     public Boolean exists(PK id) {
-        ENTITY entity = getOne(id);
+        ENTITY entity = findOne(id);
         if (entity == null) {
             return Boolean.FALSE;
         } else {
@@ -53,7 +56,7 @@ public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, 
     }
 
     @Override
-    public ENTITY getOne(PK id) {
+    public ENTITY findOne(PK id) {
         return dao.findOne(id);
     }
 
@@ -82,39 +85,79 @@ public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, 
         return dao.count();
     }
 
-    @Override
-    public List<ENTITY> findAll(List<QueryCondition> queryConditions) {
-        return this.findAll(Boolean.FALSE, queryConditions);
-    }
-
-    @Override
-    public List<ENTITY> findAllBrief(List<QueryCondition> queryConditions) {
-        return this.findAll(Boolean.TRUE, queryConditions);
-    }
-
-    @Override
-    public List<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions) {
-        SpecificationDetail<ENTITY> specificationDetail = new SpecificationDetail<ENTITY>();
-        specificationDetail.andAll(queryConditions);
-        specificationDetail.orderDesc("id");
-        return this.findAll(isBrief, specificationDetail);
-    }
-
-    @Override
-    public List<ENTITY> findAll(SpecificationDetail<ENTITY> specificationDetail) {
-//        return findAll(specificationDetail);
-        return null;
-    }
 
     @Override
     public List<ENTITY> findAllBriefly(SpecificationDetail<ENTITY> specificationDetail) {
-        return null;
+        return findAll(true, specificationDetail);
+    }
+
+    public List<ENTITY> findAll(SpecificationDetail<ENTITY> specificationDetail) {
+        return findAll(false, specificationDetail);
     }
 
     @Override
-    public List<ENTITY> findAll(Boolean isBrief, SpecificationDetail<ENTITY> specificationDetail) {
-        return null;
+    public List<ENTITY> findAll(ApiQueryRequestBody body) {
+        return this.findAll(false, body);
     }
+
+    @Override
+    public List<ENTITY> findAllBriefly(ApiQueryRequestBody body) {
+        return findAll(true, body);
+    }
+
+    /**
+     * 合并前后端传递过来的Conditions并使用Specification查询
+     *
+     * @param isBrief
+     * @param body
+     * @return
+     */
+    @Override
+    public List<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody body) {
+        SpecificationDetail<ENTITY> spec = QuerySpecifications.buildSpecification(body);
+        return this.findAll(isBrief, spec);
+    }
+
+
+//    @Override
+//    public List<ENTITY> findAll(List<QueryCondition> queryConditions) {
+//        return this.findAll(Boolean.FALSE, queryConditions);
+//    }
+//
+//    @Override
+//    public List<ENTITY> findAllBrief(List<QueryCondition> queryConditions) {
+//        return this.findAll(Boolean.TRUE, queryConditions);
+//    }
+//
+//    @Override
+//    public List<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions) {
+//        SpecificationDetail<ENTITY> specificationDetail = new SpecificationDetail<ENTITY>();
+//        specificationDetail.andAll(queryConditions);
+//        specificationDetail.orderDesc("id");
+//        return this.findAll(isBrief, specificationDetail);
+//    }
+//    @Override
+//    public Page<ENTITY> findAll(List<QueryCondition> queryConditions, Pageable pageable) {
+//        return this.findAll(Boolean.FALSE, queryConditions, pageable);
+//    }
+//
+//    @Override
+//    public Page<ENTITY> findAllBriefly(List<QueryCondition> queryConditions, Pageable pageable) {
+//        return this.findAll(Boolean.TRUE, queryConditions, pageable);
+//    }
+//
+//    @Override
+//    public Page<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions, Pageable pageable) {
+//        QueryCondition queryCondition = new QueryCondition();
+//        SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.buildSpecification("",
+//                clazz,
+//                queryCondition);
+//        if (PublicUtil.isNotEmpty(queryConditions)) {
+//            specificationDetail.andAll(queryConditions);
+//        }
+//        return findAll(isBrief, specificationDetail, pageable);
+//    }
+
 
     @Override
     public Page<ENTITY> findAll(ApiQueryRequestBody body, Pageable pageable) {
@@ -130,29 +173,8 @@ public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, 
 
     @Override
     public Page<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody body, Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<ENTITY> findAll(List<QueryCondition> queryConditions, Pageable pageable) {
-        return this.findAll(Boolean.FALSE, queryConditions, pageable);
-    }
-
-    @Override
-    public Page<ENTITY> findAllBriefly(List<QueryCondition> queryConditions, Pageable pageable) {
-        return this.findAll(Boolean.TRUE, queryConditions, pageable);
-    }
-
-    @Override
-    public Page<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions, Pageable pageable) {
-        QueryCondition queryCondition = new QueryCondition();
-        SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.buildSpecification("",
-                clazz,
-                queryCondition);
-        if (PublicUtil.isNotEmpty(queryConditions)) {
-            specificationDetail.andAll(queryConditions);
-        }
-        return findAll(isBrief, specificationDetail, pageable);
+        SpecificationDetail<ENTITY> specificationDetail = QuerySpecifications.bySearchQueryCondition(body.getConditions());
+        return findAll(isBrief, specificationDetail, null, null, pageable);
     }
 
     @Override
@@ -184,7 +206,7 @@ public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, 
         try {
             Map<String, Object> paramsMap = Maps.newHashMap();
             specificationDetail.setPersistentClass(clazz);
-            String reason = String.format("%s无正确的参数化类型,请带参数使用. 如: UserQueryService<UserDao,User,Long>", this.getClass().getName());
+            String reason = String.format("%s无正确的参数化类型,请带参数使用. 如: UserReadOnlyService<UserDao,User,Long>", this.getClass().getName());
             ApiPreconditions.checkNotNull(clazz, ApiCode.NOT_NULL, reason);
             String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(
                     specificationDetail.getAndQueryConditions(),
@@ -194,7 +216,7 @@ public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, 
             paramsMap.put(QuerySpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
             paramsMap.put(QuerySpecifications.MYBITS_SEARCH_CONDITION, new Object());
             Boolean pageInstance = PublicUtil.isNotEmpty(selectStatement) && PublicUtil.isNotEmpty(countStatement);
-            pageable = constructPageable(pageable);
+            pageable = QuerySpecifications.constructPageable(pageable);
             if (pageInstance) {
                 return dao.findAll(selectStatement, countStatement, pageable, paramsMap);
             } else {
@@ -207,27 +229,29 @@ public abstract class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, 
         return null;
     }
 
-    private Pageable constructPageable(Pageable pageable) {
-        Integer size = 15;
-        Integer page = 0;
-
-        Sort.Direction direction = Sort.Direction.DESC;
-
-        String property = "id";
-
-        if ((pageable.getPageSize() < 1000) || pageable.getPageSize() > 0) {
-            size = pageable.getPageSize();
+    public List<ENTITY> findAll(Boolean isBrief, SpecificationDetail<ENTITY> specificationDetail) {
+        try {
+            Map<String, Object> paramsMap = Maps.newHashMap();
+            specificationDetail.setPersistentClass(clazz);
+            String reason = String.format("%s无正确的参数化类型,请带参数使用. 如: UserReadOnlyService<UserDao,User,Long>", this.getClass().getName());
+            ApiPreconditions.checkNotNull(clazz, ApiCode.NOT_NULL, reason);
+            String sqlConditionDsf = QueryUtil.convertQueryConditionToStr(specificationDetail.getAndQueryConditions(),
+                    specificationDetail.getOrQueryConditions(),
+                    Lists.newArrayList(QuerySpecifications.MYBITS_SEARCH_PARAMS_MAP),
+                    paramsMap, true);
+            paramsMap.put(QuerySpecifications.MYBITS_SEARCH_DSF, sqlConditionDsf);
+            paramsMap.put(QuerySpecifications.MYBITS_SEARCH_CONDITION, new Object());
+            Boolean ordered = PublicUtil.isNotEmpty(specificationDetail.getOrders());
+            if (ordered) {
+                return dao.findAll(isBrief, new Sort(QuerySpecifications.toOrders(specificationDetail.getOrders())), paramsMap);
+            } else {
+                return dao.findAll(isBrief, paramsMap);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            Assert.buildException(e.getMessage());
         }
-
-        if (pageable.getPageNumber() > -1) {
-            page = pageable.getPageNumber();
-        }
-
-        if (null != pageable.getSort()) {
-            return new PageRequest(page, size, pageable.getSort());
-        }
-
-        return new PageRequest(page, size, direction, property);
-
+        return null;
     }
+
 }

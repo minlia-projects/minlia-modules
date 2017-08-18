@@ -1,7 +1,6 @@
 package com.minlia.cloud.service;
 
 import com.minlia.cloud.dao.BatisDao;
-import com.minlia.cloud.query.specification.batis.QueryCondition;
 import com.minlia.cloud.query.specification.batis.SpecificationDetail;
 import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
 import org.springframework.data.domain.Page;
@@ -28,12 +27,12 @@ public interface ReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extend
     Boolean exists(PK id);
 
     /**
-     * get one by id
+     * find one by id
      *
      * @param id
      * @return
      */
-    public ENTITY getOne(final PK id);
+    public ENTITY findOne(final PK id);
 
     /**
      * find all
@@ -74,31 +73,6 @@ public interface ReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extend
     public Long countAll();
 
     /**
-     * find all by QueryCondition list
-     *
-     * @param queryConditions
-     * @return
-     */
-    public List<ENTITY> findAll(List<QueryCondition> queryConditions);
-
-    /**
-     * find all briefly by QueryCondition list
-     *
-     * @param queryConditions
-     * @return
-     */
-    public List<ENTITY> findAllBrief(List<QueryCondition> queryConditions);
-
-    /**
-     * find all briefly or not by QueryCondition list
-     *
-     * @param isBrief
-     * @param queryConditions
-     * @return
-     */
-    public List<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions);
-
-    /**
      * find all by SpecificationDetail
      *
      * @param specificationDetail
@@ -122,6 +96,31 @@ public interface ReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extend
      * @return
      */
     public List<ENTITY> findAll(Boolean isBrief, SpecificationDetail<ENTITY> specificationDetail);
+
+    /**
+     * find all list by ApiQueryRequestBody
+     *
+     * @param body
+     * @return
+     */
+    public List<ENTITY> findAll(ApiQueryRequestBody body);
+
+    /**
+     * find all list briefly by ApiQueryRequestBody
+     *
+     * @param body
+     * @return
+     */
+    public List<ENTITY> findAllBriefly(ApiQueryRequestBody body);
+
+    /**
+     * find all briefly or not by ApiQueryRequestBody
+     *
+     * @param isBrief
+     * @param body
+     * @return
+     */
+    public List<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody body);
 
     /**
      * find all by ApiQueryRequestBody
@@ -150,34 +149,6 @@ public interface ReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extend
      * @return
      */
     public Page<ENTITY> findAll(Boolean isBrief, ApiQueryRequestBody body, Pageable pageable);
-
-    /**
-     * find all by QueryCondition list in pages
-     *
-     * @param queryConditions
-     * @param pageable
-     * @return
-     */
-    public Page<ENTITY> findAll(List<QueryCondition> queryConditions, Pageable pageable);
-
-    /**
-     * find all briefly by QueryCondition list in pages
-     *
-     * @param queryConditions
-     * @param pageable
-     * @return
-     */
-    public Page<ENTITY> findAllBriefly(List<QueryCondition> queryConditions, Pageable pageable);
-
-    /**
-     * find all briefly or not by QueryCondition list in pages
-     *
-     * @param isBrief
-     * @param queryConditions
-     * @param pageable
-     * @return
-     */
-    public Page<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions, Pageable pageable);
 
     /**
      * find all by SpecificationDetail in pages
@@ -240,5 +211,59 @@ public interface ReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extend
      * @return
      */
     public Page<ENTITY> findAll(Boolean isBrief, SpecificationDetail<ENTITY> specificationDetail, String selectStatement, String countStatement, Pageable pageable);
+
+
+//    /**
+//     * find all by QueryCondition list
+//     *
+//     * @param queryConditions
+//     * @return
+//     */
+//    public List<ENTITY> findAll(List<QueryCondition> queryConditions);
+//
+//    /**
+//     * find all briefly by QueryCondition list
+//     *
+//     * @param queryConditions
+//     * @return
+//     */
+//    public List<ENTITY> findAllBrief(List<QueryCondition> queryConditions);
+
+//    /**
+//     * find all briefly or not by QueryCondition list
+//     *
+//     * @param isBrief
+//     * @param queryConditions
+//     * @return
+//     */
+//    public List<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions);
+
+//    /**
+//     * find all by QueryCondition list in pages
+//     *
+//     * @param queryConditions
+//     * @param pageable
+//     * @return
+//     */
+//    public Page<ENTITY> findAll(List<QueryCondition> queryConditions, Pageable pageable);
+//
+//    /**
+//     * find all briefly by QueryCondition list in pages
+//     *
+//     * @param queryConditions
+//     * @param pageable
+//     * @return
+//     */
+//    public Page<ENTITY> findAllBriefly(List<QueryCondition> queryConditions, Pageable pageable);
+//
+//    /**
+//     * find all briefly or not by QueryCondition list in pages
+//     *
+//     * @param isBrief
+//     * @param queryConditions
+//     * @param pageable
+//     * @return
+//     */
+//    public Page<ENTITY> findAll(Boolean isBrief, List<QueryCondition> queryConditions, Pageable pageable);
 
 }

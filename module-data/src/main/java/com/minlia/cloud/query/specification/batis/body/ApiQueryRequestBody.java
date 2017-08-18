@@ -13,6 +13,10 @@ import java.util.List;
  * @param <PAYLOAD>
  */
 public class ApiQueryRequestBody<PAYLOAD extends QueryRequestBody> implements Body {
+
+    /**
+     * 搜索时后台指定的条件集
+     */
     @JsonIgnore
     private List<QueryCondition> conditions = Lists.newArrayList();
 

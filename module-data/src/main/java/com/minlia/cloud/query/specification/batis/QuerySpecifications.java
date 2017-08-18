@@ -2,6 +2,7 @@ package com.minlia.cloud.query.specification.batis;
 
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
+import com.minlia.cloud.body.query.Order;
 import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.data.batis.PublicUtil;
 import com.minlia.cloud.data.batis.Reflections;
@@ -11,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -38,9 +42,11 @@ public class QuerySpecifications {
     public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, QueryCondition... conditions) {
         return buildSpecification(queryConditionJson, null, null, conditions);
     }
+
     public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson, Class<T> persistentClass, QueryCondition... conditions) {
         return buildSpecification(queryConditionJson, null, persistentClass, conditions);
     }
+
     public static <T> SpecificationDetail<T> buildSpecification(String queryConditionJson,
                                                                 List<QueryCondition> list,
                                                                 Class<T> persistentClass,
@@ -65,9 +71,9 @@ public class QuerySpecifications {
         return buildSpecification(queryConditionJson, list, null, conditions);
     }
 
-    public static final String OPERATOR_FIELD_SUFFIX="Operator";
+    public static final String OPERATOR_FIELD_SUFFIX = "Operator";
 
-    public  static <T>   SpecificationDetail<T> buildSpecification(ApiQueryRequestBody body) {
+    public static <T> SpecificationDetail<T> buildSpecification(ApiQueryRequestBody body) {
         List<QueryCondition> payloadCondition = Lists.newArrayList();
         if (null != body.getPayload()) {
             QueryRequestBody content = body.getPayload();
@@ -77,7 +83,6 @@ public class QuerySpecifications {
                 val fieldName = field.getName();
                 if (!fieldName.endsWith(OPERATOR_FIELD_SUFFIX)) {
                     Object value = Reflections.getFieldValue(content, fieldName);
-
                     //根据字段获取相应的操作符, 如为空则默认为 equals
                     Object operatorObject = null;
                     try {
@@ -121,4 +126,50 @@ public class QuerySpecifications {
 
         }
     }
+
+
+    public static Pageable constructPageable(Pageable pageable) {
+        Integer size = 15;
+        Integer page = 0;
+
+        Sort.Direction direction = Sort.Direction.DESC;
+
+        String property = "id";
+
+        if ((pageable.getPageSize() < 1000) || pageable.getPageSize() > 0) {
+            size = pageable.getPageSize();
+        }
+
+        if (pageable.getPageNumber() > -1) {
+            page = pageable.getPageNumber();
+        }
+
+        if (null != pageable.getSort()) {
+            return new PageRequest(page, size, pageable.getSort());
+        }
+
+        return new PageRequest(page, size, direction, property);
+    }
+
+
+    public static List<Sort.Order> toOrders(List<Order> orders) {
+        List<Sort.Order> orderList = Lists.newArrayList();
+        if (PublicUtil.isEmpty(orders)) {
+            return orderList;
+        }
+        for (Order order : orders) {
+            if (order == null) {
+                continue;
+            }
+            String property = order.getProperty();
+            Order.Direction direction = order.getDirection();
+            if (PublicUtil.isEmpty(property) || direction == null) {
+                continue;
+            }
+            orderList.add(new Sort.Order(direction.equals(Order.Direction.asc) ?
+                    Sort.Direction.ASC : Sort.Direction.DESC, property));
+        }
+        return orderList;
+    }
+
 }
