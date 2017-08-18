@@ -1,7 +1,11 @@
 package com.minlia.cloud.service;
 
+import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.dao.BatisDao;
+import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.Reflections;
 import lombok.extern.slf4j.Slf4j;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Persistable;
 
@@ -20,6 +24,8 @@ public abstract class AbstractWriteOnlyService<DAO extends BatisDao<ENTITY, PK>,
     @Autowired
     protected DAO dao;
 
+    @Autowired
+    private Mapper mapper;
     public AbstractWriteOnlyService() {
         Class<?> c = getClass();
         Type type = c.getGenericSuperclass();
@@ -32,18 +38,17 @@ public abstract class AbstractWriteOnlyService<DAO extends BatisDao<ENTITY, PK>,
 
     @Override
     public ENTITY save(ENTITY entity) {
-//        Preconditions.checkNotNull(entity);
-//        eventPublisher.publishEvent(new BeforeEntityCreateEvent<T>(this, clazz, entity));
-//        entity = beforeCreated(entity);
-//        ENTITY persistedEntity = dao.save(entity);
-//        persistedEntity = afterCreated(persistedEntity);
-//        eventPublisher.publishEvent(new AfterEntityCreateEvent<T>(this, clazz, persistedEntity));
         return dao.save(entity);
     }
 
     @Override
     public ENTITY update(ENTITY entity) {
-        return this.save(entity);
+        return dao.updateIgnoreNull(entity);
+    }
+
+    @Override
+    public ENTITY updateIgnoreNull(ENTITY entity) {
+        return dao.updateIgnoreNull(entity);
     }
 
     @Override

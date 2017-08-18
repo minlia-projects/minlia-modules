@@ -61,6 +61,11 @@ public class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY ex
     }
 
     @Override
+    public ENTITY findOneBriefly(PK id) {
+        return dao.findBasicOne(id);
+    }
+
+    @Override
     public List<ENTITY> findAll() {
         return dao.findAll();
     }

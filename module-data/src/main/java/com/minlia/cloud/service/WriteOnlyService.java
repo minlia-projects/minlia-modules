@@ -27,6 +27,7 @@ public interface WriteOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY exten
      * @return
      */
     public ENTITY update(ENTITY entity);
+    public ENTITY updateIgnoreNull(ENTITY entity);
 
     /**
      * delete by id

@@ -33,6 +33,13 @@ public interface ReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extend
      * @return
      */
     public ENTITY findOne(final PK id);
+    /**
+     * find one by id
+     *
+     * @param id
+     * @return
+     */
+    public ENTITY findOneBriefly(final PK id);
 
     /**
      * find all

@@ -68,12 +68,21 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     @JSONField
     protected Long id;
 
-
-    @JsonProperty(value = "id")
-    @JSONField(name = "id")
-    public Long getIdAsJson(){
-        return getId();
+    @Override
+    public Long getId() {
+        return id;
     }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    //    @JsonProperty(value = "id")
+//    @JSONField(name = "id")
+//    public Long getIdAsJson(){
+//        return getId();
+//    }
     /**
      * 应用系统ID
      */
