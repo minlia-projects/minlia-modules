@@ -425,7 +425,8 @@ public final class Http {
             return new FileResponseHandler(target, url).handleResponse(response);
         }
 
-        public <T> T asObject(final Class<? extends T> clz ) throws IOException {
+
+        public <T> T asObject(final Class<?> clz ) throws IOException {
             if (clz == null) {
                 throw new NullPointerException("ResponseHandler must not be null.");
             }

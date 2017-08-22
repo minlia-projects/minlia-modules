@@ -86,7 +86,7 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     /**
      * 应用系统ID
      */
-    private String appId;
+//    private String appId;
 
     /**
      * is enabled

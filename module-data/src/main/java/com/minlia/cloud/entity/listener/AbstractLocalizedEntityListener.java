@@ -10,15 +10,15 @@ import java.util.Locale;
 
 @Slf4j
 public class AbstractLocalizedEntityListener {
-    public AbstractLocalizedEntityListener() {
-    }
-
-    @PrePersist
-    public void AbstractEntityPrePersist(AbstractLocalizedEntity entity){
-        if(StringUtils.isEmpty(entity.getLocale())){
-            Locale locale= LocaleContextHolder.getLocale();
-            entity.setLocale(locale.toString());
-            log.debug("AbstractEntityPrePersist with data locale created {}",entity.getLocale());
-        }
-    }
+//    public AbstractLocalizedEntityListener() {
+//    }
+//
+//    @PrePersist
+//    public void AbstractEntityPrePersist(AbstractLocalizedEntity entity){
+//        if(StringUtils.isEmpty(entity.getLocale())){
+//            Locale locale= LocaleContextHolder.getLocale();
+//            entity.setLocale(locale.toString());
+//            log.debug("AbstractEntityPrePersist with data locale created {}",entity.getLocale());
+//        }
+//    }
 }

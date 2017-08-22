@@ -209,7 +209,7 @@
                 success: function(response){
                     $("#codeContent").val('Bearer '+response.token);
                     $('#openSwagger').on('click',function(){
-                        var swaggerUiUrl="/swagger-ui.html?api_key="+$("#codeContent").val();
+                        var swaggerUiUrl="/swagger-ui.html";
                         window.open(swaggerUiUrl,"_blank");
                     });
                 },

@@ -27,53 +27,53 @@ import javax.persistence.Transient;
 @org.springframework.data.mybatis.annotations.MappedSuperclass
 public class AbstractTenantEntity extends AbstractLocalizedEntity {
 
-    private String tenantId;
-
-    public String getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(String tenantId) {
-        this.tenantId = tenantId;
-    }
-
-    @Override
-
-    @Transient
-    @org.springframework.data.annotation.Transient
-    @JSONField(serialize = false)
-    public int hashCode() {
-        return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
-    }
-
-    /**
-     * 判断是否相等
-     *
-     * @param obj 对象
-     * @return 是否相等
-     */
-    @Override
-    @Transient
-    @org.springframework.data.annotation.Transient
-    @JSONField(serialize = false)
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (isEmpty() || obj == null || !getClass().isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        AbstractTenantEntity entity = (AbstractTenantEntity) obj;
-        if (entity.isEmpty()) {
-            return false;
-        }
-        return getId().equals(entity.getId());
-    }
-
-
-    public String toString() {
-        return "AbstractTenantEntity (id=" + this.getId() + ")";
-    }
+//    private String tenantId;
+//
+//    public String getTenantId() {
+//        return tenantId;
+//    }
+//
+//    public void setTenantId(String tenantId) {
+//        this.tenantId = tenantId;
+//    }
+//
+//    @Override
+//
+//    @Transient
+//    @org.springframework.data.annotation.Transient
+//    @JSONField(serialize = false)
+//    public int hashCode() {
+//        return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
+//    }
+//
+//    /**
+//     * 判断是否相等
+//     *
+//     * @param obj 对象
+//     * @return 是否相等
+//     */
+//    @Override
+//    @Transient
+//    @org.springframework.data.annotation.Transient
+//    @JSONField(serialize = false)
+//    public boolean equals(Object obj) {
+//        if (obj == this) {
+//            return true;
+//        }
+//        if (isEmpty() || obj == null || !getClass().isAssignableFrom(obj.getClass())) {
+//            return false;
+//        }
+//        AbstractTenantEntity entity = (AbstractTenantEntity) obj;
+//        if (entity.isEmpty()) {
+//            return false;
+//        }
+//        return getId().equals(entity.getId());
+//    }
+//
+//
+//    public String toString() {
+//        return "AbstractTenantEntity (id=" + this.getId() + ")";
+//    }
 
 
 }

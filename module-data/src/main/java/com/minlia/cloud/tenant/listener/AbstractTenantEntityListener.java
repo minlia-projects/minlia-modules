@@ -10,20 +10,20 @@ import javax.persistence.PrePersist;
 
 @Slf4j
 public class AbstractTenantEntityListener {
-    public AbstractTenantEntityListener() {
-    }
-
-    @PrePersist
-    public void abstractTenantEntityPrePersist(AbstractTenantEntity entity) {
-            if (StringUtils.isEmpty(entity.getTenantId())) {
-                TenantContext context = TenantContextHolder.getContext();
-                if(null!=context) {
-                    if(null!=context.getTenant()) {
-                        entity.setTenantId(context.getTenant().getTenantId());
-                    }
-                }
-                log.debug("abstractTenantEntityPrePersist with data tenantId created {}", entity.getTenantId());
-            }
-
-    }
+//    public AbstractTenantEntityListener() {
+//    }
+//
+//    @PrePersist
+//    public void abstractTenantEntityPrePersist(AbstractTenantEntity entity) {
+//            if (StringUtils.isEmpty(entity.getTenantId())) {
+//                TenantContext context = TenantContextHolder.getContext();
+//                if(null!=context) {
+//                    if(null!=context.getTenant()) {
+//                        entity.setTenantId(context.getTenant().getTenantId());
+//                    }
+//                }
+//                log.debug("abstractTenantEntityPrePersist with data tenantId created {}", entity.getTenantId());
+//            }
+//
+//    }
 }

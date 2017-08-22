@@ -15,7 +15,7 @@
  */
 package com.minlia.cloud.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+//import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -61,52 +61,52 @@ import javax.persistence.Transient;
 @org.springframework.data.mybatis.annotations.MappedSuperclass
 public abstract class AbstractLocalizedEntity extends AbstractAuditingEntity {
 
-    @JsonIgnore
-    private String locale;
-
-    public String getLocale() {
-        return locale;
-    }
-
-    public void setLocale(String locale) {
-        this.locale = locale;
-    }
-
-    @Override
-    @Transient
-    @org.springframework.data.annotation.Transient
-    @JSONField(serialize = false)
-    public int hashCode() {
-        return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
-    }
-
-    /**
-     * 判断是否相等
-     *
-     * @param obj 对象
-     * @return 是否相等
-     */
-    @Override
-    @Transient
-    @org.springframework.data.annotation.Transient
-    @JSONField(serialize = false)
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (isEmpty() || obj == null || !getClass().isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        AbstractLocalizedEntity entity = (AbstractLocalizedEntity) obj;
-        if (entity.isEmpty()) {
-            return false;
-        }
-        return getId().equals(entity.getId());
-    }
-
-
-    public String toString() {
-        return "AbstractLocalizedEntity (id=" + this.getId() + ")";
-    }
+//    @JsonIgnore
+//    private String locale;
+//
+//    public String getLocale() {
+//        return locale;
+//    }
+//
+//    public void setLocale(String locale) {
+//        this.locale = locale;
+//    }
+//
+//    @Override
+//    @Transient
+//    @org.springframework.data.annotation.Transient
+//    @JSONField(serialize = false)
+//    public int hashCode() {
+//        return 17 + (isEmpty() ? 0 : getId().hashCode() * 31);
+//    }
+//
+//    /**
+//     * 判断是否相等
+//     *
+//     * @param obj 对象
+//     * @return 是否相等
+//     */
+//    @Override
+//    @Transient
+//    @org.springframework.data.annotation.Transient
+//    @JSONField(serialize = false)
+//    public boolean equals(Object obj) {
+//        if (obj == this) {
+//            return true;
+//        }
+//        if (isEmpty() || obj == null || !getClass().isAssignableFrom(obj.getClass())) {
+//            return false;
+//        }
+//        AbstractLocalizedEntity entity = (AbstractLocalizedEntity) obj;
+//        if (entity.isEmpty()) {
+//            return false;
+//        }
+//        return getId().equals(entity.getId());
+//    }
+//
+//
+//    public String toString() {
+//        return "AbstractLocalizedEntity (id=" + this.getId() + ")";
+//    }
 
 }
