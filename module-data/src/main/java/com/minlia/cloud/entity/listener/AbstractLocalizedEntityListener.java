@@ -16,9 +16,9 @@ public class AbstractLocalizedEntityListener {
 //    @PrePersist
 //    public void AbstractEntityPrePersist(AbstractLocalizedEntity entity){
 //        if(StringUtils.isEmpty(entity.getLocale())){
-//            Locale locale= LocaleContextHolder.getLocale();
-//            entity.setLocale(locale.toString());
-//            log.debug("AbstractEntityPrePersist with data locale created {}",entity.getLocale());
+//            Locale i18n= LocaleContextHolder.getLocale();
+//            entity.setLocale(i18n.toString());
+//            log.debug("AbstractEntityPrePersist with data i18n created {}",entity.getLocale());
 //        }
 //    }
 }

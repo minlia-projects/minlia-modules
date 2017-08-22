@@ -19,6 +19,7 @@
         <module>module-http</module>
         <module>module-swagger</module>
         <module>module-data</module>
+        <module>module-i18n</module>
         <module>module-nestedset</module>
         <module>module-security</module>
         <!--<module>module-registry</module>-->

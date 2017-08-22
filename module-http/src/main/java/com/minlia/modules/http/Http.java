@@ -307,6 +307,7 @@ public final class Http {
             this.client = client;
             return this;
         }
+
         public HttpRequestBuilder useDefaultHttpClient() {
             this.client = HttpClientBuilder.create().build();
             return this;
@@ -426,15 +427,15 @@ public final class Http {
         }
 
 
-        public <T> T asObject(final Class<?> clz ) throws IOException {
-            if (clz == null) {
-                throw new NullPointerException("ResponseHandler must not be null.");
-            }
-
-            final HttpResponse response = asResponse();
-            ObjectResponseHandler handler=new ObjectResponseHandler(clz);
-           return (T)handler.handleResponse(response);
-        }
+//        public <T> T asObject(final Class<?> clz ) throws IOException {
+//            if (clz == null) {
+//                throw new NullPointerException("ResponseHandler must not be null.");
+//            }
+//
+//            final HttpResponse response = asResponse();
+//            ObjectResponseHandler handler=new ObjectResponseHandler(clz);
+//           return (T)handler.handleResponse(response);
+//        }
 
         /**
          * Executes this request and processes the response using the given
@@ -593,7 +594,6 @@ public final class Http {
 
     }
 
-    
 
     // Request builders
 

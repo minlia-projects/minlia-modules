@@ -45,11 +45,11 @@ import javax.persistence.Transient;
  * 由JPA提供查询append的功能, 动态插入当前locale到当前SQL中
  * <p>
  * 存入时由prePersist提供能力
- * 查询时自动封装 where locale ='en_US'的能力
+ * 查询时自动封装 where i18n ='en_US'的能力
  *
  * @since 1.0.0
  */
-@JsonPropertyOrder({"locale"})
+@JsonPropertyOrder({"i18n"})
 @MappedSuperclass
 @Slf4j
 @EntityListeners(AbstractLocalizedEntityListener.class)
@@ -62,14 +62,14 @@ import javax.persistence.Transient;
 public abstract class AbstractLocalizedEntity extends AbstractAuditingEntity {
 
 //    @JsonIgnore
-//    private String locale;
+//    private String i18n;
 //
 //    public String getLocale() {
-//        return locale;
+//        return i18n;
 //    }
 //
-//    public void setLocale(String locale) {
-//        this.locale = locale;
+//    public void setLocale(String i18n) {
+//        this.i18n = i18n;
 //    }
 //
 //    @Override
