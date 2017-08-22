@@ -13,7 +13,7 @@ public class HttpApiCode extends ApiCode {
         throw new AssertionError();
     }
 
-    public static final Integer HTTP_REQUEST_ERROR = CARDINAL + 20001;
+    public static final Integer HTTP_REQUEST_ERROR = BASED_ON + 20001;
 
 
 }

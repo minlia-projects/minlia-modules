@@ -14,7 +14,7 @@ public class SecurityApiCode extends ApiCode {
     /**
      * 定义安全模块代码基数为11000
      */
-    public static final int SECURITY_MODULE_CODE_BASED = CARDINAL + 1000;
+    public static final int SECURITY_MODULE_CODE_BASED = BASED_ON + 1000;
 
 
     @Localized(values={

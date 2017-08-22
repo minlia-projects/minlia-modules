@@ -15,6 +15,6 @@ public class LanguageApiCode extends ApiCode {
     /**
      * 定义模块代码基数为12000
      */
-    public static final Integer MODULE_CODE_BASED = CARDINAL + 2000;
+    public static final Integer MODULE_CODE_BASED = BASED_ON + 2000;
 
 }
