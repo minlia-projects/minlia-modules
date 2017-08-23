@@ -3,10 +3,19 @@ package com.minlia.module.language.v1.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.minlia.cloud.data.support.constant.PersistenceConstants;
 import com.minlia.cloud.entity.AbstractEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 /**
@@ -19,25 +28,25 @@ import javax.persistence.Entity;
 @JsonIgnoreProperties(value = {})
 // A JPA Annotation to define as a entity
 @Entity
-//// Json sort order
-//@JsonPropertyOrder({})
-//// A JPA annotation to define as data table name, it will convert to camel case (eg. hello_word) when multiple words
-//@Table(name = PersistenceConstants.MODULE_TABLE_PREFIX + "Language"
-//// ,
-//// uniqueConstraints={@UniqueConstraint(columnNames={ })}
-//)
-//// A JPA annotation to define how to generate sequence
-//@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "Language")
-//// A Lombok annotation to generate Getter and Setter on compilation
-//// A Lombok annotation to generate ${className}.Builder inner class as a helper class on compilation
-//@Builder
-//// A Lombok annotation to generate toString method on compilation
-//@ToString(exclude = {"children"})
-//// A Lombok annotation to generate equals hashCode methods on compilation
-//@EqualsAndHashCode(exclude = {"children"})
-//// A Lombok annotation to generate all arguments included constructor on compilation
-//@AllArgsConstructor
-//@NoArgsConstructor
+// Json sort order
+@JsonPropertyOrder({})
+// A JPA annotation to define as data table name, it will convert to camel case (eg. hello_word) when multiple words
+@Table(name = PersistenceConstants.MODULE_TABLE_PREFIX + "Language"
+// ,
+// uniqueConstraints={@UniqueConstraint(columnNames={ })}
+)
+// A JPA annotation to define how to generate sequence
+@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "Language")
+// A Lombok annotation to generate Getter and Setter on compilation
+// A Lombok annotation to generate ${className}.Builder inner class as a helper class on compilation
+@Builder
+// A Lombok annotation to generate toString method on compilation
+@ToString(of = {"id"})
+// A Lombok annotation to generate equals hashCode methods on compilation
+@EqualsAndHashCode(of = {"id"})
+// A Lombok annotation to generate all arguments included constructor on compilation
+@AllArgsConstructor
+@NoArgsConstructor
 // A Minlia Speedup annotation to generation code on compilation
 @ApiModel(value = "国际化语言内容")
 public class Language extends AbstractEntity {
