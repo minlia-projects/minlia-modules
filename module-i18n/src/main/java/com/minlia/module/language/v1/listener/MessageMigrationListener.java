@@ -30,8 +30,8 @@ import org.springframework.stereotype.Component;
 /**
  * 系统启动之后进行语言迁移
  */
-@Component
 @Slf4j
+@Component
 public class MessageMigrationListener implements ApplicationListener<ApplicationReadyEvent>, EnvironmentAware {
 
 

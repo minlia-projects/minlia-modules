@@ -10,5 +10,6 @@ public interface MessageAcceptor {
      * @param messages the messages
      */
     void setMessages(String basename, Messages messages);
+//    void addMessageIfNotExists(String basename,Messages messages);
 
 }

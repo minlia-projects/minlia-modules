@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.cloud.data.support.constant.PersistenceConstants;
 import com.minlia.cloud.entity.AbstractEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -42,6 +44,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 // A Minlia Speedup annotation to generation code on compilation
+@ApiModel(value = "国际化语言内容")
 public class Language extends AbstractEntity {
 
     /**
@@ -50,6 +53,7 @@ public class Language extends AbstractEntity {
      *
      */
     @JsonProperty
+    @ApiModelProperty(value = "语言文件包名. 相等于传统的Messages-zh_CN.properties, 如: Messages, ValidationMessages, ExceptionApiCode",example = "Messages")
     private String basename;
 
     /**
@@ -58,26 +62,32 @@ public class Language extends AbstractEntity {
      * zh_CN
      * en_US
      */
+    @ApiModelProperty(value = "语言",example = "zh")
     @JsonProperty
     private String language;
+    @ApiModelProperty(value = "国家",example = "CN")
     @JsonProperty
     private String country;
+
+    @ApiModelProperty("变量: 本系统不使用, 特定于供应商和浏览器的代码")
     @JsonProperty
     private String variant;
 
     /**
      * 国际化键 如:
      * 错误编码
-     * basename+ exceptions.api.code.1100
+     * exceptions.api.code.1100
      * 作为对象属性时
-     * basename+ com.sun.domain.User.username zh_CN content
+     * com.sun.domain.User.username zh_CN content
      */
+    @ApiModelProperty(value ="国际化键" ,example = "exceptions.api.code.100000")
     @JsonProperty
     private String code;
 
     /**
      * 国际化值
      */
+    @ApiModelProperty(value = "国际化值",example = "未知错误")
     @JsonProperty
     private String message;
 

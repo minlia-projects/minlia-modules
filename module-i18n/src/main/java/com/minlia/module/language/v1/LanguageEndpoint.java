@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.V1+"language")
-@Api(tags = "国际化", description = "国际化")
+@Api(tags = "Language", description = "国际化")
 @Slf4j
 public class LanguageEndpoint {
 

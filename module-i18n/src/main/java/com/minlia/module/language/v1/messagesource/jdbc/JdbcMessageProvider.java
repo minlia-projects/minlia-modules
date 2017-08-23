@@ -27,6 +27,7 @@ public class JdbcMessageProvider implements MessageProvider, MessageAcceptor {
     protected static final String QUERY_DELETE_MESSAGES = "DELETE FROM %s WHERE %s = ?";
     protected static final String QUERY_SELECT_BASENAMES = "SELECT DISTINCT %s from %s";
     protected static final String QUERY_SELECT_MESSAGES = "SELECT %s,%s,%s,%s,%s FROM %s WHERE %s = ?";
+    protected static final String QUERY_SELECT_MESSAGES_WITH_CODE = "SELECT %s,%s,%s,%s,%s FROM %s WHERE %s = ? and %s =?";
 
     private JdbcTemplate template;
 
@@ -71,6 +72,24 @@ public class JdbcMessageProvider implements MessageProvider, MessageAcceptor {
         }
 
     }
+
+//    @Override
+//    public void addMessageIfNotExists(String basename, Messages messages) {
+//
+//        String query =
+//            String.format(getInsertMessageQuery(), addDelimiter(tableName), addDelimiter(basenameColumn),
+//                addDelimiter(languageColumn), addDelimiter(countryColumn), addDelimiter(variantColumn),
+//                addDelimiter(codeColumn), addDelimiter(messageColumn));
+//
+//        for (Locale locale : messages.getLocales()) {
+//
+////            insert(query, basename, LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
+////                LocaleUtils.getVariant(locale), messages.getMessages(locale));
+//
+//
+//        }
+//
+//    }
 
 
     private void insert(String query, final String basename, final String language, final String country,

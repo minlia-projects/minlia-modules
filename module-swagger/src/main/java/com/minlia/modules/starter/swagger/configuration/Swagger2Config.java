@@ -1,6 +1,7 @@
 package com.minlia.modules.starter.swagger.configuration;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.minlia.modules.starter.swagger.plugins.LanguageParameterBuilderPlugin;
 import com.minlia.modules.starter.swagger.plugins.PageableParameterBuilderPlugin;
 import com.minlia.modules.starter.swagger.properties.SwaggerConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,12 @@ public class Swagger2Config {
   PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver resolver) {
     return new PageableParameterBuilderPlugin(nameExtractor, resolver);
   }
+
+
+//  @Bean
+//  LanguageParameterBuilderPlugin languageParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver resolver) {
+//    return new LanguageParameterBuilderPlugin(nameExtractor, resolver);
+//  }
 
   @Bean
   public UiConfiguration uiConfig() {

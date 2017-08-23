@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.minlia.module.language.v1.messagesource.importer;
 

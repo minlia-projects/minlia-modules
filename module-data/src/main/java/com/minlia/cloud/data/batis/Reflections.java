@@ -7,11 +7,10 @@ import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AdvisedSupport;
 import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.util.Assert;
@@ -29,6 +28,7 @@ import java.util.*;
  * @author lijie version 2013-12-26 下午2:43:53
  */
 @SuppressWarnings("rawtypes")
+@Slf4j
 public class Reflections {
 
     private static final String SETTER_PREFIX = "set";
@@ -41,7 +41,7 @@ public class Reflections {
 
     private static final String CLASS_JDK_DYNAMIC_AOP_PROXY = "org.springframework.aop.framework.JdkDynamicAopProxy";
     public static String classPackge = FrameworkConfiguration.get("system.base.class.path");
-    private static Logger logger = LoggerFactory.getLogger(Reflections.class);
+//    private static Logger log = LoggerFactory.getLogger(Reflections.class);
 
     public static boolean checkClassIsBase(String className) {
         if (PublicUtil.isNotEmpty(className) && PublicUtil.isNotEmpty(classPackge)) {
@@ -104,7 +104,7 @@ public class Reflections {
         try {
             result = field.get(obj);
         } catch (IllegalAccessException e) {
-            logger.error("不可能抛出的异常{}", e.getMessage());
+            log.error("不可能抛出的异常{}", e.getMessage());
         }
         return result;
     }
@@ -122,7 +122,7 @@ public class Reflections {
         try {
             field.set(obj, value);
         } catch (IllegalAccessException e) {
-            logger.error("不可能抛出的异常:{}", e.getMessage());
+            log.error("不可能抛出的异常:{}", e.getMessage());
         }
     }
 
@@ -324,19 +324,19 @@ public class Reflections {
         Type genType = clazz.getGenericSuperclass();
 
         if (!(genType instanceof ParameterizedType)) {
-            logger.warn(clazz.getSimpleName() + "'s superclass not ParameterizedType");
+            log.warn(clazz.getSimpleName() + "'s superclass not ParameterizedType");
             return Object.class;
         }
 
         Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
 
         if (index >= params.length || index < 0) {
-            logger.warn("Index: " + index + ", Size of " + clazz.getSimpleName() + "'s Parameterized Type: "
+            log.warn("Index: " + index + ", Size of " + clazz.getSimpleName() + "'s Parameterized Type: "
                     + params.length);
             return Object.class;
         }
         if (!(params[index] instanceof Class)) {
-            logger.warn(clazz.getSimpleName() + " not set the actual class on superclass generic parameter");
+            log.warn(clazz.getSimpleName() + " not set the actual class on superclass generic parameter");
             return Object.class;
         }
 
@@ -384,7 +384,7 @@ public class Reflections {
             Object obj = cls.newInstance();
             return getAnnotation(obj, pName, annotationClass);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return null;
     }
@@ -406,14 +406,14 @@ public class Reflections {
             try {
                 an = temp.getDeclaredField(pName).getAnnotation(annotationClass);
             } catch (Exception e) {
-                // logger.debug(e.getMessage());
+                // log.debug(e.getMessage());
             }
             try {
                 if (an == null)
                     an = temp.getDeclaredMethod(PublicUtil.toAppendStr(GETTER_PREFIX, StringUtil.capitalize(pName)))
                             .getAnnotation(annotationClass);
             } catch (Exception e) {
-                // logger.debug(e.getMessage());
+                // log.debug(e.getMessage());
             }
             temp = temp.getSuperclass();
         }
@@ -457,10 +457,10 @@ public class Reflections {
                         setFieldValue(obj, fields.get(i), value[i]);
                     }
                 } else {
-                    logger.warn("obj {} fields {} value {}", obj, fields, value);
+                    log.warn("obj {} fields {} value {}", obj, fields, value);
                 }
             } else {
-                logger.warn("obj is null");
+                log.warn("obj is null");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -486,14 +486,14 @@ public class Reflections {
             try {
                 an = temp.getDeclaredField(pName).getAnnotation(annotationClass);
             } catch (Exception e) {
-                // logger.debug(e.getMessage());
+                // log.debug(e.getMessage());
             }
             try {
                 if (an == null)
                     an = temp.getDeclaredMethod(PublicUtil.toAppendStr(GETTER_PREFIX, StringUtil.capitalize(pName)))
                             .getAnnotation(annotationClass);
             } catch (Exception e) {
-                // logger.debug(e.getMessage());
+                // log.debug(e.getMessage());
             }
             temp = temp.getSuperclass();
         }
@@ -531,7 +531,7 @@ public class Reflections {
             List<String> rs = Lists.newArrayList(paramNames);
             return rs;
         } catch (NotFoundException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -603,7 +603,7 @@ public class Reflections {
             }
             return rs;
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -640,7 +640,7 @@ public class Reflections {
             InvocationHandler invocationHandler = Proxy.getInvocationHandler(candidate);
             if (!invocationHandler.getClass().getName().equals(CLASS_JDK_DYNAMIC_AOP_PROXY)) {
                 // 在目前的spring版本，这处永远不会执行，除非以后spring的dynamic proxy实现变掉
-                logger.warn("the invocationHandler of JdkDynamicProxy isn`t the instance of {}",
+                log.warn("the invocationHandler of JdkDynamicProxy isn`t the instance of {}",
                         CLASS_JDK_DYNAMIC_AOP_PROXY);
                 return candidate.getClass();
             }
@@ -654,7 +654,7 @@ public class Reflections {
             }
             return targetClass;
         } catch (Exception e) {
-            logger.info("get target class from {}", CLASS_JDK_DYNAMIC_AOP_PROXY, e);
+            log.info("get target class from {}", CLASS_JDK_DYNAMIC_AOP_PROXY, e);
             return candidate.getClass();
         }
     }
@@ -943,7 +943,7 @@ public class Reflections {
 
             }
         } catch (Exception e) {
-            logger.error("=============Bean转Map异常================{}", e);
+            log.error("=============Bean转Map异常================{}", e);
         }
         return map;
     }
@@ -969,7 +969,7 @@ public class Reflections {
                 }
             }
         } catch (Exception e) {
-            logger.error("=============Map转Bean异常================{}", e);
+            log.error("=============Map转Bean异常================{}", e);
         }
         return;
     }

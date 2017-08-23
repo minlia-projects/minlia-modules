@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.minlia.module.language.v1.messagesource.filesystem;
 
@@ -19,7 +19,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * {@link MessageAcceptor} implementation that is able to write messages in a zip-compressed file or stream.
- * 
+ *
  */
 public class ZipMessageAcceptor implements MessageAcceptor {
 
@@ -52,7 +52,7 @@ public class ZipMessageAcceptor implements MessageAcceptor {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.messagesource.MessageAcceptor#setMessages(java.lang.String, org.synyx.messagesource.Messages)
      */
     public void setMessages(String basename, Messages messages) {
@@ -83,7 +83,7 @@ public class ZipMessageAcceptor implements MessageAcceptor {
 
 
     /**
-     * 
+     *
      */
     public void initialize() {
 

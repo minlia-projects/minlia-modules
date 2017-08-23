@@ -1,5 +1,6 @@
 package com.minlia.modules.http;
 
+import com.minlia.cloud.annotation.i18n.Localized;
 import com.minlia.cloud.code.ApiCode;
 
 /**
@@ -7,13 +8,14 @@ import com.minlia.cloud.code.ApiCode;
  * <p>
  * TODO: HTTP Exceptions to HttpApiCode
  */
+@Localized
 public class HttpApiCode extends ApiCode {
 
     public HttpApiCode() {
         throw new AssertionError();
     }
 
-    public static final Integer HTTP_REQUEST_ERROR = BASED_ON + 20001;
+    public static final Integer HTTP_REQUEST_ERROR_BASEDON = BASED_ON + 20001;
 
 
 }
