@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "security/grant")
-@Api(tags = "安全", description = "安全")
+@Api(tags = "System Security", description = "系统安全")
 @Slf4j
 public class PermissionGrantEndpoint {
 

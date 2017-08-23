@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "OpenApi", description = "开放接口")
+@Api(tags = "Open Api", description = "开放接口")
 public class RefreshTokenEndpoint {
 
 

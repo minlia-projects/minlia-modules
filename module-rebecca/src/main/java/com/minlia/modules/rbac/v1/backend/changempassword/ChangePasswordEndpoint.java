@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.V1+"user/changePassword")
-@Api(tags = "用户", description = "用户修改密码")
+@Api(tags = "System User", description = "系统用户管理")
 @Slf4j
 public class ChangePasswordEndpoint {
 

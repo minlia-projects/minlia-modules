@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @CrossOrigin
-@Api(tags = "OpenApi", description = "开放接口")
+@Api(tags = "Open Api", description = "开放接口")
 @RestController
 public class LoginEndpoint {
 

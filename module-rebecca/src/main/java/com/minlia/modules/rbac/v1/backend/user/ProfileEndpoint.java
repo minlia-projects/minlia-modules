@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 
-@Api(tags = "安全", description = "安全")
+@Api(tags = "System Security", description = "系统安全")
 public class ProfileEndpoint {
 
     @ApiOperation(value = "获取我的权限列表", notes = "获取我的权限列表", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)

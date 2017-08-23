@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "security/roles/search")
-@Api(tags = "安全", description = "安全")
+@Api(tags = "System Security", description = "系统安全")
 @Slf4j
 public class RoleReadOnlyEndpoint {
 
@@ -31,7 +31,7 @@ public class RoleReadOnlyEndpoint {
 
   //    @DataScope(value = {DataScopes.PUBLIC, DataScopes.OWNER})
   @PreAuthorize(value = "hasAnyAuthority('" + RoleConstant.ENTITY_READ + "')")
-  @ApiOperation(value = "根据条件查询所有", notes = "根据条件查询所有", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(value = "根据条件查询所有的角色", notes = "根据条件查询所有的角色", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
   @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
   public StatefulBody findAll(@PageableDefault Pageable pageable) {
     Page page = roleReadOnlyService.findAll(pageable);
