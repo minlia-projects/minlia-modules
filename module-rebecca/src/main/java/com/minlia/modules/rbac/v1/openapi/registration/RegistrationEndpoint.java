@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.API+"user")
-@Api(tags = "用户", description = "用户注册")
+@Api(tags = "OpenApi", description = "开放接口")
 @Slf4j
 public class RegistrationEndpoint {
 

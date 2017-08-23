@@ -3,6 +3,7 @@ package com.minlia.module.captcha.v1.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.entity.AbstractEntity;
 import com.minlia.module.captcha.v1.enumeration.SecureCodeSceneEnum;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -48,5 +49,6 @@ public class SecureCode extends AbstractEntity {
   @Enumerated(EnumType.STRING)
   private SecureCodeSceneEnum scene;
 
+  private Date createdDate;
 
 }

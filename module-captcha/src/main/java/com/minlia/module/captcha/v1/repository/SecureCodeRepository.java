@@ -12,7 +12,7 @@ import java.util.List;
  */
 public  interface SecureCodeRepository  extends AbstractRepository<SecureCode,Long>{
 
-    List<SecureCode> findByCreatedDateBeforeAndUsed(Date dateTime, Boolean isUsed);
+//    List<SecureCode> findByCreatedDateBeforeAndUsed(Date dateTime, Boolean isUsed);
 
     List<SecureCode> findByConsumer(String username);
 

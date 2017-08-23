@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "Authentication", description = "安全")
+@Api(tags = "OpenApi", description = "开放接口")
 public class RefreshTokenEndpoint {
 
 
@@ -53,7 +53,7 @@ public class RefreshTokenEndpoint {
   private TokenExtractor tokenExtractor;
 
   @ApiOperation(value = "刷新令牌", notes = "刷新令牌", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-  @RequestMapping(value = "/api/authentication/refreshToken", method = RequestMethod.GET, produces = {
+  @RequestMapping(value = "/api/auth/refreshToken", method = RequestMethod.GET, produces = {
       MediaType.APPLICATION_JSON_VALUE})
 //,headers = "X-Authorization"
   public

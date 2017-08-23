@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.API + "user/secureCode")
-@Api(tags = "验证码", description = "验证码")
+@Api(tags = "OpenApi", description = "开放接口")
 @Slf4j
 public class SecureCodeEndpoint {
 

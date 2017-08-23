@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.endpoint;
+package com.minlia.modules.rbac.v1.backend.user;
 
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.security.model.UserContext;

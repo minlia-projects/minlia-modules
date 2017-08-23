@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.API+"user/resetPassword")
-@Api(tags = "用户", description = "用户忘记密码")
+@Api(tags = "OpenApi", description = "开放接口")
 @Slf4j
 public class ResetPasswordEndpoint {
 

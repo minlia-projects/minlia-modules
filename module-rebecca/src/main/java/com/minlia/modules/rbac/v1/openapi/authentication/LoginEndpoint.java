@@ -18,17 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @CrossOrigin
-@Api(tags = "Authentication", description = "认证")
+@Api(tags = "OpenApi", description = "开放接口")
 @RestController
-@RequestMapping("/api/authentication")
 public class LoginEndpoint {
 
-
-    @ApiOperation(value = "登录", notes = "登录")
-    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public JwtToken login(@RequestBody Credential loginRequest) {
-        Claims claims = null;
-        return new AccessJwtToken("token", claims);
-    }
+  @ApiOperation(value = "登录", notes = "登录")
+  @RequestMapping(value = "/api/auth/login", method = RequestMethod.POST, produces = "application/json")
+  public JwtToken login(@RequestBody Credential loginRequest) {
+    Claims claims = null;
+    return new AccessJwtToken("token", claims);
+  }
 
 }
