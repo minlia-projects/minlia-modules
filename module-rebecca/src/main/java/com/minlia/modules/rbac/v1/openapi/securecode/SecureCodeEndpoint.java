@@ -69,18 +69,18 @@ public class SecureCodeEndpoint {
   @RequestMapping(value = "{type}/send", method = RequestMethod.POST, consumes = {
       MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
   public StatefulBody send(@Valid @RequestBody SecureCodeSendRequestBody body,
-@PathVariable String type) {
+      @PathVariable String scene) {
 
     //获取验证码类型
-    SecureCodeSceneEnum typeSpecified = SecureCodeSceneEnum.valueOf(type);
+    SecureCodeSceneEnum sceneSpecified = SecureCodeSceneEnum.valueOf(scene);
 
     //当为重置密码时,需要校验用户是否存在
-    if (typeSpecified.equals(SecureCodeSceneEnum.RESET_PASSWORD)) {
+    if (sceneSpecified.equals(SecureCodeSceneEnum.RESET_PASSWORD)) {
       User user = userReadOnlyService.findOneByUsernameOrEmailOrCellphone(body.getUsername());
       ApiPreconditions.checkNotNull(user, SecurityApiCode.INVALID_USER);
     }
 
-    SecureCode securityCode = secureCodeService.send(body, typeSpecified);
+    SecureCode securityCode = secureCodeService.send(body, sceneSpecified);
     //非生产环境时放出来
     if (!EnvironmentUtils.isProduction()) {
       return SuccessResponseBody.builder().payload(securityCode).build();

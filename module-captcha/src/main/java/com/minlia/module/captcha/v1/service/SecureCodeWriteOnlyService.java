@@ -9,5 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by will on 8/22/17.
  */
 @Transactional(readOnly = false)
-public interface SecureCodeWriteOnlyService extends WriteOnlyService<SecureCodeDao,SecureCode,Long> {
+public interface SecureCodeWriteOnlyService extends
+    WriteOnlyService<SecureCodeDao, SecureCode, Long> {
+
 }

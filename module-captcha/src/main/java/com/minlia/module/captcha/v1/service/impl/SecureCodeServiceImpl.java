@@ -54,7 +54,7 @@ public class SecureCodeServiceImpl implements SecureCodeService {
   public Boolean validity(String consumer, String code, SecureCodeSceneEnum scene) {
     log.debug("Validity for consumer: {} with code: {}", consumer, code);
     List<SecureCode> found = secureCodeRepository
-        .findByConsumerAndCodeAndTypeAndUsed(consumer, code, scene, false);
+        .findByConsumerAndCodeAndSceneAndUsed(consumer, code, scene, false);
     if (found != null && found.size() >= 1) {
       SecureCode secureCode = found.get(0);
       if (secureCode != null && code.equalsIgnoreCase(secureCode.getCode())) {
@@ -81,7 +81,7 @@ public class SecureCodeServiceImpl implements SecureCodeService {
     //检查获取了类型
 //        ApiPreconditions.checkNotNull(smsTemplateId, CaptchaApiCode.NOT_NULL, "短信模板没找到, 请先配置", false);
 
-    log.debug("Sending security code for username: {}", body.getUsername());
+    log.debug("Sending secure code for username: {}", body.getUsername());
 
     //已存在时需要清除所有之前的记录
     List<SecureCode> secureCodeListFound = secureCodeRepository.findByConsumer(body.getUsername());
@@ -110,7 +110,7 @@ public class SecureCodeServiceImpl implements SecureCodeService {
   @Override
   public void clean(String consumer, String code, SecureCodeSceneEnum scene) {
     List<SecureCode> found = secureCodeRepository
-        .findByConsumerAndCodeAndType(consumer, code, scene);
+        .findByConsumerAndCodeAndScene(consumer, code, scene);
     if (found != null && found.size() > 0) {
       secureCodeRepository.deleteInBatch(found);
     }

@@ -3,9 +3,12 @@ package com.minlia.module.captcha.v1.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.entity.AbstractEntity;
 import com.minlia.module.captcha.v1.enumeration.SecureCodeSceneEnum;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 import lombok.Data;
-
-import javax.persistence.*;
 
 /**
  * System SecureCode class
@@ -15,35 +18,35 @@ import javax.persistence.*;
 @Entity
 @Table(name = "secure_code")
 public class SecureCode extends AbstractEntity {
-    // ==============
-    // PRIVATE FIELDS
-    // ==============
+  // ==============
+  // PRIVATE FIELDS
+  // ==============
 
-    // The code status is used
-    /**
-     * 是否已被使用
-     */
-    @Column(name = "is_used", nullable = false)
-    @JsonProperty
-    private Boolean used = false;
+  // The code status is used
+  /**
+   * 是否已被使用
+   */
+  @Column(name = "is_used", nullable = false)
+  @JsonProperty
+  private Boolean used = false;
 
-    /**
-     * 验证码内容
-     */
-    @JsonProperty
-    private String code;
+  /**
+   * 验证码内容
+   */
+  @JsonProperty
+  private String code;
 
-    /**
-     * 消费此验证码的人
-     */
-    @JsonProperty
-    private String consumer;
+  /**
+   * 消费此验证码的人
+   */
+  @JsonProperty
+  private String consumer;
 
-    /**
-     * 验证码使用的场景
-     */
-    @Enumerated(EnumType.STRING)
-    private SecureCodeSceneEnum scene;
+  /**
+   * 验证码使用的场景
+   */
+  @Enumerated(EnumType.STRING)
+  private SecureCodeSceneEnum scene;
 
 
 }
