@@ -13,7 +13,7 @@
 //import com.minlia.modules.rbac.dao.UserDao;
 //import com.minlia.modules.rbac.domain.User;
 //import com.minlia.modules.rbac.query.UserQueryRequestBody;
-//import com.minlia.modules.rbac.service.UserQueryService;
+//import com.minlia.modules.rbac.service.UserReadOnlyService;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;
 //import lombok.extern.slf4j.Slf4j;
@@ -32,10 +32,10 @@
 // * Created by will on 8/2/17.
 // */
 //@RestController
-//@RequestMapping(ApiPrefix.V1 + "/backend/user")
+//@RequestMapping(ApiPrefix.V1 + "/backend/security/user/test")
 //@Slf4j
 //@Api(tags = "用户1", value = "用户1", description = "用户1")
-//public class UserBackendEndpoint {
+//public class UserQueryTestEndpoint {
 //
 //  @Autowired
 //  BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -43,7 +43,7 @@
 //  UserDao userDao;
 //
 //  @Autowired
-//  UserQueryService userQueryService;
+//  UserReadOnlyService userQueryService;
 //
 ////    @Autowired
 ////    UserRepository userRepository;

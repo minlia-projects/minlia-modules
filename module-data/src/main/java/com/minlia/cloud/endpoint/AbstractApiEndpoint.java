@@ -19,7 +19,7 @@
 //import java.lang.reflect.Type;
 //
 ///**
-// * Abstract REST endpoint using a service implementation
+// * Abstract REST backend using a service implementation
 // * <p/>
 // * <p>You should extend this class when you want to use a 3 layers pattern : Repository, Service and Controller
 // * If you don't have a real service (also called business layer), consider using RepositoryBasedRestController</p>

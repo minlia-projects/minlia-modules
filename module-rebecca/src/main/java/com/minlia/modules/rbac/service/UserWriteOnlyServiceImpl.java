@@ -6,9 +6,9 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.rbac.dao.UserDao;
 import com.minlia.modules.rbac.domain.Role;
 import com.minlia.modules.rbac.domain.User;
-import com.minlia.modules.rbac.endpoint.body.UserGarentRoleRequestBody;
 import com.minlia.modules.rbac.repository.RoleRepository;
 import com.minlia.modules.rbac.repository.UserRepository;
+import com.minlia.modules.rbac.v1.backend.user.body.UserGarentRoleRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
  * Created by will on 8/14/17.
  */
 @Service
-public class UserServiceImpl extends AbstractWriteOnlyService<UserDao, User, Long> implements
-    UserService {
+public class UserWriteOnlyServiceImpl extends
+    AbstractWriteOnlyService<UserDao, User, Long> implements
+    UserWriteOnlyService {
 
   @Autowired
   private UserDao userDao;
@@ -27,13 +28,12 @@ public class UserServiceImpl extends AbstractWriteOnlyService<UserDao, User, Lon
   @Autowired
   private RoleRepository roleRepository;
 
-
   @Override
   public User grantRole(UserGarentRoleRequestBody requestBody) {
     User user = repository.findOne(requestBody.getUserId());
-    ApiPreconditions.is(null == user, ApiCode.NOT_FOUND);
+    ApiPreconditions.checkNotNull(user, ApiCode.NOT_FOUND);
     Role role = roleRepository.findOneByCode(requestBody.getRoleCode());
-    ApiPreconditions.is(null == role, ApiCode.NOT_FOUND);
+    ApiPreconditions.checkNotNull(role, ApiCode.NOT_FOUND);
     user.getRoles().add(role);
     return super.update(user);
   }
@@ -41,9 +41,9 @@ public class UserServiceImpl extends AbstractWriteOnlyService<UserDao, User, Lon
   @Override
   public User revokeRole(UserGarentRoleRequestBody requestBody) {
     User user = repository.findOne(requestBody.getUserId());
-    ApiPreconditions.is(null == user, ApiCode.NOT_FOUND);
+    ApiPreconditions.checkNotNull(user, ApiCode.NOT_FOUND);
     Role role = roleRepository.findOneByCode(requestBody.getRoleCode());
-    ApiPreconditions.is(null == role, ApiCode.NOT_FOUND);
+    ApiPreconditions.checkNotNull(role, ApiCode.NOT_FOUND);
     user.getRoles().remove(role);
     return super.update(user);
   }

@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.endpoint.body;
+package com.minlia.modules.rbac.v1.backend.user.body;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import io.swagger.annotations.ApiModel;

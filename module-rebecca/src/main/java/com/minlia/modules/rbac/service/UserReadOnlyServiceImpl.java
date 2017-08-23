@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
  * Created by will on 8/14/17.
  */
 @Service
-public class UserQueryServiceImpl extends AbstractReadOnlyService<UserDao,User,Long> implements UserQueryService {
+public class UserReadOnlyServiceImpl extends AbstractReadOnlyService<UserDao,User,Long> implements
+    UserReadOnlyService {
 
     @Autowired
     UserDao userDao;

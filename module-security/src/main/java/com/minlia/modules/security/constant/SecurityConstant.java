@@ -48,6 +48,23 @@ public class SecurityConstant {
   public static final String INITIAL_PASSWORD = "admin";
 
 
+
+
+
+
+
+  public static final String ROLE_SYSTEM_INTIALIZE = "ROLE_SYSTEM_INTIALIZE";
+  public static final String ROLE_SYSTEM_INTIALIZE_DESC = "系统初始化角色";
+
+  public static final String ROLE_ADMIN_CODE = "ROLE_ADMIN";
+  public static final String ROLE_ADMIN_DESC = "管理员角色";
+
+  public static final String ROLE_GUEST_CODE = "ROLE_GUEST_CODE";
+  public static final String ROLE_GUEST_DESC = "游客角色";
+
+
+
+
   public SecurityConstant() {
     throw new AssertionError();
   }
