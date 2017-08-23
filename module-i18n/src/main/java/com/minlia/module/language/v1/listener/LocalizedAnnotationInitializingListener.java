@@ -26,48 +26,29 @@ import org.springframework.util.StringUtils;
 public class LocalizedAnnotationInitializingListener implements
     ApplicationListener<ApplicationReadyEvent> {
 
-  public static final String DOT=".";
+  public static final String DOT = ".";
   @Autowired
   MessageAcceptor messageAcceptor;
 
-  private void resolve(String className, Field field, Localize localize,Messages messages) {
+  private void resolve(String className, Field field, Localize localize, Messages messages) {
     try {
       field.setAccessible(true);
       Object value = field.get(null);
-      //只有设置过默认值的才获取
       if (null != value && !StringUtils.isEmpty(value)) {
-//        log.debug(
-//            "Basename: {} Locale: {} Code: {} Message: {} Key {}",
-//            localize.type(),
-//            localize.locale(),
-//            value,
-//            localize.message(),
-//            className+"."+field.getName());
-
         Locale locale = LocaleUtils.toLocale(localize.locale());
-//        log.debug("Basename: {}", Constants.EXCEPTIONS_APICODE_PREFIX);
-//        log.debug("Locale: {}",locale);
-//        log.debug("Code: {}",value);
-//        log.debug("Message: {}",localize.message());
-//        log.debug("FieleName: {}",className+"."+field.getName());
-        messages.addMessage(locale,toKeyFormat(value.toString()),localize.message());
-//        Messages messages=new Messages();
-//        messages.addMessage(Locale.forLanguageTag(localize.locale()),value.toString(),localize.message());
-//        messageAcceptor.setMessages( Constants.EXCEPTIONS_APICODE_PREFIX,messages);// locale, code, createMessageFormat(codeToMessage.get(code), locale))
+        messages.addMessage(locale, toKeyFormat(value.toString()), localize.message());
       }
     } catch (Exception e) {
     }
   }
 
   private String toKeyFormat(String code) {
-    String prefix=Constants.EXCEPTIONS_APICODE_PREFIX;
-    prefix=CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, prefix);
-    prefix=prefix.replaceAll("_",DOT);
-    String ret=prefix+DOT+code;
+    String prefix = Constants.EXCEPTIONS_APICODE_PREFIX;
+    prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, prefix);
+    prefix = prefix.replaceAll("_", DOT);
+    String ret = prefix + DOT + code;
     return ret;
-
   }
-
 
   /**
    * 获取到所有注解的类,初始化到数据库
@@ -76,10 +57,10 @@ public class LocalizedAnnotationInitializingListener implements
   public void onApplicationEvent(ApplicationReadyEvent event) {
     log.debug("获取到所有注解的类,初始化到数据库 LocalizedAnnotationInitializingListener");
 
-    if(EnvironmentUtils.isProduction()){
+    if (EnvironmentUtils.isProduction()) {
       return;
     }
-    Messages messages=new Messages();
+    Messages messages = new Messages();
 
     final TypeReporter fieldReporter = new TypeReporter() {
       @SuppressWarnings("unchecked")
@@ -88,7 +69,6 @@ public class LocalizedAnnotationInitializingListener implements
       }
 
       public void reportTypeAnnotation(Class<? extends Annotation> annotation, String className) {
-//        log.debug("{}, {}, {}", annotation, className);
         try {
           Class clz = Class.forName(className);
           Field[] fields = clz.getDeclaredFields();
@@ -98,15 +78,14 @@ public class LocalizedAnnotationInitializingListener implements
               Localized localized = field.getDeclaredAnnotation(Localized.class);
               if (localized != null) {
                 for (Localize localize : localized.values()) {
-                  resolve(className, field, localize,messages);
+                  resolve(className, field, localize, messages);
                 }
               }
             }
-
             if (field.isAnnotationPresent(Localize.class)) {
               Localize localize = field.getDeclaredAnnotation(Localize.class);
               if (null != localize) {
-                resolve(className, field, localize,messages);
+                resolve(className, field, localize, messages);
               }
             }
           }
@@ -123,13 +102,8 @@ public class LocalizedAnnotationInitializingListener implements
       e.printStackTrace();
     }
 
-    //添加到数据库
-    //ExcpetionApiCode类型只能通过在代码中注解
-    //其它类型可以手动添加
-    if(!EnvironmentUtils.isProduction()){
-      messageAcceptor.setMessages(Constants.EXCEPTIONS_APICODE_PREFIX,messages);
+    if (!EnvironmentUtils.isProduction()) {
+      messageAcceptor.setMessages(Constants.EXCEPTIONS_APICODE_PREFIX, messages);
     }
-
-//    log.debug("Messages {}",messages);
   }
 }

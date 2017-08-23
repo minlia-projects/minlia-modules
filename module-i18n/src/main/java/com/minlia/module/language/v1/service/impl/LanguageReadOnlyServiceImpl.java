@@ -15,4 +15,10 @@ public class LanguageReadOnlyServiceImpl extends AbstractReadOnlyService<Languag
 
     @Autowired
     LanguageDao dao;
+
+    @Override
+    public Language findOneByBasenameAndLanguageAndCountryAndCode(String basename, String language,
+        String country, String code) {
+        return dao.findOneByBasenameAndLanguageAndCountryAndCode(basename,language,country,code);
+    }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.entity.AbstractEntity;
+import javax.persistence.Transient;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.envers.NotAudited;
@@ -29,17 +30,50 @@ public class Role extends AbstractEntity {
     @JsonProperty
     private String label;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "map_role_permissions", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+    private Set<Permission> permissions;
+
+
     @JsonIgnore
-    private Set<Permission> permissions = Sets.newHashSet();
-
-
-
-    @ManyToMany(mappedBy = "roles")
-//    @JoinTable(name = "map_users_roles",inverseJoinColumns  = @JoinColumn(name = "user_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    @JsonIgnore
-//    @NotAudited
+    @ManyToMany
+    @JoinTable(name = "map_users_roles",inverseJoinColumns  = @JoinColumn(name = "user_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<User> users;
+
+
+
+    @Transient
+    public void addPermission(Permission permission) {
+        if(null==this.permissions){
+            this.permissions=Sets.newHashSet();
+        }
+        this.permissions.add(permission);
+    }
+
+    @Transient
+    public void addPermission(Set<Permission> permission) {
+        if(null==this.permissions){
+            this.permissions=Sets.newHashSet();
+        }
+        this.permissions.addAll(permission);
+    }
+
+
+
+//    public void addNavigation(Navigation navigation) {
+//        if(null==this.navigations){
+//            this.navigations=Sets.newHashSet();
+//        }
+//        this.navigations.add(navigation);
+//    }
+//
+//    public void addNavigations(Set<Navigation> navigations) {
+//        if(null==this.navigations){
+//            this.navigations=Sets.newHashSet();
+//        }
+//        this.navigations.addAll(navigations);
+//    }
+
 
 }

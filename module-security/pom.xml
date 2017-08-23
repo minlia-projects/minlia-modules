@@ -68,6 +68,20 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>eu.infomas</groupId>
+            <artifactId>annotation-detector</artifactId>
+            <version>3.0.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.atteo.classindex</groupId>
+            <artifactId>classindex</artifactId>
+            <version>3.4</version>
+        </dependency>
+
+
+
     </dependencies>
 
 </project>

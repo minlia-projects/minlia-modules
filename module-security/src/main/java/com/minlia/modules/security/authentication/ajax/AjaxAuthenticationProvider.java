@@ -16,6 +16,12 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private AuthenticationService userAuthenticationService;
 
+    /**
+     * 具体实现请参见 @see RbacAuthenticationService
+     * @param authentication
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         return userAuthenticationService.authentication(authentication);

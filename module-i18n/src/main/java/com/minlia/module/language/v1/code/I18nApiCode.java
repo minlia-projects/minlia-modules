@@ -9,8 +9,8 @@ import com.minlia.cloud.code.ApiCode;
  * API响应码
  */
 @Localized
-public class LanguageApiCode extends ApiCode {
-    public LanguageApiCode() {
+public class I18nApiCode extends ApiCode {
+    public I18nApiCode() {
         throw new AssertionError();
     }
 

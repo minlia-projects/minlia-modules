@@ -1,12 +1,12 @@
 package com.minlia.modules.security.web.filter;
 
+import com.minlia.cloud.constant.ApiPrefix;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-import static com.minlia.modules.security.constant.SecurityConstant.API_PREFIX;
 
 
 /**
@@ -26,7 +26,7 @@ public class SystemCorsFilter extends CorsFilter {
         config.setMaxAge(36000L);
         config.setAllowedMethods(Arrays.asList("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration(API_PREFIX, config);
+        source.registerCorsConfiguration(ApiPrefix.PREFIX, config);
         return source;
     }
 }

@@ -1,6 +1,9 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.exception.ApiException;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.security.body.AuthenticationErrorResponseBody;
 import com.minlia.modules.security.code.AuthenticationErrorCode;
 import com.minlia.modules.security.exception.AuthMethodNotSupportedException;
@@ -37,13 +40,20 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 		if (e instanceof BadCredentialsException) {
 			mapper.writeValue(response.getWriter(), AuthenticationErrorResponseBody.of("Invalid username or password", AuthenticationErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
 //		throw new ApiException(ApiCode.INVALID_CREDENTIAL);
+//			ApiPreconditions.checkNotNull(e,ApiCode.INVALID_CREDENTIAL);
 		} else if (e instanceof JwtExpiredTokenException) {
 			mapper.writeValue(response.getWriter(), AuthenticationErrorResponseBody.of("Token has expired", AuthenticationErrorCode.JWT_TOKEN_EXPIRED, HttpStatus.UNAUTHORIZED));
+//			throw new ApiException(ApiCode.ACCESS_TOKEN_HAS_EXPIRED);
+//			ApiPreconditions.checkNotNull(e,ApiCode.ACCESS_TOKEN_HAS_EXPIRED);
 		} else if (e instanceof AuthMethodNotSupportedException) {
 		    mapper.writeValue(response.getWriter(), AuthenticationErrorResponseBody.of(e.getMessage(), AuthenticationErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
+//			throw new ApiException(ApiCode.AUTHENTICATION_FAILED);
+//			ApiPreconditions.checkNotNull(e,ApiCode.AUTHENTICATION_FAILED);
 		}
 //
 		mapper.writeValue(response.getWriter(), AuthenticationErrorResponseBody.of("Authentication failed", AuthenticationErrorCode.AUTHENTICATION, HttpStatus.UNAUTHORIZED));
+//		throw new ApiException(ApiCode.AUTHENTICATION_FAILED);
+//		ApiPreconditions.checkNotNull(e,ApiCode.AUTHENTICATION_FAILED);
 
 
 	}

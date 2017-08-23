@@ -13,7 +13,7 @@ public class CaptchaApiCode extends ApiCode {
     /**
      * 定义验证码模块代码基数为11000
      */
-    public static final Integer SECURITY_MODULE_CODE_BASEDON= BASED_ON +1000;
+    public static final int SECURITY_MODULE_CODE_BASEDON= BASED_ON +1000;
 
 
 

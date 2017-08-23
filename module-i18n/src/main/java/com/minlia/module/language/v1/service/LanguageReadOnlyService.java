@@ -10,4 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true)
 public interface LanguageReadOnlyService extends ReadOnlyService<LanguageDao, Language, Long> {
+
+  Language findOneByBasenameAndLanguageAndCountryAndCode(String basename, String zh, String cn,
+      String code);
 }
