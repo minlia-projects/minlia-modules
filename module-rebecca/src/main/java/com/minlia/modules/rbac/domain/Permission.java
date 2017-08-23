@@ -22,6 +22,10 @@ public class Permission extends AbstractEntity {
   @JsonProperty
   private String code;
 
+
+  /**
+   * 国际化值请使用权限点 Lang.get(code);
+   */
   @JsonProperty
   private String label;
 

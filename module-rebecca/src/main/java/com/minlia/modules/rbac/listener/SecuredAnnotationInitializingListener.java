@@ -14,8 +14,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 /**
- * 仅扫描Endpoint层权限注解
- * 使用系统级别的 Language进行国际化配置
+ * 使用系统级别的 Language 进行国际化配置
  */
 @Slf4j
 @Component
@@ -27,6 +26,7 @@ public class SecuredAnnotationInitializingListener implements
 
   @Autowired
   LanguageCreationService languageCreationService;
+
   /**
    * 获取到所有注解的类,初始化到数据库
    */
@@ -38,12 +38,12 @@ public class SecuredAnnotationInitializingListener implements
     }
 
     Set<String> permissions = PermissionContextHolder.get();
-    Map<String,String > adminPermissions=Maps.newConcurrentMap();
+    Map<String, String> adminPermissions = Maps.newConcurrentMap();
     for (String permission : permissions) {
 //      log.debug("Permission inserted to db: {}", permission);
-      permissionCreationService.addPermission(permission,permission);
+      permissionCreationService.addPermission(permission, permission);
       languageCreationService.initialLanguage(permission);
-      adminPermissions.put(permission,permission);
+      adminPermissions.put(permission, permission);
     }
     permissionCreationService.initialAdminPermissions(adminPermissions);
 

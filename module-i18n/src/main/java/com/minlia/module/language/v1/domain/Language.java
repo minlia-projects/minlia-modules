@@ -1,5 +1,6 @@
 package com.minlia.module.language.v1.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -70,7 +71,7 @@ public class Language extends AbstractEntity {
     private String country;
 
     @ApiModelProperty("变量: 本系统不使用, 特定于供应商和浏览器的代码")
-    @JsonProperty
+    @JsonIgnore
     private String variant;
 
     /**

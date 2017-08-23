@@ -32,41 +32,37 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class MessageMigrationListener implements ApplicationListener<ApplicationReadyEvent>, EnvironmentAware {
+public class MessageMigrationListener implements ApplicationListener<ApplicationReadyEvent>,
+    EnvironmentAware {
 
+  @Autowired
+  private JdbcMessageProvider jdbcMessageProvider;
 
-    @Autowired
-    private JdbcMessageProvider jdbcMessageProvider;
-//    @Autowired
-//    private FileSystemMessageProvider fileSystemMessageProvider;
+  @Autowired
+  InitializableMessageSource initializableMessageSource;
 
-    @Autowired
-    InitializableMessageSource initializableMessageSource;
+  private RelaxedPropertyResolver propertyResolver;
 
-    private RelaxedPropertyResolver propertyResolver;
+  @Override
+  public void setEnvironment(Environment environment) {
+    this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.application.");
+  }
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.application.");
+  @Override
+  public void onApplicationEvent(ApplicationReadyEvent event) {
+    log.debug("开始国际化语言初始化");
+
+    try {
+      initializableMessageSource.setAutoInitialize(true);
+      initializableMessageSource.afterPropertiesSet();
+    } catch (Exception e) {
+      log.debug("afterPropertiesSet With exception {}", e.getMessage());
     }
 
-    @Override
-    public void onApplicationEvent(ApplicationReadyEvent event) {
-        log.debug("开始国际化语言初始化");
+    log.debug("完成国际化语言初始化");
+  }
 
-        try {
-            initializableMessageSource.setAutoInitialize(true);
-            initializableMessageSource.afterPropertiesSet();
-        } catch (Exception e) {
-            log.debug("afterPropertiesSet With exception {}",e.getMessage());
-        }
-
-
-
-        log.debug("完成国际化语言初始化");
-    }
-
-    private boolean decideIfImport(String basename) {
-        return true;
-    }
+  private boolean decideIfImport(String basename) {
+    return true;
+  }
 }
