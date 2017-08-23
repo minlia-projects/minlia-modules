@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import lombok.Data;
 
 @Entity
-@Data
 @ApiModel(value = "权限点")
 public class Permission extends AbstractEntity {
 
@@ -31,4 +30,28 @@ public class Permission extends AbstractEntity {
   @JoinTable(name = "map_role_permissions",inverseJoinColumns  = @JoinColumn(name = "role_id", referencedColumnName = "id"),joinColumns  = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
   private Set<Role> roles;
 
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  public void setLabel(String label) {
+    this.label = label;
+  }
+
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
+  }
 }

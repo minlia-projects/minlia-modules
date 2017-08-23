@@ -13,6 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PermissionCreationService {
 
   public Permission addPermission(String code, String label);
-  public Permission addPermission(String code, String label, Set<Role> roles);
+
   public void initialAdminPermissions(Map<String, String> initialAdminPermissions);
 }

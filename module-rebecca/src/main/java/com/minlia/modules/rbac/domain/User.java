@@ -17,7 +17,6 @@ import java.util.Set;
  * TODO 不能使用Builder 会导致 Data Batis 出现 No TypeHander的错误 在Batis的扫描类中找到以UserBuilder开头的属性给排除掉
  *
  */
-@Data
 @Entity
 public class User extends AbstractEntity implements WithUsernameCredential, WithEmailCredential, WithCellphoneCredential {
     /**
@@ -193,4 +192,7 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
+
+
 }

@@ -8,6 +8,7 @@ import com.minlia.module.language.v1.service.LanguageWriteOnlyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @Service
@@ -23,19 +24,46 @@ public class LanguageCreationServiceImpl implements LanguageCreationService {
 
   @Override
   public Language initialLanguage(String code) {
-
-    Language language= languageReadOnlyService.findOneByBasenameAndLanguageAndCountryAndCode(
-        I18nConstant.BASENAME,I18nConstant.DEFAULT_LANGUAGE,I18nConstant.DEFAULT_COUNTRY,code);
-
-    if(null ==language){
-      language=new Language();
-      language.setBasename( I18nConstant.BASENAME);
-      language.setLanguage(I18nConstant.DEFAULT_LANGUAGE);
-      language.setCountry(I18nConstant.DEFAULT_COUNTRY);
-      language.setCode(code);
-      language.setMessage("%%"+code+"%%");
-      language= languageWriteOnlyService.save(language);
-    }
-   return language;
+    return initialLanguage(code, null);
   }
+
+  @Override
+  public Language initialLanguage(String code, String message) {
+    return initialLanguage(null, null, code, message);
+  }
+
+  @Override
+  public Language initialLanguage(String language, String country, String code, String message) {
+    return initialLanguage(null, null, code, message, null);
+  }
+
+  public Language initialLanguage(String basename, String language, String country, String code,
+      String message) {
+
+    if (StringUtils.isEmpty(basename)) {
+      basename = I18nConstant.BASENAME;
+    }
+    if (StringUtils.isEmpty(language)) {
+      language = I18nConstant.DEFAULT_LANGUAGE;
+    }
+    if (StringUtils.isEmpty(country)) {
+      country = I18nConstant.DEFAULT_COUNTRY;
+    }
+    if (StringUtils.isEmpty(message)) {
+      message = "%%" + code + "%%";
+    }
+    Language languageEntity = languageReadOnlyService.findOneByBasenameAndLanguageAndCountryAndCode(
+        basename, language, country, code);
+    if (null == language) {
+      languageEntity = new Language();
+      languageEntity.setBasename(basename);
+      languageEntity.setLanguage(language);
+      languageEntity.setCountry(country);
+      languageEntity.setCode(code);
+      languageEntity.setMessage(message);
+      languageEntity = languageWriteOnlyService.save(languageEntity);
+    }
+    return languageEntity;
+  }
+
 }

@@ -20,7 +20,6 @@ import java.util.Set;
  * Created by will on 8/14/17.
  */
 @Entity
-@Data
 public class Role extends AbstractEntity {
 
     @NotNull
@@ -76,4 +75,35 @@ public class Role extends AbstractEntity {
 //    }
 
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 }
