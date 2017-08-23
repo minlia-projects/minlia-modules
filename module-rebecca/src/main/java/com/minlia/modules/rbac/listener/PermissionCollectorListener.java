@@ -12,32 +12,18 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Created by qianyi on 2017/8/14.
+ * Created by cqqianyi on 2017/8/14.
  */
 @Component
 @Slf4j
 public class PermissionCollectorListener implements BeanPostProcessor {
 
+  public static final String[] AUTHORITIES=new String []{"hasAnyAuthority", "hasAuthority"};
+
   @Override
   public Object postProcessBeforeInitialization(Object bean, String beanName)
       throws BeansException {
     return bean;
-  }
-
-  private String grabPermission(String source, String... types) {
-    if (StringUtils.isEmpty(source)) {
-      return null;
-    }
-
-    for (String type : types) {
-      if (source.startsWith(type)) {
-        String ret = source.replaceAll(type + "\\('(.*)'\\)", "$1").trim();
-        if (!StringUtils.isEmpty(ret)) {
-          return ret;
-        }
-      }
-    }
-    return null;
   }
 
   @Override
@@ -49,7 +35,7 @@ public class PermissionCollectorListener implements BeanPostProcessor {
         if (null != annotated) {
           if (annotated != null) {
             String annotatedValue = annotated.value();
-            String value = grabPermission(annotatedValue, "hasAnyAuthority", "hasAuthority");
+            String value = grabPermission(annotatedValue, AUTHORITIES);
             if (!StringUtils.isEmpty(value)) {
               PermissionContextHolder.add(value);
             }
@@ -59,5 +45,28 @@ public class PermissionCollectorListener implements BeanPostProcessor {
     }
     return bean;
   }
+
+  /**
+   * 获取到权限点
+   * @param source
+   * @param types
+   * @return
+   */
+  private String grabPermission(String source, String... types) {
+    if (StringUtils.isEmpty(source)) {
+      return null;
+    }
+    for (String type : types) {
+      if (source.startsWith(type)) {
+        String ret = source.replaceAll(type + "\\('(.*)'\\)", "$1").trim();
+        if (!StringUtils.isEmpty(ret)) {
+          return ret;
+        }
+      }
+    }
+    return null;
+  }
+
+
 }
 

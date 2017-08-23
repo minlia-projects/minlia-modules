@@ -1,129 +1,81 @@
-//package com.minlia.modules.rbac.endpoint;
-//
-//import com.google.common.collect.Lists;
-//import com.minlia.cloud.body.StatefulBody;
-//import com.minlia.cloud.body.impl.SuccessResponseBody;
-//import com.minlia.cloud.body.query.Order;
-//import com.minlia.cloud.body.query.QueryOperator;
-//import com.minlia.cloud.query.specification.batis.QueryCondition;
-//import com.minlia.cloud.query.specification.batis.QuerySpecifications;
-//import com.minlia.cloud.query.specification.batis.SpecificationDetail;
-//import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
-//import com.minlia.modules.rbac.dao.UserDao;
-//import com.minlia.modules.rbac.domain.User;
-//import com.minlia.modules.rbac.query.UserQueryRequestBody;
-//import com.minlia.modules.rbac.service.UserQueryService;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
-//import lombok.extern.slf4j.Slf4j;
-//import org.apache.commons.lang3.RandomStringUtils;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.data.web.PageableDefault;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-///**
-// * Created by will on 8/2/17.
-// */
-//@RestController
-//@RequestMapping("/api/user")
-//@Slf4j
-//@Api(tags = "用户1", value = "用户1", description = "用户1")
-//public class UserEndpoint {
-//
-//    @Autowired
-//    BCryptPasswordEncoder bCryptPasswordEncoder;
-//    @Autowired
-//    UserDao userDao;
-//
-//    @Autowired
-//    UserQueryService userQueryService;
-//
-////    @Autowired
-////    UserRepository userRepository;
-//
-//    @ApiOperation(
-//            value = "获取一个指定ID的实体",
-//            notes = "获取一个指定ID的实体",
-//            httpMethod = "POST",
-//            produces = "application/json"
-//    )
-//    @PostMapping(value = "")
-//    public StatefulBody findOne(@PageableDefault Pageable pageable, @RequestBody ApiQueryRequestBody<UserQueryRequestBody> body) {
-//
-//        body.getConditions().add(new QueryCondition("firstName", QueryOperator.like, "%x%"));
-//        SpecificationDetail<User> spec = QuerySpecifications.bySearchQueryCondition(
-//                body.getConditions(),
-////                QueryCondition.ne(Person.F_STATUS, User.FLAG_DELETE).setAnalytiColumnPrefix("a"),
-//                QueryCondition.ne("id", 1l));
-////        spec.orAll(orQueryConditions);
-//        spec.setOrders(Lists.newArrayList(new Order("id", Order.Direction.asc)));
-//
-//
-////        userDao.findByOverrridingMethod();
-//
-//
-////        List<User> userFound=userDao.findUseMapper("%x%");
-//
-//        User user = new User();
-//        String name = RandomStringUtils.randomAlphabetic(4);
-//        String lastname = RandomStringUtils.randomAlphabetic(4);
-//
-//        user.setFirstName(name);
-//        user.setLastName(lastname);
-//        user.setEmail(name + "@qq.com");
-//        user.setUsername(name);
-//        user.setPassword(bCryptPasswordEncoder.encode("admin"));
-//
-//
-////        user.setDateTime(DateTime.now());
-////        user.setMyDate(new Date());
-//
-////        user.setDateTime(DateTime.now());
-////        user.setZonedDateTime(ZonedDateTime.now());
-//
-////        user.setTime(new Date());
-//
-//
-//        userDao.insert(user);
-//
-//        user = new User();
-//        name = RandomStringUtils.randomAlphabetic(4);
-//        lastname = RandomStringUtils.randomAlphabetic(4);
-//        user.setFirstName(name);
-//        user.setLastName(lastname);
-//        user.setEmail(name + "@qq.com");
-//        user.setUsername(name);
-//        user.setPassword(bCryptPasswordEncoder.encode("admin"));
-//
-//
-//        //        user.setTimestamp(new Date());
-////        user.setDate(new Date());
-//
-//        userDao.insert(user);
-//
-//
-////        userRepository.save(user);
-//
-//
-////      User us=  userRepository.findOne(2l);
-////        log.debug("userRepository.findOne {}",us);
-//
-//        User user1 = userDao.findOne(1l);
-//
-//        log.debug("userRepository.findOne {}", user1);
-//
-////        List<User> users = userRepository.findAll();
-//
-//
-//        Page<User> found = userQueryService.findAll(true, spec, pageable);
-//        return SuccessResponseBody.builder().payload(found).build();
-//    }
-//
-//
-//}
+package com.minlia.modules.rbac.endpoint;
+
+
+import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.modules.rbac.domain.User;
+import com.minlia.modules.rbac.endpoint.body.UserGarentRoleRequestBody;
+import com.minlia.modules.rbac.service.UserQueryService;
+import com.minlia.modules.rbac.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping(value = ApiPrefix.V1 + "security/users")
+@Api(tags = "系统用户管理", description = "系统用户管理")
+@Slf4j
+public class UserEndpoint   {
+
+    @Autowired
+    UserService userWriteOnlyService;
+
+    @Autowired
+    UserQueryService userReadOnlyService;
+
+
+
+
+    @PreAuthorize(value = "hasAnyAuthority('"+UserService.ENTITY_CREATE+"')")
+    @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody create(@Valid @RequestBody User body) {
+        return SuccessResponseBody.builder().payload(userWriteOnlyService.save(body)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+UserService.ENTITY_UPDATE+"')")
+    @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody update(@Valid @RequestBody User body) {
+        return SuccessResponseBody.builder().payload(userWriteOnlyService.update(body)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+UserService.ENTITY_DELETE+"')")
+    @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody delete(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
+        userWriteOnlyService.delete(id);
+        return SuccessResponseBody.builder().build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+UserService.ENTITY_READ+"')")
+    @ApiOperation(value = "获取一个指定ID的", notes = "获取一个指定ID的用户", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody findOne(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
+        return SuccessResponseBody.builder().payload(userReadOnlyService.findOne(id)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+UserService.ENTITY_UPDATE+"')")
+    @ApiOperation(value = "授予角色", notes = "授予角色", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/grantRole", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody grantRole(@Valid @RequestBody UserGarentRoleRequestBody requestBody) {
+        return SuccessResponseBody.builder().payload(userWriteOnlyService.grantRole(requestBody)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+UserService.ENTITY_UPDATE+"')")
+    @ApiOperation(value = "撤销角色", notes = "撤销角色", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/revokeRole", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody revokeRole(UserGarentRoleRequestBody requestBody) {
+        return SuccessResponseBody.builder().payload(userWriteOnlyService.revokeRole(requestBody)).build();
+    }
+
+}
