@@ -1,7 +1,9 @@
 package com.minlia.modules.rbac.service;
 
 import com.minlia.modules.rbac.domain.Permission;
+import com.minlia.modules.rbac.domain.Role;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -11,6 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PermissionCreationService {
 
   public Permission addPermission(String code, String label);
-
+  public Permission addPermission(String code, String label, Set<Role> roles);
   public void initialAdminPermissions(Map<String, String> initialAdminPermissions);
 }

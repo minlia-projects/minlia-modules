@@ -38,7 +38,7 @@ public class Role extends AbstractEntity {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "map_users_roles",inverseJoinColumns  = @JoinColumn(name = "user_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @JoinTable(name = "map_user_roles",inverseJoinColumns  = @JoinColumn(name = "user_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<User> users;
 
 

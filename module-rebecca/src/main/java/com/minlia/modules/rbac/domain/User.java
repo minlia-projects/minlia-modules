@@ -42,7 +42,7 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
     private String email;
 
     /**
-     * Global User Identity
+     * Global User Identification
      */
     @SearchField
     private String guid;
@@ -60,9 +60,9 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
 
     private String nickName;
 
-    @ManyToMany
-    @JoinTable(name = "map_users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "map_user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
     @NotNull
