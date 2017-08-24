@@ -1,12 +1,15 @@
 package com.minlia.module.language.v1.service.impl;
 
 import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.constant.Constants;
+import com.minlia.cloud.constant.Constants.LanguageTypes;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.language.v1.constant.I18nConstant;
 import com.minlia.module.language.v1.domain.Language;
 import com.minlia.module.language.v1.service.LanguageCreationService;
 import com.minlia.module.language.v1.service.LanguageReadOnlyService;
 import com.minlia.module.language.v1.service.LanguageWriteOnlyService;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +38,22 @@ public class LanguageCreationServiceImpl implements LanguageCreationService {
   }
 
   @Override
+  public void initialLanguage(List<Language> languages) {
+    for (Language language : languages) {
+      initialLanguage(language);
+    }
+  }
+
+
+  @Override
+  public Language initialLanguage(Language language) {
+    return initialLanguage(LanguageTypes.ExceptionsApiCode.name(),language.getLanguage(),language.getCountry(),language.getCode(),language.getMessage());
+  }
+
+
+  @Override
   public Language initialLanguage(String language, String country, String code, String message) {
-    return initialLanguage(null, language, country,code, message);
+    return initialLanguage(null, language, country, code, message);
   }
 
   public Language initialLanguage(String basename, String language, String country, String code,

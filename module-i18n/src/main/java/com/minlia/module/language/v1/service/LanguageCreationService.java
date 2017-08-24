@@ -2,6 +2,8 @@ package com.minlia.module.language.v1.service;
 
 
 import com.minlia.module.language.v1.domain.Language;
+import com.minlia.module.language.v1.messagesource.Messages;
+import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -18,6 +20,9 @@ public interface LanguageCreationService {
   public Language initialLanguage(String code);
 
   public Language initialLanguage(String code,String message);
+
+  public void initialLanguage(List<Language> languages);
+  public Language initialLanguage(Language language);
 
   public Language initialLanguage(String language,String country,String code,String message);
 

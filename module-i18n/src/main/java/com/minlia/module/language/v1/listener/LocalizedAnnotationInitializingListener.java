@@ -1,18 +1,23 @@
 package com.minlia.module.language.v1.listener;
 
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.Lists;
 import com.minlia.cloud.annotation.i18n.Localize;
 import com.minlia.cloud.annotation.i18n.Localized;
 import com.minlia.cloud.constant.Constants;
+import com.minlia.cloud.constant.Constants.LanguageTypes;
 import com.minlia.cloud.utils.EnvironmentUtils;
+import com.minlia.module.language.v1.domain.Language;
 import com.minlia.module.language.v1.messagesource.MessageAcceptor;
 import com.minlia.module.language.v1.messagesource.Messages;
 import com.minlia.module.language.v1.messagesource.util.LocaleUtils;
+import com.minlia.module.language.v1.service.LanguageCreationService;
 import eu.infomas.annotation.AnnotationDetector;
 import eu.infomas.annotation.AnnotationDetector.TypeReporter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Locale;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +35,31 @@ public class LocalizedAnnotationInitializingListener implements
   @Autowired
   MessageAcceptor messageAcceptor;
 
-  private void resolve(String className, Field field, Localize localize, Messages messages) {
+
+  @Autowired
+  LanguageCreationService languageCreationService;
+
+  private void resolve(String className, Field field, Localize localize, List<Language> languages) {
     try {
       field.setAccessible(true);
       Object value = field.get(null);
       if (null != value && !StringUtils.isEmpty(value)) {
         Locale locale = LocaleUtils.toLocale(localize.locale());
-        messages.addMessage(locale, toKeyFormat(value.toString()), localize.message());
+//        languages.addMessage(locale, toKeyFormat(value.toString()), localize.message());
+        Language language=new Language();
+        language.setLanguage(locale.getLanguage());
+        language.setCountry(locale.getCountry());
+        language.setVariant(locale.getVariant());
+        language.setCode(toKeyFormat(value.toString()));
+        language.setMessage(localize.message());
+        languages.add(language);
       }
     } catch (Exception e) {
     }
   }
 
   private String toKeyFormat(String code) {
-    String prefix = Constants.EXCEPTIONS_APICODE_PREFIX;
+    String prefix = LanguageTypes.ExceptionsApiCode.name();
     prefix = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, prefix);
     prefix = prefix.replaceAll("_", DOT);
     String ret = prefix + DOT + code;
@@ -60,8 +76,9 @@ public class LocalizedAnnotationInitializingListener implements
     if (EnvironmentUtils.isProduction()) {
       return;
     }
-    Messages messages = new Messages();
+//    Messages messages = new Messages();
 
+    List<Language> languages= Lists.newArrayList();
     final TypeReporter fieldReporter = new TypeReporter() {
       @SuppressWarnings("unchecked")
       public Class<? extends Annotation>[] annotations() {
@@ -78,14 +95,14 @@ public class LocalizedAnnotationInitializingListener implements
               Localized localized = field.getDeclaredAnnotation(Localized.class);
               if (localized != null) {
                 for (Localize localize : localized.values()) {
-                  resolve(className, field, localize, messages);
+                  resolve(className, field, localize, languages);
                 }
               }
             }
             if (field.isAnnotationPresent(Localize.class)) {
               Localize localize = field.getDeclaredAnnotation(Localize.class);
               if (null != localize) {
-                resolve(className, field, localize, messages);
+                resolve(className, field, localize, languages);
               }
             }
           }
@@ -103,7 +120,8 @@ public class LocalizedAnnotationInitializingListener implements
     }
 
     if (!EnvironmentUtils.isProduction()) {
-      messageAcceptor.setMessages(Constants.EXCEPTIONS_APICODE_PREFIX, messages);
+//      messageAcceptor.setMessages(Constants.EXCEPTIONS_APICODE_PREFIX, messages);
+      languageCreationService.initialLanguage(languages);
     }
   }
 }
