@@ -19,6 +19,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.threeten.bp.ZonedDateTime;
 
 @Slf4j
 @Service
@@ -40,11 +41,12 @@ public class SecureCodeServiceImpl implements SecureCodeService {
   public void cleanExpired() {
     //不区分租户与用户
     //当前时间减去3分钟前的
-    DateTime now = DateTime.now();
-    DateTime dateTime = now.minusMinutes(FIXED_RATE_STRING);
+//    DateTime now = DateTime.now();
+    ZonedDateTime zonedDateTime=ZonedDateTime.now();
+    ZonedDateTime dateTime = zonedDateTime.minusMinutes(FIXED_RATE_STRING);
     //FIXED 未使用的验证码, 在超过时间后也需要清除
 //        List<SecureCode> found = secureCodeRepository.findByCreatedDateBeforeAndUsed(dateTime.toDate(), true);
-    List<SecureCode> found = secureCodeRepository.findByCreatedDateBefore(dateTime.toDate());
+    List<SecureCode> found = secureCodeRepository.findByCreatedDateBefore(dateTime);
     for (SecureCode code : found) {
       secureCodeRepository.delete(code);
     }

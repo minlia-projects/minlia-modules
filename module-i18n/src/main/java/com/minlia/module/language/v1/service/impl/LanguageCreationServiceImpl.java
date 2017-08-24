@@ -1,5 +1,7 @@
 package com.minlia.module.language.v1.service.impl;
 
+import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.language.v1.constant.I18nConstant;
 import com.minlia.module.language.v1.domain.Language;
 import com.minlia.module.language.v1.service.LanguageCreationService;
@@ -34,11 +36,12 @@ public class LanguageCreationServiceImpl implements LanguageCreationService {
 
   @Override
   public Language initialLanguage(String language, String country, String code, String message) {
-    return initialLanguage(null, null, code, message, null);
+    return initialLanguage(null, language, country,code, message);
   }
 
   public Language initialLanguage(String basename, String language, String country, String code,
       String message) {
+    ApiPreconditions.checkNotNull(code, ApiCode.NOT_NULL);
 
     if (StringUtils.isEmpty(basename)) {
       basename = I18nConstant.BASENAME;
@@ -54,7 +57,7 @@ public class LanguageCreationServiceImpl implements LanguageCreationService {
     }
     Language languageEntity = languageReadOnlyService.findOneByBasenameAndLanguageAndCountryAndCode(
         basename, language, country, code);
-    if (null == language) {
+    if (null == languageEntity) {
       languageEntity = new Language();
       languageEntity.setBasename(basename);
       languageEntity.setLanguage(language);

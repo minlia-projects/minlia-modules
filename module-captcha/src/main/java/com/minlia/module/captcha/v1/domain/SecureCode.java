@@ -43,12 +43,12 @@ public class SecureCode extends AbstractEntity {
   @JsonProperty
   private String consumer;
 
-  /**
-   * 验证码使用的场景
-   */
+//  /**
+//   * 验证码使用的场景
+//   */
   @Enumerated(EnumType.STRING)
   private SecureCodeSceneEnum scene;
-
-  private Date createdDate;
+//
+//  private Date createdDate;
 
 }
