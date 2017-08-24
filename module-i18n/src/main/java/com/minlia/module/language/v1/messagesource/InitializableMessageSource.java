@@ -105,7 +105,7 @@ public class InitializableMessageSource extends AbstractMessageSource implements
         Boolean isProduction= EnvironmentUtils.isProduction();
         //如果非生产环境,则每次请求都重新初始化, 达到修改即生效的效果
         if(!isProduction){
-            initialize();
+//            initialize();
         }
         for (String basename : basenames) {
             List<String> paths = getPath(locale);

@@ -66,7 +66,7 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
 
 
     private LoginCredential convertToLoginCredential(LoginCredentials credential) {
-        ApiPreconditions.checkNotNull(credential, SecurityApiCode.INVALID_CREDENTIAL);
+        ApiPreconditions.checkNotNull(credential, SecurityApiCode.NOT_NULL);
 
         if(!StringUtils.isEmpty(credential.getCellphone())){
             return new LoginCredential(credential.getCellphone(),credential.getPassword());
