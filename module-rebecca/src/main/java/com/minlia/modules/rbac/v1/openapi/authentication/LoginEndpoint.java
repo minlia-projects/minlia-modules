@@ -1,5 +1,7 @@
 package com.minlia.modules.rbac.v1.openapi.authentication;
 
+import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.modules.security.authentication.credential.Credential;
 import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtToken;
@@ -24,9 +26,10 @@ public class LoginEndpoint {
 
   @ApiOperation(value = "登录", notes = "登录")
   @RequestMapping(value = "/api/auth/login", method = RequestMethod.POST, produces = "application/json")
-  public JwtToken login(@RequestBody Credential loginRequest) {
-    Claims claims = null;
-    return new AccessJwtToken("token", claims);
+  public StatefulBody login(@RequestBody Credential loginRequest) {
+//    Claims claims = null;
+//    return new AccessJwtToken("token", claims);
+    return SuccessResponseBody.builder().build();
   }
 
 }

@@ -1,5 +1,7 @@
 package com.minlia.modules.rbac.v1.openapi.authentication;
 
+import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.modules.rbac.dao.UserDao;
 import com.minlia.modules.rbac.domain.User;
 import com.minlia.modules.rbac.service.PermissionReadOnlyService;
@@ -9,7 +11,6 @@ import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
 import com.minlia.modules.security.exception.InvalidJwtTokenException;
 import com.minlia.modules.security.model.UserContext;
-import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
 import com.minlia.modules.security.model.token.RefreshToken;
@@ -58,7 +59,7 @@ public class RefreshTokenEndpoint {
 //,headers = "X-Authorization"
   public
   @ResponseBody
-  AccessJwtToken refreshToken(HttpServletRequest request, HttpServletResponse response)
+  StatefulBody refreshToken(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     String tokenPayload = tokenExtractor
         .extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
@@ -89,6 +90,7 @@ public class RefreshTokenEndpoint {
     UserContext userContext = UserContext.create(user.getUsername(), authorities,
         refreshToken.getClaims().getBody().getExpiration());
 
-    return tokenFactory.createAccessJwtToken(userContext);
+//    return tokenFactory.createAccessJwtToken(userContext);
+    return SuccessResponseBody.builder().payload(tokenFactory.createAccessJwtToken(userContext)).build();
   }
 }

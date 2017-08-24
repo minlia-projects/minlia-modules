@@ -4,13 +4,14 @@ import com.minlia.modules.security.exception.JwtExpiredTokenException;
 import io.jsonwebtoken.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 
 @ApiModel
+@Slf4j
 public class RawAccessJwtToken implements JwtToken {
-    private static Logger logger = LoggerFactory.getLogger(RawAccessJwtToken.class);
     @ApiModelProperty(value = "令牌",example = "x001")
     private String token;
     
@@ -28,10 +29,10 @@ public class RawAccessJwtToken implements JwtToken {
         try {
             return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(this.token);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException ex) {
-            logger.error("Invalid JWT Token", ex);
+            log.error("Invalid JWT Token", ex);
             throw new BadCredentialsException("Invalid JWT token: ", ex);
         } catch (ExpiredJwtException expiredEx) {
-            logger.info("JWT Token is expired", expiredEx);
+            log.info("JWT Token is expired", expiredEx);
             throw new JwtExpiredTokenException(this, "JWT Token expired", expiredEx);
         }
     }

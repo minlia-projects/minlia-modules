@@ -207,7 +207,7 @@
                 contentType: "application/json",
                 dataType: "json",
                 success: function(response){
-                    $("#codeContent").val('Bearer '+response.token);
+                    $("#codeContent").val('Bearer '+response.payload.token);
                     $('#openSwagger').on('click',function(){
                         var swaggerUiUrl="/swagger-ui.html";
                         window.open(swaggerUiUrl,"_blank");
