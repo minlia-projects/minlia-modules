@@ -25,14 +25,17 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 public class LocaleConfiguration extends WebMvcConfigurerAdapter {
 
+    /**
+     * 只可以在HEADER里改变请求的语言, 不可以在参数上加lang参数
+     * @return
+     */
     @Lazy
     @Bean(name = "localeResolver")
     public LocaleResolver localeResolver() {
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
+        localeResolver.setDefaultLocale(Locale.getDefault());
         return localeResolver;
     }
-
 
 //    @Lazy
 //    @Bean(name = "localeResolver")

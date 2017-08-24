@@ -7,16 +7,20 @@ package com.minlia.module.language.v1;
 
 import static com.minlia.cloud.constant.Constants.X_LANG;
 
+import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.utils.ApiPreconditions;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 
+@Slf4j
 public class AcceptHeaderLocaleResolver implements LocaleResolver {
 
   private final List<Locale> supportedLocales = new ArrayList(4);
@@ -87,7 +91,9 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
   }
 
   public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
-    throw new UnsupportedOperationException(
-        "Cannot change HTTP accept header - use a different locale resolution strategy");
+    log.debug("UnsupportedOperationException Cannot change HTTP accept header - use a different locale resolution strategy");
+    ApiPreconditions.is(true, ApiCode.UNSUPPORTED_REQUEST_METHOD);
+//    throw new UnsupportedOperationException(
+//        "Cannot change HTTP accept header - use a different locale resolution strategy");
   }
 }

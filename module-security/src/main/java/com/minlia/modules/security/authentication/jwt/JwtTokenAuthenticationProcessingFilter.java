@@ -1,5 +1,7 @@
 package com.minlia.modules.security.authentication.jwt;
 
+import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
@@ -58,6 +60,7 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException failed) throws IOException, ServletException {
         SecurityContextHolder.clearContext();
+        ApiPreconditions.is(true, ApiCode.AUTHENTICATION_FAILED);
         failureHandler.onAuthenticationFailure(request, response, failed);
     }
 }
