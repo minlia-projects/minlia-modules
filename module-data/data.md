@@ -63,6 +63,8 @@ public StatefulBody findAll(@PageableDefault Pageable pageable) {
 
 [MinliaCloudAutoConfiguration.java](https://github.com/minlia-projects/minlia-cloud/blob/dev/will/minlia-cloud-starter/src/main/java/com/minlia/cloud/autoconfiguration/MinliaCloudAutoConfiguration.java)
 
+[CloudDataJpaAutoConfiguration.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-data/src/main/java/com/minlia/cloud/config/CloudDataJpaAutoConfiguration.java)
+
 [DatabaseAutoConfiguration.java](https://github.com/minlia-projects/minlia-thirdparty/blob/dev/will/spring-data-batis-starter/src/main/java/com/minlia/cloud/data/batis/autoconfiguration/DatabaseAutoConfiguration.java)
 
 [Language.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-i18n/src/main/java/com/minlia/module/language/v1/domain/Language.java)
