@@ -7,11 +7,21 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.cloud.data.support.constant.PersistenceConstants;
 import com.minlia.cloud.entity.AbstractEntity;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.Set;
-
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Created by will on 6/21/17.
@@ -20,8 +30,7 @@ import java.util.Set;
 
 /**
  * @author: Minlia Speedup Code Engine
- * @since: 1.0.0.RELEASE
- * Bible Define as a JPA entity
+ * @since: 1.0.0.RELEASE Bible Define as a JPA entity
  */
 // Is those properties publish to json
 @JsonIgnoreProperties(value = {})
@@ -35,7 +44,8 @@ import java.util.Set;
 // uniqueConstraints={@UniqueConstraint(columnNames={ })}
 )
 // A JPA annotation to define how to generate sequence
-@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "Bible")
+@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName =
+    PersistenceConstants.SEQUENCE_PREFIX + "Bible")
 // A Lombok annotation to generate Getter and Setter on compilation
 @Data
 // A Lombok annotation to generate ${className}.Builder inner class as a helper class on compilation
@@ -50,48 +60,48 @@ import java.util.Set;
 // A Minlia Speedup annotation to generation code on compilation
 public class Bible extends AbstractEntity {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * 编码
-     */
-    @ApiModelProperty(value = "编码", example = "gender")
-    @JsonProperty
-    private String code;
+  /**
+   * 编码
+   */
+  @ApiModelProperty(value = "编码", example = "gender")
+  @JsonProperty
+  private String code;
 
-    /**
-     * 标签
-     */
-    @ApiModelProperty(value = "标签, 名称", example = "性别")
-    @JsonProperty
-    private String label;
-
-
-    /**
-     * 说明
-     */
-    @JsonProperty
-    @ApiModelProperty(value = "描述性说明", example = "用于性别选择")
-    private String notes;
-
-    /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序", example = "1")
-    private Integer sortOrder;
+  /**
+   * 标签
+   */
+  @ApiModelProperty(value = "标签, 名称", example = "性别")
+  @JsonProperty
+  private String label;
 
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @OrderBy(value = "id")
-    @JoinTable(name = "map_bible_items", joinColumns = @JoinColumn(name = "bible_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
-    @JsonIgnore
-    private Set<BibleItem> items;
+  /**
+   * 说明
+   */
+  @JsonProperty
+  @ApiModelProperty(value = "描述性说明", example = "用于性别选择")
+  private String notes;
 
-    public Bible(Long id, String code, String label, String notes) {
-        this.id = id;
-        this.code = code;
-        this.label = label;
-        this.notes = notes;
-    }
+  /**
+   * 排序
+   */
+  @ApiModelProperty(value = "排序", example = "1")
+  private Integer sortOrder;
+
+
+  @OneToMany(fetch = FetchType.LAZY)
+  @OrderBy(value = "id")
+  @JoinTable(name = "map_bible_items", joinColumns = @JoinColumn(name = "bible_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
+  @JsonIgnore
+  private Set<BibleItem> items;
+
+  public Bible(Long id, String code, String label, String notes) {
+    this.id = id;
+    this.code = code;
+    this.label = label;
+    this.notes = notes;
+  }
 
 }

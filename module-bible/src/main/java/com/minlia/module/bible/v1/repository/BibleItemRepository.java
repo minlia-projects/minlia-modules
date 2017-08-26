@@ -11,9 +11,9 @@ import java.util.Set;
  */
 public interface BibleItemRepository extends AbstractRepository<BibleItem,Long> {
 
-    Set<BibleItem> findByBible_Code(String gender);
+    Set<BibleItem> findByBible_Code(String bibleItemCode);
 
-    BibleItem findOneByCode(String bibleItemCode);
+//    BibleItem findOneByCode(String bibleItemCode);
 
-    BibleItem findOneByBible_idAndCode(Long bibleId,String bibleItemCode);
+    BibleItem findOneByBible_IdAndCode(Long bibleId,String bibleItemCode);
 }
