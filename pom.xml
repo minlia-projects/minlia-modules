@@ -23,7 +23,7 @@
         <module>module-nestedset</module>
         <module>module-security</module>
         <!--<module>module-registry</module>-->
-        <!--<module>module-bible</module>-->
+        <module>module-bible</module>
         <module>module-sms-aliyun</module>
         <module>module-captcha</module>
         <module>module-rebecca</module>

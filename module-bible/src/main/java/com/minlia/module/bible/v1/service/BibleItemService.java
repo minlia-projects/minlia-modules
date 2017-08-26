@@ -1,7 +1,6 @@
 package com.minlia.module.bible.v1.service;
 
 
-import com.minlia.boot.v1.service.IService;
 import com.minlia.module.bible.v1.domain.BibleItem;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +11,7 @@ import java.util.Set;
  * Created by will on 6/17/17.
  */
 @Transactional(readOnly = false)
-public interface BibleItemService extends IService<BibleItem>{//},LocaclizedQueryService<BibleItem> {
+public interface BibleItemService extends IService<BibleItem>{
 
     public static final String ENTITY = "bible";
 
