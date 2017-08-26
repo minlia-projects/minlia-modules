@@ -7,6 +7,7 @@
 
 ## 理解JWT
 一串由三部分分别ENCODE之后并由.相连接的串组成一个TOKEN
+
 HEADER.PAYLOAD.SIGNATURE
 
 ### HEADER: 头部
@@ -49,7 +50,7 @@ signature = Hash( data, secret );
 传统应用使用COOKIE或SESSION来存储当前访问者信息, 我们在一些不支持COOKIE的场景可能就会出现方案无法COVER的情况.
 
 
-## 具体与项目的结合,请在项目中搜索如下文件:
+## 具体与项目的结合,请参见如下文件:
 
 [JwtAuthenticationProvider.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/JwtAuthenticationProvider.java)
 
