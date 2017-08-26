@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "bibles")
-@Api(tags = "数据字典", description = "数据字典")
+@Api(tags = "Bible", description = "数据字典")
 @Slf4j
 public class BibleEndpoint {
 
