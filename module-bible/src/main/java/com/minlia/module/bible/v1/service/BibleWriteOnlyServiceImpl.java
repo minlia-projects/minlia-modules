@@ -6,11 +6,8 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.v1.code.BibleApiCode;
 import com.minlia.module.bible.v1.dao.BibleDao;
 import com.minlia.module.bible.v1.domain.Bible;
-import com.minlia.module.bible.v1.domain.Bible;
 import com.minlia.module.bible.v1.repository.BibleItemRepository;
 import com.minlia.module.bible.v1.repository.BibleRepository;
-import com.minlia.module.bible.v1.repository.BibleRepository;
-import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +30,8 @@ public class BibleWriteOnlyServiceImpl extends
 
 
   public Bible create(Bible bible) {
-    Bible found=bibleRepository.findOneByCode(bible.getCode());
-    if(null!=found){
+    Bible found = bibleRepository.findOneByCode(bible.getCode());
+    if (null != found) {
       ApiPreconditions.checkNotNull(found, ApiCode.DATA_ALREADY_EXISTS);
     }
     return bibleRepository.save(bible);
@@ -42,8 +39,6 @@ public class BibleWriteOnlyServiceImpl extends
 
   /**
    * 当有子项时无法删除
-   *
-   * @param id
    */
   public void delete(Long id) {
     Bible found = bibleRepository.findOne(id);

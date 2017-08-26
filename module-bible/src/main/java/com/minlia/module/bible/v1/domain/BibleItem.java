@@ -8,9 +8,19 @@ import com.minlia.cloud.data.support.constant.PersistenceConstants;
 import com.minlia.cloud.entity.AbstractEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Created by will on 6/21/17.
@@ -19,8 +29,7 @@ import javax.persistence.*;
 
 /**
  * @author: Minlia Speedup Code Engine
- * @since: 1.0.0.RELEASE
- * Bible Define as a JPA entity
+ * @since: 1.0.0.RELEASE Bible Define as a JPA entity
  */
 // Is those properties publish to json
 @JsonIgnoreProperties(value = {})
@@ -29,12 +38,13 @@ import javax.persistence.*;
 // Json sort order
 @JsonPropertyOrder({})
 // A JPA annotation to define as data table name, it will convert to camel case (eg. hello_word) when multiple words
-@Table(name = PersistenceConstants.MODULE_TABLE_PREFIX + "BibleItem"
+@Table(name = PersistenceConstants.MODULE_TABLE_PREFIX + "Bible_Item"
 // ,
 // uniqueConstraints={@UniqueConstraint(columnNames={ })}
 )
 // A JPA annotation to define how to generate sequence
-@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "BibleItem")
+@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName =
+    PersistenceConstants.SEQUENCE_PREFIX + "Bible_Item")
 // A Lombok annotation to generate Getter and Setter on compilation
 @Data
 // A Lombok annotation to generate ${className}.Builder inner class as a helper class on compilation
@@ -50,48 +60,48 @@ import javax.persistence.*;
 @ApiModel(value = "字典项")
 public class BibleItem extends AbstractEntity {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    /**
-     * 标签
-     */
-    @ApiModelProperty(value = "标签, 名称", example = "男")
-    @JsonProperty
-    private String label;
+  /**
+   * 标签
+   */
+  @ApiModelProperty(value = "标签, 名称", example = "男")
+  @JsonProperty
+  private String label;
 
-    /**
-     * 编码
-     */
-    @ApiModelProperty(value = "编码", example = "male")
-    @JsonProperty
-    private String code;
-
-
-    /**
-     * 说明
-     */
-    @JsonProperty
-    @ApiModelProperty(value = "描述性说明", example = "男")
-    private String notes;
-
-    /**
-     * 排序
-     */
-    @ApiModelProperty(value = "排序", example = "1")
-    private Integer sortOrder;
+  /**
+   * 编码
+   */
+  @ApiModelProperty(value = "编码", example = "male")
+  @JsonProperty
+  private String code;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "map_bible_items", inverseJoinColumns = @JoinColumn(name = "bible_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
-    @JsonIgnore
-    private Bible bible;
+  /**
+   * 说明
+   */
+  @JsonProperty
+  @ApiModelProperty(value = "描述性说明", example = "男")
+  private String notes;
 
-    public BibleItem(Long id, String code, String label, String notes, Bible bible) {
-        this.id = id;
-        this.code = code;
-        this.label = label;
-        this.notes = notes;
-        this.bible = bible;
-    }
+  /**
+   * 排序
+   */
+  @ApiModelProperty(value = "排序", example = "1")
+  private Integer sortOrder;
+
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinTable(name = "map_bible_items", inverseJoinColumns = @JoinColumn(name = "bible_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "item_id", referencedColumnName = "id"))
+  @JsonIgnore
+  private Bible bible;
+
+  public BibleItem(Long id, String code, String label, String notes, Bible bible) {
+    this.id = id;
+    this.code = code;
+    this.label = label;
+    this.notes = notes;
+    this.bible = bible;
+  }
 
 }

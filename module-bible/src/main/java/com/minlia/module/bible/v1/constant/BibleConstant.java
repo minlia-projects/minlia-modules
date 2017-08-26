@@ -13,5 +13,8 @@ public class BibleConstant {
   public static final String ENTITY_DELETE = ENTITY + ".delete";
   public static final String ENTITY_READ = ENTITY + ".read";
 
+  public BibleConstant() {
+    throw new AssertionError();
+  }
 
 }

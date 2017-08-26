@@ -45,19 +45,18 @@ public class BibleOpenApiEndpoint {
   @ApiOperation(value = "[公开接口]根据父CODE取到字典值", notes = "[公开接口]根据父CODE取到字典值", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
   @RequestMapping(value = "{code}", method = RequestMethod.GET, produces = {
       MediaType.APPLICATION_JSON_VALUE})
-  public StatefulBody get(@PathVariable String code) {
+  public StatefulBody findByBibleCode(@PathVariable String code) {
     Set<BibleItem> found = bibleItemService.findByBible_Code(code);
     ApiPreconditions.checkNotNull(found, ApiCode.NOT_FOUND);
-    bibleReadOnlyService.findAll();
     return SuccessResponseBody.builder().payload(found).build();
   }
 
 
   //  @PreAuthorize(value = "hasAnyAuthority('" + BibleConstant.ENTITY_READ + "')")
-  @RequestMapping(value = "conditions", method = RequestMethod.POST, consumes = {
+  @RequestMapping(value = "findAll", method = RequestMethod.POST, consumes = {
       MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
   @ApiOperation(value = "根据条件查询所有", notes = "根据条件查询所有", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-  public StatefulBody searchByConditions(@PageableDefault Pageable pageable,
+  public StatefulBody findAll(@PageableDefault Pageable pageable,
       @RequestBody ApiQueryRequestBody<BibleQueryRequestBody> body) {
     return SuccessResponseBody.builder()
         .payload(bibleReadOnlyService.findAll(body, pageable)).build();

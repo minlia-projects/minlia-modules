@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = false)
 public interface BibleWriteOnlyService extends WriteOnlyService<BibleDao, Bible, Long> {
+
   public Bible create(Bible bible);
 
 }

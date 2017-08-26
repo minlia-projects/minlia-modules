@@ -16,8 +16,6 @@ public interface BibleItemReadOnlyService extends ReadOnlyService<BibleItemDao, 
 
   /**
    * 根据父CODE查找子项集
-   * @param bibleCode
-   * @return
    */
   Set<BibleItem> findByBible_Code(String bibleCode);
 
