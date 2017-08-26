@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * Created by will on 8/27/17.
  */
 @Service
-public class BibleCreationServiceImpl implements BibleCreationService {
+public class BibleInitializeServiceImpl implements BibleInitializeService {
 
   @Autowired
   BibleRepository bibleRepository;

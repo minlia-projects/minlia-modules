@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 系统初始化
  */
 @Transactional(readOnly = false)
-public interface BibleCreationService {
+public interface BibleInitializeService {
 
   /**
    * 初始化系统Bible配置项

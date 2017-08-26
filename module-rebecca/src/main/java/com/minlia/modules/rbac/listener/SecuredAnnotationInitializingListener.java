@@ -2,7 +2,7 @@ package com.minlia.modules.rbac.listener;
 
 import com.google.common.collect.Maps;
 import com.minlia.cloud.utils.EnvironmentUtils;
-import com.minlia.module.language.v1.service.LanguageCreationService;
+import com.minlia.module.language.v1.service.LanguageInitializeService;
 import com.minlia.modules.rbac.context.PermissionContextHolder;
 import com.minlia.modules.rbac.service.PermissionCreationService;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class SecuredAnnotationInitializingListener implements
   PermissionCreationService permissionCreationService;
 
   @Autowired
-  LanguageCreationService languageCreationService;
+  LanguageInitializeService languageInitializeService;
 
   /**
    * 获取到所有注解的类,初始化到数据库
@@ -41,7 +41,7 @@ public class SecuredAnnotationInitializingListener implements
     Map<String, String> adminPermissions = Maps.newConcurrentMap();
     for (String permission : permissions) {
       permissionCreationService.addPermission(permission, permission);
-      languageCreationService.initialLanguage(permission);
+      languageInitializeService.initialLanguage(permission);
       adminPermissions.put(permission, permission);
     }
     permissionCreationService.initialAdminPermissions(adminPermissions);

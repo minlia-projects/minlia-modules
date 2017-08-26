@@ -1,12 +1,11 @@
 package com.minlia.module.language.v1.service.impl;
 
 import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.constant.Constants;
 import com.minlia.cloud.constant.Constants.LanguageTypes;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.language.v1.constant.I18nConstant;
 import com.minlia.module.language.v1.domain.Language;
-import com.minlia.module.language.v1.service.LanguageCreationService;
+import com.minlia.module.language.v1.service.LanguageInitializeService;
 import com.minlia.module.language.v1.service.LanguageReadOnlyService;
 import com.minlia.module.language.v1.service.LanguageWriteOnlyService;
 import java.util.List;
@@ -17,7 +16,7 @@ import org.springframework.util.StringUtils;
 
 @Slf4j
 @Service
-public class LanguageCreationServiceImpl implements LanguageCreationService {
+public class LanguageInitializeServiceImpl implements LanguageInitializeService {
 
   @Autowired
   LanguageWriteOnlyService languageWriteOnlyService;

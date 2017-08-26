@@ -4,14 +4,12 @@ import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.annotation.i18n.Localize;
 import com.minlia.cloud.annotation.i18n.Localized;
-import com.minlia.cloud.constant.Constants;
 import com.minlia.cloud.constant.Constants.LanguageTypes;
 import com.minlia.cloud.utils.EnvironmentUtils;
 import com.minlia.module.language.v1.domain.Language;
 import com.minlia.module.language.v1.messagesource.MessageAcceptor;
-import com.minlia.module.language.v1.messagesource.Messages;
 import com.minlia.module.language.v1.messagesource.util.LocaleUtils;
-import com.minlia.module.language.v1.service.LanguageCreationService;
+import com.minlia.module.language.v1.service.LanguageInitializeService;
 import eu.infomas.annotation.AnnotationDetector;
 import eu.infomas.annotation.AnnotationDetector.TypeReporter;
 import java.io.IOException;
@@ -37,7 +35,7 @@ public class LocalizedAnnotationInitializingListener implements
 
 
   @Autowired
-  LanguageCreationService languageCreationService;
+  LanguageInitializeService languageInitializeService;
 
   private void resolve(String className, Field field, Localize localize, List<Language> languages) {
     try {
@@ -121,7 +119,7 @@ public class LocalizedAnnotationInitializingListener implements
 
     if (EnvironmentUtils.isDevelopment()) {
 //      messageAcceptor.setMessages(Constants.EXCEPTIONS_APICODE_PREFIX, messages);
-      languageCreationService.initialLanguage(languages);
+      languageInitializeService.initialLanguage(languages);
     }
   }
 }
