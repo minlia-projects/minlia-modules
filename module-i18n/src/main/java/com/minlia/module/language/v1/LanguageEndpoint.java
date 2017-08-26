@@ -122,10 +122,8 @@ public class LanguageEndpoint {
      */
 //    @PreAuthorize(value = "hasAnyAuthority('"+LanguageService.ENTITY_SEARCH+"')")
     @ApiOperation(value = "查找所有", notes = "查找所有", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    //,consumes = MediaType.APPLICATION_JSON_VALUE
     @RequestMapping(value = "/findAll", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    //consumes = {MediaType.APPLICATION_JSON_VALUE},
-    public ApiResponseBody findAll(@PageableDefault Pageable pageable, HttpServletRequest request, HttpServletResponse response) {
+    public StatefulBody findAll(@PageableDefault Pageable pageable) {
         Page<Language> found = languageReadOnlyService.findAll(pageable);
         return SuccessResponseBody.builder().payload(found).build();
     }
