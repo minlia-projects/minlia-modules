@@ -119,7 +119,7 @@ public class LocalizedAnnotationInitializingListener implements
       e.printStackTrace();
     }
 
-    if (!EnvironmentUtils.isProduction()) {
+    if (EnvironmentUtils.isDevelopment()) {
 //      messageAcceptor.setMessages(Constants.EXCEPTIONS_APICODE_PREFIX, messages);
       languageCreationService.initialLanguage(languages);
     }

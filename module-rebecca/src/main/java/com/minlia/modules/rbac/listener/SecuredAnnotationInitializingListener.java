@@ -40,7 +40,6 @@ public class SecuredAnnotationInitializingListener implements
     Set<String> permissions = PermissionContextHolder.get();
     Map<String, String> adminPermissions = Maps.newConcurrentMap();
     for (String permission : permissions) {
-//      log.debug("Permission inserted to db: {}", permission);
       permissionCreationService.addPermission(permission, permission);
       languageCreationService.initialLanguage(permission);
       adminPermissions.put(permission, permission);
