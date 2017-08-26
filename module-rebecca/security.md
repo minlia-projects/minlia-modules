@@ -35,10 +35,10 @@ signature = Hash( data, secret );
 第一部分我们称它为头部（header),第二部分我们称其为荷载（payload, 一个人携带个钱包的概念)，第三部分是签名（signature).
 
 详情请参考以下文章: 
-```
-https://mozillazg.github.io/2015/06/hello-jwt.html
-http://www.jianshu.com/p/576dbf44b2ae
-```
+
+[MOZILLAZG](https://mozillazg.github.io/2015/06/hello-jwt.html)
+
+[JIANSHU](http://www.jianshu.com/p/576dbf44b2ae)
 
 ## 在项目中的作用:
 
@@ -51,12 +51,9 @@ http://www.jianshu.com/p/576dbf44b2ae
 
 ## 具体与项目的结合,请在项目中搜索如下文件:
 
-```
-JwtAuthenticationProvider.java
-AjaxAuthenticationProvider.java
-AuthenticationService.java
-RbacAuthenticationService.java
-```
+[JwtAuthenticationProvider.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/JwtAuthenticationProvider.java)
+[AjaxAuthenticationProvider.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-security/src/main/java/com/minlia/modules/security/authentication/ajax/AjaxAuthenticationProvider.java)
+[RbacAuthenticationService.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-rebecca/src/main/java/com/minlia/modules/rbac/authentication/service/RbacAuthenticationService.java)
 
 
 ## 特别鸣谢: SPRING SECURITY, JWT, 文中提及链接的博主
