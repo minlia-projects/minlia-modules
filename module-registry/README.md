@@ -1,4 +1,4 @@
-模块名: System Preference 系统设置 偏好设置 注册表设置
+模块名: System Preference 系统设置 偏好设置
 
 
 模型: 注册表概念 registry
@@ -12,7 +12,7 @@ file.upload.types=[jsp, asp, jpg, png, gif, exe]
 
 category code value parent
 基本设置 网站名称  xxx.xxx.name
-BaseSettings.siteName 网易严选  
+BaseSettings.siteName 云来付  
 
 
 base    

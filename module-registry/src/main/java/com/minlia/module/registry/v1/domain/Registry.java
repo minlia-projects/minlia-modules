@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.cloud.data.support.constant.PersistenceConstants;
-import com.minlia.cloud.entity.AbstractEntity;
+import com.minlia.boot.persistence.constant.PersistenceConstants;
+import com.minlia.module.persistence.entity.AbstractEntity;
 import lombok.*;
 
 import javax.persistence.*;
