@@ -52,7 +52,9 @@ signature = Hash( data, secret );
 ## 具体与项目的结合,请在项目中搜索如下文件:
 
 [JwtAuthenticationProvider.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/JwtAuthenticationProvider.java)
+
 [AjaxAuthenticationProvider.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-security/src/main/java/com/minlia/modules/security/authentication/ajax/AjaxAuthenticationProvider.java)
+
 [RbacAuthenticationService.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-rebecca/src/main/java/com/minlia/modules/rbac/authentication/service/RbacAuthenticationService.java)
 
 
