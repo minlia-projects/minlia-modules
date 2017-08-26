@@ -1,5 +1,5 @@
 
-#如何愉快的进行数据访问
+# 如何愉快的进行数据访问
 
 SPRING DATA, MYBATIS, Hibernate, JdbcTemplate
 
@@ -29,7 +29,7 @@ private String name;
 }
 ```
 
-Dao层的接口: 只需要定义接口, 即可拥有通过继承父接口的所有通用操作. 通过SPRING提供的动态PROXY进行实现自动化生成.
+## Dao层的接口: 只需要定义接口, 即可拥有通过继承父接口的所有通用操作. 通过SPRING提供的动态PROXY进行实现自动化生成.
 
 结合SPRING DATA JPA式方式命名查询动态生成SQL.
 
@@ -44,7 +44,7 @@ public interface LanguageDao extends Dao<Language, Long> {
 ```
 
 
-通用查询: 由[Spring data mybatis](https://github.com/hatunet/spring-data-mybatis)提供的启动时生成Mapper机制进行各种基础SQL Mapper生成来完成.
+## 通用查询: 由[Spring data mybatis](https://github.com/hatunet/spring-data-mybatis)提供的启动时生成Mapper机制进行各种基础SQL Mapper生成来完成.
 
 前端与后端都可以进行查询条件的封装
 
@@ -59,7 +59,7 @@ public StatefulBody findAll(@PageableDefault Pageable pageable) {
 
 单表, 或不想写SQL的业务使用JPA进行自动化操作, 查询类的使用BATIS进行自动化封装或手写SQL来解决业务需求.
 
-## 具体与项目的结合,请参见如下文件:
+## 具体与项目中的使用,请参见如下文件:
 
 [Language.java](https://github.com/minlia-projects/minlia-modules/blob/dev/will/module-i18n/src/main/java/com/minlia/module/language/v1/domain/Language.java)
 
