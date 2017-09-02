@@ -20,16 +20,16 @@ import javax.persistence.Table;
 // Is those properties publish to json
 @JsonIgnoreProperties(value = {})
 // A JPA Annotation to define as a entity
-@Entity
+//@Entity
 // Json sort order
 @JsonPropertyOrder({})
 // A JPA annotation to define as data table name, it will convert to camel case (eg. hello_word) when multiple words
-@Table(name = PersistenceConstants.MODULE_TABLE_PREFIX + "Tenant"
+//@Table(name = PersistenceConstants.MODULE_TABLE_PREFIX + "Tenant"
 // ,
 // uniqueConstraints={@UniqueConstraint(columnNames={ })}
-)
+//)
 // A JPA annotation to define how to generate sequence
-@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "Tenant")
+//@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "Tenant")
 // A Lombok annotation to generate Getter and Setter on compilation
 @Data
 // A Lombok annotation to generate ${className}.Builder inner class as a helper class on compilation
@@ -43,7 +43,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 // A Minlia Speedup annotation to generation code on compilation
 
-public class Tenant extends AbstractLocalizedEntity {
+public class Tenant{// extends AbstractLocalizedEntity {
 
 
     private String tenantId;
