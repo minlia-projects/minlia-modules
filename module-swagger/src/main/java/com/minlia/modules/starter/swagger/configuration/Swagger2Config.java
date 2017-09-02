@@ -14,6 +14,8 @@ import springfox.documentation.schema.TypeNameExtractor;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.ApiKeyVehicle;
+import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.UiConfiguration;
 
 /**
@@ -42,7 +44,10 @@ public class Swagger2Config {
       ;
   }
 
-
+  @Bean
+  SecurityConfiguration security() {
+    return new SecurityConfiguration(null, null, null, null, null, ApiKeyVehicle.HEADER, "X-Auth-Token", ",");
+  }
   @Bean
   PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver resolver) {
     return new PageableParameterBuilderPlugin(nameExtractor, resolver);
