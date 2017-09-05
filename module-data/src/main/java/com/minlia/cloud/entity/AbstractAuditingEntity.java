@@ -22,9 +22,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.github.javaplugs.mybatis.ThreetenbpZonedDateTimeTypeHandler;
-import com.github.javaplugs.mybatis.ZonedDateTimeTypeHandler;
+//import com.github.javaplugs.mybatis.LocalDateTimeTypeHandler;
+//import com.github.javaplugs.mybatis.ThreetenbpZonedDateTimeTypeHandler;
+//import com.github.javaplugs.mybatis.ZonedDateTimeTypeHandler;
 import com.minlia.cloud.annotation.SearchField;
+import java.time.LocalDateTime;
+import org.apache.ibatis.type.LocalDateTimeTypeHandler;
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
@@ -37,7 +40,6 @@ import org.springframework.data.mybatis.annotations.DynamicSearch;
 
 import javax.persistence.*;
 import org.springframework.data.mybatis.annotations.TypeHandler;
-import org.threeten.bp.ZonedDateTime;
 
 //1. 定义实体父类
 @MappedSuperclass
@@ -101,18 +103,18 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     private String lastModifiedBy;
 
     @CreatedDate
-    @Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentZonedDateTime")//
+//    @Type(type = "org.jadira.usertype.dateandtime.PersistentLocalDateTime")//
     @Column(name = "created_date", nullable = false)
     @JsonIgnore
-    @TypeHandler(value = ThreetenbpZonedDateTimeTypeHandler.class)
-    private ZonedDateTime createdDate = ZonedDateTime.now();
+    @TypeHandler(value = LocalDateTimeTypeHandler.class)
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     @LastModifiedDate
-    @Type(type = "org.jadira.usertype.dateandtime.threetenbp.PersistentZonedDateTime")
+//    @Type(type = "org.jadira.usertype.dateandtime.PersistentLocalDateTime")
     @Column(name = "last_modified_date")
     @JsonIgnore
-    @TypeHandler(value = ThreetenbpZonedDateTimeTypeHandler.class)
-    private ZonedDateTime lastModifiedDate = ZonedDateTime.now();
+    @TypeHandler(value = LocalDateTimeTypeHandler.class)
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @Override
     public Long getId() {
@@ -140,19 +142,19 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public ZonedDateTime getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(ZonedDateTime createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public ZonedDateTime getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

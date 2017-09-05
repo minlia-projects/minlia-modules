@@ -4,9 +4,9 @@ import com.minlia.cloud.repository.AbstractRepository;
 import com.minlia.module.captcha.v1.domain.SecureCode;
 import com.minlia.module.captcha.v1.enumeration.SecureCodeSceneEnum;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-import org.threeten.bp.ZonedDateTime;
 
 /**
  * Created by will on 8/24/17.
@@ -21,5 +21,5 @@ public  interface SecureCodeRepository  extends AbstractRepository<SecureCode,Lo
 
     List<SecureCode> findByConsumerAndCodeAndScene(String consumer, String code, SecureCodeSceneEnum scene);
 
-    List<SecureCode> findByCreatedDateBefore(ZonedDateTime date);
+    List<SecureCode> findByCreatedDateBefore(LocalDateTime date);
 }

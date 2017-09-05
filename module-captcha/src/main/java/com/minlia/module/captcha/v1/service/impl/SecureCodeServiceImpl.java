@@ -12,13 +12,14 @@ import com.minlia.module.captcha.v1.repository.SecureCodeRepository;
 import com.minlia.module.captcha.v1.service.SecureCodeService;
 import com.minlia.modules.starter.sms.AliyunSmsSendService;
 import com.minlia.modules.starter.sms.ConsoleSimulationSmsSendService;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mybatis.support.GuidHolder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.threeten.bp.ZonedDateTime;
 
 @Slf4j
 @Service
@@ -32,6 +33,8 @@ public class SecureCodeServiceImpl implements SecureCodeService {
   SmsTemplateProperties smsTemplateProperties;
 
 
+  @Autowired
+  GuidHolder guidHolder;
   /**
    * 清除已过期的code
    */
@@ -41,8 +44,8 @@ public class SecureCodeServiceImpl implements SecureCodeService {
     //不区分租户与用户
     //当前时间减去3分钟前的
 //    DateTime now = DateTime.now();
-    ZonedDateTime zonedDateTime=ZonedDateTime.now();
-    ZonedDateTime dateTime = zonedDateTime.minusMinutes(FIXED_RATE_STRING);
+    LocalDateTime zonedDateTime=LocalDateTime.now();
+    LocalDateTime dateTime = zonedDateTime.minusMinutes(FIXED_RATE_STRING);
     //FIXED 未使用的验证码, 在超过时间后也需要清除
 //        List<SecureCode> found = secureCodeRepository.findByCreatedDateBeforeAndUsed(dateTime.toDate(), true);
     List<SecureCode> found = secureCodeRepository.findByCreatedDateBefore(dateTime);
