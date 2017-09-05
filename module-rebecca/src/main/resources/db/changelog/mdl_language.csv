@@ -1,0 +1,54 @@
+created_by,created_date,enabled,last_modified_by,last_modified_date,basename,code,country,language,message
+10000,2017-09-06 03:17:50.379000,1,10000,2017-09-06 03:17:50.383000,Messages,user.delete,CN,zh,删除用户
+10000,2017-09-06 03:17:50.423000,1,10000,2017-09-06 03:17:50.423000,Messages,bible.update,CN,zh,更新字典
+10000,2017-09-06 03:17:50.448000,1,10000,2017-09-06 03:17:50.448000,Messages,bible.delete,CN,zh,删除字典
+10000,2017-09-06 03:17:50.476000,1,10000,2017-09-06 03:17:50.477000,Messages,user.update,CN,zh,更新用户
+10000,2017-09-06 03:17:50.506000,1,10000,2017-09-06 03:17:50.507000,Messages,role.update,CN,zh,更新角色
+10000,2017-09-06 03:17:50.525000,1,10000,2017-09-06 03:17:50.526000,Messages,role.delete,CN,zh,删除角色
+10000,2017-09-06 03:17:50.553000,1,10000,2017-09-06 03:17:50.554000,Messages,bible.read,CN,zh,读取字典
+10000,2017-09-06 03:17:50.596000,1,10000,2017-09-06 03:17:50.597000,Messages,user.read,CN,zh,读取用户
+10000,2017-09-06 03:17:50.636000,1,10000,2017-09-06 03:17:50.637000,Messages,user.create,CN,zh,创建用户
+10000,2017-09-06 03:17:50.664000,1,10000,2017-09-06 03:17:50.665000,Messages,permission.read,CN,zh,读取权限点
+10000,2017-09-06 03:17:50.688000,1,10000,2017-09-06 03:17:50.688000,Messages,bible.create,CN,zh,创建字典
+10000,2017-09-06 03:17:50.717000,1,10000,2017-09-06 03:17:50.718000,Messages,permission.grant,CN,zh,授权权限点
+10000,2017-09-06 03:17:50.749000,1,10000,2017-09-06 03:17:50.750000,Messages,user.change.password,CN,zh,修改用户密码
+10000,2017-09-06 03:17:50.795000,1,10000,2017-09-06 03:17:50.795000,Messages,role.create,CN,zh,创建角色
+10000,2017-09-06 03:17:50.821000,1,10000,2017-09-06 03:17:50.822000,Messages,role.read,CN,zh,读取角色
+10000,2017-09-06 03:17:56.291000,1,10000,2017-09-06 03:17:56.291000,ExceptionsApiCode,exceptions.api.code.40004,US,en,Not Found: the API you requested could not be found.
+10000,2017-09-06 03:17:56.308000,1,10000,2017-09-06 03:17:56.309000,ExceptionsApiCode,exceptions.api.code.40004,CN,zh,请求的API无法找到
+10000,2017-09-06 03:17:56.322000,1,10000,2017-09-06 03:17:56.323000,ExceptionsApiCode,exceptions.api.code.40001,US,en,Not Login: Please login first.
+10000,2017-09-06 03:17:56.332000,1,10000,2017-09-06 03:17:56.333000,ExceptionsApiCode,exceptions.api.code.40001,CN,zh,"未登录, 请先登录."
+10000,2017-09-06 03:17:56.342000,1,10000,2017-09-06 03:17:56.342000,ExceptionsApiCode,exceptions.api.code.40003,US,en,Not Authorized: Please confirm your permission.
+10000,2017-09-06 03:17:56.348000,1,10000,2017-09-06 03:17:56.348000,ExceptionsApiCode,exceptions.api.code.40003,CN,zh,"未授权, 请确认权限."
+10000,2017-09-06 03:17:56.355000,1,10000,2017-09-06 03:17:56.355000,ExceptionsApiCode,exceptions.api.code.50001,US,en,Not Null: Please confirm that could not be null.
+10000,2017-09-06 03:17:56.362000,1,10000,2017-09-06 03:17:56.363000,ExceptionsApiCode,exceptions.api.code.50001,CN,zh,"不能为空, 请确保不为空."
+10000,2017-09-06 03:17:56.370000,1,10000,2017-09-06 03:17:56.370000,ExceptionsApiCode,exceptions.api.code.50002,US,en,Invalid Secure Code: Please confirm that the validity.
+10000,2017-09-06 03:17:56.376000,1,10000,2017-09-06 03:17:56.376000,ExceptionsApiCode,exceptions.api.code.50002,CN,zh,"无效验证码, 请确保验证码的有效性."
+10000,2017-09-06 03:17:56.383000,1,10000,2017-09-06 03:17:56.383000,ExceptionsApiCode,exceptions.api.code.50003,US,en,Invalid Credential: Please confirm your credential.
+10000,2017-09-06 03:17:56.390000,1,10000,2017-09-06 03:17:56.390000,ExceptionsApiCode,exceptions.api.code.50003,CN,zh,"无效登录凭证, 请确保用户名与密码的有效性."
+10000,2017-09-06 03:17:56.397000,1,10000,2017-09-06 03:17:56.397000,ExceptionsApiCode,exceptions.api.code.50004,US,en,Account Unavailable: Please confirm your credential is not locked.
+10000,2017-09-06 03:17:56.403000,1,10000,2017-09-06 03:17:56.404000,ExceptionsApiCode,exceptions.api.code.50004,CN,zh,"账户不可用, 请确认账户是否被锁定."
+10000,2017-09-06 03:17:56.409000,1,10000,2017-09-06 03:17:56.410000,ExceptionsApiCode,exceptions.api.code.50005,US,en,Login Failed: Please confirm your credential.
+10000,2017-09-06 03:17:56.419000,1,10000,2017-09-06 03:17:56.419000,ExceptionsApiCode,exceptions.api.code.50005,CN,zh,"登录失败, 请确认账户与密码是否匹配."
+10000,2017-09-06 03:17:56.425000,1,10000,2017-09-06 03:17:56.425000,ExceptionsApiCode,exceptions.api.code.50006,US,en,Invalid User: Please confirm your credential.
+10000,2017-09-06 03:17:56.432000,1,10000,2017-09-06 03:17:56.432000,ExceptionsApiCode,exceptions.api.code.50006,CN,zh,"无效用户, 请确认账户与密码是否匹配."
+10000,2017-09-06 03:17:56.438000,1,10000,2017-09-06 03:17:56.439000,ExceptionsApiCode,exceptions.api.code.50007,US,en,Invalid Raw Password: Please confirm your raw password.
+10000,2017-09-06 03:17:56.445000,1,10000,2017-09-06 03:17:56.445000,ExceptionsApiCode,exceptions.api.code.50007,CN,zh,"无效的原始密码, 请确认原始密码是否正确."
+10000,2017-09-06 03:17:56.458000,1,10000,2017-09-06 03:17:56.458000,ExceptionsApiCode,exceptions.api.code.50008,US,en,Has Children: Please confirm the sub items is empty.
+10000,2017-09-06 03:17:56.471000,1,10000,2017-09-06 03:17:56.471000,ExceptionsApiCode,exceptions.api.code.50008,CN,zh,"尚有子项,无法删除: 请确认子项已全部删除"
+10000,2017-09-06 03:17:56.481000,1,10000,2017-09-06 03:17:56.481000,ExceptionsApiCode,exceptions.api.code.50009,US,en,Access Token Expired: Please extend or login again.
+10000,2017-09-06 03:17:56.488000,1,10000,2017-09-06 03:17:56.488000,ExceptionsApiCode,exceptions.api.code.50009,CN,zh,访问令牌已过期: 请延期或重新登录
+10000,2017-09-06 03:17:56.494000,1,10000,2017-09-06 03:17:56.494000,ExceptionsApiCode,exceptions.api.code.50010,US,en,Authentication Failed: Please confirm your credential.
+10000,2017-09-06 03:17:56.501000,1,10000,2017-09-06 03:17:56.501000,ExceptionsApiCode,exceptions.api.code.50010,CN,zh,认证失败: 请确认登录凭证是否正确.
+10000,2017-09-06 03:17:56.507000,1,10000,2017-09-06 03:17:56.508000,ExceptionsApiCode,exceptions.api.code.50011,US,en,Data Already Exists: Please confirm the data you requested.
+10000,2017-09-06 03:17:56.514000,1,10000,2017-09-06 03:17:56.514000,ExceptionsApiCode,exceptions.api.code.50011,CN,zh,数据已存在: 请确认请求的数据是否存在.
+10000,2017-09-06 03:17:56.522000,1,10000,2017-09-06 03:17:56.522000,ExceptionsApiCode,exceptions.api.code.50012,US,en,Unsupported Request Method: Please confirm the request method.
+10000,2017-09-06 03:17:56.532000,1,10000,2017-09-06 03:17:56.534000,ExceptionsApiCode,exceptions.api.code.50012,CN,zh,不支持的请求方法: 请确认请求的方法.
+10000,2017-09-06 03:17:56.544000,1,10000,2017-09-06 03:17:56.544000,ExceptionsApiCode,exceptions.api.code.50013,US,en,Access Token Invalid: Please confirm the token requested.
+10000,2017-09-06 03:17:56.565000,1,10000,2017-09-06 03:17:56.565000,ExceptionsApiCode,exceptions.api.code.50013,CN,zh,访问令牌无效: 请确认请求的令牌
+10000,2017-09-06 03:17:56.586000,1,10000,2017-09-06 03:17:56.587000,ExceptionsApiCode,exceptions.api.code.11001,US,en,"No account bound to system user, please check that login with system admin, without bound to any account?"
+10000,2017-09-06 03:17:56.615000,1,10000,2017-09-06 03:17:56.616000,ExceptionsApiCode,exceptions.api.code.11001,CN,zh,"当前登录的用户未绑定系统账号, 是否使用了开发时自带的admin来测试功能?"
+10000,2017-09-06 03:17:56.630000,1,10000,2017-09-06 03:17:56.630000,ExceptionsApiCode,exceptions.api.code.11002,US,en,No role found
+10000,2017-09-06 03:17:56.645000,1,10000,2017-09-06 03:17:56.646000,ExceptionsApiCode,exceptions.api.code.11002,CN,zh,系统无法找到指定的角色
+10000,2017-09-06 03:38:17.200000,1,10000,2017-09-06 03:38:17.212000,ExceptionsApiCode,exceptions.api.code.50014,US,en,User is not available: Please confirm that the requested username is already occupied.
+10000,2017-09-06 03:38:17.232000,1,10000,2017-09-06 03:38:17.232000,ExceptionsApiCode,exceptions.api.code.50014,CN,zh,用户不可用: 请确认请求的用户名是否已被占用
