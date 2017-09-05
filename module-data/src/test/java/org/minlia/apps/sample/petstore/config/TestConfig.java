@@ -16,7 +16,7 @@
  *
  */
 
-package com.microsoft.crm.v1.config;
+package org.minlia.apps.sample.petstore.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
