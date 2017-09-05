@@ -18,7 +18,7 @@
 //
 //package com.microsoft.crm.v1.test;
 //
-//import com.microsoft.crm.v1.config.TestConfig;
+//import TestConfig;
 //import com.microsoft.crm.v1.dao.RoleRepository;
 //import com.microsoft.crm.v1.dao.UserDao;
 //import com.microsoft.crm.v1.domain.Role;

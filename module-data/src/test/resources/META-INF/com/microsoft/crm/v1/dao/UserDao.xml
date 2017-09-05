@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.microsoft.crm.v1.dao.UserDao">
+<mapper namespace="UserDao">
 
-    <select id="findUseMapper" resultType="com.microsoft.crm.v1.domain.User" lang="XML">
+    <select id="findUseMapper" resultType="User" lang="XML">
         SELECT ID AS id, FIRSTNAME AS firstname, LASTNAME AS lastname FROM DS_USER WHERE LASTNAME = #{lastname}
     </select>
-    <select id="findUseMapper" resultType="com.microsoft.crm.v1.domain.User" lang="XML"
+    <select id="findUseMapper" resultType="User" lang="XML"
             databaseId="postgres">
         SELECT ID AS id, "FIRSTNAME" AS firstname, "LASTNAME" AS lastname FROM "DS_USER" WHERE "LASTNAME" = #{lastname}
     </select>
