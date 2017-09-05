@@ -19,7 +19,7 @@ public class UserRegistrationRequestBody {
    * 用户名
    */
   @NotNull
-  @UniqueUsername
+  @UniqueUsername //放这里就需要考虑修改时候的BODY分离
   @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Username have to be grater than 8 characters")
   @Column(unique = true)
   @JsonProperty

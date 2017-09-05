@@ -16,5 +16,4 @@ public interface UserReadOnlyService extends ReadOnlyService<UserDao,User,Long> 
      */
     public User findOneByUsernameOrEmailOrCellphone(String login);
 
-
 }

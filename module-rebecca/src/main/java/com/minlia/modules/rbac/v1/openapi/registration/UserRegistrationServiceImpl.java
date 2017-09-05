@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.captcha.v1.enumeration.SecureCodeSceneEnum;
 import com.minlia.module.captcha.v1.service.SecureCodeService;
+import com.minlia.modules.rbac.GuidGenerator;
 import com.minlia.modules.rbac.domain.Role;
 import com.minlia.modules.rbac.domain.User;
 import com.minlia.modules.rbac.event.RegistrationEventPublisher;
@@ -44,13 +45,18 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
         Boolean validity = secureCodeService.validity(body.getUsername(), body.getCode(), type);
         ApiPreconditions.not(validity, SecurityApiCode.INVALID_SECURE_CODE);
+
+
         //用户名
         user.setUsername(body.getUsername());
         //密码
         user.setPassword(bCryptPasswordEncoder.encode(body.getPassword()));
-        //角色
-        Role userRole = roleRepository.findOneByCode(SecurityConstant.ROLE_GUEST_CODE);
-        user.setRoles(Sets.newHashSet(userRole));
+        //在注册时无需指定角色, Account绑定的时候指定角色, 与完善用户信息
+//        Role userRole = roleRepository.findOneByCode(SecurityConstant.ROLE_GUEST_CODE);
+//        user.setRoles(Sets.newHashSet(userRole));
+
+        //TODO 多机部署时需要设置这里的数据中心与机器ID
+        user.setGuid(new Long(new GuidGenerator(1l,1l).nextId()).toString());
 
         //用户可以登录相关开始
         user.setEnabled(Boolean.TRUE);

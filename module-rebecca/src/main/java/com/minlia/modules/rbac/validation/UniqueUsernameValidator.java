@@ -2,6 +2,8 @@ package com.minlia.modules.rbac.validation;
 
 import com.minlia.modules.rbac.repository.UserRepository;
 import com.minlia.modules.rbac.service.UserReadOnlyService;
+import com.minlia.modules.rbac.v1.openapi.registration.UserAvailablitityRequestBody;
+import com.minlia.modules.rbac.v1.openapi.registration.UserRegistrationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +18,7 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 
 
     @Autowired
-    UserReadOnlyService userReadOnlyService;
+    UserRegistrationService userRegistrationService;
 
     @Override
     public void initialize(UniqueUsername constraintAnnotation) {
@@ -25,12 +27,14 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
-        // If the repository is null then return null
-        if(userReadOnlyService == null){
+        // If the service is null then return null
+        if(userRegistrationService == null){
             log.warn("Object is null at this time: userReadOnlyService");
             return true;
         }
         // Check if the username is unique
-        return userReadOnlyService.findOneByUsernameOrEmailOrCellphone(username) == null;
+        UserAvailablitityRequestBody body=new UserAvailablitityRequestBody();
+        body.setUsername(username);
+        return userRegistrationService.availablitity(body);
     }
 }
