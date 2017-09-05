@@ -9,7 +9,7 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.cloud.utils.EnvironmentUtils;
+import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.v1.body.SecureCodeSendRequestBody;
 import com.minlia.module.captcha.v1.domain.SecureCode;
 import com.minlia.module.captcha.v1.enumeration.SecureCodeSceneEnum;
@@ -66,7 +66,7 @@ public class SecureCodeEndpoint {
    * api/user/securityCode/RESET_PASSWORD/send
    */
   @ApiOperation(value = "发送验证码", notes = "发送验证码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @RequestMapping(value = "{type}/send", method = RequestMethod.POST, consumes = {
+  @RequestMapping(value = "{scene}/send", method = RequestMethod.POST, consumes = {
       MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
   public StatefulBody send(@Valid @RequestBody SecureCodeSendRequestBody body,
       @PathVariable String scene) {
@@ -82,7 +82,7 @@ public class SecureCodeEndpoint {
 
     SecureCode securityCode = secureCodeService.send(body, sceneSpecified);
     //非生产环境时放出来
-    if (!EnvironmentUtils.isProduction()) {
+    if (!Environments.isProduction()) {
       return SuccessResponseBody.builder().payload(securityCode).build();
     } else {
       return SuccessResponseBody.builder().build();

@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.minlia.cloud.annotation.i18n.Localize;
 import com.minlia.cloud.annotation.i18n.Localized;
 import com.minlia.cloud.constant.Constants.LanguageTypes;
-import com.minlia.cloud.utils.EnvironmentUtils;
+import com.minlia.cloud.utils.Environments;
 import com.minlia.module.language.v1.domain.Language;
 import com.minlia.module.language.v1.messagesource.MessageAcceptor;
 import com.minlia.module.language.v1.messagesource.util.LocaleUtils;
@@ -71,7 +71,7 @@ public class LocalizedAnnotationInitializingListener implements
   public void onApplicationEvent(ApplicationReadyEvent event) {
     log.debug("获取到所有注解的类,初始化到数据库 LocalizedAnnotationInitializingListener");
 
-    if (EnvironmentUtils.isProduction()) {
+    if (Environments.isProduction()) {
       return;
     }
 //    Messages messages = new Messages();
@@ -117,7 +117,7 @@ public class LocalizedAnnotationInitializingListener implements
       e.printStackTrace();
     }
 
-    if (EnvironmentUtils.isDevelopment()) {
+    if (Environments.isDevelopment()) {
 //      messageAcceptor.setMessages(Constants.EXCEPTIONS_APICODE_PREFIX, messages);
       languageInitializeService.initialLanguage(languages);
     }

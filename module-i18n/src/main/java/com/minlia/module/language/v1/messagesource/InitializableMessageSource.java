@@ -1,6 +1,6 @@
 package com.minlia.module.language.v1.messagesource;
 
-import com.minlia.cloud.utils.EnvironmentUtils;
+import com.minlia.cloud.utils.Environments;
 import com.minlia.module.language.v1.messagesource.util.LocaleUtils;
 import com.minlia.module.language.v1.messagesource.util.MessageInitializationException;
 import lombok.extern.slf4j.Slf4j;
@@ -102,7 +102,7 @@ public class InitializableMessageSource extends AbstractMessageSource implements
     @Override
     protected MessageFormat resolveCode(String code, Locale locale) {
 
-        Boolean isProduction= EnvironmentUtils.isProduction();
+        Boolean isProduction= Environments.isProduction();
         //如果非生产环境,则每次请求都重新初始化, 达到修改即生效的效果
         if(!isProduction){
 //            initialize();

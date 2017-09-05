@@ -2,7 +2,7 @@ package com.minlia.module.captcha.v1.service.impl;
 
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.cloud.utils.EnvironmentUtils;
+import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.v1.body.SecureCodeSendRequestBody;
 import com.minlia.module.captcha.v1.code.CaptchaApiCode;
 import com.minlia.module.captcha.v1.domain.SecureCode;
@@ -15,7 +15,6 @@ import com.minlia.modules.starter.sms.ConsoleSimulationSmsSendService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -99,7 +98,7 @@ public class SecureCodeServiceImpl implements SecureCodeService {
 
     //当生产环境时发送验证码, 否则不需要
     //TODO: SMS模板建好后需要修改此处的jsonArguments中的内容
-    if (EnvironmentUtils.isProduction()) {
+    if (Environments.isProduction()) {
       ContextHolder.getContext().getBean(AliyunSmsSendService.class)
           .send(body.getUsername(), smsTemplateId, "{\"name\":\"" + secureCode.getCode() + "\"}");
     } else {
