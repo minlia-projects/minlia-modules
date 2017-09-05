@@ -1,5 +1,7 @@
 package com.minlia.module.redis;
 
+import com.google.common.collect.Maps;
+import java.util.Map;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
