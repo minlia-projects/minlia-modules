@@ -1,0 +1,86 @@
+{
+	"variables": [],
+	"info": {
+		"name": "User Registration",
+		"_postman_id": "42d3b7fa-2622-af63-2445-3d045092337b",
+		"description": "用户注册流程",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Availablitity Check",
+			"request": {
+				"url": "http://127.0.0.1:10010/api/user/availablitity",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"string\"\n}"
+				},
+				"description": "Generated from a curl request: \ncurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{\n  \\\"username\\\": \\\"string\\\"\n}' 'http://127.0.0.1:10010/api/user/availablitity'"
+			},
+			"response": []
+		},
+		{
+			"name": "2. \bSend Secure Code",
+			"request": {
+				"url": "http://127.0.0.1:10010/api/user/secureCode/USER_REGISTRATION/send",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"string\"\n}"
+				},
+				"description": "Generated from a curl request: \ncurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{\n  \\\"username\\\": \\\"string\\\"\n}' 'http://127.0.0.1:10010/api/user/secureCode/USER_REGISTRATION/send'"
+			},
+			"response": []
+		},
+		{
+			"name": "3. Registration",
+			"request": {
+				"url": "http://127.0.0.1:10010/api/user/registration",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"code\": \"7843\",\n  \"password\": \"string\",\n  \"username\": \"string\"\n}"
+				},
+				"description": "Generated from a curl request: \ncurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{\n  \\\"code\\\": \\\"7843\\\",\n  \\\"password\\\": \\\"string\\\",\n  \\\"username\\\": \\\"string\\\"\n}' 'http://127.0.0.1:10010/api/user/registration'"
+			},
+			"response": []
+		}
+	]
+}

@@ -47,17 +47,19 @@ public class RegistrationEndpoint {
     @ApiOperation(value = "用户名有效性验证", notes = "用户名有效性验证", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "availablitity", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody availablitity(@Valid @RequestBody UserAvailablitityRequestBody body ) {
-        Boolean checked=userRegistrationService.availablitity(body);
+        Boolean available=userRegistrationService.availablitity(body);
         AvailablitityResponseBody responseBody=new AvailablitityResponseBody();
         int code=0;
         String message="NotAvailable";
-        if(checked){
+        if(available){
             code=1;
             message="Available";
-            responseBody.setAvailabe(Boolean.TRUE);
-            responseBody.setMessage(message);
+            responseBody.setAvailable(Boolean.TRUE);
+        }else{
+            responseBody.setAvailable(Boolean.FALSE);
         }
 
+        responseBody.setMessage(message);
         return SuccessResponseBody.builder().code(code).payload(responseBody).build();
     }
 
