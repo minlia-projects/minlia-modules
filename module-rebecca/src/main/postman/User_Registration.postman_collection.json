@@ -2,15 +2,53 @@
 	"variables": [],
 	"info": {
 		"name": "User Registration",
-		"_postman_id": "42d3b7fa-2622-af63-2445-3d045092337b",
+		"_postman_id": "af1ab78d-cf0a-01b4-13b1-a542a1b19344",
 		"description": "用户注册流程",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "1. Availablitity Check",
+			"name": "Username Availablitity Check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"tests[\"返回的状态码是200\"] = responseCode.code === 200;",
+							"",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['返回体为正常的JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['返回体为非正常的JSON'] = false;",
+							"}",
+							"pm.test(\"业务返回不为空\", function () {",
+							"    pm.expect(responseJSON.payload).to.be.not.null;",
+							"});",
+							"",
+							"// tests [\"检查用户名不可用, 根据available属性\"] = responseJSON.payload.available === false;",
+							"// tests [\"检查用户名不可用, 根据message属性\"] = responseJSON.payload.message === \"NotAvailable\";",
+							"pm.test(\"业务返回正确性\", function () {",
+							"    pm.expect(responseJSON.code).to.be.eql(1);",
+							"});",
+							"",
+							"pm.test(\"检测用户名是否可用\", function () {",
+							"    pm.expect(responseJSON.payload.available).to.be.eql(true);",
+							"    postman.setNextRequest(\"Send Secure Code\");",
+							"});",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "http://127.0.0.1:10010/api/user/availablitity",
+				"url": "{{AVAILABLITITY_CHECK_API}}",
 				"method": "POST",
 				"header": [
 					{
@@ -26,16 +64,61 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"username\": \"string\"\n}"
+					"raw": "{\n  \"username\": \"{{username}}\"\n}"
 				},
 				"description": "Generated from a curl request: \ncurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{\n  \\\"username\\\": \\\"string\\\"\n}' 'http://127.0.0.1:10010/api/user/availablitity'"
 			},
 			"response": []
 		},
 		{
-			"name": "2. \bSend Secure Code",
+			"name": "Send Secure Code",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['返回体为正常的JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['返回体为非正常的JSON'] = false;",
+							"}",
+							"",
+							"pm.test(\"业务返回正确\", function () {",
+							"    pm.expect(responseJSON.code).to.be.eql(1);",
+							"});",
+							"",
+							"pm.test(\"业务返回不为空\", function () {",
+							"    pm.expect(responseJSON.payload).to.be.not.null;",
+							"});",
+							"",
+							"pm.test(\"发送验证码成功\", function () {",
+							"    pm.expect(responseJSON.payload.code).to.be.not.null;",
+							"    // pm.globals.set(\"code\", responseJSON.payload.code);",
+							"    console.log(\"Code \",responseJSON.payload.code);",
+							"    postman.setEnvironmentVariable(\"code\",responseJSON.payload.code);",
+							"    postman.setNextRequest(\"Registration\");",
+							"});",
+							"",
+							"pm.test(\"验证码尚未被使用过\", function () {",
+							"    pm.expect(responseJSON.payload.used).to.be.eql(false);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "http://127.0.0.1:10010/api/user/secureCode/USER_REGISTRATION/send",
+				"url": "{{SEND_SECURE_CODE_API}}",
 				"method": "POST",
 				"header": [
 					{
@@ -51,16 +134,59 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"username\": \"string\"\n}"
+					"raw": "{\n  \"username\": \"{{username}}\"\n}"
 				},
 				"description": "Generated from a curl request: \ncurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{\n  \\\"username\\\": \\\"string\\\"\n}' 'http://127.0.0.1:10010/api/user/secureCode/USER_REGISTRATION/send'"
 			},
 			"response": []
 		},
 		{
-			"name": "3. Registration",
+			"name": "Registration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON;",
+							"",
+							"try { ",
+							"    responseJSON = JSON.parse(responseBody); ",
+							"    tests['返回体为正常的JSON'] = true;",
+							"}",
+							"catch (e) { ",
+							"    responseJSON = {}; ",
+							"    tests['返回体为非正常的JSON'] = false;",
+							"}",
+							"",
+							"",
+							"pm.test(\"业务返回正确性测试\", function () {",
+							"    pm.expect(responseJSON.code).to.be.eql(1);",
+							"});",
+							"",
+							"pm.test(\"用户注册成功\", function () {",
+							"    pm.expect(responseJSON.payload.guid).to.be.not.null;",
+							"});",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.globals.set(\"password\", \"111111\");",
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"url": "http://127.0.0.1:10010/api/user/registration",
+				"url": "{{REGISTRATION_API}}",
 				"method": "POST",
 				"header": [
 					{
@@ -76,7 +202,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"code\": \"7843\",\n  \"password\": \"string\",\n  \"username\": \"string\"\n}"
+					"raw": "{\n  \"code\": \"{{code}}\",\n  \"password\": \"{{password}}\",\n  \"username\": \"{{username}}\"\n}"
 				},
 				"description": "Generated from a curl request: \ncurl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{\n  \\\"code\\\": \\\"7843\\\",\n  \\\"password\\\": \\\"string\\\",\n  \\\"username\\\": \\\"string\\\"\n}' 'http://127.0.0.1:10010/api/user/registration'"
 			},
