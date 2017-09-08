@@ -25,11 +25,9 @@ public interface UserPasswordService {
      * @param body
      * @return
      */
-//    @PreAuthorize(value = "hasAnyAuthority('"+USER_CHANGE_PASSWORD+"')")
     User changePassword(ChangePasswordByRawPasswordRequestBody body);
 
 
-//    @PreAuthorize(value = "hasAnyAuthority('"+USER_CHANGE_PASSWORD+"')")
     User changePassword(ChangePasswordBySecurityCodeRequestBody body);
 
 }
