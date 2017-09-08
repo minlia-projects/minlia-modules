@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.v1.openapi.authentication;
+package com.minlia.modules.rbac.v1.backend.authentication;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
