@@ -70,7 +70,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     secureCodeService.clean(body.getUsername(), body.getCode(), type);
 
     //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
-    RegistrationEventPublisher.onCompleted(userCreated.getId());
+    RegistrationEventPublisher.onCompleted(userCreated);
 
     return userCreated;
   }
