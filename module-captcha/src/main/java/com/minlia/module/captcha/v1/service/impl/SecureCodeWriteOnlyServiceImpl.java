@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class SecureCodeWriteOnlyServiceImpl extends AbstractWriteOnlyService<SecureCodeDao, SecureCode, Long> implements SecureCodeWriteOnlyService {
 
     @Autowired
-    private SecureCodeDao userDao;
+    private SecureCodeDao secureCodeDao;
 
 
 }

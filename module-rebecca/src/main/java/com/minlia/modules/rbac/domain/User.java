@@ -2,15 +2,18 @@ package com.minlia.modules.rbac.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.annotation.SearchField;
 import com.minlia.cloud.entity.AbstractEntity;
 import com.minlia.modules.security.authentication.credential.*;
+import javax.persistence.Transient;
 import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
+import org.springframework.data.annotation.*;
 
 /**
  * Created by will on 8/14/17.
@@ -24,6 +27,7 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
      */
     @Column(unique = true)
     @SearchField
+    @JsonProperty
     private String username;
 
     /**
@@ -31,6 +35,7 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
      */
     @Column(unique = true)
     @SearchField
+    @JsonProperty
     private String cellphone;
 
     /**
@@ -38,25 +43,32 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
      */
     @Column(unique = true)
     @SearchField
+    @JsonProperty
     private String email;
 
     /**
      * Global User Identification
      */
     @SearchField
+    @JsonProperty
     private String guid;
 
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
     @SearchField
+    @JsonProperty
     private String firstName;
     @SearchField
+    @JsonProperty
     private String lastName;
     @SearchField
+    @JsonProperty
     private String fullName;
 
+    @JsonProperty
     private String nickName;
 
     @JsonIgnore
@@ -193,6 +205,12 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
         this.nickName = nickName;
     }
 
-
+    @JsonProperty("password")
+    @Transient
+    @org.springframework.data.annotation.Transient
+    public String getPasswordAsJson(){
+        //TODO to mask password for output
+        return getPassword();
+    }
 
 }

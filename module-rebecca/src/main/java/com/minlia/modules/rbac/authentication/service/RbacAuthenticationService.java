@@ -3,13 +3,11 @@ package com.minlia.modules.rbac.authentication.service;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.rbac.domain.User;
 import com.minlia.modules.rbac.service.PermissionReadOnlyService;
-import com.minlia.modules.rbac.service.UserQueryService;
+import com.minlia.modules.rbac.service.UserReadOnlyService;
 import com.minlia.modules.security.authentication.service.AbstractAuthenticationService;
 import com.minlia.modules.security.code.SecurityApiCode;
 import com.minlia.modules.security.model.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +29,7 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
     BCryptPasswordEncoder encoder;
 
     @Autowired
-    UserQueryService userQueryService;
+    UserReadOnlyService userReadOnlyService;
 
     @Autowired
     PermissionReadOnlyService permissionReadOnlyService;
@@ -42,7 +40,7 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-        User user = userQueryService.findOneByUsernameOrEmailOrCellphone(username);
+        User user = userReadOnlyService.findOneByUsernameOrEmailOrCellphone(username);
         if (null == user) {
             throw new UsernameNotFoundException("User not found: " + username);
         }

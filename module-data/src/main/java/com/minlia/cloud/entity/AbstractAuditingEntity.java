@@ -22,22 +22,34 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+//import com.github.javaplugs.mybatis.LocalDateTimeTypeHandler;
+//import com.github.javaplugs.mybatis.ThreetenbpZonedDateTimeTypeHandler;
+//import com.github.javaplugs.mybatis.ZonedDateTimeTypeHandler;
 import com.minlia.cloud.annotation.SearchField;
-import com.minlia.cloud.entity.listener.AbstractAuditingEntityListener;
+import java.time.LocalDateTime;
+import org.apache.ibatis.type.LocalDateTimeTypeHandler;
+import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mybatis.annotations.DynamicSearch;
 
 import javax.persistence.*;
+import org.springframework.data.mybatis.annotations.TypeHandler;
 
 //1. 定义实体父类
 @MappedSuperclass
 // 2. 定义为可审计
 @Audited
 // 3. 定义审计监听器
-@EntityListeners(value = {AuditingEntityListener.class, AbstractAuditingEntityListener.class})
+//@EntityListeners(value = {AuditingEntityListener.class, AbstractAuditingEntityListener.class})
 //@EntityListeners(value = {AbstractAuditingEntityListener.class})
+
+@EntityListeners(AuditingEntityListener.class)
 // 4. 定义Json检测特征
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)@DynamicSearch
@@ -55,10 +67,6 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
 //, generator = PersistenceConstants.SEQUENCE_GENERATOR_NAME for oracle
 
 
-//由父类提供, 不需要了
-//由于在搜索时找不到 显示为 where null !=1 and null like'%x%' order by `user`.id DESC limit 10 offset 0
-//需要在字段处定义Column(name="id")
-
     @JsonProperty
     @JsonSerialize(using=ToStringSerializer.class)
     @Column(name = "id")
@@ -67,6 +75,46 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     @SearchField
     @JSONField
     protected Long id;
+
+    @Column(name = "enabled")
+    @JsonIgnore
+    @JSONField(serialize = false,deserialize = true)
+    private Boolean enabled = Boolean.TRUE;
+
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+
+
+
+    @CreatedBy
+    @Column(name = "created_by", nullable = false, length = 50, updatable = false)
+    @JsonIgnore
+    private String createdBy;
+    @LastModifiedBy
+    @Column(name = "last_modified_by", length = 50)
+    @JsonIgnore
+    private String lastModifiedBy;
+
+    @CreatedDate
+//    @Type(type = "org.jadira.usertype.dateandtime.PersistentLocalDateTime")//
+    @Column(name = "created_date", nullable = false)
+    @JsonIgnore
+    @TypeHandler(value = LocalDateTimeTypeHandler.class)
+    private LocalDateTime createdDate = LocalDateTime.now();
+
+    @LastModifiedDate
+//    @Type(type = "org.jadira.usertype.dateandtime.PersistentLocalDateTime")
+    @Column(name = "last_modified_date")
+    @JsonIgnore
+    @TypeHandler(value = LocalDateTimeTypeHandler.class)
+    private LocalDateTime lastModifiedDate = LocalDateTime.now();
 
     @Override
     public Long getId() {
@@ -78,137 +126,47 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
         this.id = id;
     }
 
-    //    @JsonProperty(value = "id")
-//    @JSONField(name = "id")
-//    public Long getIdAsJson(){
-//        return getId();
-//    }
-    /**
-     * 应用系统ID
-     */
-//    private String appId;
-
-    /**
-     * is enabled
-     */
-    @Column(name = "enabled")
-    @JsonIgnore
-    @JSONField(serialize = false,deserialize = true)
-    private Boolean enabled = Boolean.TRUE;
-
-
-    /**
-     * //@Id
-     * // MySQL/SQLServer: @GeneratedValue(strategy = GenerationType.AUTO)
-     * // Oracle: @GeneratedValue(strategy = GenerationType.AUTO, generator =
-     * // "sequenceGenerator")
-     *
-     * @return
-     */
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-
-    // @Enumerated(value = EnumType.ORDINAL)
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-
-    private String createdBy;
-
-
-
-    private String lastModifiedBy;
-
-
-
     public String getCreatedBy() {
-
         return createdBy;
     }
 
-    public void setCreatedBy(final String createdBy) {
-
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
-
-
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @org.springframework.data.mybatis.annotations.Temporal(value = org.springframework.data.mybatis.annotations.Temporal.TemporalType.TIMESTAMP)
-//    protected Date createdDate;
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @org.springframework.data.mybatis.annotations.Temporal(value = org.springframework.data.mybatis.annotations.Temporal.TemporalType.TIMESTAMP)
-//    protected Date lastModifiedDate;
-//
-//
-//    public DateTime getCreatedDate() {
-//
-//        return null == createdDate ? null : new DateTime(createdDate);
-//    }
-//
-//    public void setCreatedDate(final DateTime createdDate) {
-//
-//        this.createdDate = null == createdDate ? null : createdDate.toDate();
-//    }
-//
-//    public DateTime getLastModifiedDate() {
-//
-//        return null == lastModifiedDate ? null : new DateTime(lastModifiedDate);
-//    }
-//
-//    public void setLastModifiedDate(final DateTime lastModifiedDate) {
-//
-//        this.lastModifiedDate = null == lastModifiedDate ? null : lastModifiedDate.toDate();
-//    }
-//    @JsonProperty(value = "createdDate")
-//    public Long createdDateTimestampAsJson() {
-//        if (this.getCreatedDate() != null) {
-//            createdDateTimestamp = this.getCreatedDate().getMillis();
-//        }
-//        return createdDateTimestamp;
-//    }
-//
-//    @JsonProperty(value = "lastModifiedDate")
-//    public Long getDateModifiedAsJson() {
-//        if (this.getLastModifiedDate() != null) {
-//            lastModifiedDateTimestamp = this.getLastModifiedDate().getMillis();
-//        }
-//        return lastModifiedDateTimestamp;
-//    }
-
-
-
-
-
     public String getLastModifiedBy() {
-
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(final String lastModifiedBy) {
-
+    public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
-    @Transient
-    @org.springframework.data.annotation.Transient
-    @JSONField(serialize = false)
-    private Long createdDateTimestamp;
 
-    @Transient
-    @org.springframework.data.annotation.Transient
-    @JSONField(serialize = false)
-    private Long lastModifiedDateTimestamp;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    //    @Transient
+//    @org.springframework.data.annotation.Transient
+//    @JSONField(serialize = false)
+//    private Long createdDateTimestamp;
+//
+//    @Transient
+//    @org.springframework.data.annotation.Transient
+//    @JSONField(serialize = false)
+//    private Long lastModifiedDateTimestamp;
 
 
 

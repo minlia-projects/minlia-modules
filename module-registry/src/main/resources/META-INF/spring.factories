@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.registry.v1.autoconfiguration.RegistryAutoConfiguration
+com.minlia.module.registry.RegistryAutoConfiguration

@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: initial user
+      author: will
+      preConditions:
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from user;
+      changes:
+        - loadData:
+            tableName: user
+            file: db/changelog/user.csv
+  - changeSet:
+      id: initial role
+      author: will
+      preConditions:
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from role;
+      changes:
+        - loadData:
+            tableName: role
+            file: db/changelog/role.csv
+  - changeSet:
+      id: initial map_user_roles
+      author: will
+      preConditions:
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from map_user_roles;
+      changes:
+        - loadData:
+            tableName: map_user_roles
+            file: db/changelog/map_user_roles.csv
+
+  - changeSet:
+      id: initial mdl_language
+      author: will
+      preConditions:
+        - sqlCheck:
+            expectedResult: 0
+            sql: select count(*) from mdl_language;
+      changes:
+        - loadData:
+            encoding: UTF-8
+            separator: ','
+            quotchar: '"'
+            tableName: mdl_language
+            file: db/changelog/mdl_language.csv

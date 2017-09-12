@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     //TODO 分离开发环境与生产环境 X-Authorization, 需要同时修改 swagger项目里面Swagger2Config文件
-    public static final String JWT_TOKEN_HEADER_PARAM = "api_key";
+    public static final String JWT_TOKEN_HEADER_PARAM = "X-Auth-Token";
     //    public static final String JWT_TOKEN_HEADER_PARAM = "X-Authorization";
     public static final String OPENID_TOKEN_HEADER_PARAM = "X-WECHAT-OPEN-ID";
     public static final String FORM_BASED_LOGIN_ENTRY_POINT = "/api/auth/login";

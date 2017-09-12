@@ -16,7 +16,7 @@ spring:
         validationQuery: "SELECT 1"
 #        driver-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_m_bible_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_cloud_registry_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
 #        url: jdbc:log4jdbc:h2:mem:mit_ecommerce_webapp_v1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE #;AUTO_SERVER=TRUE
 #        driverClassName: com.mysql.jdbc.Driver   192.168.1.201   net.sf.log4jdbc.DriverSpy
 #        url: jdbc:mysql://localhost:3306/iikar_dims_dev?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8

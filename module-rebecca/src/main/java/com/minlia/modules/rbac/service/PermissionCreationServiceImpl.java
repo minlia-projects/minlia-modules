@@ -44,7 +44,7 @@ public class PermissionCreationServiceImpl implements PermissionCreationService 
   public void initialAdminPermissions(Map<String, String> initialAdminPermissions) {
     //添加权限点组管理员角色
     final Role adminRole = roleDao.findByCode(SecurityConstant.ADMIN_ROLE_NAME);
-    ApiPreconditions.checkNotNull(adminRole, SecurityApiCode.ROLE_NOT_FOUND);
+//    ApiPreconditions.checkNotNull(adminRole, SecurityApiCode.ROLE_NOT_FOUND);
     if (null != adminRole) {
       Set<Permission> permissionCreated = Sets.newHashSet();
       for (Map.Entry permission : initialAdminPermissions.entrySet()) {

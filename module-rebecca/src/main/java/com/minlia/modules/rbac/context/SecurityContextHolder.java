@@ -2,7 +2,7 @@ package com.minlia.modules.rbac.context;
 
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.modules.rbac.domain.User;
-import com.minlia.modules.rbac.service.UserQueryService;
+import com.minlia.modules.rbac.service.UserReadOnlyService;
 import com.minlia.modules.security.model.UserContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
@@ -122,7 +122,7 @@ public final class SecurityContextHolder {
     public static User getCurrentUser() {
         String username = getCurrentUserLogin();
         if (!StringUtils.isEmpty(username)) {
-            User user = ContextHolder.getContext().getBean(UserQueryService.class).findOneByUsernameOrEmailOrCellphone(getCurrentUserLogin());
+            User user = ContextHolder.getContext().getBean(UserReadOnlyService.class).findOneByUsernameOrEmailOrCellphone(getCurrentUserLogin());
             return user;
         } else {
             return null;

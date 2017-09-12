@@ -11,5 +11,7 @@
     <logger name="jdbc.audit" level="ERROR"/>
     <logger name="jdbc.sqltiming" level="ERROR"/>
     <logger name="jdbc.sqlonly" level="INFO"/>
+    <logger name="redis.embedded" level="DEBUG"/>
+    <logger name="org.springframework.cache" level="DEBUG"/>
 
 </configuration>

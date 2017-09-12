@@ -1,8 +1,8 @@
 package com.minlia.module.language.v1;
 
-import static com.minlia.cloud.constant.Constants.EXCEPTIONS_APICODE_PREFIX;
 
 import com.google.common.collect.Lists;
+import com.minlia.cloud.constant.Constants.LanguageTypes;
 import com.minlia.module.language.v1.messagesource.InitializableMessageSource;
 import com.minlia.module.language.v1.messagesource.jdbc.JdbcMessageProvider;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +57,7 @@ public class LanguageAutoConfiguration {
         }
 
         private String fallback(){
-            String fallbackBasename = EXCEPTIONS_APICODE_PREFIX;
+            String fallbackBasename = LanguageTypes.ExceptionsApiCode.name();
             return fallbackBasename;
 //            String basename="";
 //            if(!StringUtils.isEmpty(propertyResolver.getProperty("name"))){

@@ -6,17 +6,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.cloud.data.support.constant.PersistenceConstants;
 import com.minlia.cloud.entity.AbstractEntity;
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 /**
  * @author: Minlia Speedup Code Engine
- * @since: 1.0.0.RELEASE
- * Navigation Define as a JPA entity
+ * @since: 1.0.0.RELEASE Navigation Define as a JPA entity
  */
 // Is those properties publish to json
 @JsonIgnoreProperties(value = {})
@@ -30,44 +37,45 @@ import java.util.Set;
 // uniqueConstraints={@UniqueConstraint(columnNames={ })}
 )
 // A JPA annotation to define how to generate sequence
-@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "Registry")
+@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName =
+    PersistenceConstants.SEQUENCE_PREFIX + "Registry")
 // A Lombok annotation to generate Getter and Setter on compilation
 @Data
 // A Lombok annotation to generate ${className}.Builder inner class as a helper class on compilation
 @Builder
 // A Lombok annotation to generate toString method on compilation
-@ToString(exclude = {"children","parent"})
+@ToString(of = {"id"})
 // A Lombok annotation to generate equals hashCode methods on compilation
-@EqualsAndHashCode(exclude = {"children","parent"})
+@EqualsAndHashCode(of = {"id"})
 // A Lombok annotation to generate all arguments included constructor on compilation
 @AllArgsConstructor
 @NoArgsConstructor
 // A Minlia Speedup annotation to generation code on compilation
 public class Registry extends AbstractEntity {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy = "parent")
-    @JsonIgnore
-    private Set<Registry> children = new HashSet<>();
+  @OneToMany(mappedBy = "parent")
+  @JsonIgnore
+  private Set<Registry> children = new HashSet<>();
 
-    @JsonProperty
-    private String category;
-    @JsonProperty
-    private String code;
+  @JsonProperty
+  private String category;
+  @JsonProperty
+  private String code;
 
-    @JsonProperty
-    private String label;
+  @JsonProperty
+  private String label;
 
-    @JsonProperty
-    private Long orders;
+  @JsonProperty
+  private Long orders;
 
-    @ManyToOne
-    @JsonIgnore
-    private Registry parent;
+  @ManyToOne
+  @JsonIgnore
+  private Registry parent;
 
-    @JsonProperty
-    private Boolean hasChildren;
+  @JsonProperty
+  private Boolean hasChildren;
 
 
 }

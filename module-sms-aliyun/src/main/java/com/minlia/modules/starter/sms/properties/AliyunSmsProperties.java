@@ -9,7 +9,7 @@ aliyun:
     sms:
         accessId: LTAIc3r9adaIXwpH
         accessKey: i86XebUFjiDY7cDQVCFFpPQBOUTcZt
-        endpoint: cn-hangzhou
+        backend: cn-hangzhou
         regionId: cn-hangzhou
         product: Sms
         domain: sms.aliyuncs.com

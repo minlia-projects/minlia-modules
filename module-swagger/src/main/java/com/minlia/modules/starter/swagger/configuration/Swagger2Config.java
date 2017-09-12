@@ -14,6 +14,8 @@ import springfox.documentation.schema.TypeNameExtractor;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.ApiKeyVehicle;
+import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.UiConfiguration;
 
 /**
@@ -27,32 +29,23 @@ public class Swagger2Config {
   @Autowired
   private SwaggerConfigurationProperties minliaProperties;
 
-  //    @Bean
-//    public Docket documentation() {
-//        return new Docket(DocumentationType.SPRING_WEB).select().paths(PathSelectors.regex("/api/.*")).build().apiInfo(metadata());
-//    }
   @Bean
   public Docket documentation() {
     return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.regex(minliaProperties.getPath())).build().directModelSubstitute(LocalDate.class, java.sql.Date.class)
       .directModelSubstitute(LocalDateTime.class, java.util.Date.class).pathMapping("/").apiInfo(metadata())
-
-//      .securitySchemes(securitySchemes())
-//      .securityContexts(securityContexts())
-//
       ;
   }
 
-
+  @Bean
+  SecurityConfiguration security() {
+    return new SecurityConfiguration(null, null, null, null, null, ApiKeyVehicle.HEADER, "X-Auth-Token", ",");
+  }
   @Bean
   PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver resolver) {
     return new PageableParameterBuilderPlugin(nameExtractor, resolver);
   }
 
 
-//  @Bean
-//  LanguageParameterBuilderPlugin languageParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver resolver) {
-//    return new LanguageParameterBuilderPlugin(nameExtractor, resolver);
-//  }
 
   @Bean
   public UiConfiguration uiConfig() {
@@ -66,21 +59,4 @@ public class Swagger2Config {
   }
 
 
-
-
-
-//  private List<? extends SecurityScheme> securitySchemes() {
-//    List<SecurityScheme> authorizationTypes = Arrays.asList(new ApiKey("api_key", "api_key", "header"));
-//    return authorizationTypes;
-//  }
-//
-//  private List<SecurityContext> securityContexts() {
-//    List<SecurityContext> securityContexts   = Arrays.asList(SecurityContext.builder().forPaths(Predicates.not(PathSelectors.regex("^(/error.*|/api/auth/login)$"))).securityReferences(securityReferences()).build());
-//    return securityContexts;
-//  }
-//
-//  private List<SecurityReference> securityReferences() {
-//    List<SecurityReference> securityReferences = Arrays.asList(SecurityReference.builder().reference("token").scopes(new AuthorizationScope[0]).build());
-//    return securityReferences;
-//  }
 }

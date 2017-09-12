@@ -1,6 +1,7 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.authentication.credential.LoginCredential;
@@ -47,7 +48,10 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
             if (logger.isDebugEnabled()) {
                 logger.debug("Authentication method not supported. Request method: {}, only ajax request is supported.", request.getMethod());
             }
-            SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken());
+            ApiPreconditions.is(true, ApiCode.UNSUPPORTED_REQUEST_METHOD);
+            AnonymousAuthenticationToken ret=new AnonymousAuthenticationToken();
+            SecurityContextHolder.getContext().setAuthentication(ret);
+            return ret;
         }
 
         LoginCredentials credential = objectMapper.readValue(request.getReader(), LoginCredentials.class);
@@ -62,7 +66,7 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
 
 
     private LoginCredential convertToLoginCredential(LoginCredentials credential) {
-        ApiPreconditions.checkNotNull(credential, SecurityApiCode.INVALID_CREDENTIAL);
+        ApiPreconditions.checkNotNull(credential, SecurityApiCode.NOT_NULL);
 
         if(!StringUtils.isEmpty(credential.getCellphone())){
             return new LoginCredential(credential.getCellphone(),credential.getPassword());
