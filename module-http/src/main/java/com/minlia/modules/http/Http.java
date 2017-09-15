@@ -128,6 +128,10 @@ public final class Http {
         return new HttpPostRequestBuilder(url);
     }
 
+    public static HttpRequestBuilder request(final String url,String method) {
+        return new HttpGenericRequestBuilder(url);
+    }
+
     /**
      * Creates a builder object for a GET-request. Supports no data nor entity
      * modifications.
@@ -634,6 +638,66 @@ public final class Http {
         protected HttpEntity entity;
 
         protected HttpPostRequestBuilder(final String url) {
+            super(url);
+        }
+
+        @Override
+        public HttpRequestBuilder entity(final HttpEntity entity) {
+            ensureNoData();
+            this.entity = entity;
+            return this;
+        }
+
+        @Override
+        public HttpRequestBuilder data(final String name, final String value) {
+            ensureNoEntity();
+            return super.data(name, value);
+        }
+
+
+        @Override
+        public HttpRequestBuilder data(final NameValuePair... data) {
+            ensureNoEntity();
+            return super.data(data);
+        }
+
+        @Override
+        public HttpRequestBuilder data(final Map<?, ?> data) {
+            ensureNoEntity();
+            return super.data(data);
+        }
+
+        @Override
+        protected HttpUriRequest createRequest() throws IOException {
+            final HttpPost request = new HttpPost(url);
+            if (data != null) {
+                entity = new UrlEncodedFormEntity(data, charset);
+            }
+
+            request.setEntity(entity);
+            return request;
+        }
+
+        private void ensureNoEntity() {
+            if (entity != null) {
+                throw new IllegalStateException(
+                        "You cannot set the data after specifying a custom entity.");
+            }
+        }
+
+        private void ensureNoData() {
+            if (data != null) {
+                throw new IllegalStateException(
+                        "You cannot specify the entity after setting POST data.");
+            }
+        }
+
+    }
+    private static class HttpGenericRequestBuilder extends HttpRequestBuilder {
+
+        protected HttpEntity entity;
+
+        protected HttpGenericRequestBuilder(final String url) {
             super(url);
         }
 
