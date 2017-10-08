@@ -22,7 +22,6 @@ public interface ApiWriteOnlyEndpoint<RESOURCE, PK> extends ApiEndpoint<RESOURCE
      * Update an existing resource<br/>
      * REST webservice published : PUT /{id}
      *
-     * @param id       The identifier of the resource to update, usually a PK or String identifier. It is explicitely provided in order to handle cases where the identifier could be changed.
      * @param resource The resource to update
      * @return OK http status code if the request has been correctly processed, with the updated resource enclosed in the body
      */

@@ -4,6 +4,7 @@ import com.minlia.module.bible.v1.domain.Bible;
 import com.minlia.module.bible.v1.domain.BibleItem;
 import com.minlia.module.bible.v1.repository.BibleItemRepository;
 import com.minlia.module.bible.v1.repository.BibleRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class BibleInitializeServiceImpl implements BibleInitializeService {
    * 当有的时候不需要插入, 不存在时插入
    */
   public void initialBibleWithCode(String bibleCode, String bibleItemCode, String bibleItemLabel,
-      String bibleItemNotes) {
+      String bibleItemNotes,String targetBusinessCode) {
     Bible bibleFound = bibleRepository.findOneByCode(bibleCode);
     //不为空, 已找到此BIBLE
     if (null != bibleFound) {
@@ -37,6 +38,9 @@ public class BibleInitializeServiceImpl implements BibleInitializeService {
       entity.setCode(bibleCode);
       entity.setNotes("系统自动初始化配置项" + bibleCode);
       entity.setNotes(bibleCode);
+      if(!StringUtils.isEmpty(targetBusinessCode)){
+        entity.setTargetBusinessCode(targetBusinessCode);
+      }
       Bible entityCreated = bibleRepository.save(entity);
       initialBibleItem(bibleItemCode, bibleItemLabel, bibleItemNotes, entityCreated);
     }

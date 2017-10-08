@@ -22,24 +22,30 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-//import com.github.javaplugs.mybatis.LocalDateTimeTypeHandler;
-//import com.github.javaplugs.mybatis.ThreetenbpZonedDateTimeTypeHandler;
-//import com.github.javaplugs.mybatis.ZonedDateTimeTypeHandler;
 import com.minlia.cloud.annotation.SearchField;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import org.apache.ibatis.type.LocalDateTimeTypeHandler;
-import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mybatis.annotations.DynamicSearch;
-
-import javax.persistence.*;
 import org.springframework.data.mybatis.annotations.TypeHandler;
+
+//import com.github.javaplugs.mybatis.LocalDateTimeTypeHandler;
+//import com.github.javaplugs.mybatis.ThreetenbpZonedDateTimeTypeHandler;
+//import com.github.javaplugs.mybatis.ZonedDateTimeTypeHandler;
 
 //1. 定义实体父类
 @MappedSuperclass
@@ -59,7 +65,7 @@ import org.springframework.data.mybatis.annotations.TypeHandler;
  * @since 1.0.0
  */
 @org.springframework.data.mybatis.annotations.MappedSuperclass
-public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
+public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {//implements Persistable{
 
     /**
      * ID
@@ -121,7 +127,6 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -218,7 +223,14 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     @org.springframework.data.annotation.Transient
     @JSONField(serialize = false)
     public boolean isEmpty() {
-        return getId() == null;
+       return (null == getId()|| 0==getId());
+    }
+
+
+    @Transient // DATAJPA-622
+    @org.springframework.data.annotation.Transient
+    public boolean isNew() {
+        return (null == getId()|| 0==getId());
     }
 
 }

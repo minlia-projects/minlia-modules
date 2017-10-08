@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional(readOnly = true)
+@Transactional
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired

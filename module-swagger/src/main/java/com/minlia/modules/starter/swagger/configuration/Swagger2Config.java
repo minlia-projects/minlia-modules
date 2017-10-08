@@ -5,8 +5,10 @@ import com.minlia.modules.starter.swagger.plugins.PageableParameterBuilderPlugin
 import com.minlia.modules.starter.swagger.properties.SwaggerConfigurationProperties;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StopWatch;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -21,6 +23,7 @@ import springfox.documentation.swagger.web.UiConfiguration;
 /**
  * Created by user on 11/14/15.
  */
+@Slf4j
 public class Swagger2Config {
 
   @Autowired
@@ -31,9 +34,17 @@ public class Swagger2Config {
 
   @Bean
   public Docket documentation() {
-    return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.regex(minliaProperties.getPath())).build().directModelSubstitute(LocalDate.class, java.sql.Date.class)
+    log.debug("Starting Swagger");
+    StopWatch watch = new StopWatch();
+    watch.start();
+
+    Docket docket= new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.regex(minliaProperties.getPath())).build().directModelSubstitute(LocalDate.class, java.sql.Date.class)
       .directModelSubstitute(LocalDateTime.class, java.util.Date.class).pathMapping("/").apiInfo(metadata())
       ;
+
+    watch.stop();
+    log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
+    return docket;
   }
 
   @Bean

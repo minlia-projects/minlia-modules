@@ -21,7 +21,7 @@ import javax.persistence.Transient;
 
 //Batis
 @org.springframework.data.mybatis.annotations.MappedSuperclass
-public abstract class AbstractEntity extends AbstractTenantEntity {
+public abstract class AbstractEntity extends AbstractAuditingEntity {
 //public abstract class AbstractEntity extends AbstractLocalizedEntity {
 
 

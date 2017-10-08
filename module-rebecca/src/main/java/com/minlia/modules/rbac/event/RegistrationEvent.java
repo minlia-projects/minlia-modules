@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class RegistrationEvent<User> extends ApplicationEvent{
 
-    public RegistrationEvent(Object source) {
+    public RegistrationEvent(User source) {
         super(source);
     }
 

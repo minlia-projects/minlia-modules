@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.minlia.cloud.entity.AbstractAuditingEntity;
 import com.minlia.cloud.entity.AbstractLocalizedEntity;
 import com.minlia.cloud.tenant.listener.AbstractTenantEntityListener;
 import lombok.extern.slf4j.Slf4j;
@@ -25,18 +26,22 @@ import javax.persistence.Transient;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)@DynamicSearch
 
 @org.springframework.data.mybatis.annotations.MappedSuperclass
-public class AbstractTenantEntity extends AbstractLocalizedEntity {
+public class AbstractTenantEntity extends AbstractAuditingEntity {
 
-//    private String tenantId;
+    /**
+     * REQUESTED-X-TENANTID
+     * 租户的ID
+     */
+    private String tenantId;
 //
-//    public String getTenantId() {
-//        return tenantId;
-//    }
-//
-//    public void setTenantId(String tenantId) {
-//        this.tenantId = tenantId;
-//    }
-//
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
 //    @Override
 //
 //    @Transient

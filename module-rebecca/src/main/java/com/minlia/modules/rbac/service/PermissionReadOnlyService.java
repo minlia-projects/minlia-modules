@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by will on 8/14/17.
  */
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public interface PermissionReadOnlyService extends ReadOnlyService<PermissionDao,Permission,Long> {
 
 

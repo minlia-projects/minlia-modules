@@ -77,6 +77,10 @@ public class Bible extends AbstractEntity {
   private String label;
 
 
+  @ApiModelProperty(value = "目标业务对象编码,如 appid的值", example = "1")
+  @JsonProperty
+  private String targetBusinessCode;
+
   /**
    * 说明
    */

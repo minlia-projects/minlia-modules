@@ -42,4 +42,8 @@ public class BibleReadOnlyServiceImpl extends
   }
 
 
+  @Override
+  public Bible findOneByCode(String code) {
+    return  bibleRepository.findOneByCode(code);
+  }
 }

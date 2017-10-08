@@ -15,7 +15,7 @@ public interface BibleInitializeService {
    * 当有的时候不需要插入, 不存在时插入
    */
   public void initialBibleWithCode(String bibleCode, String bibleItemCode, String bibleItemLabel,
-      String bibleItemNotes);
+      String bibleItemNotes,String targetBusinessCode);
 
 
   public void initialBibleItem(String bibleItemCode, String bibleItemLabel, String bibleItemNotes,

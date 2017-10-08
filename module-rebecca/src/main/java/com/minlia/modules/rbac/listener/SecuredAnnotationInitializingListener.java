@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 /**
  * 使用系统级别的 Language 进行国际化配置
@@ -32,7 +33,9 @@ public class SecuredAnnotationInitializingListener implements
    */
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
-    log.debug("SecuredAnnotationInitializingListener 获取到所有注解的类,初始化到数据库");
+    log.debug("Starting initialize annotation permissions");
+    StopWatch watch = new StopWatch();
+    watch.start();
     if (Environments.isProduction()) {
       return;
     }
@@ -46,5 +49,7 @@ public class SecuredAnnotationInitializingListener implements
     }
     permissionCreationService.initialAdminPermissions(adminPermissions);
 
+    watch.stop();
+    log.debug("Completed initialize annotation permissions in {} ms", watch.getTotalTimeMillis());
   }
 }

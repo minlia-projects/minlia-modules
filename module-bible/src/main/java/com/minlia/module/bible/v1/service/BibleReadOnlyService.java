@@ -12,5 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = false)
 public interface BibleReadOnlyService extends ReadOnlyService<BibleDao, Bible, Long> {
 
-
+  Bible findOneByCode(String code);
 }

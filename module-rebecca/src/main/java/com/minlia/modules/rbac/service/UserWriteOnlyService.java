@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by will on 8/14/17.
  */
-@Transactional(readOnly = true)
+@Transactional(readOnly = false)
 public interface UserWriteOnlyService extends WriteOnlyService<UserDao, User, Long> {
 
 
