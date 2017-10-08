@@ -1,5 +1,5 @@
-server:
-    port: 10013
+#server:
+#    port: 10013
 
 system:
     appId: bibleapp

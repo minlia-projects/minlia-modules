@@ -23,6 +23,7 @@ import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.EnvironmentAware;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
+@Order(value = Integer.MIN_VALUE+3)
 public class MessageMigrationListener implements ApplicationListener<ApplicationReadyEvent>,
     EnvironmentAware {
 

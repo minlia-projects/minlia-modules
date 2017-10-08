@@ -17,15 +17,18 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Locale;
+import javax.annotation.Priority;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 @Slf4j
 @Component
+@Priority(value = Ordered.HIGHEST_PRECEDENCE+2)
 public class LocalizedAnnotationInitializingListener implements
     ApplicationListener<ApplicationReadyEvent> {
 

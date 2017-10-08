@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
@@ -19,6 +20,7 @@ import org.springframework.util.StopWatch;
  */
 @Slf4j
 @Component
+@Order(value = Integer.MIN_VALUE+1)
 public class SecuredAnnotationInitializingListener implements
     ApplicationListener<ApplicationReadyEvent> {
 
