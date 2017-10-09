@@ -2,15 +2,12 @@ package com.minlia.cloud.application.domain;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.cloud.entity.AbstractAuditingEntity;
-import com.minlia.cloud.tenant.listener.AbstractTenantEntityListener;
-import io.swagger.annotations.ApiModelProperty;
-import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mybatis.annotations.DynamicSearch;
+
+//import com.minlia.cloud.tenant.listener.AbstractTenantEntityListener;
 
 /**
  * Created by will on 6/22/17.
@@ -18,7 +15,7 @@ import org.springframework.data.mybatis.annotations.DynamicSearch;
 //@JsonPropertyOrder({"appid"})
 @MappedSuperclass
 @Slf4j
-@EntityListeners(AbstractTenantEntityListener.class)
+//@EntityListeners(AbstractApplicationEntityListener.class)
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.DEFAULT, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, creatorVisibility = JsonAutoDetect.Visibility.NONE)@DynamicSearch
