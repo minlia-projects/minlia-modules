@@ -3,7 +3,6 @@ package com.minlia.cloud.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.minlia.cloud.tenant.entity.AbstractTenantEntity;
 import org.springframework.data.mybatis.annotations.DynamicSearch;
 
 import javax.persistence.MappedSuperclass;
