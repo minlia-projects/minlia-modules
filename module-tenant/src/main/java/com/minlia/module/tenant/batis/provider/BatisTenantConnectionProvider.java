@@ -7,7 +7,7 @@ import java.sql.SQLException;
 /**
  * 多租户Connection提供器
  */
-public interface TenantConnectionProvider {
+public interface BatisTenantConnectionProvider {
 
   Connection getConnection(String tenantIdentifier, Connection connection) throws SQLException;
 

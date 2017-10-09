@@ -1,10 +1,10 @@
-package com.minlia.module.tenant.batis.resolver;
+package com.minlia.module.tenant.resolver;
 
 /**
  * 当前租户标识符提供器
  */
-public interface TenantIdentifierResolver {
+public interface BatisTenantIdentifierResolver {
 
-  String resolve();
+  String resolveCurrentTenantIdentifier();
 
 }

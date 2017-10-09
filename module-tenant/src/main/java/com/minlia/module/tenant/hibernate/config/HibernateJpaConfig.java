@@ -1,7 +1,7 @@
 //package com.minlia.module.tenant.hibernate.config;
 //
-//import com.minlia.module.tenant.hibernate.provider.TenantConnectionProvider;
-//import com.minlia.module.tenant.hibernate.resolve.TenantIdentifierResolver;
+//import com.minlia.module.tenant.hibernate.provider.HibernateTenantConnectionProvider;
+//import com.minlia.module.tenant.hibernate.resolve.BatisTenantIdentifierResolver;
 //import java.util.HashMap;
 //import java.util.Map;
 //import java.util.Properties;
@@ -29,13 +29,13 @@
 //    Properties jpaProperties = new Properties();
 //    jpaProperties.put("hibernate.multiTenancy", "DATABASE");
 //    jpaProperties
-//        .put("hibernate.tenant_identifier_resolver", TenantIdentifierResolver.class.getName());
+//        .put("hibernate.tenant_identifier_resolver", BatisTenantIdentifierResolver.class.getName());
 //
 //    Map<String, DataSource> dataSourceMap = new HashMap<>();
 //    dataSourceMap.put("at", tenantDataSourceConfig.dataSourceAt());
 //    dataSourceMap.put("hu", tenantDataSourceConfig.dataSourceHu());
 //    jpaProperties.put("hibernate.multi_tenant_connection_provider",
-//        new TenantConnectionProvider(dataSourceMap));
+//        new HibernateTenantConnectionProvider(dataSourceMap));
 //
 //    LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 //    emf.setJpaVendorAdapter(jpaVendorAdapter());

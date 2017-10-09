@@ -1,11 +1,13 @@
-package com.minlia.module.tenant.batis.resolver;
+package com.minlia.module.tenant.resolver;
 
-public class ThreadLocalTenantIdentifierResolver implements TenantIdentifierResolver {
+import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
+
+public class ThreadLocalBatisTenantIdentifierResolver implements BatisTenantIdentifierResolver,CurrentTenantIdentifierResolver {
 
   private static final ThreadLocal<String> threadTenantIdentifier = new ThreadLocal<String>();
 
   @Override
-  public String resolve() {
+  public String resolveCurrentTenantIdentifier() {
     String currentTenantIdentifier = getCurrentTenantIdentifier();
     return currentTenantIdentifier == null ? "" : currentTenantIdentifier;
   }
@@ -25,9 +27,12 @@ public class ThreadLocalTenantIdentifierResolver implements TenantIdentifierReso
   }
 
 
-
   public static final void remove() {
     threadTenantIdentifier.remove();
   }
 
+  @Override
+  public boolean validateExistingCurrentSessions() {
+    return false;
+  }
 }

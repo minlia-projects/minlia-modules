@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 @Slf4j
-public class SchemaBasedTenantConnectionProvider implements TenantConnectionProvider {
+public class SchemaBasedBatisTenantConnectionProvider implements BatisTenantConnectionProvider {
     private static Pattern encodeStringPatterDatabaseName = Pattern.compile("databaseName=(.*?);", Pattern.CASE_INSENSITIVE );
     private static final String SCHEMA_CHANGE_SQL_ORACLE="ALTER SESSION SET CURRENT_SCHEMA = ";
     private static final String SCHEMA_CHANGE_SQL_T="USE ";

@@ -12,13 +12,13 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 /**
  * JPA多租户连接提供方
  */
-public class TenantConnectionProvider extends AbstractMultiTenantConnectionProvider {
+public class HibernateTenantConnectionProvider extends AbstractMultiTenantConnectionProvider {
 
   private static final long serialVersionUID = 0L;
 
   private Map<String, DataSource> dataSourceMap;
 
-  public TenantConnectionProvider(Map<String, DataSource> dataSourceMap) {
+  public HibernateTenantConnectionProvider(Map<String, DataSource> dataSourceMap) {
     this.dataSourceMap = Collections.unmodifiableMap(dataSourceMap);
   }
 
@@ -39,7 +39,7 @@ public class TenantConnectionProvider extends AbstractMultiTenantConnectionProvi
     connectionProvider.setDataSource(dataSource);
 
     try {
-      connectionProvider.getConnection().setCatalog("");
+      connectionProvider.getConnection().setCatalog(tenantIdentifier);
     } catch (SQLException e) {
       e.printStackTrace();
     }

@@ -1,9 +1,9 @@
 package com.minlia.module.tenant.batis.interceptor;
 
-import com.minlia.module.tenant.batis.provider.SchemaBasedTenantConnectionProvider;
-import com.minlia.module.tenant.batis.provider.TenantConnectionProvider;
-import com.minlia.module.tenant.batis.resolver.ThreadLocalTenantIdentifierResolver;
-import com.minlia.module.tenant.batis.resolver.TenantIdentifierResolver;
+import com.minlia.module.tenant.batis.provider.SchemaBasedBatisTenantConnectionProvider;
+import com.minlia.module.tenant.batis.provider.BatisTenantConnectionProvider;
+import com.minlia.module.tenant.resolver.ThreadLocalBatisTenantIdentifierResolver;
+import com.minlia.module.tenant.resolver.BatisTenantIdentifierResolver;
 import java.sql.Connection;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +23,9 @@ public class MultiTenantInterceptor implements Interceptor {
 //  private TableIncludingProvider tableIncludingProvider;
 
 
-  private TenantIdentifierResolver tenantIdentifierResolver;
+  private BatisTenantIdentifierResolver batisTenantIdentifierResolver;
 
-  private TenantConnectionProvider connectionProvider;
+  private BatisTenantConnectionProvider connectionProvider;
   public MultiTenantInterceptor() {
 
   }
@@ -57,30 +57,30 @@ public class MultiTenantInterceptor implements Interceptor {
    */
   public Connection applyTenantConnection(Connection connection) throws Exception {
     if (this.connectionProvider == null) {
-      this.connectionProvider = new SchemaBasedTenantConnectionProvider();
+      this.connectionProvider = new SchemaBasedBatisTenantConnectionProvider();
       this.connectionProvider.configure(connection.getMetaData());
     }
-    if (this.tenantIdentifierResolver == null) {
-      this.tenantIdentifierResolver = new ThreadLocalTenantIdentifierResolver();
+    if (this.batisTenantIdentifierResolver == null) {
+      this.batisTenantIdentifierResolver = new ThreadLocalBatisTenantIdentifierResolver();
     }
-    String tenantIdentifier = this.tenantIdentifierResolver.resolve();
+    String tenantIdentifier = this.batisTenantIdentifierResolver.resolveCurrentTenantIdentifier();
     return this.connectionProvider.getConnection(tenantIdentifier, connection);
   }
 
-  public TenantConnectionProvider getConnectionProvider() {
+  public BatisTenantConnectionProvider getConnectionProvider() {
     return connectionProvider;
   }
 
-  public void setConnectionProvider(TenantConnectionProvider connectionProvider) {
+  public void setConnectionProvider(BatisTenantConnectionProvider connectionProvider) {
     this.connectionProvider = connectionProvider;
   }
 
-  public TenantIdentifierResolver getTenantIdentifierResolver() {
-    return tenantIdentifierResolver;
+  public BatisTenantIdentifierResolver getBatisTenantIdentifierResolver() {
+    return batisTenantIdentifierResolver;
   }
 
-  public void setTenantIdentifierResolver(
-      TenantIdentifierResolver tenantIdentifierResolver) {
-    this.tenantIdentifierResolver = tenantIdentifierResolver;
+  public void setBatisTenantIdentifierResolver(
+      BatisTenantIdentifierResolver batisTenantIdentifierResolver) {
+    this.batisTenantIdentifierResolver = batisTenantIdentifierResolver;
   }
 }

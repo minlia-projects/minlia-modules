@@ -5,7 +5,7 @@ import com.minlia.cloud.marshall.JsonHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import com.minlia.module.tenant.batis.resolver.ThreadLocalTenantIdentifierResolver;
+import com.minlia.module.tenant.resolver.ThreadLocalBatisTenantIdentifierResolver;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +24,7 @@ public class AppidWebInterceptor extends HandlerInterceptorAdapter {
     boolean requested = false;
     if (value != null && !value.isEmpty()) {
       log.info(HEADER_PARAMETER+" in header with value {}",value);
-      ThreadLocalTenantIdentifierResolver.setCurrentTenantIdentifier(value);
+      ThreadLocalBatisTenantIdentifierResolver.setCurrentTenantIdentifier(value);
       requested = true;
     } else {
       response.setStatus(HttpServletResponse.SC_OK);
@@ -39,13 +39,13 @@ public class AppidWebInterceptor extends HandlerInterceptorAdapter {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
       ModelAndView modelAndView) throws Exception {
-    ThreadLocalTenantIdentifierResolver.remove();
+    ThreadLocalBatisTenantIdentifierResolver.remove();
   }
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-    ThreadLocalTenantIdentifierResolver.remove();
+    ThreadLocalBatisTenantIdentifierResolver.remove();
   }
 
   public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    ThreadLocalTenantIdentifierResolver.remove();
+    ThreadLocalBatisTenantIdentifierResolver.remove();
   }
 }
