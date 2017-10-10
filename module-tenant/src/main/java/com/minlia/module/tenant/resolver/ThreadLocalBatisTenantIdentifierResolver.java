@@ -5,6 +5,17 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 public class ThreadLocalBatisTenantIdentifierResolver implements BatisTenantIdentifierResolver,CurrentTenantIdentifierResolver {
 
   private static final ThreadLocal<String> threadTenantIdentifier = new ThreadLocal<String>();
+  private static final ThreadLocal<Boolean> bypass= new ThreadLocal<Boolean>();
+
+  public static Boolean getBypass() {
+    return bypass.get();
+  }
+
+  public static void setBypass(Boolean bypass1) {
+    bypass.set(bypass1);
+  }
+
+
 
   @Override
   public String resolveCurrentTenantIdentifier() {

@@ -42,38 +42,49 @@ public class HibernateTenantConnectionProvider extends AbstractMultiTenantConnec
 
 
   private ConnectionProvider getConnectionProvider(String appid) {
-    //系统初始化时dataSource Bean还没注册进容器, 所以当不为空的时候才执行以下代码
-    ApplicationContext applicationContext=ContextHolder.getContext();
-    DataSource dataSource=null;
-    DatasourceConnectionProviderImpl connectionProvider =null;
-    if(null!=applicationContext){
-      dataSource=applicationContext.getBean(DataSource.class);
-    }
-    if(null!=dataSource) {
-      try {
-        if (!StringUtils.isEmpty(appid)) {
+    DatasourceConnectionProviderImpl connectionProvider = null;
+    Boolean bypass=ThreadLocalBatisTenantIdentifierResolver.getBypass();
+    if(null == bypass || !bypass) {
+      //系统初始化时dataSource Bean还没注册进容器, 所以当不为空的时候才执行以下代码
+      ApplicationContext applicationContext = ContextHolder.getContext();
+      DataSource dataSource = null;
+
+      if (null != applicationContext) {
+        dataSource = applicationContext.getBean(DataSource.class);
+      }
+      if (null != dataSource) {
+        try {
+          if (!StringUtils.isEmpty(appid)) {
 //        Connection connection=  dataSource.getConnection();
 
 //        connection.getMetaData().get
 
-          dataSource.getConnection().setCatalog(appid);
+            dataSource.getConnection().setCatalog(appid);
 
 
+          }
+        } catch (SQLException e) {
+          e.printStackTrace();
         }
-      } catch (SQLException e) {
-        e.printStackTrace();
+        connectionProvider = new DatasourceConnectionProviderImpl();
+        connectionProvider.setDataSource(dataSource);
+        connectionProvider.configure(Collections.emptyMap());
+        return connectionProvider;
+      } else {
+        connectionProvider = new DatasourceConnectionProviderImpl();
+        connectionProvider.setDataSource(dataSource());
+        connectionProvider.configure(Collections.emptyMap());
+        return connectionProvider;
       }
-      connectionProvider= new DatasourceConnectionProviderImpl();
-      connectionProvider.setDataSource(dataSource);
-      connectionProvider.configure(Collections.emptyMap());
-      return connectionProvider;
-    }else{
-
-      connectionProvider = new DatasourceConnectionProviderImpl();
-      connectionProvider.setDataSource(dataSource());
-      connectionProvider.configure(Collections.emptyMap());
-      return connectionProvider;
     }
+
+
+    connectionProvider = new DatasourceConnectionProviderImpl();
+    connectionProvider.setDataSource(dataSource());
+    connectionProvider.configure(Collections.emptyMap());
+    return connectionProvider;
+
+
   }
 
 

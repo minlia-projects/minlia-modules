@@ -1,6 +1,7 @@
 package com.minlia.module.tenant.batis.provider;
 
 
+import com.minlia.module.tenant.resolver.ThreadLocalBatisTenantIdentifierResolver;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -22,7 +23,12 @@ public class SchemaBasedBatisTenantConnectionProvider implements BatisTenantConn
     @Override
     public Connection getConnection(String tenantIdentifier, Connection connection) throws SQLException {
         if(!StringUtils.isEmpty(tenantIdentifier)) {
-            applyTenantSchema(tenantIdentifier, connection);
+
+
+            Boolean bypass = ThreadLocalBatisTenantIdentifierResolver.getBypass();
+            if(null == bypass || !bypass) {
+                applyTenantSchema(tenantIdentifier, connection);
+            }
         }
         return connection;
     }
