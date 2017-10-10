@@ -33,6 +33,6 @@ public class ThreadLocalBatisTenantIdentifierResolver implements BatisTenantIden
 
   @Override
   public boolean validateExistingCurrentSessions() {
-    return false;
+    return true;
   }
 }

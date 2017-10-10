@@ -237,6 +237,11 @@
             <artifactId>module-swagger</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
+      <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+          <scope>provided</scope>
+      </dependency>
     </dependencies>
 
 

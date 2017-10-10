@@ -46,7 +46,46 @@ public class CloudDataJpaAutoConfiguration {
     @Autowired
     LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
 
-    @Primary
+
+
+//    @Autowired
+//    private MultiTenantConnectionProvider multiTenantConnectionProvider;
+//
+//    @Autowired
+//    private CurrentTenantIdentifierResolver currentTenantIdentifierResolver;
+//
+//
+//    protected Map<String, Object> getJpaProperties() {
+//      Map<String, Object> map = new HashMap<>();
+//      map.put("hibernate.multi_tenant_connection_provider", multiTenantConnectionProvider);
+//      map.put("hibernate.tenant_identifier_resolver", currentTenantIdentifierResolver);
+//      map.put("hibernate.multiTenancy", "DATABASE");
+//      return map;
+//    }
+//
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws SQLException {
+//      HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//      vendorAdapter.setGenerateDdl(true);
+//      vendorAdapter.setDatabasePlatform(getDatabaseDialect().getName());
+//      vendorAdapter.setShowSql(true);
+//
+//      LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+//      factory.setJpaVendorAdapter(vendorAdapter);
+//      factory.setPackagesToScan(getEntityPackage());
+//      factory.setJpaPropertyMap(getJpaProperties());
+//      factory.afterPropertiesSet();
+//      return factory;
+//    }
+//
+//    @Bean
+//    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
+//      return entityManagerFactory.createEntityManager();
+//    }
+
+
+
+      @Primary
     @Bean
     public JpaTransactionManager jpaTransactionManager() {
       JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -56,8 +95,13 @@ public class CloudDataJpaAutoConfiguration {
     }
   }
 
+
+  //从自动装配改变为手动装配
   @Autowired
   private DataSource dataSource;
+
+
+
 
   @Bean
   public LiquibaseProperties liquibaseProperties() {
