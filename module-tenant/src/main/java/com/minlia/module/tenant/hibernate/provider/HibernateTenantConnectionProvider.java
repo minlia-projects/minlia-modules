@@ -1,13 +1,14 @@
 package com.minlia.module.tenant.hibernate.provider;
 
 import com.minlia.module.tenant.resolver.ThreadLocalBatisTenantIdentifierResolver;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.Map;
 import javax.sql.DataSource;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
 import org.hibernate.engine.jdbc.connections.spi.AbstractMultiTenantConnectionProvider;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * JPA多租户连接提供方
@@ -16,15 +17,18 @@ public class HibernateTenantConnectionProvider extends AbstractMultiTenantConnec
 
   private static final long serialVersionUID = 0L;
 
-  private Map<String, DataSource> dataSourceMap;
+  public HibernateTenantConnectionProvider() {
+  }
 
-  public HibernateTenantConnectionProvider(Map<String, DataSource> dataSourceMap) {
-    this.dataSourceMap = Collections.unmodifiableMap(dataSourceMap);
+  @Override
+  public Connection getConnection(String appid) throws SQLException {
+    return selectConnectionProvider(appid).getConnection();
   }
 
   @Override
   protected ConnectionProvider getAnyConnectionProvider() {
-    return getConnectionProvider(ThreadLocalBatisTenantIdentifierResolver.getCurrentTenantIdentifier());
+    return getConnectionProvider(
+        ThreadLocalBatisTenantIdentifierResolver.getCurrentTenantIdentifier());
   }
 
   @Override
@@ -32,17 +36,18 @@ public class HibernateTenantConnectionProvider extends AbstractMultiTenantConnec
     return getConnectionProvider(tenantIdentifier);
   }
 
-  private ConnectionProvider getConnectionProvider(String tenantIdentifier) {
-    DataSource dataSource = dataSourceMap.get(tenantIdentifier);
+  @Autowired()
+  DataSource dataSource;
 
-    DatasourceConnectionProviderImpl connectionProvider = new DatasourceConnectionProviderImpl();
-    connectionProvider.setDataSource(dataSource);
+  private ConnectionProvider getConnectionProvider(String appid) {
 
     try {
-      connectionProvider.getConnection().setCatalog(tenantIdentifier);
+      dataSource.getConnection().setCatalog(appid);
     } catch (SQLException e) {
       e.printStackTrace();
     }
+    DatasourceConnectionProviderImpl connectionProvider = new DatasourceConnectionProviderImpl();
+    connectionProvider.setDataSource(dataSource);
     connectionProvider.configure(Collections.emptyMap());
     return connectionProvider;
   }
