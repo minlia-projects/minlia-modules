@@ -12,6 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by will on 8/14/17.
  */
 public interface RoleDao extends Dao<Role, Long> {
-    Role findByCode(String code);
+    Role findOneByCode(String code);
 
 }

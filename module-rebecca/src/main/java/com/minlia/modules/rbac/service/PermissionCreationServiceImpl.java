@@ -1,13 +1,11 @@
 package com.minlia.modules.rbac.service;
 
 import com.google.common.collect.Sets;
-import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.rbac.dao.PermissionDao;
 import com.minlia.modules.rbac.dao.RoleDao;
 import com.minlia.modules.rbac.domain.Permission;
 import com.minlia.modules.rbac.domain.Role;
 import com.minlia.modules.rbac.repository.RoleRepository;
-import com.minlia.modules.security.code.SecurityApiCode;
 import com.minlia.modules.security.constant.SecurityConstant;
 import java.util.Map;
 import java.util.Set;
@@ -43,7 +41,7 @@ public class PermissionCreationServiceImpl implements PermissionCreationService 
   @Override
   public void initialAdminPermissions(Map<String, String> initialAdminPermissions) {
     //添加权限点组管理员角色
-    final Role adminRole = roleDao.findByCode(SecurityConstant.ADMIN_ROLE_NAME);
+    final Role adminRole = roleDao.findOneByCode(SecurityConstant.ADMIN_ROLE_NAME);
 //    ApiPreconditions.checkNotNull(adminRole, SecurityApiCode.ROLE_NOT_FOUND);
     if (null != adminRole) {
       Set<Permission> permissionCreated = Sets.newHashSet();

@@ -18,14 +18,14 @@
 //    @Qualifier("at")
 //    public DataSource dataSourceAt()
 //    {
-//        return dataSource("at");
+//        return masterDataSource("at");
 //    }
 //
 //    @Bean
 //    @Qualifier("hu")
 //    public DataSource dataSourceHu()
 //    {
-//        return dataSource("hu");
+//        return masterDataSource("hu");
 //    }
 //
 //    @Bean(name = LIQUIBASE_HU)
@@ -51,7 +51,7 @@
 //        }
 //    }
 //
-//    private static DataSource dataSource(String tenantIdentifier)
+//    private static DataSource masterDataSource(String tenantIdentifier)
 //    {
 //        return DataSourceBuilder.create()
 //            .driverClassName("org.h2.Driver")
@@ -60,10 +60,10 @@
 //            .build();
 //    }
 //
-//    private static SpringLiquibase liquibase(DataSource dataSource)
+//    private static SpringLiquibase liquibase(DataSource masterDataSource)
 //    {
 //        SpringLiquibase liquibase = new SpringLiquibase();
-//        liquibase.setDataSource(dataSource);
+//        liquibase.setDataSource(masterDataSource);
 //        liquibase.setChangeLog("classpath:/dbchange/master.xml");
 //        return liquibase;
 //    }

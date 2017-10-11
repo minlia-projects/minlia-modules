@@ -13,5 +13,10 @@ import org.springframework.stereotype.Service;
 public class RoleReadOnlyServiceImpl extends AbstractReadOnlyService<RoleDao,Role,Long> implements RoleReadOnlyService{
 
     @Autowired
-    RoleDao userDao;
+    RoleDao roleDao;
+
+    @Override
+    public Role findOneByCode(String code) {
+        return roleDao.findOneByCode(code);
+    }
 }

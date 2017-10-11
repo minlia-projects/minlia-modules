@@ -11,4 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public interface RoleReadOnlyService extends ReadOnlyService<RoleDao,Role,Long> {
 
+  public Role findOneByCode(String code);
+
 }

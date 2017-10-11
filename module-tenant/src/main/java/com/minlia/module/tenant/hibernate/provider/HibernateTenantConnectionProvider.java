@@ -55,60 +55,57 @@ public class HibernateTenantConnectionProvider extends AbstractMultiTenantConnec
       if (null != dataSource) {
         try {
           if (!StringUtils.isEmpty(appid)) {
-//        Connection connection=  dataSource.getConnection();
-
-//        connection.getMetaData().get
-
             dataSource.getConnection().setCatalog(appid);
-
-
           }
         } catch (SQLException e) {
           e.printStackTrace();
         }
-        connectionProvider = new DatasourceConnectionProviderImpl();
-        connectionProvider.setDataSource(dataSource);
-        connectionProvider.configure(Collections.emptyMap());
-        return connectionProvider;
+        return datasourceConnectionProvider(dataSource);
       } else {
-        connectionProvider = new DatasourceConnectionProviderImpl();
-        connectionProvider.setDataSource(dataSource());
-        connectionProvider.configure(Collections.emptyMap());
-        return connectionProvider;
+
+
+        return datasourceConnectionProvider(masterDataSource());
       }
     }
-
-
-    connectionProvider = new DatasourceConnectionProviderImpl();
-    connectionProvider.setDataSource(dataSource());
-    connectionProvider.configure(Collections.emptyMap());
-    return connectionProvider;
-
-
+    return datasourceConnectionProvider(masterDataSource());
   }
 
+  private static DatasourceConnectionProviderImpl datasourceConnectionProvider;
+  private synchronized ConnectionProvider  datasourceConnectionProvider(DataSource dataSource){
+    if(null==datasourceConnectionProvider) {
+      DatasourceConnectionProviderImpl connectionProvider=null;
+      connectionProvider = new DatasourceConnectionProviderImpl();
+      connectionProvider.setDataSource(dataSource);
+      connectionProvider.configure(Collections.emptyMap());
+      datasourceConnectionProvider=connectionProvider;
+    }
+    return datasourceConnectionProvider;
+  }
+  private DataSource masterDataSource;
 
+  public synchronized DataSource masterDataSource(){
 
-  public DataSource dataSource(){
-    new HikariDataSource();
-    HikariConfig hikariConfig = new HikariConfig();
-    hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
-    hikariConfig.setJdbcUrl("jdbc:mysql://localhost:3306/minlia_cloud_sample_rebecca_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true&readOnly=false");
-    hikariConfig.setUsername("root");
-    hikariConfig.setPassword("");
+    if(null==masterDataSource) {
+      HikariConfig hikariConfig = new HikariConfig();
+      hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
+      hikariConfig.setJdbcUrl(
+          "jdbc:mysql://localhost:3306/minlia_cloud_sample_rebecca_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true&readOnly=false");
+      hikariConfig.setUsername("root");
+      hikariConfig.setPassword("");
 
-    hikariConfig.setMaximumPoolSize(5);
-    hikariConfig.setConnectionTestQuery("SELECT 1");
-    hikariConfig.setPoolName("springHikariCP");
+      hikariConfig.setMaximumPoolSize(5);
+      hikariConfig.setConnectionTestQuery("SELECT 1");
+      hikariConfig.setPoolName("springHikariCP");
 
-    hikariConfig.addDataSourceProperty("dataSource.cachePrepStmts", "true");
-    hikariConfig.addDataSourceProperty("dataSource.prepStmtCacheSize", "250");
-    hikariConfig.addDataSourceProperty("dataSource.prepStmtCacheSqlLimit", "2048");
-    hikariConfig.addDataSourceProperty("dataSource.useServerPrepStmts", "true");
+      hikariConfig.addDataSourceProperty("masterDataSource.cachePrepStmts", "true");
+      hikariConfig.addDataSourceProperty("masterDataSource.prepStmtCacheSize", "250");
+      hikariConfig.addDataSourceProperty("masterDataSource.prepStmtCacheSqlLimit", "2048");
+      hikariConfig.addDataSourceProperty("masterDataSource.useServerPrepStmts", "true");
 
-    HikariDataSource dataSource = new HikariDataSource(hikariConfig);
-
-    return dataSource;
+      HikariDataSource dataSource = new HikariDataSource(hikariConfig);
+      masterDataSource = dataSource;
+    }
+    return masterDataSource;
   }
 
 
