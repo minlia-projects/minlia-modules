@@ -35,7 +35,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@Priority(value = Ordered.HIGHEST_PRECEDENCE+1)
+@Priority(value = Ordered.HIGHEST_PRECEDENCE+3)
 public class MessageMigrationListener implements ApplicationListener<ApplicationReadyEvent>,
     EnvironmentAware {
 
