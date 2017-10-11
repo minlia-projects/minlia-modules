@@ -23,11 +23,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by henry on 16/08/2017.
  */
 @Slf4j
+@Transactional(readOnly = true)
 public class AbstractReadOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements ReadOnlyService<DAO, ENTITY, PK> {
 
     public Class<ENTITY> clazz;

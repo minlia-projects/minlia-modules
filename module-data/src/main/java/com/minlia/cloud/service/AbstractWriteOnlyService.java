@@ -12,11 +12,13 @@ import org.springframework.data.domain.Persistable;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by henry on 16/08/2017.
  */
 @Slf4j
+@Transactional(readOnly = false)
 public abstract class AbstractWriteOnlyService<DAO extends BatisDao<ENTITY, PK>, ENTITY extends Persistable<PK>, PK extends Serializable> implements WriteOnlyService<DAO,ENTITY, PK> {
 
     public Class<ENTITY> clazz;
