@@ -82,7 +82,9 @@ public abstract class AbstractAuditingEntity extends AbstractPersistable<Long> {
     @JSONField
     protected Long id;
 
-    @Column(name = "enabled")
+
+    @Column(name = "enabled", columnDefinition = "tinyint(5)")
+//    @Column()
     @JsonIgnore
     @JSONField(serialize = false,deserialize = true)
     private boolean enabled = Boolean.TRUE;
