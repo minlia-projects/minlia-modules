@@ -26,6 +26,14 @@ import javax.validation.Valid;
 @Slf4j
 public class UserEndpoint {
 
+    public static final String ENTITY = "user";
+    public static final String ENTITY_CREATE = ENTITY + ".create";
+    public static final String ENTITY_READ = ENTITY + ".read";
+    public static final String ENTITY_UPDATE = ENTITY + ".update";
+    public static final String ENTITY_DELETE = ENTITY + ".delete";
+
+    
+    
     @Autowired
     UserWriteOnlyService userWriteOnlyService;
 
@@ -33,21 +41,21 @@ public class UserEndpoint {
     UserReadOnlyService userReadOnlyService;
 
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ UserWriteOnlyService.ENTITY_CREATE+"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ ENTITY_CREATE+"')")
     @ApiOperation(value = "创建系统用户", notes = "创建系统用户", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody create(@Valid @RequestBody User body) {
         return SuccessResponseBody.builder().payload(userWriteOnlyService.save(body)).build();
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ UserWriteOnlyService.ENTITY_UPDATE+"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ ENTITY_UPDATE+"')")
     @ApiOperation(value = "更新系统用户", notes = "更新系统用户", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody update(@Valid @RequestBody User body) {
         return SuccessResponseBody.builder().payload(userWriteOnlyService.update(body)).build();
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ UserWriteOnlyService.ENTITY_DELETE+"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ ENTITY_DELETE+"')")
     @ApiOperation(value = "删除系统用户", notes = "删除系统用户", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody delete(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
@@ -55,21 +63,21 @@ public class UserEndpoint {
         return SuccessResponseBody.builder().build();
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ UserWriteOnlyService.ENTITY_READ+"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ ENTITY_READ+"')")
     @ApiOperation(value = "获取一个指定ID的系统用户", notes = "获取一个指定ID的用户系统用户", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody findOne(@PathVariable Long id, HttpServletRequest request, HttpServletResponse response) {
         return SuccessResponseBody.builder().payload(userReadOnlyService.findOne(id)).build();
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ UserWriteOnlyService.ENTITY_UPDATE+"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ ENTITY_UPDATE+"')")
     @ApiOperation(value = "授予系统用户角色", notes = "授予系统用户角色", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/grantRole", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody grantRole(@Valid @RequestBody UserGarentRoleRequestBody requestBody) {
         return SuccessResponseBody.builder().payload(userWriteOnlyService.grantRole(requestBody)).build();
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ UserWriteOnlyService.ENTITY_UPDATE+"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ ENTITY_UPDATE+"')")
     @ApiOperation(value = "回收系统用户的角色", notes = "回收系统用户的角色", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "/revokeRole", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody revokeRole(UserGarentRoleRequestBody requestBody) {

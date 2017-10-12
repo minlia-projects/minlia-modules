@@ -14,13 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserWriteOnlyService extends WriteOnlyService<UserDao, User, Long> {
 
 
-  public static final String ENTITY = "user";
-
-  public static final String ENTITY_CREATE = ENTITY + ".create";
-  public static final String ENTITY_READ = ENTITY + ".read";
-  public static final String ENTITY_UPDATE = ENTITY + ".update";
-  public static final String ENTITY_DELETE = ENTITY + ".delete";
-
 
   /**
    * 为用户授权
