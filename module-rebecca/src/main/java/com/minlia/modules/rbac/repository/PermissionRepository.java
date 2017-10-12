@@ -11,4 +11,6 @@ import org.springframework.data.domain.Pageable;
 public interface PermissionRepository extends AbstractRepository<Permission,Long> {
 
   Page<Permission> findByRoles_Id(Long roleId, Pageable pageable);
+
+  Permission findOneByCode(String code);
 }

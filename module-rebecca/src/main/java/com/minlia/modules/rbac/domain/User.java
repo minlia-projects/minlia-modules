@@ -13,6 +13,8 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.*;
 
 /**
@@ -71,8 +73,10 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
     @JsonProperty
     private String nickName;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy(value = "id")
     @JsonIgnore
-    @ManyToMany
     @JoinTable(name = "map_user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
@@ -215,6 +219,46 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
     public String getPasswordAsJson(){
         //TODO to mask password for output
         return getPassword();
+    }
+
+    /**
+     * 重写toString方法
+     *
+     * @return 字符串
+     */
+    @Override
+    public String toString() {
+//        return ToStringBuilder.reflectionToString(this);
+        return String.format("Entity of type %s with id: %s", getClass().getName(), getId());
+    }
+    /**
+     * 重写equals方法
+     *
+     * @param obj 对象
+     * @return 是否相等
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (!AbstractEntity.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        AbstractEntity other = (AbstractEntity) obj;
+        return getId() != null ? getId().equals(other.getId()) : false;
+    }
+    /**
+     * 重写hashCode方法
+     *
+     * @return HashCode
+     */
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : super.hashCode();
     }
 
 }

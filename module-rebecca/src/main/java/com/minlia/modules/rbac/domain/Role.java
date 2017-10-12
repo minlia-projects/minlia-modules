@@ -1,12 +1,18 @@
 package com.minlia.modules.rbac.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.entity.AbstractEntity;
+import javax.persistence.FetchType;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.Entity;
@@ -29,14 +35,18 @@ public class Role extends AbstractEntity {
     @JsonProperty
     private String label;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy(value = "id")
     @JsonIgnore
-    @ManyToMany
     @JoinTable(name = "map_role_permissions", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
     private Set<Permission> permissions;
 
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
+    @OrderBy(value = "id")
     @JsonIgnore
-    @ManyToMany
     @JoinTable(name = "map_user_roles",inverseJoinColumns  = @JoinColumn(name = "user_id", referencedColumnName = "id"), joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<User> users;
 
@@ -51,11 +61,11 @@ public class Role extends AbstractEntity {
     }
 
     @Transient
-    public void addPermission(Set<Permission> permission) {
+    public void addPermission(Set<Permission> permissions) {
         if(null==this.permissions){
             this.permissions=Sets.newHashSet();
         }
-        this.permissions.addAll(permission);
+        this.permissions.addAll(permissions);
     }
 
 
@@ -106,4 +116,48 @@ public class Role extends AbstractEntity {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+
+
+    /**
+     * 重写toString方法
+     *
+     * @return 字符串
+     */
+    @Override
+    public String toString() {
+//        return ToStringBuilder.reflectionToString(this);
+        return String.format("Entity of type %s with id: %s", getClass().getName(), getId());
+    }
+    /**
+     * 重写equals方法
+     *
+     * @param obj 对象
+     * @return 是否相等
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        if (!AbstractEntity.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        AbstractEntity other = (AbstractEntity) obj;
+        return getId() != null ? getId().equals(other.getId()) : false;
+    }
+    /**
+     * 重写hashCode方法
+     *
+     * @return HashCode
+     */
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : super.hashCode();
+    }
+
+
 }

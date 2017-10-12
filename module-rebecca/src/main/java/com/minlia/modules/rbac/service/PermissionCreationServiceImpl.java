@@ -5,6 +5,7 @@ import com.minlia.modules.rbac.dao.PermissionDao;
 import com.minlia.modules.rbac.dao.RoleDao;
 import com.minlia.modules.rbac.domain.Permission;
 import com.minlia.modules.rbac.domain.Role;
+import com.minlia.modules.rbac.repository.PermissionRepository;
 import com.minlia.modules.rbac.repository.RoleRepository;
 import com.minlia.modules.security.constant.SecurityConstant;
 import java.util.Map;
@@ -12,20 +13,19 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by maitha.manyala on 10/6/15.
- */
 @Service
 public class PermissionCreationServiceImpl implements PermissionCreationService {
 
   @Autowired
-  RoleDao roleDao;
-
+  PermissionRepository permissionRepository;
   @Autowired
   PermissionDao permissionDao;
 
   @Autowired
   RoleRepository roleRepository;
+
+  @Autowired
+  RoleDao roleDao;
 
   public Permission addPermission(String code, String label) {
     Permission permission = permissionDao.findByCode(code);
@@ -41,16 +41,28 @@ public class PermissionCreationServiceImpl implements PermissionCreationService 
   @Override
   public void initialAdminPermissions(Map<String, String> initialAdminPermissions) {
     //添加权限点组管理员角色
-    final Role adminRole = roleDao.findOneByCode(SecurityConstant.ADMIN_ROLE_NAME);
+    Role adminRole = roleDao.findOneByCode(SecurityConstant.ADMIN_ROLE_NAME);
 //    ApiPreconditions.checkNotNull(adminRole, SecurityApiCode.ROLE_NOT_FOUND);
     if (null != adminRole) {
-      Set<Permission> permissionCreated = Sets.newHashSet();
+      Set<Permission> permissions = Sets.newHashSet();
       for (Map.Entry permission : initialAdminPermissions.entrySet()) {
         Permission created = addPermission((String) permission.getKey(),
             (String) permission.getValue());
-        permissionCreated.add(created);
-        adminRole.addPermission(created);
+        permissions.add(created);
       }
+      adminRole.setPermissions(permissions);
+      roleRepository.save(adminRole);
+    }
+  }
+
+  /**
+   * 初始化已经保存过的实体到ADMIN_ROLE
+   */
+  @Override
+  public void initialAdminPermissions(Set<Permission> permissions) {
+    Role adminRole = roleDao.findOneByCode(SecurityConstant.ADMIN_ROLE_NAME);
+    if (null != adminRole) {
+      adminRole.setPermissions(permissions);
       roleRepository.save(adminRole);
     }
   }

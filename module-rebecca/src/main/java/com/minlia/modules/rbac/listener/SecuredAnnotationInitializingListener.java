@@ -1,9 +1,11 @@
 package com.minlia.modules.rbac.listener;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.language.v1.service.LanguageInitializeService;
 import com.minlia.modules.rbac.context.PermissionContextHolder;
+import com.minlia.modules.rbac.domain.Permission;
 import com.minlia.modules.rbac.service.PermissionCreationService;
 import java.util.Map;
 import java.util.Set;
@@ -45,13 +47,15 @@ public class SecuredAnnotationInitializingListener implements
     }
 
     Set<String> permissions = PermissionContextHolder.get();
-    Map<String, String> adminPermissions = Maps.newConcurrentMap();
+//    Map<String, String> adminPermissions = Maps.newConcurrentMap();
+    Set<Permission> permissionEntities= Sets.newHashSet();
     for (String permission : permissions) {
-      permissionCreationService.addPermission(permission, permission);
+      permissionEntities.add(permissionCreationService.addPermission(permission, permission));
       languageInitializeService.initialLanguage(permission);
-      adminPermissions.put(permission, permission);
+//      adminPermissions.put(permission, permission);
     }
-    permissionCreationService.initialAdminPermissions(adminPermissions);
+//    permissionCreationService.initialAdminPermissions(adminPermissions);
+    permissionCreationService.initialAdminPermissions(permissionEntities);
 
     watch.stop();
     log.debug("Completed initialize annotation permissions in {} ms", watch.getTotalTimeMillis());

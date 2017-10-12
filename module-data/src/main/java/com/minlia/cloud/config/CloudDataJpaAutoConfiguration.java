@@ -12,8 +12,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -34,24 +37,24 @@ public class CloudDataJpaAutoConfiguration {
       "org.springframework.data.jpa.convert.threeten"})
 //,basePackageClasses = Jsr310JpaConverters.class
   @EnableJpaRepositories(value = {
-      ".**.repository"}, considerNestedRepositories = true)//, transactionManagerRef = "jpaTransactionManager"
+      ".**.repository"}, considerNestedRepositories = true, transactionManagerRef = "jpaTransactionManager")
   @EnableJpaAuditing
   @Configuration
   @ConditionalOnClass(CloudDataJpaAutoConfiguration.class)
   public static class EnableMinliaCloudJpaRepository {
 
-//    @Autowired
-//    LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
-//
-//    @Primary
-//    @Bean
-//    public JpaTransactionManager jpaTransactionManager() {
-//      JpaTransactionManager transactionManager = new JpaTransactionManager();
-//      transactionManager
-//          .setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
-//      return transactionManager;
-//    }
-//  }
+    @Autowired
+    LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean;
+
+    @Primary
+    @Bean
+    public JpaTransactionManager jpaTransactionManager() {
+      JpaTransactionManager transactionManager = new JpaTransactionManager();
+      transactionManager
+          .setEntityManagerFactory(localContainerEntityManagerFactoryBean.getObject());
+      return transactionManager;
+    }
+  }
 
 
 
@@ -64,7 +67,7 @@ public class CloudDataJpaAutoConfiguration {
 //      HibernateTransactionManager transactionManager = new HibernateTransactionManager();
 //      return transactionManager;
 //    }
-  }
+//  }
 
   //从自动装配改变为手动装配
   @Autowired

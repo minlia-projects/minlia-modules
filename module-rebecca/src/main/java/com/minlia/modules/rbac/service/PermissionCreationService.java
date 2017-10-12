@@ -12,7 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = false)
 public interface PermissionCreationService {
 
+  @Transactional(readOnly = false)
   public Permission addPermission(String code, String label);
 
+  @Transactional(readOnly = false)
   public void initialAdminPermissions(Map<String, String> initialAdminPermissions);
+
+
+  @Transactional(readOnly = false)
+  public void initialAdminPermissions(Set<Permission> permissions);
 }
