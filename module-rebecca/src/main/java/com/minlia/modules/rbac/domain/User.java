@@ -3,6 +3,7 @@ package com.minlia.modules.rbac.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Sets;
 import com.minlia.cloud.annotation.SearchField;
 import com.minlia.cloud.entity.AbstractEntity;
 import com.minlia.modules.security.authentication.credential.*;
@@ -79,6 +80,16 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
     @JsonIgnore
     @JoinTable(name = "map_user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
+
+
+    @Transient
+    public void addRole(Role role) {
+        if(null==this.roles){
+            this.roles= Sets.newHashSet();
+        }
+        this.roles.add(role);
+    }
+
 
     @NotNull
     @Column(columnDefinition = "tinyint(5)")
