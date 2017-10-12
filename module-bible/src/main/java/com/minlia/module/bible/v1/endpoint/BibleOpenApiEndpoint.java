@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 对外提供的服务
  */
 @RestController
-@RequestMapping(value = ApiPrefix.V1 + "open/bibles")
+@RequestMapping(value = ApiPrefix.API + "open/bibles")
 @Api(tags = "Open Bible Api", description = "数据字典")
 @Slf4j
 public class BibleOpenApiEndpoint {
