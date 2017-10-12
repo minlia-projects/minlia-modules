@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = false)
 public interface UserOperationService {
-  public static final String USER_OPERATION_FREEZE="user.operation.freeze";
-  public static final String USER_OPERATION_UNFREEZE="user.operation.unfreeze";
+
+  public static final String USER_OPERATION_FREEZE = "user.operation.freeze";
+  public static final String USER_OPERATION_UNFREEZE = "user.operation.unfreeze";
 
   Boolean freeze(Long id);
 

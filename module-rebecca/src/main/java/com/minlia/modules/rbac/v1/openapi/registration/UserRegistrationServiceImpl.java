@@ -7,7 +7,7 @@ import com.minlia.modules.rbac.GuidGenerator;
 import com.minlia.modules.rbac.domain.User;
 import com.minlia.modules.rbac.event.RegistrationEventPublisher;
 import com.minlia.modules.rbac.repository.RoleRepository;
-import com.minlia.modules.rbac.repository.UserRepository;
+import com.minlia.modules.rbac.service.UserJpaWriteOnlyService;
 import com.minlia.modules.rbac.service.UserReadOnlyService;
 import com.minlia.modules.security.code.SecurityApiCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
-  @Autowired
-  UserRepository userRepository;
+//  @Autowired
+//  UserRepository userRepository;
 
+  @Autowired
+  UserJpaWriteOnlyService userJpaWriteOnlyService;
   @Autowired
   UserReadOnlyService userReadOnlyService;
 
@@ -62,9 +64,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     user.setExpired(Boolean.FALSE);
     user.setCredentialsExpired(Boolean.FALSE);
     user.setLocked(Boolean.FALSE);
+    user.setAccountExpired(Boolean.FALSE);
     //用户可以登录相关结束
 
-    User userCreated = userRepository.save(user);
+    User userCreated = userJpaWriteOnlyService.save(user);
 
     //清除验证码
     secureCodeService.clean(body.getUsername(), body.getCode(), type);
