@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by will on 8/14/17.
  */
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 public interface PermissionReadOnlyService extends ReadOnlyService<PermissionDao,Permission,Long> {
 
-
+    @Transactional(readOnly = true)
     List<GrantedAuthority> findPermissionsByRoles(Collection<Role> roles);
 }

@@ -15,4 +15,5 @@ public class SecureCodeReadOnlyServiceImpl extends AbstractReadOnlyService<Secur
 
     @Autowired
     SecureCodeDao secureCodeDao;
+
 }

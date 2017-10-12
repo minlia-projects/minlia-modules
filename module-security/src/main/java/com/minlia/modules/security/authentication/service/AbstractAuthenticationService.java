@@ -1,11 +1,13 @@
 package com.minlia.modules.security.authentication.service;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by will on 8/14/17.
  * 框架提供的抽象认证实现
  */
+@Transactional
 public abstract class AbstractAuthenticationService implements AuthenticationService {
 
     public abstract Authentication authentication(Authentication authentication);

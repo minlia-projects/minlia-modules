@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,11 @@ public class PermissionReadOnlyServiceImpl extends AbstractReadOnlyService<Permi
     PermissionDao dao;
 
     @Override
+    @Cacheable(value = { "permission" }, key = "#p0",unless="#result==null")
     public List<GrantedAuthority> findPermissionsByRoles(Collection<Role> roles) {
         return getGrantedAuthorities(getPrivileges(roles));
     }
-
+    @Cacheable(value = { "permission" }, key = "#p0",unless="#result==null")
     public List<String> getPrivileges(final Collection<Role> roles) {
         final List<String> permissions = new ArrayList<String>();
         final List<Permission> collection = new ArrayList<Permission>();

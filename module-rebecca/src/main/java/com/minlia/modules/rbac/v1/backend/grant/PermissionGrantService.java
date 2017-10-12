@@ -8,11 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Set;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by will on 6/19/17.
  * 授权服务
  */
+@Transactional(readOnly = false)
 public interface PermissionGrantService {
 
 

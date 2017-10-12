@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class PermissionGrantServiceImpl implements PermissionGrantService {
     return permissionRepository.findAll(pageable);
   }
 
+  @Cacheable(value = { "permission" }, key = "#p0+#p1",unless="#result==null")
   public Page<Permission> findPermissionsByRoleId(Long roleId, Pageable pageable) {
     return permissionRepository.findByRoles_Id(roleId, pageable);
   }

@@ -4,6 +4,7 @@ import com.minlia.cloud.service.AbstractReadOnlyService;
 import com.minlia.modules.rbac.dao.RoleDao;
 import com.minlia.modules.rbac.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,6 +17,7 @@ public class RoleReadOnlyServiceImpl extends AbstractReadOnlyService<RoleDao,Rol
     RoleDao roleDao;
 
     @Override
+
     public Role findOneByCode(String code) {
         return roleDao.findOneByCode(code);
     }

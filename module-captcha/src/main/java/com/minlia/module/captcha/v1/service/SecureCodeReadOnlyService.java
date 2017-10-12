@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Created by will on 8/22/17.
  */
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 public interface SecureCodeReadOnlyService extends
     ReadOnlyService<SecureCodeDao, SecureCode, Long> {
 

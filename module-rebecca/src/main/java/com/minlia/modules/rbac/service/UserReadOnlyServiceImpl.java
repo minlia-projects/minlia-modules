@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@CacheConfig(cacheNames = { "user" })
 public class UserReadOnlyServiceImpl extends AbstractReadOnlyService<UserDao,User,Long> implements
     UserReadOnlyService {
 
@@ -29,6 +32,7 @@ public class UserReadOnlyServiceImpl extends AbstractReadOnlyService<UserDao,Use
      * @return
      */
     @Override
+    @Cacheable(value = { "user" }, key = "#p0",unless="#result==null")
     public User findOneByUsernameOrEmailOrCellphone(String login) {
         try {
             log.info("UserReadOnlyServiceImpl.findOneByUsernameOrEmailOrCellphone {}",dataSource.getConnection().getCatalog());
