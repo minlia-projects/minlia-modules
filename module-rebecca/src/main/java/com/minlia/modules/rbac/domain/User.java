@@ -92,19 +92,19 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
 
 
     @NotNull
-    @Column(columnDefinition = "tinyint(5)")
+    @Column(columnDefinition = "tinyint(5) default 0")
     private Boolean credentialsExpired;
 
     @NotNull
-    @Column(columnDefinition = "tinyint(5)")
+    @Column(columnDefinition = "tinyint(5) default 0")
     private Boolean accountExpired;
 
     @NotNull
-    @Column(columnDefinition = "tinyint(5)")
+    @Column(columnDefinition = "tinyint(5) default 0")
     private Boolean expired;
 
     @NotNull
-    @Column(columnDefinition = "tinyint(5)")
+    @Column(columnDefinition = "tinyint(5) default 0")
     private Boolean locked;
 
 
