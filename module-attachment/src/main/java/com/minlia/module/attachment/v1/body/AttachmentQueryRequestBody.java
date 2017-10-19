@@ -1,13 +1,13 @@
 package com.minlia.module.attachment.v1.body;
 
-import com.minlia.cloud.query.body.QueryRequestBody;
+import com.minlia.module.data.query.v2.body.SearchRequestBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @ApiModel(value = "附件-查询")
 @Data
-public class AttachmentQueryRequestBody implements QueryRequestBody {
+public class AttachmentQueryRequestBody implements SearchRequestBody{
 
     @ApiModelProperty(value = "业务类型编码", example = "account.identity.frontend")
     private String businessType;

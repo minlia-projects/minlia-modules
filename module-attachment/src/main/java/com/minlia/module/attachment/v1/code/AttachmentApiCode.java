@@ -1,7 +1,6 @@
 package com.minlia.module.attachment.v1.code;
 
-
-import com.minlia.cloud.code.ApiCode;
+import com.minlia.boot.v1.code.ApiCode;
 
 /**
  * Created by will on 6/21/17.
@@ -15,6 +14,6 @@ public class AttachmentApiCode extends ApiCode {
     /**
      * 定义模块代码基数为13000
      */
-    public static final Integer MODULE_CODE_BASED = BASED_ON + 3000;
+    public static final Integer MODULE_CODE_BASED = BASED + 3000;
 
 }
