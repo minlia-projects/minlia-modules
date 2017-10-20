@@ -79,6 +79,11 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!--<dependency>-->
         <!--<groupId>com.minlia.boot</groupId>-->
