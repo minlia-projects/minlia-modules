@@ -30,7 +30,7 @@
         <module>module-captcha</module>
         <module>module-rebecca</module>
         <module>module-tenant</module>
-        <module>module-attachment</module>
+        <!--<module>module-attachment</module>-->
         <module>module-delivery</module>
     </modules>
 
