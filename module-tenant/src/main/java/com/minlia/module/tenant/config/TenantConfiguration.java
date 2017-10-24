@@ -3,8 +3,6 @@ package com.minlia.module.tenant.config;
 
 import com.minlia.module.tenant.batis.interceptor.MultiTenantInterceptor;
 import com.minlia.module.tenant.batis.web.AppidWebInterceptor;
-import com.minlia.module.tenant.hibernate.provider.HibernateTenantConnectionProvider;
-import com.minlia.module.tenant.resolver.ThreadLocalBatisTenantIdentifierResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;

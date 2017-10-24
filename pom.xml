@@ -19,6 +19,7 @@
         <module>module-http</module>
         <module>module-swagger</module>
         <module>module-data</module>
+        <module>module-logger</module>
         <module>module-i18n</module>
         <module>module-nestedset</module>
         <module>module-security</module>
@@ -29,7 +30,7 @@
         <module>module-sms-aliyun</module>
         <module>module-captcha</module>
         <module>module-rebecca</module>
-        <module>module-tenant</module>
+        <!--<module>module-tenant</module>-->
         <!--<module>module-attachment</module>-->
         <module>module-delivery</module>
     </modules>
