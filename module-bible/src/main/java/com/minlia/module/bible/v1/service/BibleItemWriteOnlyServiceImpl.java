@@ -21,6 +21,11 @@ public class BibleItemWriteOnlyServiceImpl extends
   @Autowired
   BibleItemDao bibleItemDao;
 
+  @Autowired
+  BibleItemReadOnlyService bibleItemReadOnlyService;
+
+  @Autowired
+  BibleInitializeService bibleInitializeService;
 
   @Autowired
   BibleRepository bibleRepository;
@@ -38,7 +43,20 @@ public class BibleItemWriteOnlyServiceImpl extends
     return entityCreated;
   }
 
+  @Override
+  public BibleItem updateLableByBibleCodeAndBibleItemCode(String bibleCode, String bibleItemCode, String bibleItemLabel) {
+    BibleItem item = bibleItemReadOnlyService.findByBibleCodeAndBibleItemCode(bibleCode, bibleItemCode);
+    if (item == null) {
+      bibleInitializeService.initialBibleWithCode(bibleCode, bibleItemCode, bibleItemLabel, null, null);
+      return bibleItemReadOnlyService.findByBibleCodeAndBibleItemCode(bibleCode, bibleItemCode);
+    } else {
+      item.setLabel(bibleItemLabel);
+      BibleItem updated=this.update(item);
+      return updated;
+    }
+  }
 
+  @Override
   public BibleItem update(BibleItem entity) {
 
     BibleItem entityFound = bibleItemRepository.findOne(entity.getId());

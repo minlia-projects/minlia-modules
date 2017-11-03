@@ -173,5 +173,16 @@ public class BibleEndpoint {
     BibleItem found = bibleItemReadOnlyService.findByBibleCodeAndBibleItemCode(bibleCode,bibleItemCode);
     return SuccessResponseBody.builder().payload(found).build();
   }
+
+  @PreAuthorize(value = "hasAnyAuthority('" + BibleConstant.ENTITY_UPDATE + "')")
+  @ApiOperation(value = "按照父项code和子项code保存一个子项", notes = "按照父项code和子项code保存一个子项", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
+  //,consumes = MediaType.APPLICATION_JSON_VALUE
+  @RequestMapping(value = "save", method = RequestMethod.PUT, produces = {
+          MediaType.APPLICATION_JSON_VALUE})
+  //consumes = {MediaType.APPLICATION_JSON_VALUE},
+  public StatefulBody updateByBibleCodeAndBibleItemCode(@RequestParam String bibleCode, @RequestParam String bibleItemCode, @RequestParam String bibleItemLabel) {
+    BibleItem updated = bibleItemWriteOnlyService.updateLableByBibleCodeAndBibleItemCode(bibleCode,bibleItemCode,bibleItemLabel);
+    return SuccessResponseBody.builder().payload(updated).build();
+  }
 }
 

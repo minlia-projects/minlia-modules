@@ -18,4 +18,13 @@ public interface BibleItemWriteOnlyService extends WriteOnlyService<BibleItemDao
    */
   BibleItem createItem(String code, BibleItem body);
 
+  /**
+   * 按照bible code, bibleItem code更新label
+   * @param bibleCode bible code
+   * @param bibleItemCode bibleItem code
+   * @param bibleItemLabel bibleItem label
+   * @return bibleItem
+   */
+  BibleItem updateLableByBibleCodeAndBibleItemCode(String bibleCode, String bibleItemCode, String bibleItemLabel);
+
 }
