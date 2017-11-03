@@ -18,11 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by will on 6/21/17.
@@ -167,5 +163,15 @@ public class BibleEndpoint {
     return SuccessResponseBody.builder().payload(found).build();
   }
 
+  @PreAuthorize(value = "hasAnyAuthority('" + BibleConstant.ENTITY_READ + "')")
+  @ApiOperation(value = "按照父项code和子项code获取一个子项", notes = "按照父项code和子项code获取一个子项", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+  //,consumes = MediaType.APPLICATION_JSON_VALUE
+  @RequestMapping(value = "item/get", method = RequestMethod.GET, produces = {
+          MediaType.APPLICATION_JSON_VALUE})
+  //consumes = {MediaType.APPLICATION_JSON_VALUE},
+  public StatefulBody findOne(@RequestParam String bibleCode, @RequestParam String bibleItemCode) {
+    BibleItem found = bibleItemReadOnlyService.findByBibleCodeAndBibleItemCode(bibleCode,bibleItemCode);
+    return SuccessResponseBody.builder().payload(found).build();
+  }
 }
 

@@ -1,6 +1,8 @@
 package com.minlia.module.bible.v1.service;
 
+import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.service.AbstractReadOnlyService;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.v1.dao.BibleItemDao;
 import com.minlia.module.bible.v1.domain.BibleItem;
 import com.minlia.module.bible.v1.repository.BibleItemRepository;
@@ -27,5 +29,17 @@ public class BibleItemReadOnlyServiceImpl extends
     return bibleItemRepository.findByBible_Code(bibleCode);
   }
 
+  @Override
+  public String getLabelByBibleCodeAndBibleItemCode(String bibleCode, String itemCode) {
+    BibleItem bibleItem = this.findByBibleCodeAndBibleItemCode(bibleCode,itemCode);
+    return null == bibleItem ? null : bibleItem.getLabel();
+  }
+
+  @Override
+  public BibleItem findByBibleCodeAndBibleItemCode(String bibleCode, String itemCode) {
+    ApiPreconditions.checkNotNull(bibleCode, ApiCode.NOT_NULL);
+    ApiPreconditions.checkNotNull(itemCode, ApiCode.NOT_NULL);
+    return bibleItemRepository.findByBible_CodeAndCode(bibleCode,itemCode);
+  }
 
 }
