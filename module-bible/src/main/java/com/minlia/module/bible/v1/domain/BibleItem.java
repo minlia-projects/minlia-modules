@@ -52,7 +52,7 @@ import lombok.ToString;
 // A Lombok annotation to generate toString method on compilation
 @ToString(of = {"id"})
 // A Lombok annotation to generate equals hashCode methods on compilation
-@EqualsAndHashCode(of = {"id"})
+//@EqualsAndHashCode(of = {"id"})
 // A Lombok annotation to generate all arguments included constructor on compilation
 @AllArgsConstructor
 @NoArgsConstructor

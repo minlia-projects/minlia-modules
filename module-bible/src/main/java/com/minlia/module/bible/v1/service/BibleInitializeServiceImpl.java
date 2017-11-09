@@ -25,8 +25,9 @@ public class BibleInitializeServiceImpl implements BibleInitializeService {
    * 初始化系统Bible配置项
    * 当有的时候不需要插入, 不存在时插入
    */
+  @Override
   public void initialBibleWithCode(String bibleCode, String bibleItemCode, String bibleItemLabel,
-      String bibleItemNotes,String targetBusinessCode) {
+                                   String bibleItemNotes, String targetBusinessCode) {
     Bible bibleFound = bibleRepository.findOneByCode(bibleCode);
     //不为空, 已找到此BIBLE
     if (null != bibleFound) {
@@ -47,8 +48,9 @@ public class BibleInitializeServiceImpl implements BibleInitializeService {
   }
 
 
+  @Override
   public void initialBibleItem(String bibleItemCode, String bibleItemLabel, String bibleItemNotes,
-      Bible bible) {
+                               Bible bible) {
     BibleItem bibleItemFound = bibleItemRepository
         .findOneByBible_IdAndCode(bible.getId(), bibleItemCode);
 

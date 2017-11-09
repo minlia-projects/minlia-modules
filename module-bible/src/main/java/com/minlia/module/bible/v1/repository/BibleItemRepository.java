@@ -15,4 +15,6 @@ public interface BibleItemRepository extends AbstractRepository<BibleItem, Long>
 //    BibleItem findOneByCode(String bibleItemCode);
 
   BibleItem findOneByBible_IdAndCode(Long bibleId, String bibleItemCode);
+
+  BibleItem findByBible_CodeAndCode(String bibleCode,String itemCode);
 }
