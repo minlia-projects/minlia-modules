@@ -1,12 +1,12 @@
 package com.minlia.module.attachment.v1;
 
-import com.minlia.boot.v1.body.StatefulBody;
-import com.minlia.boot.v1.body.impl.SuccessResponseBody;
-import com.minlia.boot.v1.web.ApiPrefix;
+
+import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
 import com.minlia.module.attachment.v1.body.AttachmentQueryRequestBody;
-import com.minlia.module.attachment.v1.repository.AttachmentRepository;
-import com.minlia.module.data.query.v2.DynamicSpecifications;
-import com.minlia.module.data.query.v2.body.ApiSearchRequestBody;
+import com.minlia.module.attachment.v1.service.AttachmentReadOnlyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +26,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class AttachmentSearchEndpoint {
 
     @Autowired
-    private DynamicSpecifications spec;
-
-    @Autowired
-    private AttachmentRepository attachmentRepository;
+    private AttachmentReadOnlyService attachmentReadOnlyService;
 
     @PreAuthorize(value = "isAuthenticated()")
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody search(@PageableDefault Pageable pageable, @RequestBody ApiSearchRequestBody<AttachmentQueryRequestBody> body) {
-        Page x = attachmentRepository.findAll(spec.buildSpecification(body), pageable);
+    public StatefulBody findAll(@PageableDefault Pageable pageable,@RequestBody ApiQueryRequestBody<AttachmentQueryRequestBody> body) {
+        Page x = attachmentReadOnlyService.findAll(body,pageable);
         return SuccessResponseBody.builder().payload(x).build();
     }
+
 
 }

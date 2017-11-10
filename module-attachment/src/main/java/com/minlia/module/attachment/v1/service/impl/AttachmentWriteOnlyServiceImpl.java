@@ -1,10 +1,11 @@
-package com.minlia.module.attachment.v1.service;
+package com.minlia.module.attachment.v1.service.impl;
 
 import com.minlia.cloud.service.AbstractWriteOnlyService;
 import com.minlia.cloud.service.WriteOnlyService;
 import com.minlia.module.attachment.v1.body.AttachmentQueryRequestBody;
 import com.minlia.module.attachment.v1.dao.AttachmentDao;
 import com.minlia.module.attachment.v1.domain.Attachment;
+import com.minlia.module.attachment.v1.service.AttachmentWriteOnlyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

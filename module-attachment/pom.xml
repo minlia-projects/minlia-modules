@@ -9,7 +9,8 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>module-attachment</artifactId>
+    <groupId>com.minlia.cloud.modules</groupId>
+    <artifactId>module-cloud-attachment</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>Module Attachment</name>
 
@@ -33,11 +34,6 @@
             <version>1.0.3-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-data</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -52,27 +48,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.junit.jupiter</groupId>-->
-            <!--<artifactId>junit-jupiter-api</artifactId>-->
-            <!--<version>RELEASE</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -82,14 +61,19 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
-            <scope>provided</scope>
+            <version>4.2.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-starter-aliyun-oss</artifactId>
+            <version>1.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-cloud-data</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>com.minlia.boot</groupId>-->
-        <!--<artifactId>minlia-boot-batis-starter</artifactId>-->
-        <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
 
     </dependencies>
 

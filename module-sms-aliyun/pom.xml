@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
-    <artifactId>module-sms-aliyun</artifactId>
+    <artifactId>modulee-cloud-sms-aliyun</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>Module Sms Aliyun</name>
     <properties>

@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
-    <artifactId>module-delivery</artifactId>
+    <artifactId>module-cloud-delivery</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>Module Delivery</name>
     <properties>

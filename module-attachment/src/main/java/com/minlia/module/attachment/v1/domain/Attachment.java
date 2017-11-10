@@ -4,14 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.cloud.data.support.constant.PersistenceConstants;
+
+
 import com.minlia.cloud.entity.AbstractEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * Created by will on 6/21/17.
@@ -25,7 +27,6 @@ import javax.persistence.UniqueConstraint;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
@@ -44,7 +45,7 @@ public class Attachment extends AbstractEntity {
     @JsonProperty
     private String name;
 
-    @ApiModelProperty(value = "附件类型",example = "jpg")
+    @ApiModelProperty(value = "附件类型", example = "jpg")
     @JsonProperty
     private String type;
 

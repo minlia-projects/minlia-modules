@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>com.minlia.cloud.modules</groupId>
-  <artifactId>module-registry</artifactId>
+  <artifactId>modulee-cloud-registry</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <name>Module Registry</name>
   <properties>

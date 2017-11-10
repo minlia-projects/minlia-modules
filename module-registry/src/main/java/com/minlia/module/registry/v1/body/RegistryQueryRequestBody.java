@@ -1,6 +1,5 @@
 package com.minlia.module.registry.v1.body;
 
-import com.minlia.cloud.body.query.QueryOperator;
 import com.minlia.cloud.query.body.QueryRequestBody;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

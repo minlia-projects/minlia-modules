@@ -5,7 +5,7 @@
 //import com.minlia.cloud.body.Body;
 //import com.minlia.cloud.query.body.QueryRequestBody;
 //import com.minlia.cloud.query.specification.jpa.QueryCondition;
-//import io.swagger.annotations.ApiModelProperty;
+//import io.swagger.annotations.A piModelProperty;
 //
 //import java.util.List;
 //

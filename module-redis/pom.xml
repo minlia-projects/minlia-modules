@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>com.minlia.cloud.modules</groupId>
-  <artifactId>module-redis</artifactId>
+  <artifactId>module-cloud-redis</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <name>Module Redis</name>
   <properties>

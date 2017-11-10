@@ -8,8 +8,8 @@
         <artifactId>minlia-modules</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
-
-    <artifactId>module-logger</artifactId>
+    <groupId>com.minlia.cloud.modules</groupId>
+    <artifactId>module-cloud-logger</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>Module Logger</name>
 

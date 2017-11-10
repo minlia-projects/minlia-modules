@@ -3,7 +3,6 @@ package com.minlia.module.attachment.v1;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.attachment.v1.body.AttachmentQueryRequestBody;
 import com.minlia.module.attachment.v1.domain.Attachment;
 import com.minlia.module.attachment.v1.service.AttachmentReadOnlyService;
 import com.minlia.module.attachment.v1.service.AttachmentWriteOnlyService;

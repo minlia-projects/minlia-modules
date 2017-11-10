@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
-    <artifactId>module-http</artifactId>
+    <artifactId>module-cloud-http</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>Module Http</name>
     <properties>

@@ -8,7 +8,7 @@
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
-    <artifactId>module-swagger</artifactId>
+    <artifactId>module-cloud-swagger</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <name>Module Swagger</name>
     <properties>

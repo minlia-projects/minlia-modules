@@ -1,11 +1,12 @@
 package com.minlia.module.attachment.v1;
 
-import com.minlia.boot.utils.ApiPreconditions;
-import com.minlia.boot.v1.body.StatefulBody;
-import com.minlia.boot.v1.body.impl.SuccessResponseBody;
-import com.minlia.boot.v1.web.ApiPrefix;
+
+import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.attachment.v1.domain.Attachment;
-import com.minlia.module.attachment.v1.service.AttachmentService;
+import com.minlia.module.attachment.v1.service.AttachmentWriteOnlyService;
 import com.minlia.modules.starter.oss.v2.api.body.MtsRequestBody;
 import com.minlia.modules.starter.oss.v2.api.body.MtsResponseBody;
 import com.minlia.modules.starter.oss.v2.api.body.UploadResponseBody;
@@ -45,7 +46,7 @@ public class AttachmentOpenApiEndpoint {
     private AliyunOssProperties properties;
 
     @Autowired
-    private AttachmentService attachmentService;
+    private AttachmentWriteOnlyService attachmentWriteOnlyService;
 
     @Resource(type = OssService.class)
     private OssService ossService;
@@ -60,12 +61,12 @@ public class AttachmentOpenApiEndpoint {
 
     @PostMapping(value = "/upload/{businessId}/{businessType}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "文件上传服务", notes = "文件上传服务", httpMethod = "POST")
-    public StatefulBody upload(MultipartFile file, @PathVariable(value = "businessId",required = false) String businessId,@PathVariable("businessType") String businessType) throws Exception {
+    public UploadResponseBody upload(MultipartFile file,@PathVariable(value = "businessId",required = false) String businessId,@PathVariable("businessType") String businessType) throws Exception {
         String key=keyGenerate(file);
         try {
             ossService.upload(file,key);
         } catch (Exception e) {
-            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage(), false);
+            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage());
         }
 
         String uri = this.builderUri(key);
@@ -86,7 +87,7 @@ public class AttachmentOpenApiEndpoint {
                 .size(file.getSize())
                 .accessToken(UUID.randomUUID().toString())
                 .build();
-        attachmentService.create(attachment);
+        attachmentWriteOnlyService.save(attachment);
 
         return ret;
     }
@@ -99,7 +100,7 @@ public class AttachmentOpenApiEndpoint {
         try {
             ossService.upload(file,inputObject);
         } catch (Exception e) {
-            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage(), false);
+            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage());
         }
         String inputObjectUrl = this.builderUri(inputObject);;
 
@@ -121,7 +122,7 @@ public class AttachmentOpenApiEndpoint {
                     .size(file.getSize())
                     .accessToken(UUID.randomUUID().toString())
                     .build();
-            attachmentService.create(attachment);
+            attachmentWriteOnlyService.save(attachment);
 
             return SuccessResponseBody.builder().payload(responseBody).build();
         }else {
