@@ -15,8 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by henry on 20/10/2017.
  * badcop@163.com
  */
-@Service
+
 @Slf4j
+@Service
 public class AttachmentWriteOnlyServiceImpl extends
         AbstractWriteOnlyService<AttachmentDao, Attachment, Long> implements
         AttachmentWriteOnlyService {

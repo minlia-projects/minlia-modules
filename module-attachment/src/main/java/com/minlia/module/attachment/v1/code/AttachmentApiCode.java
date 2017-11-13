@@ -13,8 +13,10 @@ public class AttachmentApiCode extends ApiCode {
     }
 
     /**
-     * 定义模块代码基数为13000
+     * 定义模块代码基数为15000
      */
-    public static final Integer MODULE_CODE_BASED = BASED_ON + 3000;
+
+    public static final Integer MODULE_CODE_BASED = BASED_ON + 5000;
+
 
 }

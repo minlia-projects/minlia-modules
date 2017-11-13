@@ -3,6 +3,7 @@ package com.minlia.module.attachment.v1.service;
 import com.minlia.cloud.service.ReadOnlyService;
 import com.minlia.module.attachment.v1.dao.AttachmentDao;
 import com.minlia.module.attachment.v1.domain.Attachment;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional(readOnly = true)
 public interface AttachmentReadOnlyService extends ReadOnlyService<AttachmentDao, Attachment, Long> {
-
 
 
 }

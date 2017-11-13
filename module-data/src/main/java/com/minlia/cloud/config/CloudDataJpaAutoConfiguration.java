@@ -84,7 +84,10 @@ public class CloudDataJpaAutoConfiguration {
     }
 
     @Bean
-    @DependsOn(value = "entityManagerFactory")
+    @Primary
+//  @DependsOn(value = "entityManagerFactory")
+//  @ConditionalOnClass({LiquibaseConfiguration.class})
+//  @ConditionalOnMissingBean(LiquibaseProperties.class)
     public SpringLiquibase liquibase() {
         LiquibaseProperties liquibaseProperties = liquibaseProperties();
         SpringLiquibase liquibase = new SpringLiquibase();

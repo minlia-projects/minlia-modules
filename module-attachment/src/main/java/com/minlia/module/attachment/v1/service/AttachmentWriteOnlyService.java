@@ -6,6 +6,7 @@ import com.minlia.module.attachment.v1.body.AttachmentQueryRequestBody;
 import com.minlia.module.attachment.v1.dao.AttachmentDao;
 import com.minlia.module.attachment.v1.domain.Attachment;
 import jxl.demo.Write;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
