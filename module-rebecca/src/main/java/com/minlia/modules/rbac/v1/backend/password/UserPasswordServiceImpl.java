@@ -115,7 +115,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     Boolean equals = rawPassword.equals(bodyRawPasswordEncoded);
 
     //原密码输入是否正确, 不正确抛出异常
-    ApiPreconditions.not(equals, ApiCode.INVALID_RAW_PASSWORD);
+    ApiPreconditions.not(equals, ApiCode.INVALID_RAW_PASSWORD,"原密码错误");
 
     //设置新密码
     userFound.setPassword(bodyRawPasswordEncoded);
