@@ -5,6 +5,7 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -43,6 +44,9 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
         String tokenPayload = request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
+        if(StringUtils.isEmpty(tokenPayload)){
+            tokenPayload=request.getParameter(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
+        }
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
     }
