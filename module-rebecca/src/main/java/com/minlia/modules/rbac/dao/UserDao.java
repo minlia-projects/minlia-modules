@@ -33,7 +33,7 @@ public interface UserDao extends BatisDao<User, Long>,UserDaoCustom  {
      * @param cellphone
      * @return
      */
-    public User findOneByUsernameOrEmailOrCellphone(String username, String email, String cellphone);
+    User findOneByUsernameOrEmailOrCellphone(String username, String email, String cellphone);
 
 
     @Query(value = "findUseMapper444")
