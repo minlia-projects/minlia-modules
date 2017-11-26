@@ -20,17 +20,22 @@ import java.util.Set;
 /**
  * Created by will on 8/14/17.
  */
+@Transactional(readOnly = true)
 public interface UserDao extends BatisDao<User, Long>,UserDaoCustom  {
 
     //    @Query(basic = true, operation = Query.Operation.select_one)
 
 
-
+    /**
+     * 查找一个用户, 按用户名 邮箱或电话号码
+     * @param username
+     * @param email
+     * @param cellphone
+     * @return
+     */
     public User findOneByUsernameOrEmailOrCellphone(String username, String email, String cellphone);
-    public User findOneByUsernameOrEmailOrCellphone();
 
 
-    @Transactional(readOnly = true)
     @Query(value = "findUseMapper444")
     Page<User> findUseMapper444(Pageable pageable);
 

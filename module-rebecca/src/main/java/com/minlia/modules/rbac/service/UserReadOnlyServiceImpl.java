@@ -34,11 +34,11 @@ public class UserReadOnlyServiceImpl extends AbstractReadOnlyService<UserDao,Use
     @Override
     @Cacheable(value = { "user" }, key = "#p0",unless="#result==null")
     public User findOneByUsernameOrEmailOrCellphone(String login) {
-        try {
-            log.info("UserReadOnlyServiceImpl.findOneByUsernameOrEmailOrCellphone {}",dataSource.getConnection().getCatalog());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            log.info("UserReadOnlyServiceImpl.findOneByUsernameOrEmailOrCellphone {}",dataSource.getConnection().getCatalog());
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         return userDao.findOneByUsernameOrEmailOrCellphone(login,login,login);
     }
 }
