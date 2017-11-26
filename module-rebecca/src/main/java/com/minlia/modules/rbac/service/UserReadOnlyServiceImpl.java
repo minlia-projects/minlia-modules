@@ -3,7 +3,6 @@ package com.minlia.modules.rbac.service;
 import com.minlia.cloud.service.AbstractReadOnlyService;
 import com.minlia.modules.rbac.dao.UserDao;
 import com.minlia.modules.rbac.domain.User;
-import java.sql.SQLException;
 import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,8 @@ public class UserReadOnlyServiceImpl extends AbstractReadOnlyService<UserDao,Use
     @Override
     @Cacheable(value = { "user" }, key = "#p0",unless="#result==null")
     public User findOneByUsernameOrEmailOrCellphone(String login) {
+
+        //TODO 以下会影响性能
 //        try {
 //            log.info("UserReadOnlyServiceImpl.findOneByUsernameOrEmailOrCellphone {}",dataSource.getConnection().getCatalog());
 //        } catch (SQLException e) {

@@ -35,6 +35,7 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
     PermissionReadOnlyService permissionReadOnlyService;
 
 
+    @Override
     public Authentication authentication(Authentication authentication) {
         Assert.notNull(authentication, "No authentication data provided");
         String username = (String) authentication.getPrincipal();

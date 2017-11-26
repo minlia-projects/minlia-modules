@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public abstract class AbstractAuthenticationService implements AuthenticationService {
 
+    @Override
     public abstract Authentication authentication(Authentication authentication);
 
 
