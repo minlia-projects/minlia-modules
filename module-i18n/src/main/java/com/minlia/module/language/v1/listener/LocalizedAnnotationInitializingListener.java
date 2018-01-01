@@ -77,7 +77,6 @@ public class LocalizedAnnotationInitializingListener implements
    */
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
-    log.debug("获取到所有注解的类,初始化到数据库 LocalizedAnnotationInitializingListener");
 
     if((null== i18nProperties.getEnableI18nAnnotationScan()) || (!i18nProperties.getEnableI18nAnnotationScan())){
       return;
@@ -86,6 +85,9 @@ public class LocalizedAnnotationInitializingListener implements
     if (Environments.isProduction()) {
       return;
     }
+
+    log.debug("获取到所有注解的类,初始化到数据库 LocalizedAnnotationInitializingListener");
+
 //    Messages messages = new Messages();
 
     List<Language> languages= Lists.newArrayList();
