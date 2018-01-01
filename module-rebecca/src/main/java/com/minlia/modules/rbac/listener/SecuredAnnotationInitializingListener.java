@@ -1,13 +1,12 @@
 package com.minlia.modules.rbac.listener;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.language.v1.service.LanguageInitializeService;
 import com.minlia.modules.rbac.context.PermissionContextHolder;
 import com.minlia.modules.rbac.domain.Permission;
+import com.minlia.modules.rbac.config.RebeccaProperties;
 import com.minlia.modules.rbac.service.PermissionCreationService;
-import java.util.Map;
 import java.util.Set;
 import javax.annotation.Priority;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
@@ -34,11 +32,19 @@ public class SecuredAnnotationInitializingListener implements
   @Autowired
   LanguageInitializeService languageInitializeService;
 
+  @Autowired
+  RebeccaProperties rebeccaProperties;
+
   /**
    * 获取到所有注解的类,初始化到数据库
    */
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
+
+    if((null== rebeccaProperties.getEnableSecuredAnnotationScan()) || (!rebeccaProperties.getEnableSecuredAnnotationScan())){
+      return;
+    }
+
     log.debug("Starting initialize annotation permissions");
     StopWatch watch = new StopWatch();
     watch.start();

@@ -6,6 +6,7 @@ import com.minlia.cloud.annotation.i18n.Localize;
 import com.minlia.cloud.annotation.i18n.Localized;
 import com.minlia.cloud.constant.Constants.LanguageTypes;
 import com.minlia.cloud.utils.Environments;
+import com.minlia.module.language.v1.config.I18nProperties;
 import com.minlia.module.language.v1.domain.Language;
 import com.minlia.module.language.v1.messagesource.MessageAcceptor;
 import com.minlia.module.language.v1.messagesource.util.LocaleUtils;
@@ -40,6 +41,10 @@ public class LocalizedAnnotationInitializingListener implements
   @Autowired
   LanguageInitializeService languageInitializeService;
 
+
+  @Autowired
+  I18nProperties i18nProperties;
+
   private void resolve(String className, Field field, Localize localize, List<Language> languages) {
     try {
       field.setAccessible(true);
@@ -73,6 +78,10 @@ public class LocalizedAnnotationInitializingListener implements
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
     log.debug("获取到所有注解的类,初始化到数据库 LocalizedAnnotationInitializingListener");
+
+    if((null== i18nProperties.getEnableI18nAnnotationScan()) || (!i18nProperties.getEnableI18nAnnotationScan())){
+      return;
+    }
 
     if (Environments.isProduction()) {
       return;

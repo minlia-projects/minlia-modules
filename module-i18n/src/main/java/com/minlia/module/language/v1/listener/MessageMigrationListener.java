@@ -15,6 +15,7 @@
  */
 package com.minlia.module.language.v1.listener;
 
+import com.minlia.module.language.v1.config.I18nProperties;
 import com.minlia.module.language.v1.messagesource.InitializableMessageSource;
 import com.minlia.module.language.v1.messagesource.jdbc.JdbcMessageProvider;
 import javax.annotation.Priority;
@@ -47,6 +48,9 @@ public class MessageMigrationListener implements ApplicationListener<Application
 
   private RelaxedPropertyResolver propertyResolver;
 
+  @Autowired
+  I18nProperties i18nProperties;
+
   @Override
   public void setEnvironment(Environment environment) {
     this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.application.");
@@ -54,6 +58,12 @@ public class MessageMigrationListener implements ApplicationListener<Application
 
   @Override
   public void onApplicationEvent(ApplicationReadyEvent event) {
+
+    if((null== i18nProperties.getEnableI18nAnnotationScan()) || (!i18nProperties.getEnableI18nAnnotationScan())){
+      return;
+    }
+
+
     log.debug("开始国际化语言初始化");
 
     try {
