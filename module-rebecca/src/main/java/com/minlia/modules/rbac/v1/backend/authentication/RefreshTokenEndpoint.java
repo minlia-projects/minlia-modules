@@ -53,7 +53,7 @@ public class RefreshTokenEndpoint {
   @Qualifier("jwtHeaderTokenExtractor")
   private TokenExtractor tokenExtractor;
 
-  @ApiOperation(value = "刷新令牌", notes = "刷新令牌", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ApiOperation(value = "刷新令牌", notes = "刷新令牌, 正常情况下TOKEN值在请求时以Header参数 X-Auth-Token: Bearer xxxxxx传入", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
   @RequestMapping(value = "/api/v1/auth/refreshToken", method = RequestMethod.GET, produces = {
       MediaType.APPLICATION_JSON_VALUE})
 //,headers = "X-Authorization"
