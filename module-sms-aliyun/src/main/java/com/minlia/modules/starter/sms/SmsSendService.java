@@ -1,5 +1,7 @@
 package com.minlia.modules.starter.sms;
 
+import com.minlia.cloud.body.StatefulBody;
+
 /**
  * 短信发送服务
  */
@@ -12,16 +14,6 @@ public interface SmsSendService {
      * @param jsonArgumentsObject
      * @return
      */
-    public boolean send(String to, String templateCode, String jsonArgumentsObject);
+    StatefulBody send(String to, String templateCode, String jsonArgumentsObject);
 
-
-    /**
-     *
-     * @param bibleCode
-     * @param bibleItemCode
-     * @param to
-     * @param jsonArgumentsObject
-     * @return
-     */
-//    public boolean send(String bibleCode,String bibleItemCode,String to,String jsonArgumentsObject);
 }

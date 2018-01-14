@@ -5,8 +5,9 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
-import com.aliyuncs.sms.model.v20160927.SingleSendSmsRequest;
-import com.aliyuncs.sms.model.v20160927.SingleSendSmsResponse;
+import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.impl.FailureResponseBody;
+import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.modules.starter.sms.properties.AliyunSmsProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class AliyunSmsSendService implements SmsSendService {
     @Autowired
     private IAcsClient client;
 
-    public boolean send(String to, String templateCode, String jsonArguments) {
+    public StatefulBody send(String to, String templateCode, String jsonArguments) {
         //组装请求对象
         SendSmsRequest request = new SendSmsRequest();
         //使用post提交
@@ -47,9 +48,9 @@ public class AliyunSmsSendService implements SmsSendService {
             throw new RuntimeException(e);
         }
         if(sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
-            return true;
+            return SuccessResponseBody.builder().message(sendSmsResponse.getMessage()).payload(sendSmsResponse).build();
         } else {
-            return false;
+            return FailureResponseBody.builder().message(sendSmsResponse.getMessage()).payload(sendSmsResponse).build();
         }
     }
 
