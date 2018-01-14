@@ -70,7 +70,11 @@
             <artifactId>aliyun-java-sdk-sms</artifactId>
             <version>3.0.0-rc1</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
 
     </dependencies>
