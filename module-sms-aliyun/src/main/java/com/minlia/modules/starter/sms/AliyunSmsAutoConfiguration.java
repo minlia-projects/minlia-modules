@@ -2,10 +2,10 @@ package com.minlia.modules.starter.sms;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.aliyuncs.sms.model.v20160927.SingleSendSmsRequest;
 import com.minlia.modules.starter.sms.properties.AliyunSmsProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.core.env.Environment;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(value = {AliyunSmsProperties.class })
-@ConditionalOnClass(SingleSendSmsRequest.class)
+@ConditionalOnClass(SendSmsRequest.class)
 public class AliyunSmsAutoConfiguration implements EnvironmentAware{
 
     private RelaxedPropertyResolver propertyResolver;
