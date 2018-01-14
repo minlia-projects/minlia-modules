@@ -21,7 +21,6 @@ public class AliyunSmsSendService implements SmsSendService {
     @Autowired
     private IAcsClient client;
 
-
     public boolean send(String to, String templateCode, String jsonArguments) {
         //组装请求对象
         SendSmsRequest request = new SendSmsRequest();
