@@ -30,6 +30,8 @@
         <module>module-sms-aliyun</module>
         <module>module-captcha</module>
         <module>module-rebecca</module>
+        <module>module-wechat-miniapp</module>
+        <!--<module>module-wechat-mp</module>-->
         <!--<module>module-tenant</module>-->
         <!--<module>module-attachment</module>-->
         <module>module-delivery</module>

@@ -92,15 +92,20 @@ public class CloudDataJpaAutoConfiguration {
   public SpringLiquibase liquibase() {
     LiquibaseProperties liquibaseProperties = liquibaseProperties();
     SpringLiquibase liquibase = new SpringLiquibase();
-    liquibase.setChangeLog(liquibaseProperties.getChangeLog());
-    liquibase.setContexts(liquibaseProperties.getContexts());
-    liquibase.setDataSource(getDataSource(liquibaseProperties));
-    liquibase.setDefaultSchema(liquibaseProperties.getDefaultSchema());
-    liquibase.setDropFirst(liquibaseProperties.isDropFirst());
-    liquibase.setShouldRun(true);
-    liquibase.setLabels(liquibaseProperties.getLabels());
-    liquibase.setChangeLogParameters(liquibaseProperties.getParameters());
-    return liquibase;
+    if (liquibaseProperties.isEnabled()) {
+      liquibase.setChangeLog(liquibaseProperties.getChangeLog());
+      liquibase.setContexts(liquibaseProperties.getContexts());
+      liquibase.setDataSource(getDataSource(liquibaseProperties));
+      liquibase.setDefaultSchema(liquibaseProperties.getDefaultSchema());
+      liquibase.setDropFirst(liquibaseProperties.isDropFirst());
+      liquibase.setShouldRun(true);
+      liquibase.setLabels(liquibaseProperties.getLabels());
+      liquibase.setChangeLogParameters(liquibaseProperties.getParameters());
+      return liquibase;
+    } else {
+      liquibase.setShouldRun(false);
+      return liquibase;
+    }
   }
 
   private DataSource getDataSource(LiquibaseProperties liquibaseProperties) {

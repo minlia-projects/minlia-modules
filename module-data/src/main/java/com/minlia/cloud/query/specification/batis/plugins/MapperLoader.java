@@ -1,5 +1,6 @@
 package com.minlia.cloud.query.specification.batis.plugins;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.session.Configuration;
@@ -90,7 +91,8 @@ public class MapperLoader implements DisposableBean, InitializingBean, Applicati
 	class Scanner {
 		
 		private String[] basePackages;
-		private static final String XML_RESOURCE_PATTERN = "**/*Dao.xml";
+//		private static final String XML_RESOURCE_PATTERN = "**/*Dao.xml";
+		private final String[] XML_RESOURCE_PATTERN = new String[]{"**/*Dao.xml","**/*Mapper.xml"};
 		private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 
 		public Scanner() {
@@ -98,11 +100,13 @@ public class MapperLoader implements DisposableBean, InitializingBean, Applicati
 					ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
 		}
 
-		public Resource[] getResource(String basePackage, String pattern) throws IOException {
-			String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
-					+ ClassUtils.convertClassNameToResourcePath(context.getEnvironment().resolveRequiredPlaceholders(
-							basePackage)) + "/" + pattern;
-			Resource[] resources = resourcePatternResolver.getResources(packageSearchPath);
+		public Resource[] getResource(String basePackage, String[] pattern) throws IOException {
+			Resource[] resources = new Resource[]{};
+			for (String s : pattern) {
+				String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + ClassUtils.convertClassNameToResourcePath(context.getEnvironment().resolveRequiredPlaceholders(basePackage)) + "/" + pattern;
+				resources = resourcePatternResolver.getResources(packageSearchPath);
+				ArrayUtils.addAll(resources);
+			}
 			return resources;
 		}
 
