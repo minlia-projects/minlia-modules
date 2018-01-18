@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.bible.mapper.BibleItemMapper">
+
+	<sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
+
+	<sql id="QUERY_CONTENT">
+		SELECT
+			id ,
+			code ,
+			label ,
+			value ,
+			notes ,
+			attribute1,
+			attribute2,
+			attribute3,
+			sort_order sortOrder
+		FROM mdl_bible_item t
+	</sql>
+
+	<sql id="QUERY_CONDITION">
+		WHERE 1=1
+		<if test="code != null">
+			AND code = #{code}
+		</if>
+		<if test="label != null">
+			AND label = #{label}
+		</if>
+		<if test="value != null">
+			AND value = #{value}
+		</if>
+	</sql>
+
+	<insert id="create">
+		INSERT INTO mdl_bible_item(
+			code ,
+			label ,
+			value ,
+			notes,
+			attribute1,
+			attribute2,
+			attribute3,
+			sort_order
+		)
+		VALUES
+		(
+			#{code} ,
+			#{label} ,
+			#{value} ,
+			#{notes} ,
+			#{attribute1} ,
+			#{attribute2} ,
+			#{attribute3} ,
+			#{sortOrder}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.minlia.module.bible.entity.BibleItem">
+		UPDATE mdl_bible_item
+		SET
+		<if test="label != null">
+			label = #{label},
+		</if>
+		<if test="value != null">
+			value = #{value},
+		</if>
+		<if test="notes != null">
+			notes = #{notes},
+		</if>
+		<if test="attribute1 != null">
+			attribute1 = #{attribute1},
+		</if>
+		<if test="attribute2 != null">
+			attribute2 = #{attribute2},
+		</if>
+		<if test="attribute3 != null">
+			attribute3 = #{attribute3},
+		</if>
+		<if test="sortOrder != null">
+			sort_order = #{sortOrder},
+		</if>
+			last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
+		WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<delete id="deleteById">
+		DELETE FROM mdl_bible_item WHERE id = #{id}
+	</delete>
+
+	<select id="queryById" resultType="com.minlia.module.bible.entity.BibleItem">
+		<include refid="QUERY_CONTENT" />
+		WHERE parent_code = #{0} AND code = #{1}
+	</select>
+
+	<select id="queryByParentCodeAndCode" resultType="com.minlia.module.bible.entity.BibleItem">
+		<include refid="QUERY_CONTENT" />
+		WHERE id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="count" resultType="com.minlia.module.bible.entity.BibleItem">
+		SELECT COUNT(1) FROM mdl_bible_item t
+		<include refid="QUERY_CONDITION" />
+	</select>
+
+	<select id="queryList" resultType="com.minlia.module.bible.entity.BibleItem">
+		<include refid="QUERY_CONTENT" />
+		<include refid="QUERY_CONDITION" />
+	</select>
+
+	<select id="queryPaginated" resultType="com.minlia.module.bible.entity.BibleItem">
+		<include refid="QUERY_CONTENT" />
+		<include refid="QUERY_CONDITION" />
+		<include refid="LIMIT" />
+	</select>
+
+	<select id="count_queryPaginated" resultType="int">
+		SELECT COUNT(1) FROM mdl_bible_item t
+		<include refid="QUERY_CONDITION" />
+	</select>
+
+</mapper>
