@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.data.SesameAutoConfiguration
+com.minlia.cloud.config.CloudDataJpaAutoConfiguration

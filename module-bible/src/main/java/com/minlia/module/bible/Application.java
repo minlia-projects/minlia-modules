@@ -1,6 +1,5 @@
 package com.minlia.module.bible;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +11,6 @@ public class Application {
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
   }
-
 
 //  是在@ResponseBody转换json的时候不打印null的内容
 //  @JsonInclude(JsonInclude.Include.NON_NULL)

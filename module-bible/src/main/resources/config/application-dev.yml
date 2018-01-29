@@ -77,18 +77,5 @@ swagger:
     redirect: true
 
 mybatis:
-#  mapper-locations: classpath:com/minlia/module/bible/mapper/*.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
-#  config-location: classpath:mybatis/mybatis-config.xml
-
-#jdbc:
-#    dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
-#    url: jdbc:mysql://rm-bp1v94c921ols1ne60o.mysql.rds.aliyuncs.com/yuncard_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
-#    databaseName: yuncard_dev
-#    serverName: 127.0.0.1
-#    username: root
-#    password: yuncard123!
-#    cachePrepStmts: true
-#    prepStmtsSize: 250
-#    prepStmtsCacheSqlLimit: 2048
-#    userServerPrepStmts: true
+  config-location: classpath:mybatis/mybatis-config.xml

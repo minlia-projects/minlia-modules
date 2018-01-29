@@ -7,10 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableAutoConfiguration
 @SpringBootApplication(scanBasePackages = {"com.minlia"})
-@MapperScan(basePackages = {"com.minlia.module.*.mapper",
-    "com.minlia.modules.rbac.backend.user.mapper",
-        "com.minlia.modules.rbac.backend.role.mapper",
-        "com.minlia.modules.rbac.backend.permission.mapper"})
+@MapperScan(basePackages = {"com.minlia.module.*.mapper","com.minlia.modules.*.mapper"})
 public class Application {
 
     public static void main(String[] args) {

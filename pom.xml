@@ -25,7 +25,7 @@
         <module>module-logger</module>
         <module>module-swagger</module>
         <module>module-websocket</module>
-        <module>module-data1</module>
+        <module>module-data</module>
         <module>module-redis</module>
         <module>module-aliyun-sesame</module>
         <module>module-aliyun-sms</module>
