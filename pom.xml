@@ -34,7 +34,7 @@
 
         <module>module-security</module>
         <module>module-rebecca</module>
-        <module>module-i18n</module>
+        <!--<module>module-i18n</module>-->
         <module>module-bible</module>
         <module>module-attachment</module>
         <module>module-wechat</module>
