@@ -12,11 +12,13 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Service
@@ -110,10 +112,11 @@ public class UserServiceImpl implements UserService {
         if (user.getLocked()) {
             user.setLocked(false);
             user.setLockLimit(0);
-            user.setLockTime(LocalDateTime.now());
+            user.setLockTime(new Date());
         } else {
             user.setLocked(true);
-            user.setLockTime(user.getLockTime().plusMonths(1));
+//            user.setLockTime(user.getLockTime().plusMonths(1));
+            user.setLockTime(DateUtils.addMonths(user.getLockTime(),1));
         }
         userMapper.locked(user);
         return !user.getLocked();
