@@ -1,14 +1,12 @@
 package com.minlia.module.bible;
 
-import org.mybatis.spring.annotation.MapperScan;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
 @EnableAutoConfiguration
 @SpringBootApplication
-@MapperScan(basePackages={"com.minlia.module.*.mapper"})
 public class Application {
 
   public static void main(String[] args) {
@@ -16,7 +14,8 @@ public class Application {
   }
 
 
-  // 这个方法还是比较实用的，就是在@ResponseBody转换json的时候不打印null的内容
+//  是在@ResponseBody转换json的时候不打印null的内容
+//  @JsonInclude(JsonInclude.Include.NON_NULL)
 //  @Bean
 //  public ObjectMapper jsonMapper() {
 //    ObjectMapper objectMapper = new ObjectMapper();
@@ -24,6 +23,5 @@ public class Application {
 //    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 //    return objectMapper;
 //  }
-
 
 }

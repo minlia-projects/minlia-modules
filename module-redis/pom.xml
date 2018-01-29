@@ -13,12 +13,8 @@
   <artifactId>module-redis</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <name>Module Redis</name>
+
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.version>1.8</java.version>
-    <swagger.version>2.5.0</swagger.version>
-    <lombok.version>1.16.12</lombok.version>
-    <springdata.commons.version>1.13.6.RELEASE</springdata.commons.version>
   </properties>
 
   <dependencies>
@@ -29,26 +25,17 @@
       <version>1.0.3-SNAPSHOT</version>
     </dependency>
 
-
-    <dependency>
-      <groupId>redis.clients</groupId>
-      <artifactId>jedis</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.github.kstyrc</groupId>
-      <artifactId>embedded-redis</artifactId>
-      <version>0.6</version>
-    </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session-data-redis</artifactId>
+    </dependency>
 
   </dependencies>
-
 
   <build>
     <plugins>
@@ -67,19 +54,14 @@
       <!--</execution>-->
       <!--</executions>-->
       <!--</plugin>-->
-
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
       </plugin>
-
-
       <!--<plugin>-->
       <!--<groupId>com.mysema.maven</groupId>-->
       <!--<artifactId>apt-maven-plugin</artifactId>-->

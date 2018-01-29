@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.modules.rbac.ModuleRbacAutoConfiguration
+com.minlia.modules.rbac.RbacAutoConfiguration

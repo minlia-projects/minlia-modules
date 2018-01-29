@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.minlia.cloud.modules</groupId>
@@ -12,38 +13,46 @@
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
         <version>1.0.3-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
+
+    <properties>
+        <project.version>1.0.1-SNAPSHOT</project.version>
+    </properties>
 
     <modules>
         <module>module-http</module>
-        <module>module-swagger</module>
-        <module>module-data</module>
         <module>module-logger</module>
-        <module>module-i18n</module>
-        <module>module-nestedset</module>
-        <module>module-security</module>
-        <!--<module>module-registry</module>-->
+        <module>module-swagger</module>
+        <module>module-websocket</module>
+        <module>module-data1</module>
         <module>module-redis</module>
-        <module>module-bible</module>
-        <module>module-registry</module>
-        <module>module-sms-aliyun</module>
+        <module>module-aliyun-sesame</module>
+        <module>module-aliyun-sms</module>
+        <module>module-aliyun-oss</module>
         <module>module-captcha</module>
+
+        <module>module-security</module>
         <module>module-rebecca</module>
-        <module>module-wechat-miniapp</module>
-        <module>module-wechat-mp</module>
+        <module>module-i18n</module>
+        <module>module-bible</module>
+        <module>module-attachment</module>
+        <module>module-wechat</module>
+
+        <!--<module>module-registry</module>-->
+        <!--<module>module-data</module>-->
+        <!--<module>module-nestedset</module>-->
+        <!--<module>module-registry</module>-->
         <!--<module>module-tenant</module>-->
-        <!--<module>module-attachment</module>-->
-        <module>module-delivery</module>
+        <!--<module>module-delivery</module>-->
     </modules>
 
-
-<scm>
+    <scm>
         <url>https://github.com/minlia-projects/minlia-modules</url>
         <connection>scm:git:git://github.com/minlia-projects/minlia-modules.git</connection>
         <developerConnection>scm:git:https://github.com/minlia-projects/minlia-modules.git
         </developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
 </project>

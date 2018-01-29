@@ -7,14 +7,12 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.bible.body.BibleCreateRequestBody;
 import com.minlia.module.bible.body.BibleQueryRequestBody;
 import com.minlia.module.bible.body.BibleUpdateRequestBody;
-import com.minlia.module.bible.constant.BibleConstant;
 import com.minlia.module.bible.service.BibleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

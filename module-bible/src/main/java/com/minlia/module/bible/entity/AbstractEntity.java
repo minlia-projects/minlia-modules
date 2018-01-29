@@ -5,26 +5,13 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
-@MappedSuperclass
-public abstract class AbstractEntity implements Serializable {
+public abstract class AbstractEntity extends WithIdEntity {
 
     private static final long serialVersionUID = 1L;
 
-    private String id;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
     @CreatedBy
     @NotNull
     private String createBy;

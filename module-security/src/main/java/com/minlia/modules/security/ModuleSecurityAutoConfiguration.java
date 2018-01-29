@@ -1,6 +1,5 @@
 package com.minlia.modules.security;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Configuration;
 
 /**

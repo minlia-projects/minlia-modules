@@ -1,5 +1,6 @@
 security:
     sessions: never
+
 spring:
     jackson:
         joda-date-time-format: yyyy-MM-dd HH:mm:ss

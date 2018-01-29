@@ -1,44 +1,92 @@
 package com.minlia.module.redis;
 
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
-import redis.embedded.RedisServer;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
- * Created by will on 6/19/17.
- * 启动时延迟此BEAN初始化
+ * 86400秒 = 1天
  */
 @Configuration
-public class RedisAutoConfiguration {
+@EnableScheduling
+@EnableCaching
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400*30)
+public class RedisAutoConfiguration  extends CachingConfigurerSupport{
+
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Bean
+//    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+//        RedisTemplate<String, String> redisTemplate = new StringRedisTemplate(redisConnectionFactory);
+//        StringRedisSerializer redisSerializer = new StringRedisSerializer();
+//        redisTemplate.setKeySerializer(redisSerializer);
+//        redisTemplate.setValueSerializer(redisSerializer);
+//        redisTemplate.setHashValueSerializer(redisSerializer);
+//        redisTemplate.afterPropertiesSet();
+//        return redisTemplate;
+//    }
 
   /**
-   * 当系统启动时自动启动一个指定端口的redis服务器
+   * 默认键值生成器：类名+方法名+参数
+   * Cacheable中设置 key="xx"后按此生成
+   * @return
    */
-  public RedisAutoConfiguration() {
-//    RedisServer redisServer = null;
-//    try {
-//      redisServer = new RedisServer(6379);
-//    } catch (IOException e) {
-//    }
-//    redisServer.start();
+  @Bean
+  public KeyGenerator keyGenerator() {
+    return (target, method, params) -> {
+      StringBuilder sb = new StringBuilder();
+      sb.append(target.getClass().getName());
+      sb.append(method.getName());
+      for (Object obj : params) {
+        sb.append(obj.toString());
+      }
+      return sb.toString();
+    };
   }
 
-//  @Bean
-//  JedisConnectionFactory jedisConnectionFactory() {
-//    return new JedisConnectionFactory();
-//  }
-//
-//  @Bean
-//  public RedisTemplate<String, Object> redisTemplate() {
-//    final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
-//    template.setConnectionFactory(jedisConnectionFactory());
-//    template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
-//    return template;
-//  }
+  @Bean
+  public CacheManager cacheManager(RedisTemplate redisTemplate) {
+    RedisSerializer keySerializer=new StringRedisSerializer();
+    redisTemplate.setKeySerializer(keySerializer);
+    redisTemplate.setHashKeySerializer(keySerializer);
+    RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+    //设置缓存过期时间:秒
+    cacheManager.setDefaultExpiration(60*30);
+    return cacheManager;
+  }
 
+  @SuppressWarnings("SpringJavaAutowiringInspection")
+  @Bean
+  public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory){
+    StringRedisTemplate redisTemplate = new StringRedisTemplate(redisConnectionFactory);
+
+    StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+    redisTemplate.setKeySerializer(stringRedisSerializer);
+
+    Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+    ObjectMapper om = new ObjectMapper();
+    om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+    om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+    jackson2JsonRedisSerializer.setObjectMapper(om);
+
+    redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+//        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+    redisTemplate.afterPropertiesSet();
+    return redisTemplate;
+  }
 
 }

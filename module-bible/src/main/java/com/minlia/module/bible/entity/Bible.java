@@ -9,9 +9,6 @@ import lombok.*;
  * Created by will on 6/21/17.
  * 数据字典实体
  */
-//@Entity
-//@Table(name = PersistenceConstants.MODULE_TABLE_PREFIX + "Bible", uniqueConstraints={@UniqueConstraint(columnNames={ })})
-//@SequenceGenerator(name = PersistenceConstants.SEQUENCE_GENERATOR_NAME, sequenceName = PersistenceConstants.SEQUENCE_PREFIX + "Bible")
 @Data
 @Builder
 @NoArgsConstructor
