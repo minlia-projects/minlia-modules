@@ -21,7 +21,7 @@
     </properties>
 
     <modules>
-        <!--<module>module-common</module>-->
+        <module>module-common</module>
         <module>module-http</module>
         <module>module-logger</module>
         <module>module-swagger</module>
