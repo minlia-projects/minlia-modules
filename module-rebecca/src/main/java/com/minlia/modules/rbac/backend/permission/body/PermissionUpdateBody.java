@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.backend.permission.body;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,6 +12,9 @@ public class PermissionUpdateBody implements ApiRequestBody {
     @NotNull
     private Long id;
 
-    private String desc;
+    @NotBlank
+    private String label;
+
+    private Boolean enabled;
 
 }

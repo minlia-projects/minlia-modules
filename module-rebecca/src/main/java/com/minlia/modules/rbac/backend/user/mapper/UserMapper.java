@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public interface UserMapper  {
@@ -22,6 +23,8 @@ public interface UserMapper  {
 
     void disabled(User user);
 
+    void grant(Long id, Set<Long> roles);
+
     User queryById(Long id);
 
     User queryByGuid(String guid);
@@ -30,10 +33,12 @@ public interface UserMapper  {
 
     User queryByCellphone(String cellphone);
 
+    long count(UserQueryRequestBody body);
+
     List<User> queryList(UserQueryRequestBody body);
 
     Page queryPage(UserQueryRequestBody body, Pageable pageable);
 
-    User queryByUsernameOrEmailOrCellphone(String username, String email, String cellphone);
+    User queryByUsernameOrCellphoneOrEmail(String username, String cellphone, String email);
 
 }

@@ -14,17 +14,19 @@ import java.util.Set;
  */
 public interface PermissionService {
 
-    void create(String code, String desc);
+    void create(String code, String label);
 
     void create(Set<Permission> permissions);
 
     Permission update(PermissionUpdateBody body);
 
-    Permission queryById(Long id);
+    void clear();
 
-    Permission queryByCode(String code);
+    Long countById(Long id);
 
-    Page<Permission> queryPage(Pageable pageable);
+    Long countByCode(String code);
+
+    List<Permission> queryListByRoleCodes(List<String> roleCodes);
 
     Page<Permission> queryPageByRoleCodes(List<String> roleCodes, Pageable pageable);
 

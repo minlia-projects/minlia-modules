@@ -5,8 +5,8 @@ package com.minlia.modules.rbac.config;
  */
 public class TokenRedisConstants {
 
-    public static final String token = "token_";
+    public static final String TOKEN = "token_";
 
-    public static final String r_token = "rtoken_";
+    public static final String R_TOKEN = "rtoken_";
 
 }

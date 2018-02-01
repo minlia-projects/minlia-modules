@@ -1,12 +1,12 @@
 package com.minlia.modules.security.authentication.jwt;
 
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
+import com.minlia.modules.security.exception.JwtAcceptableException;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -33,27 +33,23 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     private final TokenExtractor tokenExtractor;
     
     @Autowired
-    public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler, 
-            TokenExtractor tokenExtractor, RequestMatcher matcher) {
+    public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler, TokenExtractor tokenExtractor, RequestMatcher matcher) {
         super(matcher);
         this.failureHandler = failureHandler;
         this.tokenExtractor = tokenExtractor;
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         String tokenPayload = request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
-        if(StringUtils.isEmpty(tokenPayload)){
-            tokenPayload=request.getParameter(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
-        }
+        if (StringUtils.isEmpty(tokenPayload)) throw new JwtAcceptableException(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
+
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-            Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authResult);
         SecurityContextHolder.setContext(context);
@@ -61,10 +57,8 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         SecurityContextHolder.clearContext();
-        ApiPreconditions.is(true, ApiCode.AUTHENTICATION_FAILED);
         failureHandler.onAuthenticationFailure(request, response, failed);
     }
 }

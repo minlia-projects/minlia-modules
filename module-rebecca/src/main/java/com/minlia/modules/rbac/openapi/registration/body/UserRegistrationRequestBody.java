@@ -1,7 +1,7 @@
 package com.minlia.modules.rbac.openapi.registration.body;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.constant.ValidationConstants;
+import com.minlia.modules.rbac.validation.Cellphone;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
@@ -19,6 +19,7 @@ public class UserRegistrationRequestBody {
    * 用户名
    */
   @NotBlank
+  @Cellphone
   @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Username have to be grater than 8 characters")
   private String username;
 
@@ -30,11 +31,11 @@ public class UserRegistrationRequestBody {
   private String password;
 
   @NotBlank
-  @JsonProperty
+  @Size(min = 4,max = 6)
   private String code;
 
-  @Size(max = 50)
   @ApiModelProperty("推荐人")
-  private String referee;
+  @Size(max = 50)
+  private String referral;
 
 }

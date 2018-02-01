@@ -2,10 +2,10 @@ package com.minlia.modules.rbac.backend.permission.service;
 
 import com.minlia.modules.rbac.backend.permission.body.PermissionUpdateBody;
 import com.minlia.modules.rbac.backend.permission.entity.Permission;
+import com.minlia.modules.rbac.backend.permission.mapper.PermissionMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,129 +17,93 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by maitha.manyala on 10/6/15.
- */
 @Slf4j
 @Service
 public class PermissionServiceImpl implements PermissionService {
-    @Override
-    public void create(String code, String desc) {
 
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void create(String code, String label) {
+        if (!this.exists(code)) {
+            Permission permission = new Permission();
+            permission.setCode(code);
+            permission.setLabel(label);
+            permissionMapper.create(permission);
+        }
     }
 
     @Override
+    @Transactional
     public void create(Set<Permission> permissions) {
-
+        if (CollectionUtils.isNotEmpty(permissions)) {
+            for (Permission permission : permissions) {
+                this.create(permission.getCode(),permission.getLabel());
+            }
+        }
     }
 
     @Override
+    @Transactional
     public Permission update(PermissionUpdateBody body) {
-        return null;
+        Permission permission = permissionMapper.queryById(body.getId());
+        permission.setLabel(body.getLabel());
+        permissionMapper.update(permission);
+        return permission;
     }
 
     @Override
-    public Permission queryById(Long id) {
-        return null;
+    public void clear() {
+        permissionMapper.clear();
+    }
+
+    private boolean exists(String code) {
+        return permissionMapper.countByCode(code) > 0;
     }
 
     @Override
-    public Permission queryByCode(String code) {
-        return null;
+    @Transactional(readOnly = true)
+    public Long countById(Long id) {
+        return permissionMapper.countById(id);
     }
 
     @Override
-    public Page<Permission> queryPage(Pageable pageable) {
-        return null;
+    @Transactional(readOnly = true)
+    public Long countByCode(String code) {
+        return permissionMapper.countByCode(code);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Permission> queryListByRoleCodes(List<String> roleCodes) {
+        return permissionMapper.queryListByRoleCodes(roleCodes);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> queryCodesByRoleCodes(List<String> roleCodes) {
+        return permissionMapper.queryCodesByRoleCodes(roleCodes);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<Permission> queryPageByRoleCodes(List<String> roleCodes, Pageable pageable) {
-        return null;
+        return permissionMapper.queryPageByRoleCodes(roleCodes,pageable);
     }
 
     @Override
-    public List<GrantedAuthority> getGrantedAuthority(List<String> roleCodes) {
-        return null;
-    }
-
-//    @Autowired
-//    private PermissionMapper permissionMapper;
-//
-//    @Override
-//    @Transactional
-//    public void create(String code, String desc) {
-//        if (!this.exists(code)) {
-//            Permission permission = new Permission();
-//            permission.setCode(code);
-//            permission.setDesc(desc);
-//            permissionMapper.create(permission);
-//        }
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void create(Set<Permission> permissions) {
-//        if (CollectionUtils.isNotEmpty(permissions)) {
-//            for (Permission permission : permissions) {
-//                this.create(permission.getCode(),permission.getDesc());
-//            }
-//        }
-//    }
-//
-//    @Override
-//    @Transactional
-//    public Permission update(PermissionUpdateBody body) {
-//        Permission permission = permissionMapper.queryById(body.getId());
-//        permission.setDesc(body.getDesc());
-//        permissionMapper.update(permission);
-//        return permission;
-//    }
-//
-//    private boolean exists(String code) {
-//        return null != permissionMapper.queryByCode(code);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Permission queryById(Long id) {
-//        return permissionMapper.queryById(id);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Permission queryByCode(String code) {
-//        return permissionMapper.queryByCode(code);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Page<Permission> queryPage(Pageable pageable) {
-//        return permissionMapper.queryPage(pageable);
-//    }
-//
-//    private List<Permission> queryPageByRoleCodes(List<String> roleCodes) {
-//        return permissionMapper.queryPageByRoleCodes(roleCodes);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public Page<Permission> queryPageByRoleCodes(List<String> roleCodes, Pageable pageable) {
-//        return permissionMapper.queryPageByRoleCodes(roleCodes,pageable);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
 //    @Cacheable(value = { "permission" }, key = "#p0",unless="#result==null")
-//    public List<GrantedAuthority> getGrantedAuthority(List<String> roleCodes) {
-//        final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//        final List<Permission> permissions = queryPageByRoleCodes(roleCodes);
-//        if (CollectionUtils.isNotEmpty(permissions)) {
-//            for (Permission permission : permissions) {
-//                authorities.add(new SimpleGrantedAuthority(permission.getCode()));
-//            }
-//        }
-//        return authorities;
-//    }
+    public List<GrantedAuthority> getGrantedAuthority(List<String> roleCodes) {
+        final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        final List<String> permissions = queryCodesByRoleCodes(roleCodes);
+        if (CollectionUtils.isNotEmpty(permissions)) {
+            for (String permission : permissions) {
+                authorities.add(new SimpleGrantedAuthority(permission));
+            }
+        }
+        return authorities;
+    }
 
 }

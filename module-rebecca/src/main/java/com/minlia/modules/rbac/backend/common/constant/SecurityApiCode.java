@@ -29,8 +29,8 @@ public class SecurityApiCode {
     /**
      * 用户
      */
-    public static final int USER_NOT_FOUND = 100201;
-    public static final int USER_REFEREE_NOT_FOUND = 100202;
+    public static final int USER_NOT_EXISTED = 100201;
+    public static final int USER_REFERRAL_NOT_FOUND = 100202;
 
     /**
      * 角色
@@ -41,12 +41,14 @@ public class SecurityApiCode {
     /**
      * 权限点
      */
-    public static final int BASE_PERMISSION_CODE=BASED+0400;
+    public static final int BASE_PERMISSION_CODE=100401;
 
     /**
      * 导航
      */
-    public static final int BASE_NAVIGATION_CODE=BASED+0500;
+    public static final int NAVIGATION_NOT_EXISTS=100501;
+    public static final int NAVIGATION_PARENT_NOT_EXISTS=100502;
+    public static final int NAVIGATION_CAN_NOT_DELETE_HAS_CHILDREN=100503;
 
     /**
      * 验证码

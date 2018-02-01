@@ -33,5 +33,6 @@ public interface UserQueryService {
 
     Page<User> queryPage(UserQueryRequestBody body, Pageable pageable);
 
-    User queryByUsernameOrEmailOrCellphone(String username, String email, String cellphone);
+    User queryByUsernameOrCellphoneOrEmail(String username, String email, String cellphone);
+
 }

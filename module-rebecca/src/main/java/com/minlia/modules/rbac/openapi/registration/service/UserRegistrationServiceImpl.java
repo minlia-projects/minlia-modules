@@ -31,7 +31,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     User user = userService.create(UserCreateRequestBody.builder()
             .username(body.getUsername())
             .password(body.getPassword())
-            .referee(body.getReferee())
+            .referral(body.getReferral())
             .build());
 
     //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
@@ -44,9 +44,9 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     //正则校验 TODO
 
     if(userQueryService.exists(body.getUsername())){
-      return SuccessResponseBody.builder().message("Available").build();
+      return FailureResponseBody.builder().message("账号已存在").build();
     }else{
-      return FailureResponseBody.builder().message("NotAvailable").build();
+      return SuccessResponseBody.builder().message("Available").build();
     }
   }
 

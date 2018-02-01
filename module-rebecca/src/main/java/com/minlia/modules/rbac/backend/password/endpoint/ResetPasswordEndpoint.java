@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * Created by will on 6/19/17.
  */
@@ -27,10 +29,9 @@ public class ResetPasswordEndpoint {
     UserPasswordService userPasswordService;
 
     @ApiOperation(value = "忘记密码", notes = "忘记密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "set", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody resetPassword(@RequestBody ResetPasswordRequestBody body) {
+    @RequestMapping(value = "forget", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody resetPassword(@Valid @RequestBody ResetPasswordRequestBody body) {
         User entity = userPasswordService.resetPassword(body);
-        entity.setPassword("******");
         return SuccessResponseBody.builder().payload(entity).build();
     }
 

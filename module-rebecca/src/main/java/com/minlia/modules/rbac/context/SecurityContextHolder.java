@@ -93,7 +93,7 @@ public final class SecurityContextHolder {
         Collection<? extends GrantedAuthority> authorities = securityContext.getAuthentication().getAuthorities();
         if (authorities != null) {
             for (GrantedAuthority authority : authorities) {
-                if (authority.getAuthority().equals("anonymousUser")) {
+                if ("anonymousUser".equals(authority.getAuthority())) {
                     return false;
                 }
             }
@@ -110,7 +110,7 @@ public final class SecurityContextHolder {
     public static User getCurrentUser() {
         String username = getCurrentUserLogin();
         if (!StringUtils.isEmpty(username)) {
-            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByUsernameOrEmailOrCellphone(username,username,username);
+            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByUsernameOrCellphoneOrEmail(username,username,username);
             return user;
         } else {
             return null;

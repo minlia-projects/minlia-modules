@@ -16,19 +16,19 @@ import lombok.*;
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
-@EqualsAndHashCode(of = {"id"},callSuper = true)
+@EqualsAndHashCode(of = {"id"}, callSuper = true)
 public class Permission extends AbstractEntity {
 
-  /**
-   * 权限点编码：account.creation
-   */
-  @JsonProperty
-  private String code;
+    /**
+     * 权限点编码：account.creation
+     */
+    @JsonProperty
+    private String code;
 
-  /**
-   * 国际化值请使用权限点 Lang.get(code);
-   */
-  @JsonProperty
-  private String desc;
+    /**
+     * 国际化值请使用权限点 Lang.get(code);
+     */
+    @JsonProperty
+    private String label;
 
 }

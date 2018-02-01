@@ -1,24 +1,26 @@
 package com.minlia.modules.rbac.backend.user.body;
 
 import com.minlia.cloud.body.ApiRequestBody;
-import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 
 /**
+ * 用户-授权
  * Created by garen on 2017/8/8.
  */
-@ApiModel("用户-授权")
 @Data
+@Builder
+@AllArgsConstructor
 public class UserGarenRequestBody implements ApiRequestBody {
 
     @NotNull
-    private String guid;
+    private Long id;
 
-    @NotBlank
-    private List<String> roles;
+    @NotNull
+    private Set<Long> roles;
 
 }

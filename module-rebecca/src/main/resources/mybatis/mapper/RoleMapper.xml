@@ -87,7 +87,7 @@
 		<foreach collection="arg1" item="item" index="index" separator=",">
 		(
 			#{arg0,jdbcType=BIGINT} ,
-			#{item,jdbcType=BIGINT}
+			#{item,jdbcType=SMALLINT}
 		)
 		</foreach>
 		;
@@ -101,6 +101,28 @@
 	<select id="queryByCode" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
 		<include refid="QUERY_CONTENT" />
 		WHERE rt.code = #{code,jdbcType=VARCHAR}
+	</select>
+
+	<select id="queryCodeByUserId" resultType="java.lang.String">
+		SELECT
+			CODE
+		FROM
+			minlia_role rt
+		INNER JOIN map_user_role mp ON mp.role_id = rt.id
+		INNER JOIN minlia_user ut ON ut.id = mp.user_id
+		WHERE
+			ut.id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="queryIdByUserId" resultType="java.lang.Long">
+		SELECT
+			id
+		FROM
+			minlia_role rt
+		INNER JOIN map_user_role mp ON mp.role_id = rt.id
+		INNER JOIN minlia_user ut ON ut.id = mp.user_id
+		WHERE
+			ut.id = #{id,jdbcType=BIGINT}
 	</select>
 
 	<select id="queryAll" resultType="com.minlia.modules.rbac.backend.role.entity.Role">

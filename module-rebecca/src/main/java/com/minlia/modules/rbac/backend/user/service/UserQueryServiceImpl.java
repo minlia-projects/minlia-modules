@@ -32,7 +32,7 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public User queryByGuidAndNotNull(String guid) {
         User user = userMapper.queryByGuid(guid);
-        ApiPreconditions.is(null == user, SecurityApiCode.USER_NOT_FOUND,"用户不存在");
+        ApiPreconditions.is(null == user, SecurityApiCode.USER_NOT_EXISTED,"用户不存在");
         return user;
     }
 
@@ -62,8 +62,8 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     @Override
-    public User queryByUsernameOrEmailOrCellphone(String username, String email, String cellphone) {
-        return userMapper.queryByUsernameOrEmailOrCellphone(username,email,cellphone);
+    public User queryByUsernameOrCellphoneOrEmail(String username, String email, String cellphone) {
+        return userMapper.queryByUsernameOrCellphoneOrEmail(username,email,cellphone);
     }
 
 }

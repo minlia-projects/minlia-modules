@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@EnableAutoConfiguration
 @ComponentScan(basePackages = "com.minlia.*")
-@MapperScan(basePackages={"com.minlia.module.*.mapper"})
+@MapperScan(basePackages={"com.minlia.**.mapper"})
 
 @Configuration
 @ConditionalOnClass(com.minlia.cloud.autoconfiguration.MinliaCloudAutoConfiguration.class)

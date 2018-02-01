@@ -11,15 +11,15 @@ public class UserQueryRequestBody {
 
     private Long id;
 
-    private String referee;
+    private String referral;
 
     private String username;
 
+    private String cellphone;
+
+    private String email;
+
     private Boolean enabled;
-
-    private Boolean credentialsExpired;
-
-    private Boolean expired;
 
     private Boolean locked;
 

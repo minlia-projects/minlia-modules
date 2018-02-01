@@ -69,6 +69,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public Boolean exists(Long id) {
+        return null != roleMapper.queryById(id);
+    }
+
+    @Override
     public Boolean exists(String code) {
         return null != roleMapper.queryByCode(code);
     }
@@ -89,8 +94,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<String> queryCodeByGuid(String guid) {
-        return roleMapper.queryCodeByGuid(guid);
+    public List<String> queryCodeByUserId(Long userId) {
+        return roleMapper.queryCodeByUserId(userId);
+    }
+    @Override
+    public List<Long> queryIdByUserId(Long userId) {
+        return roleMapper.queryIdByUserId(userId);
     }
 
     @Override

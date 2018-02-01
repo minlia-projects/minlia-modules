@@ -66,11 +66,18 @@
             <version>2.5.1</version>
         </dependency>
 
-        <!-- mybatis pagehelper -->
+        <!--&lt;!&ndash; mybatis pagehelper &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.github.pagehelper</groupId>-->
+            <!--<artifactId>pagehelper</artifactId>-->
+            <!--<version>${pagehelper.version}</version>-->
+        <!--</dependency>-->
+
+        <!-- springboot分页插件 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>${pagehelper.version}</version>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
         </dependency>
 
     </dependencies>

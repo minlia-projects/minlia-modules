@@ -6,19 +6,19 @@
 
 	<sql id="QUERY_CONTENT">
 		SELECT
+			ut.id ,
 			ut.guid ,
 			ut.username ,
 			ut.password ,
 			ut.cellphone ,
 			ut.email ,
 			ut.credentials_expired AS credentialsExpired ,
-			ut.expired ,
 			ut.locked ,
 			ut.lock_limit AS lockLimit,
 			ut.lock_time AS lockTime,
 			ut.last_login_time AS lastLoginTime,
 			ut.last_login_ip AS lastLoginIp,
-			ut.referee ,
+			ut.referral ,
 			ut.create_date AS createDate ,
 			ut.create_by AS createBy ,
 			ut.last_modified_date AS lastModifiedDate ,
@@ -29,28 +29,29 @@
 	</sql>
 
 	<sql id="QUERY_CONDITION">
-		WHERE 1=1
+		<where>
+		<if test="id != null">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
 		<if test="username != null">
-			AND username = #{username,jdbcType=VARCHAR},
+			AND username = #{username,jdbcType=VARCHAR}
 		</if>
 		<if test="cellphone != null">
-			AND cellphone = #{cellphone,jdbcType=VARCHAR},
+			AND cellphone = #{cellphone,jdbcType=VARCHAR}
 		</if>
 		<if test="email != null">
-			AND email = #{email,jdbcType=VARCHAR},
+			AND email = #{email,jdbcType=VARCHAR}
 		</if>
-		<if test="referee != null">
-			AND referee = #{referee,jdbcType=VARCHAR},
-		</if>
-		<if test="expired != null">
-			AND expired = #{expired,jdbcType=TINYINT},
+		<if test="referral != null">
+			AND referral = #{referral,jdbcType=VARCHAR}
 		</if>
 		<if test="locked != null">
-			AND locked = #{locked,jdbcType=TINYINT},
+			AND locked = #{locked,jdbcType=TINYINT}
 		</if>
 		<if test="enabled != null">
-			AND enabled = #{enabled,jdbcType=TINYINT},
+			AND enabled = #{enabled,jdbcType=TINYINT}
 		</if>
+		</where>
 	</sql>
 
 	<insert id="create" useGeneratedKeys="true" keyProperty="id">
@@ -60,7 +61,7 @@
 			password ,
 			cellphone ,
 			email ,
-			referee
+			referral
 		)
 		VALUES
 			(
@@ -69,27 +70,24 @@
 				#{password,jdbcType=VARCHAR},
 				#{cellphone,jdbcType=VARCHAR},
 				#{email,jdbcType=VARCHAR},
-				#{referee,jdbcType=VARCHAR}
+				#{referral,jdbcType=VARCHAR}
 			)
 	</insert>
 
 	<update id="update" parameterType="com.minlia.modules.rbac.backend.user.entity.User">
 		UPDATE minlia_user
 		SET
-		<if test="code != null">
-			code = #{code,jdbcType=VARCHAR} ,
-		</if>
-		<if test="used != null">
-			used = #{used,jdbcType=TINYINT} ,
+		<if test="enabled != null">
+			enabled = #{enabled,jdbcType=TINYINT} ,
 		</if>
 		<if test="locked != null">
 			locked = #{locked,jdbcType=TINYINT} ,
 		</if>
-		<if test="failureCount != null">
-			failure_count = #{failureCount,jdbcType=TINYINT} ,
+		<if test="lockTime != null">
+			lock_time = #{lockTime,jdbcType=TIMESTAMP} ,
 		</if>
-		<if test="failureCount != null">
-			effective_time = #{effectiveTime,jdbcType=TIMESTAMP} ,
+		<if test="lockLimit != null">
+			lock_limit = #{lockLimit,jdbcType=TINYINT} ,
 		</if>
 			last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
 		WHERE id = #{id,jdbcType=BIGINT}
@@ -98,6 +96,28 @@
 	<delete id="deleteById">
 		DELETE FROM minlia_user WHERE id = #{id}
 	</delete>
+
+	<update id="grant">
+		DELETE FROM map_user_role where user_id = #{arg0};
+
+		INSERT INTO map_user_role(
+		user_id ,
+		role_id
+		)
+		VALUES
+		<foreach collection="arg1" item="item" index="index" separator=",">
+			(
+			#{arg0,jdbcType=BIGINT} ,
+			#{item,jdbcType=SMALLINT}
+			)
+		</foreach>
+		;
+	</update>
+
+	<select id="queryById" resultType="com.minlia.modules.rbac.backend.user.entity.User">
+		<include refid="QUERY_CONTENT" />
+		WHERE id = #{id,jdbcType=BIGINT}
+	</select>
 
 	<select id="queryByGuid" resultType="com.minlia.modules.rbac.backend.user.entity.User">
 		<include refid="QUERY_CONTENT" />
@@ -114,8 +134,14 @@
 		WHERE cellphone = #{cellphone,jdbcType=VARCHAR}
 	</select>
 
-	<select id="queryAll" resultType="com.minlia.modules.rbac.backend.user.entity.User">
+	<select id="queryByUsernameOrCellphoneOrEmail" resultType="com.minlia.modules.rbac.backend.user.entity.User">
 		<include refid="QUERY_CONTENT" />
+		WHERE ut.username = #{arg0,jdbcType=VARCHAR} OR ut.cellphone = #{arg1,jdbcType=VARCHAR} OR email = #{arg2,jdbcType=VARCHAR}
+	</select>
+
+	<select id="count" resultType="java.lang.Long">
+		SELECT COUNT(1) FROM minlia_user ut
+		<include refid="QUERY_CONDITION" />
 	</select>
 
 	<select id="queryOne" resultType="com.minlia.modules.rbac.backend.user.entity.User">

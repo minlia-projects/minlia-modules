@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.bible.entity.AbstractEntity;
-import com.minlia.modules.security.authentication.credential.WithCellphoneCredential;
-import com.minlia.modules.security.authentication.credential.WithEmailCredential;
-import com.minlia.modules.security.authentication.credential.WithUsernameCredential;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.*;
 
 import java.util.Date;
@@ -26,29 +23,25 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
 @EqualsAndHashCode(of = {"username"})
-public class User extends AbstractEntity implements WithUsernameCredential, WithEmailCredential, WithCellphoneCredential {
+public class User extends AbstractEntity {
 
     /**
      * Global User Identification
      */
-    @JsonProperty
     private String guid;
     /**
      * 用户名
      */
-    @JsonProperty
     private String username;
 
     /**
      * 手机号码
      */
-    @JsonProperty
     private String cellphone;
 
     /**
      * 邮箱
      */
-    @JsonProperty
     private String email;
 
     /**
@@ -60,31 +53,21 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
     /**
      * 凭证是否有效
      */
-    @JsonProperty
     private Boolean credentialsExpired;
-
-    /**
-     * 是否有效
-     */
-    @JsonProperty
-    private Boolean expired;
 
     /**
      * 是否锁定
      */
-    @JsonProperty
     private Boolean locked;
 
     /**
      * 锁定次数
      */
-    @JsonProperty
     private Integer lockLimit;
 
     /**
      * 锁定时间，多少分钟内不能登录
      */
-    @JsonProperty
     private Date lockTime;
 
 //    @JsonProperty("lockTime")
@@ -95,19 +78,16 @@ public class User extends AbstractEntity implements WithUsernameCredential, With
     /**
      * 是否启用
      */
-    @JsonProperty
     private Boolean enabled;
 
     @JsonProperty
     private Date lastLoginTime;
 
-    @JsonProperty
     private String lastLoginIp;
 
     /**
      * 推荐人
      */
-    @JsonProperty
-    private String referee;
+    private String referral;
 
 }

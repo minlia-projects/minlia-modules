@@ -44,6 +44,7 @@ public interface RoleService {
      */
     void grantPermission(String code, List<Long> permissions);
 
+    Boolean exists(Long id);
     Boolean exists(String code);
 
     Role queryById(Long id);
@@ -52,7 +53,8 @@ public interface RoleService {
 
     List<Role> queryByGuid(String guid);
 
-    List<String> queryCodeByGuid(String guid);
+    List<String> queryCodeByUserId(Long userId);
+    List<Long> queryIdByUserId(Long userId);
 
     Page<Role> queryPage(Pageable pageable);
 

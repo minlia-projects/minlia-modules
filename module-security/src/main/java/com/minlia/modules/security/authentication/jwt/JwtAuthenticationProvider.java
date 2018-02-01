@@ -32,6 +32,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         RawAccessJwtToken rawAccessToken = (RawAccessJwtToken) authentication.getCredentials();
         Jws<Claims> jwsClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
         String subject = jwsClaims.getBody().getSubject();
+
+        //校验redis里面的token是否存在，如果不存在抛出异常 TODO
+//        if (!redisService.hasKey(TokenRedisConstants.token + subject)){
+//            throw new JwtInvalidTokenException("Invalid JWT token");
+//        }
+
         Date expirDate = jwsClaims.getBody().getExpiration();
         List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
         List<GrantedAuthority> authorities = scopes.stream()
@@ -47,6 +53,5 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return (JwtAuthenticationToken.class.isAssignableFrom(authentication));
     }
-
 
 }

@@ -27,20 +27,18 @@ public class ChangePasswordEndpoint {
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据原密码修改密码", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "/raw", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "raw", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody changePasswordMode1(@RequestBody ChangePasswordByRawPasswordRequestBody body) {
         User entity = userPasswordService.changePassword(body);
-        entity.setPassword("******");
-        return SuccessResponseBody.builder().payload(entity).build();
+        return SuccessResponseBody.builder().build();
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据验证码修改密码", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "/code", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "captcha", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody changePasswordMode2(@RequestBody ChangePasswordBySecurityCodeRequestBody body) {
         User entity=userPasswordService.changePassword(body);
-        entity.setPassword("******");
-        return SuccessResponseBody.builder().payload(entity).build();
+        return SuccessResponseBody.builder().build();
     }
 
 }
