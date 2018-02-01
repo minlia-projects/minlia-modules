@@ -50,6 +50,9 @@ public class Navigation extends AbstractEntity {
     @JsonProperty
     private Integer orders;
 
+    @JsonProperty
+    private Boolean display;
+
     /**
      * 父ID
      */

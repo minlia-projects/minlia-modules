@@ -145,7 +145,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
     @Override
     public HashMap getLoginInfoByUser(User user) {
-        List<String> roles = roleService.queryCodeByGuid(user.getGuid());
+        List<String> roles = roleService.queryCodeByUserId(user.getId());
 
         List<GrantedAuthority> authorities = permissionService.getGrantedAuthority(roles);
         UserContext userContext = UserContext.create(user.getUsername(), authorities);

@@ -8,7 +8,7 @@ import com.minlia.module.captcha.entity.Captcha;
 import com.minlia.module.captcha.enumeration.SecurityCodeTypeEnum;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
 import com.minlia.module.captcha.properties.SmsTemplateProperties;
-import com.minlia.modules.sms.AliyunSmsSendService;
+import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;

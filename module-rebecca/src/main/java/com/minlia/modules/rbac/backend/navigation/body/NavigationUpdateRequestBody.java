@@ -14,7 +14,7 @@ public class NavigationUpdateRequestBody extends NavigationCreateRequestBody {
     @NotNull
     private Long id;
 
-    @ApiModelProperty(value = "是否启用")
-    private Boolean enabled;
+    @ApiModelProperty(value = "展示/隐藏")
+    private Boolean display;
 
 }

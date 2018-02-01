@@ -20,11 +20,13 @@ import org.apache.ibatis.session.RowBounds;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @Slf4j
+@Transactional
 public class NavigationServiceImpl implements NavigationService {
 
     @Autowired
@@ -40,16 +42,7 @@ public class NavigationServiceImpl implements NavigationService {
     public StatefulBody create(NavigationCreateRequestBody body) {
         boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().parentId(body.getParentId()).name(body.getName()).build()) > 0;
         if (!exists) {
-            if (null != body.getParentId()) {
-                Navigation parent = navigationMapper.queryById(body.getParentId());
-                ApiPreconditions.is(null == parent, SecurityApiCode.NAVIGATION_PARENT_NOT_EXISTS,"父导航不存在");
-
-                //当创建子项时设置父类为FOLDER
-                if (NavigationType.LEAF.equals(parent.getType())) {
-                    parent.setType(NavigationType.FOLDER);
-                    navigationMapper.update(parent);
-                }
-            }
+            updateTypeByChildren(body.getParentId());
 
             Navigation navigation = Navigation.builder().parentId(body.getParentId()).name(body.getName()).icon(body.getIcon()).state(body.getState()).orders(body.getOrders()).type(NavigationType.LEAF).build();
             navigationMapper.create(navigation);
@@ -63,9 +56,28 @@ public class NavigationServiceImpl implements NavigationService {
     public Navigation update(NavigationUpdateRequestBody body) {
         Navigation navigation = navigationMapper.queryById(body.getId());
         ApiPreconditions.is(null == navigation, SecurityApiCode.NAVIGATION_NOT_EXISTS,"导航不存在");
+
+        updateTypeByChildren(body.getParentId());
+
         mapper.map(body,navigation);
         navigationMapper.update(navigation);
         return navigation;
+    }
+
+    /**
+     * 更新老子类型
+     * @param parentId
+     */
+    private void updateTypeByChildren(Long parentId) {
+        if (null != parentId) {
+            Navigation parent = navigationMapper.queryById(parentId);
+            ApiPreconditions.is(null == parent, SecurityApiCode.NAVIGATION_PARENT_NOT_EXISTS,"父导航不存在");
+
+            //当创建子项时设置父类为FOLDER
+            if (NavigationType.LEAF.equals(parent.getType())) {
+                navigationMapper.updateType(parent.getId(),NavigationType.FOLDER);
+            }
+        }
     }
 
     @Override
@@ -94,11 +106,19 @@ public class NavigationServiceImpl implements NavigationService {
 
         if (CollectionUtils.isNotEmpty(body.getIds())) {
             for (Long id: body.getIds()) {
-                boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).build()) > 0;
+                boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).type(NavigationType.LEAF).build()) > 0;
                 ApiPreconditions.not(exists,SecurityApiCode.NAVIGATION_NOT_EXISTS,"导航不存在");
             }
         }
         navigationMapper.grant(body.getRoleId(),body.getIds());
+    }
+
+    @Override
+    public Boolean display(Long id) {
+        Navigation navigation = navigationMapper.queryById(id);
+        ApiPreconditions.is(null == navigation, SecurityApiCode.NAVIGATION_NOT_EXISTS,"导航不存在");
+        navigationMapper.display(id,!navigation.getDisplay());
+        return !navigation.getDisplay();
     }
 
     @Override

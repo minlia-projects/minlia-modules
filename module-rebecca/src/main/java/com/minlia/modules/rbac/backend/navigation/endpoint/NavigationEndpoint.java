@@ -11,7 +11,6 @@ import com.minlia.modules.rbac.backend.navigation.body.NavigationUpdateRequestBo
 import com.minlia.modules.rbac.backend.navigation.service.NavigationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,10 +22,9 @@ import javax.validation.Valid;
 /**
  * Created by will on 6/17/17.
  */
+@Api(tags = "System Navigation", description = "菜单")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "navigation")
-@Api(tags = "系统-菜单", description = "菜单")
-@Slf4j
 public class NavigationEndpoint {
 
     @Autowired
@@ -60,6 +58,13 @@ public class NavigationEndpoint {
     public StatefulBody grant(@Valid @RequestBody NavigationGrantRequestBody body) {
         navigationService.grant(body);
         return SuccessResponseBody.builder().build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_GRANT + "')")
+    @ApiOperation(value = "显示/隐藏", notes = "显示", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "display", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody display(@RequestParam Long id) {
+        return SuccessResponseBody.builder().payload(navigationService.display(id)).build();
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")

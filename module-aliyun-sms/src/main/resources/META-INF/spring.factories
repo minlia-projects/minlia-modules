@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.modules.sms.AliyunSmsAutoConfiguration
+com.minlia.modules.aliyun.sms.AliyunSmsAutoConfiguration

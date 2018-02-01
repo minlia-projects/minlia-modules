@@ -20,16 +20,19 @@ public class BibleQueryRequestBody {
 
   @ApiModelProperty(value = "编码")
   private String code;
+
   @ApiModelProperty(value = "编码搜索符")
   private QueryOperator codeOperator;
 
   @ApiModelProperty(value = "名称,标签")
   private String label;
+
   @ApiModelProperty(value = "名称,标签搜索符")
   private QueryOperator labelOperator;
 
   @ApiModelProperty(value = "备注")
   private String notes;
+
   @ApiModelProperty(value = "备注搜索符")
   private QueryOperator notesOperator;
 

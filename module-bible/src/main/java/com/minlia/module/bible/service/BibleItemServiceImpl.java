@@ -6,7 +6,7 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.body.BibleItemCreateRequestBody;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.body.BibleItemUpdateRequestBody;
-import com.minlia.module.bible.code.BibleApiCode;
+import com.minlia.module.bible.constant.BibleApiCode;
 import com.minlia.module.bible.mapper.BibleItemMapper;
 import com.minlia.module.bible.mapper.BibleMapper;
 import com.minlia.module.bible.entity.Bible;

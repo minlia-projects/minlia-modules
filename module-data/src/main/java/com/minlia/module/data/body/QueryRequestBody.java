@@ -1,4 +1,4 @@
-package com.minlia.module.data.body;
+package com.minlia.module.aliyun.sesame.body;
 
 
 import com.minlia.cloud.body.Body;

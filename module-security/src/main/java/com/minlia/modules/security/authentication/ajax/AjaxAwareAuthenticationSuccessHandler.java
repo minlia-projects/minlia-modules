@@ -56,8 +56,8 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         clearAuthenticationAttributes(request);
 
         //保存信息到redisi：因为存在多端登录所以用Set
-        redisService.sSetAndTime(TokenRedisConstants.token + userContext.getUsername(),tokenFactory.getSettings().getTokenExpirationTime(),accessToken.getToken());
-        redisService.sSetAndTime(TokenRedisConstants.r_token + userContext.getUsername(),tokenFactory.getSettings().getRefreshTokenExpTime(),refreshToken.getToken());
+//        redisService.sSetAndTime(TokenRedisConstants.token + userContext.getUsername(),tokenFactory.getSettings().getTokenExpirationTime(),accessToken.getToken());
+//        redisService.sSetAndTime(TokenRedisConstants.r_token + userContext.getUsername(),tokenFactory.getSettings().getRefreshTokenExpTime(),refreshToken.getToken());
     }
 
     /**

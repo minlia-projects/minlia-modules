@@ -8,7 +8,7 @@ import com.minlia.module.bible.body.BibleCreateRequestBody;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.body.BibleQueryRequestBody;
 import com.minlia.module.bible.body.BibleUpdateRequestBody;
-import com.minlia.module.bible.code.BibleApiCode;
+import com.minlia.module.bible.constant.BibleApiCode;
 import com.minlia.module.bible.entity.Bible;
 import com.minlia.module.bible.mapper.BibleMapper;
 import lombok.extern.slf4j.Slf4j;

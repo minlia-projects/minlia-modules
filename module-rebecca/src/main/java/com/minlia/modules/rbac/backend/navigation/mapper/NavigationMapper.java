@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface NavigationMapper {
 
-    void create(Navigation role);
+    void create(Navigation navigation);
 
-    void update(Navigation role);
+    void update(Navigation navigation);
 
     void delete(Long id);
 
@@ -21,9 +21,11 @@ public interface NavigationMapper {
 
     void grant(Long roleId, List<Long> ids);
 
-    Navigation queryById(Long id);
+    void display(Long id, boolean display);
 
     long count(NavigationQueryRequestBody body);
+
+    Navigation queryById(Long id);
 
     List<Navigation> queryByParentId(Long parentId);
 

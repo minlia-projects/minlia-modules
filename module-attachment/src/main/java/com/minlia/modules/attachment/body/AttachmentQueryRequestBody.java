@@ -1,7 +1,7 @@
 package com.minlia.modules.attachment.body;
 
 
-import com.minlia.module.data.body.QueryRequestBody;
+import com.minlia.module.aliyun.sesame.body.QueryRequestBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

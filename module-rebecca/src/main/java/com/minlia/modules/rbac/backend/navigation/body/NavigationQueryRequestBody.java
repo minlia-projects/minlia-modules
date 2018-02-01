@@ -1,6 +1,7 @@
 package com.minlia.modules.rbac.backend.navigation.body;
 
-import com.minlia.module.data.body.QueryRequestBody;
+import com.minlia.module.aliyun.sesame.body.QueryRequestBody;
+import com.minlia.modules.rbac.backend.navigation.enumeration.NavigationType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,11 @@ public class NavigationQueryRequestBody implements QueryRequestBody {
 
     private Long roleId;
 
+    private NavigationType type;
+
     private String name;
 
-    @ApiModelProperty(value = "是否有效")
-    private Boolean enabled;
+    @ApiModelProperty(value = "展示/隐藏")
+    private Boolean display;
 
 }

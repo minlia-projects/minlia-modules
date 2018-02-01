@@ -30,6 +30,12 @@ public interface NavigationService {
     void grant(NavigationGrantRequestBody body);
 
     /**
+     * 展示、隐藏
+     * @param id
+     */
+    Boolean display(Long id);
+
+    /**
      * 根据ID查询：包含儿子
      * @param id
      * @return
