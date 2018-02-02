@@ -1,12 +1,13 @@
 package com.minlia.modules.rbac.backend.permission.service;
 
-import com.minlia.modules.rbac.backend.permission.body.PermissionUpdateBody;
+import com.minlia.modules.rbac.backend.permission.body.PermissionUpdateRequestBody;
 import com.minlia.modules.rbac.backend.permission.entity.Permission;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,7 +19,7 @@ public interface PermissionService {
 
     void create(Set<Permission> permissions);
 
-    Permission update(PermissionUpdateBody body);
+    Permission update(PermissionUpdateRequestBody body);
 
     void clear();
 
@@ -26,9 +27,13 @@ public interface PermissionService {
 
     Long countByCode(String code);
 
+    List<Map<String,Object>> tree();
+
+    List<Permission> queryAll();
+
     List<Permission> queryListByRoleCodes(List<String> roleCodes);
 
-    Page<Permission> queryPageByRoleCodes(List<String> roleCodes, Pageable pageable);
+    Page<Permission> queryPage(RowBounds rowBounds);
 
     /**
      * 获取授权

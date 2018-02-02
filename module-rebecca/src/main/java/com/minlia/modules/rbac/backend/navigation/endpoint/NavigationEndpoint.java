@@ -68,14 +68,14 @@ public class NavigationEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
-    @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "根据ID查询", notes = "根据ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryById", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody findOne(@RequestParam Long id) {
         return SuccessResponseBody.builder().payload(navigationService.queryById(id)).build();
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
-    @ApiOperation(value = "父ID查询", notes = "父ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "根据父ID查询", notes = "根据父ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryByParentId", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryByParentId(@RequestParam Long id) {
         return SuccessResponseBody.builder().payload(navigationService.queryByParentId(id)).build();

@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class PermissionUpdateBody implements ApiRequestBody {
+public class PermissionUpdateRequestBody implements ApiRequestBody {
 
     @NotNull
     private Long id;

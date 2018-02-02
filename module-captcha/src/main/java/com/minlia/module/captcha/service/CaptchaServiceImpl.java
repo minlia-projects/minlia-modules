@@ -5,7 +5,7 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.constant.CaptchaApiCode;
 import com.minlia.module.captcha.entity.Captcha;
-import com.minlia.module.captcha.enumeration.SecurityCodeTypeEnum;
+import com.minlia.module.captcha.enumeration.CaptchaType;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
 import com.minlia.module.captcha.properties.SmsTemplateProperties;
 import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
@@ -51,7 +51,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Override
     public Captcha send(String cellphone) {
         //获取信息样板类型属性
-        String smsTemplateId=smsTemplateProperties.get(SecurityCodeTypeEnum.SECURITY_CODE.name());
+        String smsTemplateId=smsTemplateProperties.get(CaptchaType.SECURITY_CODE.name());
 
         //检查获取了类型
         ApiPreconditions.is(null == smsTemplateId, CaptchaApiCode.TEMPLATE_NOT_FOUND_CODE,CaptchaApiCode.TEMPLATE_NOT_FOUND_DESC);

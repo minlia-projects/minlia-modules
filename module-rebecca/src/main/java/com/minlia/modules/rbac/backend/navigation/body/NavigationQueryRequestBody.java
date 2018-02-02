@@ -1,6 +1,6 @@
 package com.minlia.modules.rbac.backend.navigation.body;
 
-import com.minlia.module.aliyun.sesame.body.QueryRequestBody;
+import com.minlia.module.data.body.QueryRequestBody;
 import com.minlia.modules.rbac.backend.navigation.enumeration.NavigationType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

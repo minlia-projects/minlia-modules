@@ -1,4 +1,4 @@
-package com.minlia.module.aliyun.sesame.config;
+package com.minlia.module.data.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

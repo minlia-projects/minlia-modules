@@ -10,7 +10,6 @@ import com.minlia.module.captcha.entity.Captcha;
 import com.minlia.module.captcha.service.CaptchaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,11 +22,10 @@ import java.util.regex.Pattern;
 /**
  * Created by will on 6/19/17.
  */
+@Api(tags = "System Captcha", description = "验证码")
 @RestController
-@RequestMapping(value = ApiPrefix.API + "securityCode")
-@Api(tags = "System captcha", description = "验证码")
-@Slf4j
-public class SecurityCodeEndpoint {
+@RequestMapping(value = ApiPrefix.API + "captcha")
+public class CaptchaEndpoint {
 
     @Autowired
     CaptchaService securityCodeService;

@@ -72,6 +72,11 @@
         </foreach>
     </select>
 
+    <select id="queryAll" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
+        <include refid="QUERY_CONTENT"/>
+        ORDER BY pt.code DESC
+    </select>
+
     <select id="queryListByRoleCodes" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
@@ -85,6 +90,45 @@
     <select id="count_queryPaginated" resultType="java.lang.Long">
         SELECT COUNT(1) FROM minlia_permission pt
         <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="tree" resultType="java.util.Map">
+        SELECT
+            id ,
+            SUBSTRING_INDEX(CODE , '.' , 1) AS one,
+            SUBSTRING_INDEX(
+                SUBSTRING_INDEX(CODE , '.' , 2) ,
+                '.' ,- 1
+            ) AS two,
+            SUBSTRING_INDEX(CODE , '.' , - 1) AS three
+        FROM
+            minlia_permission t
+    </select>
+
+    <select id="oneLevel" resultType="java.lang.String">
+        SELECT DISTINCT SUBSTRING_INDEX(CODE , '.' , 1) FROM minlia_permission
+    </select>
+
+    <select id="twoLevel" resultType="java.lang.String">
+        SELECT DISTINCT
+            SUBSTRING_INDEX(
+                SUBSTRING_INDEX(CODE , '.' , 2) ,
+                '.' ,- 1
+            )
+        FROM
+            minlia_permission t
+        WHERE
+            INSTR(CODE , #{prefix}) = 1;
+    </select>
+
+    <select id="threeLevel" resultType="java.util.Map">
+        SELECT
+            id ,
+            SUBSTRING_INDEX(CODE , '.' , - 1) AS code
+        FROM
+            minlia_permission t
+        WHERE
+            INSTR(CODE , #{prefix}) = 1;
     </select>
 
 </mapper>
