@@ -67,8 +67,7 @@ public class RefreshTokenEndpoint {
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌, 正常情况下TOKEN值在请求时以Header参数 X-Auth-Token: Bearer xxxxxx传入", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/api/v1/auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})//,headers = "X-Authorization"
     public @ResponseBody StatefulBody refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String tokenPayload = tokenExtractor
-                .extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
+        String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
 
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
         RefreshToken refreshToken = RefreshToken.create(rawToken, jwtProperty.getTokenSigningKey()).orElseThrow(() -> new InvalidJwtTokenException());

@@ -17,10 +17,6 @@ public class BibleItemUpdateRequestBody implements ApiRequestBody {
     @NotNull
     private Long id;
 
-    @ApiModelProperty(value = "标签, 名称", example = "性别")
-    @Size(max = 50)
-    private String label;
-
     @ApiModelProperty(value = "值", example = "1")
     @Size(max = 255)
     private String value;
@@ -30,7 +26,7 @@ public class BibleItemUpdateRequestBody implements ApiRequestBody {
     private String notes;
 
     @ApiModelProperty(value = "排序", example = "1")
-    private Integer sortOrder;
+    private Integer sorts;
 
     @ApiModelProperty(value = "扩展1", example = "1")
     @Size(max = 255)

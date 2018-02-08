@@ -1,11 +1,11 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.security.authentication.credential.LoginCredential;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.code.SecurityApiCode;
-import com.minlia.modules.security.exception.AuthMethodNotSupportedException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,10 +47,10 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
                 logger.debug("Authentication method not supported. Request method: {}, only ajax request is supported.", request.getMethod());
             }
 //            ApiPreconditions.is(true, ApiCode.UNSUPPORTED_REQUEST_METHOD);
-//            AnonymousAuthenticationToken ret=new AnonymousAuthenticationToken();
-//            SecurityContextHolder.getContext().setAuthentication(ret);
-//            return ret;
-            throw new AuthMethodNotSupportedException("Authentication method not supported");
+            AnonymousAuthenticationToken ret=new AnonymousAuthenticationToken();
+            SecurityContextHolder.getContext().setAuthentication(ret);
+            return ret;
+//            throw new AuthMethodNotSupportedException("Authentication method not supported");
         }
 
         //获取登录凭证：用户名、邮箱、手机号码、密码

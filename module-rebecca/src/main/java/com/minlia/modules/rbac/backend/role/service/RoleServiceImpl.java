@@ -8,11 +8,13 @@ import com.minlia.modules.rbac.backend.role.body.RoleUpdateRequestBody;
 import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.mapper.RoleMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,17 +36,20 @@ public class RoleServiceImpl implements RoleService {
     private PermissionService permissionService;
 
     @Override
+    @Transactional
     public Role create(RoleCreateRequestBody body) {
         ApiPreconditions.is(this.exists(body.getCode()), SecurityApiCode.ROLE_ALREADY_EXISTED,"角色已存在");
 
         Role role = mapper.map(body,Role.class);
         roleMapper.create(role);
-
-        roleMapper.grant(role.getId(),body.getPermissions());
+        if (CollectionUtils.isNotEmpty(body.getPermissions())) {
+            roleMapper.grant(role.getId(), body.getPermissions());
+        }
         return role;
     }
 
     @Override
+    @Transactional
     public Role update(RoleUpdateRequestBody body) {
         ApiPreconditions.not(this.exists(body.getCode()), SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在");
 
@@ -54,6 +59,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public void delete(String code) {
         Role role = roleMapper.queryByCode(code);
         ApiPreconditions.is(null == role, SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在");
@@ -62,6 +68,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public void grantPermission(String code,List<Long> permissions) {
         Role role = roleMapper.queryByCode(code);
         ApiPreconditions.is(null == role, SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在");
@@ -100,6 +107,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Long> queryIdByUserId(Long userId) {
         return roleMapper.queryIdByUserId(userId);
+    }
+
+    @Override
+    public List<Role> queryList() {
+        return roleMapper.queryList();
     }
 
     @Override

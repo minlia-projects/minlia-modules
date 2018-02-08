@@ -19,10 +19,6 @@ public class BibleUpdateRequestBody {
     @NotNull
     private Long id;
 
-    @ApiModelProperty(value = "标签, 名称", example = "性别")
-    @Size(max = 50)
-    private String label;
-
     @ApiModelProperty(value = "值", example = "male")
     @Size(max = 255)
     private String value;

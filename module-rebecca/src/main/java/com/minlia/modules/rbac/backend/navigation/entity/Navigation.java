@@ -7,7 +7,7 @@ import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.modules.rbac.backend.navigation.enumeration.NavigationType;
 import lombok.*;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * 导航实体
@@ -60,6 +60,6 @@ public class Navigation extends AbstractEntity {
     private Long parentId;
 
     @JsonProperty
-    private Set<Navigation> children;
+    private List<Navigation> children;
 
 }

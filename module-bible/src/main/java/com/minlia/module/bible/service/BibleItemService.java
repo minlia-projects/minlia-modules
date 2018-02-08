@@ -7,6 +7,7 @@ import com.minlia.module.bible.body.BibleItemCreateRequestBody;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.body.BibleItemUpdateRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
@@ -33,6 +34,6 @@ public interface BibleItemService {
 
     List<BibleItem> queryList(BibleItemQueryRequestBody body);
 
-    PageInfo<BibleItem> queryPaginated(BibleItemQueryRequestBody body, Page page);
+    PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody body, RowBounds rowBounds);
 
 }

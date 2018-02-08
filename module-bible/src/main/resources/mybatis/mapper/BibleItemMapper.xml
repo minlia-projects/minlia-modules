@@ -6,61 +6,63 @@
 
 	<sql id="QUERY_CONTENT">
 		SELECT
-			id ,
-			code ,
-			label ,
-			value ,
-			notes ,
-			attribute1,
-			attribute2,
-			attribute3,
-			sort_order sortOrder
-		FROM mdl_bible_item t
+			bit.id ,
+			bit.parent_code AS parentCode ,
+			bit.code ,
+			bit.value,
+			bit.notes ,
+			bit.sorts ,
+			bit.attribute1 ,
+			bit.attribute2 ,
+			bit.attribute3
+		FROM
+			minlia_bible_item bit
 	</sql>
 
 	<sql id="QUERY_CONDITION">
-		WHERE 1=1
-		<if test="code != null">
-			AND code = #{code}
+		<if test="parentCode != null">
+			INNER JOIN minlia_bible bt on bt.code = bit.parent_code
 		</if>
-		<if test="label != null">
-			AND label = #{label}
-		</if>
-		<if test="value != null">
-			AND value = #{value}
-		</if>
+		<where>
+			<if test="parentCode != null">
+				AND bt.code = #{parentCode}
+			</if>
+			<if test="code != null">
+				AND bit.code = #{code}
+			</if>
+			<if test="value != null">
+				AND bit.value = #{value}
+			</if>
+		</where>
 	</sql>
 
 	<insert id="create">
-		INSERT INTO mdl_bible_item(
+		INSERT INTO minlia_bible_item(
+			parent_code ,
 			code ,
-			label ,
 			value ,
-			notes,
+			notes ,
+			sorts ,
 			attribute1,
 			attribute2,
-			attribute3,
-			sort_order
+			attribute3
 		)
 		VALUES
 		(
+			#{parentCode} ,
 			#{code} ,
-			#{label} ,
 			#{value} ,
 			#{notes} ,
+			#{sorts} ,
 			#{attribute1} ,
 			#{attribute2} ,
-			#{attribute3} ,
-			#{sortOrder}
+			#{attribute3}
 		)
 	</insert>
 
 	<update id="update" parameterType="com.minlia.module.bible.entity.BibleItem">
-		UPDATE mdl_bible_item
+		UPDATE minlia_bible_item
 		SET
-		<if test="label != null">
-			label = #{label},
-		</if>
 		<if test="value != null">
 			value = #{value},
 		</if>
@@ -76,29 +78,29 @@
 		<if test="attribute3 != null">
 			attribute3 = #{attribute3},
 		</if>
-		<if test="sortOrder != null">
-			sort_order = #{sortOrder},
+		<if test="sorts != null">
+			sorts = #{sorts},
 		</if>
-			last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
+			last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
 		WHERE id = #{id,jdbcType=BIGINT}
 	</update>
 
-	<delete id="deleteById">
-		DELETE FROM mdl_bible_item WHERE id = #{id}
+	<delete id="delete">
+		DELETE FROM minlia_bible_item WHERE id = #{id}
 	</delete>
+
+	<select id="count" resultType="com.minlia.module.bible.entity.BibleItem">
+		SELECT COUNT(1) FROM minlia_bible_item bit
+		<include refid="QUERY_CONDITION" />
+	</select>
 
 	<select id="queryById" resultType="com.minlia.module.bible.entity.BibleItem">
 		<include refid="QUERY_CONTENT" />
-		WHERE parent_code = #{0} AND code = #{1}
+		WHERE bit.id = #{id}
 	</select>
 
-	<select id="queryByParentCodeAndCode" resultType="com.minlia.module.bible.entity.BibleItem">
+	<select id="queryOne" resultType="com.minlia.module.bible.entity.BibleItem">
 		<include refid="QUERY_CONTENT" />
-		WHERE id = #{id,jdbcType=BIGINT}
-	</select>
-
-	<select id="count" resultType="com.minlia.module.bible.entity.BibleItem">
-		SELECT COUNT(1) FROM mdl_bible_item t
 		<include refid="QUERY_CONDITION" />
 	</select>
 
@@ -107,14 +109,14 @@
 		<include refid="QUERY_CONDITION" />
 	</select>
 
-	<select id="queryPaginated" resultType="com.minlia.module.bible.entity.BibleItem">
+	<select id="queryPage" resultType="com.minlia.module.bible.entity.BibleItem">
 		<include refid="QUERY_CONTENT" />
 		<include refid="QUERY_CONDITION" />
 		<include refid="LIMIT" />
 	</select>
 
-	<select id="count_queryPaginated" resultType="int">
-		SELECT COUNT(1) FROM mdl_bible_item t
+	<select id="count_queryPage" resultType="int">
+		SELECT COUNT(1) FROM minlia_bible_item bit
 		<include refid="QUERY_CONDITION" />
 	</select>
 

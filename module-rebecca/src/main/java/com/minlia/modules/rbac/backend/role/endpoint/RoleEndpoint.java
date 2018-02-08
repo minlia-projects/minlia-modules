@@ -1,16 +1,18 @@
 package com.minlia.modules.rbac.backend.role.endpoint;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.rbac.backend.common.constant.RebeccaSecurityConstant;
 import com.minlia.modules.rbac.backend.role.body.RoleCreateRequestBody;
 import com.minlia.modules.rbac.backend.role.body.RoleUpdateRequestBody;
+import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -25,7 +27,7 @@ import java.util.List;
  */
 @Api(tags = "System Role", description = "角色")
 @RestController
-@RequestMapping(value = ApiPrefix.API + "security/role")
+@RequestMapping(value = ApiPrefix.V1 + "security/role")
 public class RoleEndpoint {
 
     @Autowired
@@ -62,18 +64,36 @@ public class RoleEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.ROLE_SEARCH +"')")
-    @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "search/{code}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "根据ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "queryById/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryById(@PathVariable Long id) {
+        return SuccessResponseBody.builder().payload(roleService.queryById(id)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.ROLE_SEARCH +"')")
+    @ApiOperation(value = "根据CODE查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "queryByCode/{code}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryByCode(@PathVariable String code) {
         return SuccessResponseBody.builder().payload(roleService.queryByCode(code)).build();
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.ROLE_SEARCH +"')")
+    @ApiOperation(value = "根据GUID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "queryByGuid/{guid}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryByGuid(@PathVariable String guid) {
+        return SuccessResponseBody.builder().payload(roleService.queryByGuid(guid)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.ROLE_SEARCH +"')")
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "findPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody findPage(@PageableDefault Pageable pageable) {
-        Page page = roleService.queryPage(pageable);
-        return SuccessResponseBody.builder().payload(page).build();
+    @PostMapping(value = "queryPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryPage(@PageableDefault Pageable pageable) {
+//        Page page = roleService.queryPage(pageable);
+
+        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        List<Role> roles =  roleService.queryList();
+        PageInfo<Role> pageInfo = new PageInfo<Role>(roles);
+        return SuccessResponseBody.builder().payload(pageInfo).build();
     }
 
 }

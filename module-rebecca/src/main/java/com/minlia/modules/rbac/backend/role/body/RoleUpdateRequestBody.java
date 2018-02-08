@@ -23,4 +23,6 @@ public class RoleUpdateRequestBody {
     @Size(max = 255)
     private String notes;
 
+    private Boolean enabled;
+
 }

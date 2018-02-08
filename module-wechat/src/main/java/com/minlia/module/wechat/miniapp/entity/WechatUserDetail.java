@@ -3,7 +3,7 @@ package com.minlia.module.wechat.miniapp.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.bible.entity.AbstractEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.wechat.miniapp.enumeration.Gender;
 import lombok.*;
 

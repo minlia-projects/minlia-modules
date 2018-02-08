@@ -1,23 +1,30 @@
 
 package com.minlia.modules.rbac.backend.navigation.endpoint;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.rbac.backend.common.constant.RebeccaSecurityConstant;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationCreateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationGrantRequestBody;
+import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationUpdateRequestBody;
+import com.minlia.modules.rbac.backend.navigation.entity.Navigation;
 import com.minlia.modules.rbac.backend.navigation.service.NavigationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by will on 6/17/17.
@@ -82,10 +89,23 @@ public class NavigationEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
+    @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "queryList", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryList(@RequestBody NavigationQueryRequestBody requestBody) {
+        return SuccessResponseBody.builder().payload(navigationService.queryList(requestBody)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "查询分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "queryPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody queryPage(/*@PageableDefault(direction = Sort.Direction.ASC,sort = "orders") */RowBounds rowBounds) {
-        return SuccessResponseBody.builder().payload(navigationService.queryPage(rowBounds)).build();
+    public StatefulBody queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQueryRequestBody requestBody) {
+        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        List<Navigation> navigations =  navigationService.queryList(requestBody);
+        PageInfo<Navigation> pageInfo = new PageInfo<Navigation>(navigations);
+
+//        navigationService.queryPage(rowBounds);
+
+        return SuccessResponseBody.builder().payload(pageInfo).build();
     }
 
 }

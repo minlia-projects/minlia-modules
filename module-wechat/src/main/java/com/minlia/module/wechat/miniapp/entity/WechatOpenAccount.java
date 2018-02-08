@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.bible.entity.AbstractEntity;
-import com.minlia.module.wechat.miniapp.enumeration.WechatOpenidType;
+import com.minlia.module.data.entity.AbstractEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
@@ -56,7 +55,7 @@ public class WechatOpenAccount extends AbstractEntity {
      * openId类型
      */
     @JsonProperty
-    private WechatOpenidType openType;
+    private com.minlia.module.wechat.miniapp.enumeration.WechatOpenidType openType;
 
     /**
      * openId子项

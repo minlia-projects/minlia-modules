@@ -17,7 +17,7 @@ public interface UserService {
 
     User update(User user);
 
-    void delete(Long id);
+    void delete(String guid);
 
     Boolean locked(String guid);
 

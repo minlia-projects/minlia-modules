@@ -63,7 +63,7 @@
 		</if>
 			last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
 			last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
-		WHERE id = #{id,jdbcType=BIGINT}
+		WHERE code = #{code,jdbcType=VARCHAR}
 	</update>
 
 	<delete id="delete">
@@ -103,6 +103,13 @@
 		WHERE rt.code = #{code,jdbcType=VARCHAR}
 	</select>
 
+	<select id="queryByGuid" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
+		<include refid="QUERY_CONTENT" />
+		INNER JOIN map_user_role mp ON mp.role_id = rt.id
+		INNER JOIN minlia_user ut ON ut.id = mp.user_id
+		WHERE ut.guid = #{guid,jdbcType=VARCHAR}
+	</select>
+
 	<select id="queryCodeByUserId" resultType="java.lang.String">
 		SELECT
 			CODE
@@ -136,7 +143,6 @@
 
 	<select id="queryList" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
 		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
 	</select>
 
 	<select id="queryPaginated" resultType="com.minlia.modules.rbac.backend.role.entity.Role">

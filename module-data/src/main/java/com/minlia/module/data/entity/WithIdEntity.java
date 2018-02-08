@@ -1,4 +1,4 @@
-package com.minlia.module.bible.entity;
+package com.minlia.module.data.entity;
 
 import java.io.Serializable;
 

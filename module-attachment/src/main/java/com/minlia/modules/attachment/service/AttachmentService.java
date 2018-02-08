@@ -61,11 +61,11 @@ public interface AttachmentService {
      * @param id
      * @return
      */
-    Attachment findOne(Long id);
+    Attachment queryById(Long id);
 
-    Attachment findAccessKey(String accessKey);
+    Attachment queryByAccessKey(String accessKey);
 
-    List<Attachment> findAllByBusinessIdAndBusinessType(String businessId, String businessType);
+    List<Attachment> queryAllByBusinessIdAndBusinessType(String businessId, String businessType);
 
     /**
      * 返回所有

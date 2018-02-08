@@ -60,15 +60,15 @@ public class AttachmentEndpoint {
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "fo/{id}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody findOne(@PathVariable Long id) {
-        return SuccessResponseBody.builder().payload(attachmentService.findOne(id)).build();
+    public StatefulBody queryOne(@PathVariable Long id) {
+        return SuccessResponseBody.builder().payload(attachmentService.queryById(id)).build();
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "业务查询", notes = "业务查询", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "fbb/{businessId}/{businessType}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody findAllByBusinessIdAndBusinessType(@PathVariable String businessId, @PathVariable String businessType) {
-        return SuccessResponseBody.builder().payload(attachmentService.findAllByBusinessIdAndBusinessType(businessId,businessType)).build();
+    public StatefulBody queryAllByBusinessIdAndBusinessType(@PathVariable String businessId, @PathVariable String businessType) {
+        return SuccessResponseBody.builder().payload(attachmentService.queryAllByBusinessIdAndBusinessType(businessId,businessType)).build();
     }
 
 }

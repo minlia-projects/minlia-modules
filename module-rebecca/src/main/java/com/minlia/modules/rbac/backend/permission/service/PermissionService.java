@@ -31,6 +31,8 @@ public interface PermissionService {
 
     List<Permission> queryAll();
 
+    List<Permission> queryListByGuid(String guid);
+
     List<Permission> queryListByRoleCodes(List<String> roleCodes);
 
     Page<Permission> queryPage(RowBounds rowBounds);

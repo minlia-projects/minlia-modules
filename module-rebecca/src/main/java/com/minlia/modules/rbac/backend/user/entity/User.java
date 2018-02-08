@@ -22,26 +22,31 @@ import java.util.Date;
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
-@EqualsAndHashCode(of = {"username"})
+@EqualsAndHashCode(of = {"guid","username"})
 public class User extends AbstractEntity {
 
     /**
      * Global User Identification
      */
+    @JsonProperty
     private String guid;
+
     /**
      * 用户名
      */
+    @JsonProperty
     private String username;
 
     /**
      * 手机号码
      */
+    @JsonProperty
     private String cellphone;
 
     /**
      * 邮箱
      */
+    @JsonProperty
     private String email;
 
     /**
@@ -53,21 +58,25 @@ public class User extends AbstractEntity {
     /**
      * 凭证是否有效
      */
+    @JsonProperty
     private Boolean credentialsExpired;
 
     /**
      * 是否锁定
      */
+    @JsonProperty
     private Boolean locked;
 
     /**
      * 锁定次数
      */
+    @JsonProperty
     private Integer lockLimit;
 
     /**
      * 锁定时间，多少分钟内不能登录
      */
+    @JsonProperty
     private Date lockTime;
 
 //    @JsonProperty("lockTime")
@@ -78,6 +87,7 @@ public class User extends AbstractEntity {
     /**
      * 是否启用
      */
+    @JsonProperty
     private Boolean enabled;
 
     @JsonProperty

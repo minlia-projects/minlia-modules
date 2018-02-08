@@ -10,6 +10,7 @@ import com.minlia.modules.rbac.backend.user.body.UserGarenRequestBody;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
+import com.minlia.modules.rbac.backend.user.event.UserDeleteEvent;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,6 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -73,7 +73,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(UserUpdateRequestBody body) {
-        User user = userMapper.queryByGuid(body.getGuid());
+        User user = userQueryService.queryByGuidAndNotNull(body.getGuid());
+        user.setUsername(body.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(body.getPassword()));
         userMapper.update(user);
         return user;
@@ -86,9 +87,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        //TODO
-//        userMapper.delete(id);
+    public void delete(String guid) {
+        User user = userQueryService.queryByGuidAndNotNull(guid);
+        userMapper.delete(user.getId());
+        //TODO 发布删除用户事件
+        UserDeleteEvent.onDelete(user);
     }
 
     @Override

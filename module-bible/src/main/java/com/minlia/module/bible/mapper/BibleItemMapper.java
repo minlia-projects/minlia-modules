@@ -1,9 +1,9 @@
 package com.minlia.module.bible.mapper;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,14 +20,14 @@ public interface BibleItemMapper {
 
     void delete(Long id);
 
+    long count(BibleItemQueryRequestBody requestBody);
+
     BibleItem queryById(Long id);
 
-    BibleItem queryByParentCodeAndCode(String parentCode,String code);
-
-    long count(BibleItemQueryRequestBody requestBody);
+    BibleItem queryOne(BibleItemQueryRequestBody build);
 
     List<BibleItem> queryList(BibleItemQueryRequestBody requestBody);
 
-    PageInfo<BibleItem> queryPaginated(BibleItemQueryRequestBody requestBody, Page page);
+    PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody requestBody, RowBounds rowBounds);
 
 }

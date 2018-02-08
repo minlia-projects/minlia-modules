@@ -1,6 +1,9 @@
 
 package com.minlia.modules.rbac.backend.permission.endpoint;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
@@ -10,9 +13,9 @@ import com.minlia.modules.rbac.backend.permission.entity.Permission;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -63,9 +66,25 @@ public class PermissionEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_SEARCH +"')")
+    @ApiOperation(value = "根据用户查询(集合)", notes = "根据用户查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "queryByGuid", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryListByGuid(@RequestParam String guid) {
+        List<Permission> permissions = permissionService.queryListByGuid(guid);
+        return SuccessResponseBody.builder().payload(permissions).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_SEARCH +"')")
     @ApiOperation(value = "根据角色查询(集合)", notes = "根据角色查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = "queryList", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody queryPage(@RequestBody List<String> codes) {
+    @GetMapping(value = "queryByRole", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryByRole(@RequestParam String code) {
+        List<Permission> permissions = permissionService.queryListByRoleCodes(Lists.newArrayList(code));
+        return SuccessResponseBody.builder().payload(permissions).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_SEARCH +"')")
+    @ApiOperation(value = "根据角色查询(集合)", notes = "根据角色查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "queryByRoles", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryByRoles(@RequestParam List<String> codes) {
         List<Permission> permissions = permissionService.queryListByRoleCodes(codes);
         return SuccessResponseBody.builder().payload(permissions).build();
     }
@@ -73,9 +92,13 @@ public class PermissionEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_SEARCH +"')")
     @ApiOperation(value = "查询分页", notes = "查询分页", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryPage", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody queryPageByRole(@RequestBody RowBounds rowBounds) {
-        Page<Permission> entities = permissionService.queryPage(rowBounds);
-        return SuccessResponseBody.builder().payload(entities).build();
+    public StatefulBody queryPageByRole(@PageableDefault Pageable pageable) {
+        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        List<Permission> permissions =  permissionService.queryAll();
+        PageInfo<Permission> pageInfo = new PageInfo<Permission>(permissions);
+
+//        Page<Permission> entities = permissionService.queryPage(rowBounds);
+        return SuccessResponseBody.builder().payload(pageInfo).build();
     }
 
 }

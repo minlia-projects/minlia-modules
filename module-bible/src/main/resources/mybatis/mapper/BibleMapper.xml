@@ -8,59 +8,48 @@
 		SELECT
 			id ,
 			code ,
-			label ,
 			value ,
 			notes
-		FROM mdl_bible t
+		FROM minlia_bible t
 	</sql>
 
 	<sql id="QUERY_CONDITION">
-		WHERE 1=1
-		<if test="code != null">
-			AND code = #{code}
-		</if>
-		<if test="label != null">
-			AND label = #{label}
-		</if>
-		<if test="value != null">
-			AND value = #{value}
-		</if>
+		<where>
+			<if test="code != null">
+				AND code = #{code}
+			</if>
+		</where>
 	</sql>
 
 	<insert id="create">
-		INSERT INTO mdl_bible(
+		INSERT INTO minlia_bible(
 			code ,
-			label ,
 			value ,
 			notes
 		)
 		VALUES
 		(
 			#{code} ,
-			#{label} ,
 			#{value} ,
 			#{notes}
 		)
 	</insert>
 
 	<update id="update" parameterType="com.minlia.module.bible.entity.Bible">
-		UPDATE mdl_bible
+		UPDATE minlia_bible
 		SET
-		<if test="label != null">
-			label = #{label},
-		</if>
 		<if test="value != null">
 			value = #{value},
 		</if>
 		<if test="notes != null">
 			notes = #{notes},
 		</if>
-			last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
+			last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
 		WHERE id = #{id,jdbcType=BIGINT}
 	</update>
 
-	<delete id="deleteById">
-		DELETE FROM mdl_bible WHERE id = #{id}
+	<delete id="delete">
+		DELETE FROM minlia_bible WHERE id = #{id}
 	</delete>
 
 	<select id="queryById" resultType="com.minlia.module.bible.entity.Bible">
@@ -94,7 +83,7 @@
 	</select>
 
 	<select id="count_queryPaginated" resultType="int">
-		SELECT COUNT(1) FROM mdl_bible t
+		SELECT COUNT(1) FROM minlia_bible t
 		<include refid="QUERY_CONDITION" />
 	</select>
 

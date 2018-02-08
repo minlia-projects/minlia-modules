@@ -77,9 +77,23 @@
         ORDER BY pt.code DESC
     </select>
 
+    <select id="queryListByGuid" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
+        <include refid="QUERY_CONTENT"/>
+        INNER JOIN map_role_permission pm ON pm.permission_id = pt.id
+        INNER JOIN minlia_role rt ON rt.id = pm.role_id
+        INNER JOIN map_user_role rm ON rm.role_id = rt.id
+        INNER JOIN minlia_user ut ON ut.id = rm.user_id
+        WHERE ut.guid = #{guid,jdbcType=VARCHAR}
+    </select>
+
     <select id="queryListByRoleCodes" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
         <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
+        INNER JOIN map_role_permission mp ON mp.permission_id = pt.id
+        INNER JOIN minlia_role rt ON rt.id = mp.role_id
+        WHERE rt.code IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
     </select>
 
     <select id="queryPageByRoleCodes" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">

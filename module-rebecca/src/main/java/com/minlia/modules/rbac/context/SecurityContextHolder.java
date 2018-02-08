@@ -123,6 +123,11 @@ public final class SecurityContextHolder {
         return null == user ? null : user.getId();
     }
 
+    public static String getCurrentGuid() {
+        User user = getCurrentUser();
+        return null == user ? null : user.getGuid();
+    }
+
     /**
      * If the current user has a specific authority (security role).
      * <p>

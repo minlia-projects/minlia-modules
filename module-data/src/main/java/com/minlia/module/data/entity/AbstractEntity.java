@@ -1,37 +1,24 @@
 package com.minlia.module.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonAutoDetect(
-        fieldVisibility = JsonAutoDetect.Visibility.DEFAULT,
-        getterVisibility = JsonAutoDetect.Visibility.NONE,
-        setterVisibility = JsonAutoDetect.Visibility.NONE,
-        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
-        creatorVisibility = JsonAutoDetect.Visibility.NONE)
-public abstract class AbstractEntity implements Serializable {
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonAutoDetect(
+//        fieldVisibility = JsonAutoDetect.Visibility.DEFAULT,
+//        getterVisibility = JsonAutoDetect.Visibility.NONE,
+//        setterVisibility = JsonAutoDetect.Visibility.NONE,
+//        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+//        creatorVisibility = JsonAutoDetect.Visibility.NONE)
+public abstract class AbstractEntity extends WithIdEntity {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
     @CreatedBy
     @NotNull
     private String createBy;
@@ -77,5 +64,4 @@ public abstract class AbstractEntity implements Serializable {
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
-
 }

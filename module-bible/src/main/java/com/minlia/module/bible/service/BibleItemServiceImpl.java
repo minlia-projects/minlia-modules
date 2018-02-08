@@ -1,17 +1,17 @@
 package com.minlia.module.bible.service;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.body.BibleItemCreateRequestBody;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.body.BibleItemUpdateRequestBody;
 import com.minlia.module.bible.constant.BibleApiCode;
-import com.minlia.module.bible.mapper.BibleItemMapper;
-import com.minlia.module.bible.mapper.BibleMapper;
 import com.minlia.module.bible.entity.Bible;
 import com.minlia.module.bible.entity.BibleItem;
+import com.minlia.module.bible.mapper.BibleItemMapper;
+import com.minlia.module.bible.mapper.BibleMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.RowBounds;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class BibleItemServiceImpl implements BibleItemService {
         Bible bible = bibleMapper.queryByCode(body.getParentCode());
         ApiPreconditions.is(null == bible, BibleApiCode.NOT_FOUND,"父级不存在");
 
-        BibleItem bibleItem = bibleItemMapper.queryByParentCodeAndCode(body.getParentCode(),body.getCode());
+        BibleItem bibleItem = this.queryByParentCodeAndCode(body.getParentCode(),body.getCode());
         ApiPreconditions.is(null != bibleItem, BibleApiCode.DATA_ALREADY_EXISTS,"数据已存在");
 
         bibleItem = mapper.map(body,BibleItem.class);
@@ -51,11 +51,7 @@ public class BibleItemServiceImpl implements BibleItemService {
     public BibleItem update(BibleItemUpdateRequestBody body){
         BibleItem bibleItem=bibleItemMapper.queryById(body.getId());
         ApiPreconditions.is(null == bibleItem, BibleApiCode.NOT_FOUND,"数据不存在");
-        bibleItem.setLabel(body.getLabel());
-        bibleItem.setNotes(body.getNotes());
-        bibleItem.setAttribute1(body.getAttribute1());
-        bibleItem.setAttribute2(body.getAttribute2());
-        bibleItem.setAttribute3(body.getAttribute3());
+        mapper.map(body,bibleItem);
         bibleItemMapper.update(bibleItem);
         return bibleItem;
     }
@@ -68,13 +64,13 @@ public class BibleItemServiceImpl implements BibleItemService {
 
     @Override
     public String get(String parentCode,String code){
-        BibleItem bibleItem = bibleItemMapper.queryByParentCodeAndCode(parentCode,code);
-        return null == bibleItem ? null : bibleItem.getLabel();
+        BibleItem bibleItem = this.queryByParentCodeAndCode(parentCode,code);
+        return null == bibleItem ? null : bibleItem.getValue();
     }
 
     @Override
     public BibleItem queryByParentCodeAndCode(String parentCode, String code) {
-        return bibleItemMapper.queryByParentCodeAndCode(parentCode,code);
+        return bibleItemMapper.queryOne(BibleItemQueryRequestBody.builder().parentCode(parentCode).code(code).build());
     }
 
     @Override
@@ -98,8 +94,8 @@ public class BibleItemServiceImpl implements BibleItemService {
     }
 
     @Override
-    public PageInfo<BibleItem> queryPaginated(BibleItemQueryRequestBody body, Page page) {
-        return bibleItemMapper.queryPaginated(body,page);
+    public PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody body, RowBounds rowBounds) {
+        return bibleItemMapper.queryPage(body,rowBounds);
     }
 
 }

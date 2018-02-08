@@ -68,17 +68,17 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public Attachment findOne(Long id) {
+    public Attachment queryById(Long id) {
         return attachmentMapper.queryById(id);
     }
 
     @Override
-    public Attachment findAccessKey(String accessKey) {
+    public Attachment queryByAccessKey(String accessKey) {
         return attachmentMapper.queryByAccessKey(accessKey);
     }
 
     @Override
-    public List<Attachment> findAllByBusinessIdAndBusinessType(String businessId, String businessType) {
+    public List<Attachment> queryAllByBusinessIdAndBusinessType(String businessId, String businessType) {
         return attachmentMapper.queryByBusinessIdAndBusinessType(businessId,businessType);
     }
 

@@ -30,6 +30,8 @@ public interface PermissionMapper {
 
     List<String> queryCodesByRoleCodes(List<String> roleCodes);
 
+    List<Permission> queryListByGuid(String guid);
+
     List<Permission> queryListByRoleCodes(List<String> roleCodes);
 
     Page<Permission> queryPage(RowBounds rowBounds);

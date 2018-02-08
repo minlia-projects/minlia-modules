@@ -1,8 +1,6 @@
 package com.minlia.modules.rbac.backend.permission.service;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.minlia.modules.rbac.backend.permission.body.PermissionUpdateRequestBody;
 import com.minlia.modules.rbac.backend.permission.entity.Permission;
 import com.minlia.modules.rbac.backend.permission.mapper.PermissionMapper;
@@ -101,8 +99,15 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Permission> queryAll() {
         return permissionMapper.queryAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Permission> queryListByGuid(String guid) {
+        return permissionMapper.queryListByGuid(guid);
     }
 
     @Override

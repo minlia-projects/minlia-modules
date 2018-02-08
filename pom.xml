@@ -40,7 +40,7 @@
         <!--<module>module-i18n</module>-->
         <module>module-bible</module>
         <module>module-attachment</module>
-        <module>module-wechat</module>
+        <!--<module>module-wechat</module>-->
 
         <!--<module>module-registry</module>-->
         <!--<module>module-data</module>-->

@@ -32,5 +32,7 @@ public interface RoleMapper {
 
     List<String> queryCodeByUserId(Long userId);
 
+    List<Role> queryList();
+
     Page<Role> queryPage(Pageable pageable);
 }

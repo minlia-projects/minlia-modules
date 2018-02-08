@@ -1,7 +1,7 @@
 package com.minlia.module.captcha.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minlia.module.bible.entity.WithIdEntity;
+import com.minlia.module.data.entity.WithIdEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

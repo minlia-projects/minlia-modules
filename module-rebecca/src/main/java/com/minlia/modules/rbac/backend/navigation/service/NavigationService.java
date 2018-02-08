@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationCreateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationGrantRequestBody;
+import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationUpdateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.entity.Navigation;
 import org.apache.ibatis.session.RowBounds;
@@ -50,10 +51,16 @@ public interface NavigationService {
     List<Navigation> queryByParentId(Long parentId);
 
     /**
+     *
+     * @param requestBody
+     * @return
+     */
+    List<Navigation> queryList(NavigationQueryRequestBody requestBody);
+
+    /**
      * 分页查询：包含儿子
      * @param rowBounds
      * @return
      */
     PageInfo<Navigation> queryPage(RowBounds rowBounds);
-
 }

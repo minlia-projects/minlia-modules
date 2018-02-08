@@ -80,6 +80,12 @@
 		<if test="enabled != null">
 			enabled = #{enabled,jdbcType=TINYINT} ,
 		</if>
+		<if test="username != null">
+			username = #{username,jdbcType=VARCHAR} ,
+		</if>
+		<if test="password != null">
+			password = #{password,jdbcType=VARCHAR} ,
+		</if>
 		<if test="locked != null">
 			locked = #{locked,jdbcType=TINYINT} ,
 		</if>
@@ -90,11 +96,12 @@
 			lock_limit = #{lockLimit,jdbcType=TINYINT} ,
 		</if>
 			last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
-		WHERE id = #{id,jdbcType=BIGINT}
+		WHERE guid = #{guid,jdbcType=VARCHAR}
 	</update>
 
-	<delete id="deleteById">
-		DELETE FROM minlia_user WHERE id = #{id}
+	<delete id="delete">
+		DELETE FROM map_user_role WHERE user_id = #{id};
+		DELETE FROM minlia_user WHERE id = #{id};
 	</delete>
 
 	<update id="grant">

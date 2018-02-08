@@ -9,7 +9,7 @@ system:
 spring:
     profile: dev
     application:
-        name: rebecca
+        name: Rebecca
     http:
         encoding.charset: UTF-8
         encoding.enable: true

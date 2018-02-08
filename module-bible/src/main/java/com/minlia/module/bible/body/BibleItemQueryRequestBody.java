@@ -20,10 +20,6 @@ public class BibleItemQueryRequestBody {
     @Size(max = 30)
     private String code;
 
-    @ApiModelProperty(value = "标签, 名称", example = "性别")
-    @Size(max = 50)
-    private String label;
-
     @ApiModelProperty(value = "值", example = "1")
     @Size(max = 250)
     private String value;

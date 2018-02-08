@@ -29,6 +29,8 @@ public interface NavigationMapper {
 
     List<Navigation> queryByParentId(Long parentId);
 
+    List<Navigation> queryList(NavigationQueryRequestBody requestBody);
+
     PageInfo<Navigation> queryPage(RowBounds rowBounds);
 
 }

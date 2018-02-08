@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,10 +24,6 @@ public class BibleItemCreateRequestBody implements ApiRequestBody {
     @Size(max = 30)
     private String code;
 
-    @ApiModelProperty(value = "标签, 名称", example = "性别")
-    @Size(max = 50)
-    private String label;
-
     @ApiModelProperty(value = "值", example = "1")
     @Size(max = 250)
     private String value;
@@ -36,8 +33,8 @@ public class BibleItemCreateRequestBody implements ApiRequestBody {
     private String notes;
 
     @ApiModelProperty(value = "排序", example = "1")
-    @Size(max = 250)
-    private Integer sortOrder;
+    @Max(250)
+    private Integer sorts;
 
     @ApiModelProperty(value = "扩展1", example = "1")
     @Size(max = 250)

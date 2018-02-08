@@ -36,7 +36,7 @@ public class BibleServiceImpl implements BibleService {
     @Override
     @Transactional
     public Bible create(BibleCreateRequestBody body) {
-        Bible bible = bibleMapper.queryById(1l);
+        Bible bible = bibleMapper.queryByCode(body.getCode());
         ApiPreconditions.is(null != bible, ApiCode.DATA_ALREADY_EXISTS,"数据已存在");
         bible = mapper.map(body,Bible.class);
         bibleMapper.create(bible);
@@ -48,7 +48,6 @@ public class BibleServiceImpl implements BibleService {
     public Bible update(BibleUpdateRequestBody body) {
         Bible bible = bibleMapper.queryById(body.getId());
         ApiPreconditions.is(null == bible, ApiCode.NOT_FOUND,"数据不存在");
-        bible.setLabel(body.getLabel());
         bible.setValue(body.getValue());
         bible.setNotes(body.getNotes());
         bibleMapper.update(bible);
