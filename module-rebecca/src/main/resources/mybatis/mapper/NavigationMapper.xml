@@ -28,7 +28,7 @@
             <if test="parentId != null">
                 AND nt.parent_id = #{parentId,jdbcType=SMALLINT}
             </if>
-            <if test="parentId == null">
+            <if test="isOneLevel == true">
                 AND nt.parent_id IS NULL
             </if>
             <if test="name != null">
@@ -41,7 +41,7 @@
                 AND nt.display = #{display,jdbcType=TINYINT}
             </if>
             <if test="roleId != null">
-                AND nm.role_id = #{roleId,jdbcType=TINYINT}
+                AND rnm.role_id = #{roleId,jdbcType=TINYINT}
             </if>
         </where>
     </sql>
@@ -150,7 +150,7 @@
     <select id="queryList" resultType="com.minlia.modules.rbac.backend.navigation.entity.Navigation">
         <include refid="QUERY_CONTENT"/>
         <if test="roleId != null">
-            INNER JOIN map_role_navigation nm on nm.navigation_id = nt.id
+            INNER JOIN map_role_navigation rnm on rnm.navigation_id = nt.id
         </if>
         <include refid="QUERY_CONDITION"/>
     </select>

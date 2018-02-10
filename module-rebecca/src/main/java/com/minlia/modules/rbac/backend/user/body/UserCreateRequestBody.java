@@ -32,6 +32,7 @@ public class UserCreateRequestBody implements ApiRequestBody {
     @JsonIgnore
     private String referral;
 
-//    private Set<Long> roles;
+    @JsonIgnore
+    private Set<Long> roles;
 
 }

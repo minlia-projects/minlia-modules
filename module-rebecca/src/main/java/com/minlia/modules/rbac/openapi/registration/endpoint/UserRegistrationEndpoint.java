@@ -37,7 +37,7 @@ public class UserRegistrationEndpoint {
 
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody registration(@Valid @RequestBody UserRegistrationRequestBody body ) {
+    public StatefulBody registration(@RequestBody UserRegistrationRequestBody body ) {
         captchaService.validity(body.getUsername(),body.getCode());
 
         User userRegistered = userRegistrationService.registration(body);

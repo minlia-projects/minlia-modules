@@ -89,6 +89,13 @@ public class NavigationEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
+    @ApiOperation(value = "根据角色ID查询", notes = "根据角色ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "queryByRoleId", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryByRoleId(@RequestParam Long id) {
+        return SuccessResponseBody.builder().payload(navigationService.queryByRoleId(id)).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "queryList", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryList(@RequestBody NavigationQueryRequestBody requestBody) {

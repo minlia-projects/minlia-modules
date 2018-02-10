@@ -60,7 +60,7 @@
 
 	<update id="update" parameterType="com.minlia.module.captcha.entity.Captcha">
 		UPDATE minlia_captcha
-		SET
+		<set>
 		<if test="code != null">
 			code = #{code,jdbcType=VARCHAR} ,
 		</if>
@@ -79,6 +79,7 @@
 		<if test="sendTime != null">
 			send_time = #{sendTime,jdbcType=TIMESTAMP} ,
 		</if>
+		</set>
 		WHERE id = #{id,jdbcType=BIGINT}
 	</update>
 

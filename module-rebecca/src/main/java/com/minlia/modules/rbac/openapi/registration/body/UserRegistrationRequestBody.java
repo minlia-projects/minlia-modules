@@ -1,5 +1,6 @@
 package com.minlia.modules.rbac.openapi.registration.body;
 
+import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.cloud.constant.ValidationConstants;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
@@ -14,7 +15,7 @@ import javax.validation.constraints.Size;
  * 用户注册请求体
  */
 @Data
-public class UserRegistrationRequestBody {
+public class UserRegistrationRequestBody implements ApiRequestBody {
 
   /**
    * 用户名

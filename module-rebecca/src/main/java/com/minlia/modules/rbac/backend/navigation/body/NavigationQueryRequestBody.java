@@ -29,4 +29,6 @@ public class NavigationQueryRequestBody implements QueryRequestBody {
     @ApiModelProperty(value = "展示/隐藏")
     private Boolean display;
 
+    private boolean isOneLevel;
+
 }

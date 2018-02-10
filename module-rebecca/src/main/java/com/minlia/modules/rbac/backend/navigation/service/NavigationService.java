@@ -50,6 +50,8 @@ public interface NavigationService {
      */
     List<Navigation> queryByParentId(Long parentId);
 
+    List<Navigation> queryByRoleId(Long id);
+
     /**
      *
      * @param requestBody
@@ -63,4 +65,5 @@ public interface NavigationService {
      * @return
      */
     PageInfo<Navigation> queryPage(RowBounds rowBounds);
+
 }

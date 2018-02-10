@@ -1,7 +1,6 @@
 package com.minlia.modules.rbac.backend.navigation.service;
 
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Sets;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
@@ -20,7 +19,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -108,7 +106,7 @@ public class NavigationServiceImpl implements NavigationService {
 
         if (CollectionUtils.isNotEmpty(body.getIds())) {
             for (Long id: body.getIds()) {
-                boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).type(NavigationType.LEAF).build()) > 0;
+                boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).display(true).isOneLevel(false).build()) > 0;
                 ApiPreconditions.not(exists,SecurityApiCode.NAVIGATION_NOT_EXISTS,"导航不存在");
             }
         }
@@ -134,6 +132,11 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
+    public List<Navigation> queryByRoleId(Long id) {
+       return this.queryList(NavigationQueryRequestBody.builder().roleId(id).isOneLevel(true).build());
+    }
+
+    @Override
     public List<Navigation> queryList(NavigationQueryRequestBody requestBody) {
         List<Navigation> navigations = navigationMapper.queryList(requestBody);
         bindChirdren(navigations);
@@ -148,9 +151,11 @@ public class NavigationServiceImpl implements NavigationService {
     private void bindChirdren(List<Navigation> navigations){
         if (CollectionUtils.isNotEmpty(navigations)) {
             for (Navigation navigation : navigations) {
-                List<Navigation> chirdren = navigationMapper.queryList(NavigationQueryRequestBody.builder().parentId(navigation.getId()).display(true).build());
-                navigation.setChildren(chirdren);
-                bindChirdren(chirdren);
+                if (NavigationType.FOLDER.equals(navigation.getType())) {
+                    List<Navigation> chirdren = navigationMapper.queryList(NavigationQueryRequestBody.builder().parentId(navigation.getId()).display(true).build());
+                    navigation.setChildren(chirdren);
+                    bindChirdren(chirdren);
+                }
             }
         }
     }

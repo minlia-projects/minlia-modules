@@ -44,6 +44,14 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
 
+    <insert id="grantAll">
+        INSERT INTO map_role_permission(role_id , permission_id) SELECT
+            #{roleId} AS role_id ,
+            id AS permission_id
+        FROM
+            minlia_permission
+    </insert>
+
     <delete id="clear">
 		DELETE pt FROM minlia_permission pt WHERE NOT EXISTS( SELECT 1 FROM map_role_permission mt WHERE mt.permission_id = 1)
 	</delete>

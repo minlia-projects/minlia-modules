@@ -18,6 +18,8 @@ public interface PermissionMapper {
 
     void update(Permission permission);
 
+    void grantAll(Long roleId);
+
     void clear();
 
     long countById(Long id);

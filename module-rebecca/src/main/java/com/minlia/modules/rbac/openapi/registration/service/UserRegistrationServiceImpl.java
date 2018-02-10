@@ -13,8 +13,10 @@ import com.minlia.modules.rbac.openapi.registration.body.UserRegistrationRequest
 import com.minlia.modules.rbac.openapi.registration.event.RegistrationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
   @Autowired

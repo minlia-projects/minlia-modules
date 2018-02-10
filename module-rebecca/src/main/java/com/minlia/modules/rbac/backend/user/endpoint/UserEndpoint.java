@@ -14,6 +14,7 @@ import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.backend.user.service.UserService;
+import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.session.RowBounds;
@@ -83,6 +84,13 @@ public class UserEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_SEARCH + "')")
+    @ApiOperation(value = "me", notes = "me", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "me", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody me() {
+        return SuccessResponseBody.builder().payload(SecurityContextHolder.getCurrentUser()).build();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_SEARCH + "')")
     @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody findOne(@PathVariable Long id) {
@@ -92,7 +100,6 @@ public class UserEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public StatefulBody search(@RequestParam int page, @RequestParam int size, @RequestBody UserQueryRequestBody body) {
     public StatefulBody search(@PageableDefault Pageable pageable, @RequestBody UserQueryRequestBody body) {
         RowBounds rowBounds2 = new RowBounds(1,10);
         PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());

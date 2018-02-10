@@ -12,6 +12,7 @@ import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.event.UserDeleteEvent;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -64,11 +65,11 @@ public class UserServiceImpl implements UserService {
         userMapper.create(user);
 
         //授予角色
-//        if (CollectionUtils.isNotEmpty(requestBody.getRoles())) {
-//            this.grant(UserGarenRequestBody.builder().id(user.getId()).roles(requestBody.getRoles()).build());
-//        }
+        if (CollectionUtils.isNotEmpty(requestBody.getRoles())) {
+            this.grant(UserGarenRequestBody.builder().id(user.getId()).roles(requestBody.getRoles()).build());
+        }
 
-        return null;
+        return user;
     }
 
     @Override

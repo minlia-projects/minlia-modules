@@ -21,6 +21,8 @@ public interface PermissionService {
 
     Permission update(PermissionUpdateRequestBody body);
 
+    void grantAll(Long roleId);
+
     void clear();
 
     Long countById(Long id);

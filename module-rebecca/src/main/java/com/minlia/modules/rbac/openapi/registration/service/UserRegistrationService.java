@@ -7,7 +7,7 @@ import com.minlia.modules.rbac.openapi.registration.body.UserAvailablitityReques
 import com.minlia.modules.rbac.openapi.registration.body.UserRegistrationRequestBody;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = false)
+
 public interface UserRegistrationService {
 
     /**

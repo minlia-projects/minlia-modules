@@ -54,6 +54,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public void grantAll(Long roleId) {
+        permissionMapper.grantAll(roleId);
+    }
+
+    @Override
     public void clear() {
         permissionMapper.clear();
     }

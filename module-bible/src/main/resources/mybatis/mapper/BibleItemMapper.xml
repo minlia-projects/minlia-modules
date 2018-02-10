@@ -89,7 +89,7 @@
 		DELETE FROM minlia_bible_item WHERE id = #{id}
 	</delete>
 
-	<select id="count" resultType="com.minlia.module.bible.entity.BibleItem">
+	<select id="count" resultType="java.lang.Long">
 		SELECT COUNT(1) FROM minlia_bible_item bit
 		<include refid="QUERY_CONDITION" />
 	</select>
