@@ -89,6 +89,15 @@
 
 
 
+<<<<<<< HEAD
+=======
+        <dependency>
+            <groupId>com.minlia.cloud</groupId>
+            <artifactId>minlia-cloud-starter</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+        </dependency>
+
+>>>>>>> a17a00f22cb1a0415da59c10fb28b1d287e6067b
 
 
 
