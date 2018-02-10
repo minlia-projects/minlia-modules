@@ -65,7 +65,7 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
         }//        else if (user.getExpired()) throw new AccountExpiredException("账号过期");
         else if (user.getCredentialsExpired()) {
             throw new CredentialsExpiredException("凭证已过期");
-        } else if (user.getEnabled()) {
+        } else if (!user.getEnabled()) {
             throw new DisabledException("账号已禁用");
         } else if (user.getLocked() && new Date().before(user.getLockTime())) {
             throw new LockedException("账号已锁定");
