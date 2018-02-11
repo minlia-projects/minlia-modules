@@ -1,9 +1,9 @@
 package com.minlia.module.aliyun.sesame.endpoint;
 
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.aliyun.sesame.body.SesameVerificationRequestBody;
 import com.minlia.module.aliyun.sesame.body.SesameVerificationResponseBody;
 import com.minlia.module.aliyun.sesame.service.SesameVerificationService;
-import com.minlia.module.aliyun.sesame.body.SesameVerificationRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = ApiPrefix.API + "sesame")
-@Api(tags = "Aliyun sesame verification", description = "阿里云芝麻验证")
+@Api(tags = "Aliyun Sesame Verification", description = "阿里云实名认证")
 @Slf4j
 public class SesameVerificationEndpoint {
 
