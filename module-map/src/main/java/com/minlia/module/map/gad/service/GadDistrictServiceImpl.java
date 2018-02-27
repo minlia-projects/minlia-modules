@@ -7,7 +7,7 @@ import com.minlia.module.map.common.constant.DistrictApiCode;
 import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
 import com.minlia.module.map.gad.constants.GadConstants;
 import com.minlia.module.map.gad.domain.GadDistrict;
-import com.minlia.module.map.gad.repository.GadDistrictMapper;
+import com.minlia.module.map.gad.mapper.GadDistrictMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

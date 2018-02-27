@@ -1,4 +1,4 @@
-package com.minlia.module.map.gad.repository;
+package com.minlia.module.map.gad.mapper;
 
 import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
 import com.minlia.module.map.gad.domain.GadDistrict;
