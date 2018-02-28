@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
  * Created by garen on 2017/12/27.
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GadYuntuSearchListRequestBody extends GadYuntuAbstractRequestBody {
 
     /**

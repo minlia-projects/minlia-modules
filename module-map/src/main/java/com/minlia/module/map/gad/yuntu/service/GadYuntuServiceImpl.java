@@ -6,6 +6,8 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.map.gad.yuntu.body.*;
 import com.minlia.module.map.gad.yuntu.config.GadYuntuConfig;
 import com.minlia.module.map.gad.yuntu.utils.GadUtils;
+import com.minlia.modules.http.GetParamter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
  * Created by garen on 2017/12/27.
  */
 @Service
+@Slf4j
 public class GadYuntuServiceImpl implements GadYuntuService{
 
     //创建表请求地址
@@ -139,11 +142,13 @@ public class GadYuntuServiceImpl implements GadYuntuService{
         body.setData(json.toString());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
 
-        MultiValueMap<String, Object> map = GadUtils.beanToMap(body,new LinkedMultiValueMap<String, Object>());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(map ,headers);
-        ResponseEntity<GadYuntuResponseBody> responseEntity = restTemplate.postForEntity(url,entity,GadYuntuResponseBody.class);
+//        MultiValueMap<String, Object> map = GadUtils.beanToMap(body,new LinkedMultiValueMap<String, Object>());
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(map ,headers);
+//        ResponseEntity<GadYuntuResponseBody> responseEntity = restTemplate.postForEntity(url,entity,GadYuntuResponseBody.class);
+
+        ResponseEntity<GadYuntuResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(url,GadUtils.beanToMap(body)),GadYuntuResponseBody.class);
         return responseEntity.getBody();
     }
 
@@ -154,12 +159,7 @@ public class GadYuntuServiceImpl implements GadYuntuService{
         body.setKey(yuntuConfig.getWebApiKey());
         body.setTableid(yuntuConfig.getTableId());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
-
-        MultiValueMap<String, Object> map = GadUtils.beanToMap(body,new LinkedMultiValueMap<String, Object>());
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(map ,headers);
-        ResponseEntity<GadYuntuSearchResponseBody> responseEntity = restTemplate.postForEntity(url,entity,GadYuntuSearchResponseBody.class);
+        ResponseEntity<GadYuntuSearchResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(url,GadUtils.beanToMap(body)),GadYuntuSearchResponseBody.class);
         return responseEntity.getBody();
     }
 

@@ -1,15 +1,20 @@
 package com.minlia.module.map.gad.yuntu.body;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.util.Map;
 
 /**
  * 本地检索请求体
  * Created by garen on 2017/12/27.
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GadYuntuSearchLocalRequestBody extends GadYuntuAbstractRequestBody {
 
     /**
