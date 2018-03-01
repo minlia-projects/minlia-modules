@@ -19,7 +19,7 @@ public class GadYuntuSearchResponseBody {
 
     private Integer count;
 
-    private List<Object> datas;
+    private List<Map<String,Object>> datas;
 
     public boolean isSuccess(){
         return this.status.equals(1);

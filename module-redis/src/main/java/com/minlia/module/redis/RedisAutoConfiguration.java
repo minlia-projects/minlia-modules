@@ -45,6 +45,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport{
    * Cacheable中设置 key="xx"后按此生成
    * @return
    */
+  @Override
   @Bean
   public KeyGenerator keyGenerator() {
     return (target, method, params) -> {

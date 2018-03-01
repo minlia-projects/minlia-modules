@@ -142,13 +142,11 @@ public class GadYuntuServiceImpl implements GadYuntuService{
         body.setData(json.toString());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
 
-//        MultiValueMap<String, Object> map = GadUtils.beanToMap(body,new LinkedMultiValueMap<String, Object>());
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(map ,headers);
-//        ResponseEntity<GadYuntuResponseBody> responseEntity = restTemplate.postForEntity(url,entity,GadYuntuResponseBody.class);
-
-        ResponseEntity<GadYuntuResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(url,GadUtils.beanToMap(body)),GadYuntuResponseBody.class);
+        MultiValueMap<String, Object> map = GadUtils.beanToMap(body,new LinkedMultiValueMap<String, Object>());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(map ,headers);
+        ResponseEntity<GadYuntuResponseBody> responseEntity = restTemplate.postForEntity(url,entity,GadYuntuResponseBody.class);
         return responseEntity.getBody();
     }
 
