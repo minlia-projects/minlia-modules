@@ -99,7 +99,8 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
                 roles.add(SecurityConstant.ROLE_GUEST_CODE);
             }
             List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(roles);
-            UserContext userContext = UserContext.create(user.getUsername(), authorities);
+//            UserContext userContext = UserContext.create(user.getUsername(), authorities);
+            UserContext userContext = UserContext.create(user.getGuid(), authorities);
 
             return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         }
