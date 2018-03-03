@@ -60,7 +60,7 @@
 		SELECT COUNT(1) FROM minlia_permission where id = #{id}
 	</select>
 
-    <select id="countByCode" resultType="java.lang.Long">
+    <select id="countByCode" resultType="java.lang.String">
 		SELECT COUNT(1) FROM minlia_permission where code = #{code}
 	</select>
 
