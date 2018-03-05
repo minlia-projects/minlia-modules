@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.wechat.ma.mapper.WechatUserInfoMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			id ,
+			guid ,
+			union_id ,
+			open_id ,
+			nick_name ,
+			gender ,
+			city ,
+			province ,
+			country ,
+			avatar_url ,
+			create_by ,
+			create_date ,
+			last_modified_by ,
+			last_modified_date
+		FROM
+			minlia_wechat_user_info
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO minlia_wechat_user_info(
+			guid ,
+			union_id ,
+			open_id ,
+			nick_name ,
+			gender ,
+			city ,
+			province ,
+			country ,
+			avatar_url ,
+			create_by ,
+		)
+		VALUES
+        (
+            #{guid,jdbcType=VARCHAR},
+            #{unionId,jdbcType=VARCHAR},
+            #{openId,jdbcType=VARCHAR},
+            #{nickName,jdbcType=VARCHAR},
+            #{gender,jdbcType=VARCHAR},
+            #{city,jdbcType=TINYINT}
+            #{province,jdbcType=VARCHAR},
+            #{country,jdbcType=VARCHAR},
+            #{avatarUrl,jdbcType=VARCHAR},
+            #{createBy,jdbcType=VARCHAR},
+        )
+	</insert>
+
+    <update id="update" parameterType="com.minlia.module.wechat.ma.entity.WechatUserInfo">
+        UPDATE minlia_wechat_user_info
+        <set>
+            <if test="guid != null">
+                AND guid = #{guid,jdbcType=VARCHAR} ,
+            </if>
+            <if test="unionId != null">
+                AND union_id = #{unionId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="openId != null">
+                AND open_id = #{openId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="nickName != null">
+                AND nick_name = #{nickName,jdbcType=VARCHAR} ,
+            </if>
+            <if test="gender != null">
+                AND gender = #{gender,jdbcType=VARCHAR} ,
+            </if>
+            <if test="city != null">
+                AND city = #{city,jdbcType=TINYINT} ,
+            </if>
+            <if test="province != null">
+                AND province = #{province,jdbcType=VARCHAR} ,
+            </if>
+            <if test="country != null">
+                AND country = #{country,jdbcType=VARCHAR} ,
+            </if>
+            <if test="avatarUrl != null">
+                AND avatar_url = #{avatarUrl,jdbcType=VARCHAR} ,
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=TINYINT}
+    </update>
+
+    <delete id="delete">
+		DELETE FROM minlia_wechat_user_info WHERE id = #{id}
+	</delete>
+
+    <select id="queryById" resultType="com.minlia.module.wechat.ma.entity.WechatUserInfo">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryByGuid" resultType="com.minlia.module.wechat.ma.entity.WechatUserInfo">
+        <include refid="QUERY_CONTENT"/>
+        WHERE guid = #{guid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM minlia_wechat_user_info
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.wechat.ma.entity.WechatUserInfo">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.wechat.ma.entity.WechatUserInfo">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+</mapper>

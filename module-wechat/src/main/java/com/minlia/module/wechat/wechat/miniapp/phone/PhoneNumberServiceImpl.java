@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.wechat.miniapp.phone;
 
-import com.minlia.module.wechat.miniapp.body.WechatSession;
-import com.minlia.module.wechat.miniapp.service.WechatMiniappService;
+import com.minlia.module.wechat.ma.body.WechatSession;
+import com.minlia.module.wechat.ma.service.WechatMiniappService;
 import com.minlia.module.wechat.wechat.miniapp.WechatSessionRemoteApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

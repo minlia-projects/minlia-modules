@@ -2,6 +2,7 @@ package com.minlia.module.wechat.mp.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.constant.ApiPrefix;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@Api(tags = "微信公众号", description = "微信公众号")
-@RequestMapping("/api/wechat")
+@Api(tags = "Wechat MP", description = "微信公众号")
+@RequestMapping(ApiPrefix.API + "wechat")
 public class WechatMpEndpoint {
 
     public static final Integer EXPIRE_SECONDS=2592000;

@@ -2,6 +2,7 @@ package com.minlia.module.wechat.mp.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
 import io.swagger.annotations.Api;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
  * Created by will on 7/21/17.
  * This is just a fake control for springfox-swagger2 to generate api-docs
  */
-@Api(tags = "System Open Login", description = "登录")
+@Api(tags = "Wechat Open Login", description = "登录")
 @CrossOrigin
 @RestController
 @RequestMapping(value = ApiPrefix.API+"auth/login")
@@ -37,5 +38,12 @@ public class WechatLoginEndpoint {
   public StatefulBody loginByWxMaCode(@Valid @RequestBody LoginWechatRequestBody body) {
     return loginThirdPartyService.loginByWxMaCode(body);
   }
+
+  @ApiOperation(value = "根据小程序绑定", notes = "根据小程序绑定", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "bind/wxma", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+  public StatefulBody bindByWxma(@RequestBody BindWxRequestBody body) throws WxErrorException {
+    return loginThirdPartyService.bindByWxma(body);
+  }
+
 
 }

@@ -1,6 +1,6 @@
 package com.minlia.module.wechat.mp.handler;
 
-import com.minlia.module.wechat.miniapp.service.WechatInfoService;
+import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.builder.TextBuilder;
 import com.minlia.module.wechat.mp.event.WechatSubscribeEvent;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class SubscribeHandler extends AbstractHandler {
 
     @Autowired
-    private WechatInfoService wechatInfoService;
+    private WechatOpenAccountService wechatOpenAccountService;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
@@ -27,7 +27,7 @@ public class SubscribeHandler extends AbstractHandler {
         WxMpUser wxMpUser = wxMpService.getUserService().userInfo(wxMessage.getFromUser());
         if (null != wxMpUser) {
             //保存公众号相关信息
-            wechatInfoService.save(wxMpUser);
+            wechatOpenAccountService.save(wxMpUser);
 
             //发布关注成功事件
             WechatSubscribeEvent.onSubscribe(wxMessage);

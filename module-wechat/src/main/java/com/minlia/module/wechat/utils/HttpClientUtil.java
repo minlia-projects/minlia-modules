@@ -314,28 +314,35 @@ public class HttpClientUtil {
         HttpClient httpClient = new DefaultHttpClient();
         //创建TrustManager
         X509TrustManager xtm = new X509TrustManager() {
+            @Override
             public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
+            @Override
             public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
             }
 
+            @Override
             public X509Certificate[] getAcceptedIssuers() {
                 return null;
             }
         };
         //这个好像是HOST验证
         X509HostnameVerifier hostnameVerifier = new X509HostnameVerifier() {
+            @Override
             public boolean verify(String arg0, SSLSession arg1) {
                 return true;
             }
 
+            @Override
             public void verify(String arg0, SSLSocket arg1) throws IOException {
             }
 
+            @Override
             public void verify(String arg0, String[] arg1, String[] arg2) throws SSLException {
             }
 
+            @Override
             public void verify(String arg0, X509Certificate arg1) throws SSLException {
             }
         };

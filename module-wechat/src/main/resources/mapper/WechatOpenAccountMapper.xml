@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.wechat.ma.mapper.WechatOpenAccountMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			wat.id ,
+			wat.guid ,
+			wat.type ,
+			wat.union_id ,
+			wat.open_id ,
+			wat.wx_code ,
+			wat.subitem ,
+			wat.is_subscribe ,
+			wat.raw_password ,
+			wat.phone_number ,
+			wat.create_by ,
+			wat.create_date ,
+			wat.last_modified_by ,
+			wat.last_modified_date 
+		FROM
+			minlia_wechat_account wat
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="guid != null">
+                AND wat.guid = #{guid,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null">
+                AND wat.type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="unionId != null">
+                AND wat.union_id = #{unionId,jdbcType=VARCHAR}
+            </if>
+            <if test="openId != null">
+                AND wat.open_id = #{openId,jdbcType=VARCHAR}
+            </if>
+            <if test="wxCode != null">
+                AND wat.wx_code = #{wxCode,jdbcType=VARCHAR}
+            </if>
+            <if test="subitem != null">
+                AND wat.subitem = #{subitem,jdbcType=VARCHAR}
+            </if>
+            <if test="isSubscribe != null">
+                AND wat.is_subscribe = #{isSubscribe,jdbcType=TINYINT}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO minlia_wechat_account(
+			guid ,
+			type ,
+			union_id ,
+			open_id ,
+			wx_code ,
+			subitem ,
+			is_subscribe ,
+			raw_password ,
+			cellphone ,
+			create_by ,
+		)
+		VALUES
+        (
+            #{guid,jdbcType=VARCHAR},
+            #{type,jdbcType=VARCHAR},
+            #{unionId,jdbcType=VARCHAR},
+            #{openId,jdbcType=VARCHAR},
+            #{wxCode,jdbcType=VARCHAR},
+            #{subitem,jdbcType=VARCHAR},
+            #{isSubscribe,jdbcType=TINYINT}
+            #{rawPassword,jdbcType=VARCHAR},
+            #{cellphone,jdbcType=VARCHAR},
+            #{createBy,jdbcType=VARCHAR},
+        )
+	</insert>
+
+    <update id="update" parameterType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+        UPDATE minlia_wechat_account
+        <set>
+            <if test="guid != null">
+                AND guid = #{guid,jdbcType=VARCHAR} ,
+            </if>
+            <if test="type != null">
+                AND type = #{type,jdbcType=VARCHAR} ,
+            </if>
+            <if test="unionId != null">
+                AND union_id = #{unionId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="openId != null">
+                AND open_id = #{openId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="wxCode != null">
+                AND wx_code = #{wxCode,jdbcType=VARCHAR} ,
+            </if>
+            <if test="subitem != null">
+                AND subitem = #{subitem,jdbcType=VARCHAR} ,
+            </if>
+            <if test="isSubscribe != null">
+                AND is_subscribe = #{isSubscribe,jdbcType=TINYINT} ,
+            </if>
+            <if test="cellphone != null">
+                AND cellphone = #{cellphone,jdbcType=VARCHAR} ,
+            </if>
+            <if test="rawPassword != null">
+                AND raw_password = #{rawPassword,jdbcType=VARCHAR} ,
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=TINYINT}
+    </update>
+
+    <delete id="delete">
+		DELETE FROM minlia_wechat_account WHERE id = #{id};
+		DELETE FROM minlia_user WHERE id = #{id};
+	</delete>
+
+    <update id="updateGuidByUnionId">
+        UPDATE minlia_wechat_account SET guid = #{arg0} WHERE union_id = #{arg1}
+    </update>
+
+    <select id="countByUnionIdAndGuidNotNull" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM  minlia_wechat_account WHERE union_id = #{arg0} AND guid is not null
+    </select>
+
+    <select id="queryById" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+        <include refid="QUERY_CONTENT"/>
+        WHERE wat.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryByGuid" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+        <include refid="QUERY_CONTENT"/>
+        WHERE wat.guid = #{guid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryByUnionIdAndGuidNotNull" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+        <include refid="QUERY_CONTENT"/>
+        WHERE wat.union_id = #{arg0} AND wat.guid is not null
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM minlia_wechat_account wat
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+</mapper>

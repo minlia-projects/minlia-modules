@@ -9,10 +9,10 @@ import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.module.wechat.miniapp.body.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.miniapp.entity.WechatOpenAccount;
-import com.minlia.module.wechat.miniapp.enumeration.WechatOpenidType;
-import com.minlia.module.wechat.miniapp.service.WechatOpenAccountService;
+import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
+import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Calvin on 2017/8/11.
+ *
+ * @author Calvin
+ * @date 2017/8/11
  */
 @Slf4j
 public class SendWechatMpTemplateMsg {
@@ -61,7 +63,7 @@ public class SendWechatMpTemplateMsg {
      * @return
      */
     private String getOpenId(String guid){
-        WechatOpenAccount wechatOpenAccount = getBeanByContext(WechatOpenAccountService.class).queryOne(WechatOpenAccountQueryBody.builder().guid(guid).openType(WechatOpenidType.PUBLIC).isSubscribe(true).build());
+        WechatOpenAccount wechatOpenAccount = getBeanByContext(WechatOpenAccountService.class).queryOne(WechatOpenAccountQueryBody.builder().guid(guid).type(WechatOpenidType.PUBLIC).isSubscribe(true).build());
         return null == wechatOpenAccount ? null : wechatOpenAccount.getOpenId();
     }
 
@@ -106,7 +108,7 @@ public class SendWechatMpTemplateMsg {
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
             wxMpTemplateMessage.setData(data);
             wxMpTemplateMessage.setToUser(openId);
-            wxMpTemplateMessage.setTemplateId(bibleItem.getLabel());
+            wxMpTemplateMessage.setTemplateId(bibleItem.getValue());
             wxMpTemplateMessage.setMiniProgram(new MiniProgram(wxMaConfig.getAppid(), String.format(bibleItem.getAttribute1(),pathParams.toArray())));
 
             //发送模板消息

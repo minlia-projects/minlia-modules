@@ -1,11 +1,11 @@
 package com.minlia.module.wechat.mp.event;
 
-import com.minlia.module.wechat.miniapp.body.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.mp.endpoint.SecuritySocket;
-import com.minlia.module.wechat.miniapp.entity.WechatOpenAccount;
-import com.minlia.module.wechat.miniapp.enumeration.WechatOpenidType;
+import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
-import com.minlia.module.wechat.miniapp.service.WechatOpenAccountService;
+import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.websocket.body.ResponseMessage;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import com.minlia.modules.rbac.backend.user.entity.User;
@@ -59,7 +59,7 @@ public class WechatScanThirdLoginReceivers {
             String returnMessage;
             Object payload;
 
-            WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().unionId(wxMpUser.getUnionId()).openType(WechatOpenidType.PUBLIC).build());
+            WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
             if (null == wechatOpenAccount || null == wechatOpenAccount.getGuid()) {
                 returnCode = SecurityApiCode.LOGIN_NOT_REGISTRATION+"";
                 returnMessage = "未注册";
