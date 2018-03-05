@@ -30,6 +30,7 @@
         <module>module-redis</module>
         <module>module-country</module>
         <module>module-captcha</module>
+        <!--<module>module-i18n</module>-->
 
         <module>module-map</module>
 
@@ -39,13 +40,11 @@
 
         <module>module-security</module>
         <module>module-rebecca</module>
-        <!--<module>module-i18n</module>-->
         <module>module-bible</module>
         <module>module-attachment</module>
         <module>module-wechat</module>
 
         <!--<module>module-registry</module>-->
-        <!--<module>module-data</module>-->
         <!--<module>module-nestedset</module>-->
         <!--<module>module-registry</module>-->
         <!--<module>module-tenant</module>-->
@@ -55,8 +54,7 @@
     <scm>
         <url>https://github.com/minlia-projects/minlia-modules</url>
         <connection>scm:git:git://github.com/minlia-projects/minlia-modules.git</connection>
-        <developerConnection>scm:git:https://github.com/minlia-projects/minlia-modules.git
-        </developerConnection>
+        <developerConnection>scm:git:https://github.com/minlia-projects/minlia-modules.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
