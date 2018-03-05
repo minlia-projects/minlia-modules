@@ -18,7 +18,7 @@ import javax.validation.Valid;
  * Created by will on 7/21/17.
  * This is just a fake control for springfox-swagger2 to generate api-docs
  */
-@Api(tags = "Wechat Open Login", description = "登录")
+@Api(tags = "Wechat Login", description = "登录")
 @CrossOrigin
 @RestController
 @RequestMapping(value = ApiPrefix.API+"auth/login")

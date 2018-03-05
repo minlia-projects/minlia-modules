@@ -23,7 +23,7 @@ import javax.validation.Valid;
 @Slf4j
 @RestController
 @RequestMapping(value = ApiPrefix.API + "wechat/miniapp")
-@Api(tags = "Wechat Mini App", description = "小程序公开接口")
+@Api(tags = "Wechat Mini App", description = "小程序")
 public class WechatMiniappOpenEndpoint {
 
     @Autowired
