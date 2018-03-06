@@ -13,7 +13,7 @@
 			wat.subitem ,
 			wat.is_subscribe ,
 			wat.raw_password ,
-			wat.phone_number ,
+			wat.cellphone ,
 			wat.create_by ,
 			wat.create_date ,
 			wat.last_modified_by ,
@@ -59,7 +59,7 @@
 			is_subscribe ,
 			raw_password ,
 			cellphone ,
-			create_by ,
+			create_by
 		)
 		VALUES
         (
@@ -69,10 +69,10 @@
             #{openId,jdbcType=VARCHAR},
             #{wxCode,jdbcType=VARCHAR},
             #{subitem,jdbcType=VARCHAR},
-            #{isSubscribe,jdbcType=TINYINT}
+            #{isSubscribe,jdbcType=TINYINT},
             #{rawPassword,jdbcType=VARCHAR},
             #{cellphone,jdbcType=VARCHAR},
-            #{createBy,jdbcType=VARCHAR},
+            #{createBy,jdbcType=VARCHAR}
         )
 	</insert>
 
@@ -80,31 +80,31 @@
         UPDATE minlia_wechat_account
         <set>
             <if test="guid != null">
-                AND guid = #{guid,jdbcType=VARCHAR} ,
+                guid = #{guid,jdbcType=VARCHAR} ,
             </if>
             <if test="type != null">
-                AND type = #{type,jdbcType=VARCHAR} ,
+                type = #{type,jdbcType=VARCHAR} ,
             </if>
             <if test="unionId != null">
-                AND union_id = #{unionId,jdbcType=VARCHAR} ,
+                union_id = #{unionId,jdbcType=VARCHAR} ,
             </if>
             <if test="openId != null">
-                AND open_id = #{openId,jdbcType=VARCHAR} ,
+                open_id = #{openId,jdbcType=VARCHAR} ,
             </if>
             <if test="wxCode != null">
-                AND wx_code = #{wxCode,jdbcType=VARCHAR} ,
+                wx_code = #{wxCode,jdbcType=VARCHAR} ,
             </if>
             <if test="subitem != null">
-                AND subitem = #{subitem,jdbcType=VARCHAR} ,
+                subitem = #{subitem,jdbcType=VARCHAR} ,
             </if>
             <if test="isSubscribe != null">
-                AND is_subscribe = #{isSubscribe,jdbcType=TINYINT} ,
+                is_subscribe = #{isSubscribe,jdbcType=TINYINT} ,
             </if>
             <if test="cellphone != null">
-                AND cellphone = #{cellphone,jdbcType=VARCHAR} ,
+                cellphone = #{cellphone,jdbcType=VARCHAR} ,
             </if>
             <if test="rawPassword != null">
-                AND raw_password = #{rawPassword,jdbcType=VARCHAR} ,
+                raw_password = #{rawPassword,jdbcType=VARCHAR} ,
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
             last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}

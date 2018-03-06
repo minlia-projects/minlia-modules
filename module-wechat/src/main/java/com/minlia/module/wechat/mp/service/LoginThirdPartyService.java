@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 
-@Transactional
+
 public interface LoginThirdPartyService {
 
     StatefulBody loginByWxMpCode(LoginWechatRequestBody body) throws WxErrorException;
