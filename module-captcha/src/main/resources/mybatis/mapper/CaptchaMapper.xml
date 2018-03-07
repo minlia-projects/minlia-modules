@@ -11,9 +11,9 @@
 			code ,
 			used ,
 			locked ,
-			failure_count AS failureCount ,
-			effective_time AS effectiveTime ,
-			send_time AS sendTime ,
+			failure_count ,
+			effective_time ,
+			send_time ,
 			enabled
 		FROM
 			minlia_captcha
