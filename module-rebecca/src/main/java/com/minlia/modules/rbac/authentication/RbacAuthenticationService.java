@@ -28,6 +28,7 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
         } else if (!user.getEnabled()) {
             throw new DisabledException("账号已禁用");
         } else if (user.getLocked() && new Date().before(user.getLockTime())) {
-            throw new AjaxLockedException("账号已锁定",user.getLockTime().getTime() - System.currentTimeMillis());
+            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(user.getLockTime().toInstant(),  new Date().toInstant()));
         } else if (!encoder.matches(password,user.getPassword())) {
             //密码错误 锁定次数+1
             user.setLockLimit(user.getLockLimit()+ NumberUtils.INTEGER_ONE);
@@ -109,4 +110,5 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
             return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         }
     }
+
 }
