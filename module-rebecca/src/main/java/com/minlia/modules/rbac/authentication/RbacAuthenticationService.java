@@ -9,6 +9,8 @@ import com.minlia.modules.rbac.backend.user.service.UserService;
 import com.minlia.modules.rbac.event.LoginSuccessEvent;
 import com.minlia.modules.security.authentication.service.AbstractAuthenticationService;
 import com.minlia.modules.security.constant.SecurityConstant;
+import com.minlia.modules.security.exception.AjaxBadCredentialsException;
+import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.model.UserContext;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -24,6 +26,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -68,7 +72,7 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
         } else if (!user.getEnabled()) {
             throw new DisabledException("账号已禁用");
         } else if (user.getLocked() && new Date().before(user.getLockTime())) {
-            throw new LockedException("账号已锁定");
+            throw new AjaxLockedException("账号已锁定",user.getLockTime().getTime() - System.currentTimeMillis());
         } else if (!encoder.matches(password,user.getPassword())) {
             //密码错误 锁定次数+1
             user.setLockLimit(user.getLockLimit()+ NumberUtils.INTEGER_ONE);
@@ -82,7 +86,7 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
 //                user.setLockTime(user.getLockTime().plusDays(1));
             }
             userService.update(user);
-            throw new BadCredentialsException("Password error");
+            throw new AjaxBadCredentialsException("Password error",user.getLockLimit());
         } else {
             //登录成功事件 TODO
             LoginSuccessEvent.onSuccess(user);

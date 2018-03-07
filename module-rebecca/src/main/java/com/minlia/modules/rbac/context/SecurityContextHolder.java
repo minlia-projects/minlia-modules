@@ -110,11 +110,11 @@ public final class SecurityContextHolder {
     public static User getCurrentUser() {
         String username = getCurrentUserLogin();
         if (!StringUtils.isEmpty(username)) {
-            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByUsernameOrCellphoneOrEmail(username,username,username);
+//            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByUsernameOrCellphoneOrEmail(username,username,username);
+            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByGuid(username);
             return user;
         } else {
             return null;
-//            throw new IllegalStateException("User not found!");
         }
     }
 
@@ -124,8 +124,7 @@ public final class SecurityContextHolder {
     }
 
     public static String getCurrentGuid() {
-        User user = getCurrentUser();
-        return null == user ? null : user.getGuid();
+        return getCurrentUserLogin();
     }
 
     /**

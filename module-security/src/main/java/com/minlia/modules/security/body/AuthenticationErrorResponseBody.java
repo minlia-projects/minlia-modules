@@ -15,6 +15,10 @@ public class AuthenticationErrorResponseBody {
     // Error code
     private final AuthenticationErrorCode code;
 
+    private Long lockTime;
+
+    private Integer failureTimes;
+
     private final Date timestamp;
 
     public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message) {
@@ -23,6 +27,22 @@ public class AuthenticationErrorResponseBody {
         this.status = status;
 //        this.path = path;
 //        this.exception = exception;
+        this.timestamp = new java.util.Date();
+    }
+
+    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message,final Long lockTime) {
+        this.message = message;
+        this.code = code;
+        this.status = status;
+        this.lockTime = lockTime;
+        this.timestamp = new java.util.Date();
+    }
+
+    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message,final Integer failureTimes) {
+        this.message = message;
+        this.code = code;
+        this.status = status;
+        this.failureTimes = failureTimes;
         this.timestamp = new java.util.Date();
     }
 
@@ -50,7 +70,16 @@ public class AuthenticationErrorResponseBody {
         return code;
     }
 
+    public Long getLockTime() {
+        return lockTime;
+    }
+
+    public Integer getFailureTimes() {
+        return failureTimes;
+    }
+
     public Date getTimestamp() {
         return timestamp;
     }
+
 }
