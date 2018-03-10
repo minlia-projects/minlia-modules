@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.modules.attachment.mapper.AttachmentMapper">
 
-	<sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
+    <sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
 
-	<sql id="QUERY_CONTENT">
+    <sql id="QUERY_CONTENT">
 		SELECT
 			id ,
 			code ,
@@ -14,88 +14,92 @@
 		FROM mdl_bible t
 	</sql>
 
-	<sql id="QUERY_CONDITION">
-		WHERE 1=1
-		<if test="code != null">
-			AND code = #{code}
-		</if>
-		<if test="label != null">
-			AND label = #{label}
-		</if>
-		<if test="value != null">
-			AND value = #{value}
-		</if>
-	</sql>
+    <sql id="QUERY_CONDITION">
+        WHERE 1=1
+        <if test="code != null">
+            AND code = #{code}
+        </if>
+        <if test="label != null">
+            AND label = #{label}
+        </if>
+        <if test="value != null">
+            AND value = #{value}
+        </if>
+    </sql>
 
-	<insert id="create">
+    <insert id="create">
 		INSERT INTO mdl_bible(
 			code ,
 			label ,
 			value ,
-			notes
+			notes ,
+			create_by
 		)
 		VALUES
 		(
 			#{code} ,
 			#{label} ,
 			#{value} ,
-			#{notes}
+			#{notes} ,
+			#{createBy}
 		)
 	</insert>
 
-	<update id="update" parameterType="com.minlia.modules.attachment.entity.Attachment">
-		UPDATE mdl_bible
-		SET
-		<if test="label != null">
-			label = #{label},
-		</if>
-		<if test="value != null">
-			value = #{value},
-		</if>
-		<if test="notes != null">
-			notes = #{notes},
-		</if>
-			last_updated_time = #{lastUpdatedTime,jdbcType=TIMESTAMP}
-		WHERE id = #{id,jdbcType=BIGINT}
-	</update>
+    <update id="update" parameterType="com.minlia.modules.attachment.entity.Attachment">
+        UPDATE mdl_bible
+        <set>
+            <if test="label != null">
+                label = #{label},
+            </if>
+            <if test="value != null">
+                value = #{value},
+            </if>
+            <if test="notes != null">
+                notes = #{notes},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
 
-	<delete id="deleteById">
+    <delete id="deleteById">
 		DELETE FROM mdl_bible WHERE id = #{id}
 	</delete>
 
-	<select id="queryById" resultType="com.minlia.modules.attachment.entity.Attachment">
-		<include refid="QUERY_CONTENT" />
-		WHERE id = #{id,jdbcType=BIGINT}
-	</select>
+    <select id="queryById" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
 
-	<select id="queryByCode" resultType="com.minlia.modules.attachment.entity.Attachment">
-		<include refid="QUERY_CONTENT" />
-		WHERE code = #{code,jdbcType=VARCHAR}
-	</select>
+    <select id="queryByCode" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        WHERE code = #{code,jdbcType=VARCHAR}
+    </select>
 
-	<select id="queryAll" resultType="com.minlia.modules.attachment.entity.Attachment">
-		<include refid="QUERY_CONTENT" />
-	</select>
+    <select id="queryAll" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+    </select>
 
-	<select id="queryOne" resultType="com.minlia.modules.attachment.entity.Attachment">
-		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-	</select>
+    <select id="queryOne" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
 
-	<select id="queryList" resultType="com.minlia.modules.attachment.entity.Attachment">
-		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-	</select>
+    <select id="queryList" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
 
-	<select id="queryPaginated" resultType="com.minlia.modules.attachment.entity.Attachment">
-		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-		<include refid="LIMIT" />
-	</select>
+    <select id="queryPaginated" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        <include refid="LIMIT"/>
+    </select>
 
-	<select id="count_queryPaginated" resultType="int">
-		SELECT COUNT(1) FROM mdl_bible t
-		<include refid="QUERY_CONDITION" />
-	</select>
+    <select id="count_queryPaginated" resultType="int">
+        SELECT COUNT(1) FROM mdl_bible t
+        <include refid="QUERY_CONDITION"/>
+    </select>
 
 </mapper>
