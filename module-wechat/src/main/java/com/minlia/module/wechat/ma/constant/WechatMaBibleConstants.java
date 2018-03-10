@@ -6,7 +6,7 @@ package com.minlia.module.wechat.ma.constant;
 public class WechatMaBibleConstants {
 
     //小程序配置
-    public static final String MINIAPP_CODE="WECHAT_MINIAPP";
+    public static final String MINIAPP_CODE="WECHAT_MA";
     public static final String MINIAPP_ITEM_CODE_APPID="appId";
     public static final String MINIAPP_ITEM_CODE_SECRET="secret";
 

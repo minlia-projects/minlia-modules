@@ -35,7 +35,7 @@ public class SendWechatMpTemplateMsg {
     /**
      * 微信公众号模板CODE
      */
-    public static final String WECHAT_PUBLIC_TEMPLATE_MSG="WECHAT_PUBLIC_TEMPLATE_MSG";
+    public static final String WECHAT_PUBLIC_TEMPLATE_MSG="WECHAT_MP_TEMPLATE";
 
     /**
      * 加载实体Bean
