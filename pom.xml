@@ -29,10 +29,10 @@
         <module>module-data</module>
         <module>module-redis</module>
         <module>module-country</module>
-        <module>module-captcha</module>
+        <!-- <module>module-captcha</module> -->
 
         <module>module-aliyun-sesame</module>
-        <module>module-aliyun-sms</module>
+        <!-- <module>module-aliyun-sms</module> -->
         <module>module-aliyun-oss</module>
 
         <module>module-security</module>
