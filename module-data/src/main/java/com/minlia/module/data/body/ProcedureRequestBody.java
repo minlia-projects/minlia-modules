@@ -22,7 +22,7 @@ public class ProcedureRequestBody<T> {
 
     private String r_code;
 
-    private String r_meg;
+    private String r_msg;
 
     public boolean isSuccess(){
         return StringUtils.isNotBlank(r_code) && r_code.equals(SUCCESS_CODE);
