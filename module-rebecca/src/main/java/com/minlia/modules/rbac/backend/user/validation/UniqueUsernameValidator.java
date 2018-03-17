@@ -33,6 +33,6 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
         // Check if the username is unique
         UserAvailablitityRequestBody body=new UserAvailablitityRequestBody();
         body.setUsername(username);
-        return userRegistrationService.availablitity(body).getStatus().equals(StatefulBody.SUCCESS);
+        return userRegistrationService.availablitity(body).isSuccess();
     }
 }
