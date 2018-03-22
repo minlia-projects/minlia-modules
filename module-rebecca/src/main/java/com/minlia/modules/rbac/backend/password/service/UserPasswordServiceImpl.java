@@ -2,7 +2,7 @@ package com.minlia.modules.rbac.backend.password.service;
 
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.module.captcha.service.CaptchaService;
+//import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordByRawPasswordRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordBySecurityCodeRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ResetPasswordRequestBody;
@@ -18,8 +18,8 @@ public class UserPasswordServiceImpl implements UserPasswordService {
 //    @Autowired
 //    private UserMapper userMapper;
 
-    @Autowired
-    private CaptchaService captchaService;
+//    @Autowired
+//    private CaptchaService captchaService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -32,8 +32,8 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     @Override
     public User resetPassword(ResetPasswordRequestBody body) {
         //验证验证码是否正确
-        captchaService.validity(body.getUsername(), body.getCode());
-
+//        captchaService.validity(body.getUsername(), body.getCode());
+//
 //        User user = userMapper.queryByUsername(body.getUsername());
 //        ApiPreconditions.is(user == null, ApiCode.NOT_FOUND,"该用户尚未注册");
 //
@@ -46,7 +46,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         User user= SecurityContextHolder.getCurrentUser();
 
         //验证验证码是否正确
-        captchaService.validity(user.getUsername(), body.getCode());
+//        captchaService.validity(user.getUsername(), body.getCode());
 
         return change(user,body.getNewPassword());
     }

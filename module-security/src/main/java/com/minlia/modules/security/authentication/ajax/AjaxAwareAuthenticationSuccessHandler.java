@@ -2,7 +2,7 @@ package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.module.redis.service.RedisService;
+// import com.minlia.module.redis.service.RedisService;
 import com.minlia.modules.security.constant.TokenRedisConstants;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
@@ -28,7 +28,7 @@ import java.util.Map;
 public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final ObjectMapper mapper;
     private final JwtTokenFactory tokenFactory;
-    private RedisService redisService;
+    // private RedisService redisService;
 
     @Autowired
     public AjaxAwareAuthenticationSuccessHandler(final ObjectMapper mapper, final JwtTokenFactory tokenFactory) {

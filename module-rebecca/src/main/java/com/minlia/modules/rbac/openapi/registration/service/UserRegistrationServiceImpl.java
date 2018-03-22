@@ -3,7 +3,7 @@ package com.minlia.modules.rbac.openapi.registration.service;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.module.captcha.service.CaptchaService;
+//import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
@@ -22,8 +22,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
   @Autowired
   private UserService userService;
 
-  @Autowired
-  private CaptchaService captchaService;
+//  @Autowired
+//  private CaptchaService captchaService;
 
   @Autowired
   private UserQueryService userQueryService;
@@ -37,7 +37,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
             .build());
 
     //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
-    RegistrationEvent.onCompleted(user);
+//    RegistrationEvent.onCompleted(user);
     return user;
   }
 

@@ -27,17 +27,38 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!-- <dependency>
+        <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-data</artifactId>
+            <artifactId>module-common</artifactId>
             <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+
+
+        <!-- <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.drtrang</groupId>
+            <artifactId>spring-boot2-autoconfigure</artifactId>
+            <version>1.1.1</version>
         </dependency> -->
+
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-captcha</artifactId>
+            <artifactId>module-data</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>com.minlia.cloud.modules</groupId>-->
+            <!--<artifactId>module-captcha</artifactId>-->
+            <!--<version>1.0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
         <!-- <dependency>
             <groupId>com.minlia.cloud.modules</groupId>

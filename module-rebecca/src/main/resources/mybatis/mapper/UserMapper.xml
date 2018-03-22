@@ -105,16 +105,16 @@
 	</delete>
 
 	<update id="grant">
-		DELETE FROM map_user_role where user_id = #{arg0};
+		DELETE FROM map_user_role where user_id = #{id};
 
 		INSERT INTO map_user_role(
 		user_id ,
 		role_id
 		)
 		VALUES
-		<foreach collection="arg1" item="item" index="index" separator=",">
+		<foreach collection="roles" item="item" index="index" separator=",">
 			(
-			#{arg0,jdbcType=BIGINT} ,
+			#{id,jdbcType=BIGINT} ,
 			#{item,jdbcType=SMALLINT}
 			)
 		</foreach>
@@ -143,7 +143,7 @@
 
 	<select id="queryByUsernameOrCellphoneOrEmail" resultType="com.minlia.modules.rbac.backend.user.entity.User">
 		<include refid="QUERY_CONTENT" />
-		WHERE ut.username = #{arg0,jdbcType=VARCHAR} OR ut.cellphone = #{arg1,jdbcType=VARCHAR} OR email = #{arg2,jdbcType=VARCHAR}
+		WHERE ut.username = #{username,jdbcType=VARCHAR} OR ut.cellphone = #{cellphone,jdbcType=VARCHAR} OR email = #{email,jdbcType=VARCHAR}
 	</select>
 
 	<select id="count" resultType="java.lang.Long">

@@ -106,7 +106,7 @@ public class NavigationEndpoint {
     @ApiOperation(value = "分页查询", notes = "查询分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "queryPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQueryRequestBody requestBody) {
-        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        PageHelper.startPage(new Integer(new Long(pageable.getOffset()).toString()), pageable.getPageSize());
         List<Navigation> navigations =  navigationService.queryList(requestBody);
         PageInfo<Navigation> pageInfo = new PageInfo<Navigation>(navigations);
 

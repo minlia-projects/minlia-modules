@@ -4,7 +4,7 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.captcha.service.CaptchaService;
+//import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.openapi.registration.body.UserAvailablitityRequestBody;
@@ -20,14 +20,15 @@ import javax.validation.Valid;
 
 /**
  * Created by will on 6/19/17.
+ * 将安全级别的问题以插件的方式存在
  */
 @Api(tags = "System Registration", description = "注册")
 @RestController
 @RequestMapping(value = ApiPrefix.API+"user/registration")
 public class UserRegistrationEndpoint {
 
-    @Autowired
-    private CaptchaService captchaService;
+//    @Autowired
+//    private CaptchaService captchaService;
 
     @Autowired
     private UserQueryService userQueryService;
@@ -38,7 +39,7 @@ public class UserRegistrationEndpoint {
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody registration(@RequestBody UserRegistrationRequestBody body ) {
-        captchaService.validity(body.getUsername(),body.getCode());
+//        captchaService.validity(body.getUsername(),body.getCode());
 
         User userRegistered = userRegistrationService.registration(body);
         return SuccessResponseBody.builder().payload(userRegistered).build();

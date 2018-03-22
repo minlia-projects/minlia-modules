@@ -97,17 +97,17 @@
     <update id="updateType">
         UPDATE minlia_navigation
         SET
-            type = #{arg1,jdbcType=VARCHAR} ,
+            type = #{type,jdbcType=VARCHAR} ,
             last_modified_date = SYSDATE()
-        WHERE id = #{arg0,jdbcType=SMALLINT}
+        WHERE id = #{id,jdbcType=SMALLINT}
     </update>
 
     <update id="display">
         UPDATE minlia_navigation
         SET
-            display = #{arg1,jdbcType=TINYINT} ,
+            display = #{display,jdbcType=TINYINT} ,
             last_modified_date = SYSDATE()
-        WHERE id = #{arg0,jdbcType=SMALLINT}
+        WHERE id = #{id,jdbcType=SMALLINT}
     </update>
 
     <delete id="delete">
@@ -123,7 +123,7 @@
             navigation_id
         )
         VALUES
-        <foreach collection="arg1" item="item" index="index" separator=",">
+        <foreach collection="ids" item="item" index="index" separator=",">
             (
                 #{arg0,jdbcType=BIGINT} ,
                 #{item,jdbcType=SMALLINT}

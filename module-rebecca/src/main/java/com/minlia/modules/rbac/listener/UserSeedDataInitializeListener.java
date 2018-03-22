@@ -1,5 +1,6 @@
 package com.minlia.modules.rbac.listener;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.role.body.RoleCreateRequestBody;
@@ -59,7 +60,7 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
             Role role = roleService.queryByCode(SecurityConstant.ROLE_ADMIN_CODE);
             user = userService.create(UserCreateRequestBody.builder()
                     .username(SecurityConstant.ROLE_ADMIN_CODE)
-                    .password(SecurityConstant.ROLE_ADMIN_CODE)
+                    .password(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,SecurityConstant.ROLE_ADMIN_CODE))
                     .roles(Sets.newHashSet(role.getId()))
                     .build());
         }

@@ -5,6 +5,7 @@ import com.minlia.cloud.constant.ValidationConstants;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -20,7 +21,7 @@ public class UserRegistrationRequestBody implements ApiRequestBody {
   /**
    * 用户名
    */
-  @NotBlank
+  @NotNull
   @Cellphone
   @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Username have to be grater than 8 characters")
   private String username;
@@ -28,12 +29,12 @@ public class UserRegistrationRequestBody implements ApiRequestBody {
   /**
    * 密码
    */
-  @NotBlank
+  @NotNull
   @Password
   @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Password have to be grater than 8 characters")
   private String password;
 
-  @NotBlank
+  @NotNull
   @Size(min = 4,max = 6)
   private String code;
 

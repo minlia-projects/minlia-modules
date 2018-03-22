@@ -1,6 +1,7 @@
 package com.minlia.modules.rbac.authentication;
 
 import com.minlia.modules.rbac.context.SecurityContextHolder;
+import java.util.Optional;
 import lombok.Data;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
@@ -17,8 +18,8 @@ import org.springframework.stereotype.Component;
 public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
-    public String getCurrentAuditor() {
-        return SecurityContextHolder.getCurrentUser().getGuid();
+    public Optional<String> getCurrentAuditor() {
+        return Optional.of(SecurityContextHolder.getCurrentUser().getGuid());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.minlia.modules.rbac.authentication;
 
-import com.minlia.module.redis.service.RedisService;
+//import com.minlia.module.redis.service.RedisService;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.entity.User;
@@ -43,8 +43,8 @@ public class RbacAuthenticationService extends AbstractAuthenticationService {
     @Autowired
     private RoleService roleService;
 
-    @Autowired
-    private RedisService redisService;
+//    @Autowired
+//    private RedisService redisService;
 
     @Autowired
     private BCryptPasswordEncoder encoder;

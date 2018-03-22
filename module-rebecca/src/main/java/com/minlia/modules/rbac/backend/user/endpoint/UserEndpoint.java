@@ -102,7 +102,7 @@ public class UserEndpoint {
     @PostMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody search(@PageableDefault Pageable pageable, @RequestBody UserQueryRequestBody body) {
         RowBounds rowBounds2 = new RowBounds(1,10);
-        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        PageHelper.startPage(new Integer(new Long(pageable.getOffset()).toString()), pageable.getPageSize());
         List<User> users =  userQueryService.queryList(body);
         PageInfo<User> pageInfo = new PageInfo<User>(users);
         return SuccessResponseBody.builder().payload(pageInfo).build();

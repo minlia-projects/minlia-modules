@@ -12,6 +12,7 @@ import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.event.UserDeleteEvent;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
+import com.minlia.modules.rbac.openapi.registration.event.RegistrationEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -69,6 +70,8 @@ public class UserServiceImpl implements UserService {
             this.grant(UserGarenRequestBody.builder().id(user.getId()).roles(requestBody.getRoles()).build());
         }
 
+        //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
+        RegistrationEvent.onCompleted(user);
         return user;
     }
 

@@ -90,7 +90,7 @@ public class RoleEndpoint {
     public StatefulBody queryPage(@PageableDefault Pageable pageable) {
 //        Page page = roleService.queryPage(pageable);
 
-        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        PageHelper.startPage(new Integer(new Long(pageable.getOffset()).toString()), pageable.getPageSize());
         List<Role> roles =  roleService.queryList();
         PageInfo<Role> pageInfo = new PageInfo<Role>(roles);
         return SuccessResponseBody.builder().payload(pageInfo).build();
