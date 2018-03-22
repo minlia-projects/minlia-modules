@@ -26,7 +26,7 @@
         <module>module-logger</module>
         <module>module-swagger</module>
         <!-- <module>module-websocket</module> -->
-        <!-- <module>module-data</module> -->
+        <module>module-data</module>
         <!-- <module>module-redis</module> -->
         <!-- <module>module-country</module> -->
         <!-- <module>module-captcha</module> -->
