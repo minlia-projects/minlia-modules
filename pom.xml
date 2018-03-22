@@ -26,20 +26,20 @@
         <module>module-logger</module>
         <module>module-swagger</module>
         <module>module-websocket</module>
-        <module>module-data</module>
-        <module>module-redis</module>
-        <module>module-country</module>
+        <!-- <module>module-data</module> -->
+        <!-- <module>module-redis</module> -->
+        <!-- <module>module-country</module> -->
         <!-- <module>module-captcha</module> -->
 
-        <module>module-aliyun-sesame</module>
+        <!-- <module>module-aliyun-sesame</module> -->
         <!-- <module>module-aliyun-sms</module> -->
-        <module>module-aliyun-oss</module>
+        <!-- <module>module-aliyun-oss</module> -->
 
         <module>module-security</module>
         <module>module-rebecca</module>
         <!--<module>module-i18n</module>-->
-        <module>module-bible</module>
-        <module>module-attachment</module>
+        <!-- <module>module-bible</module> -->
+        <!-- <module>module-attachment</module> -->
         <!--<module>module-wechat</module>-->
 
         <!--<module>module-registry</module>-->
