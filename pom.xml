@@ -28,6 +28,7 @@
         <!-- <module>module-websocket</module> -->
         <module>module-data</module>
         <!-- <module>module-redis</module> -->
+        <module>module-http</module>
         <!-- <module>module-country</module> -->
         <!-- <module>module-captcha</module> -->
 

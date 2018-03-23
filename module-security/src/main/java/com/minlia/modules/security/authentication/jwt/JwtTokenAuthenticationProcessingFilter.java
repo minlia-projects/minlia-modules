@@ -43,7 +43,7 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         String tokenPayload = request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
         if (StringUtils.isEmpty(tokenPayload)) {
-            throw new JwtAcceptableException(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
+            throw new JwtAcceptableException(HttpStatus.FORBIDDEN.getReasonPhrase());
         }
 
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
