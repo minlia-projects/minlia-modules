@@ -6,7 +6,6 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.language.v1.constant.I18nConstant;
 import com.minlia.module.language.v1.domain.Language;
 import com.minlia.module.language.v1.service.LanguageInitializeService;
-import com.minlia.module.language.v1.service.LanguageReadOnlyService;
 import com.minlia.module.language.v1.service.LanguageWriteOnlyService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +21,8 @@ public class LanguageInitializeServiceImpl implements LanguageInitializeService 
   LanguageWriteOnlyService languageWriteOnlyService;
 
 
-  @Autowired
-  LanguageReadOnlyService languageReadOnlyService;
+//  @Autowired
+//  LanguageReadOnlyService languageReadOnlyService;
 
 
   @Override
@@ -55,6 +54,7 @@ public class LanguageInitializeServiceImpl implements LanguageInitializeService 
     return initialLanguage(null, language, country, code, message);
   }
 
+  @Override
   public Language initialLanguage(String basename, String language, String country, String code,
       String message) {
     ApiPreconditions.checkNotNull(code, ApiCode.NOT_NULL);
@@ -71,7 +71,7 @@ public class LanguageInitializeServiceImpl implements LanguageInitializeService 
     if (StringUtils.isEmpty(message)) {
       message = "%%" + code + "%%";
     }
-    Language languageEntity = languageReadOnlyService.findOneByBasenameAndLanguageAndCountryAndCode(
+    Language languageEntity = languageWriteOnlyService.findOneByBasenameAndLanguageAndCountryAndCode(
         basename, language, country, code);
     if (null == languageEntity) {
       languageEntity = new Language();
@@ -80,7 +80,8 @@ public class LanguageInitializeServiceImpl implements LanguageInitializeService 
       languageEntity.setCountry(country);
       languageEntity.setCode(code);
       languageEntity.setMessage(message);
-      languageEntity = languageWriteOnlyService.save(languageEntity);
+     Boolean created= languageWriteOnlyService.insert(languageEntity);
+
     }
     return languageEntity;
   }

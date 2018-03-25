@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.minlia.modules.tcp.server.starter.TcpServerAutoConfiguration

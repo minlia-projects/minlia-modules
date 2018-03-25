@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.language.v1.LanguageAutoConfiguration
+com.minlia.module.language.v2.LanguageAutoConfiguration

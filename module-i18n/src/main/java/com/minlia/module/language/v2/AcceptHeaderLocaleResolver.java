@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.minlia.module.language.v1;
+package com.minlia.module.language.v2;
 
 import static com.minlia.cloud.constant.Constants.X_LANG;
 
@@ -20,6 +20,9 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 
+/**
+ * @author will
+ */
 @Slf4j
 public class AcceptHeaderLocaleResolver implements LocaleResolver {
 
@@ -49,6 +52,7 @@ public class AcceptHeaderLocaleResolver implements LocaleResolver {
     return this.defaultLocale;
   }
 
+  @Override
   public Locale resolveLocale(HttpServletRequest request) {
 //    Locale defaultLocale = this.getDefaultLocale();
     String localeString = request.getHeader(X_LANG);

@@ -239,6 +239,7 @@ public class InitializableMessageSource extends AbstractMessageSource implements
     /**
      * Callback to call {@link #initialize()} after construction of this using a Spring-Callback.
      */
+    @Override
     public void afterPropertiesSet() throws Exception {
 
         if (autoInitialize) {

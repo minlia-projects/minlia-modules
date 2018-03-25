@@ -46,11 +46,11 @@
             <version>1.0.3-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-sms-aliyun</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.minlia.cloud.modules</groupId>-->
+            <!--<artifactId>module-sms-aliyun</artifactId>-->
+            <!--<version>1.0.1-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>eu.infomas</groupId>
@@ -69,6 +69,14 @@
             <artifactId>module-data</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
+
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+
 
     </dependencies>
 

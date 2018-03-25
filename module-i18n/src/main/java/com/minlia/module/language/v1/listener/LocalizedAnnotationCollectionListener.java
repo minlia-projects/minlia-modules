@@ -18,6 +18,13 @@
 //        return bean;
 //    }
 //
+//    /**
+//     * 性能提升，只可以扫描以 code 结尾的包名
+//     * @param bean
+//     * @param beanName
+//     * @return
+//     * @throws BeansException
+//     */
 //    @Override
 //    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 //        log.debug("开始初始化国际化");

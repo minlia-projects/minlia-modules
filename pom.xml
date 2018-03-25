@@ -23,12 +23,13 @@
     <modules>
         <module>module-common</module>
         <module>module-http</module>
+        <module>module-tcp</module>
         <module>module-logger</module>
         <module>module-swagger</module>
         <!-- <module>module-websocket</module> -->
         <module>module-data</module>
         <!-- <module>module-redis</module> -->
-        <module>module-http</module>
+        <module>module-i18n</module>
         <!-- <module>module-country</module> -->
         <!-- <module>module-captcha</module> -->
 

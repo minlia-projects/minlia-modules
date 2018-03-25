@@ -21,11 +21,11 @@ public abstract class AbstractEntity extends WithIdEntity {
 
     @CreatedBy
     @NotNull
-    private String createBy;
+    private String createdBy;
 
     @CreatedDate
     @NotNull
-    private Date createDate = new Date();
+    private Date createdDate = new Date();
 
     @LastModifiedBy
     private String lastModifiedBy;
@@ -33,20 +33,20 @@ public abstract class AbstractEntity extends WithIdEntity {
     @LastModifiedDate
     private Date lastModifiedDate = new Date();
 
-    public String getCreateBy() {
-        return createBy;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Date getCreateDate() {
-        return createDate;
+        return createdDate;
     }
 
     public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+        this.createdDate = createDate;
     }
 
     public String getLastModifiedBy() {

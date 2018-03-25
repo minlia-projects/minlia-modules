@@ -9,5 +9,4 @@ import com.minlia.cloud.body.Body;
  */
 public interface QueryRequestBody extends Body {
 
-
 }
