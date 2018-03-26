@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.captcha.mapper.CaptchaMapper">
 
-	<sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
-
 	<sql id="QUERY_CONTENT">
 		SELECT
 			id ,
@@ -83,17 +81,13 @@
 		WHERE id = #{id,jdbcType=BIGINT}
 	</update>
 
-	<delete id="deleteById">
+	<delete id="delete">
 		DELETE FROM mdl_bible WHERE id = #{id}
 	</delete>
 
 	<select id="queryByCellphone" resultType="com.minlia.module.captcha.entity.Captcha">
 		<include refid="QUERY_CONTENT" />
 		WHERE cellphone = #{cellphone,jdbcType=VARCHAR}
-	</select>
-
-	<select id="queryAll" resultType="com.minlia.module.captcha.entity.Captcha">
-		<include refid="QUERY_CONTENT" />
 	</select>
 
 	<select id="queryOne" resultType="com.minlia.module.captcha.entity.Captcha">
@@ -106,15 +100,8 @@
 		<include refid="QUERY_CONDITION" />
 	</select>
 
-	<select id="queryPaginated" resultType="com.minlia.module.captcha.entity.Captcha">
+	<select id="queryAll" resultType="com.minlia.module.captcha.entity.Captcha">
 		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-		<include refid="LIMIT" />
-	</select>
-
-	<select id="count_queryPaginated" resultType="int">
-		SELECT COUNT(1) FROM minlia_captcha
-		<include refid="QUERY_CONDITION" />
 	</select>
 
 </mapper>

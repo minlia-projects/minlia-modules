@@ -1,9 +1,9 @@
 package com.minlia.modules.rbac.backend.user.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +29,9 @@ public interface UserQueryService {
      */
     boolean exists(String username);
 
-    List<User> queryList(UserQueryRequestBody body);
+    List<User> queryList(UserQueryRequestBody requestBody);
 
-    Page<User> queryPage(UserQueryRequestBody body, Pageable pageable);
+    PageInfo<User> queryPage(UserQueryRequestBody requestBody, Pageable pageable);
 
     User queryByUsernameOrCellphoneOrEmail(String username, String email, String cellphone);
 

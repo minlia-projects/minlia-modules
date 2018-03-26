@@ -2,8 +2,6 @@ package com.minlia.modules.rbac.backend.permission.mapper;
 
 import com.minlia.modules.rbac.backend.permission.entity.Permission;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Map;
@@ -36,12 +34,11 @@ public interface PermissionMapper {
 
     List<Permission> queryListByRoleCodes(List<String> roleCodes);
 
-    Page<Permission> queryPage(RowBounds rowBounds);
+    List<Permission> queryList();
 
     List<String> oneLevel();
 
     List<String> twoLevel(String prefix);
 
     List<Map> threeLevel(String prefix);
-
 }

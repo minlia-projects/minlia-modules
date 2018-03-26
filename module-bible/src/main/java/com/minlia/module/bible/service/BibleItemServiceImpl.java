@@ -1,5 +1,6 @@
 package com.minlia.module.bible.service;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.body.BibleItemCreateRequestBody;
@@ -11,9 +12,9 @@ import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.mapper.BibleItemMapper;
 import com.minlia.module.bible.mapper.BibleMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.RowBounds;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,14 +35,14 @@ public class BibleItemServiceImpl implements BibleItemService {
 
     @Override
     @Transactional
-    public BibleItem create(BibleItemCreateRequestBody body) {
-        Bible bible = bibleMapper.queryByCode(body.getParentCode());
+    public BibleItem create(BibleItemCreateRequestBody requestBody) {
+        Bible bible = bibleMapper.queryByCode(requestBody.getParentCode());
         ApiPreconditions.is(null == bible, BibleApiCode.NOT_FOUND,"父级不存在");
 
-        BibleItem bibleItem = this.queryByParentCodeAndCode(body.getParentCode(),body.getCode());
+        BibleItem bibleItem = this.queryByParentCodeAndCode(requestBody.getParentCode(),requestBody.getCode());
         ApiPreconditions.is(null != bibleItem, BibleApiCode.DATA_ALREADY_EXISTS,"数据已存在");
 
-        bibleItem = mapper.map(body,BibleItem.class);
+        bibleItem = mapper.map(requestBody,BibleItem.class);
         bibleItemMapper.create(bibleItem);
         return bibleItem;
     }
@@ -94,8 +95,8 @@ public class BibleItemServiceImpl implements BibleItemService {
     }
 
     @Override
-    public PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody body, RowBounds rowBounds) {
-        return bibleItemMapper.queryPage(body,rowBounds);
+    public PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody requestBody, Pageable pageable) {
+        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> bibleItemMapper.queryList(requestBody));
     }
 
 }

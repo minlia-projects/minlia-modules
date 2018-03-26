@@ -1,9 +1,9 @@
 package com.minlia.modules.rbac.backend.role.service;
 
+import com.github.pagehelper.PageInfo;
 import com.minlia.modules.rbac.backend.role.body.RoleCreateRequestBody;
 import com.minlia.modules.rbac.backend.role.body.RoleUpdateRequestBody;
 import com.minlia.modules.rbac.backend.role.entity.Role;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -60,5 +60,5 @@ public interface RoleService {
 
     List<Role> queryList();
 
-    Page<Role> queryPage(Pageable pageable);
+    PageInfo<Role> queryPage(Pageable pageable);
 }

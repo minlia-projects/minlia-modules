@@ -10,11 +10,11 @@
             nt.icon ,
             nt.state ,
             nt.orders ,
-            nt.parent_id AS  parentId,
-			nt.create_date AS createDate ,
-			nt.create_by AS createBy ,
-			nt.last_modified_date AS lastModifiedDate ,
-			nt.last_modified_by AS lastModifiedBy ,
+            nt.parent_id ,
+			nt.create_date  ,
+			nt.create_by  ,
+			nt.last_modified_date ,
+			nt.last_modified_by ,
 			nt.display
 		FROM
 			minlia_navigation nt
@@ -152,16 +152,6 @@
         <if test="roleId != null">
             INNER JOIN map_role_navigation rnm on rnm.navigation_id = nt.id
         </if>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="queryPage" resultType="com.minlia.modules.rbac.backend.navigation.entity.Navigation">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="count_queryPage" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM minlia_navigation nt
         <include refid="QUERY_CONDITION"/>
     </select>
 

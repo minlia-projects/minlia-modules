@@ -1,9 +1,7 @@
 package com.minlia.module.bible.mapper;
 
-import com.github.pagehelper.PageInfo;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,7 +25,5 @@ public interface BibleItemMapper {
     BibleItem queryOne(BibleItemQueryRequestBody build);
 
     List<BibleItem> queryList(BibleItemQueryRequestBody requestBody);
-
-    PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody requestBody, RowBounds rowBounds);
 
 }

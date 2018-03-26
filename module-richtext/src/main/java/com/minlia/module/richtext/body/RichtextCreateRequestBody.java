@@ -1,6 +1,6 @@
-package com.minlia.module.richtext.v1.body;
+package com.minlia.module.richtext.body;
 
-import com.minlia.boot.v1.body.ApiRequestBody;
+import com.minlia.cloud.body.ApiRequestBody;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -9,19 +9,16 @@ import javax.validation.constraints.NotNull;
  * Created by garen on 2017/6/30.
  */
 @Data
-public class RichtextUpdateBody implements ApiRequestBody {
-
-    @NotNull
-    private Long id;
+public class RichtextCreateRequestBody implements ApiRequestBody {
 
     @NotNull
     private String type;
 
     @NotNull
-    private String title;
+    private String code;
 
     @NotNull
-    private String code;
+    private String title;
 
     @NotNull
     private String content;

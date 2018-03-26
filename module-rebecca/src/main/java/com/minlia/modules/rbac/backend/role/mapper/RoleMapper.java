@@ -34,5 +34,4 @@ public interface RoleMapper {
 
     List<Role> queryList();
 
-    Page<Role> queryPage(Pageable pageable);
 }

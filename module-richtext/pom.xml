@@ -46,7 +46,7 @@
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-security</artifactId>
+            <artifactId>module-rebecca</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -91,4 +91,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

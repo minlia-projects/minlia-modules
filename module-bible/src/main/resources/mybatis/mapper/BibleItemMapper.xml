@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.bible.mapper.BibleItemMapper">
 
-    <sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
-
     <sql id="QUERY_CONTENT">
 		SELECT
 			bit.id ,
@@ -14,7 +12,11 @@
 			bit.sorts ,
 			bit.attribute1 ,
 			bit.attribute2 ,
-			bit.attribute3
+			bit.attribute3 ,
+			bit.create_date ,
+			bit.create_by ,
+			bit.last_modified_date ,
+			bit.last_modified_by
 		FROM
 			minlia_bible_item bit
 	</sql>
@@ -110,17 +112,6 @@
 
     <select id="queryList" resultType="com.minlia.module.bible.entity.BibleItem">
         <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="queryPage" resultType="com.minlia.module.bible.entity.BibleItem">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-        <include refid="LIMIT"/>
-    </select>
-
-    <select id="count_queryPage" resultType="int">
-        SELECT COUNT(1) FROM minlia_bible_item bit
         <include refid="QUERY_CONDITION"/>
     </select>
 

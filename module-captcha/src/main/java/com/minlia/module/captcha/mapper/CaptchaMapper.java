@@ -44,11 +44,4 @@ public interface CaptchaMapper {
      */
     Captcha queryList(CaptchaQueryRequestBody body);
 
-    /**
-     * 分页查询
-     * @param body
-     * @return
-     */
-    Captcha queryPaginated(CaptchaQueryRequestBody body);
-
 }

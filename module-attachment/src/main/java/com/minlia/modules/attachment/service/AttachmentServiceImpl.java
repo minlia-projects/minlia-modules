@@ -1,7 +1,7 @@
 package com.minlia.modules.attachment.service;
 
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.StatefulBody;
@@ -13,7 +13,9 @@ import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.mapper.AttachmentMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,17 +27,19 @@ public class AttachmentServiceImpl implements AttachmentService {
     private AttachmentMapper attachmentMapper;
 
     @Override
+    @Transactional
     public List<Attachment> create(List<Attachment> attachments) {
         return attachmentMapper.createBatch(attachments);
     }
 
     @Override
-    public List<Attachment> create(AttachmentCreateRequestBody body) {
-        attachmentMapper.deleteByBusinessIdAndBusinessType(body.getBusinessId(),body.getBusinessType());
+    @Transactional
+    public List<Attachment> create(AttachmentCreateRequestBody requestBody) {
+        attachmentMapper.deleteByBusinessIdAndBusinessType(requestBody.getBusinessId(),requestBody.getBusinessType());
 
         List<Attachment> attachments = Lists.newArrayList();
-        for (AttachmentData data : body.getData()) {
-            Attachment attachment = Attachment.builder().businessId(body.getBusinessId()).businessType(body.getBusinessType()).url(data.getUrl()).accessKey(data.getKey()).build();
+        for (AttachmentData data : requestBody.getData()) {
+            Attachment attachment = Attachment.builder().businessId(requestBody.getBusinessId()).businessType(requestBody.getBusinessType()).url(data.getUrl()).accessKey(data.getKey()).build();
             attachmentMapper.create(attachment);
             attachments.add(attachment);
         }
@@ -43,11 +47,14 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public StatefulBody update(Attachment entity) {
-        return null;
+    @Transactional
+    public Attachment update(Attachment attachment) {
+        attachmentMapper.update(attachment);
+        return attachment;
     }
 
     @Override
+    @Transactional
     public void bindByAccessKey(String accessKey,String businessId, String businessType) {
         Attachment attachment = attachmentMapper.queryByAccessKey(accessKey);
         attachment.setBusinessId(businessId);
@@ -56,12 +63,14 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
+    @Transactional
     public StatefulBody delete(Long id) {
         attachmentMapper.delete(id);
         return SuccessResponseBody.builder().build();
     }
 
     @Override
+    @Transactional
     public StatefulBody delete(String businessId, String businessType) {
         attachmentMapper.deleteByBusinessIdAndBusinessType(businessId,businessType);
         return SuccessResponseBody.builder().build();
@@ -83,13 +92,13 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public List<Attachment> queryList(AttachmentQueryRequestBody body) {
-        return attachmentMapper.queryList(body);
+    public List<Attachment> queryList(AttachmentQueryRequestBody requestBody) {
+        return attachmentMapper.queryList(requestBody);
     }
 
     @Override
-    public PageInfo<Attachment> queryPage(AttachmentQueryRequestBody body, Page page) {
-        return attachmentMapper.queryPage(body,page);
+    public PageInfo<Attachment> queryPage(AttachmentQueryRequestBody requestBody, Pageable pageable) {
+        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> attachmentMapper.queryList(requestBody));
     }
 
 }

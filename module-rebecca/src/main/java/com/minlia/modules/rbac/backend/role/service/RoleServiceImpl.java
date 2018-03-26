@@ -1,5 +1,7 @@
 package com.minlia.modules.rbac.backend.role.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
@@ -115,8 +117,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<Role> queryPage(Pageable pageable) {
-        return roleMapper.queryPage(pageable);
+    public PageInfo<Role> queryPage(Pageable pageable) {
+        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> roleMapper.queryList());
     }
 
 }

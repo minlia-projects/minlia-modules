@@ -2,18 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.modules.rbac.backend.role.mapper.RoleMapper">
 
-	<sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
-
 	<sql id="QUERY_CONTENT">
 		SELECT
 			rt.id ,
 			rt.code ,
 			rt.label ,
 			rt.notes ,
-			rt.create_date AS createDate ,
-			rt.create_by AS createBy ,
-			rt.last_modified_date AS lastModifiedDate ,
-			rt.last_modified_by AS lastModifiedBy ,
+			rt.create_date ,
+			rt.create_by ,
+			rt.last_modified_date ,
+			rt.last_modified_by ,
 			rt.enabled
 		FROM
 			minlia_role rt
@@ -132,10 +130,6 @@
 			ut.id = #{id,jdbcType=BIGINT}
 	</select>
 
-	<select id="queryAll" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
-		<include refid="QUERY_CONTENT" />
-	</select>
-
 	<select id="queryOne" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
 		<include refid="QUERY_CONTENT" />
 		<include refid="QUERY_CONDITION" />
@@ -145,15 +139,8 @@
 		<include refid="QUERY_CONTENT" />
 	</select>
 
-	<select id="queryPaginated" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
+	<select id="queryAll" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
 		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-		<include refid="LIMIT" />
-	</select>
-
-	<select id="count_queryPaginated" resultType="int">
-		SELECT COUNT(1) FROM minlia_role rt
-		<include refid="QUERY_CONDITION" />
 	</select>
 
 </mapper>

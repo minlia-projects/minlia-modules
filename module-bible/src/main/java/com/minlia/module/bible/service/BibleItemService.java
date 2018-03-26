@@ -8,6 +8,7 @@ import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.body.BibleItemUpdateRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,24 +17,24 @@ import java.util.List;
  */
 public interface BibleItemService {
 
-    BibleItem create(BibleItemCreateRequestBody body);
+    BibleItem create(BibleItemCreateRequestBody requestBody);
 
-    BibleItem update(BibleItemUpdateRequestBody body);
+    BibleItem update(BibleItemUpdateRequestBody requestBody);
 
     void delete(Long id);
 
     String get(String parentCode, String code);
 
+    long count(BibleItemQueryRequestBody requestBody);
+
+    BibleItem queryById(Long id);
+
     BibleItem queryByParentCodeAndCode(String parentCode, String code);
 
     List<BibleItem> queryByParentCode(String parentCode);
 
-    BibleItem queryById(Long id);
+    List<BibleItem> queryList(BibleItemQueryRequestBody requestBody);
 
-    long count(BibleItemQueryRequestBody body);
-
-    List<BibleItem> queryList(BibleItemQueryRequestBody body);
-
-    PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody body, RowBounds rowBounds);
+    PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody requestBody, Pageable pageable);
 
 }

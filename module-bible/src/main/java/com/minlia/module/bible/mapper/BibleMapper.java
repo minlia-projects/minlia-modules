@@ -1,7 +1,5 @@
 package com.minlia.module.bible.mapper;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import com.minlia.module.bible.body.BibleQueryRequestBody;
 import com.minlia.module.bible.entity.Bible;
 import org.springframework.stereotype.Component;
@@ -25,7 +23,5 @@ public interface BibleMapper {
     Bible queryByCode(String code);
 
     List<Bible> queryList(BibleQueryRequestBody body);
-
-    PageInfo<Bible> queryPaginated(BibleQueryRequestBody body, Page page);
 
 }

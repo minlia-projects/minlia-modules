@@ -1,9 +1,11 @@
-package com.minlia.module.richtext.v1;
+package com.minlia.module.richtext;
 
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by will on 6/21/17.
+ *
+ * @author garen
+ * @date 2018/03/26
  */
 @Configuration
 public class RichtextAutoConfiguration {

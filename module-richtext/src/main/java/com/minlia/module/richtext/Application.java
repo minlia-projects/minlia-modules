@@ -1,4 +1,4 @@
-package com.minlia.module.richtext.v1;
+package com.minlia.module.richtext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

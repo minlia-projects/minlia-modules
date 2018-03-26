@@ -47,7 +47,7 @@ public class AttachmentEndpoint {
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody update(@Valid @RequestBody Attachment body) {
-        return attachmentService.update(body);
+        return SuccessResponseBody.builder().payload(attachmentService.update(body)).build();
     }
 
     @PreAuthorize(value = "isAuthenticated()")

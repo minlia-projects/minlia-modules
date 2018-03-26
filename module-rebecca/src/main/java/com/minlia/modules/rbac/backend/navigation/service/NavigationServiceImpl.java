@@ -1,5 +1,6 @@
 package com.minlia.modules.rbac.backend.navigation.service;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
@@ -19,6 +20,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,12 +41,12 @@ public class NavigationServiceImpl implements NavigationService {
     private NavigationMapper navigationMapper;
 
     @Override
-    public StatefulBody create(NavigationCreateRequestBody body) {
-        boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().parentId(body.getParentId()).name(body.getName()).build()) > 0;
+    public StatefulBody create(NavigationCreateRequestBody requestBody) {
+        boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).build()) > 0;
         if (!exists) {
-            updateTypeByChildren(body.getParentId());
+            updateTypeByChildren(requestBody.getParentId());
 
-            Navigation navigation = Navigation.builder().parentId(body.getParentId()).name(body.getName()).icon(body.getIcon()).state(body.getState()).orders(body.getOrders()).type(NavigationType.LEAF).build();
+            Navigation navigation = Navigation.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).icon(requestBody.getIcon()).state(requestBody.getState()).orders(requestBody.getOrders()).type(NavigationType.LEAF).build();
             navigationMapper.create(navigation);
             return SuccessResponseBody.builder().payload(navigation).build();
         } else {
@@ -53,13 +55,13 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public Navigation update(NavigationUpdateRequestBody body) {
-        Navigation navigation = navigationMapper.queryById(body.getId());
+    public Navigation update(NavigationUpdateRequestBody requestBody) {
+        Navigation navigation = navigationMapper.queryById(requestBody.getId());
         ApiPreconditions.is(null == navigation, SecurityApiCode.NAVIGATION_NOT_EXISTS,"导航不存在");
 
-        updateTypeByChildren(body.getParentId());
+        updateTypeByChildren(requestBody.getParentId());
 
-        mapper.map(body,navigation);
+        mapper.map(requestBody,navigation);
         navigationMapper.update(navigation);
         return navigation;
     }
@@ -100,17 +102,17 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public void grant(NavigationGrantRequestBody body) {
-        boolean existsRole = roleService.exists(body.getRoleId());
+    public void grant(NavigationGrantRequestBody requestBody) {
+        boolean existsRole = roleService.exists(requestBody.getRoleId());
         ApiPreconditions.not(existsRole,SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在");
 
-        if (CollectionUtils.isNotEmpty(body.getIds())) {
-            for (Long id: body.getIds()) {
+        if (CollectionUtils.isNotEmpty(requestBody.getIds())) {
+            for (Long id: requestBody.getIds()) {
                 boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).display(true).isOneLevel(false).build()) > 0;
                 ApiPreconditions.not(exists,SecurityApiCode.NAVIGATION_NOT_EXISTS,"导航不存在");
             }
         }
-        navigationMapper.grant(body.getRoleId(),body.getIds());
+        navigationMapper.grant(requestBody.getRoleId(),requestBody.getIds());
     }
 
     @Override
@@ -144,8 +146,9 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public PageInfo<Navigation> queryPage(RowBounds rowBounds) {
-        return navigationMapper.queryPage(rowBounds);
+    public PageInfo<Navigation> queryPage(NavigationQueryRequestBody requestBody, Pageable pageable) {
+        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
+
     }
 
     private void bindChirdren(List<Navigation> navigations){

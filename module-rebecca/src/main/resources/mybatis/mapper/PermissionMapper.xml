@@ -7,10 +7,10 @@
 			pt.id ,
 			pt.code ,
 			pt.label ,
-			pt.create_date AS createDate ,
-			pt.create_by AS createBy ,
-			pt.last_modified_date AS lastModifiedDate ,
-			pt.last_modified_by AS lastModifiedBy ,
+			pt.create_date ,
+			pt.create_by ,
+			pt.last_modified_date ,
+			pt.last_modified_by ,
 			pt.enabled
 		FROM
 			minlia_permission pt
@@ -102,16 +102,6 @@
         <foreach collection="list" item="item" separator="," open="(" close=")">
             #{item,jdbcType=VARCHAR}
         </foreach>
-    </select>
-
-    <select id="queryPageByRoleCodes" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="count_queryPaginated" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM minlia_permission pt
-        <include refid="QUERY_CONDITION"/>
     </select>
 
     <select id="tree" resultType="java.util.Map">

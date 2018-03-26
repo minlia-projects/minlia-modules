@@ -2,15 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.modules.attachment.mapper.AttachmentMapper">
 
-    <sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
-
     <sql id="QUERY_CONTENT">
 		SELECT
 			id ,
 			code ,
 			label ,
 			value ,
-			notes
+			notes ,
+			create_date ,
+			create_by ,
+			last_modified_date ,
+			last_modified_by
 		FROM mdl_bible t
 	</sql>
 
@@ -63,7 +65,7 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
 
-    <delete id="deleteById">
+    <delete id="delete">
 		DELETE FROM mdl_bible WHERE id = #{id}
 	</delete>
 
@@ -77,10 +79,6 @@
         WHERE code = #{code,jdbcType=VARCHAR}
     </select>
 
-    <select id="queryAll" resultType="com.minlia.modules.attachment.entity.Attachment">
-        <include refid="QUERY_CONTENT"/>
-    </select>
-
     <select id="queryOne" resultType="com.minlia.modules.attachment.entity.Attachment">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
@@ -91,15 +89,8 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryPaginated" resultType="com.minlia.modules.attachment.entity.Attachment">
+    <select id="queryAll" resultType="com.minlia.modules.attachment.entity.Attachment">
         <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-        <include refid="LIMIT"/>
-    </select>
-
-    <select id="count_queryPaginated" resultType="int">
-        SELECT COUNT(1) FROM mdl_bible t
-        <include refid="QUERY_CONDITION"/>
     </select>
 
 </mapper>

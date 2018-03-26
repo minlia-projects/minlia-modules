@@ -1,6 +1,6 @@
-package com.minlia.module.richtext.v1.body;
+package com.minlia.module.richtext.body;
 
-import com.minlia.module.data.query.v2.body.SearchRequestBody;
+import com.minlia.cloud.body.ApiRequestBody;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,14 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RichtextQueryBody implements SearchRequestBody {
-
-    private Long id;
+public class RichtextQueryRequestBody implements ApiRequestBody {
 
     private String type;
 
-    private String title;
-
     private String code;
+
+    private String title;
 
 }

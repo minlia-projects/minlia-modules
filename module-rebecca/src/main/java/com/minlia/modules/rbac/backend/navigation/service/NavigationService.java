@@ -8,7 +8,7 @@ import com.minlia.modules.rbac.backend.navigation.body.NavigationGrantRequestBod
 import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationUpdateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.entity.Navigation;
-import org.apache.ibatis.session.RowBounds;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,17 +18,17 @@ import java.util.List;
  */
 public interface NavigationService {
 
-    StatefulBody create(NavigationCreateRequestBody body);
+    StatefulBody create(NavigationCreateRequestBody requestBody);
 
-    Navigation update(NavigationUpdateRequestBody body);
+    Navigation update(NavigationUpdateRequestBody requestBody);
 
     void delete(Long id);
 
     /**
      * 授权：给角色分配导航
-     * @param body
+     * @param requestBody
      */
-    void grant(NavigationGrantRequestBody body);
+    void grant(NavigationGrantRequestBody requestBody);
 
     /**
      * 展示、隐藏
@@ -61,9 +61,10 @@ public interface NavigationService {
 
     /**
      * 分页查询：包含儿子
-     * @param rowBounds
+     * @param requestBody
+     * @param pageable
      * @return
      */
-    PageInfo<Navigation> queryPage(RowBounds rowBounds);
+    PageInfo<Navigation> queryPage(NavigationQueryRequestBody requestBody, Pageable pageable);
 
 }

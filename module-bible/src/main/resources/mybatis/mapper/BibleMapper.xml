@@ -9,7 +9,11 @@
 			id ,
 			code ,
 			value ,
-			notes
+			notes ,
+			create_date ,
+			create_by ,
+			last_modified_date ,
+			last_modified_by
 		FROM minlia_bible t
 	</sql>
 
@@ -77,17 +81,6 @@
 
     <select id="queryList" resultType="com.minlia.module.bible.entity.Bible">
         <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="queryPaginated" resultType="com.minlia.module.bible.entity.Bible">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-        <include refid="LIMIT"/>
-    </select>
-
-    <select id="count_queryPaginated" resultType="int">
-        SELECT COUNT(1) FROM minlia_bible t
         <include refid="QUERY_CONDITION"/>
     </select>
 

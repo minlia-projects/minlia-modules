@@ -7,6 +7,7 @@ import com.minlia.module.bible.body.BibleCreateRequestBody;
 import com.minlia.module.bible.body.BibleQueryRequestBody;
 import com.minlia.module.bible.body.BibleUpdateRequestBody;
 import com.minlia.module.bible.entity.Bible;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,9 +16,9 @@ import java.util.List;
  */
 public interface BibleService {
 
-    Bible create(BibleCreateRequestBody body);
+    Bible create(BibleCreateRequestBody requestBody);
 
-    Bible update(BibleUpdateRequestBody body);
+    Bible update(BibleUpdateRequestBody requestBody);
 
     void delete(Long id);
 
@@ -27,8 +28,8 @@ public interface BibleService {
 
     Bible queryByCode(String code);
 
-    List<Bible> queryList(BibleQueryRequestBody body);
+    List<Bible> queryList(BibleQueryRequestBody requestBody);
 
-    PageInfo<Bible> queryPaginated(BibleQueryRequestBody body, Page page);
+    PageInfo<Bible> queryPage(BibleQueryRequestBody body, Pageable pageable);
 
 }

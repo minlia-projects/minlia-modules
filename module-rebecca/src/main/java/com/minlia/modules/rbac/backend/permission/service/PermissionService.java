@@ -1,9 +1,10 @@
 package com.minlia.modules.rbac.backend.permission.service;
 
+import com.github.pagehelper.PageInfo;
 import com.minlia.modules.rbac.backend.permission.body.PermissionUpdateRequestBody;
 import com.minlia.modules.rbac.backend.permission.entity.Permission;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public interface PermissionService {
 
     List<Permission> queryListByRoleCodes(List<String> roleCodes);
 
-    Page<Permission> queryPage(RowBounds rowBounds);
+    PageInfo<Permission> queryPage(Pageable pageable);
 
     /**
      * 获取授权

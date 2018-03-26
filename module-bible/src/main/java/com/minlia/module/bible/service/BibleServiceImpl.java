@@ -1,6 +1,6 @@
 package com.minlia.module.bible.service;
 
-import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
@@ -14,6 +14,7 @@ import com.minlia.module.bible.mapper.BibleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +36,10 @@ public class BibleServiceImpl implements BibleService {
 
     @Override
     @Transactional
-    public Bible create(BibleCreateRequestBody body) {
-        Bible bible = bibleMapper.queryByCode(body.getCode());
+    public Bible create(BibleCreateRequestBody requestBody) {
+        Bible bible = bibleMapper.queryByCode(requestBody.getCode());
         ApiPreconditions.is(null != bible, ApiCode.DATA_ALREADY_EXISTS,"数据已存在");
-        bible = mapper.map(body,Bible.class);
+        bible = mapper.map(requestBody,Bible.class);
         bibleMapper.create(bible);
         return bible;
     }
@@ -80,13 +81,13 @@ public class BibleServiceImpl implements BibleService {
     }
 
     @Override
-    public List<Bible> queryList(BibleQueryRequestBody body) {
-        return bibleMapper.queryList(body);
+    public List<Bible> queryList(BibleQueryRequestBody requestBody) {
+        return bibleMapper.queryList(requestBody);
     }
 
     @Override
-    public PageInfo<Bible> queryPaginated(BibleQueryRequestBody body, Page page) {
-        return bibleMapper.queryPaginated(body,page);
+    public PageInfo<Bible> queryPage(BibleQueryRequestBody requestBody, Pageable pageable) {
+        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> bibleMapper.queryList(requestBody));
     }
 
 }

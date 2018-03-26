@@ -2,8 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.modules.rbac.backend.user.mapper.UserMapper">
 
-	<sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
-
 	<sql id="QUERY_CONTENT">
 		SELECT
 			ut.id ,
@@ -12,17 +10,17 @@
 			ut.password ,
 			ut.cellphone ,
 			ut.email ,
-			ut.credentials_expired AS credentialsExpired ,
+			ut.credentials_expired ,
 			ut.locked ,
-			ut.lock_limit AS lockLimit,
-			ut.lock_time AS lockTime,
-			ut.last_login_time AS lastLoginTime,
-			ut.last_login_ip AS lastLoginIp,
+			ut.lock_limit ,
+			ut.lock_time ,
+			ut.last_login_time ,
+			ut.last_login_ip ,
 			ut.referral ,
-			ut.create_date AS createDate ,
-			ut.create_by AS createBy ,
-			ut.last_modified_date AS lastModifiedDate ,
-			ut.last_modified_by AS lastModifiedBy ,
+			ut.create_date ,
+			ut.create_by ,
+			ut.last_modified_date ,
+			ut.last_modified_by ,
 			ut.enabled
 		FROM
 			minlia_user ut
@@ -158,17 +156,6 @@
 
 	<select id="queryList" resultType="com.minlia.modules.rbac.backend.user.entity.User">
 		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-	</select>
-
-	<select id="queryPaginated" resultType="com.minlia.modules.rbac.backend.user.entity.User">
-		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-		<include refid="LIMIT" />
-	</select>
-
-	<select id="count_queryPaginated" resultType="int">
-		SELECT COUNT(1) FROM minlia_user ut
 		<include refid="QUERY_CONDITION" />
 	</select>
 

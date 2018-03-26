@@ -1,5 +1,7 @@
 package com.minlia.modules.rbac.backend.permission.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.minlia.modules.rbac.backend.permission.body.PermissionUpdateRequestBody;
 import com.minlia.modules.rbac.backend.permission.entity.Permission;
@@ -9,6 +11,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -128,8 +131,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Permission> queryPage(RowBounds rowBounds) {
-        return permissionMapper.queryPage(rowBounds);
+    public PageInfo<Permission> queryPage(Pageable pageable) {
+        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> permissionMapper.queryList());
+
     }
 
     @Override

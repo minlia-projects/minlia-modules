@@ -1,8 +1,6 @@
 package com.minlia.modules.attachment.mapper;
 
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
 import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
 import org.springframework.stereotype.Component;
@@ -32,7 +30,5 @@ public interface AttachmentMapper {
     Attachment queryByAccessKey(String accessKey);
 
     List<Attachment> queryList(AttachmentQueryRequestBody body);
-
-    PageInfo<Attachment> queryPage(AttachmentQueryRequestBody body, Page page);
 
 }
