@@ -20,10 +20,9 @@ import javax.validation.Valid;
 /**
  * Created by will on 6/21/17.
  */
+@Api(tags = "System Attachment", description = "附件")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "attachment")
-@Api(tags = "Attachment", description = "附件")
-@Slf4j
 public class AttachmentEndpoint {
 
     @Autowired

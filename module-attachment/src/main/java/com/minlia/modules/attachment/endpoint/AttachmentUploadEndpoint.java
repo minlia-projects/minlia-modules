@@ -14,7 +14,6 @@ import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.service.AttachmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,14 +27,14 @@ import java.util.List;
 /**
  * Created by will on 6/28/17.
  */
+@Api(tags = "System Attachment", description = "附件")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "/attachment/upload")
-@Api(tags = "Attachment", description = "附件")
-@Slf4j
 public class AttachmentUploadEndpoint {
 
     @Autowired
     private OssService ossService;
+
     @Autowired
     private AttachmentService attachmentService;
 
