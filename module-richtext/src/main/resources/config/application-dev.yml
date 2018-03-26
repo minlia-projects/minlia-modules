@@ -1,25 +1,23 @@
 server:
-  port: 10001
+  port: 10002
 
 system:
-    appId: rebecca-app
+    appId: rich-text-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: Rebecca
+        name: Rich Text
     http:
         encoding.charset: UTF-8
         encoding.enable: true
         encoding.force: true
-    session:
-        store-type: redis
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
         name:
         username: root
         password:
@@ -40,7 +38,6 @@ spring:
         maxOpenPreparedStatements: 20
         continue-on-error: true
         initialize: true
-        data: classpath*:sql/minlia_init.sql
 
     redis:
         database: 0
@@ -55,10 +52,10 @@ spring:
         timeout: 0
 
 system.security.jwt:
-    tokenExpirationTime: 604800 # Number of minutes
-    refreshTokenExpTime: 604800 # Minutes
-    tokenIssuer: http://minlia.com
-    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+  tokenExpirationTime: 604800 # Number of minutes
+  refreshTokenExpTime: 604800 # Minutes
+  tokenIssuer: http://minlia.com
+  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
 swagger:
     title: ${spring.application.name}接口
@@ -84,4 +81,3 @@ pagehelper:
 sms:
     templates:
         security_code: SMS_95635445
-

@@ -30,6 +30,7 @@
         <module>module-redis</module>
         <module>module-country</module>
         <module>module-captcha</module>
+        <module>module-richtext</module>
         <!--<module>module-i18n</module>-->
 
         <module>module-map</module>
