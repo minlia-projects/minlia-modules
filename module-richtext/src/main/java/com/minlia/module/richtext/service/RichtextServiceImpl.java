@@ -63,6 +63,11 @@ public class RichtextServiceImpl implements RichtextService {
     }
 
     @Override
+    public Richtext queryByCode(String code) {
+        return richtextMapper.queryByCode(code);
+    }
+
+    @Override
     public List<Richtext> queryList(RichtextQueryRequestBody requestBody) {
         return richtextMapper.queryList(requestBody);
     }

@@ -25,7 +25,7 @@ public class Richtext extends AbstractEntity {
     private String type;
 
     /**
-     * 编码
+     * 编码(唯一)
      */
     private String code;
 

@@ -37,7 +37,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
             .build());
 
     //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
-//    RegistrationEvent.onCompleted(user);
+    RegistrationEvent.onCompleted(user);
     return user;
   }
 

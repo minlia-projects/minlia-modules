@@ -21,6 +21,8 @@ public interface RichtextMapper {
 
     Richtext queryById(Long id);
 
+    Richtext queryByCode(String code);
+
     Richtext queryOne(RichtextQueryRequestBody requestBody);
 
     List<Richtext> queryList(RichtextQueryRequestBody requestBody);

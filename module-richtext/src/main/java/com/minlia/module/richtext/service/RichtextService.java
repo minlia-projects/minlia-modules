@@ -27,6 +27,8 @@ public interface RichtextService {
 
     Richtext queryById(Long id);
 
+    Richtext queryByCode(String code);
+
     List<Richtext> queryList(RichtextQueryRequestBody requestBody);
 
     PageInfo<Richtext> queryPage(RichtextQueryRequestBody requestBody, Pageable pageable);
