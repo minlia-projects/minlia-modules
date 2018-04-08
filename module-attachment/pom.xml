@@ -24,28 +24,15 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>compile</scope>
-            <version>${lombok.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-data</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <scope>provided</scope>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-rebecca</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
