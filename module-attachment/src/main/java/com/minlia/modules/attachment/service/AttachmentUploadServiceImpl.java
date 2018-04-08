@@ -28,16 +28,16 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     private AttachmentService attachmentService;
 
     @Override
-    public StatefulBody upload(MultipartFile file, String businessId, String businessType) throws Exception {
+    public StatefulBody upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
         return null;
     }
 
     @Override
-    public StatefulBody upload(File file, String businessId, String businessType) throws Exception {
-        //检查是否满足上传条件 TODO 上传数量、businessType是否存在
+    public StatefulBody upload(File file, String relationId, String belongsTo) throws Exception {
+        //检查是否满足上传条件 TODO 上传数量、belongsTo是否存在
 
         List<Attachment> attachments = Lists.newArrayList();
-        String key = keyGenerate(file.getName(),businessId,businessType);
+        String key = keyGenerate(file.getName(),relationId,belongsTo);
         OssFile ossFile=null;
         try {
             ossFile = ossService.upload(file, key);
@@ -46,13 +46,13 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         }
 
         //附件记录
-        Attachment attachment = Attachment.builder().businessId(businessId).businessType(businessType).name(ossFile.getOriginalName()).type(ossFile.getContentType()).url(ossFile.getUrl()).size(ossFile.getSize()).accessKey(ossFile.geteTag()).build();
+        Attachment attachment = Attachment.builder().relationId(relationId).belongsTo(belongsTo).name(ossFile.getOriginalName()).type(ossFile.getContentType()).url(ossFile.getUrl()).size(ossFile.getSize()).accessKey(ossFile.geteTag()).build();
         attachments.add(attachment);
         return  SuccessResponseBody.builder().message("上传成功").payload(attachmentService.create(attachments)).build();
     }
 
-    private String keyGenerate(String fileName, String businessId, String businessType){
-        return String.format("%s/%s/%s",businessId,businessType, PathBuilder.uuidNameBuild(fileName));
+    private String keyGenerate(String fileName, String relationId, String belongsTo){
+        return String.format("%s/%s/%s",relationId,belongsTo, PathBuilder.uuidNameBuild(fileName));
     }
 
 }

@@ -39,13 +39,13 @@ public class AttachmentUploadEndpoint {
     private AttachmentService attachmentService;
 
     @ApiOperation(value = "file update", notes = "文件上传服务", httpMethod = "POST")
-    @PostMapping(value = "/{businessId}/{businessType}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody upload(MultipartFile file, @PathVariable String businessId, @PathVariable String businessType) throws Exception {
-        //检查是否满足上传条件 TODO 上传数量、businessType是否存在
+    @PostMapping(value = "/{relationId}/{belongsTo}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StatefulBody upload(MultipartFile file, @PathVariable String relationId, @PathVariable String belongsTo) throws Exception {
+        //检查是否满足上传条件 TODO 上传数量、belongsTo是否存在
 
         List<Attachment> attachments = Lists.newArrayList();
 //        for (MultipartFile file:files) {
-            String key = keyGenerate(file,businessId,businessType);
+            String key = keyGenerate(file,relationId,belongsTo);
             OssFile ossFile=null;
             try {
                 ossFile = ossService.upload(file, key);
@@ -54,7 +54,7 @@ public class AttachmentUploadEndpoint {
             }
 
             //附件记录
-            Attachment attachment = Attachment.builder().businessType(businessType).businessId(businessId).name(ossFile.getOriginalName()).type(ossFile.getContentType()).url(ossFile.getUrl()).size(ossFile.getSize()).accessKey(ossFile.geteTag()).build();
+            Attachment attachment = Attachment.builder().belongsTo(belongsTo).relationId(relationId).name(ossFile.getOriginalName()).type(ossFile.getContentType()).url(ossFile.getUrl()).size(ossFile.getSize()).accessKey(ossFile.geteTag()).build();
             attachments.add(attachment);
 //        }
         return  SuccessResponseBody.builder().message("上传成功").payload(attachmentService.create(attachments)).build();
@@ -77,8 +77,8 @@ public class AttachmentUploadEndpoint {
         return String.format("%s", PathBuilder.uuidNameBuild(file.getOriginalFilename()));
     }
 
-    private String keyGenerate(MultipartFile file, String businessId, String businessType){
-        return String.format("%s/%s/%s",businessId,businessType, PathBuilder.uuidNameBuild(file.getOriginalFilename()));
+    private String keyGenerate(MultipartFile file, String relationId, String belongsTo){
+        return String.format("%s/%s/%s",relationId,belongsTo, PathBuilder.uuidNameBuild(file.getOriginalFilename()));
     }
 
 }

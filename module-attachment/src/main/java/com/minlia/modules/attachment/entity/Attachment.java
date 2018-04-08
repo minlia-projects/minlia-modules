@@ -1,7 +1,6 @@
 package com.minlia.modules.attachment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.*;
@@ -23,37 +22,31 @@ public class Attachment extends AbstractEntity {
     /**
      * 业务类型
      */
-    @JsonProperty
-    private String businessType;
+    private String belongsTo;
 
     /**
      * 业务ID
      */
-    @JsonProperty
-    private String businessId;
+    private String relationId;
 
     /**
      * 附件名称
      */
-    @JsonProperty
     private String name;
 
     /**
      * 附件类型
      */
-    @JsonProperty
     private String type;
 
     /**
      * 附件地址
      */
-    @JsonProperty
     private String url;
 
     /**
      * 附件大小
      */
-    @JsonProperty
     private Long size;
 
     /**

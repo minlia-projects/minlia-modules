@@ -21,13 +21,13 @@ public interface AttachmentMapper {
 
     void delete(Long id);
 
-    void deleteByBusinessIdAndBusinessType(String businessId, String businessType);
-
-    List<Attachment> queryByBusinessIdAndBusinessType(String businessId, String businessType);
+    void deleteByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
     Attachment queryById(Long id);
 
     Attachment queryByAccessKey(String accessKey);
+
+    List<Attachment> queryByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
     List<Attachment> queryList(AttachmentQueryRequestBody body);
 

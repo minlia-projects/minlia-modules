@@ -44,17 +44,17 @@ public interface AttachmentService {
 
     /**
      * 删除
-     * @param businessId
-     * @param businessType
+     * @param relationId
+     * @param belongsTo
      */
-    StatefulBody delete(String businessId, String businessType);
+    StatefulBody delete(String relationId, String belongsTo);
 
     /**
      * 通过令牌绑定业务ID
      * @param accessToken
-     * @param businessId
+     * @param relationId
      */
-    void bindByAccessKey(String accessToken, String businessId, String businessType);
+    void bindByAccessKey(String accessToken, String relationId, String belongsTo);
 
     /**
      * 读取
@@ -65,7 +65,7 @@ public interface AttachmentService {
 
     Attachment queryByAccessKey(String accessKey);
 
-    List<Attachment> queryAllByBusinessIdAndBusinessType(String businessId, String businessType);
+    List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
     /**
      * 返回所有

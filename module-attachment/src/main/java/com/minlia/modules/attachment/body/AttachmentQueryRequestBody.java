@@ -11,10 +11,10 @@ import lombok.Data;
 public class AttachmentQueryRequestBody implements QueryRequestBody {
 
     @ApiModelProperty(value = "业务类型编码", example = "account.identity.frontend")
-    private String businessType;
+    private String belongsTo;
 
     @ApiModelProperty(value = "业务ID", example = "123")
-    private String businessId;
+    private String relationId;
 
     @ApiModelProperty(value = "附件类型",example = "jpg")
     private String type;

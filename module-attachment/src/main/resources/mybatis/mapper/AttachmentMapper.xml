@@ -5,59 +5,102 @@
     <sql id="QUERY_CONTENT">
 		SELECT
 			id ,
-			code ,
-			label ,
-			value ,
-			notes ,
+			belongs_to ,
+			relation_id ,
+			name ,
+			type ,
+			url ,
+			size ,
+			access_key ,
 			create_date ,
 			create_by ,
 			last_modified_date ,
 			last_modified_by
-		FROM mdl_bible t
+		FROM minlia_attachment t
 	</sql>
 
     <sql id="QUERY_CONDITION">
-        WHERE 1=1
-        <if test="code != null">
-            AND code = #{code}
-        </if>
-        <if test="label != null">
-            AND label = #{label}
-        </if>
-        <if test="value != null">
-            AND value = #{value}
-        </if>
+        <where>
+            <if test="belongsTo != null">
+                AND belongs_to = #{belongsTo}
+            </if>
+            <if test="relationId != null">
+                AND relation_id = #{relationId}
+            </if>
+            <if test="accessKey != null">
+                AND access_key = #{accessKey}
+            </if>
+        </where>
     </sql>
 
-    <insert id="create">
-		INSERT INTO mdl_bible(
-			code ,
-			label ,
-			value ,
-			notes ,
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO minlia_attachment(
+			belongs_to ,
+			relation_id ,
+			name ,
+			type ,
+			url ,
+			size ,
+			access_key ,
 			create_by
 		)
 		VALUES
 		(
-			#{code} ,
-			#{label} ,
-			#{value} ,
-			#{notes} ,
+			#{belongsTo} ,
+			#{relationId} ,
+			#{name} ,
+			#{type} ,
+			#{url} ,
+			#{size} ,
+			#{accessKey} ,
 			#{createBy}
 		)
 	</insert>
 
+    <insert id="createBatch">
+        INSERT INTO minlia_attachment(
+            belongs_to ,
+            relation_id ,
+            name ,
+            type ,
+            url ,
+            size ,
+            access_key ,
+            create_date ,
+            create_by
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.belongsTo} ,
+            #{item.relationId} ,
+            #{item.name} ,
+            #{item.type} ,
+            #{item.url} ,
+            #{item.size} ,
+            #{item.accessKey} ,
+            #{item.createBy}
+            )
+        </foreach>
+    </insert>
+
     <update id="update" parameterType="com.minlia.modules.attachment.entity.Attachment">
-        UPDATE mdl_bible
+        UPDATE minlia_attachment
         <set>
-            <if test="label != null">
-                label = #{label},
+            <if test="name != null">
+                name = #{name},
             </if>
-            <if test="value != null">
-                value = #{value},
+            <if test="type != null">
+                type = #{type},
             </if>
-            <if test="notes != null">
-                notes = #{notes},
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="accessKey != null">
+                access_key = #{accessKey},
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
             last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
@@ -66,7 +109,11 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM mdl_bible WHERE id = #{id}
+		DELETE FROM minlia_attachment WHERE id = #{id}
+	</delete>
+
+    <delete id="deleteByRelationIdAndBelongsTo">
+		DELETE FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
 	</delete>
 
     <select id="queryById" resultType="com.minlia.modules.attachment.entity.Attachment">
@@ -74,14 +121,14 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="queryByCode" resultType="com.minlia.modules.attachment.entity.Attachment">
+    <select id="queryByAccessKey" resultType="com.minlia.modules.attachment.entity.Attachment">
         <include refid="QUERY_CONTENT"/>
-        WHERE code = #{code,jdbcType=VARCHAR}
+        WHERE access_key = #{accessKey,jdbcType=VARCHAR}
     </select>
 
-    <select id="queryOne" resultType="com.minlia.modules.attachment.entity.Attachment">
+    <select id="queryByRelationIdAndBelongsTo" resultType="com.minlia.modules.attachment.entity.Attachment">
         <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
+        WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
     </select>
 
     <select id="queryList" resultType="com.minlia.modules.attachment.entity.Attachment">

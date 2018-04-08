@@ -35,11 +35,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     @Transactional
     public List<Attachment> create(AttachmentCreateRequestBody requestBody) {
-        attachmentMapper.deleteByBusinessIdAndBusinessType(requestBody.getBusinessId(),requestBody.getBusinessType());
+        attachmentMapper.deleteByRelationIdAndBelongsTo(requestBody.getRelationId(),requestBody.getBelongsTo());
 
         List<Attachment> attachments = Lists.newArrayList();
         for (AttachmentData data : requestBody.getData()) {
-            Attachment attachment = Attachment.builder().businessId(requestBody.getBusinessId()).businessType(requestBody.getBusinessType()).url(data.getUrl()).accessKey(data.getKey()).build();
+            Attachment attachment = Attachment.builder().relationId(requestBody.getRelationId()).belongsTo(requestBody.getBelongsTo()).url(data.getUrl()).accessKey(data.getKey()).build();
             attachmentMapper.create(attachment);
             attachments.add(attachment);
         }
@@ -55,10 +55,10 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public void bindByAccessKey(String accessKey,String businessId, String businessType) {
+    public void bindByAccessKey(String accessKey,String relationId, String belongsTo) {
         Attachment attachment = attachmentMapper.queryByAccessKey(accessKey);
-        attachment.setBusinessId(businessId);
-        attachment.setBusinessType(businessType);
+        attachment.setRelationId(relationId);
+        attachment.setBelongsTo(belongsTo);
         attachmentMapper.update(attachment);
     }
 
@@ -71,8 +71,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public StatefulBody delete(String businessId, String businessType) {
-        attachmentMapper.deleteByBusinessIdAndBusinessType(businessId,businessType);
+    public StatefulBody delete(String relationId, String belongsTo) {
+        attachmentMapper.deleteByRelationIdAndBelongsTo(relationId,belongsTo);
         return SuccessResponseBody.builder().build();
     }
 
@@ -87,8 +87,8 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public List<Attachment> queryAllByBusinessIdAndBusinessType(String businessId, String businessType) {
-        return attachmentMapper.queryByBusinessIdAndBusinessType(businessId,businessType);
+    public List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo) {
+        return attachmentMapper.queryByRelationIdAndBelongsTo(relationId,belongsTo);
     }
 
     @Override

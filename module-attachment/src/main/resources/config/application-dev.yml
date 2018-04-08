@@ -1,5 +1,5 @@
 server:
-  port: 7001
+  port: 7002
 
 system:
     appId: bibleapp
@@ -54,7 +54,6 @@ swagger:
     redirect: true
 
 mybatis:
-#  mapper-locations: classpath:com/minlia/module/bible/mapper/*.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
 #  config-location: classpath:mybatis/mybatis-config.xml
 

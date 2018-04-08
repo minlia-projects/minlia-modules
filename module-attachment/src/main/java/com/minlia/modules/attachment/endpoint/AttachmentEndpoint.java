@@ -9,7 +9,6 @@ import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.service.AttachmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,9 +64,9 @@ public class AttachmentEndpoint {
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "业务查询", notes = "业务查询", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "fbb/{businessId}/{businessType}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody queryAllByBusinessIdAndBusinessType(@PathVariable String businessId, @PathVariable String businessType) {
-        return SuccessResponseBody.builder().payload(attachmentService.queryAllByBusinessIdAndBusinessType(businessId,businessType)).build();
+    @RequestMapping(value = "fbb/{relationId}/{belongsTo}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody queryAllByRelationIdAndBelongsTo(@PathVariable String relationId, @PathVariable String belongsTo) {
+        return SuccessResponseBody.builder().payload(attachmentService.queryAllByRelationIdAndBelongsTo(relationId,belongsTo)).build();
     }
 
 }
