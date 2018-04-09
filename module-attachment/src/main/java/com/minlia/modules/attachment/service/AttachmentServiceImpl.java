@@ -39,7 +39,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
         List<Attachment> attachments = Lists.newArrayList();
         for (AttachmentData data : requestBody.getData()) {
-            Attachment attachment = Attachment.builder().relationId(requestBody.getRelationId()).belongsTo(requestBody.getBelongsTo()).url(data.getUrl()).accessKey(data.getKey()).build();
+            Attachment attachment = Attachment.builder().relationId(requestBody.getRelationId()).belongsTo(requestBody.getBelongsTo()).url(data.getUrl()).accessKey(data.getAccessKey()).build();
             attachmentMapper.create(attachment);
             attachments.add(attachment);
         }
@@ -55,8 +55,8 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public void bindByAccessKey(String accessKey,String relationId, String belongsTo) {
-        Attachment attachment = attachmentMapper.queryByAccessKey(accessKey);
+    public void bindByAccessKey(String accessKey, String relationId, String belongsTo) {
+        Attachment attachment = attachmentMapper.queryByKey(accessKey);
         attachment.setRelationId(relationId);
         attachment.setBelongsTo(belongsTo);
         attachmentMapper.update(attachment);
@@ -82,8 +82,8 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public Attachment queryByAccessKey(String accessKey) {
-        return attachmentMapper.queryByAccessKey(accessKey);
+    public Attachment queryByKey(String key) {
+        return attachmentMapper.queryByKey(key);
     }
 
     @Override

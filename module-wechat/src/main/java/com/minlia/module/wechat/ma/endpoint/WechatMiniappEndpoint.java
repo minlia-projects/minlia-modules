@@ -37,8 +37,7 @@ public class WechatMiniappEndpoint {
     @ApiOperation(value = "更新微信用户详情", notes = "更新微信用户详情", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "userinfo", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody updateUserDetail(@Valid @RequestBody MiniappUserDetailRequestBody body) {
-        wechatUserDetailService.updateUserDetail(body);
-        return SuccessResponseBody.builder().message("OK").build();
+        return SuccessResponseBody.builder().payload(wechatUserDetailService.updateUserDetail(body)).build();
     }
 
     @ApiOperation(value = "显示微信用户详情", notes = "显示微信用户详情", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)

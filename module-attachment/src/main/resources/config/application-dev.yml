@@ -59,7 +59,7 @@ mybatis:
 
 aliyun:
     oss:
-        key: LTAI7w8hY3vG8RNb
+        accessKey: LTAI7w8hY3vG8RNb
         secret: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
         bucket: mini-q
         endpoint: oss-cn-shenzhen.aliyuncs.com

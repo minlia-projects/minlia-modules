@@ -25,7 +25,7 @@ public interface AttachmentMapper {
 
     Attachment queryById(Long id);
 
-    Attachment queryByAccessKey(String accessKey);
+    Attachment queryByKey(String key);
 
     List<Attachment> queryByRelationIdAndBelongsTo(String relationId, String belongsTo);
 

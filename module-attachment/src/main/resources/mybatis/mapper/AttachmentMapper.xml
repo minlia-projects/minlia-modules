@@ -66,7 +66,6 @@
             url ,
             size ,
             access_key ,
-            create_date ,
             create_by
         )
         VALUES

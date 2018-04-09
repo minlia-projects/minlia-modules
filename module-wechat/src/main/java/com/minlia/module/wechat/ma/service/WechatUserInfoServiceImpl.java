@@ -40,7 +40,7 @@ public class WechatUserInfoServiceImpl implements WechatUserInfoService {
     private WechatOpenAccountService wechatOpenAccountService;
 
     @Override
-    public StatefulBody updateUserDetail(MiniappUserDetailRequestBody body) {
+    public WechatUserInfo updateUserDetail(MiniappUserDetailRequestBody body) {
         WechatSession session = wechatMiniappService.getSessionInfo(body.getType(),body.getCode());
 
         WechatUserInfo wechatUserDetail = wechatSessionRemoteApi.decryptUserInfo(body.getEncryptedData(), body.getIv(), session.getSessionKey());
@@ -59,11 +59,11 @@ public class WechatUserInfoServiceImpl implements WechatUserInfoService {
         }
 
         //保存用户详情
-        WechatUserInfo wechatUserDetailOrigin = wechatUserDetailMapper.queryByGuid(user.getGuid());
-        if (null == wechatUserDetailOrigin) {
-            wechatUserDetailOrigin = mapper.map(wechatUserDetail,WechatUserInfo.class);
-            wechatUserDetailOrigin.setGuid(user.getGuid());
-            wechatUserDetailMapper.create(wechatUserDetailOrigin);
+        WechatUserInfo wechatUserInfo = wechatUserDetailMapper.queryByGuid(user.getGuid());
+        if (null == wechatUserInfo) {
+            wechatUserInfo = mapper.map(wechatUserDetail,WechatUserInfo.class);
+            wechatUserInfo.setGuid(user.getGuid());
+            wechatUserDetailMapper.create(wechatUserInfo);
         } else {
 //            wechatUserDetailOrigin.setOpenId(wechatUserDetail.getOpenId());
 //            wechatUserDetailOrigin.setNickName(wechatUserDetail.getNickName());
@@ -72,14 +72,14 @@ public class WechatUserInfoServiceImpl implements WechatUserInfoService {
 //            wechatUserDetailOrigin.setCity(wechatUserDetail.getCity());
 //            wechatUserDetailOrigin.setCountry(wechatUserDetail.getCountry());
 //            wechatUserDetailOrigin.setAvatarUrl(wechatUserDetail.getAvatarUrl());
-            mapper.map(wechatUserDetail,wechatUserDetailOrigin);
-            wechatUserDetailMapper.update(wechatUserDetailOrigin);
+            mapper.map(wechatUserDetail,wechatUserInfo);
+            wechatUserDetailMapper.update(wechatUserInfo);
         }
 
         //发布更新微信用户详情事件 TODO
-        WechatDetailUpdatedEvent.onUpdated(new WechatDetailUpdatedEvent(wechatUserDetailOrigin));
+        WechatDetailUpdatedEvent.onUpdated(new WechatDetailUpdatedEvent(wechatUserInfo));
 
-        return SuccessResponseBody.builder().message("OK").build();
+        return wechatUserInfo;
     }
 
     @Override

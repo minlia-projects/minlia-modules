@@ -1,6 +1,5 @@
 package com.minlia.module.wechat.ma.service;
 
-import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
 import com.minlia.module.wechat.ma.entity.WechatUserInfo;
 
@@ -11,7 +10,7 @@ import com.minlia.module.wechat.ma.entity.WechatUserInfo;
  */
 public interface WechatUserInfoService {
 
-    StatefulBody updateUserDetail(MiniappUserDetailRequestBody body);
+    WechatUserInfo updateUserDetail(MiniappUserDetailRequestBody body);
 
     WechatUserInfo showUserDetail();
 

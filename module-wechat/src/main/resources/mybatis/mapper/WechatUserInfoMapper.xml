@@ -37,7 +37,7 @@
 			province ,
 			country ,
 			avatar_url ,
-			create_by ,
+			create_by
 		)
 		VALUES
         (
@@ -46,11 +46,11 @@
             #{openId,jdbcType=VARCHAR},
             #{nickName,jdbcType=VARCHAR},
             #{gender,jdbcType=VARCHAR},
-            #{city,jdbcType=TINYINT}
+            #{city,jdbcType=TINYINT},
             #{province,jdbcType=VARCHAR},
             #{country,jdbcType=VARCHAR},
             #{avatarUrl,jdbcType=VARCHAR},
-            #{createBy,jdbcType=VARCHAR},
+            #{createBy,jdbcType=VARCHAR}
         )
 	</insert>
 
@@ -58,31 +58,31 @@
         UPDATE minlia_wechat_user_info
         <set>
             <if test="guid != null">
-                AND guid = #{guid,jdbcType=VARCHAR} ,
+                guid = #{guid,jdbcType=VARCHAR} ,
             </if>
             <if test="unionId != null">
-                AND union_id = #{unionId,jdbcType=VARCHAR} ,
+                union_id = #{unionId,jdbcType=VARCHAR} ,
             </if>
             <if test="openId != null">
-                AND open_id = #{openId,jdbcType=VARCHAR} ,
+                open_id = #{openId,jdbcType=VARCHAR} ,
             </if>
             <if test="nickName != null">
-                AND nick_name = #{nickName,jdbcType=VARCHAR} ,
+                nick_name = #{nickName,jdbcType=VARCHAR} ,
             </if>
             <if test="gender != null">
-                AND gender = #{gender,jdbcType=VARCHAR} ,
+                gender = #{gender,jdbcType=VARCHAR} ,
             </if>
             <if test="city != null">
-                AND city = #{city,jdbcType=TINYINT} ,
+                city = #{city,jdbcType=TINYINT} ,
             </if>
             <if test="province != null">
-                AND province = #{province,jdbcType=VARCHAR} ,
+                province = #{province,jdbcType=VARCHAR} ,
             </if>
             <if test="country != null">
-                AND country = #{country,jdbcType=VARCHAR} ,
+                country = #{country,jdbcType=VARCHAR} ,
             </if>
             <if test="avatarUrl != null">
-                AND avatar_url = #{avatarUrl,jdbcType=VARCHAR} ,
+                avatar_url = #{avatarUrl,jdbcType=VARCHAR} ,
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
             last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}

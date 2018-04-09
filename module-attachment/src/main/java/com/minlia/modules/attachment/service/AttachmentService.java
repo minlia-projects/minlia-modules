@@ -51,10 +51,10 @@ public interface AttachmentService {
 
     /**
      * 通过令牌绑定业务ID
-     * @param accessToken
+     * @param accessKey
      * @param relationId
      */
-    void bindByAccessKey(String accessToken, String relationId, String belongsTo);
+    void bindByAccessKey(String accessKey, String relationId, String belongsTo);
 
     /**
      * 读取
@@ -63,7 +63,7 @@ public interface AttachmentService {
      */
     Attachment queryById(Long id);
 
-    Attachment queryByAccessKey(String accessKey);
+    Attachment queryByKey(String key);
 
     List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo);
 

@@ -15,7 +15,7 @@ public class AttachmentData {
 
     @ApiModelProperty(value = "访问令牌", example = "234ehdskjds-sdfas-dfds-fds-fa-sdfs-sdfas-d")
     @NotNull
-    private String key;
+    private String accessKey;
 
     public String getUrl() {
         return url;
@@ -25,11 +25,11 @@ public class AttachmentData {
         this.url = url;
     }
 
-    public String getKey() {
-        return key;
+    public String getAccessKey() {
+        return accessKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
     }
 }
