@@ -99,11 +99,7 @@ public class BibleItemEndpoint {
     @ApiOperation(value = "根据BODY查询分页", notes = "查询分页", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryPage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryPage(@PageableDefault Pageable pageable, @RequestBody BibleItemQueryRequestBody body) {
-        PageHelper.startPage(pageable.getOffset(),pageable.getPageSize());
-        List<BibleItem> bibleItems = bibleItemService.queryList(body);
-        PageInfo<BibleItem> page = new PageInfo<>(bibleItems);
-        return SuccessResponseBody.builder().payload(page).build();
-//        return SuccessResponseBody.builder().payload(bibleItemService.queryPage(body, new RowBounds(pageable.getOffset(),pageable.getPageSize()))).build();
+        return SuccessResponseBody.builder().payload(bibleItemService.queryPage(body,pageable)).build();
     }
 
 }

@@ -1,7 +1,6 @@
 package com.minlia.module.map.gad.body;
 
 import com.minlia.module.data.body.QueryRequestBody;
-import com.minlia.module.map.gad.enumeration.DistrictLevel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

@@ -6,7 +6,7 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
-import com.minlia.module.map.gad.domain.GadDistrict;
+import com.minlia.module.map.gad.entity.GadDistrict;
 import com.minlia.module.map.gad.enumeration.DistrictLevel;
 import com.minlia.module.map.gad.service.GadDistrictService;
 import io.swagger.annotations.Api;

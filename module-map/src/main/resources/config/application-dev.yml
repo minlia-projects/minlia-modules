@@ -1,15 +1,15 @@
 server:
-  port: 10001
+  port: 10006
 
 system:
-    appId: rebecca-app
+    appId: map-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: Rebecca
+        name: Maps
     http:
         encoding.charset: UTF-8
         encoding.enable: true
@@ -44,22 +44,21 @@ spring:
 
     redis:
         database: 0
-        host: 39.108.168.147
+        host: 120.78.180.85
         port: 6379
-        password: moffvape2017
+        password: Apartscloud2017
         pool:
-            max-active: 300
+            max-active: 500
             max-wait: 1000
             max-idle: 100
-            min-idle: 8
+            min-idle: 50
         timeout: 0
 
 system.security.jwt:
-#  tokenExpirationTime: 15 # Number of minutes
-  tokenExpirationTime: 604800 # Number of minutes
-  refreshTokenExpTime: 604800 # Minutes
-  tokenIssuer: http://minlia.com
-  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+    tokenExpirationTime: 604800 # Number of minutes
+    refreshTokenExpTime: 604800 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
 swagger:
     title: ${spring.application.name}接口
@@ -70,18 +69,19 @@ swagger:
     redirect: true
 
 mybatis:
-#  mapper-locations: classpath:com/minlia/module/bible/mapper/*.xml
-  mapper-locations: classpath*:mybatis/mapper/*.xml
-#  config-location: classpath:mybatis/mybatis-config.xml
+#    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath*:mybatis/mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
 
 # 分页配置
 pagehelper:
-  helper-dialect: mysql
-  reasonable: true
-  support-methods-arguments: true
-  params: count=countSql
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
 
 sms:
-  templates:
-    security_code: XXXX
+    templates:
+        security_code: SMS_95635445
 

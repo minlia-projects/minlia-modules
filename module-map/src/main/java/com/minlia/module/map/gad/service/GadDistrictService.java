@@ -2,9 +2,7 @@ package com.minlia.module.map.gad.service;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
-import com.minlia.module.map.gad.domain.GadDistrict;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.minlia.module.map.gad.entity.GadDistrict;
 
 import java.util.List;
 
@@ -32,9 +30,9 @@ public interface GadDistrictService {
      */
     long count(GadDistrictQueryRequestBody body);
 
-    GadDistrict queryOne(Long id);
+    GadDistrict queryById(Long id);
 
-    GadDistrict queryOneAndNotNull(Long id);
+    GadDistrict queryIdAndNotNull(Long id);
 
     List<GadDistrict> queryList(GadDistrictQueryRequestBody requestBody);
 

@@ -6,7 +6,7 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.map.common.constant.DistrictApiCode;
 import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
 import com.minlia.module.map.gad.constants.GadConstants;
-import com.minlia.module.map.gad.domain.GadDistrict;
+import com.minlia.module.map.gad.entity.GadDistrict;
 import com.minlia.module.map.gad.mapper.GadDistrictMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,6 @@ public class GadDistrictServiceImpl implements GadDistrictService {
         }
         return SuccessResponseBody.builder().code(1).message("初始化完成").build();
     }
-
 
     /**
      * 根据父级保存子级下的行政区域
@@ -93,13 +92,13 @@ public class GadDistrictServiceImpl implements GadDistrictService {
     }
 
     @Override
-    public GadDistrict queryOne(Long id) {
-        return gadDistrictMapper.queryOne(id);
+    public GadDistrict queryById(Long id) {
+        return gadDistrictMapper.queryById(id);
     }
 
     @Override
-    public GadDistrict queryOneAndNotNull(Long id) {
-        GadDistrict district = gadDistrictMapper.queryOne(id);
+    public GadDistrict queryIdAndNotNull(Long id) {
+        GadDistrict district = gadDistrictMapper.queryById(id);
         ApiPreconditions.is(null == district, DistrictApiCode.NOT_EXISTS,"区域不存在");
         return district;
     }

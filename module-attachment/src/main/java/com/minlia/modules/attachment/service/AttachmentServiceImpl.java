@@ -87,6 +87,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
+    public String queryUrls(String relationId, String belongsTo) {
+        return attachmentMapper.queryUrls(relationId,belongsTo);
+    }
+
+    @Override
     public List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo) {
         return attachmentMapper.queryByRelationIdAndBelongsTo(relationId,belongsTo);
     }

@@ -5,7 +5,7 @@
     <sql id="QUERY_CONTENT">
 		SELECT
 			bit.id ,
-			bit.parent_code AS parentCode ,
+			bit.parent_code ,
 			bit.code ,
 			bit.value,
 			bit.notes ,
@@ -27,7 +27,7 @@
         </if>
         <where>
             <if test="parentCode != null">
-                AND bt.code = #{parentCode}
+                AND bit.parent_code = #{parentCode}
             </if>
             <if test="code != null">
                 AND bit.code = #{code}
