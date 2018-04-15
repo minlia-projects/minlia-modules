@@ -10,6 +10,7 @@ import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
 import com.minlia.modules.attachment.body.AttachmentData;
 import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
+import com.minlia.modules.attachment.event.AttachmentEvent;
 import com.minlia.modules.attachment.mapper.AttachmentMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,8 @@ public class AttachmentServiceImpl implements AttachmentService {
             attachmentMapper.create(attachment);
             attachments.add(attachment);
         }
+
+        AttachmentEvent.onUpload(attachments.get(0));
         return attachments;
     }
 
@@ -50,6 +53,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Transactional
     public Attachment update(Attachment attachment) {
         attachmentMapper.update(attachment);
+        AttachmentEvent.onUpload(attachment);
         return attachment;
     }
 
