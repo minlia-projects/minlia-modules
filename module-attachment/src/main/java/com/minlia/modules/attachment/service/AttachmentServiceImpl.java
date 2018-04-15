@@ -92,6 +92,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
+    public String queryFirstUrl(String relationId, String belongsTo) {
+        return attachmentMapper.queryFirstUrl(relationId,belongsTo);
+    }
+
+    @Override
     public List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo) {
         return attachmentMapper.queryByRelationIdAndBelongsTo(relationId,belongsTo);
     }

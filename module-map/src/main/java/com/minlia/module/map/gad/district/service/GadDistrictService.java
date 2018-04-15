@@ -1,8 +1,8 @@
-package com.minlia.module.map.gad.service;
+package com.minlia.module.map.gad.district.service;
 
 import com.minlia.cloud.body.StatefulBody;
-import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
-import com.minlia.module.map.gad.entity.GadDistrict;
+import com.minlia.module.map.gad.district.body.GadDistrictQueryRequestBody;
+import com.minlia.module.map.gad.district.entity.GadDistrict;
 
 import java.util.List;
 

@@ -67,6 +67,8 @@ public interface AttachmentService {
 
     String queryUrls(String relationId, String belongsTo);
 
+    String queryFirstUrl(String relationId, String belongsTo);
+
     List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
     /**

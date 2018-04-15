@@ -126,8 +126,11 @@
     </select>
 
     <select id="queryUrls" resultType="java.lang.String">
-        SELECT GROUP_CONCAT(url) FROM minlia_attachment
-        WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+        SELECT GROUP_CONCAT(url) FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+    </select>
+
+    <select id="queryFirstUrl" resultType="java.lang.String">
+        SELECT url FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1} LIMIT 0 , 1
     </select>
 
     <select id="queryByRelationIdAndBelongsTo" resultType="com.minlia.modules.attachment.entity.Attachment">

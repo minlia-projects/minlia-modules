@@ -14,6 +14,8 @@ public interface GadYuntuService {
 
     GadYuntuResponseBody updateData(JsonObject json);
 
+    GadYuntuDeleteResponseBody deleteData(String ids);
+
     /**
      * 本地检索
      * @param body

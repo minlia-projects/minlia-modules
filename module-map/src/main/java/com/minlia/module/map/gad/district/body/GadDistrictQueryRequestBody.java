@@ -1,4 +1,4 @@
-package com.minlia.module.map.gad.body;
+package com.minlia.module.map.gad.district.body;
 
 import com.minlia.module.data.body.QueryRequestBody;
 import io.swagger.annotations.ApiModel;

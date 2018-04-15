@@ -32,4 +32,6 @@ public interface AttachmentMapper {
     List<Attachment> queryList(AttachmentQueryRequestBody body);
 
     String queryUrls(String relationId, String belongsTo);
+
+    String queryFirstUrl(String relationId, String belongsTo);
 }

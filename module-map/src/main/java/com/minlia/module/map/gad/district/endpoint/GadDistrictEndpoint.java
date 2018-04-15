@@ -1,14 +1,14 @@
-package com.minlia.module.map.gad.endpoint;
+package com.minlia.module.map.gad.district.endpoint;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
-import com.minlia.module.map.gad.entity.GadDistrict;
-import com.minlia.module.map.gad.enumeration.DistrictLevel;
-import com.minlia.module.map.gad.service.GadDistrictService;
+import com.minlia.module.map.gad.district.body.GadDistrictQueryRequestBody;
+import com.minlia.module.map.gad.district.entity.GadDistrict;
+import com.minlia.module.map.gad.district.enumeration.DistrictLevel;
+import com.minlia.module.map.gad.district.service.GadDistrictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

@@ -34,7 +34,7 @@ public class GadYuntuServiceImpl implements GadYuntuService{
     public static String create_data_batch_url = "http://yuntuapi.amap.com/datamanage/data/batchcreate";
     //更新数据请求地址（单条）
     public static String update_data_url = "http://yuntuapi.amap.com/datamanage/data/update";
-    //删除数据请求地址（单条/批量）
+    //删除数据请求地址（单条/批量）一次请求限制1-50条数据，多个_id用逗号隔开
     public static String delete_data_url = "http://yuntuapi.amap.com/datamanage/data/delete";
 
     //本地检索请求地址
@@ -98,12 +98,33 @@ public class GadYuntuServiceImpl implements GadYuntuService{
     }
 
     @Override
+    public GadYuntuDeleteResponseBody deleteData(String ids) {
+        ApiPreconditions.is(StringUtils.isEmpty(yuntuConfig.getWebApiKey()), ApiCode.NOT_FOUND,"高德地图 web api key 未配置");
+        ApiPreconditions.is(StringUtils.isEmpty(yuntuConfig.getTableId()), ApiCode.NOT_FOUND,"高德云图 table id 未配置");
+
+        GadYuntuDeleteRequestBody body = new GadYuntuDeleteRequestBody();
+        body.setKey(yuntuConfig.getWebApiKey());
+        body.setTableid(yuntuConfig.getTableId());
+        body.setIds(ids);
+        body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
+
+        MultiValueMap<String, Object> map = GadUtils.beanToMap(body,new LinkedMultiValueMap<String, Object>());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(map ,headers);
+        ResponseEntity<GadYuntuDeleteResponseBody> responseEntity = restTemplate.postForEntity(delete_data_url,entity,GadYuntuDeleteResponseBody.class);
+        return responseEntity.getBody();
+    }
+
+    @Override
     public GadYuntuSearchResponseBody searchLocal(GadYuntuSearchLocalRequestBody body) {
         if (null == body.getSortrule()) {
             body.setSortrule("name:0");
         }
         return request(body,data_search_local_url);
     }
+
+
 
     @Override
     public GadYuntuSearchResponseBody searchAround(GadYuntuSearchAroundRequestBody body) {

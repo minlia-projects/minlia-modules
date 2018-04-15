@@ -1,13 +1,13 @@
-package com.minlia.module.map.gad.service;
+package com.minlia.module.map.gad.district.service;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.map.common.constant.DistrictApiCode;
-import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
+import com.minlia.module.map.gad.district.body.GadDistrictQueryRequestBody;
 import com.minlia.module.map.gad.constants.GadConstants;
-import com.minlia.module.map.gad.entity.GadDistrict;
-import com.minlia.module.map.gad.mapper.GadDistrictMapper;
+import com.minlia.module.map.gad.district.entity.GadDistrict;
+import com.minlia.module.map.gad.district.mapper.GadDistrictMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

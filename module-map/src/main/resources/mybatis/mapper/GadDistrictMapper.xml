@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.minlia.module.map.gad.mapper.GadDistrictMapper">
+<mapper namespace="com.minlia.module.map.gad.district.mapper.GadDistrictMapper">
 
     <sql id="QUERY_CONTENT">
 		SELECT
@@ -72,7 +72,7 @@
 		)
 	</insert>
 
-    <update id="update" parameterType="com.minlia.module.map.gad.entity.GadDistrict">
+    <update id="update" parameterType="com.minlia.module.map.gad.district.entity.GadDistrict">
         UPDATE minlia_gad_district
         <set>
             <if test="adcode != null">
@@ -106,27 +106,27 @@
 		DELETE FROM minlia_gad_district WHERE id = #{id}
 	</delete>
 
-    <select id="queryById" resultType="com.minlia.module.map.gad.entity.GadDistrict">
+    <select id="queryById" resultType="com.minlia.module.map.gad.district.entity.GadDistrict">
         <include refid="QUERY_CONTENT"/>
         WHERE id = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="queryByAdCode" resultType="com.minlia.module.map.gad.entity.GadDistrict">
+    <select id="queryByAdCode" resultType="com.minlia.module.map.gad.district.entity.GadDistrict">
         <include refid="QUERY_CONTENT"/>
         WHERE code = #{code,jdbcType=VARCHAR}
     </select>
 
-    <select id="queryOne" resultType="com.minlia.module.map.gad.entity.GadDistrict">
+    <select id="queryOne" resultType="com.minlia.module.map.gad.district.entity.GadDistrict">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.map.gad.entity.GadDistrict">
+    <select id="queryList" resultType="com.minlia.module.map.gad.district.entity.GadDistrict">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryAll" resultType="com.minlia.module.map.gad.entity.GadDistrict">
+    <select id="queryAll" resultType="com.minlia.module.map.gad.district.entity.GadDistrict">
         <include refid="QUERY_CONTENT"/>
     </select>
 

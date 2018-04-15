@@ -1,4 +1,4 @@
-package com.minlia.module.map.gad.enumeration;
+package com.minlia.module.map.gad.district.enumeration;
 
 /**
  * Created by garen on 2017/12/23.

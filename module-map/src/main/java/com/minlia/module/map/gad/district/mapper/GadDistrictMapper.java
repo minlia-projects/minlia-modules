@@ -1,7 +1,7 @@
-package com.minlia.module.map.gad.mapper;
+package com.minlia.module.map.gad.district.mapper;
 
-import com.minlia.module.map.gad.body.GadDistrictQueryRequestBody;
-import com.minlia.module.map.gad.entity.GadDistrict;
+import com.minlia.module.map.gad.district.body.GadDistrictQueryRequestBody;
+import com.minlia.module.map.gad.district.entity.GadDistrict;
 
 import java.util.List;
 
