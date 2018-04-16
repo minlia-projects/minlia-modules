@@ -88,7 +88,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
         //当生产环境时发送验证码, 否则不需要
         //TODO: SMS模板建好后需要修改此处的jsonArguments中的内容
-        if(Environments.isProduction()){
+        if(!Environments.isDevelopment()){
             boolean bool = ContextHolder.getContext().getBean(AliyunSmsSendService.class).send(cellphone, smsTemplateId, "{\"code\":\"" + captcha.getCode() + "\"}");
             log.info("短信模板消息：————————————————————————————————————————————smsTemplateId:"+smsTemplateId);
             ApiPreconditions.not(bool,1,"短信发送失败");
