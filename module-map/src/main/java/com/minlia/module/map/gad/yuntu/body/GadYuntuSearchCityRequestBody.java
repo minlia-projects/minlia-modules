@@ -1,16 +1,13 @@
 package com.minlia.module.map.gad.yuntu.body;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 本地检索请求体
  * Created by garen on 2017/12/27.
  */
 @Data
-public class GadYuntuSearchProvinceRequestBody extends GadYuntuAbstractRequestBody {
+public class GadYuntuSearchCityRequestBody extends GadYuntuAbstractRequestBody {
 
     /**
      * 搜索关键词,支持0-9数字，大小写字母（a-z,A-Z）以及所有中文字符
@@ -18,10 +15,12 @@ public class GadYuntuSearchProvinceRequestBody extends GadYuntuAbstractRequestBo
     private String keywords;
 
     /**
-     * 指定所需查询的国家名（目前仅支持中国)
-     * country = 中国
+     * 规则： 省中文名称；
+     * 说明：
+     * 1. province = 全国，返回含有数据的所有市名称以及对应数据量，并根据数据量从高到低排行；
+     * 2. province = 山东，返回沈阳含有数据的所有市名称以及对应数据量，并根据数据量从高到低排行；
      */
-    private String country;
+    private String province;
 
     /**
      * 过滤条件

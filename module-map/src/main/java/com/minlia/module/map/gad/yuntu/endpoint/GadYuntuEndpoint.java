@@ -3,10 +3,7 @@ package com.minlia.module.map.gad.yuntu.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.map.gad.yuntu.body.GadYuntuSearchAroundRequestBody;
-import com.minlia.module.map.gad.yuntu.body.GadYuntuSearchListRequestBody;
-import com.minlia.module.map.gad.yuntu.body.GadYuntuSearchLocalRequestBody;
-import com.minlia.module.map.gad.yuntu.body.GadYuntuSearchProvinceRequestBody;
+import com.minlia.module.map.gad.yuntu.body.*;
 import com.minlia.module.map.gad.yuntu.service.GadYuntuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,10 +65,22 @@ public class GadYuntuEndpoint {
         return SuccessResponseBody.builder().payload(yuntuService.searchList(body)).build();
     }
 
-    @ApiOperation(value = "数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "省数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "search/statistics/province", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody body) {
         return SuccessResponseBody.builder().payload(yuntuService.searchProvince(body)).build();
+    }
+
+    @ApiOperation(value = "市数据分布检索请求", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "search/statistics/city", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody city(@Valid @RequestBody GadYuntuSearchCityRequestBody body) {
+        return SuccessResponseBody.builder().payload(yuntuService.searchCity(body)).build();
+    }
+
+    @ApiOperation(value = "区县数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "search/statistics/district", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody district(@Valid @RequestBody GadYuntuSearchDistrictRequestBody body) {
+        return SuccessResponseBody.builder().payload(yuntuService.searchDistrict(body)).build();
     }
 
 }

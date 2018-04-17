@@ -47,6 +47,10 @@ public class GadYuntuServiceImpl implements GadYuntuService{
     public static String data_search_list_url = "http://yuntuapi.amap.com/datamanage/data/list";
     //省数据分布检索请求地址
     public static String data_search_province_url = "http://yuntuapi.amap.com/datasearch/statistics/province";
+    //市数据分布检索请求
+    public static String data_search_city_url = "http://yuntuapi.amap.com/datasearch/statistics/city";
+    //区县数据分布检索请求
+    public static String data_search_district_url = "http://yuntuapi.amap.com/datasearch/statistics/district";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -150,6 +154,22 @@ public class GadYuntuServiceImpl implements GadYuntuService{
             body.setKeywords(" ");
         }
         return request(body,data_search_province_url);
+    }
+
+    @Override
+    public GadYuntuSearchResponseBody searchCity(GadYuntuSearchCityRequestBody body) {
+        if (null == body.getKeywords()) {
+            body.setKeywords(" ");
+        }
+        return request(body,data_search_city_url);
+    }
+
+    @Override
+    public GadYuntuSearchResponseBody searchDistrict(GadYuntuSearchDistrictRequestBody body) {
+        if (null == body.getKeywords()) {
+            body.setKeywords(" ");
+        }
+        return request(body,data_search_district_url);
     }
 
     private GadYuntuResponseBody request(JsonObject json,String url){

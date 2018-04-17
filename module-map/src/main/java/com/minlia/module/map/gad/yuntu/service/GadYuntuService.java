@@ -51,4 +51,18 @@ public interface GadYuntuService {
      */
     GadYuntuSearchResponseBody searchProvince(GadYuntuSearchProvinceRequestBody body);
 
+    /**
+     * 市数据分布检索请求
+     * @param body
+     * @return
+     */
+    GadYuntuSearchResponseBody searchCity(GadYuntuSearchCityRequestBody body);
+
+    /**
+     * 区县数据分布检索
+     * @param body
+     * @return
+     */
+    GadYuntuSearchResponseBody searchDistrict(GadYuntuSearchDistrictRequestBody body);
+
 }
