@@ -22,10 +22,6 @@ public class GadAutoConfiguration {
         GadYuntuConfig yuntuConfig = new GadYuntuConfig();
         yuntuConfig.setWebApiKey(bibleItemService.get(GadBibleConstants.GAD, GadBibleConstants.WEB_API_KEY));
         yuntuConfig.setTableId(bibleItemService.get(GadBibleConstants.GAD, GadBibleConstants.YUNTU_TABLE_ID));
-
-        //TODO
-        yuntuConfig.setWebApiKey("fa0889a5259072ff43a169e8c87cc560");
-        yuntuConfig.setTableId("5a40c087305a2a284bfdb63f");
         return yuntuConfig;
     }
 
