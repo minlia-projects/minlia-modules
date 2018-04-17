@@ -68,8 +68,8 @@ public class GadYuntuEndpoint {
         return SuccessResponseBody.builder().payload(yuntuService.searchList(body)).build();
     }
 
-    @ApiOperation(value = "search province", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "search/province", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "search/statistics/province", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody body) {
         return SuccessResponseBody.builder().payload(yuntuService.searchProvince(body)).build();
     }
