@@ -25,4 +25,6 @@ public interface TcAuthService {
 
     StatefulBody geth5faceid(TcFaceIdRequestBody requestBody);
 
+//    void passAuth(String orderNo);
+
 }

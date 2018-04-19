@@ -9,6 +9,7 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.modules.tencent.cloud.auth.bean.FaceAuth;
 import com.minlia.modules.tencent.cloud.auth.body.*;
 import com.minlia.modules.tencent.cloud.auth.config.TcAuthConfig;
+import com.minlia.modules.tencent.cloud.auth.entity.FaceIdRecord;
 import com.minlia.modules.tencent.cloud.auth.utils.SignUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +147,16 @@ public class TcAuthServiceImpl implements TcAuthService{
                 result.setVersion("1.0.0");
                 result.setNonce(UUID.randomUUID().toString());
                 result.setUserId(requestBody.getUserId());
+
+                //持久化 TODO
+                FaceIdRecord faceIdRecord = FaceIdRecord.builder()
+                        .orderNo(requestBody.getOrderNo())
+                        .name(requestBody.getName())
+                        .idNo(requestBody.getIdNo())
+                        .userId(requestBody.getUserId())
+                        .is_auth(false)
+                        .build();
+
                 return SuccessResponseBody.builder().payload(result).build();
             } else {
                 return FailureResponseBody.builder().code(Integer.valueOf(responseEntity.getBody().getCode())).message(responseEntity.getBody().getMsg()).build();
@@ -154,5 +165,10 @@ public class TcAuthServiceImpl implements TcAuthService{
             return  FailureResponseBody.builder().code(responseEntity.getStatusCode().value()).build();
         }
     }
+
+//    @Override
+//    public void passAuth(String orderNo) {
+//        FaceIdRecord faceIdRecord =
+//    }
 
 }
