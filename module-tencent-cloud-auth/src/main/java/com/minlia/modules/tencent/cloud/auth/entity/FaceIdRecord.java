@@ -1,5 +1,6 @@
 package com.minlia.modules.tencent.cloud.auth.entity;
 
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FaceIdRecord {
+public class FaceIdRecord extends AbstractEntity {
 
     /**
      * 订单号，由合作方上送，每次唯一，不能超过 32 位
@@ -37,6 +38,6 @@ public class FaceIdRecord {
     /**
      * 是否通过
      */
-    private Boolean is_auth;
+    private Boolean isAuth;
 
 }

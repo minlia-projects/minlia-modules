@@ -6,6 +6,7 @@ import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.tencent.cloud.auth.bean.FaceAuth;
 import com.minlia.modules.tencent.cloud.auth.body.*;
 import com.minlia.modules.tencent.cloud.auth.config.TcAuthConfig;
@@ -31,6 +32,9 @@ public class TcAuthServiceImpl implements TcAuthService{
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private FaceIdRecordService faceIdRecordService;
 
     private TcAuthConfig authConfig;
 
@@ -118,25 +122,30 @@ public class TcAuthServiceImpl implements TcAuthService{
 
     @Override
     public StatefulBody geth5faceid(TcFaceIdRequestBody requestBody) {
+        String userId = SecurityContextHolder.getCurrentGuid();
+        FaceIdRecord faceIdRecord = faceIdRecordService.queryOne(TcFaceIdRecordQueryRequestBody.builder().userId(userId).build());
+        ApiPreconditions.is(null != faceIdRecord && faceIdRecord.getIsAuth(),ApiCode.NOT_AUTHORIZED,"已认证");
+        String orderNo = System.currentTimeMillis()+"";
+
         FaceAuth faceAuth = FaceAuth.builder()
                 .webankAppId(this.authConfig.getAppid())
-                .orderNo(requestBody.getOrderNo())
+                .orderNo(orderNo)
                 .name(requestBody.getName())
                 .idNo(requestBody.getIdNo())
-                .userId(requestBody.getUserId())
+                .userId(userId)
                 .sourcePhotoType("1")
                 .version("1.0.0")
-                .sign(this.sign(requestBody.getOrderNo(),requestBody.getName(),requestBody.getIdNo(),requestBody.getUserId()))
+                .sign(this.sign(orderNo,requestBody.getName(),requestBody.getIdNo(),userId))
                 .build();
         ResponseEntity<TcFaceIdResponseBody> responseEntity = restTemplate.postForEntity("https://idasc.webank.com/api/server/h5/geth5faceid",faceAuth,TcFaceIdResponseBody.class);
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
             if (responseEntity.getBody().isSuccess()) {
                 TcFaceIdResult result = responseEntity.getBody().getResult();
-                //设置签名 TODO
+                //设置签名
                 List<String> values = Lists.newArrayList();
                 values.add(this.authConfig.getAppid());
-                values.add(requestBody.getOrderNo());
-                values.add(requestBody.getUserId());
+                values.add(orderNo);
+                values.add(userId);
                 values.add("1.0.0");
                 values.add(result.getH5faceId());
                 values.add(getApiTicket());
@@ -146,17 +155,19 @@ public class TcAuthServiceImpl implements TcAuthService{
                 result.setWebankAppId(this.authConfig.getAppid());
                 result.setVersion("1.0.0");
                 result.setNonce(UUID.randomUUID().toString());
-                result.setUserId(requestBody.getUserId());
+                result.setUserId(userId);
 
-                //持久化 TODO
-                FaceIdRecord faceIdRecord = FaceIdRecord.builder()
-                        .orderNo(requestBody.getOrderNo())
-                        .name(requestBody.getName())
-                        .idNo(requestBody.getIdNo())
-                        .userId(requestBody.getUserId())
-                        .is_auth(false)
-                        .build();
-
+                //持久化
+                if (null == faceIdRecord) {
+                    faceIdRecord = FaceIdRecord.builder()
+                            .orderNo(orderNo)
+                            .userId(userId)
+                            .name(requestBody.getName())
+                            .idNo(requestBody.getIdNo())
+                            .isAuth(false)
+                            .build();
+                    faceIdRecordService.create(faceIdRecord);
+                }
                 return SuccessResponseBody.builder().payload(result).build();
             } else {
                 return FailureResponseBody.builder().code(Integer.valueOf(responseEntity.getBody().getCode())).message(responseEntity.getBody().getMsg()).build();
@@ -165,10 +176,5 @@ public class TcAuthServiceImpl implements TcAuthService{
             return  FailureResponseBody.builder().code(responseEntity.getStatusCode().value()).build();
         }
     }
-
-//    @Override
-//    public void passAuth(String orderNo) {
-//        FaceIdRecord faceIdRecord =
-//    }
 
 }

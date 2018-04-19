@@ -9,12 +9,12 @@ import lombok.Data;
 @Data
 public class TcFaceIdRequestBody implements ApiRequestBody {
 
-    private String orderNo;
-
     private String name;
 
     private String idNo;
 
-    private String userId;
+//    private String orderNo;
+//
+//    private String userId;
 
 }

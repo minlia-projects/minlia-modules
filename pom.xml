@@ -31,6 +31,7 @@
         <module>module-country</module>
         <module>module-captcha</module>
         <module>module-richtext</module>
+        <module>module-tencent-cloud-auth</module>
         <!--<module>module-i18n</module>-->
 
         <module>module-map</module>
