@@ -84,7 +84,7 @@ public class TcAuthServiceImpl implements TcAuthService{
             }
             if(this.authConfig.isApiTicketExpired()) {
                 //如果失效重新获取
-                String url = String.format(this.authConfig.getApiTicketUrl(),authConfig.getAppid(),this.getAccessToken());
+                String url = String.format(this.authConfig.getApiTicketUrl(),authConfig.getAppid(),this.getAccessToken(),SecurityContextHolder.getCurrentGuid());
                 TcApiTicketResponseBody responseBody = restTemplate.getForObject(url, TcApiTicketResponseBody.class);
                 if (responseBody.isSuccess()) {
                     TcApiTickets tcApiTickets = responseBody.getTickets().get(0);
