@@ -145,6 +145,7 @@ public class TcAuthServiceImpl implements TcAuthService{
                 TcFaceIdResult result = responseEntity.getBody().getResult();
 
                 String nonce = UUID.randomUUID().toString();
+                nonce = nonce.replace("-","");
                 //设置签名
                 List<String> values = Lists.newArrayList();
                 values.add(this.authConfig.getAppid());
@@ -160,6 +161,7 @@ public class TcAuthServiceImpl implements TcAuthService{
                 result.setWebankAppId(this.authConfig.getAppid());
                 result.setVersion("1.0.0");
                 result.setNonce(nonce);
+                result.setResultType(null);
                 result.setUserId(userId);
 
                 //持久化

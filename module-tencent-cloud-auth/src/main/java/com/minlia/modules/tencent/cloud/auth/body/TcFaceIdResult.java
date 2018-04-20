@@ -8,15 +8,14 @@ import java.io.Serializable;
 public class TcFaceIdResult implements Serializable{
 
     private String bizSeqNo;
-
     private String orderNo;
-
     private String h5faceId;
 
     private String sign;
     private String appId;
     private String webankAppId;
     private String version;
+    private String resultType;
     private String nonce;
     private String userId;
 
@@ -91,4 +90,13 @@ public class TcFaceIdResult implements Serializable{
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public String getResultType() {
+        return resultType;
+    }
+
+    public void setResultType(String resultType) {
+        this.resultType = resultType;
+    }
+
 }
