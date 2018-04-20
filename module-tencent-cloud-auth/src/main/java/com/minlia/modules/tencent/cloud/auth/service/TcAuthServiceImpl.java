@@ -38,6 +38,8 @@ public class TcAuthServiceImpl implements TcAuthService{
 
     private TcAuthConfig authConfig;
 
+    private final String FACEID_APP_ID = "wx7ccfa42a2a641035";
+
     @Override
     public String getAccessToken() {
         return this.getAccessToken(false);
@@ -151,7 +153,8 @@ public class TcAuthServiceImpl implements TcAuthService{
                 values.add(getApiTicket());
                 values.add(UUID.randomUUID().toString());
                 result.setSign(SignUtils.sign(values));
-                result.setAppId(this.authConfig.getAppid());
+
+                result.setAppId(FACEID_APP_ID);
                 result.setWebankAppId(this.authConfig.getAppid());
                 result.setVersion("1.0.0");
                 result.setNonce(UUID.randomUUID().toString());
