@@ -6,7 +6,8 @@
 package com.minlia.modules.tencent.cloud.auth.config;
 
 import com.minlia.modules.tencent.cloud.auth.bean.TcAccessToken;
-import com.minlia.modules.tencent.cloud.auth.bean.TcApiTicket;
+import com.minlia.modules.tencent.cloud.auth.bean.TcApiNonceTicket;
+import com.minlia.modules.tencent.cloud.auth.bean.TcApiSignTicket;
 
 import java.util.concurrent.locks.Lock;
 
@@ -20,7 +21,6 @@ public interface TcAuthConfig {
     String getSecret();
 
     Lock getTcLock();
-
 
     /**
      * Access Token
@@ -38,21 +38,36 @@ public interface TcAuthConfig {
 
     void updateAccessToken(String value, int expireIn);
 
-
     /**
-     * Api Ticket
+     * Api Sign Ticket
      * @return
      */
-    TcApiTicket getApiTicket();
+    TcApiSignTicket getApiSignTicket();
 
-    String getApiTicketUrl();
+    String getApiSignTicketUrl();
 
-    boolean isApiTicketExpired();
+    boolean isApiSignTicketExpired();
 
-    void expireApiTicket();
+    void expireApiSignTicket();
 
-    void updateApiTicket(TcApiTicket tcApiTicket);
+    void updateApiSignTicket(TcApiSignTicket apiSignTicket);
 
-    void updateApiTicket(String value, int expireIn);
+    void updateApiSignTicket(String value, int expireIn);
+
+    /**
+     * Api Nonce Ticket
+     * @return
+     */
+    TcApiNonceTicket getApiNonceTicket();
+
+    String getApiNonceTicketUrl();
+
+    boolean isApiNonceTicketExpired();
+
+    void expireApiNonceTicket();
+
+    void updateApiNonceTicket(TcApiNonceTicket apiNonceTicket);
+
+    void updateApiNonceTicket(String value, int expireIn);
 
 }

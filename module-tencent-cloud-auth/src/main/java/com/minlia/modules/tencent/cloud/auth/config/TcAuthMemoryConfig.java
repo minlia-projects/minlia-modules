@@ -6,7 +6,8 @@
 package com.minlia.modules.tencent.cloud.auth.config;
 
 import com.minlia.modules.tencent.cloud.auth.bean.TcAccessToken;
-import com.minlia.modules.tencent.cloud.auth.bean.TcApiTicket;
+import com.minlia.modules.tencent.cloud.auth.bean.TcApiNonceTicket;
+import com.minlia.modules.tencent.cloud.auth.bean.TcApiSignTicket;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,12 @@ public class TcAuthMemoryConfig implements TcAuthConfig {
     protected volatile TcAccessToken accessToken;
     protected volatile String accessTokenUrl;
 
-    protected volatile TcApiTicket apiTicket;
-    protected volatile String apiTicketUrl;
+    protected volatile TcApiSignTicket apiSignTicket;
+    protected volatile String apiSignTicketUrl;
+
+    protected volatile TcApiNonceTicket apiNonceTicket;
+    protected volatile String apiNonceTicketUrl;
+
 
     @Override
     public String getAppid() {
@@ -102,42 +107,83 @@ public class TcAuthMemoryConfig implements TcAuthConfig {
 
 
     @Override
-    public TcApiTicket getApiTicket() {
-        return this.apiTicket;
+    public TcApiSignTicket getApiSignTicket() {
+        return this.apiSignTicket;
     }
 
-    public void setApiTicket(TcApiTicket apiTicket) {
-        this.apiTicket = apiTicket;
-    }
-
-    @Override
-    public String getApiTicketUrl() {
-        return apiTicketUrl;
-    }
-
-    public void setApiTicketUrl(String apiTicketUrl) {
-        this.apiTicketUrl = apiTicketUrl;
+    public void setApiSignTicket(TcApiSignTicket apiSignTicket) {
+        this.apiSignTicket = apiSignTicket;
     }
 
     @Override
-    public boolean isApiTicketExpired() {
-        return System.currentTimeMillis() > this.apiTicket.getExpireTime();
+    public String getApiSignTicketUrl() {
+        return apiSignTicketUrl;
+    }
+
+    public void setApiSignTicketUrl(String apiSignTicketUrl) {
+        this.apiSignTicketUrl = apiSignTicketUrl;
     }
 
     @Override
-    public void expireApiTicket() {
-        this.apiTicket.setExpireTime(0L);
+    public boolean isApiSignTicketExpired() {
+        return System.currentTimeMillis() > this.apiSignTicket.getExpireTime();
     }
 
     @Override
-    public void updateApiTicket(TcApiTicket apiTicket) {
-        this.updateApiTicket(apiTicket.getValue(),apiTicket.getExpireIn());
+    public void expireApiSignTicket() {
+        this.apiSignTicket.setExpireTime(0L);
     }
 
     @Override
-    public void updateApiTicket(String value, int expireIn) {
-        this.apiTicket.setValue(value);
-        this.apiTicket.setExpireTime(System.currentTimeMillis() + (long)(expireIn - 600)*1000);
+    public void updateApiSignTicket(TcApiSignTicket apiTicket) {
+        this.updateApiSignTicket(apiTicket.getValue(),apiTicket.getExpireIn());
+    }
+
+    @Override
+    public void updateApiSignTicket(String value, int expireIn) {
+        this.apiSignTicket.setValue(value);
+        this.apiSignTicket.setExpireTime(System.currentTimeMillis() + (long)(expireIn - 600)*1000);
+    }
+
+
+
+    @Override
+    public TcApiNonceTicket getApiNonceTicket() {
+        return this.apiNonceTicket;
+    }
+
+    public void setApiNonceTicket(TcApiNonceTicket apiNonceTicket) {
+        this.apiNonceTicket = apiNonceTicket;
+    }
+
+    @Override
+    public String getApiNonceTicketUrl() {
+        return apiNonceTicketUrl;
+    }
+
+    public void setApiNonceTicketUrl(String apiNonceTicketUrl) {
+        this.apiNonceTicketUrl = apiNonceTicketUrl;
+    }
+
+    @Override
+    public boolean isApiNonceTicketExpired() {
+        return System.currentTimeMillis() > this.apiNonceTicket.getExpireTime();
+    }
+
+    @Override
+    public void expireApiNonceTicket() {
+        this.apiNonceTicket.setExpireTime(0L);
+    }
+
+    @Override
+    public void updateApiNonceTicket(TcApiNonceTicket apiTicket) {
+        this.updateApiNonceTicket(apiTicket.getValue(),apiTicket.getExpireIn());
+    }
+
+    @Override
+    public void updateApiNonceTicket(String value, int expireIn) {
+        this.apiNonceTicket.setValue(value);
+        this.apiNonceTicket.setExpireTime(System.currentTimeMillis() + (long)(expireIn - 20)*1000);
     }
 
 

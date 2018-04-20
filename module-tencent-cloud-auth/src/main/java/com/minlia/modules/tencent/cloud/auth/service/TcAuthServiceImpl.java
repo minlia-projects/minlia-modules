@@ -70,25 +70,25 @@ public class TcAuthServiceImpl implements TcAuthService{
     }
 
     @Override
-    public String getApiTicket() {
-        return this.getApiTicket(false);
+    public String getApiSignTicket() {
+        return this.getApiSignTicket(false);
     }
 
     @Override
-    public String getApiTicket(boolean forceRefresh) {
+    public String getApiSignTicket(boolean forceRefresh) {
         Lock lock = this.authConfig.getTcLock();
         try {
             lock.lock();
             if(forceRefresh) {
-                this.authConfig.expireApiTicket();
+                this.authConfig.expireApiSignTicket();
             }
-            if(this.authConfig.isApiTicketExpired()) {
+            if(this.authConfig.isApiSignTicketExpired()) {
                 //如果失效重新获取
-                String url = String.format(this.authConfig.getApiTicketUrl(),authConfig.getAppid(),this.getAccessToken(),SecurityContextHolder.getCurrentGuid());
+                String url = String.format(this.authConfig.getApiSignTicketUrl(), authConfig.getAppid(), this.getAccessToken());
                 TcApiTicketResponseBody responseBody = restTemplate.getForObject(url, TcApiTicketResponseBody.class);
                 if (responseBody.isSuccess()) {
                     TcApiTickets tcApiTickets = responseBody.getTickets().get(0);
-                    this.authConfig.updateApiTicket(tcApiTickets.getValue(),tcApiTickets.getExpireIn());
+                    this.authConfig.updateApiSignTicket(tcApiTickets.getValue(),tcApiTickets.getExpireIn());
                 } else {
                     ApiPreconditions.is(true, ApiCode.NOT_NULL,"获取Api Ticket失败:"+responseBody.getCode());
                 }
@@ -96,7 +96,37 @@ public class TcAuthServiceImpl implements TcAuthService{
         } finally {
             lock.unlock();
         }
-        return this.authConfig.getApiTicket().getValue();
+        return this.authConfig.getApiSignTicket().getValue();
+    }
+
+    @Override
+    public String getApiNonceTicket() {
+        return getApiNonceTicket(false);
+    }
+
+    @Override
+    public String getApiNonceTicket(boolean forceRefresh) {
+        Lock lock = this.authConfig.getTcLock();
+        try {
+            lock.lock();
+            if(forceRefresh) {
+                this.authConfig.expireApiNonceTicket();
+            }
+            if(this.authConfig.isApiNonceTicketExpired()) {
+                //如果失效重新获取
+                String url = String.format(this.authConfig.getApiNonceTicketUrl(), authConfig.getAppid(), this.getAccessToken(), SecurityContextHolder.getCurrentGuid());
+                TcApiTicketResponseBody responseBody = restTemplate.getForObject(url, TcApiTicketResponseBody.class);
+                if (responseBody.isSuccess()) {
+                    TcApiTickets tcApiTickets = responseBody.getTickets().get(0);
+                    this.authConfig.updateApiNonceTicket(tcApiTickets.getValue(),tcApiTickets.getExpireIn());
+                } else {
+                    ApiPreconditions.is(true, ApiCode.NOT_NULL,"获取Api Ticket失败:"+responseBody.getCode());
+                }
+            }
+        } finally {
+            lock.unlock();
+        }
+        return this.authConfig.getApiNonceTicket().getValue();
     }
 
     @Override
@@ -118,7 +148,7 @@ public class TcAuthServiceImpl implements TcAuthService{
         values.add(idNo);
         values.add(userId);
         values.add("1.0.0");
-        values.add(this.getApiTicket());
+        values.add(this.getApiSignTicket());
         return SignUtils.sign(values);
     }
 
@@ -153,7 +183,7 @@ public class TcAuthServiceImpl implements TcAuthService{
                 values.add(userId);
                 values.add("1.0.0");
                 values.add(result.getH5faceId());
-                values.add(getApiTicket());
+                values.add(getApiNonceTicket());
                 values.add(nonce);
                 result.setSign(SignUtils.sign(values));
 

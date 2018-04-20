@@ -13,9 +13,13 @@ public interface TcAuthService {
 
     String getAccessToken(boolean forceRefresh);
 
-    String getApiTicket();
+    String getApiSignTicket();
 
-    String getApiTicket(boolean forceRefresh);
+    String getApiSignTicket(boolean forceRefresh);
+
+    String getApiNonceTicket();
+
+    String getApiNonceTicket(boolean forceRefresh);
 
     TcAuthConfig getAuthConfig();
 

@@ -7,7 +7,8 @@ package com.minlia.modules.tencent.cloud.auth.config;
 
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.modules.tencent.cloud.auth.bean.TcAccessToken;
-import com.minlia.modules.tencent.cloud.auth.bean.TcApiTicket;
+import com.minlia.modules.tencent.cloud.auth.bean.TcApiNonceTicket;
+import com.minlia.modules.tencent.cloud.auth.bean.TcApiSignTicket;
 import com.minlia.modules.tencent.cloud.auth.constant.TcAuthBibleConstants;
 import com.minlia.modules.tencent.cloud.auth.service.TcAuthService;
 import com.minlia.modules.tencent.cloud.auth.service.TcAuthServiceImpl;
@@ -29,24 +30,32 @@ public class TcAuthAutoConfiguration {
     @Bean
 //    @ConditionalOnMissingBean
     public TcAuthConfig tcAuthConfig() {
-        TcAuthMemoryConfig tcAuthMemoryConfig = new TcAuthMemoryConfig();
-        tcAuthMemoryConfig.setAppid(bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE, TcAuthBibleConstants.APPID));
-        tcAuthMemoryConfig.setSecret(bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE, TcAuthBibleConstants.SECRET));
+        String appid = bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE, TcAuthBibleConstants.APPID);
+        String secret = bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE, TcAuthBibleConstants.SECRET);
 
         String accessTokenUrl = bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE,TcAuthBibleConstants.ACCESS_TOKEN_URL);
-        accessTokenUrl = String.format(accessTokenUrl,tcAuthMemoryConfig.getAppid(),tcAuthMemoryConfig.getSecret());
+        accessTokenUrl = String.format(accessTokenUrl,appid,secret);
         accessTokenUrl = accessTokenUrl.replace("\n","");
-        tcAuthMemoryConfig.setAccessTokenUrl(accessTokenUrl);
 
-        tcAuthMemoryConfig.setApiTicketUrl(bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE,TcAuthBibleConstants.API_TICKET_URL));
+        TcAuthMemoryConfig tcAuthMemoryConfig = new TcAuthMemoryConfig();
+        tcAuthMemoryConfig.setAppid(appid);
+        tcAuthMemoryConfig.setSecret(secret);
+
+        tcAuthMemoryConfig.setAccessTokenUrl(accessTokenUrl);
+        tcAuthMemoryConfig.setApiSignTicketUrl(bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE,TcAuthBibleConstants.API_SIGN_TICKET_URL));
+        tcAuthMemoryConfig.setApiNonceTicketUrl(bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE,TcAuthBibleConstants.API_NONCE_TICKET_URL));
 
         TcAccessToken accessToken = new TcAccessToken();
         accessToken.setExpireTime(System.currentTimeMillis());
         tcAuthMemoryConfig.setAccessToken(accessToken);
 
-        TcApiTicket apiTicket = new TcApiTicket();
-        apiTicket.setExpireTime(System.currentTimeMillis());
-        tcAuthMemoryConfig.setApiTicket(apiTicket);
+        TcApiSignTicket apiSignTicket = new TcApiSignTicket();
+        apiSignTicket.setExpireTime(System.currentTimeMillis());
+        tcAuthMemoryConfig.setApiSignTicket(apiSignTicket);
+
+        TcApiNonceTicket apiNonceTicket = new TcApiNonceTicket();
+        apiNonceTicket.setExpireTime(System.currentTimeMillis());
+        tcAuthMemoryConfig.setApiNonceTicket(apiNonceTicket);
 
         return tcAuthMemoryConfig;
     }

@@ -36,10 +36,17 @@ public class TcAuthEndpoint {
     }
 
     @PreAuthorize(value = "isAuthenticated()")
-    @ApiOperation(value = "Api Ticket", notes = "获取Api Ticket", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "api_ticket", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody getApiTicket() {
-        return SuccessResponseBody.builder().payload(tcAuthService.getApiTicket()).build();
+    @ApiOperation(value = "Api Sign Ticket", notes = "获取Api Ticket", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "api_sign_ticket", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody getApiSignTicket() {
+        return SuccessResponseBody.builder().payload(tcAuthService.getApiSignTicket()).build();
+    }
+
+    @PreAuthorize(value = "isAuthenticated()")
+    @ApiOperation(value = "Api Nonce Ticket", notes = "获取Api Ticket", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "api_nonce_ticket", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody getApiNonceTicket() {
+        return SuccessResponseBody.builder().payload(tcAuthService.getApiNonceTicket()).build();
     }
 
     @PreAuthorize(value = "isAuthenticated()")

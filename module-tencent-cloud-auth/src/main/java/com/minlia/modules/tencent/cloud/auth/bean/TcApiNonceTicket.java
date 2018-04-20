@@ -12,7 +12,7 @@ import java.io.Serializable;
  * 每次用户登录时必须重新获取 ticket。
  */
 @Data
-public class TcApiTicket implements Serializable {
+public class TcApiNonceTicket implements Serializable {
 
     private String value;
 
