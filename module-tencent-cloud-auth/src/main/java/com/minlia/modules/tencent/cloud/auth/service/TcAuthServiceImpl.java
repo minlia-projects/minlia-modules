@@ -143,6 +143,8 @@ public class TcAuthServiceImpl implements TcAuthService{
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
             if (responseEntity.getBody().isSuccess()) {
                 TcFaceIdResult result = responseEntity.getBody().getResult();
+
+                String nonce = UUID.randomUUID().toString();
                 //设置签名
                 List<String> values = Lists.newArrayList();
                 values.add(this.authConfig.getAppid());
@@ -151,13 +153,13 @@ public class TcAuthServiceImpl implements TcAuthService{
                 values.add("1.0.0");
                 values.add(result.getH5faceId());
                 values.add(getApiTicket());
-                values.add(UUID.randomUUID().toString());
+                values.add(nonce);
                 result.setSign(SignUtils.sign(values));
 
                 result.setAppId(FACEID_APP_ID);
                 result.setWebankAppId(this.authConfig.getAppid());
                 result.setVersion("1.0.0");
-                result.setNonce(UUID.randomUUID().toString());
+                result.setNonce(nonce);
                 result.setUserId(userId);
 
                 //持久化
