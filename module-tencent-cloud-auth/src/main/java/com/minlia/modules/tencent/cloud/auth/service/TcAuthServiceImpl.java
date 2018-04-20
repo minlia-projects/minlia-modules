@@ -157,7 +157,7 @@ public class TcAuthServiceImpl implements TcAuthService{
                 values.add(nonce);
                 result.setSign(SignUtils.sign(values));
 
-                result.setAppId(FACEID_APP_ID);
+//                result.setAppId(FACEID_APP_ID);
                 result.setWebankAppId(this.authConfig.getAppid());
                 result.setVersion("1.0.0");
                 result.setNonce(nonce);

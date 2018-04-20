@@ -1,5 +1,7 @@
 package com.minlia.modules.tencent.cloud.auth.body;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 /**
@@ -7,17 +9,19 @@ import java.io.Serializable;
  */
 public class TcFaceIdResult implements Serializable{
 
+    @JsonIgnore
     private String bizSeqNo;
     private String orderNo;
     private String h5faceId;
 
-    private String sign;
-    private String appId;
+
+//    private String appId;
     private String webankAppId;
     private String version;
-    private String resultType;
     private String nonce;
+    private String resultType;
     private String userId;
+    private String sign;
 
     public String getBizSeqNo() {
         return bizSeqNo;
@@ -49,14 +53,6 @@ public class TcFaceIdResult implements Serializable{
 
     public void setSign(String sign) {
         this.sign = sign;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
     }
 
     public String getWebankAppId() {
