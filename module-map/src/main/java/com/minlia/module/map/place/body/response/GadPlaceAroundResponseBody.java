@@ -66,4 +66,8 @@ public class GadPlaceAroundResponseBody {
     public void setPois(List<PoiBody> pois) {
         this.pois = pois;
     }
+
+    public Boolean isSuccess(){
+        return this.status.equals(1);
+    }
 }
