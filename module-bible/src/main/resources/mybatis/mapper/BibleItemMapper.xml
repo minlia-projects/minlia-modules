@@ -35,6 +35,9 @@
             <if test="value != null">
                 AND bit.value = #{value}
             </if>
+            <if test="attribute1 != null">
+                AND bit.attribute1 = #{attribute1}
+            </if>
         </where>
     </sql>
 

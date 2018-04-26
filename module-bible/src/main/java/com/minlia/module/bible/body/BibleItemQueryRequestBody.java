@@ -24,8 +24,6 @@ public class BibleItemQueryRequestBody {
     @Size(max = 250)
     private String value;
 
-    @ApiModelProperty(value = "描述性说明", example = "用于性别选择")
-    @Size(max = 500)
-    private String notes;
+    private String attribute1;
 
 }
