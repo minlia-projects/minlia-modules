@@ -6,6 +6,7 @@ import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.tencent.cloud.auth.bean.FaceAuth;
 import com.minlia.modules.tencent.cloud.auth.body.*;
@@ -157,7 +158,7 @@ public class TcAuthServiceImpl implements TcAuthService{
         String userId = SecurityContextHolder.getCurrentGuid();
         FaceIdRecord faceIdRecord = faceIdRecordService.queryOne(TcFaceIdRecordQueryRequestBody.builder().userId(userId).build());
         ApiPreconditions.is(null != faceIdRecord && faceIdRecord.getIsAuth(),ApiCode.NOT_AUTHORIZED,"已认证");
-        String orderNo = System.currentTimeMillis()+"";
+        String orderNo = NumberGenerator.generatorByTimestamp("ON",3);
 
         FaceAuth faceAuth = FaceAuth.builder()
                 .webankAppId(this.authConfig.getAppid())
