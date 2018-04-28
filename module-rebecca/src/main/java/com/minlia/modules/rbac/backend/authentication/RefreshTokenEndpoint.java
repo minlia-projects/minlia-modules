@@ -78,7 +78,7 @@ public class RefreshTokenEndpoint {
         }
 
         String subject = refreshToken.getSubject();
-        User user = userQueryService.queryByUsernameOrCellphoneOrEmail(subject, subject, subject);
+        User user = userQueryService.queryByGuid(subject);
         if (null == user) {
             throw new UsernameNotFoundException("User not found: " + subject);
         }
