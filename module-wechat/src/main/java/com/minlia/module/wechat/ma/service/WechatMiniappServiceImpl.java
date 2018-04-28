@@ -21,6 +21,7 @@ import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import net.sf.json.JSONObject;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -140,6 +141,8 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
         } catch (IOException e) {
             e.printStackTrace();
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());
+        } finally {
+            FileUtils.deleteQuietly(file);
         }
         return ossFile;
     }
