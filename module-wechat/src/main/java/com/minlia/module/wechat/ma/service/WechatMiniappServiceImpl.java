@@ -15,6 +15,7 @@ import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.body.WechatSession;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.mp.constant.WechatMpApiCode;
 import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,8 +99,14 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
     }
 
     @Override
-    public OssFile createWxCodeLimit(MiniappQrcodeRequestBody body) throws Exception{
-        String accessToken = wxMaService.getAccessToken();
+    public OssFile createWxCodeLimit(MiniappQrcodeRequestBody body){
+        String accessToken = null;
+        try {
+            accessToken = wxMaService.getAccessToken();
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"获取Access Token异常："+e.getMessage());
+        }
         ApiPreconditions.checkNotNull(accessToken,ApiCode.NOT_NULL,"accessToken不能为空");
         String reqUrl = String.format("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s", accessToken);
 
@@ -119,8 +127,20 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
         }
         String reqData = JSON.toJSONString(data);
 
-        File file = HttpClientUtil.sendPostByJsonToFile(reqUrl, reqData);
-        OssFile ossFile = ossService.upload(file, file.getName());
+        File file = null;
+        try {
+            file = HttpClientUtil.sendPostByJsonToFile(reqUrl, reqData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"创建二维码异常："+e.getMessage());
+        }
+        OssFile ossFile = null;
+        try {
+            ossFile = ossService.upload(file, file.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+            ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());
+        }
         return ossFile;
     }
 

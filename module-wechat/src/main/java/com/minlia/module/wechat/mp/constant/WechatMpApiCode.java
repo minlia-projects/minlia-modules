@@ -15,4 +15,11 @@ public class WechatMpApiCode {
      */
     public static final Integer MODULE_CODE_BASED = 900000;
 
+
+    public static final Integer ERROR_GET_ACCESS_TOKEN = 900002;
+
+    public static final Integer ERROR_CREATE_WX_CODE = 900003;
+
+    public static final Integer ERROR_UPLOAD = 900004;
+
 }

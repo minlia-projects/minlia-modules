@@ -31,7 +31,7 @@ public class WechatMiniappOpenEndpoint {
 
     @ApiOperation(value = "小程序二维码", notes = "小程序二维码", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "wxacode", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody createWxCodeLimit(@Valid @RequestBody MiniappQrcodeRequestBody body) throws Exception {
+    public StatefulBody createWxCodeLimit(@Valid @RequestBody MiniappQrcodeRequestBody body) {
         return SuccessResponseBody.builder().payload(wechatMiniappService.createWxCodeLimit(body)).build();
     }
 

@@ -46,6 +46,6 @@ public interface WechatMiniappService {
      * @return
      * @throws Exception
      */
-    OssFile createWxCodeLimit(MiniappQrcodeRequestBody body) throws Exception;
+    OssFile createWxCodeLimit(MiniappQrcodeRequestBody body);
 
 }
