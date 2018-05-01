@@ -60,7 +60,7 @@ public class AttachmentUploadEndpoint {
         return  SuccessResponseBody.builder().message("上传成功").payload(attachmentService.create(attachments)).build();
     }
 
-    @ApiOperation(value = "file update", notes = "文件上传服务", httpMethod = "POST")
+    @ApiOperation(value = "file", notes = "文件上传服务", httpMethod = "POST")
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public StatefulBody upload(MultipartFile file) throws Exception {
         String key = keyGenerate(file);

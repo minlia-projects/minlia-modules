@@ -11,11 +11,11 @@
             nt.state ,
             nt.orders ,
             nt.parent_id ,
+            nt.display,
 			nt.create_date  ,
 			nt.create_by  ,
 			nt.last_modified_date ,
-			nt.last_modified_by ,
-			nt.display
+			nt.last_modified_by
 		FROM
 			minlia_navigation nt
 	</sql>
@@ -53,7 +53,9 @@
             icon ,
             state ,
             orders ,
-            parent_id
+            parent_id,
+            display,
+            create_by
         )
         VALUES
             (
@@ -62,7 +64,9 @@
                 #{icon,jdbcType=VARCHAR} ,
                 #{state,jdbcType=VARCHAR} ,
                 #{orders,jdbcType=TINYINT} ,
-                #{parentId,jdbcType=SMALLINT}
+                #{parentId,jdbcType=SMALLINT},
+                #{display,jdbcType=TINYINT},
+                #{createBy,jdbcType=VARCHAR}
             )
 	</insert>
 
@@ -88,9 +92,10 @@
             parent_id = #{parentId,jdbcType=TINYINT} ,
         </if>
         <if test="display != null">
-            display = #{display,jdbcType=SMALLINT} ,
+            display = #{display,jdbcType=TINYINT} ,
         </if>
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+        last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         WHERE id = #{id,jdbcType=SMALLINT}
     </update>
 
@@ -119,14 +124,14 @@
         DELETE FROM map_role_navigation where role_id = #{arg0};
 
         INSERT INTO map_role_navigation(
-            role_id ,
-            navigation_id
+        role_id ,
+        navigation_id
         )
         VALUES
         <foreach collection="arg1" item="item" index="index" separator=",">
             (
-                #{arg0,jdbcType=BIGINT} ,
-                #{item,jdbcType=SMALLINT}
+            #{arg0,jdbcType=BIGINT} ,
+            #{item,jdbcType=SMALLINT}
             )
         </foreach>
         ;

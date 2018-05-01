@@ -46,7 +46,7 @@ public class NavigationServiceImpl implements NavigationService {
         if (!exists) {
             updateTypeByChildren(requestBody.getParentId());
 
-            Navigation navigation = Navigation.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).icon(requestBody.getIcon()).state(requestBody.getState()).orders(requestBody.getOrders()).type(NavigationType.LEAF).build();
+            Navigation navigation = Navigation.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).icon(requestBody.getIcon()).state(requestBody.getState()).orders(requestBody.getOrders()).type(NavigationType.LEAF).display(true).build();
             navigationMapper.create(navigation);
             return SuccessResponseBody.builder().payload(navigation).build();
         } else {

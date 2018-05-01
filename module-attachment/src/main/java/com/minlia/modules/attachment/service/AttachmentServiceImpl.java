@@ -40,7 +40,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 
         List<Attachment> attachments = Lists.newArrayList();
         for (AttachmentData data : requestBody.getData()) {
-            Attachment attachment = Attachment.builder().relationId(requestBody.getRelationId()).belongsTo(requestBody.getBelongsTo()).url(data.getUrl()).accessKey(data.getAccessKey()).build();
+            Attachment attachment = Attachment.builder()
+                    .relationId(requestBody.getRelationId())
+                    .belongsTo(requestBody.getBelongsTo())
+                    .url(data.getUrl())
+                    .accessKey(data.getAccessKey())
+                    .build();
             attachmentMapper.create(attachment);
             attachments.add(attachment);
         }
