@@ -8,9 +8,7 @@ import com.minlia.modules.rbac.backend.permission.entity.Permission;
 import com.minlia.modules.rbac.backend.permission.mapper.PermissionMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -86,6 +84,7 @@ public class PermissionServiceImpl implements PermissionService {
     public List<Map<String,Object>> tree() {
         List<Map<String,Object>> ones = Lists.newArrayList();
         List<String> oneLevel = permissionMapper.oneLevel();
+
         for (String one : oneLevel) {
             List<Map<String,Object>> twos = Lists.newArrayList();
             List<String> twoLevel = permissionMapper.twoLevel(one);
@@ -96,11 +95,13 @@ public class PermissionServiceImpl implements PermissionService {
                     threes.add(three);
                 }
                 Map map = new HashMap();
-                map.put(two,threes);
+                map.put("name",two);
+                map.put("children",threes);
                 twos.add(map);
             }
             Map map = new HashMap();
-            map.put(one,twos);
+            map.put("name",one);
+            map.put("children",twos);
             ones.add(map);
         }
         return ones;

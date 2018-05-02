@@ -36,6 +36,8 @@ public interface PermissionMapper {
 
     List<Permission> queryList();
 
+    List<Map> tree();
+
     List<String> oneLevel();
 
     List<String> twoLevel(String prefix);
