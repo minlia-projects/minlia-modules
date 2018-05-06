@@ -15,35 +15,27 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * Created by will on 7/21/17.
- * This is just a fake control for springfox-swagger2 to generate api-docs
+ * Created by garen on 2017/7/21.
  */
 @Api(tags = "Wechat Login", description = "登录")
 @CrossOrigin
 @RestController
-@RequestMapping(value = ApiPrefix.API+"auth/login")
+@RequestMapping(value = ApiPrefix.API + "auth/login")
 public class WechatLoginEndpoint {
 
-  @Autowired
-  private LoginThirdPartyService loginThirdPartyService;
+    @Autowired
+    private LoginThirdPartyService loginThirdPartyService;
 
-  @ApiOperation(value = "根据公众号code登录", notes = "根据公众号code登录", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-  @PostMapping(value = "wxmpcode", produces = {MediaType.APPLICATION_JSON_VALUE})
-  public StatefulBody loginByWxMpCode(@Valid @RequestBody LoginWechatRequestBody body) throws WxErrorException {
-    return loginThirdPartyService.loginByWxMpCode(body);
-  }
+    @ApiOperation(value = "根据公众号code登录", notes = "根据公众号code登录", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "wxmpcode", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody loginByWxMpCode(@Valid @RequestBody LoginWechatRequestBody body) throws WxErrorException {
+        return loginThirdPartyService.loginByWxMpCode(body);
+    }
 
-  @ApiOperation(value = "根据小程序code登录", notes = "根据小程序code登录", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-  @PostMapping(value = "wxmacode", produces = {MediaType.APPLICATION_JSON_VALUE})
-  public StatefulBody loginByWxMaCode(@Valid @RequestBody LoginWechatRequestBody body) {
-    return loginThirdPartyService.loginByWxMaCode(body);
-  }
-
-  @ApiOperation(value = "根据小程序绑定", notes = "根据小程序绑定", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @RequestMapping(value = "bind/wxma", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-  public StatefulBody bindByWxma(@RequestBody BindWxRequestBody body) throws WxErrorException {
-    return loginThirdPartyService.bindByWxma(body);
-  }
-
+    @ApiOperation(value = "根据小程序code登录", notes = "根据小程序code登录", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "wxmacode", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody loginByWxMaCode(@Valid @RequestBody LoginWechatRequestBody body) {
+        return loginThirdPartyService.loginByWxMaCode(body);
+    }
 
 }

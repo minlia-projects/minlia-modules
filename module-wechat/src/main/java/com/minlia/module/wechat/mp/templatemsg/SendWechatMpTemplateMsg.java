@@ -116,11 +116,11 @@ public class SendWechatMpTemplateMsg {
             return SuccessResponseBody.builder().message(templateMsg).build();
         } catch (WxErrorException e) {
             e.printStackTrace();
-            log.error(String.format("公众号通知失败-%s: %s",templateDesc, e.getError()));
+            log.error(String.format("微信公众号通知失败-%s: %s",templateDesc, e.getError()));
             return FailureResponseBody.builder().code(e.getError().getErrorCode()).message(templateDesc + e.getMessage()).build();
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(String.format("公众号通知失败-%s: %s",templateDesc, e.getMessage()));
+            log.error(String.format("微信公众号通知失败-%s: %s",templateDesc, e.getMessage()));
             return FailureResponseBody.builder().message(templateDesc + e.getMessage()).build();
         }
     }

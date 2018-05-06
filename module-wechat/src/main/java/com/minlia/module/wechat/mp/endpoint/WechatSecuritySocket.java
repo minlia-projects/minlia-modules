@@ -1,5 +1,6 @@
 package com.minlia.module.wechat.mp.endpoint;
 
+import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.websocket.body.RequestMessage;
 import com.minlia.module.websocket.body.ResponseMessage;
@@ -22,12 +23,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Api(tags = "System Login Websocket", description = "登录")
 @ServerEndpoint(
-        value = "/wss/login/websocket",
+        value = ApiPrefix.API + "wss/login/websocket",
         encoders = {MessageEncoder.class},
         decoders = {MessageDecoder.class}
 )
 @Component
-public class SecuritySocket {
+public class WechatSecuritySocket {
 
     private static int onlineCount = 0;
 
@@ -80,15 +81,15 @@ public class SecuritySocket {
     }
 
     public static synchronized  int getOnlineCount (){
-        return SecuritySocket.onlineCount;
+        return WechatSecuritySocket.onlineCount;
     }
 
     public static synchronized void addOnlineCount (){
-        SecuritySocket.onlineCount++;
+        WechatSecuritySocket.onlineCount++;
     }
 
     public static synchronized void subOnlineCount (){
-        SecuritySocket.onlineCount--;
+        WechatSecuritySocket.onlineCount--;
     }
 
 }

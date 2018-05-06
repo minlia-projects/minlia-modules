@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.mp.event;
 
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.mp.endpoint.SecuritySocket;
+import com.minlia.module.wechat.mp.endpoint.WechatSecuritySocket;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
@@ -71,7 +71,7 @@ public class WechatScanThirdLoginReceivers {
                 payload = loginThirdPartyService.getLoginInfoByUser(user);
             }
             String sessionId = wxMessage.getEventKey().replace("qr_wsl_","");
-            SecuritySocket.webSocketMap.get(sessionId).getBasicRemote().sendObject(ResponseMessage.builder().code(returnCode).message(returnMessage).payload(payload).build());
+            WechatSecuritySocket.webSocketMap.get(sessionId).getBasicRemote().sendObject(ResponseMessage.builder().code(returnCode).message(returnMessage).payload(payload).build());
         }
     }
 

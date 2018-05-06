@@ -3,6 +3,8 @@ package com.minlia.module.wechat.mp.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.wechat.mp.body.BindWxRequestBody;
+import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApiPrefix.API + "wechat")
 public class WechatMpEndpoint {
 
-    public static final Integer EXPIRE_SECONDS=2592000;
+    public static final Integer EXPIRE_SECONDS = 2592000;
 
     @Autowired(required = false)
     private WxMpService wxService;
@@ -37,7 +39,7 @@ public class WechatMpEndpoint {
     private WxMpMessageRouter router;
 
     /**
-     * 微信临时二维码
+     * 获取微信临时二维码
      *
      * @param parameter
      * @return
@@ -46,9 +48,9 @@ public class WechatMpEndpoint {
     @RequestMapping(value = "tempqrcode/{parameter}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "微信临时二维码", notes = "微信临时二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     public StatefulBody qrcode(@PathVariable String parameter) throws WxErrorException {
-        WxMpQrCodeTicket ticket=wxService.getQrcodeService().qrCodeCreateLastTicket("qrscene_"+parameter);
-        String qrcode=wxService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(),true);
-        log.debug("QRCODE {}",qrcode);
+        WxMpQrCodeTicket ticket = wxService.getQrcodeService().qrCodeCreateLastTicket("qrscene_" + parameter);
+        String qrcode = wxService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
+        log.debug("QRCODE {}", qrcode);
         return SuccessResponseBody.builder().message(qrcode).build();
     }
 
@@ -63,9 +65,9 @@ public class WechatMpEndpoint {
     @RequestMapping(value = "tempqrcode/{parameter}/{prefixType}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "微信临时二维码（类型）", notes = "微信临时二维码（类型）", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     public StatefulBody qrcode(@PathVariable String parameter, @PathVariable String prefixType) throws WxErrorException {
-        WxMpQrCodeTicket ticket=wxService.getQrcodeService().qrCodeCreateLastTicket(prefixType + parameter);
-        String qrcode=wxService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(),true);
-        log.debug("QRCODE {}",qrcode);
+        WxMpQrCodeTicket ticket = wxService.getQrcodeService().qrCodeCreateLastTicket(prefixType + parameter);
+        String qrcode = wxService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
+        log.debug("QRCODE {}", qrcode);
         return SuccessResponseBody.builder().message(qrcode).build();
     }
 
@@ -80,15 +82,12 @@ public class WechatMpEndpoint {
      */
     @GetMapping(produces = "text/plain;charset=utf-8")
     public String authGet(
-            @RequestParam(name = "signature",
-                    required = false) String signature,
-            @RequestParam(name = "timestamp",
-                    required = false) String timestamp,
+            @RequestParam(name = "signature", required = false) String signature,
+            @RequestParam(name = "timestamp", required = false) String timestamp,
             @RequestParam(name = "nonce", required = false) String nonce,
             @RequestParam(name = "echostr", required = false) String echostr) {
 
-        log.info("接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature,
-                timestamp, nonce, echostr);
+        log.info("接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature, timestamp, nonce, echostr);
 
         if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
             throw new IllegalArgumentException("请求参数非法，请核实!");
@@ -119,8 +118,7 @@ public class WechatMpEndpoint {
                            @RequestParam("nonce") String nonce,
                            @RequestParam(name = "encrypt_type", required = false) String encType,
                            @RequestParam(name = "msg_signature", required = false) String msgSignature) {
-        log.info("接收微信请求：[signature=[{}], encType=[{}], msgSignature=[{}],"
-                        + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
+        log.info("接收微信请求：[signature=[{}], encType=[{}], msgSignature=[{}]," + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
                 signature, encType, msgSignature, timestamp, nonce, requestBody);
 
         if (!this.wxService.checkSignature(timestamp, nonce, signature)) {
@@ -140,16 +138,14 @@ public class WechatMpEndpoint {
         } else if ("aes".equals(encType)) {
             // aes加密的消息
             WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(
-                    requestBody, this.wxService.getWxMpConfigStorage(), timestamp,
-                    nonce, msgSignature);
+                    requestBody, this.wxService.getWxMpConfigStorage(), timestamp, nonce, msgSignature);
             log.debug("\n消息解密后内容为：\n{} ", inMessage.toString());
             WxMpXmlOutMessage outMessage = this.route(inMessage);
             if (outMessage == null) {
                 return "";
             }
 
-            out = outMessage
-                    .toEncryptedXml(this.wxService.getWxMpConfigStorage());
+            out = outMessage.toEncryptedXml(this.wxService.getWxMpConfigStorage());
         }
 
         log.debug("\n组装回复信息：{}", out);
