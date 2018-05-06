@@ -7,6 +7,7 @@ import com.minlia.modules.rbac.backend.password.body.ChangePasswordByRawPassword
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordBySecurityCodeRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ResetPasswordRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
+import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserPasswordServiceImpl implements UserPasswordService {
 
-//    @Autowired
-//    private UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private CaptchaService captchaService;
@@ -34,11 +35,9 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         //验证验证码是否正确
         captchaService.validity(body.getUsername(), body.getCode());
 
-//        User user = userMapper.queryByUsername(body.getUsername());
-//        ApiPreconditions.is(user == null, ApiCode.NOT_FOUND,"该用户尚未注册");
-//
-//        return change(user,body.getNewPassword());
-        return null;
+        User user = userMapper.queryByUsername(body.getUsername());
+        ApiPreconditions.is(user == null, ApiCode.NOT_FOUND,"该用户尚未注册");
+        return change(user,body.getNewPassword());
     }
 
     @Override
@@ -67,7 +66,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         user.setEnabled(Boolean.TRUE);
         user.setCredentialsExpired(Boolean.FALSE);
         user.setLocked(Boolean.FALSE);
-//        userMapper.update(user);
+        userMapper.update(user);
         return user;
     }
 
