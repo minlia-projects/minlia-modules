@@ -8,6 +8,8 @@
 			number ,
 			relation_id ,
 			type ,
+			category ,
+			handler ,
 			title ,
 			content ,
 			time ,
@@ -32,6 +34,12 @@
             <if test="type != null">
                 AND type = #{type}
             </if>
+            <if test="category != null">
+                AND category = #{category}
+            </if>
+            <if test="handler != null">
+                AND handler = #{handler}
+            </if>
             <if test="title != null">
                 AND INSTR(title,#{title}) > 0
             </if>
@@ -43,6 +51,8 @@
 			number ,
 			relation_id ,
 			type ,
+			category ,
+			handler ,
 			title ,
 			content ,
 			time ,
@@ -56,6 +66,8 @@
 			#{number} ,
 			#{relationId} ,
 			#{type} ,
+			#{category} ,
+			#{handler} ,
 			#{title} ,
 			#{content} ,
 			#{time} ,

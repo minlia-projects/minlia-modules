@@ -19,48 +19,65 @@ import java.util.Date;
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
-@EqualsAndHashCode(of = {"id"},callSuper = true)
+@EqualsAndHashCode(of = {"id"}, callSuper = true)
 public class MyTodo extends AbstractEntity {
 
-  @JsonIgnore
-  private String relationId;
+    /**
+     * 编号
+     */
+    private String number;
 
-  @JsonIgnore
-  private String type;
+    @JsonIgnore
+    private String relationId;
 
-  /**
-   * 编号
-   */
-  private String number;
+    /**
+     * 类型
+     */
+    private String type;
 
-  /**
-   * 标题
-   */
-  private String title;
+    /**
+     * 大类
+     */
+    private String category;
+//
+//    /**
+//     * 发起人
+//     */
+//    private String sponsor;
 
-  /**
-   * 状态
-   */
-  private TodoStatus status;
+    /**
+     * 处理人
+     */
+    private String handler;
 
-  /**
-   * 内容
-   */
-  private String content;
+    /**
+     * 标题
+     */
+    private String title;
 
-  /**
-   * 时间：待办时间、待处理时间
-   */
-  private Date time;
+    /**
+     * 状态
+     */
+    private TodoStatus status;
 
-  /**
-   * 过期时间
-   */
-  private Date expiryTime;
+    /**
+     * 内容
+     */
+    private String content;
 
-  /**
-   * 备注
-   */
-  private String notes;
+    /**
+     * 时间：待办时间、待处理时间
+     */
+    private Date time;
+
+    /**
+     * 过期时间
+     */
+    private Date expiryTime;
+
+    /**
+     * 备注
+     */
+    private String notes;
 
 }

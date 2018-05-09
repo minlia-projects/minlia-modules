@@ -24,6 +24,9 @@ public class TodoCreateRequestBody {
   private String type;
 
   @NotBlank
+  private String handler;
+
+  @NotBlank
   private String title;
 
   @NotBlank

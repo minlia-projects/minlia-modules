@@ -18,6 +18,12 @@ public class TodoQueryRequestBody {
 
     private String type;
 
+    private String category;
+
+//    private String sponsor;
+
+    private String handler;
+
     private String number;
 
     private String title;
