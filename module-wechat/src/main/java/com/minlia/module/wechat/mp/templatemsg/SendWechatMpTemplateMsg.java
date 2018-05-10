@@ -35,7 +35,7 @@ public class SendWechatMpTemplateMsg {
     /**
      * 微信公众号模板CODE
      */
-    public static final String WECHAT_PUBLIC_TEMPLATE_MSG="WECHAT_MP_TEMPLATE";
+    public static final String WECHAT_MP_TEMPLATE="WECHAT_MP_TEMPLATE";
 
     /**
      * 加载实体Bean
@@ -52,8 +52,9 @@ public class SendWechatMpTemplateMsg {
      * @param templateId
      * @return
      */
+    @Deprecated
     private MiniProgram builderMiniProgram(String appId, String templateId,List<Object> pathParams){
-        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryByParentCodeAndCode(WECHAT_PUBLIC_TEMPLATE_MSG, templateId);
+        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryByParentCodeAndCode(WECHAT_MP_TEMPLATE, templateId);
         ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND, String.format("小程序路径%s不能为空",templateId));
         return new MiniProgram(appId, String.format(bibleItem.getAttribute1(),pathParams));
     }
@@ -102,7 +103,7 @@ public class SendWechatMpTemplateMsg {
 
             WxMpService wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
             WxMaConfig wxMaConfig = ContextHolder.getContext().getBean(WxMaConfig.class);
-            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryByParentCodeAndCode(WECHAT_PUBLIC_TEMPLATE_MSG, templateId);
+            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryByParentCodeAndCode(WECHAT_MP_TEMPLATE, templateId);
             ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND, String.format("小程序路径%s不能为空",templateId));
 
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
