@@ -31,9 +31,9 @@ public class GadPlaceServiceImpl implements GadPlaceService{
     private GadYuntuConfig yuntuConfig;
 
     @Override
-    public GadPlaceAroundResponseBody around(GadPlaceAroundRequestBody body) {
-        body.setKey(yuntuConfig.getWebApiKey());
-        ResponseEntity<GadPlaceAroundResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(place_around_url,GadUtils.beanToMap(body)),GadPlaceAroundResponseBody.class);
+    public GadPlaceAroundResponseBody around(GadPlaceAroundRequestBody requestBody) {
+        requestBody.setKey(yuntuConfig.getWebApiKey());
+        ResponseEntity<GadPlaceAroundResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(place_around_url,GadUtils.beanToMap(requestBody)),GadPlaceAroundResponseBody.class);
         return responseEntity.getBody();
     }
 
