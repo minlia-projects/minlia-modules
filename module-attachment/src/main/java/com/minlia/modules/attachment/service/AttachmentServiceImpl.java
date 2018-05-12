@@ -28,6 +28,12 @@ public class AttachmentServiceImpl implements AttachmentService {
     private AttachmentMapper attachmentMapper;
 
     @Override
+    public Attachment create(Attachment attachment) {
+        attachmentMapper.create(attachment);
+        return attachment;
+    }
+
+    @Override
     @Transactional
     public List<Attachment> create(List<Attachment> attachments) {
         return attachmentMapper.createBatch(attachments);

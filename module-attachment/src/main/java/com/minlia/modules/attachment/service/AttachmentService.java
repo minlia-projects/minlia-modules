@@ -17,6 +17,13 @@ public interface AttachmentService {
 
     /**
      * 创建
+     * @param attachment
+     * @return
+     */
+    Attachment create(Attachment attachment);
+
+    /**
+     * 创建
      * @param attachments
      * @return
      */

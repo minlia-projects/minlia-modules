@@ -19,6 +19,9 @@ import com.minlia.module.wechat.mp.constant.WechatMpApiCode;
 import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
+import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
+import com.minlia.modules.attachment.entity.Attachment;
+import com.minlia.modules.attachment.service.AttachmentService;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
@@ -47,6 +50,8 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
     private WxMaService wxMaService;
     @Autowired
     private BibleItemService bibleItemService;
+    @Autowired
+    private AttachmentService attachmentService;
     @Autowired
     private WechatOpenAccountService wechatOpenAccountService;
 
@@ -137,7 +142,17 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
         }
         OssFile ossFile = null;
         try {
-            ossFile = ossService.upload(file, file.getName());
+            ossFile = ossService.upload(file, "qrcode"+file.getName());
+
+            attachmentService.create(Attachment.builder()
+                    .relationId("")
+                    .belongsTo("QRCODE")
+                    .name(ossFile.getOriginalName())
+                    .size(ossFile.getSize())
+                    .type(ossFile.getContentType())
+                    .url(ossFile.getUrl())
+                    .accessKey(ossFile.geteTag())
+                    .build());
         } catch (IOException e) {
             e.printStackTrace();
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());

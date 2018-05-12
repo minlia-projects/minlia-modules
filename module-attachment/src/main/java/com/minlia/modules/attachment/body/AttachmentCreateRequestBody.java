@@ -11,6 +11,7 @@ import java.util.List;
 
 @ApiModel(value = "附件-创建")
 @Data
+
 public class AttachmentCreateRequestBody implements ApiRequestBody {
 
     @ApiModelProperty(value = "业务类型编码", example = "account.identity.frontend")
