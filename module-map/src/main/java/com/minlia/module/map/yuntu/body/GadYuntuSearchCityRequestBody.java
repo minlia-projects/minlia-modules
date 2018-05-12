@@ -1,6 +1,7 @@
 package com.minlia.module.map.yuntu.body;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 本地检索请求体
@@ -12,6 +13,7 @@ public class GadYuntuSearchCityRequestBody extends GadYuntuAbstractRequestBody {
     /**
      * 搜索关键词,支持0-9数字，大小写字母（a-z,A-Z）以及所有中文字符
      */
+    @NotBlank
     private String keywords;
 
     /**

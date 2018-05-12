@@ -1,6 +1,7 @@
 package com.minlia.module.map.yuntu.body;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 区县数据分布检索请求
@@ -12,6 +13,7 @@ public class GadYuntuSearchDistrictRequestBody extends GadYuntuAbstractRequestBo
     /**
      * 搜索关键词,支持0-9数字，大小写字母（a-z,A-Z）以及所有中文字符
      */
+    @NotBlank
     private String keywords;
 
     /**
@@ -20,6 +22,7 @@ public class GadYuntuSearchDistrictRequestBody extends GadYuntuAbstractRequestBo
      * 1. province = 全国，返回含有数据的所有市名称以及对应数据量，并根据数据量从高到低排行；
      * 2. province = 山东，返回沈阳含有数据的所有市名称以及对应数据量，并根据数据量从高到低排行；
      */
+    @NotBlank
     private String province;
 
     /**
@@ -27,6 +30,7 @@ public class GadYuntuSearchDistrictRequestBody extends GadYuntuAbstractRequestBo
      * 说明：
      * city = 城市名称，返回该市下，各区县名称以及对应数据量，并根据数据量从高到低排行；
      */
+    @NotBlank
     private String city;
 
     /**

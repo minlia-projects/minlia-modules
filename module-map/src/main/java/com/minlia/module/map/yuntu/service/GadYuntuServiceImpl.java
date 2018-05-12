@@ -51,7 +51,6 @@ public class GadYuntuServiceImpl implements GadYuntuService{
     public static String data_search_city_url = "http://yuntuapi.amap.com/datasearch/statistics/city";
     //区县数据分布检索请求
     public static String data_search_district_url = "http://yuntuapi.amap.com/datasearch/statistics/district";
-
     //附近检索接口
     public static String data_search_nearby_around_url = "http://yuntuapi.amap.com/nearby/around";
 

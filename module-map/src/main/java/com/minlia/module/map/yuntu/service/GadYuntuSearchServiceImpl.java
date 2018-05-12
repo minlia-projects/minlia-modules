@@ -52,9 +52,6 @@ public class GadYuntuSearchServiceImpl implements GadYuntuSearchService{
 
     @Override
     public GadYuntuSearchResponseBody searchAround(GadYuntuSearchAroundRequestBody body) {
-        if (null == body.getKeywords()) {
-            body.setKeywords(" ");
-        }
         return request(body,data_search_around_url);
     }
 
@@ -70,25 +67,16 @@ public class GadYuntuSearchServiceImpl implements GadYuntuSearchService{
 
     @Override
     public GadYuntuSearchResponseBody searchProvince(GadYuntuSearchProvinceRequestBody body) {
-        if (null == body.getKeywords()) {
-            body.setKeywords(" ");
-        }
         return request(body,data_search_province_url);
     }
 
     @Override
     public GadYuntuSearchResponseBody searchCity(GadYuntuSearchCityRequestBody body) {
-        if (null == body.getKeywords()) {
-            body.setKeywords(" ");
-        }
         return request(body,data_search_city_url);
     }
 
     @Override
     public GadYuntuSearchResponseBody searchDistrict(GadYuntuSearchDistrictRequestBody body) {
-        if (null == body.getKeywords()) {
-            body.setKeywords(" ");
-        }
         return request(body,data_search_district_url);
     }
 
