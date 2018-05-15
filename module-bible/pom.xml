@@ -54,6 +54,12 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-rebecca</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>

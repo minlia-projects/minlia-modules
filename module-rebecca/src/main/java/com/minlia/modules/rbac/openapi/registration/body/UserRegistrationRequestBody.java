@@ -17,28 +17,28 @@ import javax.validation.constraints.Size;
 @Data
 public class UserRegistrationRequestBody implements ApiRequestBody {
 
-  /**
-   * 用户名
-   */
-  @NotBlank
-  @Cellphone
-  @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Username have to be grater than 8 characters")
-  private String username;
+    /**
+     * 用户名
+     */
+    @NotBlank
+    @Cellphone
+    @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Username have to be grater than 8 characters")
+    private String username;
 
-  /**
-   * 密码
-   */
-  @NotBlank
-  @Password
-  @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Password have to be grater than 8 characters")
-  private String password;
+    /**
+     * 密码
+     */
+    @NotBlank
+    @Password
+    @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Password have to be grater than 8 characters")
+    private String password;
 
-  @NotBlank
-  @Size(min = 4,max = 6)
-  private String code;
+    @NotBlank
+    @Size(min = 4, max = 6)
+    private String code;
 
-  @ApiModelProperty("推荐人")
-  @Size(max = 50)
-  private String referral;
+    @ApiModelProperty("推荐人")
+    @Size(max = 50)
+    private String referral;
 
 }

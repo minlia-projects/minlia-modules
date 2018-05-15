@@ -14,6 +14,7 @@ import com.minlia.module.bible.mapper.BibleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+@CacheConfig(cacheNames = {"minlia:bible_item"})
 public class BibleItemServiceImpl implements BibleItemService {
 
     @Autowired
@@ -35,6 +37,12 @@ public class BibleItemServiceImpl implements BibleItemService {
 
     @Override
     @Transactional
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "minlia:bible_item_one",allEntries = true),
+                    @CacheEvict(value = "minlia:bible_item_list",allEntries = true)
+            }
+    )
     public BibleItem create(BibleItemCreateRequestBody requestBody) {
         Bible bible = bibleMapper.queryByCode(requestBody.getParentCode());
         ApiPreconditions.is(null == bible, BibleApiCode.NOT_FOUND,"父级不存在");
@@ -49,6 +57,13 @@ public class BibleItemServiceImpl implements BibleItemService {
 
     @Override
     @Transactional
+    @Caching(
+            put = {@CachePut(key = "'bible_item:' + #p0.id")},
+            evict = {
+                    @CacheEvict(value = "minlia:bible_item_one", allEntries = true),
+                    @CacheEvict(value = "minlia:bible_item_list", allEntries = true)
+            }
+    )
     public BibleItem update(BibleItemUpdateRequestBody body){
         BibleItem bibleItem=bibleItemMapper.queryById(body.getId());
         ApiPreconditions.is(null == bibleItem, BibleApiCode.NOT_FOUND,"数据不存在");
@@ -59,6 +74,13 @@ public class BibleItemServiceImpl implements BibleItemService {
 
     @Override
     @Transactional
+    @Caching(
+            evict = {
+                    @CacheEvict(key = "'bible_item:' + #p0"),
+                    @CacheEvict(value = "minlia:bible_item_one", allEntries = true),
+                    @CacheEvict(value = "minlia:bible_item_list", allEntries = true),
+            }
+    )
     public void delete(Long id) {
         bibleItemMapper.delete(id);
     }
@@ -75,11 +97,13 @@ public class BibleItemServiceImpl implements BibleItemService {
     }
 
     @Override
+    @Cacheable(key = "'bible_item:' + #p0")
     public List<BibleItem> queryByParentCode(String parentCode) {
         return bibleItemMapper.queryList(BibleItemQueryRequestBody.builder().parentCode(parentCode).build());
     }
 
     @Override
+    @Cacheable(key = "'bible_item:' + #p0")
     public BibleItem queryById(Long id) {
         return bibleItemMapper.queryById(id);
     }
@@ -96,7 +120,7 @@ public class BibleItemServiceImpl implements BibleItemService {
 
     @Override
     public PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> bibleItemMapper.queryList(requestBody));
+        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> this.queryList(requestBody));
     }
 
 }

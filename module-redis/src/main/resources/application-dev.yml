@@ -1,18 +1,26 @@
+server:
+  port: 9999
+
+system:
+    appId: minlia-redis-app
+    token: bWlubGlhCg==
+
 spring:
     profile: dev
     application:
-        name: redisapp
+        name: Minlia Redis
     session:
         store-type: redis
 
     redis:
-        database: 0
-        host: 47.93.48.243
-        password: xxxxxx
-        pool:
-            max-active: 8
-            max-idle: 8
-            max-wait: -1
-            min-idle: 0
+        database: 10
+        host: 127.0.0.1
         port: 6379
-        timeout: 0
+        password:
+        pool:
+            max-active: 300
+            max-wait: 10000
+            max-idle: 50
+            min-idle: 10
+        timeout: 180
+

@@ -1,27 +1,28 @@
 server:
-  port: 7001
+  port: 10002
 
 system:
-    appId: bibleapp
+    appId: minlia-bible-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: 应用
+        name: Miniq Bible
     http:
         encoding.charset: UTF-8
         encoding.enable: true
         encoding.force: true
+    session:
+        store-type: redis
 
     datasource:
-        name:
-#        driver-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://rm-bp1v94c921ols1ne60o.mysql.rds.aliyuncs.com/yuncard_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        name:
         username: root
-        password: yuncard123!
+        password:
 #        使用druid数据源
 #        type: com.alibaba.druid.pool.DruidDataSource
         filters: stat
@@ -31,7 +32,7 @@ spring:
         minIdle: 1
         timeBetweenEvictionRunsMillis: 60000
         minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
+        validationQuery: select 1
         testWhileIdle: true
         testOnBorrow: false
         testOnReturn: false
@@ -39,35 +40,26 @@ spring:
         maxOpenPreparedStatements: 20
         continue-on-error: true
         initialize: true
+        data: classpath*:sql/minlia_init.sql
 
     redis:
         database: 0
-        host: 47.93.48.243
-        password: yunka123
-        pool:
-            max-active: 8
-            max-idle: 8
-            max-wait: -1
-            min-idle: 0
+        host: 127.0.0.1
         port: 6379
-        timeout: 0
+        password:
+        pool:
+            max-active: 500
+            max-wait: 1000
+            max-idle: 100
+            min-idle: 50
+        timeout: 180
 
 system.security.jwt:
-#  tokenExpirationTime: 15 # Number of minutes
-  tokenExpirationTime: 604800 # Number of minutes
-  refreshTokenExpTime: 604800 # Minutes
-  tokenIssuer: http://minlia.com
-  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
-  
-#spring.datasource:
-#  url: "jdbc:h2:mem:testdb"
-#  driverClassName: org.h2.Driver
-#  username: sa
-#  password: ""
-#  data: "classpath*:data.sql"
-#spring.jpa:
-#  database-platform: org.hibernate.dialect.H2Dialect
-#spring.h2.console.enabled: true
+    tokenExpirationTime: 604800 # Number of minutes
+    refreshTokenExpTime: 604800 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+
 swagger:
     title: ${spring.application.name}接口
     description: ${spring.application.name}接口
@@ -77,8 +69,10 @@ swagger:
     redirect: true
 
 mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-#  config-location: classpath:mybatis/mybatis-config.xml
+#    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath*:mybatis/mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
 
 # 分页配置
 pagehelper:
@@ -86,5 +80,3 @@ pagehelper:
     reasonable: true
     support-methods-arguments: true
     params: count=countSql
-#  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
-#  row-bounds-with-count: true
