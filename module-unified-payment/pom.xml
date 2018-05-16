@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.minlia.cloud.modules</groupId>
+        <artifactId>minlia-modules</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.minlia.cloud.modules</groupId>
+    <artifactId>module-unified-payment</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Module Bible</name>
+
+    <properties>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>oschina-v3-maven2-repository</id>
+            <name>oschina-v3-maven2-repository</name>
+            <url>http://git.oschina.net/v3/maven2/raw/master/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.minlia.cloud</groupId>
+            <artifactId>minlia-cloud-starter</artifactId>
+            <version>1.0.3-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-common</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-swagger</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-data</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-bible</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alipay</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>20170829142630</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.31</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <version>2.8.0</version>
+            <artifactId>weixin-java-pay</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>integration</id>-->
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin>-->
+                        <!--<groupId>org.apache.maven.plugins</groupId>-->
+                        <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<phase>integration-test</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>test</goal>-->
+                                <!--</goals>-->
+                                <!--<configuration>-->
+                                    <!--<excludes>-->
+                                        <!--<exclude>**/*LiveTest.java</exclude>-->
+                                        <!--<exclude>**/AutoconfigurationTest.java</exclude>-->
+                                    <!--</excludes>-->
+                                    <!--<includes>-->
+                                        <!--<include>**/*IntegrationTest.java</include>-->
+                                    <!--</includes>-->
+                                <!--</configuration>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                        <!--<configuration>-->
+                            <!--<systemPropertyVariables>-->
+                                <!--<test.mime>json</test.mime>-->
+                            <!--</systemPropertyVariables>-->
+                        <!--</configuration>-->
+                    <!--</plugin>-->
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+        <!--<profile>-->
+            <!--<id>autoconfiguration</id>-->
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin>-->
+                        <!--<groupId>org.apache.maven.plugins</groupId>-->
+                        <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<phase>integration-test</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>test</goal>-->
+                                <!--</goals>-->
+                                <!--<configuration>-->
+                                    <!--<excludes>-->
+                                        <!--<exclude>**/*LiveTest.java</exclude>-->
+                                        <!--<exclude>**/*IntegrationTest.java</exclude>-->
+                                    <!--</excludes>-->
+                                    <!--<includes>-->
+                                        <!--<include>**/AutoconfigurationTest.java</include>-->
+                                    <!--</includes>-->
+                                <!--</configuration>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                        <!--<configuration>-->
+                            <!--<systemPropertyVariables>-->
+                                <!--<test.mime>json</test.mime>-->
+                            <!--</systemPropertyVariables>-->
+                        <!--</configuration>-->
+                    <!--</plugin>-->
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+    <!--</profiles>-->
+
+    <build>
+        <plugins>
+            <!--<plugin>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--<configuration>-->
+            <!--<addResources>true</addResources>-->
+            <!--<mainClass>com.microsoft.apps.application.platform.Application</mainClass>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<goals>-->
+            <!--<goal>repackage</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <!--<plugin>-->
+            <!--<groupId>com.mysema.maven</groupId>-->
+            <!--<artifactId>apt-maven-plugin</artifactId>-->
+            <!--</plugin>-->
+            <!---->
+            <!--<plugin>-->
+            <!--<groupId>org.bsc.maven</groupId>-->
+            <!--<artifactId>maven-processor-plugin</artifactId>-->
+            <!--</plugin>-->
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
