@@ -70,7 +70,7 @@ public class DyplsBindServiceImpl implements DyplsBindService {
             dyplsBind.setSecretNo(response.getSecretBindDTO().getSecretNo());
             dyplsBind.setExpireTime(requestBody.getExpireTime());
             DyplsBindEvent.onBind(dyplsBind);
-            return SuccessResponseBody.builder().message(response.getMessage()).build();
+            return SuccessResponseBody.builder().message(response.getMessage()).payload(response.getSecretBindDTO()).build();
         } else {
             return FailureResponseBody.builder().message(response.getMessage()).build();
         }
