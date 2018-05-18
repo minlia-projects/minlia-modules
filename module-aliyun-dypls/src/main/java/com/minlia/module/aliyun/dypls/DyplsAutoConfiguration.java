@@ -1,4 +1,4 @@
-package com.minlia.modules.aliyun.dypls;
+package com.minlia.module.aliyun.dypls;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -6,7 +6,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.modules.aliyun.dypls.config.DyplsConfig;
+import com.minlia.module.aliyun.dypls.config.DyplsConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

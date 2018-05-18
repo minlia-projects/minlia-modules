@@ -1,4 +1,4 @@
-package com.minlia.modules.aliyun.dypls.config;
+package com.minlia.module.aliyun.dypls.config;
 
 /**
  * Created by garen on 2018/5/18.

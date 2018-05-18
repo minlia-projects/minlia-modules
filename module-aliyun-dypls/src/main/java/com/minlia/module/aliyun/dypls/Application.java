@@ -1,4 +1,4 @@
-package com.minlia.modules.aliyun.dypls;
+package com.minlia.module.aliyun.dypls;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,13 +1,11 @@
-package com.minlia.modules.aliyun.dypls.body;
+package com.minlia.module.aliyun.dypls.entity;
 
-import com.minlia.module.common.validation.Cellphone;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -17,33 +15,34 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BindAxnRequestBody {
+public class DyplsBind extends AbstractEntity {
 
     private String poolKey;
 
     /**
+     * 三元绑定关系对应的绑定ID
+     */
+    private String subsId;
+
+    /**
+     * 调用绑定接口时分配的隐私号码
+     */
+    private String secretNo;
+
+    /**
      * AXB关系中的A号码
      */
-    @NotBlank
-    @Cellphone
     private String phoneNoA;
 
     /**
      * AXB关系中的B号码
      */
-    @Cellphone
     private String phoneNoB;
 
     /**
      * 绑定关系对应的失效时间-不能早于当前系统时间
      */
-    @NotNull
     private Date expireTime;
-
-    /**
-     * 是否需要录制音频-默认是false
-     */
-    private Boolean isRecordingEnabled;
 
     /**
      * 外部业务自定义ID属性
