@@ -2,22 +2,18 @@ server:
   port: 10001
 
 system:
-    appId: miniq-runtime-app
+    appId: aliyun-dypls-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: miniq-runtime-manage
+        name: Minlia Aliyun Dypls
     http:
         encoding.charset: UTF-8
         encoding.enable: true
         encoding.force: true
-        multipart:
-              enabled: true
-              max-file-size: 300MB  #(这里是限制的文件大小)
-              max-request-size: 300MB #(这里是限制的文件大小)
     session:
         store-type: redis
 
@@ -83,32 +79,3 @@ pagehelper:
     reasonable: true
     support-methods-arguments: true
     params: count=countSql
-#  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
-#  row-bounds-with-count: true
-
-aliyun:
-    oss:
-        key: LTAI7w8hY3vG8RNb
-        secret: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        bucket: mini-q
-        endpoint: oss.apartscloud.com
-#        endpoint: oss-cn-shenzhen.aliyuncs.com
-    sms:
-        accessId: LTAI7w8hY3vG8RNb
-        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        endpoint: cn-hangzhou
-        regionId: cn-hangzhou
-        product: Dysmsapi
-        domain: dysmsapi.aliyuncs.com
-        signName: 智慧新民居
-
-sms:
-    templates:
-        securityCode: SMS_95635445
-        test: SMS_95635444
-        loginConfirm: SMS_95635443
-        loginException: SMS_95635442
-        userRegistration: SMS_95635441
-        changePassword: SMS_95635440
-        infoChange: SMS_95635439
-        mp-attention: SMS_133969774
