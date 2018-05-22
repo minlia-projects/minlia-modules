@@ -27,9 +27,6 @@ public class TodoCreateRequestBody {
   private String handler;
 
   @NotBlank
-  private String title;
-
-  @NotBlank
   private String content;
 
   private Date time;

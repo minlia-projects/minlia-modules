@@ -16,16 +16,12 @@ public class TodoQueryRequestBody {
 
     private String relationId;
 
-    private String type;
-
-    private String category;
-
-//    private String sponsor;
-
-    private String handler;
-
     private String number;
 
-    private String title;
+    private String type;
+
+    private String status;
+
+    private String handler;
 
 }

@@ -36,29 +36,14 @@ public class MyTodo extends AbstractEntity {
     private String type;
 
     /**
-     * 大类
+     * 状态
      */
-    private String category;
-//
-//    /**
-//     * 发起人
-//     */
-//    private String sponsor;
+    private TodoStatus status;
 
     /**
      * 处理人
      */
     private String handler;
-
-    /**
-     * 标题
-     */
-    private String title;
-
-    /**
-     * 状态
-     */
-    private TodoStatus status;
 
     /**
      * 内容

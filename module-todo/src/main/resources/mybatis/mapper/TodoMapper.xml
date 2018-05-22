@@ -8,13 +8,11 @@
 			number ,
 			relation_id ,
 			type ,
-			category ,
-			handler ,
-			title ,
+			status ,
 			content ,
+			handler ,
 			time ,
 			expiry_time ,
-			status ,
 			notes ,
 			create_date ,
 			create_by ,
@@ -34,14 +32,11 @@
             <if test="type != null">
                 AND type = #{type}
             </if>
-            <if test="category != null">
-                AND category = #{category}
+            <if test="status != null">
+                AND status = #{status}
             </if>
             <if test="handler != null">
                 AND handler = #{handler}
-            </if>
-            <if test="title != null">
-                AND INSTR(title,#{title}) > 0
             </if>
         </where>
     </sql>
@@ -51,13 +46,11 @@
 			number ,
 			relation_id ,
 			type ,
-			category ,
-			handler ,
-			title ,
+			status,
 			content ,
+			handler ,
 			time ,
 			expiry_time ,
-			status,
 			notes ,
 			create_by
 		)
@@ -66,13 +59,11 @@
 			#{number} ,
 			#{relationId} ,
 			#{type} ,
-			#{category} ,
-			#{handler} ,
-			#{title} ,
+			#{status} ,
 			#{content} ,
+			#{handler} ,
 			#{time} ,
 			#{expiryTime} ,
-			#{status} ,
 			#{notes} ,
 			#{createBy}
 		)
@@ -81,9 +72,6 @@
     <update id="update" parameterType="com.minlia.module.todo.entity.MyTodo">
         UPDATE minlia_todo
         <set>
-            <if test="title != null">
-                title = #{title},
-            </if>
             <if test="content != null">
                 content = #{content},
             </if>

@@ -17,9 +17,6 @@ public class TodoUpdateRequestBody {
     private String number;
 
     @NotBlank
-    private String title;
-
-    @NotBlank
     private String content;
 
     private Date time;

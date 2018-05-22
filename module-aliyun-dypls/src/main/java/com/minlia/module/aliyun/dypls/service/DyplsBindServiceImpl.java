@@ -6,6 +6,8 @@ import com.aliyuncs.exceptions.ClientException;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.aliyun.dypls.body.BindAxnRequestBody;
 import com.minlia.module.aliyun.dypls.config.DyplsConfig;
 import com.minlia.module.aliyun.dypls.entity.DyplsBind;
@@ -54,14 +56,20 @@ public class DyplsBindServiceImpl implements DyplsBindService {
     }
 
     @Override
-    public StatefulBody bindAxn(BindAxnRequestBody requestBody) throws ClientException {
+    public StatefulBody bindAxn(BindAxnRequestBody requestBody) {
         BindAxnRequest request = new BindAxnRequest();
         BeanUtils.copyProperties(requestBody,request);
         if (StringUtils.isEmpty(request.getPoolKey())) {
             request.setPoolKey(dyplsConfig.getPoolKey());
         }
         request.setExpiration(DateFormatUtils.format(requestBody.getExpireTime(),"yyyy-MM-dd HH:mm:ss"));
-        BindAxnResponse response = acsClient.getAcsResponse(request);
+        BindAxnResponse response = null;
+        try {
+            response = acsClient.getAcsResponse(request);
+        } catch (ClientException e) {
+            e.printStackTrace();
+            return FailureResponseBody.builder().message("AXN绑定失败").payload(e.getErrMsg()).build();
+        }
 
         if(response.getCode() != null && response.getCode().equals("OK")) {
             DyplsBind dyplsBind = new DyplsBind();
@@ -121,7 +129,7 @@ public class DyplsBindServiceImpl implements DyplsBindService {
      * @throws ClientException
      */
     @Override
-    public StatefulBody unbind(String subsId, String secretNo) throws ClientException {
+    public StatefulBody unbind(String subsId, String secretNo) {
         //组装请求对象
         UnbindSubscriptionRequest request = new UnbindSubscriptionRequest();
         //必填:对应的号池Key
@@ -131,7 +139,13 @@ public class DyplsBindServiceImpl implements DyplsBindService {
         //可选-绑定关系对应的ID-对应到绑定接口中返回的subsId;
         request.setSubsId(subsId);
 
-        UnbindSubscriptionResponse response = acsClient.getAcsResponse(request);
+        UnbindSubscriptionResponse response = null;
+        try {
+            response = acsClient.getAcsResponse(request);
+        } catch (ClientException e) {
+            e.printStackTrace();
+            return FailureResponseBody.builder().message("Unbind绑定失败").payload(e.getErrMsg()).build();
+        }
         if(response.getCode() != null && response.getCode().equals("OK")) {
             DyplsUnbindEvent.unbind(secretNo);
             return SuccessResponseBody.builder().message(response.getMessage()).build();

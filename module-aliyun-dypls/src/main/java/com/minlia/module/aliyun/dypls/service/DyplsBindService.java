@@ -12,12 +12,12 @@ public interface DyplsBindService {
 
     BindAxbResponse bindAxb(BindAxbRequest request) throws ClientException;
 
-    StatefulBody bindAxn(BindAxnRequestBody body) throws ClientException;
+    StatefulBody bindAxn(BindAxnRequestBody body);
 
     BindAxnExtensionResponse bindAxnExtension(BindAxnExtensionRequest request) throws ClientException;
 
     UpdateSubscriptionResponse updateSubscription(UpdateSubscriptionRequest request) throws ClientException;
 
-    StatefulBody unbind(String subsId, String secretNo) throws ClientException;
+    StatefulBody unbind(String subsId, String secretNo);
 
 }

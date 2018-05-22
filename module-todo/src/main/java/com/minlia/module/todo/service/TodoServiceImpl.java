@@ -47,7 +47,6 @@ public class TodoServiceImpl implements TodoService {
         MyTodo todo = mapper.map(requestBody, MyTodo.class);
         todo.setNumber(NumberGenerator.generatorByTimestamp("TD",2));
         todo.setStatus(TodoStatus.UNDONE);
-        todo.setCategory(bibleItem.getAttribute1());
         todoMapper.create(todo);
 
         TodoCreateEvent.onCreate(todo);
