@@ -33,6 +33,8 @@
         <module>module-richtext</module>
         <module>module-todo</module>
         <module>module-tencent-cloud-auth</module>
+
+        <module>module-aliyun-dypls</module>
         <!--<module>module-i18n</module>-->
 
         <module>module-map</module>
