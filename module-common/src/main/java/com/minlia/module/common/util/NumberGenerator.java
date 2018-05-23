@@ -23,6 +23,10 @@ public class NumberGenerator {
         return prefix + DateFormatUtils.format(new Date(),"yyyyMMddHHmmss") + RandomStringUtils.randomNumeric(stuffLength);
     }
 
+    public static String generatorByYMDHMSS(String prefix,Integer stuffLength){
+        return prefix + DateFormatUtils.format(new Date(),"yyyyMMddHHmmssSSS") + RandomStringUtils.randomNumeric(stuffLength);
+    }
+
     public static String generatorByTimestamp(String prefix,Integer stuffLength) {
         String generated = prefix + System.currentTimeMillis() + RandomStringUtils.randomNumeric(stuffLength);
         return generated;
