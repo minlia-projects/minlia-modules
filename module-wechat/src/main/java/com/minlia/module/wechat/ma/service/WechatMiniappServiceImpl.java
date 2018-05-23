@@ -19,7 +19,6 @@ import com.minlia.module.wechat.mp.constant.WechatMpApiCode;
 import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
-import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.service.AttachmentService;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -54,6 +53,8 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
     private AttachmentService attachmentService;
     @Autowired
     private WechatOpenAccountService wechatOpenAccountService;
+
+    static String DEFAULT_QRCODE_PATH = "qrcode";
 
     @Override
     public WxMaService getWxMaService(String type) {
@@ -106,6 +107,9 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
 
     @Override
     public OssFile createWxCodeLimit(MiniappQrcodeRequestBody body){
+        BibleItem qrConfig = bibleItemService.queryByParentCodeAndCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE,body.getType());
+        ApiPreconditions.is(null == qrConfig,ApiCode.NOT_FOUND,"小程序二维码类型不存在");
+
         String accessToken = null;
         try {
             accessToken = wxMaService.getAccessToken();
@@ -116,12 +120,15 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
         ApiPreconditions.checkNotNull(accessToken,ApiCode.NOT_NULL,"accessToken不能为空");
         String reqUrl = String.format("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s", accessToken);
 
-        String page = String.format(body.getPage(), body.getScene());
+        String page = String.format(qrConfig.getValue(), body.getScene());
         ApiPreconditions.is(page.length()>32, 50005, "路径长度不能超过32个字符");
 
         JSONObject data = new JSONObject();
         data.element("scene", body.getScene());
-        data.element("page",body.getPage());
+        data.element("page",qrConfig.getValue());
+        if (null != body.getIsHyaline()) {
+            data.element("is_hyaline", body.getIsHyaline());
+        }
         if (null != body.getWidth()) {
             data.element("width", body.getWidth());
         }
@@ -132,21 +139,21 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
             data.element("line_color", body.getLineColor());
         }
         String reqData = JSON.toJSONString(data);
-
         File file = null;
         try {
             file = HttpClientUtil.sendPostByJsonToFile(reqUrl, reqData);
         } catch (Exception e) {
             e.printStackTrace();
-            ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"创建二维码异常："+e.getMessage());
+            ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"生成小程序二维码异常："+e.getMessage());
         }
         OssFile ossFile = null;
         try {
-            ossFile = ossService.upload(file, "qrcode"+file.getName());
+            String path = null == body.getPath() ? String.format("%s/",DEFAULT_QRCODE_PATH) : String.format("%s/%s/",DEFAULT_QRCODE_PATH,body.getPath());
+            ossFile = ossService.upload(file, path + file.getName());
 
             attachmentService.create(Attachment.builder()
-                    .relationId("")
-                    .belongsTo("QRCODE")
+                    .relationId(body.getScene())
+                    .belongsTo(qrConfig.getCode())
                     .name(ossFile.getOriginalName())
                     .size(ossFile.getSize())
                     .type(ossFile.getContentType())
@@ -157,6 +164,7 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
             e.printStackTrace();
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());
         } finally {
+            //删除文件
             FileUtils.deleteQuietly(file);
         }
         return ossFile;

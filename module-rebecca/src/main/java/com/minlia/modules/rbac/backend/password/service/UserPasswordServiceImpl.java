@@ -3,8 +3,8 @@ package com.minlia.modules.rbac.backend.password.service;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.modules.rbac.backend.password.body.ChangePasswordByCaptchaRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordByRawPasswordRequestBody;
-import com.minlia.modules.rbac.backend.password.body.ChangePasswordBySecurityCodeRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ResetPasswordRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
@@ -25,13 +25,8 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    /**
-     * 重置密码
-     * @param body
-     * @return
-     */
     @Override
-    public User resetPassword(ResetPasswordRequestBody body) {
+    public User forget(ResetPasswordRequestBody body) {
         //验证验证码是否正确
         captchaService.validity(body.getUsername(), body.getCode());
 
@@ -41,7 +36,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     }
 
     @Override
-    public User changePassword(ChangePasswordBySecurityCodeRequestBody body) {
+    public User change(ChangePasswordByCaptchaRequestBody body) {
         User user= SecurityContextHolder.getCurrentUser();
 
         //验证验证码是否正确
@@ -51,7 +46,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     }
 
     @Override
-    public User changePassword(ChangePasswordByRawPasswordRequestBody body) {
+    public User change(ChangePasswordByRawPasswordRequestBody body) {
         User user= SecurityContextHolder.getCurrentUser();
 
         Boolean bool = bCryptPasswordEncoder.matches(body.getRawPassword(),user.getPassword());

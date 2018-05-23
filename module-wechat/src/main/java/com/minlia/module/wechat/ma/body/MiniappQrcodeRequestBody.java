@@ -1,17 +1,29 @@
 package com.minlia.module.wechat.ma.body;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MiniappQrcodeRequestBody {
 
-    @NotNull
+    @NotBlank
+    private String type;
+
+    @NotBlank
     private String scene;
 
-    @NotNull
-    private String page;
+    private String path;
+
+    /**
+     * 是否需要透明底色， is_hyaline 为true时，生成透明底色的小程序码
+     */
+    private Boolean isHyaline;
 
     private Integer width;
 

@@ -10,6 +10,9 @@ public class WechatMaBibleConstants {
     public static final String MINIAPP_ITEM_CODE_APPID="appId";
     public static final String MINIAPP_ITEM_CODE_SECRET="secret";
 
+
+    public static final String WECHAT_MA_QR_TYPE="WECHAT_MA_QR_TYPE";
+
 //    //微信公众号配置
 //    public static final String PUBLIC_CODE ="WECHAT_PUBLIC";
 //    public static final String PUBLIC_ITEM_CODE_APPID="appId";
