@@ -70,4 +70,6 @@ public interface TcAuthConfig {
 
     void updateApiNonceTicket(String value, int expireIn);
 
+    String getH5faceidResultUrl();
+
 }

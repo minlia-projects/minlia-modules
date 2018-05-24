@@ -57,6 +57,9 @@ public class TcAuthAutoConfiguration {
         apiNonceTicket.setExpireTime(System.currentTimeMillis());
         tcAuthMemoryConfig.setApiNonceTicket(apiNonceTicket);
 
+
+        tcAuthMemoryConfig.setH5faceidResultUrl(bibleItemService.get(TcAuthBibleConstants.BIBLE_CODE,TcAuthBibleConstants.H5FACEID_RESULT_URL));
+
         return tcAuthMemoryConfig;
     }
 

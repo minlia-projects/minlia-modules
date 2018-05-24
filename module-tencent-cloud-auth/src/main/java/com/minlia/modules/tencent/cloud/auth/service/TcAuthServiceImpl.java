@@ -1,6 +1,7 @@
 package com.minlia.modules.tencent.cloud.auth.service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
@@ -10,6 +11,7 @@ import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.tencent.cloud.auth.bean.FaceAuth;
 import com.minlia.modules.tencent.cloud.auth.body.*;
+import com.minlia.modules.tencent.cloud.auth.body.response.TcFaceIdResultResponseBody;
 import com.minlia.modules.tencent.cloud.auth.config.TcAuthConfig;
 import com.minlia.modules.tencent.cloud.auth.entity.FaceIdRecord;
 import com.minlia.modules.tencent.cloud.auth.utils.SignUtils;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.locks.Lock;
 
@@ -34,12 +37,10 @@ public class TcAuthServiceImpl implements TcAuthService{
     @Autowired
     private RestTemplate restTemplate;
 
-    @Autowired
-    private FaceIdRecordService faceIdRecordService;
-
     private TcAuthConfig authConfig;
 
-    private final String FACEID_APP_ID = "wx7ccfa42a2a641035";
+    @Autowired
+    private FaceIdRecordService faceIdRecordService;
 
     @Override
     public String getAccessToken() {
@@ -211,8 +212,27 @@ public class TcAuthServiceImpl implements TcAuthService{
                 return FailureResponseBody.builder().code(Integer.valueOf(responseEntity.getBody().getCode())).message(responseEntity.getBody().getMsg()).build();
             }
         } else {
-            return  FailureResponseBody.builder().code(responseEntity.getStatusCode().value()).build();
+            return FailureResponseBody.builder().code(responseEntity.getStatusCode().value()).build();
         }
+    }
+
+    @Override
+    public TcFaceIdResultResponseBody getH5faceidResult(String orderNo) {
+        List<String> values = Lists.newArrayList();
+        values.add(this.authConfig.getAppid());
+        values.add(orderNo);
+        values.add(this.getApiSignTicket());
+        values.add(UUID.randomUUID().toString().replace("-", ""));
+        String sign = SignUtils.sign(values);
+
+        Map<String,String> map = Maps.newHashMap();
+        map.put("app_id",this.authConfig.getAppid());
+        map.put("version","1.0.0");
+        map.put("nonce",UUID.randomUUID().toString().replace("-", ""));
+        map.put("order_no",orderNo);
+        map.put("sign",sign);
+        TcFaceIdResultResponseBody responseBody = restTemplate.getForObject(authConfig.getH5faceidResultUrl(), TcFaceIdResultResponseBody.class,map);
+        return responseBody;
     }
 
 }

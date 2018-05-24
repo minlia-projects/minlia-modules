@@ -2,6 +2,7 @@ package com.minlia.modules.tencent.cloud.auth.service;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.modules.tencent.cloud.auth.body.TcFaceIdRequestBody;
+import com.minlia.modules.tencent.cloud.auth.body.response.TcFaceIdResultResponseBody;
 import com.minlia.modules.tencent.cloud.auth.config.TcAuthConfig;
 
 /**
@@ -27,6 +28,18 @@ public interface TcAuthService {
 
     String sign(String orderNo,String name,String idNo,String userId);
 
+    /**
+     * 人脸识别请求
+     * @param requestBody
+     * @return
+     */
     StatefulBody geth5faceid(TcFaceIdRequestBody requestBody);
+
+    /**
+     * 获取人脸识别结果
+     * @param orderNo
+     * @return
+     */
+    TcFaceIdResultResponseBody getH5faceidResult(String orderNo);
 
 }

@@ -35,6 +35,7 @@ public class TcAuthMemoryConfig implements TcAuthConfig {
     protected volatile TcApiNonceTicket apiNonceTicket;
     protected volatile String apiNonceTicketUrl;
 
+    protected volatile String h5faceidResultUrl;
 
     @Override
     public String getAppid() {
@@ -186,6 +187,13 @@ public class TcAuthMemoryConfig implements TcAuthConfig {
         this.apiNonceTicket.setExpireTime(System.currentTimeMillis() + (long)(expireIn - 20)*1000);
     }
 
+    public String getH5faceidResultUrl() {
+        return h5faceidResultUrl;
+    }
+
+    public void setH5faceidResultUrl(String h5faceidResultUrl) {
+        this.h5faceidResultUrl = h5faceidResultUrl;
+    }
 
     @Override
     public String toString() {

@@ -4,16 +4,14 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.tencent.cloud.auth.body.TcFaceIdRequestBody;
+import com.minlia.modules.tencent.cloud.auth.body.response.TcFaceIdResultResponseBody;
 import com.minlia.modules.tencent.cloud.auth.service.TcAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -54,6 +52,13 @@ public class TcAuthEndpoint {
     @RequestMapping(value = "geth5faceid", method = RequestMethod.POST,consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody geth5faceid(@Valid @RequestBody TcFaceIdRequestBody requestBody) {
         return tcAuthService.geth5faceid(requestBody);
+    }
+
+    @PreAuthorize(value = "isAuthenticated()")
+    @ApiOperation(value = "geth5faceidResult", notes = "获取h5faceid", httpMethod = "POST",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "geth5faceidresult/{orderNo}", method = RequestMethod.POST,consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public TcFaceIdResultResponseBody geth5faceidResult(@PathVariable String orderNo) {
+        return tcAuthService.getH5faceidResult(orderNo);
     }
 
 //    @PreAuthorize(value = "isAuthenticated()")

@@ -47,15 +47,15 @@ spring:
 
     redis:
         database: 1
-        host: 120.78.180.85
+        host: 127.0.0.1
         port: 6379
-        password: Apartscloud2017
+        password:
         pool:
             max-active: 300
             max-wait: 10000
             max-idle: 50
             min-idle: 10
-        timeout: 0
+        timeout: 360
 
 system.security.jwt:
     tokenExpirationTime: 10080 # Number of minutes
