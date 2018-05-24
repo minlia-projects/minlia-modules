@@ -26,7 +26,7 @@ public abstract class AbstractEntity extends WithDateEntity {
     private String lastModifiedBy;
 
     public String getCreateBy() {
-        return UserPrincipalHolder.getCurrentUserLogin();
+        return null == createBy ? UserPrincipalHolder.getCurrentUserLogin() : createBy;
     }
 
     public void setCreateBy(String createBy) {
