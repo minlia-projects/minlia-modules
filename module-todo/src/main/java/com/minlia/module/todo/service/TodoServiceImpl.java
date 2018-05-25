@@ -45,7 +45,7 @@ public class TodoServiceImpl implements TodoService {
         ApiPreconditions.is(null == bibleItem,ApiCode.NOT_FOUND,String.format("待办类型%s不存在",requestBody.getType()));
 
         MyTodo todo = mapper.map(requestBody, MyTodo.class);
-        todo.setNumber(NumberGenerator.generatorByTimestamp("TD",2));
+        todo.setNumber(NumberGenerator.generatorByYMDHMSS("TD",1));
         todo.setStatus(TodoStatus.UNDONE);
         todoMapper.create(todo);
 

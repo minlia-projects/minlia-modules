@@ -1,6 +1,5 @@
 package com.minlia.module.todo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.data.entity.AbstractEntity;
@@ -27,11 +26,13 @@ public class MyTodo extends AbstractEntity {
      */
     private String number;
 
-    @JsonIgnore
+    /**
+     * 业务ID
+     */
     private String relationId;
 
     /**
-     * 类型
+     * 业务类型
      */
     private String type;
 
