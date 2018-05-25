@@ -218,17 +218,19 @@ public class TcAuthServiceImpl implements TcAuthService{
 
     @Override
     public TcFaceIdResultResponseBody getH5faceidResult(String orderNo) {
+        String nonce = UUID.randomUUID().toString().replace("-", "");
         List<String> values = Lists.newArrayList();
         values.add(this.authConfig.getAppid());
         values.add(orderNo);
         values.add(this.getApiSignTicket());
-        values.add(UUID.randomUUID().toString().replace("-", ""));
+        values.add("1.0.0");
+        values.add(nonce);
         String sign = SignUtils.sign(values);
 
         Map<String,String> map = Maps.newHashMap();
         map.put("app_id",this.authConfig.getAppid());
         map.put("version","1.0.0");
-        map.put("nonce",UUID.randomUUID().toString().replace("-", ""));
+        map.put("nonce",nonce);
         map.put("order_no",orderNo);
         map.put("sign",sign);
         TcFaceIdResultResponseBody responseBody = restTemplate.getForObject(authConfig.getH5faceidResultUrl(), TcFaceIdResultResponseBody.class,map);
