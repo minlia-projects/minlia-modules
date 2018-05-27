@@ -19,7 +19,7 @@ spring:
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_miniq_contract_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
@@ -44,15 +44,15 @@ spring:
 
     redis:
         database: 0
-        host: 120.78.180.85
+        host: 127.0.0.1
         port: 6379
-        password: Apartscloud2017
+        password:
         pool:
             max-active: 500
             max-wait: 1000
             max-idle: 100
             min-idle: 50
-        timeout: 0
+        timeout: 360
 
 system.security.jwt:
     tokenExpirationTime: 604800 # Number of minutes

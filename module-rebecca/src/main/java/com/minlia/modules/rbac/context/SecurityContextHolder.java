@@ -33,9 +33,9 @@ public final class SecurityContextHolder {
 
                 //添加navigations 到当前用户上下文
 //                List<Navigation> navigationList = Lists.newArrayList();
-//                Set<Role> roles = getCurrentUser().getRoles();
+//                Set<LoginLog> roles = getCurrentUser().getRoles();
 //                if (null != roles && roles.size() > 0) {
-//                    for (Role role : roles) {
+//                    for (LoginLog role : roles) {
 //                        if(null!=role.getNavigations()) {
 //                            navigationList.addAll(role.getNavigations());
 //                        }

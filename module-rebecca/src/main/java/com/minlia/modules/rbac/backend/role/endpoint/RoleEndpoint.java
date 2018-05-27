@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by will on 6/19/17.
  */
-@Api(tags = "System Role", description = "角色")
+@Api(tags = "System LoginLog", description = "角色")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "security/role")
 public class RoleEndpoint {
