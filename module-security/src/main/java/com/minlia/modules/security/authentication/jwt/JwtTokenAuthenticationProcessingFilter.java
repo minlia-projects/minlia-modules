@@ -2,11 +2,8 @@ package com.minlia.modules.security.authentication.jwt;
 
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
-import com.minlia.modules.security.exception.JwtAcceptableException;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -42,10 +39,6 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         String tokenPayload = request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
-        if (StringUtils.isEmpty(tokenPayload)) {
-            throw new JwtAcceptableException(HttpStatus.NOT_ACCEPTABLE.getReasonPhrase());
-        }
-
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
     }
