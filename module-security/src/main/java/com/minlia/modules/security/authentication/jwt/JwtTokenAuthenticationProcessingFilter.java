@@ -3,6 +3,7 @@ package com.minlia.modules.security.authentication.jwt;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -25,6 +26,7 @@ import java.io.IOException;
  *
  * Aug 5, 2016
  */
+@Slf4j
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationFailureHandler failureHandler;
     private final TokenExtractor tokenExtractor;
@@ -38,8 +40,10 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+        log.info("JWT begin attemptAuthentication-------------------------------");
         String tokenPayload = request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
+        log.info("JWT end attemptAuthentication---------------------------------");
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
     }
 
