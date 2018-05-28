@@ -4,7 +4,7 @@ import com.minlia.modules.security.model.token.JwtToken;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- * jwt接受异常
+ * jwt接收异常、格式错误什么的
  */
 public class JwtAcceptableException extends AuthenticationException {
     private static final long serialVersionUID = -5959543783324224864L;

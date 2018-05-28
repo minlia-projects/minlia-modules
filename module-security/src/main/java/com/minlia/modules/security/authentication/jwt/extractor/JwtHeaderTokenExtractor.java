@@ -1,7 +1,6 @@
 package com.minlia.modules.security.authentication.jwt.extractor;
 
-import com.minlia.modules.security.exception.JwtInvalidTokenException;
-import org.springframework.security.authentication.AuthenticationServiceException;
+import com.minlia.modules.security.exception.JwtAcceptableException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -13,12 +12,12 @@ public class JwtHeaderTokenExtractor implements TokenExtractor {
     public String extract(String header) {
 //        ApiPreconditions.checkNotNull(header, ApiCode.ACCESS_TOKEN_INVALID,"Authorization header cannot be blank!");
         if (StringUtils.isEmpty(header)) {
-            throw new JwtInvalidTokenException("Authorization header cannot be blank!");
+            throw new JwtAcceptableException("Authorization header cannot be blank!");
         }
 
 //        ApiPreconditions.is(header.length() < HEADER_PREFIX.length(), ApiCode.ACCESS_TOKEN_INVALID,"Invalid authorization header size.");
         if (header.length() < HEADER_PREFIX.length()) {
-            throw new JwtInvalidTokenException("Invalid authorization header size.");
+            throw new JwtAcceptableException("Invalid authorization header size.");
         }
 
         return header.substring(HEADER_PREFIX.length(), header.length());

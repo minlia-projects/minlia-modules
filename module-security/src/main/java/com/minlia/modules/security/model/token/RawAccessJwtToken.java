@@ -1,6 +1,7 @@
 package com.minlia.modules.security.model.token;
 
 import com.minlia.modules.security.exception.JwtExpiredTokenException;
+import com.minlia.modules.security.exception.JwtInvalidTokenException;
 import io.jsonwebtoken.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,7 +31,8 @@ public class RawAccessJwtToken implements JwtToken {
             return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(this.token);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException ex) {
             log.error("Invalid JWT Token", ex);
-            throw new BadCredentialsException("Invalid JWT token: ", ex);
+//            throw new BadCredentialsException("Invalid JWT token: ", ex);
+            throw new JwtInvalidTokenException("Invalid JWT token");
         } catch (ExpiredJwtException expiredEx) {
             log.info("JWT Token is expired", expiredEx);
             throw new JwtExpiredTokenException(this, "JWT Token expired", expiredEx);

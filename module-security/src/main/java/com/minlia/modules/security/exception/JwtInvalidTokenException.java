@@ -4,7 +4,7 @@ import com.minlia.modules.security.model.token.JwtToken;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- *
+ * 无效的token
  */
 public class JwtInvalidTokenException extends AuthenticationException {
     private static final long serialVersionUID = -5959543783324224864L;
