@@ -126,9 +126,7 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
         JSONObject data = new JSONObject();
         data.element("scene", body.getScene());
         data.element("page",qrConfig.getValue());
-        if (null != body.getIsHyaline()) {
-            data.element("is_hyaline", body.getIsHyaline());
-        }
+        data.element("is_hyaline", null == body.getIsHyaline() ? true : body.getIsHyaline());
         if (null != body.getWidth()) {
             data.element("width", body.getWidth());
         }
