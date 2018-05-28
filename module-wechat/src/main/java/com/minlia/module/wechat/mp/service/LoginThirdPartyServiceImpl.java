@@ -11,6 +11,7 @@ import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatMiniappService;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
+import com.minlia.module.wechat.ma.service.WechatUserService;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
@@ -51,6 +52,8 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Autowired
     private UserQueryService userQueryService;
     @Autowired
+    private WechatUserService wechatUserService;
+    @Autowired
     private PermissionService permissionService;
     @Autowired
     private WechatMiniappService wechatMiniappService;
@@ -90,6 +93,9 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
                 wechatOpenAccountService.create(wechatOpenAccount);
                 return FailureResponseBody.builder().code(SecurityApiCode.LOGIN_NOT_REGISTRATION).message("未注册").build();
             } else {
+                //TODO 更新微信用户信息
+//                wechatUserService.updateByOpenId(wechatOpenAccounts.get(0).getGuid(),openId);
+
                 wechatOpenAccount.setGuid(wechatOpenAccounts.get(0).getGuid());
                 wechatOpenAccountService.create(wechatOpenAccount);
                 User user = userQueryService.queryByGuid(wechatOpenAccount.getGuid());
@@ -101,6 +107,9 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
             wechatOpenAccountService.update(wechatOpenAccount);
 
             if (null != wechatOpenAccount.getGuid()) {
+                //todo 更新微信用户信息
+//                wechatUserService.updateByOpenId(wechatOpenAccount.getGuid(),openId);
+
                 User user = userQueryService.queryByGuid(wechatOpenAccount.getGuid());
                 return SuccessResponseBody.builder().code(SecurityApiCode.LOGIN_SUCCESS).payload(getLoginInfoByUser(user)).build();
             } else {

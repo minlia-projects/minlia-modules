@@ -23,61 +23,62 @@ import lombok.*;
 @EqualsAndHashCode(of = {"id"})
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
-public class WechatUserInfo extends AbstractEntity {
+public class WechatUser extends AbstractEntity {
 
     /**
      * 系统用户编号
      */
-    @JsonProperty
     private String guid;
+
+    /**
+     * 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
+     */
+    private String subscribe;
 
     /**
      * 联合编号
      */
-    @JsonProperty
-    private String unionId;
+    private String unionid;
 
     /**
      * 开放的用户编号(小程序)
      */
-    @JsonProperty
-    private String openId;
+    private String openid;
 
     /**
      * 用户昵称
      */
-    @JsonProperty
     private String nickName;
 
     /**
      * 性别
      */
-    @JsonProperty
-    private Gender gender;
+    private Gender sex;
 
     /**
      * 城市
      */
-    @JsonProperty
     private String city;
 
     /**
      * 省份
      */
-    @JsonProperty
     private String province;
 
     /**
      * 国家
      */
-    @JsonProperty
     private String country;
+
+    /**
+     * 用户的语言，简体中文为zh_CN
+     */
+    private String language;
 
     /**
      * 头像网址
      */
-    @JsonProperty
-    private String avatarUrl;
+    private String headimgurl;
 
 }
 

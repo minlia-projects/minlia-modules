@@ -4,7 +4,7 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
-import com.minlia.module.wechat.ma.service.WechatUserInfoService;
+import com.minlia.module.wechat.ma.service.WechatUserService;
 import com.minlia.module.wechat.wechat.miniapp.phone.PhoneNumberRequestBody;
 import com.minlia.module.wechat.wechat.miniapp.phone.PhoneNumberResponseBody;
 import com.minlia.module.wechat.wechat.miniapp.phone.PhoneNumberService;
@@ -32,7 +32,7 @@ public class WechatMiniappEndpoint {
     private PhoneNumberService phoneNumberService;
 
     @Autowired
-    private WechatUserInfoService wechatUserDetailService;
+    private WechatUserService wechatUserDetailService;
 
     @ApiOperation(value = "更新微信用户详情", notes = "更新微信用户详情", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "userinfo", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})

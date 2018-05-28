@@ -3,7 +3,7 @@ package com.minlia.module.wechat.wechat.miniapp;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.minlia.module.wechat.ma.entity.WechatUserInfo;
+import com.minlia.module.wechat.ma.entity.WechatUser;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.codec.binary.Base64;
@@ -59,7 +59,7 @@ public class WechatSessionRemoteApi<T> {
 //    }
 //  }
 
-  public WechatUserInfo decryptUserInfo(String encryptedData, String iv, String sessionKey) {
+  public WechatUser decryptUserInfo(String encryptedData, String iv, String sessionKey) {
     byte[] res = WechatEncryptUtils.decrypt(Base64.decodeBase64(encryptedData),
         Base64.decodeBase64(sessionKey), Base64.decodeBase64(iv));
     if (null != res && res.length > 0) {
@@ -67,7 +67,7 @@ public class WechatSessionRemoteApi<T> {
         String resStr = new String(res, "UTF-8");
         return getObjectMapper()
             .setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE)
-            .readValue(resStr, WechatUserInfo.class);
+            .readValue(resStr, WechatUser.class);
       } catch (IOException e) {
         log.error(e.getMessage(), e);
         return null;
