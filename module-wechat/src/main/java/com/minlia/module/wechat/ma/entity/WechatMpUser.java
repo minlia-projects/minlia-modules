@@ -1,7 +1,6 @@
 package com.minlia.module.wechat.ma.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.wechat.ma.enumeration.Gender;
@@ -23,7 +22,7 @@ import lombok.*;
 @EqualsAndHashCode(of = {"id"})
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
-public class WechatUser extends AbstractEntity {
+public class WechatMpUser extends AbstractEntity {
 
     /**
      * 系统用户编号

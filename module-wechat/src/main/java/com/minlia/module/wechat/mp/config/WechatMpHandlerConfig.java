@@ -80,35 +80,35 @@ public class WechatMpHandlerConfig {
 //                .handler(this.storeCheckNotifyHandler).end();
 
         // 自定义菜单事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-                .event(WxConsts.BUTTON_CLICK).handler(this.getMenuHandler()).end();
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.MenuButtonType.CLICK).handler(this.getMenuHandler()).end();
 
         // 点击菜单连接事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-                .event(WxConsts.BUTTON_VIEW).handler(this.nullHandler).end();
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.MenuButtonType.VIEW).handler(this.nullHandler).end();
 
         // 关注事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-                .event(WxConsts.EVT_SUBSCRIBE).handler(this.getSubscribeHandler())
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.EventType.SUBSCRIBE).handler(this.getSubscribeHandler())
                 .end();
 
         // 取消关注事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-                .event(WxConsts.EVT_UNSUBSCRIBE)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.EventType.UNSUBSCRIBE)
                 .handler(this.getUnsubscribeHandler()).end();
 
         // 上报地理位置事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-                .event(WxConsts.EVT_LOCATION).handler(this.getLocationHandler())
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.EventType.LOCATION).handler(this.getLocationHandler())
                 .end();
 
         // 接收地理位置消息
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_LOCATION)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.LOCATION)
                 .handler(this.getLocationHandler()).end();
 
         // 扫码事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-                .event(WxConsts.EVT_SCAN).handler(this.getScanHandler()).end();
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+                .event(WxConsts.EventType.SCAN).handler(this.getScanHandler()).end();
 
         // 默认
         newRouter.rule().async(false).handler(this.getMsgHandler()).end();

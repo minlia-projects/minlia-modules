@@ -17,7 +17,7 @@ public class LocationHandler extends AbstractHandler {
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
             Map<String, Object> context, WxMpService wxMpService,
             WxSessionManager sessionManager) {
-        if (wxMessage.getMsgType().equals(WxConsts.XML_MSG_LOCATION)) {
+        if (wxMessage.getMsgType().equals(WxConsts.XmlMsgType.LOCATION)) {
             //TODO 接收处理用户发送的地理位置消息
             try {
                 String content = "感谢反馈，您的的地理位置已收到！";

@@ -1,4 +1,4 @@
-package com.minlia.module.wechat.wechat.miniapp.phone;
+package com.minlia.module.wechat.ma.config;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,17 +1,17 @@
 package com.minlia.module.wechat.mp.service;
 
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.ma.body.WechatSession;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
+import com.minlia.module.wechat.ma.service.WechatMaUserService;
 import com.minlia.module.wechat.ma.service.WechatMiniappService;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
-import com.minlia.module.wechat.ma.service.WechatUserService;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
@@ -52,8 +52,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Autowired
     private UserQueryService userQueryService;
     @Autowired
-    private WechatUserService wechatUserService;
-    @Autowired
     private PermissionService permissionService;
     @Autowired
     private WechatMiniappService wechatMiniappService;
@@ -71,8 +69,8 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Override
     public StatefulBody loginByWxMaCode(LoginWechatRequestBody body) {
         //远程从微信获取小程序信息
-        WechatSession wechatSession = wechatMiniappService.getSessionInfo(body.getType(),body.getCode());
-        return this.login(WechatOpenidType.MINIAPP,wechatSession.getUnionid(),wechatSession.getOpenid(),body.getType(),body.getCode());
+        WxMaJscode2SessionResult sessionResult = wechatMiniappService.getSessionInfo(body.getType(),body.getCode());
+        return this.login(WechatOpenidType.MINIAPP,sessionResult.getUnionid(),sessionResult.getOpenid(),body.getType(),body.getCode());
     }
 
     private StatefulBody login(WechatOpenidType wechatOpenidType,String unionId,String openId,String openidSubitem,String wxCode){

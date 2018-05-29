@@ -15,6 +15,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 
 @Configuration
 @ConditionalOnClass(WxMaService.class)
@@ -33,7 +36,7 @@ public class WechatMaAutoConfiguration {
         WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
         wxMaConfig.setAppid(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_APPID));
         wxMaConfig.setSecret(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_SECRET));
-        wxMaConfig.setExpiresTime(System.currentTimeMillis());
+        wxMaConfig.setExpiresTime(LocalDateTime.now().plusMinutes(30).toInstant(ZoneOffset.of("+8")).toEpochMilli());
         return wxMaConfig;
     }
 

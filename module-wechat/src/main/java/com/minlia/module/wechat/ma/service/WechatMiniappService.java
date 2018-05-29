@@ -1,8 +1,11 @@
 package com.minlia.module.wechat.ma.service;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.body.WechatSession;
+import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 
 /**
@@ -22,7 +25,7 @@ public interface WechatMiniappService {
      * @param code
      * @return
      */
-    WechatSession getSessionInfo(String code);
+    WxMaJscode2SessionResult getSessionInfo(String code);
 
     /**
      * 获取小程序Session信息
@@ -30,7 +33,9 @@ public interface WechatMiniappService {
      * @param code
      * @return
      */
-    WechatSession getSessionInfo(String wxMaType, String code);
+    WxMaJscode2SessionResult getSessionInfo(String wxMaType, String code);
+
+    WxMaJscode2SessionResult getSessionInfo1(WxMaService wxMaService, String code);
 
     /**
      * 获取小程序Session信息
@@ -39,6 +44,13 @@ public interface WechatMiniappService {
      * @return
      */
     WechatSession getSessionInfo(WxMaService wxMaService, String code);
+
+    /**
+     * 获取绑定手机号码信息
+     * @param body
+     * @return
+     */
+    WxMaPhoneNumberInfo getBoundPhoneNumber(PhoneNumberRequestBody body);
 
     /**
      * 创建二维码

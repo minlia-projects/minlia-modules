@@ -46,22 +46,18 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.57</version>
-        </dependency>
-
+        <!--微信小程序-->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-miniapp</artifactId>
-            <version>2.7.0</version>
+            <version>3.0.0</version>
         </dependency>
 
+        <!--公众号-->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
-            <version>2.7.0</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
@@ -80,6 +76,12 @@
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-attachment</artifactId>
             <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.57</version>
         </dependency>
 
     </dependencies>

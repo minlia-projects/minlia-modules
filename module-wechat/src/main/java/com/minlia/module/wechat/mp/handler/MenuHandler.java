@@ -23,7 +23,7 @@ public class MenuHandler extends AbstractHandler {
 
         switch (wxMessage.getEvent()){
 
-            case WxConsts.BUTTON_VIEW:
+            case WxConsts.MenuButtonType.VIEW:
                 break;
         }
 
