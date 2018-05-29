@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     private WechatOpenAccountService wechatOpenAccountService;
 
     @Override
+    @Transactional
     public WechatMaUser updateUserDetail(MiniappUserDetailRequestBody body) {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
 
