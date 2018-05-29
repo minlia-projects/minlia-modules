@@ -73,7 +73,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         }
 
         //发布更新微信用户详情事件 TODO
-//        WechatMaUpdatedEvent.onUpdated(wechatMaUser);
+        WechatMaUpdatedEvent.onUpdated(wechatMaUser);
         return wechatMaUser;
     }
 
@@ -113,7 +113,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         }
 
         //发布更新微信用户详情事件 TODO
-        WechatMaUpdatedEvent.onUpdated(new WechatMaUpdatedEvent(wechatUser));
+//        WechatMaUpdatedEvent.onUpdated(wechatMaUser);
         return wechatUser;
     }
 
