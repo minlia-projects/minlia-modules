@@ -9,7 +9,7 @@ import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatMaUser;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
-import com.minlia.module.wechat.ma.event.WechatDetailUpdatedEvent;
+import com.minlia.module.wechat.ma.event.WechatMaUpdatedEvent;
 import com.minlia.module.wechat.ma.mapper.WxMaUserMapper;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
@@ -73,7 +73,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         }
 
         //发布更新微信用户详情事件 TODO
-        WechatDetailUpdatedEvent.onUpdated(wechatMaUser);
+//        WechatMaUpdatedEvent.onUpdated(wechatMaUser);
         return wechatMaUser;
     }
 
@@ -113,7 +113,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         }
 
         //发布更新微信用户详情事件 TODO
-        WechatDetailUpdatedEvent.onUpdated(new WechatDetailUpdatedEvent(wechatUser));
+        WechatMaUpdatedEvent.onUpdated(new WechatMaUpdatedEvent(wechatUser));
         return wechatUser;
     }
 

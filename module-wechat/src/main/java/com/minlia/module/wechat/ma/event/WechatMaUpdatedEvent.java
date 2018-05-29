@@ -7,14 +7,14 @@ import org.springframework.context.ApplicationEvent;
 /**
  * Created by garen on 2017/10/11.
  */
-public class WechatDetailUpdatedEvent extends ApplicationEvent {
+public class WechatMaUpdatedEvent extends ApplicationEvent {
 
-    public WechatDetailUpdatedEvent(Object source) {
+    public WechatMaUpdatedEvent(Object source) {
         super(source);
     }
 
     public static void onUpdated(WechatMaUser wechatMaUser){
-        ContextHolder.getContext().publishEvent(new WechatDetailUpdatedEvent(wechatMaUser));
+        ContextHolder.getContext().publishEvent(new WechatMaUpdatedEvent(wechatMaUser));
     }
 
 }
