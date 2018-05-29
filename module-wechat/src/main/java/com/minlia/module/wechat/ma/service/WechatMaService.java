@@ -11,7 +11,7 @@ import com.minlia.modules.aliyun.oss.bean.OssFile;
 /**
  * Created by will on 6/26/17.
  */
-public interface WechatMiniappService {
+public interface WechatMaService {
 
     /**
      * 通过bible配置的code
@@ -35,15 +35,13 @@ public interface WechatMiniappService {
      */
     WxMaJscode2SessionResult getSessionInfo(String wxMaType, String code);
 
-    WxMaJscode2SessionResult getSessionInfo1(WxMaService wxMaService, String code);
-
     /**
      * 获取小程序Session信息
      * @param wxMaService
      * @param code
      * @return
      */
-    WechatSession getSessionInfo(WxMaService wxMaService, String code);
+    WxMaJscode2SessionResult getSessionInfo(WxMaService wxMaService, String code);
 
     /**
      * 获取绑定手机号码信息

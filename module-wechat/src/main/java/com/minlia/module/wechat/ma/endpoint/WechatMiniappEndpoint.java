@@ -6,7 +6,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.module.wechat.ma.service.WechatMaUserService;
-import com.minlia.module.wechat.ma.service.WechatMiniappService;
+import com.minlia.module.wechat.ma.service.WechatMaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class WechatMiniappEndpoint {
     private WechatMaUserService wechatMaUserService;
 
     @Autowired
-    private WechatMiniappService wechatMiniappService;
+    private WechatMaService wechatMaService;
 
     @ApiOperation(value = "更新微信用户详情", notes = "更新微信用户详情", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "userinfo", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -48,7 +48,7 @@ public class WechatMiniappEndpoint {
     @ApiOperation(value = "获取当前登录用户绑定的手机号码", notes = "获取当前登录用户绑定的手机号码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "getCellphone", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody getPhoneNumber(@RequestBody PhoneNumberRequestBody body) {
-        return SuccessResponseBody.builder().payload(wechatMiniappService.getBoundPhoneNumber(body)).build();
+        return SuccessResponseBody.builder().payload(wechatMaService.getBoundPhoneNumber(body)).build();
     }
 
 }

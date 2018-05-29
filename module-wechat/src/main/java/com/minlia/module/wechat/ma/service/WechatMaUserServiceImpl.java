@@ -38,22 +38,15 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     @Autowired
     private WxMaUserMapper wxMaUserMapper;
     @Autowired
-    private WechatMiniappService wechatMiniappService;
+    private WechatMaService wechatMaService;
     @Autowired
     private WechatOpenAccountService wechatOpenAccountService;
 
     @Override
     public WechatMaUser updateUserDetail(MiniappUserDetailRequestBody body) {
-        WxMaService wxMaService = wechatMiniappService.getWxMaService(body.getType());
-//        WechatSession session = wechatMiniappService.getSessionInfo(body.getType(),body.getCode());
+        WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
 
-        WxMaJscode2SessionResult sessionResult = wechatMiniappService.getSessionInfo1(wxMaService,body.getCode());
-//        try {
-//            sessionResult = wxMaService.getUserService().getSessionInfo(body.getCode());
-//        } catch (WxErrorException e) {
-//            e.printStackTrace();
-//            ApiPreconditions.is(true, ApiCode.BASED_ON, "远程获取小程序session失败：" + e.getError());
-//        }
+        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
         WechatMaUser wechatMaUser = new WechatMaUser();
         BeanUtils.copyProperties(wxMaUserInfo,wechatMaUser);
@@ -78,7 +71,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         }
 
         //发布更新微信用户详情事件 TODO
-        WechatDetailUpdatedEvent.onUpdated(new WechatDetailUpdatedEvent(wechatUserFind));
+        WechatDetailUpdatedEvent.onUpdated(wechatMaUser);
         return wechatMaUser;
     }
 

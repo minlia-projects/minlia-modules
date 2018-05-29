@@ -4,22 +4,18 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
-import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
-import cn.binarywang.wx.miniapp.util.json.WxMaGsonBuilder;
 import com.alibaba.fastjson.JSON;
-import com.google.common.base.Joiner;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
-import com.minlia.module.wechat.ma.body.WechatSession;
+import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.mp.constant.WechatMpApiCode;
 import com.minlia.module.wechat.utils.HttpClientUtil;
-import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.entity.Attachment;
@@ -36,8 +32,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -46,7 +40,7 @@ import java.util.Map;
  */
 @Service
 @Transactional
-public class WechatMiniappServiceImpl implements WechatMiniappService {
+public class WechatMaServiceImpl implements WechatMaService {
 
     @Autowired
     private OssService ossService;
@@ -78,17 +72,17 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
 
     @Override
     public WxMaJscode2SessionResult getSessionInfo(String code) {
-        return getSessionInfo1(wxMaService,code);
+        return getSessionInfo(wxMaService,code);
     }
 
     @Override
     public WxMaJscode2SessionResult getSessionInfo(String wxMaType, String code) {
         WxMaService wxMaService = StringUtils.isEmpty(wxMaType) ? this.wxMaService : getWxMaService(wxMaType);
-        return getSessionInfo1(wxMaService,code);
+        return getSessionInfo(wxMaService,code);
     }
 
     @Override
-    public WxMaJscode2SessionResult getSessionInfo1(WxMaService wxMaService, String code) {
+    public WxMaJscode2SessionResult getSessionInfo(WxMaService wxMaService, String code) {
         WxMaJscode2SessionResult result = null;
         try {
             result = wxMaService.getUserService().getSessionInfo(code);
@@ -97,24 +91,6 @@ public class WechatMiniappServiceImpl implements WechatMiniappService {
             ApiPreconditions.is(true, ApiCode.BASED_ON, "远程获取小程序session失败：" + e.getError());
         }
         return result;
-    }
-
-    @Override
-    public WechatSession getSessionInfo(WxMaService wxMaService,String code) {
-        WxMaConfig config = wxMaService.getWxMaConfig();
-        Map<String, String> params = new HashMap();
-        params.put("appid", config.getAppid());
-        params.put("secret", config.getSecret());
-        params.put("js_code", code);
-        params.put("grant_type", "authorization_code");
-        String result = null;
-        try {
-            result = wxMaService.get("https://api.weixin.qq.com/sns/jscode2session", Joiner.on("&").withKeyValueSeparator("=").join(params));
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-            ApiPreconditions.is(true, ApiCode.BASED_ON, "远程获取小程序session失败：" + e.getError());
-        }
-        return WxMaGsonBuilder.create().fromJson(result, WechatSession.class);
     }
 
     @Override
