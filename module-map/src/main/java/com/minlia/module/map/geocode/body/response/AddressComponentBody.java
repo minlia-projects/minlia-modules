@@ -10,7 +10,11 @@ public class AddressComponentBody {
 
     private String country;
     private String province;
-    private String city;
+    /**
+     * 直辖市：北京、天津、上海、重庆  返回类型为[]，其它为String
+     */
+    private Object city;
+    private String citycode;
     private String district;
     private String adcode;
     private String township;
