@@ -105,6 +105,7 @@ public class GadYuntuSearchServiceImpl implements GadYuntuSearchService{
         body.setKey(yuntuConfig.getWebApiKey());
         body.setTableid(yuntuConfig.getTableId());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
+        log.info("Gad search url:",GetParamter.getUrl(url,GadUtils.beanToMap(body)));
         ResponseEntity<GadYuntuSearchResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(url,GadUtils.beanToMap(body)),GadYuntuSearchResponseBody.class);
         return responseEntity.getBody();
     }

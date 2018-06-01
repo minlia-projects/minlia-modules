@@ -36,7 +36,7 @@ public class WechatMaAutoConfiguration {
         WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
         wxMaConfig.setAppid(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_APPID));
         wxMaConfig.setSecret(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_SECRET));
-        wxMaConfig.setExpiresTime(LocalDateTime.now().plusMinutes(30).toInstant(ZoneOffset.of("+8")).toEpochMilli());
+        wxMaConfig.setExpiresTime(System.currentTimeMillis());
         return wxMaConfig;
     }
 

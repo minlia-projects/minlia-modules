@@ -47,13 +47,23 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     @Transactional
     public WechatMaUser updateUserDetail(MiniappUserDetailRequestBody body) {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
-
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
-        WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
-        WechatMaUser wechatMaUser = new WechatMaUser();
-        BeanUtils.copyProperties(wxMaUserInfo,wechatMaUser);
 
         User user = SecurityContextHolder.getCurrentUser();
+        WechatMaUser wechatUserFind = wxMaUserMapper.queryByGuid(user.getGuid());
+
+        WechatMaUser wechatMaUser = new WechatMaUser();
+        WxMaUserInfo wxMaUserInfo;
+        try {
+            wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
+            BeanUtils.copyProperties(wxMaUserInfo,wechatMaUser);
+        } catch (Exception e) {
+            log.error("获取微信用户信息失败:"+e.getMessage());
+//            ApiPreconditions.is(true,ApiCode.BASED_ON,"获取微信用户信息失败" +e.getMessage());
+            return wechatMaUser;
+        }
+
+
         //设置open信息
         List<WechatOpenAccount> wechatOpenAccounts = wechatOpenAccountService.queryList(WechatOpenAccountQueryBody.builder().unionId(wechatMaUser.getUnionId()).build());
         for (WechatOpenAccount wechatOpenAccount:wechatOpenAccounts) {
@@ -63,7 +73,6 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         }
 
         //保存用户详情
-        WechatMaUser wechatUserFind = wxMaUserMapper.queryByGuid(user.getGuid());
         if (null == wechatUserFind) {
             wechatMaUser.setGuid(user.getGuid());
             wxMaUserMapper.create(wechatMaUser);

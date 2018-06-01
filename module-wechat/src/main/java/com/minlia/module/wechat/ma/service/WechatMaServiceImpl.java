@@ -63,7 +63,8 @@ public class WechatMaServiceImpl implements WechatMaService {
         WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
         wxMaConfig.setAppid(bibleItem.getValue());
         wxMaConfig.setSecret(bibleItem.getAttribute1());
-        wxMaConfig.setExpiresTime(LocalDateTime.now().plusMinutes(30).toInstant(ZoneOffset.of("+8")).toEpochMilli());
+//        wxMaConfig.setExpiresTime(LocalDateTime.now().plusMinutes(30).toInstant(ZoneOffset.of("+8")).toEpochMilli());
+        wxMaConfig.setExpiresTime(System.currentTimeMillis());
 
         WxMaService wxMaService = new WxMaServiceImpl();
         wxMaService.setWxMaConfig(wxMaConfig);
