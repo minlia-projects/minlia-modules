@@ -3,8 +3,6 @@ package com.minlia.module.wechat.mp.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.wechat.mp.body.BindWxRequestBody;
-import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -41,14 +39,15 @@ public class WechatMpEndpoint {
     /**
      * 获取微信临时二维码
      *
-     * @param parameter
+     * @param scene
+     * @param seconds
      * @return
      * @throws WxErrorException
      */
-    @RequestMapping(value = "tempqrcode/{parameter}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "tempqrcode/{scene}/{seconds}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "微信临时二维码", notes = "微信临时二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody qrcode(@PathVariable String parameter) throws WxErrorException {
-        WxMpQrCodeTicket ticket = wxService.getQrcodeService().qrCodeCreateLastTicket("qrscene_" + parameter);
+    public StatefulBody qrcode(@PathVariable String scene,@PathVariable Integer seconds) throws WxErrorException {
+        WxMpQrCodeTicket ticket = wxService.getQrcodeService().qrCodeCreateTmpTicket(scene,seconds);
         String qrcode = wxService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
         log.debug("QRCODE {}", qrcode);
         return SuccessResponseBody.builder().message(qrcode).build();

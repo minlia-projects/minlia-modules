@@ -17,8 +17,8 @@ public class AddressComponentBody {
     private String citycode;
     private String district;
     private String adcode;
-    private String township;
-    private String towncode;
+    private Object township;
+    private Object towncode;
 
 //    addressComponent: {
 //        country: "中国",

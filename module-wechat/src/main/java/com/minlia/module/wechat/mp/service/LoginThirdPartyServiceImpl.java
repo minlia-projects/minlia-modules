@@ -90,9 +90,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
                 wechatOpenAccountService.create(wechatOpenAccount);
                 return FailureResponseBody.builder().code(SecurityApiCode.LOGIN_NOT_REGISTRATION).message("未注册").build();
             } else {
-                //TODO 更新微信用户信息
-//                wechatUserService.updateByOpenId(wechatOpenAccounts.get(0).getGuid(),openId);
-
                 wechatOpenAccount.setGuid(wechatOpenAccounts.get(0).getGuid());
                 wechatOpenAccountService.create(wechatOpenAccount);
                 User user = userQueryService.queryByGuid(wechatOpenAccount.getGuid());
@@ -104,9 +101,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
             wechatOpenAccountService.update(wechatOpenAccount);
 
             if (null != wechatOpenAccount.getGuid()) {
-                //todo 更新微信用户信息
-//                wechatUserService.updateByOpenId(wechatOpenAccount.getGuid(),openId);
-
                 User user = userQueryService.queryByGuid(wechatOpenAccount.getGuid());
                 return SuccessResponseBody.builder().code(SecurityApiCode.LOGIN_SUCCESS).payload(getLoginInfoByUser(user)).build();
             } else {
