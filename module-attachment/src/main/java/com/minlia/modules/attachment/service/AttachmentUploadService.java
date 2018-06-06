@@ -12,6 +12,8 @@ import java.io.File;
  */
 public interface AttachmentUploadService {
 
+    StatefulBody upload(MultipartFile file) throws Exception;
+
     StatefulBody upload(MultipartFile file, String relationId, String belongsTo) throws Exception;
 
     StatefulBody upload(File file, String relationId, String belongsTo) throws Exception;

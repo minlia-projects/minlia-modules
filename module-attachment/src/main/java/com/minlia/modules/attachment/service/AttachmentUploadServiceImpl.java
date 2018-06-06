@@ -35,6 +35,13 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     private AttachmentService attachmentService;
 
     @Override
+    public StatefulBody upload(MultipartFile file) throws Exception {
+        String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
+        PutObjectResult result = qcloud1CosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
+        return SuccessResponseBody.builder().message("上传成功").payload(result).build();
+    }
+
+    @Override
     public StatefulBody upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
         String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
 

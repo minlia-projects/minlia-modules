@@ -3,13 +3,15 @@ package com.minlia.modules.attachment.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
 import com.minlia.modules.attachment.service.AttachmentUploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -52,18 +54,11 @@ public class AttachmentUploadEndpoint {
         return attachmentUploadService.upload(file,relationId,belongsTo);
     }
 
-//    @ApiOperation(value = "file", notes = "文件上传服务", httpMethod = "POST")
-//    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public StatefulBody upload(MultipartFile file) throws Exception {
-//        String key = keyGenerate(file);
-//        OssFile ossFile=null;
-//        try {
-//            ossFile = ossService.upload(file, key);
-//        } catch (Exception e) {
-//            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage());
-//        }
-//        return  SuccessResponseBody.builder().message("上传成功").payload(ossFile).build();
-//    }
+    @ApiOperation(value = "file", notes = "文件上传服务", httpMethod = "POST")
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StatefulBody upload(MultipartFile file) throws Exception {
+        return attachmentUploadService.upload(file);
+    }
 //
 //    private String keyGenerate(MultipartFile file){
 //        return String.format("%s", PathBuilder.uuidNameBuild(file.getOriginalFilename()));
