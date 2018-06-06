@@ -115,9 +115,9 @@ sms:
 
 qcloud:
     cos:
-        accessKey: AKIDrdPCvTey2UKvfVym6KPbQ9zqXBew7639
-        secretKey: qfRHFLWp19eEeEzYvOGVtR5C9WIuagdX
+        accessKey:
+        secretKey:
         region: ap-guangzhou
-        bucketName: xmj-1255765487
-        domain: //cos.apartscloud.com/
-        imageDomain: //image.apartscloud.com/
+        bucketName:
+        domain:
+        imageDomain:
