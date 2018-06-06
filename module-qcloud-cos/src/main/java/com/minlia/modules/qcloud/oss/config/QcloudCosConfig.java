@@ -23,4 +23,7 @@ public class QcloudCosConfig {
      */
     private String domain;
 
+    private String imageDomain;
+
+
 }

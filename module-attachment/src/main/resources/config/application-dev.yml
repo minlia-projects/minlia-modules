@@ -120,3 +120,4 @@ qcloud:
         region: ap-guangzhou
         bucketName: xmj-1255765487
         domain: //cos.apartscloud.com/
+        imageDomain: //image.apartscloud.com/
