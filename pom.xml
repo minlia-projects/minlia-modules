@@ -32,6 +32,8 @@
         <module>module-captcha</module>
         <module>module-richtext</module>
         <module>module-todo</module>
+        <module>module-qcloud-start</module>
+        <module>module-qcloud-cos</module>
         <module>module-tencent-cloud-auth</module>
 
         <module>module-aliyun-dypls</module>

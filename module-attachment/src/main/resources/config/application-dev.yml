@@ -1,23 +1,29 @@
 server:
-  port: 7002
+  port: 10086
 
 system:
-    appId: bibleapp
+    appId: module-attachment-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: 应用
+        name: Module Attachment
     http:
         encoding.charset: UTF-8
         encoding.enable: true
         encoding.force: true
+        multipart:
+              enabled: true
+              max-file-size: 300MB  #(这里是限制的文件大小)
+              max-request-size: 300MB #(这里是限制的文件大小)
+    session:
+        store-type: redis
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+        url: jdbc:log4jdbc:mysql://localhost:3306/xmj_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
@@ -39,12 +45,24 @@ spring:
         continue-on-error: true
         initialize: true
 
+    redis:
+        database: 0
+        host: 127.0.0.1
+        port: 6379
+        password:
+        pool:
+            max-active: 300
+            max-wait: 10000
+            max-idle: 50
+            min-idle: 10
+        timeout: 180
+
 system.security.jwt:
-  tokenExpirationTime: 604800 # Number of minutes
-  refreshTokenExpTime: 604800 # Minutes
-  tokenIssuer: http://minlia.com
-  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
-  
+    tokenExpirationTime: 10080 # Number of minutes
+    refreshTokenExpTime: 10080 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+
 swagger:
     title: ${spring.application.name}接口
     description: ${spring.application.name}接口
@@ -54,12 +72,51 @@ swagger:
     redirect: true
 
 mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-#  config-location: classpath:mybatis/mybatis-config.xml
+#    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath*:mybatis/mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
+
+# 分页配置
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
+#  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
+#  row-bounds-with-count: true
 
 aliyun:
     oss:
-        accessKey: LTAI7w8hY3vG8RNb
+        key: LTAI7w8hY3vG8RNb
         secret: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        bucket: mini-q
-        endpoint: oss-cn-shenzhen.aliyuncs.com
+        bucket: miniq-dev
+        endpoint: oss-dev.apartscloud.com
+#        endpoint: oss-cn-shenzhen.aliyuncs.com
+    sms:
+        accessId: LTAI7w8hY3vG8RNb
+        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
+        endpoint: cn-hangzhou
+        regionId: cn-hangzhou
+        product: Dysmsapi
+        domain: dysmsapi.aliyuncs.com
+        signName: 智慧新民居
+
+sms:
+    templates:
+        securityCode: SMS_95635445
+        test: SMS_95635444
+        loginConfirm: SMS_95635443
+        loginException: SMS_95635442
+        userRegistration: SMS_95635441
+        changePassword: SMS_95635440
+        infoChange: SMS_95635439
+        mp-attention: SMS_133969774
+
+qcloud:
+    cos:
+        accessKey: AKIDrdPCvTey2UKvfVym6KPbQ9zqXBew7639
+        secretKey: qfRHFLWp19eEeEzYvOGVtR5C9WIuagdX
+        region: ap-guangzhou
+        bucketName: xmj-1255765487
+        domain: //cos.apartscloud.com/

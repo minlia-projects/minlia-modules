@@ -15,7 +15,7 @@ public interface AttachmentMapper {
 
     void create(Attachment attachment);
 
-    List<Attachment> createBatch(List<Attachment> attachments);
+    void createBatch(List<Attachment> attachments);
 
     void update(Attachment attachment);
 

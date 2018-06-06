@@ -15,6 +15,21 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <commons.codec>1.10</commons.codec>
+    </properties>
+
+    <!-- 锁定版本，1.9 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons.codec}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
 
         <dependency>
@@ -39,6 +54,19 @@
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-aliyun-oss</artifactId>
             <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-qcloud-cos</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <!--<version>1.9</version>-->
         </dependency>
 
     </dependencies>
