@@ -20,10 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 
 @Service
 @Slf4j
 public class AttachmentUploadServiceImpl implements AttachmentUploadService {
+
+    private static List<String> imgageContentTypes = Lists.newArrayList("image/jpeg","image/png");
 
     @Autowired
     private OssService ossService;
@@ -36,13 +39,19 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
     @Override
     public StatefulBody upload(MultipartFile file) throws Exception {
+        System.out.println(file.getContentType());
+
         String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
         PutObjectResult result = qcloud1CosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         OssFile ossFile= new OssFile(result.getETag());
         ossFile.setContentType(file.getContentType());
         ossFile.setName(file.getOriginalFilename());
         ossFile.setSize(file.getSize());
-        ossFile.setUrl(qcloud1CosService.getQcloudCosConfig().getDomain() + path);
+        if (null != qcloud1CosService.getQcloudCosConfig().getImageDomain() && imgageContentTypes.contains(file.getContentType())) {
+            ossFile.setUrl(qcloud1CosService.getQcloudCosConfig().getImageDomain() + path);
+        } else {
+            ossFile.setUrl(qcloud1CosService.getQcloudCosConfig().getDomain() + path);
+        }
         return SuccessResponseBody.builder().message("上传成功").payload(ossFile).build();
     }
 
