@@ -1,0 +1,10 @@
+aliyun:
+    oss:
+        key: LTAIkdMFkDplTUJX
+#        key: LTAIkdMFkDplTUJX
+#        secret: VApB4W2D6rqxJVO0WakbB1Zryn3tOQ
+#        bucket: yinxingnetwork
+#        endpoint: oss-cn-shenzhen.aliyuncs.com
+        secret: VApB4W2D6rqxJVO0WakbB1Zryn3tOQ
+        bucket: yinxingnetwork
+        endpoint: oss-cn-shenzhen.aliyuncs.com
