@@ -39,8 +39,6 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
     @Override
     public StatefulBody upload(MultipartFile file) throws Exception {
-        System.out.println(file.getContentType());
-
         String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
         PutObjectResult result = qcloud1CosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         OssFile ossFile= new OssFile(result.getETag());
