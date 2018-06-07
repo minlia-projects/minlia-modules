@@ -49,11 +49,11 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Autowired
     private JwtTokenFactory tokenFactory;
     @Autowired
+    private WechatMaService wechatMaService;
+    @Autowired
     private UserQueryService userQueryService;
     @Autowired
     private PermissionService permissionService;
-    @Autowired
-    private WechatMaService wechatMaService;
     @Autowired
     private UserRegistrationService userRegistrationService;
     @Autowired
@@ -69,6 +69,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     public StatefulBody loginByWxMaCode(LoginWechatRequestBody body) {
         //远程从微信获取小程序信息
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
+        ApiPreconditions.is(null == sessionResult.getUnionid() || null == sessionResult.getOpenid(),ApiCode.NOT_NULL,"获取微信Session失败！");
         return this.login(WechatOpenidType.MINIAPP,sessionResult.getUnionid(),sessionResult.getOpenid(),body.getType(),body.getCode());
     }
 
