@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.ma.endpoint;
 
-import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.service.WechatMaService;

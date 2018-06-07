@@ -40,5 +40,4 @@ public class CosPathUtils {
         return AttachmentConstant.DEFAULT_PATH + dateBuild() + uuidNameBuild(fileName);
     }
 
-
 }

@@ -18,8 +18,8 @@ import com.minlia.module.wechat.mp.constant.WechatMpApiCode;
 import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
-import com.minlia.modules.attachment.entity.Attachment;
-import com.minlia.modules.attachment.service.AttachmentService;
+import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
+import com.minlia.modules.attachment.service.AttachmentUploadService;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
@@ -29,9 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 /**
  *
@@ -49,7 +46,7 @@ public class WechatMaServiceImpl implements WechatMaService {
     @Autowired
     private BibleItemService bibleItemService;
     @Autowired
-    private AttachmentService attachmentService;
+    private AttachmentUploadService attachmentUploadService;
     @Autowired
     private WechatOpenAccountService wechatOpenAccountService;
 
@@ -145,28 +142,22 @@ public class WechatMaServiceImpl implements WechatMaService {
             e.printStackTrace();
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"生成小程序二维码异常："+e.getMessage());
         }
-        OssFile ossFile = null;
-        try {
-            String path = null == body.getPath() ? String.format("%s/",DEFAULT_QRCODE_PATH) : String.format("%s/%s/",DEFAULT_QRCODE_PATH,body.getPath());
-            ossFile = ossService.upload(file, path + file.getName());
 
-            attachmentService.create(Attachment.builder()
+        String path = null == body.getPath() ? String.format("%s/",DEFAULT_QRCODE_PATH) : String.format("%s/%s/",DEFAULT_QRCODE_PATH,body.getPath());
+        try {
+            AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
                     .relationId(body.getScene())
                     .belongsTo(qrConfig.getCode())
-                    .name(ossFile.getOriginalName())
-                    .size(ossFile.getSize())
-                    .type(ossFile.getContentType())
-                    .url(ossFile.getUrl())
-                    .accessKey(ossFile.geteTag())
-                    .build());
-        } catch (IOException e) {
-            e.printStackTrace();
+                    .file(file)
+                    .key(path + file.getName())
+                    .build();
+            return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
+        } catch (Exception e) {
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());
         } finally {
             //删除文件
             FileUtils.deleteQuietly(file);
         }
-        return ossFile;
+        return null;
     }
-
 }

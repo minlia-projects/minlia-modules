@@ -9,24 +9,24 @@ import com.minlia.modules.aliyun.oss.api.constant.UploadCode;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.aliyun.oss.builder.PathBuilder;
+import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
+import com.minlia.modules.attachment.util.ContentTypeUtils;
 import com.minlia.modules.attachment.util.CosPathUtils;
 import com.minlia.modules.qcloud.oss.service.Qcloud1CosService;
 import com.minlia.modules.qcloud.oss.util.QcloudCosUtils;
 import com.qcloud.cos.model.PutObjectResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.List;
 
 @Service
 @Slf4j
 public class AttachmentUploadServiceImpl implements AttachmentUploadService {
-
-    private static List<String> imgageContentTypes = Lists.newArrayList("image/jpeg","image/png");
 
     @Autowired
     private OssService ossService;
@@ -45,7 +45,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         ossFile.setContentType(file.getContentType());
         ossFile.setName(file.getOriginalFilename());
         ossFile.setSize(file.getSize());
-        if (null != qcloud1CosService.getQcloudCosConfig().getImageDomain() && imgageContentTypes.contains(file.getContentType())) {
+        if (null != qcloud1CosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(file)) {
             ossFile.setUrl(qcloud1CosService.getQcloudCosConfig().getImageDomain() + path);
         } else {
             ossFile.setUrl(qcloud1CosService.getQcloudCosConfig().getDomain() + path);
@@ -74,9 +74,41 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     }
 
     @Override
-    public StatefulBody upload(File file, String relationId, String belongsTo) throws Exception {
-        //检查是否满足上传条件 TODO 上传数量、belongsTo是否存在
+    public StatefulBody upload(AttachmentUploadRequestBody requestBody) {
+        if (StringUtils.isEmpty(requestBody.getKey())){
+            requestBody.setKey(CosPathUtils.defaultBuild(requestBody.getFile().getName()));
+        }
 
+        PutObjectResult result = qcloud1CosService.putObject(null,requestBody.getKey(),requestBody.getFile());
+
+        String url;
+        if (null != qcloud1CosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(requestBody.getFile())) {
+            url = qcloud1CosService.getQcloudCosConfig().getImageDomain() + requestBody.getKey();
+        } else {
+            url = qcloud1CosService.getQcloudCosConfig().getDomain() + requestBody.getKey();
+        }
+        Attachment attachment = Attachment.builder()
+                .belongsTo(requestBody.getBelongsTo())
+                .relationId(requestBody.getRelationId())
+                .name(requestBody.getFile().getName())
+                .type(ContentTypeUtils.getExtension(requestBody.getFile().getName()))
+                .url(url)
+                .size(requestBody.getFile().length())
+                .accessKey(result.getETag())
+                .build();
+
+        OssFile ossFile= new OssFile(result.getETag());
+        ossFile.setContentType(attachment.getType());
+        ossFile.setName(attachment.getName());
+        ossFile.setSize(attachment.getSize());
+        ossFile.setUrl(attachment.getUrl());
+        //附件记录
+        attachmentService.create(attachment);
+        return SuccessResponseBody.builder().message("上传成功").payload(ossFile).build();
+    }
+
+    @Deprecated
+    private StatefulBody uploadByAliyun(File file, String relationId, String belongsTo){
         String key = keyGenerate(file.getName(),relationId,belongsTo);
         OssFile ossFile=null;
         try {
