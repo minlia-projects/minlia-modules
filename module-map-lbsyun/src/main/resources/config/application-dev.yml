@@ -1,15 +1,15 @@
 server:
-    port: 10004
+  port: 10006
 
 system:
-    appId: rich-text-app
+    appId: map-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: Rich Text
+        name: Maps
     http:
         encoding.charset: UTF-8
         encoding.enable: true
@@ -19,7 +19,7 @@ spring:
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+        url: jdbc:log4jdbc:mysql://localhost:3306/xmj_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
@@ -40,6 +40,7 @@ spring:
         maxOpenPreparedStatements: 20
         continue-on-error: true
         initialize: true
+        data: classpath*:sql/minlia_init.sql
 
     redis:
         database: 11
@@ -48,9 +49,9 @@ spring:
         password:
         pool:
             max-active: 500
-            max-wait: 5000
-            max-idle: 10
-            min-idle: 10
+            max-wait: 1000
+            max-idle: 100
+            min-idle: 50
         timeout: 0
 
 system.security.jwt:
@@ -80,7 +81,7 @@ pagehelper:
     support-methods-arguments: true
     params: count=countSql
 
-# 短信配置
 sms:
     templates:
         security_code: SMS_95635445
+

@@ -1,13 +1,17 @@
 package com.minlia.modules.http;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.cglib.beans.BeanMap;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -61,15 +65,21 @@ public class GetParamter {
      * @return
      * @throws Exception
      */
-    public static String getUrl(Object bean) throws Exception {
+    public static String getUrl(Object bean) {
         Class<?> clz = bean.getClass();
   
         StringBuffer result = new StringBuffer(512);  
         Field[] field = clz.getDeclaredFields();  
   
         result.append("?");
-        for (Field f : field) {  
-            Object o = getMethodValue(clz, bean, f.getName());
+        for (Field f : field) {
+            Object o = null;
+            try {
+                o = getMethodValue(clz, bean, f.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+                ApiPreconditions.is(true, ApiCode.BASED_ON,e.getMessage());
+            }
             if (o != null && !"".equals(o.toString())) {  
                 result.append(o + "&");  
             }  
@@ -89,6 +99,36 @@ public class GetParamter {
         result.delete(result.length() - 1, result.length());
         return result.toString();
     }
+
+    public static String getUrl1(String url,Object bean) {
+        try {
+//            Map map = BeanUtils.describe(bean);
+            url = getUrl(url,beanToMap(bean));
+        } catch (Exception e) {
+            e.printStackTrace();
+            ApiPreconditions.is(true, ApiCode.BASED_ON,e.getMessage());
+        }
+        return url;
+    }
+
+    /**
+     * 将对象装换为map
+     * @param bean
+     * @return
+     */
+    public static <T> Map<String, Object> beanToMap(T bean) {
+        Map<String, Object> map = Maps.newHashMap();
+        if (bean != null) {
+            BeanMap beanMap = BeanMap.create(bean);
+            for (Object key : beanMap.keySet()) {
+                if (null != beanMap.get(key)) {
+                    map.put(key + "", beanMap.get(key));
+                }
+            }
+        }
+        return map;
+    }
+
 
 
     /** 

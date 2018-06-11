@@ -44,9 +44,9 @@ spring:
 
     redis:
         database: 0
-        host: 120.78.180.85
+        host: 127.0.0.1
         port: 6379
-        password: Apartscloud2017
+        password:
         pool:
             max-active: 500
             max-wait: 1000
