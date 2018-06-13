@@ -40,8 +40,8 @@ public class GeoSearchServiceImpl implements GeoSearchService {
     public Object nearby(GeoSearchNearbyRequest request) {
         if (request.getLocation().length() > 25) {
             String[] locations = request.getLocation().split(",");
-            StringJoiner location = new StringJoiner(locations[0].substring(0,11)).add(locations[1].substring(0,11));
-            request.setLocation(location.toString());
+            String location = new StringJoiner(",").add(locations[0].substring(0,11)).add(locations[1].substring(0,11)).toString();
+            request.setLocation(location);
         }
         return this.get(nearby_url,request);
     }
