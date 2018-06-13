@@ -17,7 +17,6 @@ public class GeoSearchNearbyRequest extends GeoSearchRequest{
      * 样例：116.4321,38.76623
      */
     @NotBlank
-    @Size(max = 25)
     private String location;
 
     /**
