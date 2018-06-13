@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  * Created by garen on 2018/6/9.
@@ -37,6 +38,11 @@ public class GeoSearchServiceImpl implements GeoSearchService {
 
     @Override
     public Object nearby(GeoSearchNearbyRequest request) {
+        if (request.getLocation().length() > 25) {
+            String[] locations = request.getLocation().split(",");
+            StringJoiner location = new StringJoiner(locations[0].substring(0,11)).add(locations[1].substring(0,11));
+            request.setLocation(location.toString());
+        }
         return this.get(nearby_url,request);
     }
 
