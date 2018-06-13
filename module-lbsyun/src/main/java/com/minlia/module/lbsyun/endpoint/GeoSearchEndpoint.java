@@ -3,10 +3,7 @@ package com.minlia.module.lbsyun.endpoint;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.lbsyun.body.request.GeoSearchBoundRequest;
-import com.minlia.module.lbsyun.body.request.GeoSearchDetailRequest;
-import com.minlia.module.lbsyun.body.request.GeoSearchNearbyRequest;
-import com.minlia.module.lbsyun.body.request.GeoSearchRequest;
+import com.minlia.module.lbsyun.body.request.*;
 import com.minlia.module.lbsyun.service.GeoSearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +42,7 @@ public class GeoSearchEndpoint {
 
     @ApiOperation(value = "local", notes = "本地检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "local", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody local(@Valid @RequestBody GeoSearchRequest body) {
+    public StatefulBody local(@Valid @RequestBody GeoSearchLocalRequest body) {
         return SuccessResponseBody.builder().payload(geoSearchService.local(body)).build();
     }
 

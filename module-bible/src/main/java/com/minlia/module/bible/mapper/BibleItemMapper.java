@@ -21,7 +21,7 @@ public interface BibleItemMapper {
 
     BibleItem queryById(Long id);
 
-    @Cacheable(key = "'bible_item:one:' + #p0")
+//    @Cacheable(key = "'bible_item:one:' + #p0")
     BibleItem queryOne(BibleItemQueryRequestBody body);
 
     List<BibleItem> queryList(BibleItemQueryRequestBody body);

@@ -46,7 +46,7 @@ public class GeoSearchServiceImpl implements GeoSearchService {
     }
 
     @Override
-    public Object local(GeoSearchRequest request) {
+    public Object local(GeoSearchLocalRequest request) {
         return this.get(local_url,request);
     }
 

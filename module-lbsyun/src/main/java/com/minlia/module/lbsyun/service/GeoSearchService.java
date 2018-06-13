@@ -1,9 +1,6 @@
 package com.minlia.module.lbsyun.service;
 
-import com.minlia.module.lbsyun.body.request.GeoSearchBoundRequest;
-import com.minlia.module.lbsyun.body.request.GeoSearchDetailRequest;
-import com.minlia.module.lbsyun.body.request.GeoSearchNearbyRequest;
-import com.minlia.module.lbsyun.body.request.GeoSearchRequest;
+import com.minlia.module.lbsyun.body.request.*;
 
 /**
  * Created by garen on 2018/6/9.
@@ -29,7 +26,7 @@ public interface GeoSearchService {
      * @param request
      * @return
      */
-    Object local(GeoSearchRequest request);
+    Object local(GeoSearchLocalRequest request);
 
     /**
      * 详情检索
