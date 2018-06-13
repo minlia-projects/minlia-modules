@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.common.util.NumberGenerator;
@@ -41,7 +42,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     @Transactional
     public MyTodo create(TodoCreateRequestBody requestBody) {
-        BibleItem bibleItem = bibleItemService.queryByParentCodeAndCode(BIBLE_TODO_TYPE,requestBody.getType());
+        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(BIBLE_TODO_TYPE).code(requestBody.getType()).build());
         ApiPreconditions.is(null == bibleItem,ApiCode.NOT_FOUND,String.format("待办类型%s不存在",requestBody.getType()));
 
         MyTodo todo = mapper.map(requestBody, MyTodo.class);
@@ -113,7 +114,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public PageInfo<MyTodo> queryPage(TodoQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(requestBody));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(requestBody));
     }
 
 }

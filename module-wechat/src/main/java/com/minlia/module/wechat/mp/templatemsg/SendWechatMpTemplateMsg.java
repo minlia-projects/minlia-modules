@@ -7,6 +7,7 @@ import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
@@ -54,7 +55,7 @@ public class SendWechatMpTemplateMsg {
      */
     @Deprecated
     private MiniProgram builderMiniProgram(String appId, String templateId,List<Object> pathParams){
-        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryByParentCodeAndCode(WECHAT_MP_TEMPLATE, templateId);
+        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
         ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND, String.format("小程序路径%s不能为空",templateId));
         return new MiniProgram(appId, String.format(bibleItem.getAttribute1(),pathParams));
     }
@@ -103,7 +104,7 @@ public class SendWechatMpTemplateMsg {
 
             WxMpService wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
             WxMaConfig wxMaConfig = ContextHolder.getContext().getBean(WxMaConfig.class);
-            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryByParentCodeAndCode(WECHAT_MP_TEMPLATE, templateId);
+            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
             ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND, String.format("小程序路径%s不能为空",templateId));
 
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();

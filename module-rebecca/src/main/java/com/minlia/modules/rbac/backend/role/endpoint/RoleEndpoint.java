@@ -88,9 +88,7 @@ public class RoleEndpoint {
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "queryPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryPage(@PageableDefault Pageable pageable) {
-//        Page page = roleService.queryPage(pageable);
-
-        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         List<Role> roles =  roleService.queryList();
         PageInfo<Role> pageInfo = new PageInfo<Role>(roles);
         return SuccessResponseBody.builder().payload(pageInfo).build();

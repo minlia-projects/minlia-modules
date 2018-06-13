@@ -42,7 +42,7 @@ public class LoginLogServiceImpl implements LoginLogService {
 
     @Override
     public PageInfo<LoginLog> queryPage(Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> loginLogMapper.queryList());
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> loginLogMapper.queryList());
     }
 
 }

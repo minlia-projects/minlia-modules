@@ -93,7 +93,7 @@ public class PermissionEndpoint {
     @ApiOperation(value = "查询分页", notes = "查询分页", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryPage", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryPageByRole(@PageableDefault Pageable pageable) {
-        PageHelper.startPage(pageable.getOffset(), pageable.getPageSize());
+        PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize());
         List<Permission> permissions =  permissionService.queryAll();
         PageInfo<Permission> pageInfo = new PageInfo<Permission>(permissions);
 

@@ -133,7 +133,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Transactional(readOnly = true)
     public PageInfo<Permission> queryPage(Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> permissionMapper.queryList());
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> permissionMapper.queryList());
 
     }
 

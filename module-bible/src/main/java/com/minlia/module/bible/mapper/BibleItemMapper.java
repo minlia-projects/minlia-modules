@@ -3,7 +3,6 @@ package com.minlia.module.bible.mapper;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -22,10 +21,9 @@ public interface BibleItemMapper {
 
     BibleItem queryById(Long id);
 
-    @Cacheable(value = "minlia:bible_item", key = "'bible_item_one:' + #p0")
+    @Cacheable(key = "'bible_item:one:' + #p0")
     BibleItem queryOne(BibleItemQueryRequestBody body);
 
-    @Cacheable(value = "minlia:bible_item_list", key = "'bible_item_list:' + #p0")
     List<BibleItem> queryList(BibleItemQueryRequestBody body);
 
 }

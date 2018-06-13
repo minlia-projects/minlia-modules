@@ -59,7 +59,7 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     @Override
     public PageInfo queryPage(UserQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> userMapper.queryList(requestBody));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> userMapper.queryList(requestBody));
     }
 
     @Override

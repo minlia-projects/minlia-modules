@@ -8,6 +8,7 @@ import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
 import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
@@ -16,7 +17,6 @@ import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.mp.constant.WechatMpApiCode;
 import com.minlia.module.wechat.utils.HttpClientUtil;
-import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
 import com.minlia.modules.attachment.service.AttachmentUploadService;
@@ -40,8 +40,6 @@ import java.io.File;
 public class WechatMaServiceImpl implements WechatMaService {
 
     @Autowired
-    private OssService ossService;
-    @Autowired
     private WxMaService wxMaService;
     @Autowired
     private BibleItemService bibleItemService;
@@ -54,7 +52,7 @@ public class WechatMaServiceImpl implements WechatMaService {
 
     @Override
     public WxMaService getWxMaService(String type) {
-        BibleItem bibleItem = bibleItemService.queryByParentCodeAndCode(WechatMaBibleConstants.MINIAPP_CODE,type);
+        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(WechatMaBibleConstants.MINIAPP_CODE).code(type).build());
         ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND,type+"类型的小程序参数数据字典未配置");
 
         WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
@@ -105,7 +103,7 @@ public class WechatMaServiceImpl implements WechatMaService {
 
     @Override
     public OssFile createWxCodeLimit(MiniappQrcodeRequestBody body){
-        BibleItem qrConfig = bibleItemService.queryByParentCodeAndCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE,body.getType());
+        BibleItem qrConfig = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
         ApiPreconditions.is(null == qrConfig,ApiCode.NOT_FOUND,"小程序二维码类型不存在");
 
         String accessToken = null;

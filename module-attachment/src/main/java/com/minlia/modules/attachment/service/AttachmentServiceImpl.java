@@ -124,7 +124,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public PageInfo<Attachment> queryPage(AttachmentQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> attachmentMapper.queryList(requestBody));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> attachmentMapper.queryList(requestBody));
     }
 
 }

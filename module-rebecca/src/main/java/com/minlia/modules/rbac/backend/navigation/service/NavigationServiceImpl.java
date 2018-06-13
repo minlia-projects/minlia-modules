@@ -147,7 +147,7 @@ public class NavigationServiceImpl implements NavigationService {
 
     @Override
     public PageInfo<Navigation> queryPage(NavigationQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
 
     }
 

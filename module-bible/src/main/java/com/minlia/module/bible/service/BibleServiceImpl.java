@@ -104,7 +104,7 @@ public class BibleServiceImpl implements BibleService {
 
     @Override
     public PageInfo<Bible> queryPage(BibleQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> bibleMapper.queryList(requestBody));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> bibleMapper.queryList(requestBody));
     }
 
 }

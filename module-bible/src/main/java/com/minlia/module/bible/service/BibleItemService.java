@@ -29,12 +29,9 @@ public interface BibleItemService {
 
     BibleItem queryById(Long id);
 
-    BibleItem queryByParentCodeAndCode(String parentCode, String code);
-
-    List<BibleItem> queryByParentCode(String parentCode);
+    BibleItem queryOne(BibleItemQueryRequestBody requestBody);
 
     List<BibleItem> queryList(BibleItemQueryRequestBody requestBody);
 
     PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody requestBody, Pageable pageable);
-
 }

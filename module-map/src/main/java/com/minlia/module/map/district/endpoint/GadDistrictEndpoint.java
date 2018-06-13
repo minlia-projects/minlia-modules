@@ -63,7 +63,7 @@ public class GadDistrictEndpoint {
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "query/page", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody paginated(@PageableDefault Pageable pageable, @RequestBody GadDistrictQueryRequestBody requestBody) {
-        PageInfo<GadDistrict> pageInfo = PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> service.queryList(requestBody));
+        PageInfo<GadDistrict> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> service.queryList(requestBody));
         return SuccessResponseBody.builder().payload(pageInfo).build();
     }
 

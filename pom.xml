@@ -32,18 +32,24 @@
         <module>module-captcha</module>
         <module>module-richtext</module>
         <module>module-todo</module>
+
+        <!--腾讯云-->
         <module>module-qcloud-start</module>
         <module>module-qcloud-cos</module>
         <module>module-tencent-cloud-auth</module>
 
+        <!--阿里云-->
         <module>module-aliyun-dypls</module>
-        <!--<module>module-i18n</module>-->
-
-        <module>module-map</module>
-
         <module>module-aliyun-sesame</module>
         <module>module-aliyun-sms</module>
         <module>module-aliyun-oss</module>
+
+        <!--百度-->
+        <module>module-lbsyun</module>
+
+        <!--<module>module-i18n</module>-->
+
+        <module>module-map</module>
 
         <module>module-security</module>
         <module>module-rebecca</module>

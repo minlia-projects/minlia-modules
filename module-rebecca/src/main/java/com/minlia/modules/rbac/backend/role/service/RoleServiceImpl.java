@@ -118,7 +118,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public PageInfo<Role> queryPage(Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(), pageable.getPageSize()).doSelectPageInfo(()-> roleMapper.queryList());
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> roleMapper.queryList());
     }
 
 }

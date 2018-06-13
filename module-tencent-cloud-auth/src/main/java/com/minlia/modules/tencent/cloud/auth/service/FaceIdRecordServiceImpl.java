@@ -54,7 +54,7 @@ public class FaceIdRecordServiceImpl implements FaceIdRecordService {
 
     @Override
     public PageInfo<FaceIdRecord> queryPage(TcFaceIdRecordQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getOffset(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(requestBody));
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(requestBody));
     }
 
 }
