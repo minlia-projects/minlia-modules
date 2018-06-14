@@ -1,20 +1,34 @@
 package com.minlia.module.common.util;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Created by garen on 2018/6/14.
  */
 public class PrivacyShieldUtils {
 
     public static String idNo(String idNo) {
-        return idNo.replaceAll("(\\d{4})\\d{10}(\\d{4})","$1****$2");
+        if (StringUtils.isNotEmpty(idNo)) {
+            return idNo.replaceAll("(\\d{4})\\d{10}(\\d{4})","$1****$2");
+        } else {
+            return null;
+        }
     }
 
     public static String cellphone(String cellphone) {
-        return cellphone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+        if (StringUtils.isNotEmpty(cellphone)) {
+            return cellphone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+        } else {
+            return null;
+        }
     }
 
     public static String name(String name) {
-        return name.replaceAll("([\\u4e00-\\u9fa5]{1})(.*)", "$1" + createAsterisk(name.length() - 1));
+        if (StringUtils.isNotEmpty(name)) {
+            return name.replaceAll("([\\u4e00-\\u9fa5]{1})(.*)", "$1" + createAsterisk(name.length() - 1));
+        } else {
+            return null;
+        }
     }
 
     /**
