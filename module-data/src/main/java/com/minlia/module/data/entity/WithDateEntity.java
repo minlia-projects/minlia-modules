@@ -1,5 +1,7 @@
 package com.minlia.module.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,10 +19,11 @@ public abstract class WithDateEntity extends WithIdEntity {
 
     @CreatedDate
     @NotNull
-    private Date createDate = new Date();
+    private Date createDate;
 
+    @JsonIgnore
     @LastModifiedDate
-    private Date lastModifiedDate = new Date();
+    private Date lastModifiedDate;
 
     public Date getCreateDate() {
         return createDate;
@@ -31,11 +34,16 @@ public abstract class WithDateEntity extends WithIdEntity {
     }
 
     public Date getLastModifiedDate() {
-        return lastModifiedDate;
+        return new Date();
     }
 
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    @JsonProperty("lastModifiedDate")
+    public Date getLastModifiedDateAsJson(){
+        return this.lastModifiedDate;
     }
 
 }

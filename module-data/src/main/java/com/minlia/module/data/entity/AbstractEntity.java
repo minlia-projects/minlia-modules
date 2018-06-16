@@ -1,5 +1,7 @@
 package com.minlia.module.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.module.data.context.UserPrincipalHolder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -21,6 +23,7 @@ public abstract class AbstractEntity extends WithDateEntity {
     @NotNull
     private String createBy;
 
+    @JsonIgnore
     @LastModifiedBy
     private String lastModifiedBy;
 
@@ -33,11 +36,16 @@ public abstract class AbstractEntity extends WithDateEntity {
     }
 
     public String getLastModifiedBy() {
-        return null == lastModifiedBy ? UserPrincipalHolder.getCurrentUserLogin() : lastModifiedBy;
+        return UserPrincipalHolder.getCurrentUserLogin();
     }
 
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    @JsonProperty("lastModifiedBy")
+    public String getLastModifiedByAsJson() {
+        return UserPrincipalHolder.getCurrentUserLogin();
     }
 
 }
