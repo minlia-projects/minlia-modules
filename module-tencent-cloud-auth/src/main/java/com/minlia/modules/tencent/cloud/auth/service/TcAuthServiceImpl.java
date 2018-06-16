@@ -197,14 +197,16 @@ public class TcAuthServiceImpl implements TcAuthService{
                 result.setUserId(userId);
 
                 //持久化
-                faceIdRecord = FaceIdRecord.builder()
-                        .orderNo(orderNo)
-                        .userId(userId)
-                        .name(requestBody.getName())
-                        .idNo(requestBody.getIdNo())
-                        .isAuth(false)
-                        .build();
-                faceIdRecordService.create(faceIdRecord);
+//                if (null == faceIdRecord) {
+                    faceIdRecord = FaceIdRecord.builder()
+                            .orderNo(orderNo)
+                            .userId(userId)
+                            .name(requestBody.getName())
+                            .idNo(requestBody.getIdNo())
+                            .isAuth(false)
+                            .build();
+                    faceIdRecordService.create(faceIdRecord);
+//                }
                 return SuccessResponseBody.builder().payload(result).build();
             } else {
                 return FailureResponseBody.builder().code(Integer.valueOf(responseEntity.getBody().getCode())).message(responseEntity.getBody().getMsg()).build();
