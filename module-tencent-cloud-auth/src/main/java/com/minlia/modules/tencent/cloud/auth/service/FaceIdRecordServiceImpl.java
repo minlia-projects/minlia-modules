@@ -43,6 +43,11 @@ public class FaceIdRecordServiceImpl implements FaceIdRecordService {
     }
 
     @Override
+    public FaceIdRecord queryLastByUserId(String userId) {
+        return faceIdRecordMapper.queryLastByUserId(userId);
+    }
+
+    @Override
     public FaceIdRecord queryOne(TcFaceIdRecordQueryRequestBody requestBody) {
         return faceIdRecordMapper.queryOne(requestBody);
     }

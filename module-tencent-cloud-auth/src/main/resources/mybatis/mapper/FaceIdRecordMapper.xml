@@ -80,6 +80,11 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </select>
 
+    <select id="queryLastByUserId" resultType="com.minlia.modules.tencent.cloud.auth.entity.FaceIdRecord">
+        <include refid="QUERY_CONTENT"/>
+        WHERE user_id = #{userId} order by create_date desc limit 0,1;
+    </select>
+
     <select id="queryAll" resultType="com.minlia.modules.tencent.cloud.auth.entity.FaceIdRecord">
         <include refid="QUERY_CONTENT"/>
     </select>

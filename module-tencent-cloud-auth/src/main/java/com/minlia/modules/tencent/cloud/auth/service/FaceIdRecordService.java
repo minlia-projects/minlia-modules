@@ -20,6 +20,8 @@ public interface FaceIdRecordService {
 
     long count(TcFaceIdRecordQueryRequestBody requestBody);
 
+    FaceIdRecord queryLastByUserId(String userId);
+
     FaceIdRecord queryOne(TcFaceIdRecordQueryRequestBody recordRequestBody);
 
     List<FaceIdRecord> queryList(TcFaceIdRecordQueryRequestBody recordRequestBody);

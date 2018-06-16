@@ -18,6 +18,8 @@ public interface FaceIdRecordMapper {
 
     long count(TcFaceIdRecordQueryRequestBody requestBody);
 
+    FaceIdRecord queryLastByUserId(String userId);
+
     FaceIdRecord queryOne(TcFaceIdRecordQueryRequestBody requestBody);
 
     List<FaceIdRecord> queryList(TcFaceIdRecordQueryRequestBody recordRequestBody);
