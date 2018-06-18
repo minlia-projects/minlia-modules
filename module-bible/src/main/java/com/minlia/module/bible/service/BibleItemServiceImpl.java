@@ -59,7 +59,7 @@ public class BibleItemServiceImpl implements BibleItemService {
     @Override
     @Transactional
     @Caching(
-            put = {@CachePut(key = "'bible_item:id:' + #p0.id")},
+            put = {@CachePut(value = "bible_item:id", key = "'bible_item_id:' + #p0.id")},
             evict = {
                     @CacheEvict(value = "bible_item:one",allEntries = true),
                     @CacheEvict(value = "bible_item:list",allEntries = true),
@@ -78,7 +78,7 @@ public class BibleItemServiceImpl implements BibleItemService {
     @Transactional
     @Caching(
             evict = {
-                    @CacheEvict(key = "'bible_item:id' + #p0"),
+                    @CacheEvict(value = "bible_item:id", key = "'bible_item_id:' + #p0"),
                     @CacheEvict(value = "bible_item:count", allEntries = true),
                     @CacheEvict(value = "bible_item:one", allEntries = true),
                     @CacheEvict(value = "bible_item:list", allEntries = true),
@@ -91,13 +91,13 @@ public class BibleItemServiceImpl implements BibleItemService {
 
 
     @Override
-    @Cacheable(key = "'bible_item:count' + #p0")
+    @Cacheable(value = "bible_item:count", key = "'bible_item_count:' + #p0")
     public long count(BibleItemQueryRequestBody body) {
         return bibleItemMapper.count(body);
     }
 
     @Override
-    @Cacheable(key = "'bible_item:id' + #p0")
+    @Cacheable(value = "bible_item:id", key = "'bible_item_id:' + #p0")
     public BibleItem queryById(Long id) {
         return bibleItemMapper.queryById(id);
     }

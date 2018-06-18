@@ -24,7 +24,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-@CacheConfig(cacheNames = { "minlia:bible" })
+//@CacheConfig(cacheNames = { "minlia:bible" })
 public class BibleServiceImpl implements BibleService {
 
     @Autowired
@@ -38,9 +38,9 @@ public class BibleServiceImpl implements BibleService {
 
     @Override
     @Transactional
-    @Caching(
-            evict = {@CacheEvict(value = "minlia:bible_list",allEntries = true)}
-    )
+//    @Caching(
+//            evict = {@CacheEvict(value = "minlia:bible_list",allEntries = true)}
+//    )
     public Bible create(BibleCreateRequestBody requestBody) {
         Bible bible = bibleMapper.queryByCode(requestBody.getCode());
         ApiPreconditions.is(null != bible, ApiCode.DATA_ALREADY_EXISTS,"数据已存在");
@@ -51,10 +51,10 @@ public class BibleServiceImpl implements BibleService {
 
     @Override
     @Transactional
-    @Caching(
-            put = {@CachePut(key = "'bible_id:' + #p0.id")},
-            evict = {@CacheEvict(value = "minlia:bible_list", allEntries = true)}
-    )
+//    @Caching(
+//            put = {@CachePut(key = "'bible_id:' + #p0.id")},
+//            evict = {@CacheEvict(value = "minlia:bible_list", allEntries = true)}
+//    )
     public Bible update(BibleUpdateRequestBody body) {
         Bible bible = bibleMapper.queryById(body.getId());
         ApiPreconditions.is(null == bible, ApiCode.NOT_FOUND,"数据不存在");
@@ -66,12 +66,12 @@ public class BibleServiceImpl implements BibleService {
 
     @Override
     @Transactional
-    @Caching(
-            evict = {
-                    @CacheEvict(key = "'bible_id:' + #p0"),
-                    @CacheEvict(value = "bible_list", allEntries = true)
-            }
-    )
+//    @Caching(
+//            evict = {
+//                    @CacheEvict(key = "'bible_id:' + #p0"),
+//                    @CacheEvict(value = "bible_list", allEntries = true)
+//            }
+//    )
     public void delete(Long id) {
         Bible bible = bibleMapper.queryById(id);
         ApiPreconditions.is(null == bible, BibleApiCode.NOT_FOUND,"数据不存在");
@@ -86,13 +86,13 @@ public class BibleServiceImpl implements BibleService {
     }
 
     @Override
-    @Cacheable(key = "'bible_id:' + #p0")
+//    @Cacheable(key = "'bible_id:' + #p0")
     public Bible queryById(Long id) {
         return bibleMapper.queryById(id);
     }
 
     @Override
-    @Cacheable(key = "'bible_cod:' + #p0")
+//    @Cacheable(key = "'bible_cod:' + #p0")
     public Bible queryByCode(String code) {
         return bibleMapper.queryByCode(code);
     }
