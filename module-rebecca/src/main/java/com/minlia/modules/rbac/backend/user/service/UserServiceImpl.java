@@ -38,6 +38,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private
+
     @Override
     public User create(UserCreateRequestBody requestBody) {
         ApiPreconditions.is(userQueryService.exists(requestBody.getUsername()), ApiCode.NOT_NULL,"用户名已被使用");
@@ -52,6 +55,8 @@ public class UserServiceImpl implements UserService {
                 //TODO 多机部署时需要设置这里的数据中心与机器ID
 //                .guid(new Long(new GuidGenerator(1l, 1l).nextId()).toString())
 //        TODO  太长了，直接用表序列、表中设置自增
+
+                .guid()
                 .username(requestBody.getUsername())
                 .referral(requestBody.getReferral())
                 .password(bCryptPasswordEncoder.encode(requestBody.getPassword()))
@@ -69,7 +74,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
-        RegistrationEvent.onCompleted(user);
+        RegistrationEvent.onCompleted(user.getId());
         return user;
     }
 

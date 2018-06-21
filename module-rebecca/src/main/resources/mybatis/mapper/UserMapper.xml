@@ -60,14 +60,13 @@
 			email ,
 			referral
 		)
-		VALUES
-			(
-				#{username,jdbcType=VARCHAR},
-				#{password,jdbcType=VARCHAR},
-				#{cellphone,jdbcType=VARCHAR},
-				#{email,jdbcType=VARCHAR},
-				#{referral,jdbcType=VARCHAR}
-			)
+		VALUES(
+			#{username,jdbcType=VARCHAR},
+			#{password,jdbcType=VARCHAR},
+			#{cellphone,jdbcType=VARCHAR},
+			#{email,jdbcType=VARCHAR},
+			#{referral,jdbcType=VARCHAR}
+		)
 	</insert>
 
 	<update id="update" parameterType="com.minlia.modules.rbac.backend.user.entity.User">
