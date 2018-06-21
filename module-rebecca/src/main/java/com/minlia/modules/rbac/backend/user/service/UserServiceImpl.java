@@ -54,8 +54,10 @@ public class UserServiceImpl implements UserService {
 //        TODO  太长了，直接用表序列、表中设置自增
 
                 .username(requestBody.getUsername())
-                .referral(requestBody.getReferral())
+                .cellphone(requestBody.getCellphone())
+                .email(requestBody.getEmail())
                 .password(bCryptPasswordEncoder.encode(requestBody.getPassword()))
+                .referral(requestBody.getReferral())
                 .enabled(Boolean.TRUE)
                 .credentialsExpired(Boolean.FALSE)
                 .locked(Boolean.FALSE)
