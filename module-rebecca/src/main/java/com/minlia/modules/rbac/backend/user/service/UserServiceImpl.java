@@ -38,9 +38,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private
-
     @Override
     public User create(UserCreateRequestBody requestBody) {
         ApiPreconditions.is(userQueryService.exists(requestBody.getUsername()), ApiCode.NOT_NULL,"用户名已被使用");
