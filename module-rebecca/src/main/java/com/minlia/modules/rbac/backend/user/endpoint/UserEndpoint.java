@@ -63,15 +63,15 @@ public class UserEndpoint {
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "锁定用户", notes = "锁定用户", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "locked", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody locked(@RequestParam String guid) {
+    @RequestMapping(value = "locked/{guid}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody locked(@PathVariable String guid) {
         return SuccessResponseBody.builder().payload(userService.locked(guid)).build();
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "禁用用户", notes = "禁用用户", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "disabled", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody disabled(@RequestParam String guid) {
+    @RequestMapping(value = "disabled/{guid}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody disabled(@PathVariable String guid) {
         return SuccessResponseBody.builder().payload(userService.disabled(guid)).build();
     }
 

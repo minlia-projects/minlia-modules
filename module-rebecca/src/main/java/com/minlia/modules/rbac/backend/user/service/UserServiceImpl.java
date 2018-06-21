@@ -14,7 +14,6 @@ import com.minlia.modules.rbac.backend.user.event.UserDeleteEvent;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import com.minlia.modules.rbac.openapi.registration.event.RegistrationEvent;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -53,7 +52,6 @@ public class UserServiceImpl implements UserService {
                 //TODO 多机部署时需要设置这里的数据中心与机器ID
 //                .guid(new Long(new GuidGenerator(1l, 1l).nextId()).toString())
 //        TODO  太长了，直接用表序列、表中设置自增
-                .guid(RandomUtils.nextInt(10000000,99999999) + "")
                 .username(requestBody.getUsername())
                 .referral(requestBody.getReferral())
                 .password(bCryptPasswordEncoder.encode(requestBody.getPassword()))

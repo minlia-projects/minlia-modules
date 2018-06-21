@@ -31,6 +31,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public User registration(UserRegistrationRequestBody body) {
         User user = userService.create(UserCreateRequestBody.builder()
                 .username(body.getUsername())
+                .cellphone(body.getUsername())
                 .password(body.getPassword())
                 .referral(body.getReferral())
                 .build());

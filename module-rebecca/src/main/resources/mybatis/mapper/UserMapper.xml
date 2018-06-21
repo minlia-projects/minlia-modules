@@ -54,7 +54,6 @@
 
 	<insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO minlia_user(
-			guid ,
 			username ,
 			password ,
 			cellphone ,
@@ -63,7 +62,6 @@
 		)
 		VALUES
 			(
-				#{guid,jdbcType=VARCHAR},
 				#{username,jdbcType=VARCHAR},
 				#{password,jdbcType=VARCHAR},
 				#{cellphone,jdbcType=VARCHAR},

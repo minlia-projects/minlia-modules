@@ -4,6 +4,7 @@ import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.cloud.constant.ValidationConstants;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
+import com.minlia.modules.rbac.openapi.registration.enumeration.RegistrationType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,6 +25,8 @@ public class UserRegistrationRequestBody implements ApiRequestBody {
     @Cellphone
     @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Username have to be grater than 8 characters")
     private String username;
+
+    private RegistrationType type;
 
     /**
      * 密码
