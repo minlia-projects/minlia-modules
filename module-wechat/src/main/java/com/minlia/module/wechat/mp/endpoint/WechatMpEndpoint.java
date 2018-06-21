@@ -37,7 +37,7 @@ public class WechatMpEndpoint {
     @Autowired(required = false)
     private WxMpMessageRouter router;
 
-    @RequestMapping(value = "material/{scene}/{seconds}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "material/{type}/{offset}/{count}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "获取素材列表", notes = "获取素材列表", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     public StatefulBody material(String type, int offset, int count) throws WxErrorException {
         WxMpMaterialFileBatchGetResult result = wxService.getMaterialService().materialFileBatchGet(type,offset,count);
