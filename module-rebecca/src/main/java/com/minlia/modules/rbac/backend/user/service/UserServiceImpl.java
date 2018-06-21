@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
 //                .guid(new Long(new GuidGenerator(1l, 1l).nextId()).toString())
 //        TODO  太长了，直接用表序列、表中设置自增
 
-                .guid()
                 .username(requestBody.getUsername())
                 .referral(requestBody.getReferral())
                 .password(bCryptPasswordEncoder.encode(requestBody.getPassword()))
