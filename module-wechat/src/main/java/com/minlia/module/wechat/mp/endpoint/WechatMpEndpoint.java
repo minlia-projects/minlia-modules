@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialFileBatchGetResult;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
@@ -36,14 +37,13 @@ public class WechatMpEndpoint {
     @Autowired(required = false)
     private WxMpMessageRouter router;
 
-    /**
-     * 获取微信临时二维码
-     *
-     * @param scene
-     * @param seconds
-     * @return
-     * @throws WxErrorException
-     */
+    @RequestMapping(value = "material/{scene}/{seconds}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "获取素材列表", notes = "获取素材列表", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    public StatefulBody material(String type, int offset, int count) throws WxErrorException {
+        WxMpMaterialFileBatchGetResult result = wxService.getMaterialService().materialFileBatchGet(type,offset,count);
+        return SuccessResponseBody.builder().payload(result).build();
+    }
+
     @RequestMapping(value = "tempqrcode/{scene}/{seconds}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "微信临时二维码", notes = "微信临时二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     public StatefulBody qrcode(@PathVariable String scene,@PathVariable Integer seconds) throws WxErrorException {
@@ -53,14 +53,6 @@ public class WechatMpEndpoint {
         return SuccessResponseBody.builder().message(qrcode).build();
     }
 
-    /**
-     * 微信临时二维码（判断类型）
-     *
-     * @param parameter
-     * @param prefixType
-     * @return
-     * @throws WxErrorException
-     */
     @RequestMapping(value = "tempqrcode/{parameter}/{prefixType}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "微信临时二维码（类型）", notes = "微信临时二维码（类型）", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     public StatefulBody qrcode(@PathVariable String parameter, @PathVariable String prefixType) throws WxErrorException {
