@@ -58,8 +58,6 @@
 			cellphone ,
 			email ,
 			password ,
-			cellphone ,
-			email ,
 			referral
 		)
 		VALUES(
@@ -67,8 +65,6 @@
 			#{cellphone,jdbcType=VARCHAR},
 			#{email,jdbcType=VARCHAR},
 			#{password,jdbcType=VARCHAR},
-			#{cellphone,jdbcType=VARCHAR},
-			#{email,jdbcType=VARCHAR},
 			#{referral,jdbcType=VARCHAR}
 		)
 	</insert>
