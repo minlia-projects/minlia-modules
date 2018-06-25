@@ -1,22 +1,30 @@
 package com.minlia.module.wechat.mp.endpoint;
 
+import com.google.gson.Gson;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.util.json.WxGsonBuilder;
+import me.chanjar.weixin.mp.api.WxMpMaterialService;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.material.WxMpMaterialFileBatchGetResult;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -32,32 +40,42 @@ public class WechatMpEndpoint {
     public static final Integer EXPIRE_SECONDS = 2592000;
 
     @Autowired(required = false)
-    private WxMpService wxService;
+    private WxMpService wxMpService;
 
     @Autowired(required = false)
     private WxMpMessageRouter router;
 
-    @RequestMapping(value = "material/{type}/{offset}/{count}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiOperation(value = "获取素材列表", notes = "获取素材列表", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody material(String type, int offset, int count) throws WxErrorException {
-        WxMpMaterialFileBatchGetResult result = wxService.getMaterialService().materialFileBatchGet(type,offset,count);
-        return SuccessResponseBody.builder().payload(result).build();
+    @RequestMapping(value = "material/{type}/{offset}/{count}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody material(@PathVariable String type, @PathVariable int offset, @PathVariable int count) throws WxErrorException {
+//        WxMpMaterialFileBatchGetResult result = wxMpService.getMaterialService().materialFileBatchGet(type, offset, count);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", type);
+        params.put("offset", offset);
+        params.put("count", count);
+        String responseText = this.wxMpService.post(WxMpMaterialService.MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
+        WxError wxError = WxError.fromJson(responseText);
+        if (wxError.getErrorCode() != 0) {
+            throw new WxErrorException(wxError);
+        }
+        return SuccessResponseBody.builder().payload(new Gson().fromJson(responseText, HashMap.class)).build();
     }
 
+    @ApiOperation(value = "临时二维码", notes = "临时二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "tempqrcode/{scene}/{seconds}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ApiOperation(value = "微信临时二维码", notes = "微信临时二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody qrcode(@PathVariable String scene,@PathVariable Integer seconds) throws WxErrorException {
-        WxMpQrCodeTicket ticket = wxService.getQrcodeService().qrCodeCreateTmpTicket(scene,seconds);
-        String qrcode = wxService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
+    public StatefulBody qrcode(@PathVariable String scene, @PathVariable Integer seconds) throws WxErrorException {
+        WxMpQrCodeTicket ticket = wxMpService.getQrcodeService().qrCodeCreateTmpTicket(scene, seconds);
+        String qrcode = wxMpService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
         log.debug("QRCODE {}", qrcode);
         return SuccessResponseBody.builder().message(qrcode).build();
     }
 
-    @RequestMapping(value = "tempqrcode/{parameter}/{prefixType}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ApiOperation(value = "微信临时二维码（类型）", notes = "微信临时二维码（类型）", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody qrcode(@PathVariable String parameter, @PathVariable String prefixType) throws WxErrorException {
-        WxMpQrCodeTicket ticket = wxService.getQrcodeService().qrCodeCreateLastTicket(prefixType + parameter);
-        String qrcode = wxService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
+    @ApiOperation(value = "永久二维码", notes = "永久二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "lastqrcode/{scene}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public StatefulBody qrcode(@PathVariable String scene) throws WxErrorException {
+        WxMpQrCodeTicket ticket = wxMpService.getQrcodeService().qrCodeCreateLastTicket(scene);
+        String qrcode = wxMpService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
         log.debug("QRCODE {}", qrcode);
         return SuccessResponseBody.builder().message(qrcode).build();
     }
@@ -84,7 +102,7 @@ public class WechatMpEndpoint {
             throw new IllegalArgumentException("请求参数非法，请核实!");
         }
 
-        if (this.wxService.checkSignature(timestamp, nonce, signature)) {
+        if (this.wxMpService.checkSignature(timestamp, nonce, signature)) {
             return echostr;
         }
 
@@ -112,7 +130,7 @@ public class WechatMpEndpoint {
         log.info("接收微信请求：[signature=[{}], encType=[{}], msgSignature=[{}]," + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ",
                 signature, encType, msgSignature, timestamp, nonce, requestBody);
 
-        if (!this.wxService.checkSignature(timestamp, nonce, signature)) {
+        if (!this.wxMpService.checkSignature(timestamp, nonce, signature)) {
             throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
         }
 
@@ -129,14 +147,14 @@ public class WechatMpEndpoint {
         } else if ("aes".equals(encType)) {
             // aes加密的消息
             WxMpXmlMessage inMessage = WxMpXmlMessage.fromEncryptedXml(
-                    requestBody, this.wxService.getWxMpConfigStorage(), timestamp, nonce, msgSignature);
+                    requestBody, this.wxMpService.getWxMpConfigStorage(), timestamp, nonce, msgSignature);
             log.debug("\n消息解密后内容为：\n{} ", inMessage.toString());
             WxMpXmlOutMessage outMessage = this.route(inMessage);
             if (outMessage == null) {
                 return "";
             }
 
-            out = outMessage.toEncryptedXml(this.wxService.getWxMpConfigStorage());
+            out = outMessage.toEncryptedXml(this.wxMpService.getWxMpConfigStorage());
         }
 
         log.debug("\n组装回复信息：{}", out);

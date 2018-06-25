@@ -31,7 +31,7 @@ public class ScanHandler extends AbstractHandler {
         if (StringUtils.isEmpty(wxMessage.getEventKey())){
             new TextBuilder().build("感谢关注", wxMessage,wxMpService);
         }else{
-            //TODO 发布扫码成功事件
+            //发布扫码成功事件
             WechatScanEvent.onScan(wxMessage);
         }
 

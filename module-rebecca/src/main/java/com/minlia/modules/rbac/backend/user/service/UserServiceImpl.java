@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
                 //TODO 多机部署时需要设置这里的数据中心与机器ID
 //                .guid(new Long(new GuidGenerator(1l, 1l).nextId()).toString())
 //        TODO  太长了，直接用表序列、表中设置自增
-
+                .guid(userMapper.getGuidSequence()+"")
                 .username(requestBody.getUsername())
                 .cellphone(requestBody.getCellphone())
                 .email(requestBody.getEmail())
