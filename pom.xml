@@ -33,6 +33,10 @@
         <module>module-richtext</module>
         <module>module-todo</module>
 
+        <!--微信-->
+        <module>module-wechat</module>
+        <module>module-wechat-mp-material</module>
+
         <!--腾讯云-->
         <module>module-qcloud-start</module>
         <module>module-qcloud-cos</module>
@@ -55,8 +59,6 @@
         <module>module-rebecca</module>
         <module>module-bible</module>
         <module>module-attachment</module>
-        <module>module-wechat</module>
-        <module>module-wechat-mp-material</module>
 
         <!--<module>module-registry</module>-->
         <!--<module>module-nestedset</module>-->
