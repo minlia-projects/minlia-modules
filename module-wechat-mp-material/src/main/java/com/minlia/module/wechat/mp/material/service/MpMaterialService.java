@@ -223,6 +223,6 @@ public interface MpMaterialService {
      * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
      * @param count  返回素材的数量，取值在1到20之间
      */
-    StatefulBody materialBatchGet(String type, int offset, int count);
+    StatefulBody materialBatchGet(String type, Integer offset, Integer count);
 
 }

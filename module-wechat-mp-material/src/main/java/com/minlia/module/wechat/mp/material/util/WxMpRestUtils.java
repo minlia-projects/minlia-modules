@@ -18,14 +18,17 @@ public class WxMpRestUtils {
 
     private static WxMpService wxMpService;
 
-    WxMpRestUtils(){
-        wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
+    private static WxMpService getWxMpService(){
+        if (null == wxMpService) {
+            wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
+        }
+        return wxMpService;
     }
 
     public static Map post(String url,Map params) {
         String responseText = null;
         try {
-            responseText = wxMpService.post(url, WxGsonBuilder.create().toJson(params));
+            responseText = getWxMpService().post(url, WxGsonBuilder.create().toJson(params));
         } catch (WxErrorException e) {
             e.printStackTrace();
             ApiPreconditions.is(true, e.getError().getErrorCode(),e.getError().getErrorMsg());

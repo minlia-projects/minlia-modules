@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -79,7 +78,13 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         redisTemplate.setKeySerializer(keySerializer);
         redisTemplate.setHashKeySerializer(keySerializer);
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        //设置缓存过期时间:秒
+
+        //按cacheName设置缓存过期时间
+//        Map<String, Long> expires = new HashMap<String, Long>();
+//        expires.put("news", 60L);
+//        cacheManager.setExpires(expires);
+
+        //设置缓存默认过期时间:秒
         cacheManager.setDefaultExpiration(60 * 30);
         return cacheManager;
     }
