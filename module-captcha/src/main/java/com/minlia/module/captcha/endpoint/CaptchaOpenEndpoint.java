@@ -25,17 +25,17 @@ import java.util.regex.Pattern;
 @Api(tags = "System Captcha", description = "验证码")
 @RestController
 @RequestMapping(value = ApiPrefix.API + "captcha")
-public class CaptchaEndpoint {
+public class CaptchaOpenEndpoint {
 
     @Autowired
-    CaptchaService securityCodeService;
+    CaptchaService captchaService;
 
     @ApiOperation(value = "发送验证码", notes = "发送验证码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "send/{cellphone}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody send(@PathVariable String cellphone) throws ClientException {
         ApiPreconditions.not(Pattern.matches("^1[0-9]{10}$",cellphone),1,"请输入11位有效手机号码");
 
-        Captcha securityCode = securityCodeService.send(cellphone);
+        Captcha securityCode = captchaService.send(cellphone);
 
         //DEV环境时放出来
         if(Environments.isDevelopment()){
@@ -49,7 +49,7 @@ public class CaptchaEndpoint {
     @RequestMapping(value = "verify/{cellphone}/{code}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public void send(@PathVariable("cellphone") String cellphone, @PathVariable("code") String code) {
         ApiPreconditions.not(Pattern.matches("^1[0-9]{10}$",cellphone),1,"请输入11位有效手机号码");
-        securityCodeService.validity(cellphone,code);
+        captchaService.validity(cellphone,code);
     }
 
 }
