@@ -24,7 +24,9 @@ public class GeoResponse {
     private String id;
 
     public boolean isSuccess(){
-        return this.status == 0;
+        //status=0:成功
+        //status=21:此操作为批量操作
+        return this.status == 0 || this.status == 21;
     }
 
 }
