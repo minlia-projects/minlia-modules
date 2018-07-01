@@ -38,6 +38,9 @@
             <if test="handler != null">
                 AND handler = #{handler}
             </if>
+            <if test="createBy != null">
+                AND create_by = #{createBy}
+            </if>
         </where>
     </sql>
 
