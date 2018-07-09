@@ -238,10 +238,11 @@ public interface RedisService {
     /**
      * 范围删除
      * @param key
-     * @param start
-     * @param end
+     * @param object
      * @return
      */
+    long zRemove(String key, Object object);
+
     long zRemoveRange(String key, long start, long end);
 
     long zremoveRangeByScore(String key, long start, long end);

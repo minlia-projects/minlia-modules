@@ -454,6 +454,11 @@ public class RedisServiceImpl implements RedisService {
         return zSetOperations.count(key, tts+1, Long.MAX_VALUE);
     }
 
+    @Override
+    public long zRemove(String key, Object object) {
+        return zSetOperations.remove(key, object);
+    }
+
     /**
      * 范围删除
      * @param key
