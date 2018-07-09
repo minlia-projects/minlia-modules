@@ -219,6 +219,33 @@ public interface RedisService {
      */
     long setRemove(String key, Object... values) ;
 
+
+    //===============================sorted set===========================
+
+    /**
+     * 存入一条数据到sorted set
+     * @param key
+     * @param value
+     */
+    boolean zset(String key, Object value);
+
+    boolean zset(String key, Object value, long scope);
+
+    Set<Object> zgetAll(String key, long expireSec);
+
+    long zCount(String key, long expire);
+
+    /**
+     * 范围删除
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    long zRemoveRange(String key, long start, long end);
+
+    long zremoveRangeByScore(String key, long start, long end);
+
     //===============================list=================================
 
     /**

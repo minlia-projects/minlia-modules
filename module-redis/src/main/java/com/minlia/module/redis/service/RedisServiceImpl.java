@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -24,6 +25,9 @@ public class RedisServiceImpl implements RedisService {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    private ZSetOperations<String, Object> zSetOperations;
 
     //=============================common============================
 
@@ -395,6 +399,86 @@ public class RedisServiceImpl implements RedisService {
             return 0;
         }
     }
+
+    //===============================zset=================================
+
+    /**
+     * 存入一条数据到sorted set
+     * @param key
+     * @param value
+     */
+    @Override
+    public boolean zset(String key, Object value){
+        long now = System.currentTimeMillis();
+        return zSetOperations.add(key, value, now);
+    }
+
+    /**
+     * 存入一条数据到sorted set
+     * @param key
+     * @param value
+     */
+    @Override
+    public boolean zset(String key, Object value, long scope){
+        return zSetOperations.add(key, value, scope);
+    }
+
+    /**
+     * 取出整个set的所有记录
+     * @param key
+     * @return
+     */
+    @Override
+    public Set<Object> zgetAll(String key, long expireSec){
+        long now = System.currentTimeMillis();
+        long tts = now - expireSec;
+
+        //下标用-1才能表示最大值  score和count要用-inf和+inf
+        //return zSetOperations.rangeByScore(key, tts+1, -1);
+        return zSetOperations.rangeByScore(key, tts+1, Long.MAX_VALUE);
+    }
+
+    /**
+     * 查看匹配数目
+     * @param key
+     * @param expire:过期时间 单位是秒
+     * @return
+     */
+    @Override
+    public long zCount(String key, long expire){
+        long now = System.currentTimeMillis();
+        long tts = now - expire;
+
+        //下标用-1才能表示最大值  score和count要用-inf和+inf
+        //return zSetOperations.count(key, tts+1, -1);
+        return zSetOperations.count(key, tts+1, Long.MAX_VALUE);
+    }
+
+    /**
+     * 范围删除
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    @Override
+    public long zRemoveRange(String key, long start, long end) {
+        return zSetOperations.removeRange(key, start, end);
+    }
+
+    /**
+     * 范围删除
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    @Override
+    public long zremoveRangeByScore(String key, long start, long end) {
+        return zSetOperations.removeRangeByScore(key, start, end);
+    }
+
+
     //===============================list=================================
 
     /**

@@ -20,6 +20,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -107,6 +108,13 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
 //        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
+    }
+
+
+    @Bean
+    @ConditionalOnBean(value = {RedisTemplate.class})
+    public ZSetOperations zSetOperations(RedisTemplate redisTemplate) {
+        return redisTemplate.opsForZSet();
     }
 
     @Override
