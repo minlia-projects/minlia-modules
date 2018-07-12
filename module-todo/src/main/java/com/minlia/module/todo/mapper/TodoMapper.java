@@ -22,4 +22,6 @@ public interface TodoMapper {
 
     List<MyTodo> queryList(TodoQueryRequestBody body);
 
+    long count(TodoQueryRequestBody requestBody);
+
 }

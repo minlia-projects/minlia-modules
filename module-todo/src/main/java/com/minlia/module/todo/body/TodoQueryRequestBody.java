@@ -1,5 +1,6 @@
 package com.minlia.module.todo.body;
 
+import com.minlia.module.todo.enumeration.TodoStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class TodoQueryRequestBody {
 
     private String type;
 
-    private String status;
+    private TodoStatus status;
 
     private String handler;
 

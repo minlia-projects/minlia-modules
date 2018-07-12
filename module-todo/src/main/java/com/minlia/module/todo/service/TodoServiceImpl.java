@@ -101,6 +101,11 @@ public class TodoServiceImpl implements TodoService {
         return todoMapper.queryByNumber(number);
     }
 
+    @Override
+    public long count(TodoQueryRequestBody requestBody) {
+        return todoMapper.count(requestBody);
+    }
+
     private MyTodo queryByNumberAndNotNull(String number) {
         MyTodo todo = todoMapper.queryByNumber(number);
         ApiPreconditions.is(null == todo, ApiCode.NOT_FOUND, "记录不存在");

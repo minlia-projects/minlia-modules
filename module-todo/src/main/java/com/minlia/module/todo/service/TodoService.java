@@ -28,6 +28,8 @@ public interface TodoService {
 
     MyTodo queryByNumber(String number);
 
+    long count(TodoQueryRequestBody requestBody);
+
     List<MyTodo> queryList(TodoQueryRequestBody requestBody);
 
     PageInfo<MyTodo> queryPage(TodoQueryRequestBody body, Pageable pageable);
