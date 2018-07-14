@@ -20,7 +20,7 @@ import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
 import com.minlia.modules.attachment.service.AttachmentUploadService;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;

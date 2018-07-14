@@ -2,7 +2,6 @@ package com.minlia.module.wechat.ma.service;
 
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public interface WechatOpenAccountService {
      * 根据微信消息保存union、opoen信息
      * @param wxMpUser
      */
-    void save(WxMpUser wxMpUser) throws WxErrorException;
+    void save(WxMpUser wxMpUser);
 
     WechatOpenAccount update(WechatOpenAccount openAccount);
 

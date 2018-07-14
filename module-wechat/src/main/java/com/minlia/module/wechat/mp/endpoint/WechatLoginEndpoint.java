@@ -2,12 +2,11 @@ package com.minlia.module.wechat.mp.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

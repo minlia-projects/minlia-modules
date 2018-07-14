@@ -14,7 +14,7 @@ import com.minlia.module.wechat.ma.mapper.WxMaUserMapper;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

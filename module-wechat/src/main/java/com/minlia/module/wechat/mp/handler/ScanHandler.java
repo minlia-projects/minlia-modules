@@ -3,7 +3,7 @@ package com.minlia.module.wechat.mp.handler;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.builder.TextBuilder;
 import com.minlia.module.wechat.mp.event.WechatScanEvent;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;

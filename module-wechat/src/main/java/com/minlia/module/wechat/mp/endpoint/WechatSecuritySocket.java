@@ -8,7 +8,7 @@ import com.minlia.module.websocket.encoder.MessageDecoder;
 import com.minlia.module.websocket.encoder.MessageEncoder;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import io.swagger.annotations.Api;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 import org.springframework.stereotype.Component;

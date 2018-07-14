@@ -3,7 +3,7 @@ package com.minlia.module.wechat.mp.handler;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.builder.TextBuilder;
 import com.minlia.module.wechat.mp.event.WechatSubscribeEvent;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -32,13 +32,7 @@ public class SubscribeHandler extends AbstractHandler {
             //发布关注成功事件
             WechatSubscribeEvent.onSubscribe(wxMessage);
         }
-
-        try {
-            return new TextBuilder().build("感谢关注", wxMessage, wxMpService);
-        } catch (Exception e) {
-            this.logger.error(e.getMessage(), e);
-        }
-        return null;
+        return new TextBuilder().build("感谢关注", wxMessage, wxMpService);
     }
 
 }

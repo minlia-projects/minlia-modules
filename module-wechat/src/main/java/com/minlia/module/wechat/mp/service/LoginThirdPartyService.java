@@ -5,8 +5,7 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import org.springframework.transaction.annotation.Transactional;
+import me.chanjar.weixin.common.error.WxErrorException;
 
 import java.util.HashMap;
 

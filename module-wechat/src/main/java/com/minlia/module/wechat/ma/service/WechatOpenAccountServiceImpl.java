@@ -5,7 +5,7 @@ import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.mapper.WechatOpenAccountMapper;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class WechatOpenAccountServiceImpl implements WechatOpenAccountService {
 
     @Override
     @Transactional
-    public void save(WxMpUser wxMpUser) throws WxErrorException {
+    public void save(WxMpUser wxMpUser) {
         WechatOpenAccount wechatOpenAccount = wechatOpenAccountMapper.queryOne(WechatOpenAccountQueryBody.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
 
         //保存公众号OpenId
