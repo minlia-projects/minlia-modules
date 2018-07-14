@@ -23,6 +23,11 @@ public enum  TodoStatus {
     /**
      * 已取消
      */
-    CANCELED
+    CANCELED,
+
+    /**
+     * 失效
+     */
+    EXPIRED
 
 }

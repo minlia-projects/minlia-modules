@@ -57,7 +57,7 @@ public class MyTodo extends AbstractEntity {
     private Date time;
 
     /**
-     * 过期时间
+     * 过期时间:到时间没处理定时任务自动修改为已过期
      */
     private Date expiryTime;
 
