@@ -5,7 +5,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wechat.mp.material.service.MpMaterialService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;

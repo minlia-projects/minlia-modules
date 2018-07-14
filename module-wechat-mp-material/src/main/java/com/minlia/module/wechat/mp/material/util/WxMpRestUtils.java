@@ -3,8 +3,8 @@ package com.minlia.module.wechat.mp.material.util;
 import com.google.gson.Gson;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiPreconditions;
-import me.chanjar.weixin.common.bean.result.WxError;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.api.WxMpService;
 
