@@ -24,7 +24,11 @@ public class RestConfiguration {
     //使用RestTemplateBuilder来实例化RestTemplate对象，spring默认已经注入了RestTemplateBuilder实例
     @Bean
     public RestTemplate restTemplate() {
-        return restTemplateBuilder.build();
+        RestTemplate restTemplate = restTemplateBuilder
+                .setReadTimeout(5000)
+                .setConnectTimeout(5000)
+                .build();
+        return restTemplate;
     }
 
     @Bean

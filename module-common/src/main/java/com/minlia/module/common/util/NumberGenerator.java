@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by garen on 2017/10/23.
@@ -29,6 +30,11 @@ public class NumberGenerator {
 
     public static String generatorByTimestamp(String prefix,Integer stuffLength) {
         String generated = prefix + System.currentTimeMillis() + RandomStringUtils.randomNumeric(stuffLength);
+        return generated;
+    }
+
+    public static String uuid32() {
+        String generated = UUID.randomUUID().toString().replace("-","");
         return generated;
     }
 

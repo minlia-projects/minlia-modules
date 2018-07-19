@@ -32,6 +32,7 @@
         <module>module-captcha</module>
         <module>module-richtext</module>
         <module>module-todo</module>
+        <module>module-pooul</module>
 
         <!--微信-->
         <module>module-wechat</module>
