@@ -1,11 +1,9 @@
 package com.minlia.module.pooul.util;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -46,8 +44,8 @@ public class RSAEncrypt {
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         //公私钥对象存入map中
         Map<String, Object> keyMap = new HashMap<String, Object>(2);
-        keyMap.put(public_key, Base64.encode(publicKey.getEncoded()));//获取公钥Base64编码
-        keyMap.put(private_key, Base64.encode(privateKey.getEncoded()));//获取密钥Base64编码
+        keyMap.put(public_key, Base64Utils.encode(publicKey.getEncoded()));//获取公钥Base64编码
+        keyMap.put(private_key, Base64Utils.encode(privateKey.getEncoded()));//获取密钥Base64编码
         return keyMap;
     }
 
@@ -58,16 +56,14 @@ public class RSAEncrypt {
         RSAPublicKey publicKey = null;
         try {
 //            byte[] keyBytes = new BASE64Decoder().decodeBuffer(publicKeyData); //将字符串Base64解码
-//            byte[] keyBytes = Base64Utils.decodeFromString(publicKeyData); //将字符串Base64解码
-            byte[] keyBytes = Base64.decode(publicKeyData);
+//            byte[] keyBytes = Base64.decode(publicKeyData);
+            byte[] keyBytes = Base64Utils.decodeFromString(publicKeyData); //将字符串Base64解码
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             publicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (Base64DecodingException e) {
             e.printStackTrace();
         }
         return publicKey;
@@ -79,18 +75,16 @@ public class RSAEncrypt {
     public static RSAPrivateKey getPrivateKey(String privateKeyData) {
         RSAPrivateKey privateKey = null;
         try {
-            byte[] keyBytes = Base64.decode(privateKeyData); //将字符串Base64解码
+//            byte[] keyBytes = Base64.decode(privateKeyData); //将字符串Base64解码
 //            byte[] keyBytes = new BASE64Decoder().decodeBuffer(privateKeyData); //将字符串Base64解码
-//            byte[] keyBytes = Base64Utils.decodeFromString(privateKeyData); //将字符串Base64解码
 //            byte[] keyBytes = Base64.getDecoder().decode(privateKeyData);
+            byte[] keyBytes = Base64Utils.decodeFromString(privateKeyData); //将字符串Base64解码
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);//创建x509证书封装类
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");//指定RSA
             privateKey = (RSAPrivateKey) keyFactory.generatePrivate(keySpec);//生成私钥
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (Base64DecodingException e) {
             e.printStackTrace();
         }
         return privateKey;
@@ -138,7 +132,7 @@ public class RSAEncrypt {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Base64.encode(cipherText);
+        return Base64Utils.encodeToString(cipherText);
     }
 
     static String pubKey = "30819c300d06092a864886f70d010101050003818a0030818602818053499d537c990421af33e0d57e9b0d9e4d54d54a808b935efcee8e26460530d351600d00e16b58cb6006545cbdf23f357c5301706fb3921cf0478f62ab07fa3df8b9690aca7db9c7dc7a1a74dc9da22d19e54fb67f8e0755d31aeca392914f2c8c449c54b9aa0b5abd4cb02c851aa0ee7291b1517a46f90f1a4acc75ad1ccb4d020111";

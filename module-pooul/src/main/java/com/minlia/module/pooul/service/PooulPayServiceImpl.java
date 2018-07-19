@@ -18,7 +18,6 @@ import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
@@ -28,8 +27,8 @@ import java.util.Map;
 @Service
 public class PooulPayServiceImpl implements PooulPayService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+//    @Autowired
+//    private RestTemplate restTemplate;
 
     @Autowired
     private PooulProperties pooulProperties;
