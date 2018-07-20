@@ -9,10 +9,12 @@ import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.pooul.body.common.PooulData;
 import com.minlia.module.pooul.body.jsminipg.PooulWechatJsminipgRequestBody;
 import com.minlia.module.pooul.config.PooulProperties;
 import com.minlia.module.pooul.contract.PooulContracts;
+import com.minlia.module.pooul.enumeration.PayType;
 import com.minlia.module.pooul.util.PooulToken;
 import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanMap;
@@ -35,6 +37,9 @@ public class PooulPayServiceImpl implements PooulPayService {
 
     @Override
     public StatefulBody wechatJsminipg(PooulWechatJsminipgRequestBody requestBody) {
+        requestBody.setPay_type(PayType.wechat_jsminipg.getName());
+        requestBody.setNonce_str(NumberGenerator.uuid32());
+
         Map map = new BeanMap(requestBody);
         String token = PooulToken.create(map);
         String url = String.format(pooulProperties.getUrlV2Pay(), pooulProperties.getMerchantId());
