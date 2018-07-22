@@ -42,7 +42,7 @@ public class WechatMiniappEndpoint {
     @ApiOperation(value = "显示微信用户详情", notes = "显示微信用户详情", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "userinfo", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody showUserDetail() {
-        return SuccessResponseBody.builder().payload(wechatMaUserService.showUserDetail()).build();
+        return SuccessResponseBody.builder().payload(wechatMaUserService.me()).build();
     }
 
     @ApiOperation(value = "获取当前登录用户绑定的手机号码", notes = "获取当前登录用户绑定的手机号码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

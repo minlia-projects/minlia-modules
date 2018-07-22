@@ -16,6 +16,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+/**
+ * 秘钥pem文件解析工具类
+ */
 public class PemUtils {
 
     private static byte[] parsePEMFile(File pemFile) throws IOException {

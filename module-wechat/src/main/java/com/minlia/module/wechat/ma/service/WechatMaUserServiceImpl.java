@@ -58,11 +58,9 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
             wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
             BeanUtils.copyProperties(wxMaUserInfo,wechatMaUser);
         } catch (Exception e) {
-            log.error("获取微信用户信息失败:"+e.getMessage());
-//            ApiPreconditions.is(true,ApiCode.BASED_ON,"获取微信用户信息失败" +e.getMessage());
-            return wechatMaUser;
+            log.error("获取微信小程序用户信息失败:"+e.getMessage());
+            ApiPreconditions.is(true,ApiCode.BASED_ON,"获取微信小程序用户信息失败：" +e.getMessage());
         }
-
 
         //设置open信息
         List<WechatOpenAccount> wechatOpenAccounts = wechatOpenAccountService.queryList(WechatOpenAccountQueryBody.builder().unionId(wechatMaUser.getUnionId()).build());
@@ -127,7 +125,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     }
 
     @Override
-    public WechatMaUser showUserDetail() {
+    public WechatMaUser me() {
         User user = SecurityContextHolder.getCurrentUser();
         ApiPreconditions.checkNotNull(user, ApiCode.INVALID_CREDENTIAL);
         return wxMaUserMapper.queryByGuid(user.getGuid());

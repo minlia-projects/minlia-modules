@@ -15,6 +15,6 @@ public interface WechatMaUserService {
     @Deprecated
     WechatMaUser updateByOpenId(String guid, String openId);
 
-    WechatMaUser showUserDetail();
+    WechatMaUser me();
 
 }

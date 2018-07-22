@@ -1,6 +1,7 @@
 package com.minlia.module.wechat.ma.entity;
 
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.data.entity.WithIdEntity;
 import com.minlia.module.wechat.ma.enumeration.Gender;
 import lombok.Data;
@@ -14,7 +15,7 @@ import lombok.Data;
  * Bible Define as a JPA entity
  */
 @Data
-public class WechatMaUser extends WithIdEntity {
+public class WechatMaUser extends AbstractEntity {
 
     /**
      * 系统用户编号
@@ -67,7 +68,7 @@ public class WechatMaUser extends WithIdEntity {
     private WxMaUserInfo.Watermark watermark;
 
     @Data
-    public static class Watermark {
+    public class Watermark {
         private String timestamp;
         private String appid;
     }

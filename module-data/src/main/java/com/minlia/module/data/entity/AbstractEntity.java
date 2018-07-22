@@ -3,10 +3,9 @@ package com.minlia.module.data.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.module.data.context.UserPrincipalHolder;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
-
-import javax.validation.constraints.NotNull;
 
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 //@JsonAutoDetect(
@@ -19,8 +18,9 @@ public abstract class AbstractEntity extends WithDateEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @CreatedBy
-    @NotNull
+    @NotBlank
     private String createBy;
 
     @JsonIgnore
@@ -43,9 +43,14 @@ public abstract class AbstractEntity extends WithDateEntity {
         this.lastModifiedBy = lastModifiedBy;
     }
 
+    @JsonProperty("createBy")
+    public String getCreateByAsJson() {
+        return this.createBy;
+    }
+
     @JsonProperty("lastModifiedBy")
     public String getLastModifiedByAsJson() {
-        return UserPrincipalHolder.getCurrentUserLogin();
+        return this.lastModifiedBy;
     }
 
 }

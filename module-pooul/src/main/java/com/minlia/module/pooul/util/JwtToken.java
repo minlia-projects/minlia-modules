@@ -30,6 +30,7 @@ public class JwtToken {
         headerClaims.put("typ", "JWT");
     }
 
+    @Deprecated
     public static String createToken(String nonceStr) {
         RSAPublicKey publicKey = RSAEncrypt.getPublicKey(public_key);
         RSAPrivateKey privateKey = RSAEncrypt.getPrivateKey(private_key);
