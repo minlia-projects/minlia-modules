@@ -1,4 +1,4 @@
-package com.minlia.module.pooul.body.common;
+package com.minlia.module.pooul.body.pay;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

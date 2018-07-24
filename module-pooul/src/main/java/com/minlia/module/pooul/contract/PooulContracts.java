@@ -9,6 +9,8 @@ public class PooulContracts {
 
     public static String CODE = "code";
 
+    public static String NONCE_STR = "nonce_str";
+
     public static String MSG = "msg";
 
     public static String RIGHT_PARENTHESIS = "{";

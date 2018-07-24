@@ -1,5 +1,6 @@
 package com.minlia.module.pooul.body.common;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -7,7 +8,7 @@ import lombok.Data;
  * Created by garen on 2018/07/17.
  */
 @Data
-public class PooulData {
+public class PooulPayData {
 
 //    {
 //        "prepay_id":"wx1918001472767249894ddfdc3284524819",
@@ -24,6 +25,7 @@ public class PooulData {
 //            }"
 //    }
 
+    @JsonProperty("prepay_id")
     private String prepay_id;
 
     private String trade_id;

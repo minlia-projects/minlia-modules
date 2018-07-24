@@ -10,8 +10,8 @@ import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.common.util.NumberGenerator;
-import com.minlia.module.pooul.body.common.PooulData;
-import com.minlia.module.pooul.body.jsminipg.PooulWechatJsminipgRequestBody;
+import com.minlia.module.pooul.body.common.PooulPayData;
+import com.minlia.module.pooul.body.pay.PooulWechatJsminipgRequestBody;
 import com.minlia.module.pooul.config.PooulProperties;
 import com.minlia.module.pooul.contract.PooulContracts;
 import com.minlia.module.pooul.enumeration.PayType;
@@ -57,8 +57,8 @@ public class PooulPayServiceImpl implements PooulPayService {
         try {
             response = Unirest.post(url).body(token).asString();
         } catch (UnirestException e) {
-            log.error("Pooul创建订单失败:{}",e);
-            ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul创建订单失败:"+e.getMessage());
+            log.error("Pooul创建订单失败:{}", e);
+            ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul创建订单失败:" + e.getMessage());
         }
 
         //如果已"{"开始表明创建订单失败，返回错误信息
@@ -72,7 +72,7 @@ public class PooulPayServiceImpl implements PooulPayService {
         if (!claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
             ApiPreconditions.is(true, ApiCode.BASED_ON, claims.get(PooulContracts.MSG).asString());
         }
-        PooulData pooulData = claims.get(PooulContracts.DATA).as(PooulData.class);
+        PooulPayData pooulData = claims.get(PooulContracts.DATA).as(PooulPayData.class);
         return SuccessResponseBody.builder().payload(pooulData).build();
     }
 

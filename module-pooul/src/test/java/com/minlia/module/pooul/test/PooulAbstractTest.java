@@ -4,7 +4,7 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.common.config.RestConfiguration;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.pooul.Application;
-import com.minlia.module.pooul.body.jsminipg.PooulWechatJsminipgRequestBody;
+import com.minlia.module.pooul.body.pay.PooulWechatJsminipgRequestBody;
 import com.minlia.module.pooul.enumeration.PayType;
 import com.minlia.module.pooul.service.PooulPayService;
 import org.junit.Test;

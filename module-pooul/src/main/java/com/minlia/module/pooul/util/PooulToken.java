@@ -133,7 +133,7 @@ public class PooulToken {
 
 
 //        try {
-//            PooulWechatJsminipgResponseBody body = (PooulWechatJsminipgResponseBody) decoded(token, PooulWechatJsminipgResponseBody.class);
+//            PooulPayNotifyResponseBody body = (PooulPayNotifyResponseBody) decoded(token, PooulPayNotifyResponseBody.class);
 //            System.out.println(body.getAppId());
 //        } catch (Exception e) {
 //            e.printStackTrace();

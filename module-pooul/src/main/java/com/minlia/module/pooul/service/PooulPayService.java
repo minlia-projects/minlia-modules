@@ -1,7 +1,7 @@
 package com.minlia.module.pooul.service;
 
 import com.minlia.cloud.body.StatefulBody;
-import com.minlia.module.pooul.body.jsminipg.PooulWechatJsminipgRequestBody;
+import com.minlia.module.pooul.body.pay.PooulWechatJsminipgRequestBody;
 
 /**
  * Created by garen on 2018/7/18.

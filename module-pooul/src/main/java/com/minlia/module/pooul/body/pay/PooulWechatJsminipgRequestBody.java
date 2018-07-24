@@ -1,6 +1,5 @@
-package com.minlia.module.pooul.body.jsminipg;
+package com.minlia.module.pooul.body.pay;
 
-import com.minlia.module.pooul.body.common.PooulPayOrderRequestBody;
 import lombok.Data;
 
 /**
