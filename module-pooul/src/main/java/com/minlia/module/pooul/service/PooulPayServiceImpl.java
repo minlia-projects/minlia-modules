@@ -57,7 +57,7 @@ public class PooulPayServiceImpl implements PooulPayService {
         try {
             response = Unirest.post(url).body(token).asString();
         } catch (UnirestException e) {
-            log.error("Pooul创建订单失败:{}", e);
+            log.error("Pooul创建订单失败:", e);
             ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul创建订单失败:" + e.getMessage());
         }
 
