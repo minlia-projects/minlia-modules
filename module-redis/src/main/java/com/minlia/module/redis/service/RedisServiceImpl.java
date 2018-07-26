@@ -188,7 +188,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key 键
      * @return 对应的多个键值
      */
-    public Map<Object,Object> hmget(String key){
+    public Map<Object, Object> hmget(String key){
         return redisTemplate.opsForHash().entries(key);
     }
 
@@ -215,7 +215,7 @@ public class RedisServiceImpl implements RedisService {
      * @param time 时间(秒)
      * @return true成功 false失败
      */
-    public boolean hmset(String key, Map<String,Object> map, long time){
+    public boolean hmset(String key, Map<Object,Object> map, long time){
         try {
             redisTemplate.opsForHash().putAll(key, map);
             if(time>0){

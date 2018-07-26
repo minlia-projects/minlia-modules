@@ -101,7 +101,7 @@ public interface RedisService {
      * @param key 键
      * @return 对应的多个键值
      */
-    Map<Object,Object> hmget(String key);
+    Map<Object, Object> hmget(String key);
 
     /**
      * HashSet
@@ -118,7 +118,7 @@ public interface RedisService {
      * @param time 时间(秒)
      * @return true成功 false失败
      */
-    boolean hmset(String key, Map<String, Object> map, long time);
+    boolean hmset(String key, Map<Object, Object> map, long time);
 
     /**
      * 向一张hash表中放入数据,如果不存在将创建

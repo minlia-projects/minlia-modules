@@ -24,10 +24,17 @@ public class RestConfiguration {
     //使用RestTemplateBuilder来实例化RestTemplate对象，spring默认已经注入了RestTemplateBuilder实例
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = restTemplateBuilder
-                .setReadTimeout(5000)
-                .setConnectTimeout(5000)
-                .build();
+        RestTemplate restTemplate = restTemplateBuilder.setReadTimeout(5000).setConnectTimeout(5000).build();
+        // 使用 utf-8 编码集的 conver 替换默认的 conver（默认的 string conver 的编码集为 "ISO-8859-1"）
+        List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
+        Iterator<HttpMessageConverter<?>> iterator = messageConverters.iterator();
+        while (iterator.hasNext()) {
+            HttpMessageConverter<?> converter = iterator.next();
+            if (converter instanceof StringHttpMessageConverter) {
+                iterator.remove();
+            }
+        }
+        messageConverters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
         return restTemplate;
     }
 
@@ -35,8 +42,8 @@ public class RestConfiguration {
     @ConditionalOnMissingBean({RestOperations.class, RestTemplate.class})
     public RestOperations restOperations() {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setReadTimeout(5000);
-        requestFactory.setConnectTimeout(5000);
+        requestFactory.setReadTimeout(10000);
+        requestFactory.setConnectTimeout(10000);
 
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
