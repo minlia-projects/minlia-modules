@@ -31,6 +31,9 @@
             <if test="idNo != null">
                 AND id_no = #{idNo}
             </if>
+            <if test="isAuth != null">
+                AND is_auth = #{isAuth}
+            </if>
         </where>
     </sql>
 

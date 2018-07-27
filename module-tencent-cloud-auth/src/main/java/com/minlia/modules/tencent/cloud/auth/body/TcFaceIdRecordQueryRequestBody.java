@@ -19,6 +19,8 @@ public class TcFaceIdRecordQueryRequestBody implements QueryRequestBody{
 
     private String orderNo;
 
+    private Boolean isAuth;
+
     private Long id;
 
     private String idNo;

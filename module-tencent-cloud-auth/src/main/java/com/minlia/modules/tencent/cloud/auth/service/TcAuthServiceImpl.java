@@ -157,8 +157,8 @@ public class TcAuthServiceImpl implements TcAuthService{
     @Override
     public StatefulBody geth5faceid(TcFaceIdRequestBody requestBody) {
         String userId = SecurityContextHolder.getCurrentGuid();
-        FaceIdRecord faceIdRecord = faceIdRecordService.queryOne(TcFaceIdRecordQueryRequestBody.builder().userId(userId).build());
-        ApiPreconditions.is(null != faceIdRecord && faceIdRecord.getIsAuth(),ApiCode.NOT_AUTHORIZED,"已认证");
+        FaceIdRecord faceIdRecord = faceIdRecordService.queryOne(TcFaceIdRecordQueryRequestBody.builder().userId(userId).isAuth(true).build());
+        ApiPreconditions.is(null != faceIdRecord,ApiCode.NOT_AUTHORIZED,"已认证");
         String orderNo = NumberGenerator.generatorByTimestamp("ON",3);
 
         FaceAuth faceAuth = FaceAuth.builder()
