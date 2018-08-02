@@ -69,12 +69,12 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     public StatefulBody loginByWxMaCode(LoginWechatRequestBody body) {
         //远程从微信获取小程序信息
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
-        ApiPreconditions.is(null == sessionResult.getUnionid() || null == sessionResult.getOpenid(),ApiCode.NOT_NULL,"获取微信Session失败！");
+        ApiPreconditions.is( null == sessionResult.getOpenid(),ApiCode.NOT_NULL,"获取微信Session失败！");
         return this.login(WechatOpenidType.MINIAPP,sessionResult.getUnionid(),sessionResult.getOpenid(),body.getType(),body.getCode());
     }
 
     private StatefulBody login(WechatOpenidType wechatOpenidType,String unionId,String openId,String openidSubitem,String wxCode){
-        WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().type(wechatOpenidType).unionId(unionId).openId(openId).build());
+        WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().type(wechatOpenidType).openId(openId).build());
 
         if (null == wechatOpenAccount) {
             //创建openId信息
