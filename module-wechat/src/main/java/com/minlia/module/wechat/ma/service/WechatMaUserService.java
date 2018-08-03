@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.ma.service;
 
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
-import com.minlia.module.wechat.ma.entity.WechatMaUser;
 
 /**
  *
@@ -10,11 +10,8 @@ import com.minlia.module.wechat.ma.entity.WechatMaUser;
  */
 public interface WechatMaUserService {
 
-    WechatMaUser updateUserDetail(MiniappUserDetailRequestBody body);
+    WxMaUserInfo update(MiniappUserDetailRequestBody body);
 
-    @Deprecated
-    WechatMaUser updateByOpenId(String guid, String openId);
-
-    WechatMaUser me();
+    WxMaUserInfo me();
 
 }

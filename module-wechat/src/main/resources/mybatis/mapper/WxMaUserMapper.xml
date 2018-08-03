@@ -13,7 +13,9 @@
             city ,
             province ,
             country ,
-            avatar_url
+            avatar_url ,
+            timestamp AS "watermark.timestamp" ,
+            appid AS "watermark.appid"
         FROM
             wx_ma_user
     </sql>
@@ -32,7 +34,9 @@
             city ,
             province ,
             country ,
-            avatar_url
+            avatar_url ,
+            timestamp ,
+            appid
         )
         VALUES
         (
@@ -44,7 +48,9 @@
             #{city,jdbcType=VARCHAR},
             #{province,jdbcType=VARCHAR},
             #{country,jdbcType=VARCHAR},
-            #{avatarUrl,jdbcType=VARCHAR}
+            #{avatarUrl,jdbcType=VARCHAR},
+            #{watermark.timestamp,jdbcType=VARCHAR},
+            #{watermark.appid,jdbcType=VARCHAR}
         )
     </insert>
 
@@ -76,7 +82,11 @@
                 country = #{country,jdbcType=VARCHAR} ,
             </if>
             <if test="avatarUrl != null">
-                avatar_url = #{avatarUrl,jdbcType=VARCHAR}
+                avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="watermark != null">
+                timestamp = #{watermark.timestamp,jdbcType=VARCHAR},
+                appid = #{watermark.appid,jdbcType=VARCHAR}
             </if>
         </set>
         WHERE id = #{id,jdbcType=TINYINT}

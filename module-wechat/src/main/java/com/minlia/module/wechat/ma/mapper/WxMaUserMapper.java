@@ -1,5 +1,6 @@
 package com.minlia.module.wechat.ma.mapper;
 
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.minlia.module.wechat.ma.entity.WechatMaUser;
 
 /**
@@ -9,9 +10,9 @@ import com.minlia.module.wechat.ma.entity.WechatMaUser;
  */
 public interface WxMaUserMapper {
 
-    void create(WechatMaUser wechatUserDetail);
+    void create(WxMaUserInfo wxMaUserInfo);
 
-    void update(WechatMaUser wechatUserDetail);
+    void update(WxMaUserInfo wxMaUserInfo);
 
     WechatMaUser queryByGuid(String guid);
 
