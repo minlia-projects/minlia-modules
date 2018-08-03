@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.ma.service;
 
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
+import com.minlia.module.wechat.ma.entity.WechatMaUser;
 
 /**
  *
@@ -10,8 +10,8 @@ import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
  */
 public interface WechatMaUserService {
 
-    WxMaUserInfo update(MiniappUserDetailRequestBody body);
+    WechatMaUser update(MiniappUserDetailRequestBody body);
 
-    WxMaUserInfo me();
+    WechatMaUser me();
 
 }
