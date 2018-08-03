@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 public class WechatMaUser extends WxMaUserInfo {
 
+    private Long id;
+
     /**
      * 系统用户编号
      */
