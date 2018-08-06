@@ -14,12 +14,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @ConditionalOnClass(Swagger2Config.class)
 @EnableConfigurationProperties(SwaggerConfigurationProperties.class)
-@Profile(value = {"dev"})
+@Profile(value = {"!prod"})
 public class SwaggerAutoConfiguration {
 
     @Configuration
     @EnableDevSwagger
-
     @ConditionalOnMissingBean(EnableDevSwagger.class)
     public static class Swagger2AutoConfig {
     }

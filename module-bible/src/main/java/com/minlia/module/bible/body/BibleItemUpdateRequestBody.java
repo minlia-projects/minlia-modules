@@ -39,4 +39,5 @@ public class BibleItemUpdateRequestBody implements ApiRequestBody {
     @ApiModelProperty(value = "扩展3", example = "1")
     @Size(max = 255)
     private String attribute3;
+
 }

@@ -7,8 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("swagger")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class SwaggerConfigurationProperties {
 
   String title = "APPLICATION.NAME";
