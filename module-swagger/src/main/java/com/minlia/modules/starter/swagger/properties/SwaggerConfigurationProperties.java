@@ -1,9 +1,7 @@
  package com.minlia.modules.starter.swagger.properties;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+ import lombok.Data;
+ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("swagger")
 @Data

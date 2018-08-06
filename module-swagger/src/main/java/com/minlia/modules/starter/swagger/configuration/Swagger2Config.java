@@ -3,8 +3,6 @@ package com.minlia.modules.starter.swagger.configuration;
 import com.fasterxml.classmate.TypeResolver;
 import com.minlia.modules.starter.swagger.plugins.PageableParameterBuilderPlugin;
 import com.minlia.modules.starter.swagger.properties.SwaggerConfigurationProperties;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +17,9 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
 import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.UiConfiguration;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by user on 11/14/15.

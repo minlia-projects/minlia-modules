@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @ConditionalOnClass(Swagger2Config.class)
 @EnableConfigurationProperties(SwaggerConfigurationProperties.class)
-@Profile(value = {"!prod"})
+@Profile(value = {"!production"})
 public class SwaggerAutoConfiguration {
 
     @Configuration
