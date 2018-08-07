@@ -38,7 +38,7 @@
 
         <!--微信-->
         <module>module-wechat</module>
-        <module>module-wechat-mp-material</module>
+        <module>module-wechat-material</module>
 
         <!--腾讯云-->
         <module>module-qcloud-start</module>
