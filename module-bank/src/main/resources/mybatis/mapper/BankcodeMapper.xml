@@ -35,7 +35,7 @@
     <sql id="QUERY_CONDITION">
         <where>
             <if test="province != null">
-                AND province = #{province}
+                AND province in #{province}
             </if>
             <if test="city != null">
                 AND city = #{city}
@@ -50,7 +50,7 @@
                 AND bankname = #{bankname}
             </if>
             <if test="branchname != null">
-                AND branchname = #{branchname}
+                AND INSTR(branchname,#{branchname}) > 0
             </if>
             <if test="number != null">
                 AND number = #{number}
