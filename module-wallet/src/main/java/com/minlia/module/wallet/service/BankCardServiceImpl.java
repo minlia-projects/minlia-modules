@@ -31,20 +31,27 @@ public class BankCardServiceImpl implements BankCardService {
     private BankCardMapper bankCardMapper;
 
     @Override
-    public BankCardDo create(BankCardCreateDto createDto) {
+    public BankCardDo create(BankCardCreateDto dto) {
+        long count = bankCardMapper.count(BankCardQueryDto.builder().guid(SecurityContextHolder.getCurrentGuid()).number(dto.getNumber()).build());
+        ApiPreconditions.is(count > 0, ApiCode.NOT_AUTHORIZED,"记录已存在");
+
         //判断联行号是否存在 TODO
-        BankCardDo bankCard = mapper.map(createDto,BankCardDo.class);
+
+        BankCardDo bankCard = mapper.map(dto,BankCardDo.class);
         bankCard.setGuid(SecurityContextHolder.getCurrentGuid());
-        bankCard.setIsWithdraw(false);
+        long withdrawCount = bankCardMapper.count(BankCardQueryDto.builder().guid(SecurityContextHolder.getCurrentGuid()).isWithdraw(true).build());
+        bankCard.setIsWithdraw(withdrawCount > 0 ? false : true);
         bankCardMapper.create(bankCard);
         return bankCard;
     }
 
     @Override
     public BankCardDo update(BankCardUpdateDto dto) {
+        long count = bankCardMapper.count(BankCardQueryDto.builder().id(dto.getId()).guid(SecurityContextHolder.getCurrentGuid()).build());
+        ApiPreconditions.is(count == 0, ApiCode.NOT_FOUND,"记录不存在");
+
         //判断联行号是否存在 TODO
-        BankCardVo bankCardVo = bankCardMapper.queryById(dto.getId());
-        ApiPreconditions.is(null == bankCardVo, ApiCode.NOT_FOUND,"未找到此记录");
+
         BankCardDo bankCard = mapper.map(dto,BankCardDo.class);
         bankCardMapper.update(bankCard);
         return bankCard;
@@ -53,26 +60,27 @@ public class BankCardServiceImpl implements BankCardService {
     @Override
     public void delete(Long id) {
         BankCardVo bankCard = bankCardMapper.queryById(id);
-        ApiPreconditions.is(null == bankCard,ApiCode.NOT_FOUND,"未找到此记录");
+        ApiPreconditions.is(null == bankCard,ApiCode.NOT_FOUND,"记录不存在");
         ApiPreconditions.not(bankCard.getGuid().equals(SecurityContextHolder.getCurrentGuid()),ApiCode.NOT_AUTHORIZED,"没有操作此记录的权限");
         bankCardMapper.delete(id);
     }
 
     @Override
     public void setWithdrawCard(Long id) {
-        List<BankCardVo> bankCards = bankCardMapper.queryList(BankCardQueryDto.builder().guid(SecurityContextHolder.getCurrentGuid()).build());
-        for (BankCardVo bankCard : bankCards) {
-            if (bankCard.getId().equals(id)) {
-                bankCard.setIsWithdraw(true);
-            } else {
-                bankCard.setIsWithdraw(false);
-            }
-        }
+        String guid = SecurityContextHolder.getCurrentGuid();
+        long count = bankCardMapper.count(BankCardQueryDto.builder().id(id).guid(guid).build());
+        ApiPreconditions.is(count == 0, ApiCode.NOT_FOUND,"记录不存在");
+        bankCardMapper.setWithdraw(guid,id);
     }
 
     @Override
     public BankCardVo queryById(Long id) {
         return bankCardMapper.queryById(id);
+    }
+
+    @Override
+    public long count(BankCardQueryDto dto) {
+        return bankCardMapper.count(dto);
     }
 
     @Override

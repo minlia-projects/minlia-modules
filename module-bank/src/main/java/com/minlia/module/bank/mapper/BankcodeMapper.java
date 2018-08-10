@@ -13,6 +13,8 @@ public interface BankcodeMapper {
 
     void delete(String number);
 
+    long count(BankcodeQueryDto dto);
+
     BankcodeDo queryByNumber(String number);
 
     BankcodeDo queryOne(BankcodeQueryDto dto);

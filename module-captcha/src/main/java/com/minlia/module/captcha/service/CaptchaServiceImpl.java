@@ -4,10 +4,10 @@ import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.constant.CaptchaApiCode;
-import com.minlia.module.captcha.entity.Captcha;
+import com.minlia.module.captcha.domain.Captcha;
 import com.minlia.module.captcha.enumeration.CaptchaType;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
-import com.minlia.module.captcha.properties.SmsTemplateProperties;
+import com.minlia.module.captcha.util.SmsTemplateProperties;
 import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -60,7 +60,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
         //查询并判断是否存在
         Captcha captcha = captchaMapper.queryByCellphone(cellphone);
-        //ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
+//        ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
 
         String code = RandomStringUtils.randomNumeric(4);
         Date currentDate = new Date();

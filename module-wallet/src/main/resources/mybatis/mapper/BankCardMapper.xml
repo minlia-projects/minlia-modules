@@ -1,110 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.minlia.module.wallet.domain.BankCardDo">
+<mapper namespace="com.minlia.module.wallet.mapper.BankCardMapper">
 
     <sql id="QUERY_CONTENT">
 		SELECT
-			wat.id ,
-			wat.guid ,
-			wat.type ,
-			wat.union_id ,
-			wat.open_id ,
-			wat.wx_code ,
-			wat.subitem ,
-			wat.is_subscribe ,
-			wat.raw_password ,
-			wat.cellphone ,
-			wat.create_by ,
-			wat.create_date ,
-			wat.last_modified_by ,
-			wat.last_modified_date 
+			bct.id,
+            bct.guid,
+            bct.type,
+            bct.holder,
+            bct.number,
+            bct.bank_code,
+            bct.is_withdraw,
+            bct.create_date,
+            bct.create_by,
+            bct.last_modified_date,
+            bct.last_modified_by
 		FROM
-			minlia_wechat_account wat
+			mdl_bank_card bct
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="guid != null">
-                AND wat.guid = #{guid,jdbcType=VARCHAR}
+                AND bct.guid = #{guid}
             </if>
             <if test="type != null">
-                AND wat.type = #{type,jdbcType=VARCHAR}
+                AND bct.type = #{type}
             </if>
-            <if test="unionId != null">
-                AND wat.union_id = #{unionId,jdbcType=VARCHAR}
+            <if test="holder != null">
+                AND bct.holder = #{holder}
             </if>
-            <if test="openId != null">
-                AND wat.open_id = #{openId,jdbcType=VARCHAR}
+            <if test="number != null">
+                AND bct.number = #{number}
             </if>
-            <if test="wxCode != null">
-                AND wat.wx_code = #{wxCode,jdbcType=VARCHAR}
+            <if test="bankName != null">
+                AND bct.bank_name = #{bankName}
             </if>
-            <if test="subitem != null">
-                AND wat.subitem = #{subitem,jdbcType=VARCHAR}
+            <if test="bankCode != null">
+                AND bct.bank_code = #{bankCode}
             </if>
-            <if test="isSubscribe != null">
-                AND wat.is_subscribe = #{isSubscribe,jdbcType=TINYINT}
+            <if test="isWithdraw != null">
+                AND bct.is_withdraw = #{isWithdraw}
             </if>
         </where>
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_wechat_account(
-			guid ,
-			type ,
-			union_id ,
-			open_id ,
-			wx_code ,
-			subitem ,
-			is_subscribe ,
-			raw_password ,
-			cellphone ,
-			create_by
+		INSERT INTO mdl_bank_card(
+            guid,
+            type,
+            holder,
+            number,
+            bank_code,
+            is_withdraw,
+            create_by
 		)
 		VALUES
         (
-            #{guid,jdbcType=VARCHAR},
-            #{type,jdbcType=VARCHAR},
-            #{unionId,jdbcType=VARCHAR},
-            #{openId,jdbcType=VARCHAR},
-            #{wxCode,jdbcType=VARCHAR},
-            #{subitem,jdbcType=VARCHAR},
-            #{isSubscribe,jdbcType=TINYINT},
-            #{rawPassword,jdbcType=VARCHAR},
-            #{cellphone,jdbcType=VARCHAR},
-            #{createBy,jdbcType=VARCHAR}
+            #{guid},
+            #{type},
+            #{holder},
+            #{number},
+            #{bankCode},
+            #{isWithdraw},
+            #{createBy}
         )
 	</insert>
 
-    <update id="update" parameterType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
-        UPDATE minlia_wechat_account
+    <update id="update">
+        UPDATE mdl_bank_card
         <set>
             <if test="guid != null">
-                guid = #{guid,jdbcType=VARCHAR} ,
+                guid = #{guid} ,
             </if>
             <if test="type != null">
-                type = #{type,jdbcType=VARCHAR} ,
+                type = #{type} ,
             </if>
-            <if test="unionId != null">
-                union_id = #{unionId,jdbcType=VARCHAR} ,
+            <if test="holder != null">
+                holder = #{holder} ,
             </if>
-            <if test="openId != null">
-                open_id = #{openId,jdbcType=VARCHAR} ,
+            <if test="number != null">
+                number = #{number} ,
             </if>
-            <if test="wxCode != null">
-                wx_code = #{wxCode,jdbcType=VARCHAR} ,
+            <if test="bankCode != null">
+                bank_code = #{bankCode} ,
             </if>
-            <if test="subitem != null">
-                subitem = #{subitem,jdbcType=VARCHAR} ,
-            </if>
-            <if test="isSubscribe != null">
-                is_subscribe = #{isSubscribe,jdbcType=TINYINT} ,
-            </if>
-            <if test="cellphone != null">
-                cellphone = #{cellphone,jdbcType=VARCHAR} ,
-            </if>
-            <if test="rawPassword != null">
-                raw_password = #{rawPassword,jdbcType=VARCHAR} ,
+            <if test="isWithdraw != null">
+                is_withdraw = #{isWithdraw} ,
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
             last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
@@ -112,45 +94,31 @@
         WHERE id = #{id,jdbcType=TINYINT}
     </update>
 
-    <delete id="delete">
-		DELETE FROM minlia_wechat_account WHERE id = #{id};
-		DELETE FROM minlia_user WHERE id = #{id};
-	</delete>
-
-    <update id="updateGuidByUnionId">
-        UPDATE minlia_wechat_account SET guid = #{arg0} WHERE union_id = #{arg1}
+    <update id="setWithdraw">
+        UPDATE mdl_bank_card SET is_withdraw = 0 WHERE guid = #{arg0};
+        UPDATE mdl_bank_card SET is_withdraw = 1 WHERE guid = #{arg0} AND id = #{arg1};
     </update>
 
-    <select id="countByUnionIdAndGuidNotNull" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM  minlia_wechat_account WHERE union_id = #{arg0} AND guid is not null
-    </select>
-
-    <select id="queryById" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
-        <include refid="QUERY_CONTENT"/>
-        WHERE wat.id = #{id,jdbcType=BIGINT}
-    </select>
-
-    <select id="queryByGuid" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
-        <include refid="QUERY_CONTENT"/>
-        WHERE wat.guid = #{guid,jdbcType=VARCHAR}
-    </select>
-
-    <select id="queryByUnionIdAndGuidNotNull" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
-        <include refid="QUERY_CONTENT"/>
-        WHERE wat.union_id = #{arg0} AND wat.guid is not null
-    </select>
+    <delete id="delete">
+		DELETE FROM mdl_bank_card WHERE id = #{id}
+	</delete>
 
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM minlia_wechat_account wat
+        SELECT COUNT(1) FROM mdl_bank_card bct
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryOne" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <select id="queryById" resultType="com.minlia.module.wallet.vo.BankCardVo">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.wallet.vo.BankCardVo">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <select id="queryList" resultType="com.minlia.module.wallet.vo.BankCardVo">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

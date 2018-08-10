@@ -13,7 +13,7 @@
 	</sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO mdl_bank_card(
+		INSERT INTO mdl_bank(
 			number,
             name,
             icon
@@ -27,7 +27,7 @@
 	</insert>
 
     <update id="update">
-        UPDATE mdl_bank_card
+        UPDATE mdl_bank
         <set>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR} ,

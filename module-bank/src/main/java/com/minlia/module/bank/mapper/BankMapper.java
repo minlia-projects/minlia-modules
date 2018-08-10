@@ -1,7 +1,6 @@
 package com.minlia.module.bank.mapper;
 
 import com.minlia.module.bank.domain.BankDo;
-import com.minlia.module.bank.domain.BankcodeDo;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public interface BankMapper {
 
     void delete(String number);
 
-    BankcodeDo queryByNumber(String number);
+    BankDo queryByNumber(String number);
 
     List<BankDo> queryList();
 

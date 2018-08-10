@@ -12,6 +12,7 @@ import com.minlia.module.map.district.service.GadDistrictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,10 +24,9 @@ import java.util.List;
 /**
  * Created by Calvin On 2017/12/14.
  */
+@Api(tags = "Gad district", description = "行政区域")
 @RestController
 @RequestMapping(value = ApiPrefix.API + "gad/district")
-@Api(tags = "Gad district", description = "行政区域")
-@Slf4j
 public class GadDistrictEndpoint {
 
     @Autowired
@@ -40,28 +40,33 @@ public class GadDistrictEndpoint {
 //    }
 
     @ApiOperation(value = "查询级别", notes = "查询级别", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = "query/level/{level}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "level/{level}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody queryAllByParentCode(@PathVariable DistrictLevel level) {
         List<GadDistrict> districtList = service.queryList(GadDistrictQueryRequestBody.builder().level(level.name()).build());
         return SuccessResponseBody.builder().payload(districtList).build();
     }
 
     @ApiOperation(value = "查询子级", notes = "查询子级", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = "query/children/{parentcode}", produces = {MediaType.APPLICATION_JSON_VALUE} )
-    public StatefulBody queryAllByParentCode(@PathVariable String parentcode) {
-        List<GadDistrict> districtList = service.queryList(GadDistrictQueryRequestBody.builder().parent(parentcode).build());
+    @GetMapping(value = "children", produces = {MediaType.APPLICATION_JSON_VALUE} )
+    public StatefulBody queryAllByParentCode(@RequestParam(required = false) String parent) {
+        List<GadDistrict> districtList;
+        if (StringUtils.isBlank(parent)) {
+            districtList = service.queryList(GadDistrictQueryRequestBody.builder().level(DistrictLevel.province.name()).build());
+        } else {
+            districtList = service.queryList(GadDistrictQueryRequestBody.builder().parent(parent).build());
+        }
         return SuccessResponseBody.builder().payload(districtList).build();
     }
 
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "query/list", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "list", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody list(@RequestBody GadDistrictQueryRequestBody requestBody) {
         List<GadDistrict> districtList = service.queryList(requestBody);
         return SuccessResponseBody.builder().payload(districtList).build();
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "query/page", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "page", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody paginated(@PageableDefault Pageable pageable, @RequestBody GadDistrictQueryRequestBody requestBody) {
         PageInfo<GadDistrict> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> service.queryList(requestBody));
         return SuccessResponseBody.builder().payload(pageInfo).build();

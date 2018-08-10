@@ -26,7 +26,6 @@ public class BankCardCreateDto implements ApiRequestBody {
 
     @ApiModelProperty(value = "银行卡号")
     @NotBlank(message = "银行卡号必填")
-    @IdCard
     private String number;
 
     @ApiModelProperty(value = "联行号")

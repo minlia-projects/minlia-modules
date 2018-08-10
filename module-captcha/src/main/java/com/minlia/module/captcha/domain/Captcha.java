@@ -1,4 +1,4 @@
-package com.minlia.module.captcha.entity;
+package com.minlia.module.captcha.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.module.data.entity.WithIdEntity;

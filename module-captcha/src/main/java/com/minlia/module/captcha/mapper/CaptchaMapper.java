@@ -1,7 +1,7 @@
 package com.minlia.module.captcha.mapper;
 
 import com.minlia.module.captcha.body.CaptchaQueryRequestBody;
-import com.minlia.module.captcha.entity.Captcha;
+import com.minlia.module.captcha.domain.Captcha;
 import org.springframework.stereotype.Component;
 
 /**

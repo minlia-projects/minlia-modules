@@ -41,6 +41,8 @@ public interface BankCardService {
 
     BankCardVo queryById(Long id);
 
+    long count(BankCardQueryDto dto);
+
     BankCardVo queryOne(BankCardQueryDto dto);
 
     List<BankCardVo> queryList(BankCardQueryDto dto);

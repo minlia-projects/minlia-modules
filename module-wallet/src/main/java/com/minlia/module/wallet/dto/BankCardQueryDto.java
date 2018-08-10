@@ -17,6 +17,9 @@ import lombok.NoArgsConstructor;
 @ApiModel("银行卡-查询")
 public class BankCardQueryDto implements QueryRequestBody {
 
+    @ApiModelProperty(value = "ID")
+    private Long id;
+
     @ApiModelProperty(value = "GUID")
     private String guid;
 

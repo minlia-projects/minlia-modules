@@ -4,16 +4,15 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.wallet.dto.BankCardQueryDto;
 import com.minlia.module.wallet.constants.WalletSecurityConstant;
 import com.minlia.module.wallet.dto.BankCardCreateDto;
+import com.minlia.module.wallet.dto.BankCardQueryDto;
 import com.minlia.module.wallet.dto.BankCardUpdateDto;
 import com.minlia.module.wallet.service.BankCardService;
 import com.minlia.module.wallet.vo.BankCardVo;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,10 +23,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags = "钱包-银行卡", description = "银行卡")
+@Api(tags = "Wallet Bank Card", description = "银行卡")
 @RestController
-@RequestMapping(value = ApiPrefix.V1 + "bankcard")
-@Slf4j
+@RequestMapping(value = ApiPrefix.V1 + "wallet/bankcard")
 public class BankCardEndpoint {
 
 	@Autowired
@@ -57,7 +55,7 @@ public class BankCardEndpoint {
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_UPDATE_CODE + "')")
 	@ApiOperation(value = "设置提现卡号", notes = "设置提现卡号", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(value = "setWithdrawCard/{id}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "withdraw/{id}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public StatefulBody setWithdrawCard(@PathVariable Long id) {
 		bankCardService.setWithdrawCard(id);
 		return SuccessResponseBody.builder().build();

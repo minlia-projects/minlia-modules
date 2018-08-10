@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BankcodeService {
 
-    void init(int page);
+    void init();
 
     /**
      * 创建

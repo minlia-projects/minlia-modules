@@ -1,4 +1,4 @@
-package com.minlia.module.captcha.properties;
+package com.minlia.module.captcha.util;
 
 import com.google.common.base.CaseFormat;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
@@ -36,6 +36,5 @@ public class SmsTemplateProperties implements EnvironmentAware {
         String formatted = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, key);
         return propertyResolver.getProperty(formatted);
     }
-
 
 }

@@ -6,7 +6,7 @@ import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.cloud.utils.Environments;
-import com.minlia.module.captcha.entity.Captcha;
+import com.minlia.module.captcha.domain.Captcha;
 import com.minlia.module.captcha.service.CaptchaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

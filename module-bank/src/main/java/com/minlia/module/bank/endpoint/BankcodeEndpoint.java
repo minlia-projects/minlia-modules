@@ -28,30 +28,34 @@ public class BankcodeEndpoint {
 	@Autowired
 	private BankcodeService bankcodeService;
 
+
 	@ApiOperation(value = "初始化", notes = "初始化", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "init", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public StatefulBody init() {
-//		for (int i=11 ;i<=7700;i++) {
-			bankcodeService.init(1);
-//		}
+
+//		BankcodeDo bankcodeDo = new BankcodeDo();
+//		bankcodeDo.setProvince("asdfdsa");
+//		bankcodeService.create(bankcodeDo);
+
+//		bankcodeService.init();
 		return SuccessResponseBody.builder().build();
 	}
 
-    @PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANKCODE_CREATE_CODE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_CREATE_CODE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public StatefulBody create(@Valid @RequestBody BankcodeDo bankcodeDo) {
 		return SuccessResponseBody.builder().payload(bankcodeService.create(bankcodeDo)).build();
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANKCODE_UPDATE_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_UPDATE_CODE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public StatefulBody update(@Valid @RequestBody BankcodeDo bankcodeDo) {
 		return SuccessResponseBody.builder().payload(bankcodeService.update(bankcodeDo)).build();
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANKCODE_DELETE_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_DELETE_CODE + "')")
 	@ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public StatefulBody update(@PathVariable String number) {
