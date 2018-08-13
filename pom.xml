@@ -32,6 +32,8 @@
         <module>module-captcha</module>
         <module>module-richtext</module>
         <module>module-todo</module>
+        <module>module-bank</module>
+        <module>module-wallet</module>
 
         <!--普尔支付-->
         <module>module-pooul</module>
