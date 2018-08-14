@@ -46,6 +46,7 @@ public class AliyunSmsSendService implements SmsSendService {
         } catch (ClientException e) {
             throw new RuntimeException(e);
         }
+        log.info("发送短信结果:{}-{}",sendSmsResponse.getCode(),sendSmsResponse.getMessage());
         if(sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
             return true;
         } else {
