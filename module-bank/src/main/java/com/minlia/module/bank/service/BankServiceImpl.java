@@ -2,7 +2,7 @@ package com.minlia.module.bank.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.bank.domain.BankDo;
+import com.minlia.module.bank.bean.domain.BankDo;
 import com.minlia.module.bank.mapper.BankMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

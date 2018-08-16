@@ -1,8 +1,8 @@
 package com.minlia.module.wallet.mapper;
 
 import com.minlia.module.wallet.domain.BankCardDo;
-import com.minlia.module.wallet.dto.BankCardQueryDto;
-import com.minlia.module.wallet.vo.BankCardVo;
+import com.minlia.module.wallet.bean.to.BankCardQueryTo;
+import com.minlia.module.wallet.bean.vo.BankCardVo;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ public interface BankCardMapper {
 
     BankCardVo queryById(Long id);
 
-    long count(BankCardQueryDto dto);
+    long count(BankCardQueryTo dto);
 
-    BankCardVo queryOne(BankCardQueryDto dto);
+    BankCardVo queryOne(BankCardQueryTo dto);
 
-    List<BankCardVo> queryList(BankCardQueryDto dto);
+    List<BankCardVo> queryList(BankCardQueryTo dto);
 }

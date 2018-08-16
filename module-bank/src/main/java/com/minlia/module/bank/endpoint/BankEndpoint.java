@@ -4,10 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.bank.constants.BankSecurityConstant;
-import com.minlia.module.bank.domain.BankDo;
-import com.minlia.module.bank.domain.BankcodeDo;
-import com.minlia.module.bank.dto.BankcodeQueryDto;
+import com.minlia.module.bank.bean.domain.BankDo;
 import com.minlia.module.bank.service.BankService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "Bank", description = "银行")

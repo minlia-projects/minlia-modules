@@ -52,6 +52,7 @@
         <module>module-aliyun-sesame</module>
         <module>module-aliyun-sms</module>
         <module>module-aliyun-oss</module>
+        <module>module-aliyun-market</module>
 
         <!--百度-->
         <module>module-lbsyun</module>

@@ -5,11 +5,11 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wallet.constants.WalletSecurityConstant;
-import com.minlia.module.wallet.dto.BankCardCreateDto;
-import com.minlia.module.wallet.dto.BankCardQueryDto;
-import com.minlia.module.wallet.dto.BankCardUpdateDto;
+import com.minlia.module.wallet.bean.to.BankCardCreateTo;
+import com.minlia.module.wallet.bean.to.BankCardQueryTo;
+import com.minlia.module.wallet.bean.to.BankCardUpdateTo;
 import com.minlia.module.wallet.service.BankCardService;
-import com.minlia.module.wallet.vo.BankCardVo;
+import com.minlia.module.wallet.bean.vo.BankCardVo;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,14 +34,14 @@ public class BankCardEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_CREATE_CODE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody create(@Valid @RequestBody BankCardCreateDto createDto) {
+	public StatefulBody create(@Valid @RequestBody BankCardCreateTo createDto) {
 		return SuccessResponseBody.builder().payload(bankCardService.create(createDto)).build();
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_UPDATE_CODE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody update(@Valid @RequestBody BankCardUpdateDto updateDto) {
+	public StatefulBody update(@Valid @RequestBody BankCardUpdateTo updateDto) {
 		return SuccessResponseBody.builder().payload(bankCardService.update(updateDto)).build();
 	}
 
@@ -65,7 +65,7 @@ public class BankCardEndpoint {
 	@ApiOperation(value = "我的银行卡", notes = "我的银行卡", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "me", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public StatefulBody me() {
-		List<BankCardVo> bankCards = bankCardService.queryList(BankCardQueryDto.builder().guid(SecurityContextHolder.getCurrentGuid()).build());
+		List<BankCardVo> bankCards = bankCardService.queryList(BankCardQueryTo.builder().guid(SecurityContextHolder.getCurrentGuid()).build());
 		return SuccessResponseBody.builder().payload(bankCards).build();
 	}
 
@@ -80,7 +80,7 @@ public class BankCardEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody list(@RequestBody BankCardQueryDto dto) {
+	public StatefulBody list(@RequestBody BankCardQueryTo dto) {
 		List<BankCardVo> bankCards = bankCardService.queryList(dto);
 		return SuccessResponseBody.builder().payload(bankCards).build();
 	}
@@ -88,7 +88,7 @@ public class BankCardEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody paginated(@PageableDefault Pageable pageable, @RequestBody BankCardQueryDto dto) {
+	public StatefulBody paginated(@PageableDefault Pageable pageable, @RequestBody BankCardQueryTo dto) {
 		PageInfo pageInfo = bankCardService.queryPage(dto, pageable);
 		return SuccessResponseBody.builder().payload(pageInfo).build();
 	}

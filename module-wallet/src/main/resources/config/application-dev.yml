@@ -101,6 +101,8 @@ aliyun:
         product: Dysmsapi
         domain: dysmsapi.aliyuncs.com
         signName: 智慧新民居
+    market:
+        bankcard-verify-lianzhuo: 6889a6bedf53468ea27d10f12a8e5159
 
 sms:
     templates:

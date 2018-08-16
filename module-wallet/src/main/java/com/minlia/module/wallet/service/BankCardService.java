@@ -2,10 +2,10 @@ package com.minlia.module.wallet.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.module.wallet.domain.BankCardDo;
-import com.minlia.module.wallet.dto.BankCardCreateDto;
-import com.minlia.module.wallet.dto.BankCardQueryDto;
-import com.minlia.module.wallet.dto.BankCardUpdateDto;
-import com.minlia.module.wallet.vo.BankCardVo;
+import com.minlia.module.wallet.bean.to.BankCardCreateTo;
+import com.minlia.module.wallet.bean.to.BankCardQueryTo;
+import com.minlia.module.wallet.bean.to.BankCardUpdateTo;
+import com.minlia.module.wallet.bean.vo.BankCardVo;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -17,14 +17,14 @@ public interface BankCardService {
      * @param createDto
      * @return
      */
-    BankCardDo create(BankCardCreateDto createDto);
+    BankCardDo create(BankCardCreateTo createDto);
 
     /**
      * 修改
      * @param updateDto
      * @return
      */
-    BankCardDo update(BankCardUpdateDto updateDto);
+    BankCardDo update(BankCardUpdateTo updateDto);
 
     /**
      * 删除
@@ -41,12 +41,12 @@ public interface BankCardService {
 
     BankCardVo queryById(Long id);
 
-    long count(BankCardQueryDto dto);
+    long count(BankCardQueryTo dto);
 
-    BankCardVo queryOne(BankCardQueryDto dto);
+    BankCardVo queryOne(BankCardQueryTo dto);
 
-    List<BankCardVo> queryList(BankCardQueryDto dto);
+    List<BankCardVo> queryList(BankCardQueryTo dto);
 
-    PageInfo<BankCardVo> queryPage(BankCardQueryDto dto, Pageable pageable);
+    PageInfo<BankCardVo> queryPage(BankCardQueryTo dto, Pageable pageable);
 
 }

@@ -1,6 +1,6 @@
 package com.minlia.module.bank.mapper;
 
-import com.minlia.module.bank.domain.BankDo;
+import com.minlia.module.bank.bean.domain.BankDo;
 
 import java.util.List;
 

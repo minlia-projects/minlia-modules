@@ -1,4 +1,4 @@
-package com.minlia.module.wallet.dto;
+package com.minlia.module.wallet.bean.to;
 
 import com.minlia.module.common.validation.IdCard;
 import com.minlia.module.data.body.QueryRequestBody;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("银行卡-查询")
-public class BankCardQueryDto implements QueryRequestBody {
+public class BankCardQueryTo implements QueryRequestBody {
 
     @ApiModelProperty(value = "ID")
     private Long id;

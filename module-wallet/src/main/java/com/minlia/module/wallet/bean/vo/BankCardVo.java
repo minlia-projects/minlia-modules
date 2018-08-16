@@ -1,4 +1,4 @@
-package com.minlia.module.wallet.vo;
+package com.minlia.module.wallet.bean.vo;
 
 
 import com.minlia.module.data.entity.AbstractEntity;
