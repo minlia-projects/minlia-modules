@@ -12,7 +12,9 @@ public class SwaggerConfigurationProperties {
   String version = "APPLICATION.VERSION";
 
   String path="/api/.*";
+
   String description="Minlia Cloud Api Documentations";
+
   String contact="cloud@minlia.com";
 
   boolean redirect = false;

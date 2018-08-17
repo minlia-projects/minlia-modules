@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = ApiPrefix.API + "")
-@Api(tags = "Aliyun Sesame Market", description = "云市场")
+@Api(tags = "Aliyun Market", description = "云市场")
 public class AliyunMarketEndpoint {
 
 	@ApiOperation(value = "银行卡二、三、四要素验证", notes = "验证", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

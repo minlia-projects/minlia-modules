@@ -48,8 +48,7 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
         MethodParameter parameter = context.methodParameter();
         Class<?> type = parameter.getParameterType();
         if (type != null && Pageable.class.isAssignableFrom(type)) {
-            Function<ResolvedType, ? extends ModelReference> factory =
-                    createModelRefFactory(context);
+            Function<ResolvedType, ? extends ModelReference> factory = createModelRefFactory(context);
 
             ModelReference intModel = factory.apply(resolver.resolve(Integer.TYPE));
             ModelReference stringModel = factory.apply(resolver.resolve(List.class, String.class));
@@ -72,7 +71,6 @@ public class PageableParameterBuilderPlugin implements ParameterBuilderPlugin {
 //                            .parameterType("query").name("queryConditionJson").modelRef(stringModel).allowMultiple(true)
 //                            .description("search json [{\"fieldName\":\"name\",\"attrType\":\"String\",\"fieldNode\":\"\",\"operate\":\"like\",\"weight\":0,\"value\":\"g\"},{\"fieldName\":\"status\",\"attrType\":\"Integer\",\"fieldNode\":\"\",\"operate\":\"in\",\"weight\":0,\"value\":\"-1\"}]}")
 //                            .build()
-//
             );
 
             context.getOperationContext().operationBuilder().parameters(parameters);

@@ -27,48 +27,53 @@ import java.time.LocalDateTime;
 @Slf4j
 public class Swagger2Config {
 
-  @Autowired
-  private TypeResolver typeResolver;
+    @Autowired
+    private TypeResolver typeResolver;
 
-  @Autowired
-  private SwaggerConfigurationProperties minliaProperties;
+    @Autowired
+    private SwaggerConfigurationProperties minliaProperties;
 
-  @Bean
-  public Docket documentation() {
-    log.debug("Starting Swagger");
-    StopWatch watch = new StopWatch();
-    watch.start();
+    @Bean
+    public Docket documentation() {
+        log.debug("Starting Swagger");
+        StopWatch watch = new StopWatch();
+        watch.start();
 
-    Docket docket= new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.regex(minliaProperties.getPath())).build().directModelSubstitute(LocalDate.class, java.sql.Date.class)
-      .directModelSubstitute(LocalDateTime.class, java.util.Date.class).pathMapping("/").apiInfo(metadata())
-      ;
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .select().apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.regex(minliaProperties.getPath()))
+                .build()
+                .directModelSubstitute(LocalDate.class, java.sql.Date.class)
+                .directModelSubstitute(LocalDateTime.class, java.util.Date.class).pathMapping("/")
+                .apiInfo(apiInfo());
 
-    watch.stop();
-    log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
-    return docket;
-  }
+        watch.stop();
+        log.debug("Started Swagger in {} ms", watch.getTotalTimeMillis());
+        return docket;
+    }
 
-  @Bean
-  SecurityConfiguration security() {
-    return new SecurityConfiguration(null, null, null, null, null, ApiKeyVehicle.HEADER, "X-Auth-Token", ",");
-  }
-  @Bean
-  PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver resolver) {
-    return new PageableParameterBuilderPlugin(nameExtractor, resolver);
-  }
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title(minliaProperties.getTitle())
+                .description(minliaProperties.getDescription())
+                .version(minliaProperties.getVersion())
+                .contact(minliaProperties.getContact())
+                .build();
+    }
 
+    @Bean
+    SecurityConfiguration security() {
+        return new SecurityConfiguration(null, null, null, null, null, ApiKeyVehicle.HEADER, "X-Auth-Token", ",");
+    }
 
+    @Bean
+    PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver typeResolver) {
+        return new PageableParameterBuilderPlugin(nameExtractor, typeResolver);
+    }
 
-  @Bean
-  public UiConfiguration uiConfig() {
-    return UiConfiguration.DEFAULT;
-  }
-
-  private ApiInfo metadata() {
-//        return new ApiInfoBuilder().title("Minlia Cloud Development Environment System API").description("Minlia Cloud Development Environment System API").version("2.0").contact("cloud@minlia.com").build();
-//        return new ApiInfoBuilder().title(minliaProperties.getSwagger().getTitle()).description(minliaProperties.getSwagger().getDescription()).version(minliaProperties.getSwagger().getVersion()).contact(minliaProperties.getSwagger().getContact()).build();
-    return new ApiInfoBuilder().title(minliaProperties.getTitle()).description(minliaProperties.getDescription()).version(minliaProperties.getVersion()).contact(minliaProperties.getContact()).build();
-  }
-
+    @Bean
+    public UiConfiguration uiConfig() {
+        return UiConfiguration.DEFAULT;
+    }
 
 }
