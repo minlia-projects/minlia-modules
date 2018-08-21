@@ -22,7 +22,7 @@ import java.util.List;
 
 @Api(tags = "Bank Branch", description = "联行号")
 @RestController
-@RequestMapping(value = ApiPrefix.V1 + "bankcode")
+@RequestMapping(value = ApiPrefix.V1 + "bank/branch")
 public class BankBranchEndpoint {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class BankBranchEndpoint {
 //		bankcodeDo.setProvince("asdfdsa");
 //		bankcodeService.create(bankcodeDo);
 
-//		bankcodeService.init();
+		bankcodeService.init();
 		return SuccessResponseBody.builder().build();
 	}
 

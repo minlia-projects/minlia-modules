@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.minlia.cloud.modules</groupId>
-    <artifactId>module-tencent-cloud-start</artifactId>
+    <artifactId>module-qcloud-start</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Module Tencent Cloud Start</name>

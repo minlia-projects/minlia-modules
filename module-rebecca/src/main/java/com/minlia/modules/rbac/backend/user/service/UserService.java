@@ -21,8 +21,8 @@ public interface UserService {
 
     Boolean locked(String guid);
 
-    void grant(UserGarenRequestBody requestBody);
-
     Boolean disabled(String guid);
+
+    void grant(UserGarenRequestBody requestBody);
 
 }

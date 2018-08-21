@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankCardVerifyTo implements ApiRequestBody {
+public class BankCardVerifyTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "银行卡号")
     @NotNull(message = "银行卡号不能为空")

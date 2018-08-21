@@ -3,8 +3,9 @@ package com.minlia.module.aliyun.market.utils;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
-import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDto;
-import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTo;
+import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDTO;
+import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,21 +15,24 @@ import java.util.Map;
  */
 public class AliyunMarketUtils {
 
-    public static BankCardVerifyDto verifyBankCard(String appcode, BankCardVerifyTo to) {
+    public static BankCardVerifyDTO verifyBankCard(String appcode, BankCardVerifyTO to) {
         String url = "http://lundroid.market.alicloudapi.com/lianzhuo/verifi";
         Map<String, Object> querys = new HashMap<String, Object>();
         querys.put("acct_pan", to.getNumber());
-        if (null != to.getHolder())
-        querys.put("acct_name", to.getHolder());
-        if (null != to.getIdCard())
-        querys.put("cert_id", to.getIdCard());
-        if (null != to.getCellphone())
-        querys.put("phone_num", to.getCellphone());
+        if (StringUtils.isNotBlank(to.getHolder())) {
+            querys.put("acct_name", to.getHolder());
+        }
+        if (StringUtils.isNotBlank(to.getIdCard())) {
+            querys.put("cert_id", to.getIdCard());
+        }
+        if (StringUtils.isNotBlank(to.getCellphone())) {
+            querys.put("phone_num", to.getCellphone());
+        }
 
-        BankCardVerifyDto dto = null;
+        BankCardVerifyDTO dto = null;
         try {
             HttpResponse<String> response = Unirest.get(url).header("Authorization", "APPCODE " + appcode).queryString(querys).asString();
-            dto = new Gson().fromJson(String.valueOf(response.getBody()),BankCardVerifyDto.class);
+            dto = new Gson().fromJson(String.valueOf(response.getBody()),BankCardVerifyDTO.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,8 +40,8 @@ public class AliyunMarketUtils {
     }
 
     public static void main(String[] args) {
-        BankCardVerifyTo to = new BankCardVerifyTo("62260978062215121","候志朋",null,null);
-        BankCardVerifyDto dto = verifyBankCard("6889a6bedf53468ea27d10f12a8e5159",to);
+        BankCardVerifyTO to = new BankCardVerifyTO("62260978062215121","候志朋",null,null);
+        BankCardVerifyDTO dto = verifyBankCard("6889a6bedf53468ea27d10f12a8e5159",to);
     }
 
 }

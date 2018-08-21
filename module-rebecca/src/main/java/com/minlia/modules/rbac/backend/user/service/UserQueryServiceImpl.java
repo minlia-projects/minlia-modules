@@ -48,6 +48,11 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     @Override
+    public User queryByUsernameOrCellphoneOrEmail(String username, String email, String cellphone) {
+        return userMapper.queryByUsernameOrCellphoneOrEmail(username,email,cellphone);
+    }
+
+    @Override
     public boolean exists(String username) {
         return null != this.queryByUsername(username);
     }
@@ -60,11 +65,6 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public PageInfo queryPage(UserQueryRequestBody requestBody, Pageable pageable) {
         return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> userMapper.queryList(requestBody));
-    }
-
-    @Override
-    public User queryByUsernameOrCellphoneOrEmail(String username, String email, String cellphone) {
-        return userMapper.queryByUsernameOrCellphoneOrEmail(username,email,cellphone);
     }
 
 }

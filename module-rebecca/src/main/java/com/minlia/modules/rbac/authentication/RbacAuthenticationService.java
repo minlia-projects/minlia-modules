@@ -9,6 +9,7 @@ import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import com.minlia.modules.rbac.backend.user.service.UserService;
 import com.minlia.modules.rbac.event.LoginSuccessEvent;
 import com.minlia.modules.security.authentication.service.AbstractAuthenticationService;
+import com.minlia.modules.security.authentication.service.AuthenticationService;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
@@ -17,6 +18,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,7 +43,8 @@ import java.util.List;
  * 框架提供的抽象认证实现
  */
 @Component
-public class RbacAuthenticationService extends AbstractAuthenticationService {
+@Primary
+public class RbacAuthenticationService implements AuthenticationService {
 
     @Autowired
     private UserMapper userMapper;

@@ -24,4 +24,5 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
         // Check if the username is unique
         return null != userQueryService.queryByUsernameOrCellphoneOrEmail(username,username,username);
     }
+
 }

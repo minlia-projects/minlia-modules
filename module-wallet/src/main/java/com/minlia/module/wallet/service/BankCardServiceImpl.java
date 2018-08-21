@@ -4,8 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDto;
-import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTo;
+import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDTO;
+import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
 import com.minlia.module.aliyun.market.config.AliyunMarketProperties;
 import com.minlia.module.aliyun.market.utils.AliyunMarketUtils;
 import com.minlia.module.bank.service.BankBranchService;
@@ -51,9 +51,9 @@ public class BankCardServiceImpl implements BankCardService {
         ApiPreconditions.not(bankBranchExists,ApiCode.NOT_FOUND,"联行号不存在");
 
         //银行二、三、四要素验证
-        BankCardVerifyDto verifyDto = AliyunMarketUtils.verifyBankCard(aliyunMarketProperties.getBankcardVerifyLianzhuo(),mapper.map(dto,BankCardVerifyTo.class));
-        if (!verifyDto.isSuccess()) {
-            ApiPreconditions.is(true,ApiCode.BASED_ON,verifyDto.getResp().getDesc());
+        BankCardVerifyDTO verifyDTO = AliyunMarketUtils.verifyBankCard(aliyunMarketProperties.getBankcardVerifyLianzhuo(),mapper.map(dto,BankCardVerifyTO.class));
+        if (!verifyDTO.isSuccess()) {
+            ApiPreconditions.is(true,ApiCode.BASED_ON,verifyDTO.getResp().getDesc());
         }
 
         BankCardDo bankCard = mapper.map(dto,BankCardDo.class);

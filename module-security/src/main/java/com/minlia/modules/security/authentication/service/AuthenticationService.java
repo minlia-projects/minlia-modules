@@ -14,6 +14,6 @@ public interface AuthenticationService {
      * @param authentication
      * @return
      */
-    public Authentication authentication(Authentication authentication);
+    Authentication authentication(Authentication authentication);
 
 }

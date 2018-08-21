@@ -2,6 +2,7 @@ package com.minlia.module.bank.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.minlia.module.bank.bean.domain.BankBranchDo;
 import com.minlia.module.bank.bean.dto.LhhResponse;
 import com.minlia.module.bank.bean.qo.BankBranchQo;
@@ -62,33 +63,47 @@ public class BankBranchServiceImpl implements BankBranchService {
         headers.add("Authorization", appcode);
         HttpEntity httpEntity = new HttpEntity(null,headers);
 
-        List<GadDistrict> provinces = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().level("province").build());
-        for (GadDistrict province : provinces) {
-            List<GadDistrict> citys = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().parent(province.getAdcode()).build());
-            for (GadDistrict city : citys) {
-                List<GadDistrict> districts = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().parent(city.getAdcode()).build());
-                for (GadDistrict district : districts) {
-                    System.out.println(new StringJoiner("-").add(province.getName()).add(city.getName()).add(district.getName()).toString());
+        List<String> banks = Lists.newArrayList(
+                "农村信用联社"
+        );
 
-                    Map<String, Object> querys = new HashMap<String, Object>();
-                    long count;
-                    if (province.getName().contains("北京") || province.getName().contains("上海") || province.getName().contains("天津")|| province.getName().contains("重庆")) {
-                        count = bankcodeMapper.count(BankBranchQo.builder().province(province.getName()).district(district.getName()).build());
-                        querys.put("city", province.getName());
-                    } else {
-                        count = bankcodeMapper.count(BankBranchQo.builder().province(province.getName()).city(city.getName()).district(district.getName()).build());
-                        querys.put("city", city.getName());
-                    }
-                    querys.put("province", province.getName());
-                    querys.put("district", district.getName());
-                    querys.put("bankname", "中国农业银行");
+        for (String bank : banks) {
+            List<GadDistrict> provinces = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().level("province").build());
+            for (GadDistrict province : provinces) {
+                List<GadDistrict> citys = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().parent(province.getAdcode()).build());
+                for (GadDistrict city : citys) {
+                    List<GadDistrict> districts = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().parent(city.getAdcode()).build());
+                    for (GadDistrict district : districts) {
+                        System.out.println(new StringJoiner("-").add(province.getName()).add(city.getName()).add(district.getName()).toString());
 
-                    if (count < 200) {
-                        init(1,httpEntity,querys);
+                        Map<String, Object> querys = new HashMap<String, Object>();
+                        if (province.getName().contains("北京") || province.getName().contains("上海") || province.getName().contains("天津") || province.getName().contains("重庆")) {
+                            querys.put("city", province.getName());
+                        } else {
+                            querys.put("city", city.getName());
+                        }
+                        querys.put("bankname", bank);
+                        querys.put("province", province.getName());
+                        querys.put("district", district.getName());
+
+                        init(1, httpEntity, querys);
                     }
+//                    System.out.println(new StringJoiner("-").add(province.getName()).add(city.getName()).toString());
+//                    Map<String, String> querys = new HashMap<String, String>();
+//                    if (province.getName().contains("北京") || province.getName().contains("上海") || province.getName().contains("天津") || province.getName().contains("重庆")) {
+//                        querys.put("city", province.getName());
+//                    } else {
+//                        querys.put("city", city.getName());
+//                    }
+//                    querys.put("bankname", bank);
+//                    querys.put("province", province.getName());
+//
+//                    init(1, httpEntity, querys);
                 }
             }
         }
+
+
 
 //        HttpResponse<String> response = Unirest.get("http://lhh.market.alicloudapi.com/lhh")
 //                .header("Authorization", "APPCODE " + appcode)
@@ -98,7 +113,16 @@ public class BankBranchServiceImpl implements BankBranchService {
 
     private void init(int page, HttpEntity httpEntity, Map querys){
         querys.put("page", page);
-        ResponseEntity<LhhResponse> response = restTemplate.exchange("http://lhh.market.alicloudapi.com/lhh?page={page}&province={province}&city={city}&district={district}&bankname={bankname}", HttpMethod.GET, httpEntity, LhhResponse.class,querys);
+        ResponseEntity<LhhResponse> response;
+        if (null != querys.get("district")) {
+            response = restTemplate.exchange("http://lhh.market.alicloudapi.com/lhh?page={page}&province={province}&city={city}&district={district}&bankname={bankname}", HttpMethod.GET, httpEntity, LhhResponse.class,querys);
+        } else if (null != querys.get("city")) {
+            response = restTemplate.exchange("http://lhh.market.alicloudapi.com/lhh?page={page}&province={province}&city={city}&bankname={bankname}", HttpMethod.GET, httpEntity, LhhResponse.class,querys);
+        } else if (null != querys.get("province")) {
+            response = restTemplate.exchange("http://lhh.market.alicloudapi.com/lhh?page={page}&province={province}&bankname={bankname}", HttpMethod.GET, httpEntity, LhhResponse.class,querys);
+        } else {
+            response = restTemplate.exchange("http://lhh.market.alicloudapi.com/lhh?page={page}&bankname={bankname}", HttpMethod.GET, httpEntity, LhhResponse.class,querys);
+        }
         if (response.getBody().isSuccess()) {
             log.warn("获取联行号当前页数--------------:{}",response.getBody().getResult().getPaging().getPageNow());
             if (CollectionUtils.isNotEmpty(response.getBody().getResult().getList())) {

@@ -3,7 +3,7 @@ package com.minlia.module.aliyun.market.bean.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
-public class BankCardVerifyDto {
+public class BankCardVerifyDTO {
 
 //    {
 //        "resp": {

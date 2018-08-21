@@ -45,7 +45,7 @@
         <!--腾讯云-->
         <module>module-qcloud-start</module>
         <module>module-qcloud-cos</module>
-        <module>module-tencent-cloud-auth</module>
+        <module>module-qcloud-faceid</module>
 
         <!--阿里云-->
         <module>module-aliyun-dypls</module>
