@@ -1,8 +1,0 @@
-spring:
-    application:
-        name: 在线支付服务
-
-swagger:
-    title: ${spring.application.name}
-    version: 1.0.0.RELEASE
-    redirect: true

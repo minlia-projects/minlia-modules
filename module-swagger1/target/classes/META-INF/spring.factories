@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.modules.starter.swagger.SwaggerAutoConfiguration
