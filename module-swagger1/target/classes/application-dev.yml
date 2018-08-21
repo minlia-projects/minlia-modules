@@ -1,0 +1,13 @@
+server:
+    port: 8080
+
+system:
+    appId: miniq-runtime-app
+    token: bWlubGlhCg==
+
+# SPRING PROFILES
+spring:
+    application:
+        name: miniq-runtime-manage
+    profiles:
+      active: dev

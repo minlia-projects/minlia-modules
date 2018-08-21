@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.bible.mapper.BibleItemMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			bit.id ,
+			bit.parent_code ,
+			bit.code ,
+			bit.value,
+			bit.notes ,
+			bit.sorts ,
+			bit.attribute1 ,
+			bit.attribute2 ,
+			bit.attribute3 ,
+			bit.create_date ,
+			bit.create_by ,
+			bit.last_modified_date ,
+			bit.last_modified_by
+		FROM
+			minlia_bible_item bit
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <if test="parentCode != null">
+            INNER JOIN minlia_bible bt on bt.code = bit.parent_code
+        </if>
+        <where>
+            <if test="parentCode != null">
+                AND bit.parent_code = #{parentCode}
+            </if>
+            <if test="code != null">
+                AND bit.code = #{code}
+            </if>
+            <if test="value != null">
+                AND bit.value = #{value}
+            </if>
+            <if test="attribute1 != null">
+                AND bit.attribute1 = #{attribute1}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create">
+		INSERT INTO minlia_bible_item(
+			parent_code ,
+			code ,
+			value ,
+			notes ,
+			sorts ,
+			attribute1,
+			attribute2,
+			attribute3,
+			create_by
+		)
+		VALUES
+		(
+			#{parentCode} ,
+			#{code} ,
+			#{value} ,
+			#{notes} ,
+			#{sorts} ,
+			#{attribute1} ,
+			#{attribute2} ,
+			#{attribute3} ,
+			#{createBy}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.minlia.module.bible.entity.BibleItem">
+        UPDATE minlia_bible_item
+        <set>
+            <if test="value != null">
+                value = #{value},
+            </if>
+            <if test="notes != null">
+                notes = #{notes},
+            </if>
+            <if test="attribute1 != null">
+                attribute1 = #{attribute1},
+            </if>
+            <if test="attribute2 != null">
+                attribute2 = #{attribute2},
+            </if>
+            <if test="attribute3 != null">
+                attribute3 = #{attribute3},
+            </if>
+            <if test="sorts != null">
+                sorts = #{sorts},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+		DELETE FROM minlia_bible_item WHERE id = #{id}
+	</delete>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM minlia_bible_item bit
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryById" resultType="com.minlia.module.bible.entity.BibleItem">
+        <include refid="QUERY_CONTENT"/>
+        WHERE bit.id = #{id}
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.bible.entity.BibleItem">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.bible.entity.BibleItem">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+</mapper>

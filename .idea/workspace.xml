@@ -1,0 +1,1934 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="06cd5762-a41f-4de0-b835-8e6ae8b5f39d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/enumeration/GenderEnum.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/util/IdCardUtils.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/AcceptHeaderLocaleResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/Application.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/LanguageAutoConfiguration.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/LocaleConfiguration.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/code/I18nApiCode.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/config/I18nConfiguration.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/config/I18nProperties.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/constant/I18nConstant.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/domain/Language.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/endpoint/LanguageEndpoint.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/listener/LanguageSeedDataInitializeListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/listener/LocalizedAnnotationCollectionListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/listener/LocalizedAnnotationInitializingListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/listener/MessageMigrationListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/mapper/LanguageDao.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/InitializableMessageSource.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/MessageAcceptor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/MessageProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/Messages.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/filesystem/BundleFilter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/filesystem/BundleInfo.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/filesystem/ExtensionFilter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/filesystem/FileSystemMessageProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/filesystem/ZipMessageAcceptor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/importer/Importer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/importer/SimpleMessageAcceptor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/jdbc/JdbcMessageProvider.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/util/LocaleUtils.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/messagesource/util/MessageInitializationException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/service/LanguageInitializeService.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/service/LanguageReadOnlyService.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/service/LanguageWriteOnlyService.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/service/impl/LanguageInitializeServiceImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/service/impl/LanguageReadOnlyServiceImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/java/com/minlia/module/language/service/impl/LanguageWriteOnlyServiceImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/META-INF/services/javax.annotation.processing.Processor" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/application-dev.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/application.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/application.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/com/minlia/module/language/mapper/LanguageQueryDao.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/db/changelog/db.changelog-language.yaml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/db/changelog/mdl_language.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/logback-old.xml" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/README.md" afterPath="$PROJECT_DIR$/module-qcloud-faceid/README.md" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/pom.xml" afterPath="$PROJECT_DIR$/module-qcloud-faceid/pom.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/Application.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/Application.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/TencentAuthAutoConfiguration.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/TencentAuthAutoConfiguration.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/FaceAuth.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/FaceAuth.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/TcAccessToken.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/TcAccessToken.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/TcApiNonceTicket.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/TcApiNonceTicket.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/TcApiSignTicket.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/bean/TcApiSignTicket.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcAccessTokenResponseBody.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcAccessTokenResponseBody.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcApiTicketResponseBody.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcApiTicketResponseBody.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcApiTickets.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcApiTickets.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdRecordQueryRequestBody.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdRecordQueryRequestBody.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdRequestBody.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdRequestBody.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdResponseBody.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdResponseBody.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdResult.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdResult.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcResponseBaseBody.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcResponseBaseBody.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/response/TcFaceIdResultResponseBody.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/body/response/TcFaceIdResultResponseBody.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/config/TcAuthAutoConfiguration.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/config/TcAuthAutoConfiguration.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/config/TcAuthConfig.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/config/TcAuthConfig.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/config/TcAuthMemoryConfig.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/config/TcAuthMemoryConfig.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/constant/TcAuthApiCode.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/constant/TcAuthApiCode.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/constant/TcAuthBibleConstants.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/constant/TcAuthBibleConstants.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/endpoint/TcAuthEndpoint.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/endpoint/TcAuthEndpoint.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/entity/FaceIdRecord.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/entity/FaceIdRecord.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/mapper/FaceIdRecordMapper.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/mapper/FaceIdRecordMapper.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/service/FaceIdRecordService.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/service/FaceIdRecordService.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/service/FaceIdRecordServiceImpl.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/service/FaceIdRecordServiceImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/service/TcAuthService.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/service/TcAuthService.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/service/TcAuthServiceImpl.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/service/TcAuthServiceImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/utils/SignUtils.java" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/utils/SignUtils.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/META-INF/spring.factories" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/META-INF/spring.factories" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/META-INF/spring.provides" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/META-INF/spring.provides" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/config/application-dev.yml" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/config/application-dev.yml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/config/application-prod.yml" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/config/application-prod.yml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/config/application.properties" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/config/application.properties" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/config/application.yml" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/config/application.yml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/logback.xml" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/logback.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/mybatis/mapper/FaceIdRecordMapper.xml" afterPath="$PROJECT_DIR$/module-qcloud-faceid/src/main/resources/mybatis/mapper/FaceIdRecordMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/bean/dto/BankCardVerifyDto.java" afterPath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/bean/dto/BankCardVerifyDto.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/bean/to/BankCardVerifyTo.java" afterPath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/bean/to/BankCardVerifyTo.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/endpoint/AliyunMarketEndpoint.java" afterPath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/endpoint/AliyunMarketEndpoint.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/utils/AliyunMarketUtils.java" afterPath="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/utils/AliyunMarketUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-bank/src/main/java/com/minlia/module/bank/endpoint/BankBranchEndpoint.java" afterPath="$PROJECT_DIR$/module-bank/src/main/java/com/minlia/module/bank/endpoint/BankBranchEndpoint.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-bank/src/main/java/com/minlia/module/bank/service/BankBranchServiceImpl.java" afterPath="$PROJECT_DIR$/module-bank/src/main/java/com/minlia/module/bank/service/BankBranchServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-bank/src/main/resources/mybatis/mapper/BankcodeMapper.xml" afterPath="$PROJECT_DIR$/module-bank/src/main/resources/mybatis/mapper/BankcodeMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/config/RestConfiguration.java" afterPath="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/config/RestConfiguration.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-i18n/pom.xml" afterPath="$PROJECT_DIR$/module-i18n/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-i18n/src/main/resources/META-INF/spring.factories" afterPath="$PROJECT_DIR$/module-i18n/src/main/resources/META-INF/spring.factories" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-qcloud-start/pom.xml" afterPath="$PROJECT_DIR$/module-qcloud-start/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/authentication/RbacAuthenticationService.java" afterPath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/authentication/RbacAuthenticationService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/user/service/UserQueryServiceImpl.java" afterPath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/user/service/UserQueryServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/user/service/UserService.java" afterPath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/user/service/UserService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/validation/UniqueUsernameValidator.java" afterPath="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/validation/UniqueUsernameValidator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/AuthenticationService.java" afterPath="$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/AuthenticationService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/module-wallet/src/main/java/com/minlia/module/wallet/service/BankCardServiceImpl.java" afterPath="$PROJECT_DIR$/module-wallet/src/main/java/com/minlia/module/wallet/service/BankCardServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+    </list>
+    <ignored path="$PROJECT_DIR$/module-rebecca/target/" />
+    <ignored path="$PROJECT_DIR$/module-logger/target/" />
+    <ignored path="$PROJECT_DIR$/module-swagger/target/" />
+    <ignored path="$PROJECT_DIR$/module-i18n/target/" />
+    <ignored path="$PROJECT_DIR$/module-bible/target/" />
+    <ignored path="$PROJECT_DIR$/module-nestedset/target/" />
+    <ignored path="$PROJECT_DIR$/module-security/target/" />
+    <ignored path="$PROJECT_DIR$/module-delivery/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/module-captcha/target/" />
+    <ignored path="$PROJECT_DIR$/module-redis/target/" />
+    <ignored path="$PROJECT_DIR$/module-http/target/" />
+    <ignored path="$PROJECT_DIR$/module-data/target/" />
+    <ignored path="$PROJECT_DIR$/module-registry/target/" />
+    <ignored path="$PROJECT_DIR$/module-sms-aliyun/target/" />
+    <ignored path="$PROJECT_DIR$/module-wallet/target/" />
+    <ignored path="$PROJECT_DIR$/module-wechat-miniapp/target/" />
+    <ignored path="$PROJECT_DIR$/module-wechat-mp/target/" />
+    <ignored path="$PROJECT_DIR$/module-aliyun-sesame/target/" />
+    <ignored path="$PROJECT_DIR$/module-websocket/target/" />
+    <ignored path="$PROJECT_DIR$/module-wechat/target/" />
+    <ignored path="$PROJECT_DIR$/module-data1/target/" />
+    <ignored path="$PROJECT_DIR$/module-attachment/target/" />
+    <ignored path="$PROJECT_DIR$/module-aliyun-sms/target/" />
+    <ignored path="$PROJECT_DIR$/module-aliyun-oss/target/" />
+    <ignored path="$PROJECT_DIR$/module-dataa/target/" />
+    <ignored path="$PROJECT_DIR$/../../ws/minlia-modules/module-attachment/target/" />
+    <ignored path="$PROJECT_DIR$/module-common/target/" />
+    <ignored path="$PROJECT_DIR$/module-country/target/" />
+    <ignored path="$PROJECT_DIR$/module-map/target/" />
+    <ignored path="$PROJECT_DIR$/module-rebecca-core/target/" />
+    <ignored path="$PROJECT_DIR$/module-richtext/target/" />
+    <ignored path="$PROJECT_DIR$/module-tencent-cloud-financial-auth/target/" />
+    <ignored path="$PROJECT_DIR$/module-tencent-cloud-auth/target/" />
+    <ignored path="$PROJECT_DIR$/module-todo/target/" />
+    <ignored path="$PROJECT_DIR$/module-unified-payment/target/" />
+    <ignored path="$PROJECT_DIR$/module-aliyun-privacy-number/target/" />
+    <ignored path="$PROJECT_DIR$/module-aliyun-dypls/target/" />
+    <ignored path="$PROJECT_DIR$/module-tencent-cloud-start/target/" />
+    <ignored path="$PROJECT_DIR$/module-qcloud-start/target/" />
+    <ignored path="$PROJECT_DIR$/module-qcloud-oss/target/" />
+    <ignored path="$PROJECT_DIR$/module-qcloud-cos/target/" />
+    <ignored path="$PROJECT_DIR$/module-lbsyun/target/" />
+    <ignored path="$PROJECT_DIR$/module-wechat-mp-material/target/" />
+    <ignored path="$PROJECT_DIR$/module-pooul/target/" />
+    <ignored path="$PROJECT_DIR$/module-wechat-material/target/" />
+    <ignored path="$PROJECT_DIR$/module-bank/target/" />
+    <ignored path="$PROJECT_DIR$/module-aliyun-market/target/" />
+    <ignored path="$PROJECT_DIR$/module-qcloud-auth/target/" />
+    <ignored path="$PROJECT_DIR$/module-qcloud-faceid/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="RbacAuthenticationService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/authentication/RbacAuthenticationService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="46" column="73" lean-forward="false" selection-start-line="46" selection-start-column="73" selection-end-line="46" selection-end-column="73" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BankCardServiceImpl.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/module-wallet/src/main/java/com/minlia/module/wallet/service/BankCardServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="64" column="5" lean-forward="true" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>weixin-java-m</find>
+      <find>weixin-java-</find>
+      <find>weixin-java</find>
+      <find>text/</find>
+      <find>security</find>
+      <find>modules</find>
+      <find>json</find>
+      <find>unionId</find>
+      <find>ConfigurationProperties</find>
+      <find>minliaProperties</find>
+      <find>minlia_v1</find>
+      <find>i18</find>
+      <find>doMapper</find>
+      <find>dMapper</find>
+      <find>Mapper</find>
+      <find>.Mapper</find>
+      <find>AutoConfiguration</find>
+      <find>Autowired</find>
+      <find>M</find>
+      <find>m</find>
+      <find>ma</find>
+      <find>mapper</find>
+      <find>.mapper</find>
+      <find>d.mapper</find>
+      <find>do.mapper</find>
+      <find>doz.mapper</find>
+      <find>doze.mapper</find>
+      <find>dozer.mapper</find>
+      <find>org.dozer.Mapper</find>
+      <find>ConditionalOnMissingClass</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>com.minlia.module.rbac.backend.user.entity.User</replace>
+      <replace>OssApiCode</replace>
+      <replace>minlia</replace>
+      <replace>query</replace>
+      <replace>requestBody</replace>
+      <replace>minlia_attachment</replace>
+      <replace>com.minlia.module.map.gad.entity.GadDistrict</replace>
+      <replace>Nonce</replace>
+      <replace>minlia_wechat_user</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/module-data/src/main/java/com/minlia/module/data/entity</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/module-data/src/main/java/com/minlia/module/data/entity/AbstractEntity.java" />
+        <option value="$PROJECT_DIR$/module-pooul/src/main/java/com/minlia/module/pooul/service/PooulPayServiceImpl.java" />
+        <option value="$PROJECT_DIR$/module-pooul/src/main/java/com/minlia/module/pooul/util/JwtToken.java" />
+        <option value="$PROJECT_DIR$/module-pooul/src/main/java/com/minlia/module/pooul/util/PemUtils.java" />
+        <option value="$PROJECT_DIR$/module-swagger/pom.xml" />
+        <option value="$PROJECT_DIR$/module-redis/src/main/java/com/minlia/module/redis/service/RedisServiceImpl.java" />
+        <option value="$PROJECT_DIR$/module-redis/src/main/java/com/minlia/module/redis/service/RedisService.java" />
+        <option value="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/body/TcFaceIdRecordQueryRequestBody.java" />
+        <option value="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/resources/mybatis/mapper/FaceIdRecordMapper.xml" />
+        <option value="$PROJECT_DIR$/module-tencent-cloud-auth/src/main/java/com/minlia/modules/tencent/cloud/auth/service/TcAuthServiceImpl.java" />
+        <option value="$PROJECT_DIR$/module-wechat/src/main/java/com/minlia/module/wechat/mp/service/LoginThirdPartyServiceImpl.java" />
+        <option value="$PROJECT_DIR$/module-wechat/src/main/java/com/minlia/module/wechat/ma/mapper/WxMaUserMapper.java" />
+        <option value="$PROJECT_DIR$/module-wechat/src/main/java/com/minlia/module/wechat/ma/service/WechatMaUserServiceImpl.java" />
+        <option value="$PROJECT_DIR$/module-wechat/src/main/resources/mybatis/mapper/WxMaUserMapper.xml" />
+        <option value="$PROJECT_DIR$/module-wechat/src/main/java/com/minlia/module/wechat/ma/entity/WechatMaUser.java" />
+        <option value="$PROJECT_DIR$/module-wechat/src/main/java/com/minlia/module/wechat/ma/service/WechatMaUserService.java" />
+        <option value="$PROJECT_DIR$/module-bible/src/main/java/com/minlia/module/bible/body/BibleItemUpdateRequestBody.java" />
+        <option value="$PROJECT_DIR$/module-swagger/src/main/java/com/minlia/modules/starter/swagger/configuration/SwaggerAutoConfiguration.java" />
+        <option value="$PROJECT_DIR$/module-swagger/src/main/java/com/minlia/modules/starter/swagger/properties/SwaggerConfigurationProperties.java" />
+        <option value="$PROJECT_DIR$/module-swagger/src/main/java/com/minlia/modules/starter/swagger/configuration/Swagger2Config.java" />
+        <option value="$PROJECT_DIR$/module-wechat-mp-material/src/main/resources/config/application-dev.yml" />
+        <option value="$PROJECT_DIR$/module-map/src/main/java/com/minlia/module/map/district/service/GadDistrictServiceImpl.java" />
+        <option value="$PROJECT_DIR$/module-map/src/main/java/com/minlia/module/map/district/body/GadDistrictQueryRequestBody.java" />
+        <option value="$PROJECT_DIR$/module-map/src/main/java/com/minlia/module/map/district/endpoint/GadDistrictEndpoint.java" />
+        <option value="$PROJECT_DIR$/module-captcha/pom.xml" />
+        <option value="$PROJECT_DIR$/module-rebecca/pom.xml" />
+        <option value="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/CaptchaEndpoint.java" />
+        <option value="$PROJECT_DIR$/module-bank/src/main/resources/mybatis/mapper/BankcodeMapper.xml" />
+        <option value="$PROJECT_DIR$/module-aliyun-sms/src/main/java/com/minlia/modules/aliyun/sms/AliyunSmsSendService.java" />
+        <option value="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/utils/AliyunMarketUtils.java" />
+        <option value="$PROJECT_DIR$/module-bank/src/main/java/com/minlia/module/bank/service/BankBranchServiceImpl.java" />
+        <option value="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/bean/to/BankCardVerifyTo.java" />
+        <option value="$PROJECT_DIR$/module-aliyun-market/src/main/java/com/minlia/module/aliyun/market/endpoint/AliyunMarketEndpoint.java" />
+        <option value="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/validation/UniqueUsernameValidator.java" />
+        <option value="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/listener/UserSeedDataInitializeListener.java" />
+        <option value="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/user/body/UserCreateRequestBody.java" />
+        <option value="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/enumeration/Gender.java" />
+        <option value="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/enumeration/GenderEnum.java" />
+        <option value="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/util/IdCardUtils.java" />
+        <option value="$PROJECT_DIR$/module-qcloud-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/module-qcloud-faceid/pom.xml" />
+        <option value="$PROJECT_DIR$/module-qcloud-start/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/module-i18n/pom.xml" />
+        <option value="$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/AuthenticationService.java" />
+        <option value="$PROJECT_DIR$/module-data/pom.xml" />
+        <option value="$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/DefaultAuthenticationService.java" />
+        <option value="$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/AbstractAuthenticationService.java" />
+        <option value="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/config/RestConfiguration.java" />
+        <option value="$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/authentication/RbacAuthenticationService.java" />
+        <option value="$PROJECT_DIR$/module-wallet/src/main/java/com/minlia/module/wallet/service/BankCardServiceImpl.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="147" />
+    <option name="y" value="22" />
+    <option name="width" value="1678" />
+    <option name="height" value="1003" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module-wallet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module-wallet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module-wallet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wallet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module-wallet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wallet" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="minlia-modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="module-aliyun-market" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.27941176" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/module-rebecca" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.minlia.modules.security.authentication.service" />
+      <recent name="com.minlia.module.common.enumeration" />
+      <recent name="com.minlia.module.common.util" />
+      <recent name="com.minlia.module.captcha.endpoint" />
+      <recent name="com.minlia.module.wechat.ma.entity" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/module-tencent-cloud-start" />
+      <recent name="$PROJECT_DIR$/module-map/src/main/resources/config" />
+      <recent name="$PROJECT_DIR$/module-map/src/main/resources" />
+      <recent name="$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/util" />
+      <recent name="$PROJECT_DIR$/module-richtext/src/main/resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.PrivacyShieldUtils">
+    <configuration default="false" name="TcAuthServiceImpl.t" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.minlia.modules.tencent.cloud.auth.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="module-tencent-cloud-auth" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.minlia.modules.tencent.cloud.auth.service" />
+      <option name="MAIN_CLASS_NAME" value="com.minlia.modules.tencent.cloud.auth.service.TcAuthServiceImpl" />
+      <option name="METHOD_NAME" value="t" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="PrivacyShieldUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.minlia.module.common.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="com.minlia.module.common.util.PrivacyShieldUtils" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="module-common" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="ENABLE_ADVANCED_PROFILING" value="true" />
+        <option name="GAPID_ENABLED" value="false" />
+        <option name="GAPID_DISABLE_PCS" value="false" />
+        <option name="SUPPORT_LIB_ENABLED" value="true" />
+        <option name="INSTRUMENTATION_ENABLED" value="true" />
+      </Profilers>
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="ArquillianTestNG" factoryName="">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Cold Fusion runner description" factoryName="Cold Fusion" custom_browser="" web_path="">
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberJavaRunConfigurationType" factoryName="Cucumber java">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="myFilePath" />
+      <option name="GLUE" />
+      <option name="myNameFilter" />
+      <option name="myGeneratedName" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlashRunConfigurationType" factoryName="Flash App">
+      <option name="BCName" value="" />
+      <option name="IOSSimulatorSdkPath" value="" />
+      <option name="adlOptions" value="" />
+      <option name="airProgramParameters" value="" />
+      <option name="appDescriptorForEmulator" value="Android" />
+      <option name="debugTransport" value="USB" />
+      <option name="debuggerSdkRaw" value="BC SDK" />
+      <option name="emulator" value="NexusOne" />
+      <option name="emulatorAdlOptions" value="" />
+      <option name="fastPackaging" value="true" />
+      <option name="fullScreenHeight" value="0" />
+      <option name="fullScreenWidth" value="0" />
+      <option name="launchUrl" value="false" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="mobileRunTarget" value="Emulator" />
+      <option name="moduleName" value="" />
+      <option name="overriddenMainClass" value="" />
+      <option name="overriddenOutputFileName" value="" />
+      <option name="overrideMainClass" value="false" />
+      <option name="runTrusted" value="true" />
+      <option name="screenDpi" value="0" />
+      <option name="screenHeight" value="0" />
+      <option name="screenWidth" value="0" />
+      <option name="url" value="http://" />
+      <option name="usbDebugPort" value="7936" />
+      <method />
+    </configuration>
+    <configuration default="true" type="FlexUnitRunConfigurationType" factoryName="FlexUnit" appDescriptorForEmulator="Android" class_name="" emulatorAdlOptions="" method_name="" package_name="" scope="Class">
+      <option name="BCName" value="" />
+      <option name="launcherParameters">
+        <LauncherParameters>
+          <option name="browser" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+          <option name="launcherType" value="OSDefault" />
+          <option name="newPlayerInstance" value="false" />
+          <option name="playerPath" value="/Applications/Flash Player Debugger.app" />
+        </LauncherParameters>
+      </option>
+      <option name="moduleName" value="" />
+      <option name="trusted" value="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="GrailsRunConfigurationType" factoryName="Grails">
+      <setting name="vmparams" value="" />
+      <setting name="cmdLine" value="run-app" />
+      <setting name="passParentEnv" value="true" />
+      <setting name="launchBrowser" value="true" />
+      <setting name="launchBrowserUrl" value="" />
+      <setting name="depsClasspath" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SCRATCH_FILE_ID" value="0" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="module-rebecca" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Run Launcher">
+      <method />
+    </configuration>
+    <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
+      <method />
+    </configuration>
+    <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.minlia.module.wechat.material.Application" />
+      <module name="module-wechat-mp-material" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Spring Boot.Application" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.TcAuthServiceImpl.t" />
+      <item index="2" class="java.lang.String" itemvalue="Application.PrivacyShieldUtils" />
+    </list>
+    <recent_temporary>
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Application.PrivacyShieldUtils" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.TcAuthServiceImpl.t" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="06cd5762-a41f-4de0-b835-8e6ae8b5f39d" name="Default" comment="" />
+      <created>1514896603533</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1514896603533</updated>
+      <workItem from="1514896604937" duration="14604000" />
+      <workItem from="1514982792726" duration="55000" />
+      <workItem from="1514982862563" duration="4277000" />
+      <workItem from="1515669425645" duration="19000" />
+      <workItem from="1515928299439" duration="4260000" />
+      <workItem from="1516023111702" duration="2303000" />
+      <workItem from="1516025445583" duration="50000" />
+      <workItem from="1516025565470" duration="2190000" />
+      <workItem from="1516159688462" duration="9888000" />
+      <workItem from="1516191102885" duration="2215000" />
+      <workItem from="1516193371855" duration="9201000" />
+      <workItem from="1516522979296" duration="382000" />
+      <workItem from="1516524962470" duration="19990000" />
+      <workItem from="1516602226014" duration="15616000" />
+      <workItem from="1516683932398" duration="15943000" />
+      <workItem from="1516711354162" duration="6992000" />
+      <workItem from="1516781291926" duration="185000" />
+      <workItem from="1516798290907" duration="3564000" />
+      <workItem from="1516956628989" duration="5417000" />
+      <workItem from="1517037043642" duration="2510000" />
+      <workItem from="1517039573827" duration="2909000" />
+      <workItem from="1517042515369" duration="1223000" />
+      <workItem from="1517044508307" duration="7552000" />
+      <workItem from="1517231603830" duration="2220000" />
+      <workItem from="1517237379937" duration="17147000" />
+      <workItem from="1517318607519" duration="3421000" />
+      <workItem from="1517408799366" duration="2281000" />
+      <workItem from="1517412458500" duration="5288000" />
+      <workItem from="1517473139894" duration="9900000" />
+      <workItem from="1517539556056" duration="9173000" />
+      <workItem from="1517665922375" duration="48000" />
+      <workItem from="1517816313312" duration="1050000" />
+      <workItem from="1517897573267" duration="834000" />
+      <workItem from="1517899938188" duration="1037000" />
+      <workItem from="1517901799533" duration="1394000" />
+      <workItem from="1517909366738" duration="1811000" />
+      <workItem from="1517911337310" duration="1228000" />
+      <workItem from="1517912974189" duration="101000" />
+      <workItem from="1517920650944" duration="877000" />
+      <workItem from="1517973509019" duration="25000" />
+      <workItem from="1518002658979" duration="5024000" />
+      <workItem from="1518008887716" duration="185000" />
+      <workItem from="1518009251263" duration="202000" />
+      <workItem from="1518070255629" duration="443000" />
+      <workItem from="1518071936315" duration="762000" />
+      <workItem from="1518155181506" duration="660000" />
+      <workItem from="1518156331772" duration="1132000" />
+      <workItem from="1518168897297" duration="1776000" />
+      <workItem from="1518178577899" duration="86000" />
+      <workItem from="1518181349016" duration="10000" />
+      <workItem from="1518182806045" duration="20000" />
+      <workItem from="1518244589557" duration="1149000" />
+      <workItem from="1518245930500" duration="2860000" />
+      <workItem from="1518249102866" duration="785000" />
+      <workItem from="1518249918905" duration="1360000" />
+      <workItem from="1518264130803" duration="255000" />
+      <workItem from="1518343468057" duration="1261000" />
+      <workItem from="1518415941357" duration="69000" />
+      <workItem from="1519448853845" duration="2147000" />
+      <workItem from="1519453097816" duration="1118000" />
+      <workItem from="1519456874655" duration="2535000" />
+      <workItem from="1519618820371" duration="1344000" />
+      <workItem from="1519655160894" duration="153000" />
+      <workItem from="1519717934827" duration="2378000" />
+      <workItem from="1519721777041" duration="7071000" />
+      <workItem from="1519783783402" duration="666000" />
+      <workItem from="1519785267857" duration="3016000" />
+      <workItem from="1519798753926" duration="2316000" />
+      <workItem from="1519802601478" duration="1363000" />
+      <workItem from="1519806682379" duration="59000" />
+      <workItem from="1519870494330" duration="87000" />
+      <workItem from="1519894024449" duration="53000" />
+      <workItem from="1519895832944" duration="338000" />
+      <workItem from="1519976691948" duration="623000" />
+      <workItem from="1519977356972" duration="4587000" />
+      <workItem from="1519982406182" duration="1089000" />
+      <workItem from="1519983896138" duration="3035000" />
+      <workItem from="1520050414861" duration="1904000" />
+      <workItem from="1520063824923" duration="823000" />
+      <workItem from="1520156817700" duration="2282000" />
+      <workItem from="1520227536927" duration="2913000" />
+      <workItem from="1520319751682" duration="2991000" />
+      <workItem from="1520389876233" duration="472000" />
+      <workItem from="1520390873515" duration="5903000" />
+      <workItem from="1520403550584" duration="4554000" />
+      <workItem from="1520418107867" duration="2273000" />
+      <workItem from="1520519639804" duration="64000" />
+      <workItem from="1520687664162" duration="96000" />
+      <workItem from="1521017708306" duration="297000" />
+      <workItem from="1521095990085" duration="8000" />
+      <workItem from="1521295158855" duration="1699000" />
+      <workItem from="1521296987703" duration="786000" />
+      <workItem from="1521298636769" duration="1488000" />
+      <workItem from="1521312257322" duration="890000" />
+      <workItem from="1521314571812" duration="617000" />
+      <workItem from="1521315542523" duration="2401000" />
+      <workItem from="1521379858898" duration="568000" />
+      <workItem from="1521786853464" duration="303000" />
+      <workItem from="1521884494515" duration="2036000" />
+      <workItem from="1522052336793" duration="8873000" />
+      <workItem from="1522146236663" duration="178000" />
+      <workItem from="1522239939161" duration="1734000" />
+      <workItem from="1522243313816" duration="119000" />
+      <workItem from="1522244554363" duration="381000" />
+      <workItem from="1523190422074" duration="3256000" />
+      <workItem from="1523209644829" duration="4410000" />
+      <workItem from="1523216788440" duration="88000" />
+      <workItem from="1523216964749" duration="2570000" />
+      <workItem from="1523633120769" duration="453000" />
+      <workItem from="1523633749949" duration="1147000" />
+      <workItem from="1523726522928" duration="3678000" />
+      <workItem from="1523777130466" duration="5055000" />
+      <workItem from="1523803650697" duration="5000" />
+      <workItem from="1523811291563" duration="725000" />
+      <workItem from="1523885875752" duration="373000" />
+      <workItem from="1523886281910" duration="607000" />
+      <workItem from="1523901904932" duration="3316000" />
+      <workItem from="1523937693690" duration="7093000" />
+      <workItem from="1523970309265" duration="378000" />
+      <workItem from="1523974943055" duration="3700000" />
+      <workItem from="1524105644682" duration="13141000" />
+      <workItem from="1524142581696" duration="1953000" />
+      <workItem from="1524154758822" duration="11000" />
+      <workItem from="1524190717723" duration="1483000" />
+      <workItem from="1524195238324" duration="79000" />
+      <workItem from="1524206831819" duration="10425000" />
+      <workItem from="1524498556227" duration="630000" />
+      <workItem from="1524715547722" duration="174000" />
+      <workItem from="1524751602347" duration="2214000" />
+      <workItem from="1524795255871" duration="3872000" />
+      <workItem from="1524896232591" duration="3000" />
+      <workItem from="1524904474550" duration="59000" />
+      <workItem from="1524905448075" duration="527000" />
+      <workItem from="1524912721507" duration="295000" />
+      <workItem from="1524927178271" duration="1084000" />
+      <workItem from="1524970715231" duration="4987000" />
+      <workItem from="1525156974040" duration="726000" />
+      <workItem from="1525185081470" duration="751000" />
+      <workItem from="1525229650741" duration="1313000" />
+      <workItem from="1525231561789" duration="859000" />
+      <workItem from="1525525681657" duration="424000" />
+      <workItem from="1525527205593" duration="1982000" />
+      <workItem from="1525535657985" duration="887000" />
+      <workItem from="1525576420413" duration="7918000" />
+      <workItem from="1525596070165" duration="5419000" />
+      <workItem from="1525625382429" duration="3095000" />
+      <workItem from="1525676767447" duration="3976000" />
+      <workItem from="1525853859877" duration="156000" />
+      <workItem from="1525945089950" duration="1568000" />
+      <workItem from="1526030411208" duration="143000" />
+      <workItem from="1526137360079" duration="2247000" />
+      <workItem from="1526178394879" duration="10768000" />
+      <workItem from="1526288651089" duration="1000000" />
+      <workItem from="1526304292518" duration="6357000" />
+      <workItem from="1526456839873" duration="3147000" />
+      <workItem from="1526463056883" duration="3855000" />
+      <workItem from="1526546670743" duration="12287000" />
+      <workItem from="1526581355633" duration="1701000" />
+      <workItem from="1526636843401" duration="2170000" />
+      <workItem from="1526721053906" duration="1883000" />
+      <workItem from="1526980092830" duration="54000" />
+      <workItem from="1526980501448" duration="153000" />
+      <workItem from="1527008949208" duration="665000" />
+      <workItem from="1527012864227" duration="1210000" />
+      <workItem from="1527015711177" duration="511000" />
+      <workItem from="1527054220901" duration="416000" />
+      <workItem from="1527080756502" duration="9220000" />
+      <workItem from="1527097746928" duration="4303000" />
+      <workItem from="1527157872138" duration="6969000" />
+      <workItem from="1527237082007" duration="1016000" />
+      <workItem from="1527238675456" duration="3607000" />
+      <workItem from="1527253020669" duration="1343000" />
+      <workItem from="1527261406492" duration="1088000" />
+      <workItem from="1527418247841" duration="6476000" />
+      <workItem from="1527477493220" duration="597000" />
+      <workItem from="1527478698338" duration="4024000" />
+      <workItem from="1527492816435" duration="515000" />
+      <workItem from="1527501191808" duration="265000" />
+      <workItem from="1527502511891" duration="11121000" />
+      <workItem from="1527531897659" duration="22000" />
+      <workItem from="1527608247484" duration="1086000" />
+      <workItem from="1527666725110" duration="1347000" />
+      <workItem from="1527674285285" duration="223000" />
+      <workItem from="1527707229809" duration="1065000" />
+      <workItem from="1527784275338" duration="457000" />
+      <workItem from="1527834448095" duration="198000" />
+      <workItem from="1527859696145" duration="197000" />
+      <workItem from="1527875452897" duration="35000" />
+      <workItem from="1528012649931" duration="444000" />
+      <workItem from="1528034902128" duration="4127000" />
+      <workItem from="1528047318268" duration="32000" />
+      <workItem from="1528047438245" duration="33000" />
+      <workItem from="1528213328719" duration="12824000" />
+      <workItem from="1528345204846" duration="4175000" />
+      <workItem from="1528392621001" duration="104000" />
+      <workItem from="1528479978556" duration="574000" />
+      <workItem from="1528516771006" duration="1966000" />
+      <workItem from="1528548968519" duration="8110000" />
+      <workItem from="1528734509727" duration="106000" />
+      <workItem from="1528737914796" duration="85000" />
+      <workItem from="1528738273585" duration="713000" />
+      <workItem from="1528744077120" duration="289000" />
+      <workItem from="1528745218669" duration="1552000" />
+      <workItem from="1528792740761" duration="9647000" />
+      <workItem from="1528857131797" duration="95000" />
+      <workItem from="1528861853101" duration="563000" />
+      <workItem from="1528909586291" duration="180000" />
+      <workItem from="1528958345602" duration="3118000" />
+      <workItem from="1528963524903" duration="129000" />
+      <workItem from="1528975348978" duration="666000" />
+      <workItem from="1528991968609" duration="26000" />
+      <workItem from="1529080546885" duration="543000" />
+      <workItem from="1529142961539" duration="1356000" />
+      <workItem from="1529144566777" duration="4040000" />
+      <workItem from="1529154231903" duration="2119000" />
+      <workItem from="1529249648192" duration="220000" />
+      <workItem from="1529295292487" duration="2948000" />
+      <workItem from="1529377934277" duration="2213000" />
+      <workItem from="1529388646712" duration="769000" />
+      <workItem from="1529394870677" duration="2832000" />
+      <workItem from="1529418399566" duration="429000" />
+      <workItem from="1529461948065" duration="599000" />
+      <workItem from="1529550657804" duration="31000" />
+      <workItem from="1529914294581" duration="893000" />
+      <workItem from="1530032926996" duration="13000" />
+      <workItem from="1530254271242" duration="308000" />
+      <workItem from="1530263335088" duration="3289000" />
+      <workItem from="1530282145336" duration="2595000" />
+      <workItem from="1530425673238" duration="20000" />
+      <workItem from="1530426447556" duration="12000" />
+      <workItem from="1530629675249" duration="1193000" />
+      <workItem from="1530637832216" duration="1049000" />
+      <workItem from="1530868264957" duration="20000" />
+      <workItem from="1531031255717" duration="939000" />
+      <workItem from="1531069671746" duration="1924000" />
+      <workItem from="1531124235754" duration="1666000" />
+      <workItem from="1531148306977" duration="5050000" />
+      <workItem from="1531157846142" duration="9681000" />
+      <workItem from="1531293257057" duration="1000" />
+      <workItem from="1531293274420" duration="120000" />
+      <workItem from="1531362988208" duration="1088000" />
+      <workItem from="1531367104217" duration="66000" />
+      <workItem from="1531415762716" duration="630000" />
+      <workItem from="1531449803275" duration="148000" />
+      <workItem from="1531552257346" duration="323000" />
+      <workItem from="1531577450258" duration="27000" />
+      <workItem from="1531583776703" duration="38000" />
+      <workItem from="1531590973136" duration="1126000" />
+      <workItem from="1531677307959" duration="24000" />
+      <workItem from="1531839413115" duration="151000" />
+      <workItem from="1531922187207" duration="599000" />
+      <workItem from="1531923570095" duration="22000" />
+      <workItem from="1531923612781" duration="4459000" />
+      <workItem from="1531977073994" duration="672000" />
+      <workItem from="1531982976776" duration="19000" />
+      <workItem from="1532018125103" duration="1039000" />
+      <workItem from="1532053211945" duration="724000" />
+      <workItem from="1532054695139" duration="3009000" />
+      <workItem from="1532242321559" duration="750000" />
+      <workItem from="1532314299096" duration="14000" />
+      <workItem from="1532314593096" duration="275000" />
+      <workItem from="1532330226023" duration="1074000" />
+      <workItem from="1532348908135" duration="2685000" />
+      <workItem from="1532403091886" duration="128000" />
+      <workItem from="1532403315352" duration="5897000" />
+      <workItem from="1532422409002" duration="3082000" />
+      <workItem from="1532426629319" duration="765000" />
+      <workItem from="1532443366695" duration="584000" />
+      <workItem from="1532448067791" duration="213000" />
+      <workItem from="1532491305873" duration="1414000" />
+      <workItem from="1532513575909" duration="375000" />
+      <workItem from="1532515448056" duration="400000" />
+      <workItem from="1532539279169" duration="2479000" />
+      <workItem from="1532660784934" duration="84000" />
+      <workItem from="1532669625227" duration="47000" />
+      <workItem from="1532672514595" duration="1013000" />
+      <workItem from="1532781758733" duration="655000" />
+      <workItem from="1532796484149" duration="10000" />
+      <workItem from="1532930188061" duration="903000" />
+      <workItem from="1533097223436" duration="781000" />
+      <workItem from="1533110240835" duration="897000" />
+      <workItem from="1533193798061" duration="607000" />
+      <workItem from="1533215926788" duration="13000" />
+      <workItem from="1533303135072" duration="3328000" />
+      <workItem from="1533306593296" duration="596000" />
+      <workItem from="1533309386756" duration="80000" />
+      <workItem from="1533523193109" duration="6597000" />
+      <workItem from="1533626625747" duration="764000" />
+      <workItem from="1533628394062" duration="1259000" />
+      <workItem from="1533637598276" duration="2354000" />
+      <workItem from="1533657106653" duration="1056000" />
+      <workItem from="1533663699219" duration="1315000" />
+      <workItem from="1533803850019" duration="7960000" />
+      <workItem from="1533910825358" duration="573000" />
+      <workItem from="1534176584868" duration="32000" />
+      <workItem from="1534177460742" duration="107000" />
+      <workItem from="1534219549476" duration="1224000" />
+      <workItem from="1534237347404" duration="675000" />
+      <workItem from="1534270901079" duration="22000" />
+      <workItem from="1534339630566" duration="789000" />
+      <workItem from="1534402636198" duration="22000" />
+      <workItem from="1534403285522" duration="2466000" />
+      <workItem from="1534407388856" duration="1015000" />
+      <workItem from="1534408986131" duration="1607000" />
+      <workItem from="1534411027710" duration="497000" />
+      <workItem from="1534434231466" duration="182000" />
+      <workItem from="1534501496111" duration="2472000" />
+      <workItem from="1534599526661" duration="24000" />
+      <workItem from="1534604028337" duration="304000" />
+      <workItem from="1534605353567" duration="160000" />
+      <workItem from="1534694622864" duration="708000" />
+      <workItem from="1534733208366" duration="7714000" />
+      <workItem from="1534774809439" duration="6000" />
+      <workItem from="1534774914012" duration="4286000" />
+      <workItem from="1534835057197" duration="852000" />
+      <workItem from="1534860304909" duration="23000" />
+      <workItem from="1534864030818" duration="61000" />
+      <workItem from="1534864657273" duration="139000" />
+      <workItem from="1534868834602" duration="37000" />
+    </task>
+    <task id="LOCAL-00001" summary="update">
+      <created>1529144629385</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1529144629385</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="TcAuthServiceImpl_t - 2018.04.20 at 15h 32m 37s.xml">
+      <configuration name="TcAuthServiceImpl.t" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TcAuthServiceImpl_t - 2018.04.20 at 15h 33m 07s.xml">
+      <configuration name="TcAuthServiceImpl.t" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="685501000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="147" y="22" width="1678" height="1003" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.233809" sideWeight="0.5101394" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32221523" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3978022" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28100988" sideWeight="0.4898606" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2720049" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26234907" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="100" y="122" width="1240" height="624" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39077938" sideWeight="0.49746513" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.233809" sideWeight="0.5101394" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3225602" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39846322" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26234907" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" x="100" y="122" width="1240" height="624" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21405049" sideWeight="0.4898606" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24032351" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294621" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22502744" sideWeight="0.49746513" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/module/security/authentication/ajax/AjaxLoginAuthenticationProcessingFilter.java</url>
+          <line>43</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/module/security/authentication/ajax/AjaxAwareAuthenticationFailureHandler.java</url>
+          <line>34</line>
+          <properties />
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/module-wechat/src/main/java/com/minlia/module/wechat/mp/endpoint/WechatSecuritySocket.java</url>
+          <line>46</line>
+          <properties />
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/module-wechat/src/main/java/com/minlia/module/wechat/mp/handler/ScanHandler.java</url>
+          <line>27</line>
+          <properties />
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>jar://$MAVEN_REPOSITORY$/com/github/binarywang/weixin-java-miniapp/3.1.0/weixin-java-miniapp-3.1.0.jar!/cn/binarywang/wx/miniapp/bean/WxMaUserInfo.class</url>
+          <line>16</line>
+          <properties field="city" class="cn.binarywang.wx.miniapp.bean.WxMaUserInfo" />
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="32" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/module-qcloud-faceid/src/main/java/com/minlia/modules/tencent/cloud/auth/endpoint/TcAuthEndpoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="23" column="13" lean-forward="false" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-qcloud-faceid/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="12" lean-forward="false" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="44" column="18" lean-forward="false" selection-start-line="44" selection-start-column="18" selection-end-line="44" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-qcloud-start/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="41" lean-forward="false" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-qcloud-cos/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="19" lean-forward="false" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-qcloud-start/src/main/java/com/minlia/modules/tencent/cloud/start/endpoint/TcAuthEndpoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="47" column="1" lean-forward="true" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-qcloud-cos/src/main/java/com/minlia/modules/qcloud/oss/service/Qcloud1CosService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="42" column="20" lean-forward="false" selection-start-line="42" selection-start-column="20" selection-end-line="42" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-qcloud-cos/src/main/java/com/minlia/modules/qcloud/oss/service/Qcloud1CosServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="42" column="30" lean-forward="false" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/qcloud/cos_api/5.4.3/cos_api-5.4.3.jar!/com/qcloud/cos/COSClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="674" column="28" lean-forward="false" selection-start-line="674" selection-start-column="28" selection-end-line="674" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-i18n/i18n.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-i18n/run.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-i18n/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-wallet/src/main/resources/config/application-dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="25" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="128" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-wallet/src/main/java/com/minlia/module/wallet/endpoint/BankCardEndpoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="33" column="80" lean-forward="false" selection-start-line="33" selection-start-column="80" selection-end-line="33" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-wallet/src/main/java/com/minlia/module/wallet/constants/WalletSecurityConstant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="22" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/4.2.3.RELEASE/spring-security-core-4.2.3.RELEASE-sources.jar!/org/springframework/security/core/authority/SimpleGrantedAuthority.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="53" column="0" lean-forward="true" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/4.2.3.RELEASE/spring-security-core-4.2.3.RELEASE-sources.jar!/org/springframework/security/core/GrantedAuthority.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/model/UserContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="26" column="21" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/4.2.3.RELEASE/spring-security-core-4.2.3.RELEASE-sources.jar!/org/springframework/security/authentication/UsernamePasswordAuthenticationToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="34" column="48" lean-forward="false" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/permission/service/PermissionService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="47" column="27" lean-forward="false" selection-start-line="47" selection-start-column="27" selection-end-line="47" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/backend/permission/service/PermissionServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="143" column="14" lean-forward="true" selection-start-line="143" selection-start-column="14" selection-end-line="143" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/ajax/AjaxAwareAuthenticationSuccessHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-292">
+          <caret line="27" column="13" lean-forward="false" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/ajax/AjaxAwareAuthenticationFailureHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-30">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/ajax/AjaxAuthenticationProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="22" column="38" lean-forward="true" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/SkipPathRequestMatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/JwtTokenAuthenticationProcessingFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="29" column="13" lean-forward="false" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/JwtAuthenticationToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-150">
+          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/JwtAuthenticationProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-112">
+          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/jwt/JwtAuthentication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-112">
+          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/ajax/AjaxLoginAuthenticationProcessingFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="89" column="101" lean-forward="false" selection-start-line="89" selection-start-column="67" selection-end-line="89" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/4.2.3.RELEASE/spring-security-core-4.2.3.RELEASE-sources.jar!/org/springframework/security/authentication/AnonymousAuthenticationToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="49" column="11" lean-forward="false" selection-start-line="49" selection-start-column="11" selection-end-line="49" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/security/spring-security-core/4.2.3.RELEASE/spring-security-core-4.2.3.RELEASE-sources.jar!/org/springframework/security/authentication/AbstractAuthenticationToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="44" column="42" lean-forward="true" selection-start-line="44" selection-start-column="42" selection-end-line="44" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/ajax/AnonymousAuthenticationToken.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="11" lean-forward="false" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/AuthenticationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="17" lean-forward="false" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-data/module-data.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1232">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/AbstractAuthenticationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="61" lean-forward="false" selection-start-line="21" selection-start-column="61" selection-end-line="21" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-data/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="597">
+          <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/resources/config/application-dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="24" lean-forward="true" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-security/src/main/java/com/minlia/modules/security/authentication/service/DefaultAuthenticationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-common/src/main/java/com/minlia/module/common/config/RestConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="885">
+          <caret line="59" column="2" lean-forward="false" selection-start-line="59" selection-start-column="2" selection-end-line="59" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-redis/src/main/java/com/minlia/module/redis/RedisAutoConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="36" column="13" lean-forward="false" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#4994#4995#0" expanded="false" />
+            <element signature="e#5043#5044#0" expanded="false" />
+            <element signature="e#5114#5115#0" expanded="false" />
+            <element signature="e#5165#5166#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/config/RebeccaConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/config/RebeccaProperties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/config/TokenRedisConstants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/RbacAutoConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/Application.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/resources/config/application-dev.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/resources/config/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-data/src/main/java/com/minlia/module/data/config/DataAutoConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="21" column="1" lean-forward="false" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-rebecca/src/main/java/com/minlia/modules/rbac/authentication/RbacAuthenticationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="46" column="73" lean-forward="false" selection-start-line="46" selection-start-column="73" selection-end-line="46" selection-end-column="73" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/module-wallet/src/main/java/com/minlia/module/wallet/service/BankCardServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="64" column="5" lean-forward="true" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.27941176" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.27941176" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.27941176" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>module-wallet</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.27941176" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.27941176" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

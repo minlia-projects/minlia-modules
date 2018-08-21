@@ -1,0 +1,82 @@
+server:
+  port: 10002
+
+system:
+    appId: minlia-bible-app
+    token: bWlubGlhCg==
+
+# SPRING PROFILES
+spring:
+    profile: dev
+    application:
+        name: Miniq Bible
+    http:
+        encoding.charset: UTF-8
+        encoding.enable: true
+        encoding.force: true
+    session:
+        store-type: redis
+
+    datasource:
+        driverClassName: net.sf.log4jdbc.DriverSpy
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        name:
+        username: root
+        password:
+#        使用druid数据源
+#        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 1
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+        continue-on-error: true
+        initialize: true
+        data: classpath*:sql/minlia_init.sql
+
+    redis:
+        database: 0
+        host: 127.0.0.1
+        port: 6379
+        password:
+        pool:
+            max-active: 500
+            max-wait: 1000
+            max-idle: 100
+            min-idle: 50
+        timeout: 180
+
+system.security.jwt:
+    tokenExpirationTime: 604800 # Number of minutes
+    refreshTokenExpTime: 604800 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+
+swagger:
+    title: ${spring.application.name}接口
+    description: ${spring.application.name}接口
+    version: 1.0
+    contact: cloud@minlia.com
+    path: /api/.*
+    redirect: true
+
+mybatis:
+#    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath*:mybatis/mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
+
+# 分页配置
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Annotation profile for Minlia Modules Parent" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processor name="lombok.launch.AnnotationProcessorHider$AnnotationProcessor" />
+        <module name="module-aliyun-dypls" />
+        <module name="module-aliyun-market" />
+        <module name="module-aliyun-oss" />
+        <module name="module-aliyun-sesame" />
+        <module name="module-aliyun-sesame (1)" />
+        <module name="module-aliyun-sms" />
+        <module name="module-attachment" />
+        <module name="module-bank" />
+        <module name="module-bible" />
+        <module name="module-captcha" />
+        <module name="module-common" />
+        <module name="module-country" />
+        <module name="module-data" />
+        <module name="module-dataa" />
+        <module name="module-http" />
+        <module name="module-lbsyun" />
+        <module name="module-logger" />
+        <module name="module-map" />
+        <module name="module-pooul" />
+        <module name="module-qcloud-cos" />
+        <module name="module-qcloud-faceid" />
+        <module name="module-qcloud-start" />
+        <module name="module-rebecca" />
+        <module name="module-redis" />
+        <module name="module-richtext" />
+        <module name="module-security" />
+        <module name="module-swagger" />
+        <module name="module-tencent-cloud-start" />
+        <module name="module-todo" />
+        <module name="module-unified-payment" />
+        <module name="module-wallet" />
+        <module name="module-websocket" />
+        <module name="module-wechat" />
+        <module name="module-wechat-material" />
+        <module name="module-wechat-miniapp" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="minlia-modules" target="1.8" />
+      <module name="module-aliyun-dypls" target="1.8" />
+      <module name="module-aliyun-market" target="1.8" />
+      <module name="module-aliyun-oss" target="1.8" />
+      <module name="module-aliyun-privacy-number" target="1.8" />
+      <module name="module-aliyun-sesame" target="1.8" />
+      <module name="module-aliyun-sesame (1)" target="1.8" />
+      <module name="module-aliyun-sms" target="1.8" />
+      <module name="module-attachment" target="1.8" />
+      <module name="module-attachment (2) (com.minlia.modules)" target="1.8" />
+      <module name="module-bank" target="1.8" />
+      <module name="module-bible" target="1.8" />
+      <module name="module-captcha" target="1.8" />
+      <module name="module-common" target="1.8" />
+      <module name="module-country" target="1.8" />
+      <module name="module-data" target="1.8" />
+      <module name="module-data1" target="1.8" />
+      <module name="module-dataa" target="1.8" />
+      <module name="module-delivery" target="1.8" />
+      <module name="module-http" target="1.8" />
+      <module name="module-i18n" target="1.8" />
+      <module name="module-lbsyun" target="1.8" />
+      <module name="module-logger" target="1.8" />
+      <module name="module-map" target="1.8" />
+      <module name="module-nestedset" target="1.8" />
+      <module name="module-pooul" target="1.8" />
+      <module name="module-qcloud-cos" target="1.8" />
+      <module name="module-qcloud-faceid" target="1.8" />
+      <module name="module-qcloud-start" target="1.8" />
+      <module name="module-rebecca" target="1.8" />
+      <module name="module-rebecca (1)" target="1.8" />
+      <module name="module-redis" target="1.8" />
+      <module name="module-registry" target="1.8" />
+      <module name="module-richtext" target="1.8" />
+      <module name="module-security" target="1.8" />
+      <module name="module-sms-aliyun" target="1.8" />
+      <module name="module-starter-wechat-mp" target="1.8" />
+      <module name="module-swagger" target="1.8" />
+      <module name="module-tencent-cloud-auth" target="1.8" />
+      <module name="module-tencent-cloud-start" target="1.8" />
+      <module name="module-todo" target="1.8" />
+      <module name="module-unified-payment" target="1.8" />
+      <module name="module-wallet" target="1.8" />
+      <module name="module-websocket" target="1.8" />
+      <module name="module-wechat" target="1.8" />
+      <module name="module-wechat-material" target="1.8" />
+      <module name="module-wechat-miniapp" target="1.8" />
+      <module name="module-wechat-mp" target="1.8" />
+      <module name="module-wechat-mp-material" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

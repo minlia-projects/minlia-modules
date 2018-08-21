@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/minlia-modules.iml" filepath="$PROJECT_DIR$/minlia-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-aliyun-dypls/module-aliyun-dypls.iml" filepath="$PROJECT_DIR$/module-aliyun-dypls/module-aliyun-dypls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-aliyun-market/module-aliyun-market.iml" filepath="$PROJECT_DIR$/module-aliyun-market/module-aliyun-market.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-aliyun-oss/module-aliyun-oss.iml" filepath="$PROJECT_DIR$/module-aliyun-oss/module-aliyun-oss.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-aliyun-sesame/module-aliyun-sesame.iml" filepath="$PROJECT_DIR$/module-aliyun-sesame/module-aliyun-sesame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-aliyun-sms/module-aliyun-sms.iml" filepath="$PROJECT_DIR$/module-aliyun-sms/module-aliyun-sms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-attachment/module-attachment.iml" filepath="$PROJECT_DIR$/module-attachment/module-attachment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-bank/module-bank.iml" filepath="$PROJECT_DIR$/module-bank/module-bank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-bible/module-bible.iml" filepath="$PROJECT_DIR$/module-bible/module-bible.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-captcha/module-captcha.iml" filepath="$PROJECT_DIR$/module-captcha/module-captcha.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-common/module-common.iml" filepath="$PROJECT_DIR$/module-common/module-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-country/module-country.iml" filepath="$PROJECT_DIR$/module-country/module-country.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-data/module-data.iml" filepath="$PROJECT_DIR$/module-data/module-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-http/module-http.iml" filepath="$PROJECT_DIR$/module-http/module-http.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-lbsyun/module-lbsyun.iml" filepath="$PROJECT_DIR$/module-lbsyun/module-lbsyun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-logger/module-logger.iml" filepath="$PROJECT_DIR$/module-logger/module-logger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-map/module-map.iml" filepath="$PROJECT_DIR$/module-map/module-map.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-pooul/module-pooul.iml" filepath="$PROJECT_DIR$/module-pooul/module-pooul.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-qcloud-cos/module-qcloud-cos.iml" filepath="$PROJECT_DIR$/module-qcloud-cos/module-qcloud-cos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-qcloud-faceid/module-qcloud-faceid.iml" filepath="$PROJECT_DIR$/module-qcloud-faceid/module-qcloud-faceid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-qcloud-start/module-qcloud-start.iml" filepath="$PROJECT_DIR$/module-qcloud-start/module-qcloud-start.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-rebecca/module-rebecca.iml" filepath="$PROJECT_DIR$/module-rebecca/module-rebecca.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-redis/module-redis.iml" filepath="$PROJECT_DIR$/module-redis/module-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-richtext/module-richtext.iml" filepath="$PROJECT_DIR$/module-richtext/module-richtext.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-security/module-security.iml" filepath="$PROJECT_DIR$/module-security/module-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-swagger/module-swagger.iml" filepath="$PROJECT_DIR$/module-swagger/module-swagger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-todo/module-todo.iml" filepath="$PROJECT_DIR$/module-todo/module-todo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-unified-payment/module-unified-payment.iml" filepath="$PROJECT_DIR$/module-unified-payment/module-unified-payment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-wallet/module-wallet.iml" filepath="$PROJECT_DIR$/module-wallet/module-wallet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-websocket/module-websocket.iml" filepath="$PROJECT_DIR$/module-websocket/module-websocket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-wechat/module-wechat.iml" filepath="$PROJECT_DIR$/module-wechat/module-wechat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module-wechat-material/module-wechat-material.iml" filepath="$PROJECT_DIR$/module-wechat-material/module-wechat-material.iml" />
+    </modules>
+  </component>
+</project>

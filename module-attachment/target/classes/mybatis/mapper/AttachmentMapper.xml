@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.modules.attachment.mapper.AttachmentMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			id ,
+			belongs_to ,
+			relation_id ,
+			name ,
+			type ,
+			url ,
+			size ,
+			access_key ,
+			create_date ,
+			create_by ,
+			last_modified_date ,
+			last_modified_by
+		FROM minlia_attachment t
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="belongsTo != null">
+                AND belongs_to = #{belongsTo}
+            </if>
+            <if test="relationId != null">
+                AND relation_id = #{relationId}
+            </if>
+            <if test="accessKey != null">
+                AND access_key = #{accessKey}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO minlia_attachment(
+			belongs_to ,
+			relation_id ,
+			name ,
+			type ,
+			url ,
+			size ,
+			access_key ,
+			create_by
+		)
+		VALUES
+		(
+			#{belongsTo} ,
+			#{relationId} ,
+			#{name} ,
+			#{type} ,
+			#{url} ,
+			#{size} ,
+			#{accessKey} ,
+			#{createBy}
+		)
+	</insert>
+
+    <insert id="createBatch">
+        INSERT INTO minlia_attachment(
+            belongs_to ,
+            relation_id ,
+            name ,
+            type ,
+            url ,
+            size ,
+            access_key ,
+            create_by
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.belongsTo} ,
+            #{item.relationId} ,
+            #{item.name} ,
+            #{item.type} ,
+            #{item.url} ,
+            #{item.size} ,
+            #{item.accessKey} ,
+            #{item.createBy}
+            )
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.minlia.modules.attachment.entity.Attachment">
+        UPDATE minlia_attachment
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="accessKey != null">
+                access_key = #{accessKey},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+		DELETE FROM minlia_attachment WHERE id = #{id}
+	</delete>
+
+    <delete id="deleteByRelationIdAndBelongsTo">
+		DELETE FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+	</delete>
+
+    <select id="queryById" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryByKey" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        WHERE access_key = #{accessKey,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryUrls" resultType="java.lang.String">
+        SELECT GROUP_CONCAT(url) FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+    </select>
+
+    <select id="queryFirstUrl" resultType="java.lang.String">
+        SELECT url FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1} LIMIT 0 , 1
+    </select>
+
+    <select id="queryByRelationIdAndBelongsTo" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+    </select>
+
+    <select id="queryList" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryAll" resultType="com.minlia.modules.attachment.entity.Attachment">
+        <include refid="QUERY_CONTENT"/>
+    </select>
+
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.todo.mapper.TodoMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			id ,
+			number ,
+			relation_id ,
+			type ,
+			status ,
+			content ,
+			handler ,
+			time ,
+			expiry_time ,
+			notes ,
+			create_date ,
+			create_by ,
+			last_modified_date ,
+			last_modified_by
+		FROM minlia_todo
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="number != null">
+                AND number = #{number}
+            </if>
+            <if test="relationId != null">
+                AND relation_id = #{relationId}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="handler != null">
+                AND handler = #{handler}
+            </if>
+            <if test="createBy != null">
+                AND create_by = #{createBy}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create">
+		INSERT INTO minlia_todo(
+			number ,
+			relation_id ,
+			type ,
+			status ,
+			content ,
+			handler ,
+			time ,
+			expiry_time ,
+			notes ,
+			create_by
+		)
+		VALUES
+		(
+			#{number} ,
+			#{relationId} ,
+			#{type} ,
+			#{status} ,
+			#{content} ,
+			#{handler} ,
+			#{time} ,
+			#{expiryTime} ,
+			#{notes} ,
+			#{createBy}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.minlia.module.todo.entity.MyTodo">
+        UPDATE minlia_todo
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="time != null">
+                time = #{time},
+            </if>
+            <if test="expiryTime != null">
+                expiry_time = #{expiryTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="notes != null">
+                notes = #{notes},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+		DELETE FROM minlia_todo WHERE id = #{id}
+	</delete>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM minlia_todo
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryById" resultType="com.minlia.module.todo.entity.MyTodo">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryByNumber" resultType="com.minlia.module.todo.entity.MyTodo">
+        <include refid="QUERY_CONTENT"/>
+        WHERE number = #{number,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.todo.entity.MyTodo">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.todo.entity.MyTodo">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryAll" resultType="com.minlia.module.todo.entity.MyTodo">
+        <include refid="QUERY_CONTENT"/>
+    </select>
+
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.richtext.mapper.RichtextMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+        id ,
+        type ,
+        code ,
+        title ,
+        content ,
+        note ,
+        create_date ,
+        create_by ,
+        last_modified_date ,
+        last_modified_by ,
+        enabled
+        FROM minlia_richtext
+    </sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+            <if test="code != null">
+                AND code = #{code}
+            </if>
+            <if test="title != null">
+                AND instr(title,#{title}) > 0
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create">
+        INSERT INTO minlia_bible(
+        type ,
+        code ,
+        title ,
+        content ,
+        note ,
+        enabled ,
+        create_by
+        )
+        VALUES
+        (
+        #{type} ,
+        #{code} ,
+        #{title} ,
+        #{content} ,
+        #{note} ,
+        #{enabled} ,
+        #{createBy}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.minlia.module.richtext.entity.Richtext">
+        UPDATE minlia_richtext
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM minlia_richtext WHERE id = #{id}
+    </delete>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(1) FROM minlia_richtext
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryById" resultType="com.minlia.module.richtext.entity.Richtext">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryByCode" resultType="com.minlia.module.richtext.entity.Richtext">
+        <include refid="QUERY_CONTENT"/>
+        WHERE code = #{code,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.richtext.entity.Richtext">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.richtext.entity.Richtext">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryAll" resultType="com.minlia.module.richtext.entity.Richtext">
+        <include refid="QUERY_CONTENT"/>
+    </select>
+
+</mapper>

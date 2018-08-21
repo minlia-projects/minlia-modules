@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.bank.mapper.BankMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			id,
+            number,
+            name,
+            icon
+		FROM
+			mdl_bank
+	</sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mdl_bank(
+			number,
+            name,
+            icon
+		)
+		VALUES
+        (
+            #{number,jdbcType=VARCHAR},
+            #{name,jdbcType=VARCHAR},
+            #{icon,jdbcType=VARCHAR}
+        )
+	</insert>
+
+    <update id="update">
+        UPDATE mdl_bank
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR} ,
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR} ,
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=TINYINT}
+    </update>
+
+    <delete id="delete">
+		DELETE FROM mdl_bank WHERE number = #{number}
+	</delete>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mdl_bank
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.bank.bean.domain.BankDo">
+        <include refid="QUERY_CONTENT"/>
+    </select>
+
+</mapper>

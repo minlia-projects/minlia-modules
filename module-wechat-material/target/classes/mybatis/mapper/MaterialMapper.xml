@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.wechat.material.mapper.MaterialMapper">
+
+    <resultMap id="materialMap" type="com.minlia.module.wechat.material.dto.MaterialItem">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <collection property="content.newsItem" column="id" javaType="ArrayList"
+                    ofType="com.minlia.module.wechat.material.dto.NewsItem"
+                    select="querydNewsItem"
+        />
+    </resultMap>
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+            id ,
+            media_id AS "media_id",
+            update_time AS "update_time",
+            create_time AS "content.create_time",
+            update_time AS "content.update_time"
+        FROM
+            mdl_material
+	</sql>
+    
+    <select id="querydNewsItem" resultType="com.minlia.module.wechat.material.dto.NewsItem">
+        SELECT
+            id ,
+            title,
+            author,
+            digest,
+            content,
+            content_source_url,
+            thumb_media_id,
+            url,
+            thumb_url,
+            show_cover_pic,
+            need_open_comment,
+            only_fans_can_comment
+        FROM
+            mdl_material
+        WHERE id = #{id}
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        DELETE FROM mdl_material;
+
+		INSERT INTO mdl_material(
+            media_id,
+            create_time,
+            update_time,
+            title,
+            author,
+            digest,
+            content,
+            content_source_url,
+            thumb_media_id,
+            url,
+            thumb_url,
+            show_cover_pic,
+            need_open_comment,
+            only_fans_can_comment
+		) VALUES
+        <foreach collection="item" item="item" separator=",">
+            (
+            #{item.mediaId} ,
+            #{item.content.createTime} ,
+            #{item.content.updateTime} ,
+          <foreach collection="item.content.newsItem" item="newsItem" separator=",">
+              #{newsItem.title} ,
+              #{newsItem.author} ,
+              #{newsItem.digest} ,
+              #{newsItem.content} ,
+              #{newsItem.contentSourceUrl} ,
+              #{newsItem.thumbMediaId} ,
+              #{newsItem.url} ,
+              #{newsItem.thumbUrl} ,
+              #{newsItem.showCoverPic} ,
+              #{newsItem.needOpenComment} ,
+              #{newsItem.onlyFansCanComment}
+          </foreach>
+            )
+        </foreach>
+	</insert>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mdl_material
+    </select>
+
+    <select id="queryByMediaId" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mdl_material
+    </select>
+
+    <select id="queryList" resultMap="materialMap">
+        <include refid="QUERY_CONTENT"/>
+    </select>
+
+</mapper>
