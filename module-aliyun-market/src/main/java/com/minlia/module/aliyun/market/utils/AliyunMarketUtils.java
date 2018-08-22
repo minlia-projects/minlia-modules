@@ -3,8 +3,11 @@ package com.minlia.module.aliyun.market.utils;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
+import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDTO;
 import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import java.util.Map;
 /**
  * Created by garen on 2018/8/16.
  */
+@Slf4j
 public class AliyunMarketUtils {
 
     public static BankCardVerifyDTO verifyBankCard(String appcode, BankCardVerifyTO to) {
@@ -34,7 +38,8 @@ public class AliyunMarketUtils {
             HttpResponse<String> response = Unirest.get(url).header("Authorization", "APPCODE " + appcode).queryString(querys).asString();
             dto = new Gson().fromJson(String.valueOf(response.getBody()),BankCardVerifyDTO.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("银行卡验证异常：",e);
+            ApiPreconditions.is(true, ApiCode.BASED_ON,"银行卡验证异常");
         }
         return dto;
     }

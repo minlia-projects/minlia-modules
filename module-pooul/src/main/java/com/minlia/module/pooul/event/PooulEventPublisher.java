@@ -9,6 +9,10 @@ import com.minlia.module.pooul.body.pay.PooulPayNotifyResponseBody;
  */
 public class PooulEventPublisher {
 
+    public static void onPaid(PooulPayNotifyResponseBody responseBody) {
+        ContextHolder.getContext().publishEvent(new PooulPaidNotifyEvent(responseBody));
+    }
+
     public static void onPaySuccess(PooulPayNotifyResponseBody responseBody) {
         ContextHolder.getContext().publishEvent(new PooulPaySuccessEvent(responseBody));
     }
