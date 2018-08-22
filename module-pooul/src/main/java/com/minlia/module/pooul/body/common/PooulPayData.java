@@ -34,6 +34,8 @@ public class PooulPayData {
 
     private String merchant_id;
 
+    private String pay_type;
+
     private String pay_info;
 
 }

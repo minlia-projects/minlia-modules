@@ -35,4 +35,9 @@ public class PooulProperties {
      */
     private String urlV2Pay;
 
+    /**
+     * 通知地址
+     */
+    private String notifyUrl;
+
 }
