@@ -1,6 +1,7 @@
 package com.minlia.module.pooul.service;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -11,6 +12,7 @@ import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.pooul.body.common.PooulPayData;
+import com.minlia.module.pooul.body.common.PooulPayInfo;
 import com.minlia.module.pooul.body.pay.PooulWechatJsminipgRequestBody;
 import com.minlia.module.pooul.config.PooulProperties;
 import com.minlia.module.pooul.contract.PooulContracts;
@@ -43,7 +45,7 @@ public class PooulPayServiceImpl implements PooulPayService {
     public StatefulBody wechatJsminipg(PooulWechatJsminipgRequestBody requestBody) {
         requestBody.setPay_type(PayType.wechat_jsminipg.getName());
         requestBody.setNonce_str(NumberGenerator.uuid32());
-        if (StringUtils.isBlank(pooulProperties.getNotifyUrl())) {
+        if (StringUtils.isBlank(requestBody.getNotify_url())) {
             requestBody.setNotify_url(pooulProperties.getNotifyUrl());
         }
 
@@ -77,7 +79,8 @@ public class PooulPayServiceImpl implements PooulPayService {
             ApiPreconditions.is(true, ApiCode.BASED_ON, claims.get(PooulContracts.MSG).asString());
         }
         PooulPayData pooulData = claims.get(PooulContracts.DATA).as(PooulPayData.class);
-        return SuccessResponseBody.builder().payload(pooulData).build();
+        PooulPayInfo pooulPayInfo = new Gson().fromJson(pooulData.getPay_info(),PooulPayInfo.class);
+        return SuccessResponseBody.builder().payload(pooulPayInfo).build();
     }
 
 }

@@ -9,6 +9,7 @@ import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDTO;
 import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +37,11 @@ public class AliyunMarketUtils {
         BankCardVerifyDTO dto = null;
         try {
             HttpResponse<String> response = Unirest.get(url).header("Authorization", "APPCODE " + appcode).queryString(querys).asString();
-            dto = new Gson().fromJson(String.valueOf(response.getBody()),BankCardVerifyDTO.class);
+            if (response.getStatus() == HttpStatus.OK.value()) {
+                dto = new Gson().fromJson(String.valueOf(response.getBody()),BankCardVerifyDTO.class);
+            } else {
+                ApiPreconditions.is(true, response.getStatus(),response.getStatusText());
+            }
         } catch (Exception e) {
             log.error("银行卡验证异常：",e);
             ApiPreconditions.is(true, ApiCode.BASED_ON,"银行卡验证异常");

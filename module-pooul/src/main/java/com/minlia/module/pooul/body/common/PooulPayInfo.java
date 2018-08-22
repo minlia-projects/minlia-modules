@@ -1,6 +1,7 @@
 package com.minlia.module.pooul.body.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 /**
@@ -25,6 +26,7 @@ public class PooulPayInfo {
 
     private String nonceStr;
 
+    @SerializedName(value = "package")
     @JsonProperty(value = "package")
     private String pkg;
 
