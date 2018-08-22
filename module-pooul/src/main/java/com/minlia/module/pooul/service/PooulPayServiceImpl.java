@@ -19,6 +19,7 @@ import com.minlia.module.pooul.util.PooulToken;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanMap;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class PooulPayServiceImpl implements PooulPayService {
     public StatefulBody wechatJsminipg(PooulWechatJsminipgRequestBody requestBody) {
         requestBody.setPay_type(PayType.wechat_jsminipg.getName());
         requestBody.setNonce_str(NumberGenerator.uuid32());
+        if (StringUtils.isBlank(pooulProperties.getNotifyUrl())) {
+            requestBody.setNotify_url(pooulProperties.getNotifyUrl());
+        }
 
         Map map = new BeanMap(requestBody);
         String token = PooulToken.create(map);
