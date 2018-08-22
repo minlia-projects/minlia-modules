@@ -83,4 +83,14 @@ public class PooulPayServiceImpl implements PooulPayService {
         return SuccessResponseBody.builder().payload(pooulPayInfo).build();
     }
 
+    @Override
+    public void close(String mchTradeId) {
+
+    }
+
+    @Override
+    public void reverse(String mchTradeId) {
+
+    }
+
 }
