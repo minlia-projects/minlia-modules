@@ -16,4 +16,16 @@ public interface PooulPayService {
      */
     StatefulBody wechatJsminipg(PooulWechatJsminipgRequestBody requestBody);
 
+    /**
+     * 关闭订单
+     * @param mchTradeId
+     */
+    void close(String mchTradeId);
+
+    /**
+     * 撤销订单
+     * @param mchTradeId
+     */
+    void reverse(String mchTradeId);
+
 }

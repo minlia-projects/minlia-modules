@@ -65,6 +65,14 @@ public class PooulPayNotifyEndpoint {
 
         //持久化通知记录：历史记录 TODO
 
+        if (notifyResponseBody.isSuccess() && notifyResponseBody.getData().isSuccess()) {
+            //成功 、处理后续业务
+
+        } else {
+            //失败、处理后续业务
+
+        }
+
         //发布通知事件
         PooulEventPublisher.onPaid(notifyResponseBody);
 
