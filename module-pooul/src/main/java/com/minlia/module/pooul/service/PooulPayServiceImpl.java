@@ -49,9 +49,9 @@ public class PooulPayServiceImpl implements PooulPayService {
             requestBody.setNotify_url(pooulProperties.getNotifyUrl());
         }
 
-        Map map = new BeanMap(requestBody);
-        String token = PooulToken.create(map);
-        String url = String.format(pooulProperties.getUrlV2Pay(), pooulProperties.getMerchantId());
+//        Map map = new BeanMap(requestBody);
+//        String token = PooulToken.create(map);
+        String token = PooulToken.create(requestBody);
 
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(MediaType.TEXT_PLAIN);
@@ -61,7 +61,7 @@ public class PooulPayServiceImpl implements PooulPayService {
 
         HttpResponse<String> response = null;
         try {
-            response = Unirest.post(url).body(token).asString();
+            response = Unirest.post(pooulProperties.getUrlV2Pay()).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul创建订单失败:", e);
             ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul创建订单失败:" + e.getMessage());

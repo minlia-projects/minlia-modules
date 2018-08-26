@@ -2,6 +2,7 @@ package com.minlia.module.pooul.body.pay;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -32,7 +33,7 @@ public class PooulPayOrderRequestBody {
      * 必填
      */
 //    @XmlElement(name = "nonce_str")
-//    @JsonProperty(value = "nonce_str")
+    @SerializedName("nonce_str11111")
     private String nonce_str;
 
     /**

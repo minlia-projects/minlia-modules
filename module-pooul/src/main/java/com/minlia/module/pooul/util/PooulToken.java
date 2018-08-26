@@ -8,7 +8,9 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 import com.minlia.cloud.holder.ContextHolder;
+import com.minlia.module.pooul.body.pay.PooulPayOrderRequestBody;
 import com.minlia.module.pooul.config.PooulProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
@@ -57,6 +59,17 @@ public class PooulToken {
             }
         }
         return builder.sign(getAlgorithm());
+    }
+
+    /**
+     * 创建Token
+     * @param obj
+     * @return
+     */
+    public static <T extends PooulPayOrderRequestBody> String create(T obj) {
+        Gson gson = new Gson();
+        Map map = gson.fromJson(gson.toJson(obj),Map.class);
+        return create(map);
     }
 
     /**
@@ -130,14 +143,6 @@ public class PooulToken {
 //        String token = createToken(nonce_str);
 //        System.out.println(token);
 //        verifyToken(token,nonce_str);
-
-
-//        try {
-//            PooulPayNotifyResponseBody body = (PooulPayNotifyResponseBody) decoded(token, PooulPayNotifyResponseBody.class);
-//            System.out.println(body.getAppId());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
 }
