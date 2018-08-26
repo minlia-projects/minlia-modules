@@ -1,12 +1,7 @@
 package com.minlia.module.pooul.body.pay;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.annotations.SerializedName;
 import lombok.Data;
-import org.apache.commons.lang3.RandomStringUtils;
-
-import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Pooul 统一支付 接口公共请求参数
@@ -15,25 +10,25 @@ import javax.xml.bind.annotation.XmlElement;
 @Data
 public class PooulPayOrderRequestBody {
 
-    /**
-     * 商户号  merchant_id	是	String(16)	发起支付的商户编号，16位数字，由普尔瀚达分配
-     * url?merchant_id=XXXX
-     */
-    @JsonIgnore
-    private String merchantId;
+//    /**
+//     * 商户号  merchant_id	是	String(16)	发起支付的商户编号，16位数字，由普尔瀚达分配
+//     * url?merchant_id=XXXX
+//     */
+//    @JsonIgnore
+//    private String merchantId;
 
     /**
      * 支付类型，不同的支付类型，pay_type值不一样。wechat.jsminipg：微信小程序支付
      * 必填
      */
+//    @SerializedName("pay_type")
+//    @JsonProperty("pay_type")
     private String pay_type;
 
     /**
      * 随机字符串，在同一个merchant_id 下每次请求必须为唯一
      * 必填
      */
-//    @XmlElement(name = "nonce_str")
-//    @SerializedName("nonce_str")
     private String nonce_str;
 
     /**
