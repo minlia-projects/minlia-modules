@@ -33,7 +33,7 @@ public class PooulPayOrderRequestBody {
      * 必填
      */
 //    @XmlElement(name = "nonce_str")
-    @SerializedName("nonce_str11111")
+//    @SerializedName("nonce_str")
     private String nonce_str;
 
     /**
