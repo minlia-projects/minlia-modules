@@ -1,4 +1,4 @@
-package com.minlia.module.pooul.body.common;
+package com.minlia.module.pooul.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

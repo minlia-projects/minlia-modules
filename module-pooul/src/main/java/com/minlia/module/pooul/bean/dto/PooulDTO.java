@@ -1,9 +1,9 @@
-package com.minlia.module.pooul.body.common;
+package com.minlia.module.pooul.bean.dto;
 
 import lombok.Data;
 
 @Data
-public class PooulResponseBody implements PooulApiHttpResponseBody {
+public class PooulDTO implements PooulApiHttpDTO {
 
     private String code;
 

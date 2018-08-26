@@ -1,4 +1,4 @@
-package com.minlia.module.pooul.body.pay;
+package com.minlia.module.pooul.bean.to;
 
 import lombok.Data;
 
@@ -7,18 +7,18 @@ import lombok.Data;
  * Created by garen on 2018/07/17.
  */
 @Data
-public class PooulWechatJsminipgRequestBody extends PooulPayOrderRequestBody {
+public class PooulWechatJsminipgTO extends PooulBaseOrderTO {
 
     /**
      * 用户在商户appid下的唯一标识
      * 必填
      */
-    private String sub_openid;
+    private String subOpenid;
 
     /**
      * 与发起支付商户主体一致的小程序APPID
      * 必填
      */
-    private String sub_appid;
+    private String subAppid;
 
 }

@@ -1,7 +1,7 @@
 package com.minlia.module.pooul.service;
 
 import com.minlia.cloud.body.StatefulBody;
-import com.minlia.module.pooul.body.pay.PooulWechatJsminipgRequestBody;
+import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
 
 /**
  * Created by garen on 2018/7/18.
@@ -14,18 +14,18 @@ public interface PooulPayService {
      * @param requestBody
      * @return
      */
-    StatefulBody wechatJsminipg(PooulWechatJsminipgRequestBody requestBody);
+    StatefulBody wechatJsminipg(PooulWechatJsminipgTO requestBody);
 
     /**
      * 关闭订单
      * @param mchTradeId
      */
-    void close(String mchTradeId);
+    StatefulBody close(String mchTradeId);
 
     /**
      * 撤销订单
      * @param mchTradeId
      */
-    void reverse(String mchTradeId);
+    StatefulBody reverse(String mchTradeId);
 
 }

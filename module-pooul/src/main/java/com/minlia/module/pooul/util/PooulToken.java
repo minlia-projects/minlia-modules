@@ -7,10 +7,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.module.pooul.body.pay.PooulPayOrderRequestBody;
+import com.minlia.module.pooul.bean.to.PooulBaseOrderTO;
 import com.minlia.module.pooul.config.PooulProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
@@ -52,10 +53,9 @@ public class PooulToken {
     public static String create(Map<String,Object> map) {
         JWTCreator.Builder builder = JWT.create();
         builder.withHeader(headerClaims);
-
         for (Map.Entry<String, Object> entry: map.entrySet()) {
             if (null != entry.getValue() && !entry.getKey().equals("class")) {
-                builder.withClaim(entry.getKey(),entry.getValue().toString());
+                builder.withClaim(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,entry.getKey()),entry.getValue().toString());
             }
         }
         return builder.sign(getAlgorithm());
@@ -66,7 +66,7 @@ public class PooulToken {
      * @param obj
      * @return
      */
-    public static <T extends PooulPayOrderRequestBody> String create(T obj) {
+    public static <T extends PooulBaseOrderTO> String create(T obj) {
         Gson gson = new Gson();
         Map map = gson.fromJson(gson.toJson(obj),Map.class);
         return create(map);

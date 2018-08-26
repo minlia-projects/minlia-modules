@@ -1,7 +1,6 @@
-package com.minlia.module.pooul.body.pay;
+package com.minlia.module.pooul.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minlia.module.pooul.body.common.PooulApiHttpResponseBody;
 import lombok.Data;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -9,7 +8,7 @@ import org.apache.commons.lang3.math.NumberUtils;
  * Created by garen on 2018/07/17.
  */
 @Data
-public class PooulPayNotifyData implements PooulApiHttpResponseBody {
+public class PooulPayNotifyData implements PooulApiHttpDTO {
 
 //    {
 //        "bank_type":"CFT",

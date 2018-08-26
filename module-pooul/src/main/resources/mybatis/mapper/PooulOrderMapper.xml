@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.pooul.mapper.PooulOrderMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            id ,
+            mch_trade_id ,
+            pay_status ,
+            pay_type ,
+            nonce_str ,
+            total_fee ,
+            body ,
+            spbill_create_ip ,
+            notify_url ,
+            time_start ,
+            time_expire ,
+            device_info ,
+            op_user_id ,
+            sub_appid ,
+            sub_openid ,
+            create_by ,
+            create_date ,
+            last_modified_by ,
+            last_modified_date
+        FROM
+            pooul_order
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="mchTradeId != null">
+                AND mch_trade_id = #{mchTradeId}
+            </if>
+            <if test="payStatus != null">
+                AND pay_status = #{payStatus}
+            </if>
+            <if test="payType != null">
+                AND pay_type = #{payType}
+            </if>
+            <if test="createBy != null">
+                AND create_by = #{createBy}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pooul_order(
+            mch_trade_id ,
+            pay_status ,
+            pay_type ,
+            nonce_str ,
+            total_fee ,
+            body ,
+            spbill_create_ip ,
+            notify_url ,
+            time_start ,
+            time_expire ,
+            device_info ,
+            op_user_id ,
+            sub_appid ,
+            sub_openid ,
+            create_by
+        )
+        VALUES (
+            #{mchTradeId},
+            #{payStatus},
+            #{payType},
+            #{nonceStr},
+            #{totalFee},
+            #{body},
+            #{spbillCreateIp},
+            #{notifyUrl},
+            #{timeStart},
+            #{timeExpire},
+            #{deviceInfo},
+            #{opUserId},
+            #{subAppid},
+            #{subOpenid},
+            #{createBy}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE pooul_order
+        <set>
+            <if test="null != payStatus">
+                pay_status = #{payStatus},
+            </if>
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP} ,
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="queryOne" resultType="com.minlia.module.pooul.bean.domain.PooulOrderDO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.pooul.bean.domain.PooulOrderDO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+</mapper>

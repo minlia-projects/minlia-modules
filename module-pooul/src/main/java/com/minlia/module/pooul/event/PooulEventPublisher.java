@@ -1,7 +1,7 @@
 package com.minlia.module.pooul.event;
 
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.module.pooul.body.pay.PooulPayNotifyResponseBody;
+import com.minlia.module.pooul.bean.dto.PooulPayNotifyDTO;
 
 /**
  * 事件发布器
@@ -9,15 +9,15 @@ import com.minlia.module.pooul.body.pay.PooulPayNotifyResponseBody;
  */
 public class PooulEventPublisher {
 
-    public static void onPaid(PooulPayNotifyResponseBody responseBody) {
+    public static void onPaid(PooulPayNotifyDTO responseBody) {
         ContextHolder.getContext().publishEvent(new PooulPaidNotifyEvent(responseBody));
     }
 
-    public static void onPaySuccess(PooulPayNotifyResponseBody responseBody) {
+    public static void onPaySuccess(PooulPayNotifyDTO responseBody) {
         ContextHolder.getContext().publishEvent(new PooulPaySuccessEvent(responseBody));
     }
 
-    public static void onPayFailure(PooulPayNotifyResponseBody responseBody) {
+    public static void onPayFailure(PooulPayNotifyDTO responseBody) {
         ContextHolder.getContext().publishEvent(new PooulPayFailureEvent(responseBody));
     }
 

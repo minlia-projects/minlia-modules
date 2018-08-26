@@ -4,8 +4,8 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.common.config.RestConfiguration;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.pooul.Application;
-import com.minlia.module.pooul.body.pay.PooulWechatJsminipgRequestBody;
-import com.minlia.module.pooul.enumeration.PayType;
+import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
+import com.minlia.module.pooul.enumeration.PayTypeEnum;
 import com.minlia.module.pooul.service.PooulPayService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,16 +40,18 @@ public class PooulAbstractTest {
 
     @Test
     public void jsminipg() {
-        PooulWechatJsminipgRequestBody body = new PooulWechatJsminipgRequestBody();
-        body.setPay_type(PayType.wechat_jsminipg.getName());
-        body.setNonce_str(NumberGenerator.uuid32());
-        body.setMch_trade_id("MO00004");
-        body.setTotal_fee(1);
-        body.setBody("花果山 Test jsminipg");
-        body.setSub_appid("wx469ffdb81de47e4d");
-        body.setSub_openid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
-        StatefulBody statefulBody = pooulPayService.wechatJsminipg(body);
-        System.out.println(statefulBody.getPayload());
+        pooulPayService.close("O2018082215595946327");
+
+//        PooulWechatJsminipgTO body = new PooulWechatJsminipgTO();
+//        body.setPayType(PayTypeEnum.wechat_jsminipg.getName());
+//        body.setNonceStr(NumberGenerator.uuid32());
+//        body.setMchTradeId("MO00002");
+//        body.setTotalFee(1);
+//        body.setBody("花果山 Test jsminipg");
+//        body.setSubAppid("wx469ffdb81de47e4d");
+//        body.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
+//        StatefulBody statefulBody = pooulPayService.wechatJsminipg(body);
+//        System.out.println(statefulBody.getPayload());
     }
 
 }

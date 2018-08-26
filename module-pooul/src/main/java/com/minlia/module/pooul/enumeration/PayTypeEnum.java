@@ -4,7 +4,7 @@ package com.minlia.module.pooul.enumeration;
  * 支付类型，不同的支付类型，pay_type值不一样
  * Created by garen on 2017/11/18.
  */
-public enum PayType {
+public enum PayTypeEnum {
 
     /**
      * 统一反扫支付
@@ -62,7 +62,7 @@ public enum PayType {
         return name;
     }
 
-    PayType(String name) {
+    PayTypeEnum(String name) {
         this.name = name;
     }
 

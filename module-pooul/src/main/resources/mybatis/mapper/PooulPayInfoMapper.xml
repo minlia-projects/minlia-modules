@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.pooul.mapper.PooulPayInfoMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            id,
+            mch_trade_id,
+            app_id,
+            timestamp,
+            nonceStr,
+            pkg,
+            sign_type,
+            pay_sign
+        FROM
+            pooul_pay_info
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="mchTradeId != null">
+                AND mch_trade_id = #{mchTradeId}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pooul_pay_info(
+            mch_trade_id,
+            app_id,
+            timestamp,
+            nonce_str,
+            pkg,
+            sign_type,
+            pay_sign
+        )
+        VALUES (
+            #{mchTradeId},
+            #{appId},
+            #{timestamp},
+            #{nonceStr},
+            #{pkg},
+            #{signType},
+            #{paySign}
+        )
+    </insert>
+
+    <update id="update">
+
+    </update>
+
+    <select id="queryOne" resultType="com.minlia.module.pooul.bean.domain.PooulPayInfoDO">
+        <include refid="QUERY_CONTENT" />
+        WHERE mch_trade_id = #{mchTradeId}
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.pooul.bean.domain.PooulPayInfoDO">
+        <include refid="QUERY_CONTENT" />
+        <include refid="QUERY_CONDITION" />
+    </select>
+
+</mapper>

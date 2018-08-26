@@ -1,15 +1,15 @@
-package com.minlia.module.pooul.body.common;
+package com.minlia.module.pooul.bean.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 /**
- * 支付参数返回体
+ * 支付参数
  * Created by garen on 2018/07/17.
  */
 @Data
-public class PooulPayInfo {
+public class PooulPayInfoDO {
 
 //    {
 //        "appId":"wx469ffdb81de47e4d",
@@ -20,9 +20,16 @@ public class PooulPayInfo {
 //            "paySign":"fb811e215f64f23ad2759195cb7406db"
 //    }
 
+    /**
+     * 商户订单号
+     */
+    private String mchTradeId;
+
     private String appId;
 
-    private String timeStamp;
+    @SerializedName(value = "timeStamp")
+    @JsonProperty(value = "timeStamp")
+    private String timestamp;
 
     private String nonceStr;
 

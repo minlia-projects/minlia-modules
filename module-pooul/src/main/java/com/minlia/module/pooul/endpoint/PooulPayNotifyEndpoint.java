@@ -3,11 +3,11 @@ package com.minlia.module.pooul.endpoint;
 import com.auth0.jwt.interfaces.Claim;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.common.util.NumberGenerator;
-import com.minlia.module.pooul.body.pay.PooulPayNotifyData;
-import com.minlia.module.pooul.body.pay.PooulPayNotifyResponseBody;
-import com.minlia.module.pooul.body.pay.PooulWechatJsminipgRequestBody;
+import com.minlia.module.pooul.bean.dto.PooulPayNotifyData;
+import com.minlia.module.pooul.bean.dto.PooulPayNotifyDTO;
+import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
 import com.minlia.module.pooul.contract.PooulContracts;
-import com.minlia.module.pooul.enumeration.PayType;
+import com.minlia.module.pooul.enumeration.PayTypeEnum;
 import com.minlia.module.pooul.event.PooulEventPublisher;
 import com.minlia.module.pooul.service.PooulPayService;
 import com.minlia.module.pooul.util.PooulToken;
@@ -57,7 +57,7 @@ public class PooulPayNotifyEndpoint {
 
         //公钥验证数据是否合法、返回自定义数据/业务数据
         Map<String,Claim> claims = PooulToken.getClaims(sb.toString());
-        PooulPayNotifyResponseBody notifyResponseBody = PooulPayNotifyResponseBody.builder()
+        PooulPayNotifyDTO notifyResponseBody = PooulPayNotifyDTO.builder()
                 .code(claims.get(PooulContracts.CODE).asInt())
                 .nonceStr(claims.get(PooulContracts.NONCE_STR).asString())
                 .data(claims.get(PooulContracts.DATA).as(PooulPayNotifyData.class))
@@ -92,15 +92,15 @@ public class PooulPayNotifyEndpoint {
     @ApiOperation(value = "", notes = "测试", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "test", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody test() {
-        PooulWechatJsminipgRequestBody body = new PooulWechatJsminipgRequestBody();
-        body.setPay_type(PayType.wechat_jsminipg.getName());
-        body.setNonce_str(NumberGenerator.uuid32());
-        body.setMch_trade_id(RandomStringUtils.randomAlphanumeric(10));     // TODO 订单号需修改，这个只是测试
-        body.setTotal_fee(1);
+        PooulWechatJsminipgTO body = new PooulWechatJsminipgTO();
+        body.setPayType(PayTypeEnum.wechat_jsminipg.getName());
+        body.setNonceStr(NumberGenerator.uuid32());
+        body.setMchTradeId(RandomStringUtils.randomAlphanumeric(10));     // TODO 订单号需修改，这个只是测试
+        body.setTotalFee(1);
         body.setBody("花果山 Test jsminipg");
-        body.setSub_appid("wx469ffdb81de47e4d");
-        body.setSub_openid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
-        body.setNotify_url("http://pooul.frp.apartscloud.com/api/open/pooul/notify/pay");
+        body.setSubAppid("wx469ffdb81de47e4d");
+        body.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
+        body.setNotifyUrl("http://pooul.frp.apartscloud.com/api/open/pooul/notify/pay");
         StatefulBody statefulBody = pooulPayService.wechatJsminipg(body);
         return statefulBody;
     }
