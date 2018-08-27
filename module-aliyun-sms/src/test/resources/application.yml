@@ -1,7 +1,7 @@
 aliyun:
     sms:
-        accessId: LTAIc3r9adaIXwpH
-        accessKey: i86XebUFjiDY7cDQVCFFpPQBOUTcZt
+        accessId: xxxx
+        accessKey: xxxx
         endpoint: cn-hangzhou
         regionId: cn-hangzhou
         product: Sms

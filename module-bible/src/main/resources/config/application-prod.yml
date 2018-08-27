@@ -1,90 +1,82 @@
 server:
-    port: 10000
+  port: 10000
 
 system:
-    appId: securityapp
+    appId: minlia-bible-app
     token: bWlubGlhCg==
-    
+
+# SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: miniapp
+        name: Miniq Bible
+    http:
+        encoding.charset: UTF-8
+        encoding.enable: true
+        encoding.force: true
+    session:
+        store-type: redis
 
     datasource:
-        testOnBorrow: true
-        validationQuery: "SELECT 1"
-#        driver-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_cloud_sample_rebecca_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
-#        url: jdbc:log4jdbc:h2:mem:mit_ecommerce_webapp_v1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE #;AUTO_SERVER=TRUE
-#        driverClassName: com.mysql.jdbc.Driver #   192.168.1.201   net.sf.log4jdbc.DriverSpy
-#        url: jdbc:mysql://localhost:3306/iikar_dims_dev?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
-        # 123123
+#        使用druid数据源
+#        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 1
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+        continue-on-error: true
+        initialize: true
+        data: classpath*:sql/minlia_init.sql
 
+    redis:
+        database: 0
+        host: 127.0.0.1
+        port: 6379
+        password:
+        pool:
+            max-active: 500
+            max-wait: 1000
+            max-idle: 100
+            min-idle: 50
+        timeout: 180
 
-    jpa:
-#        database-platform: org.hibernate.dialect.H2Dialect
-#        database: H2
-        database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
-        database: MYSQL
-        show_sql: false
-        properties:
-          jadira.usertype.autoRegisterUserTypes: true
-        hibernate:
-#            naming:
-#                strategy:
-            ddl-auto: update
+system.security.jwt:
+    tokenExpirationTime: 604800 # Number of minutes
+    refreshTokenExpTime: 604800 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
-security.jwt:
-#  tokenExpirationTime: 15 # Number of minutes
-  tokenExpirationTime: 10080 # Number of minutes
-  refreshTokenExpTime: 10080 # Minutes
-  tokenIssuer: http://minlia.com
-  tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQus
-  
-#spring.datasource:
-#  url: "jdbc:h2:mem:testdb"
-#  driverClassName: org.h2.Driver
-#  username: sa
-#  password: ""
-#  data: "classpath*:data.sql"
-#spring.jpa:
-#  database-platform: org.hibernate.dialect.H2Dialect
-#spring.h2.console.enabled: true
 swagger:
-    title: 安全接口
-    description: 安全接口
-    version: 2.0
+    title: ${spring.application.name}接口
+    description: ${spring.application.name}接口
+    version: 1.0
     contact: cloud@minlia.com
     path: /api/.*
     redirect: true
 
-aliyun:
-    oss:
-        key: LTAIkdMFkDplTUJX
-#        accessId: LTAIkdMFkDplTUJX
-#        key: VApB4W2D6rqxJVO0WakbB1Zryn3tOQ
-#        bucketName: yinxingnetwork
-#        backend: oss-cn-shenzhen.aliyuncs.com
-        secret: VApB4W2D6rqxJVO0WakbB1Zryn3tOQ
-        bucket: yinxingnetwork
-        endpoint: oss-cn-shenzhen.aliyuncs.com
+mybatis:
+#    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath*:mybatis/mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
 
-    sms:
-        accessId: LTAIc3r9adaIXwpH
-        accessKey: i86XebUFjiDY7cDQVCFFpPQBOUTcZt
-        endpoint: cn-hangzhou
-        regionId: cn-hangzhou
-        product: Sms
-        domain: sms.aliyuncs.com
-        signName: 测试
-
-sms:
-    templates:
-        userRegistration: SMS_56155265
-        resetPassword: SMS_56155265
-        changePassword: SMS_56155265
-        bindOrRegistration: SMS_56155265
+# 分页配置
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql

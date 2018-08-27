@@ -35,8 +35,6 @@ public class OssService implements InitializingBean {
     private boolean detectContentType = false;
     public static final String ORIGIN_ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
 
-    private OSSClient ossClient;
-
     public OssFile upload(MultipartFile file) throws IOException {
         return upload(file,  PathBuilder.dateBuild() + PathBuilder.uuidNameBuild(file.getOriginalFilename()));
     }
@@ -63,7 +61,7 @@ public class OssService implements InitializingBean {
     private OssFile ossUpload(String key, InputStream inputStream, ObjectMetadata metadata) {
         OssFile result = null;
         try {
-            PutObjectResult putObjectResult = ossClient.putObject(bucket, key, inputStream, metadata);
+            PutObjectResult putObjectResult = AliyunOssClient.ossClient().putObject(bucket, key, inputStream, metadata);
             result = new OssFile(putObjectResult.getETag());
             result.setUrl(builderUrl(key));
             result.setSize(metadata.getContentLength());

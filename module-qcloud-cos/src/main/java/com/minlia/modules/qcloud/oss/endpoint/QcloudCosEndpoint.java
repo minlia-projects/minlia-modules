@@ -1,7 +1,7 @@
 //package com.minlia.modules.qcloud.oss.endpoint;
 //
 //
-//import com.minlia.modules.qcloud.oss.service.Qcloud1CosService;
+//import com.minlia.modules.qcloud.oss.service.QcloudCosService;
 //import com.minlia.modules.qcloud.oss.util.QcloudCosUtils;
 //import com.qcloud.cos.model.PutObjectRequest;
 //import com.qcloud.cos.model.PutObjectResult;
@@ -20,7 +20,7 @@
 //public class QcloudCosEndpoint {
 //
 //    @Autowired
-//    private Qcloud1CosService qcloudCosService;
+//    private QcloudCosService qcloudCosService;
 //
 //    public static final String RETURN_URL_PATTERN="//%s/%s";
 //

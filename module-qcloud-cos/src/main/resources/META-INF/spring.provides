@@ -1,1 +1,1 @@
-provides: module-aliyun-oss
+provides: module-qcloud-cos

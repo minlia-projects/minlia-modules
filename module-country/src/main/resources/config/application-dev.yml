@@ -1,5 +1,5 @@
 server:
-  port: 10003
+  port: 10000
 
 system:
     appId: countryapp
@@ -17,9 +17,8 @@ spring:
 
     datasource:
         name:
-#        driver-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
         name:
         username: root
         password:
@@ -43,8 +42,8 @@ spring:
 
     redis:
         database: 0
-        host: 47.93.48.243
-        password: yunka123
+        host: 127.0.0.1
+        password:
         pool:
             max-active: 8
             max-idle: 8
@@ -54,11 +53,10 @@ spring:
         timeout: 0
 
 system.security.jwt:
-#  tokenExpirationTime: 15 # Number of minutes
-  tokenExpirationTime: 604800 # Number of minutes
-  refreshTokenExpTime: 604800 # Minutes
-  tokenIssuer: http://minlia.com
-  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+    tokenExpirationTime: 10086 # Number of minutes
+    refreshTokenExpTime: 10086 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
 swagger:
     title: ${spring.application.name}接口
@@ -69,5 +67,6 @@ swagger:
     redirect: true
 
 mybatis:
-  mapper-locations: classpath:mybatis/mapper/*.xml
-#  config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath:mybatis/mapper/*.xml
+    config-location:
+        classpath: mybatis/mybatis-config.xml

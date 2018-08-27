@@ -1,5 +1,5 @@
 server:
-    port: 9999
+    port: 10000
 
 system:
     appId: wechat-app
@@ -19,7 +19,7 @@ spring:
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_miniq_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
@@ -44,9 +44,9 @@ spring:
 
     redis:
         database: 0
-        host: 39.108.168.147
+        host: 127.0.0.1
         port: 6379
-        password: moffvape2017
+        password:
         pool:
             max-active: 300
             max-wait: 1000
@@ -56,10 +56,10 @@ spring:
 
 system.security.jwt:
 #  tokenExpirationTime: 15 # Number of minutes
-  tokenExpirationTime: 604800 # Number of minutes
-  refreshTokenExpTime: 604800 # Minutes
-  tokenIssuer: http://minlia.com
-  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+    tokenExpirationTime: 604800 # Number of minutes
+    refreshTokenExpTime: 604800 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
 swagger:
     title: ${spring.application.name}接口
@@ -80,23 +80,3 @@ pagehelper:
     reasonable: true
     support-methods-arguments: true
     params: count=countSql
-
-aliyun:
-    oss:
-        key: LTAI7w8hY3vG8RNb
-        secret: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        bucket: mini-q
-        endpoint: oss.apartscloud.com
-    sms:
-        accessId: LTAI7w8hY3vG8RNb
-        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        endpoint: cn-hangzhou
-        regionId: cn-hangzhou
-        product: Dysmsapi
-        domain: dysmsapi.aliyuncs.com
-        signName: 小Q云管家
-
-sms:
-  templates:
-    security_code: XXXX
-

@@ -83,30 +83,3 @@ pagehelper:
     reasonable: true
     support-methods-arguments: true
     params: count=countSql
-
-aliyun:
-    oss:
-        key: LTAI7w8hY3vG8RNb
-        secret: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        bucket: miniq-dev
-        endpoint: oss-dev.apartscloud.com
-#        endpoint: oss-cn-shenzhen.aliyuncs.com
-    sms:
-        accessId: LTAI7w8hY3vG8RNb
-        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        endpoint: cn-hangzhou
-        regionId: cn-hangzhou
-        product: Dysmsapi
-        domain: dysmsapi.aliyuncs.com
-        signName: 智慧新民居
-
-sms:
-    templates:
-        securityCode: SMS_95635445
-        test: SMS_95635444
-        loginConfirm: SMS_95635443
-        loginException: SMS_95635442
-        userRegistration: SMS_95635441
-        changePassword: SMS_95635440
-        infoChange: SMS_95635439
-        mp-attention: SMS_133969774

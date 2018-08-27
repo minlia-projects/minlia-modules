@@ -23,7 +23,7 @@ spring:
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/xmj_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
@@ -83,47 +83,3 @@ pagehelper:
     reasonable: true
     support-methods-arguments: true
     params: count=countSql
-#  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
-#  row-bounds-with-count: true
-
-aliyun:
-    oss:
-        key: LTAI7w8hY3vG8RNb
-        secret: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        bucket: miniq-dev
-        endpoint: oss-dev.apartscloud.com
-#        endpoint: oss-cn-shenzhen.aliyuncs.com
-    sms:
-        accessId: LTAI7w8hY3vG8RNb
-        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        endpoint: cn-hangzhou
-        regionId: cn-hangzhou
-        product: Dysmsapi
-        domain: dysmsapi.aliyuncs.com
-        signName: 智慧新民居
-    market:
-        bankcard-verify-lianzhuo: 6889a6bedf53468ea27d10f12a8e5159
-
-sms:
-    templates:
-        securityCode: SMS_95635445
-        test: SMS_95635444
-        loginConfirm: SMS_95635443
-        loginException: SMS_95635442
-        userRegistration: SMS_95635441
-        changePassword: SMS_95635440
-        infoChange: SMS_95635439
-        mp-attention: SMS_133969774
-
-qcloud:
-    cos:
-        accessKey: AKIDrdPCvTey2UKvfVym6KPbQ9zqXBew7639
-        secretKey: qfRHFLWp19eEeEzYvOGVtR5C9WIuagdX
-        region: ap-guangzhou
-        bucketName: xmj-1255765487
-        domain: //cos.apartscloud.com/
-        imageDomain: //image.apartscloud.com/
-
-lbs:
-    ak: Y6i7ua7zWsDMbLmcH4FgecGfSjmY5Azd
-    geotable-id: 190282

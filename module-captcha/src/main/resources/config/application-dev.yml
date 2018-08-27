@@ -1,23 +1,24 @@
 server:
-  port: 10002
+    port: 10000
 
 system:
-    appId: userinfo-app
+    appId: countryapp
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: userinfo
+        name: country
     http:
         encoding.charset: UTF-8
         encoding.enable: true
         encoding.force: true
 
     datasource:
+        name:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
         name:
         username: root
         password:
@@ -30,7 +31,7 @@ spring:
         minIdle: 1
         timeBetweenEvictionRunsMillis: 60000
         minEvictableIdleTimeMillis: 300000
-        validationQuery: select 1
+        validationQuery: select 'x'
         testWhileIdle: true
         testOnBorrow: false
         testOnReturn: false
@@ -41,8 +42,8 @@ spring:
 
     redis:
         database: 0
-        host: 47.93.48.243
-        password: yunka123
+        host: 127.0.0.1
+        password:
         pool:
             max-active: 8
             max-idle: 8
@@ -52,11 +53,10 @@ spring:
         timeout: 0
 
 system.security.jwt:
-#  tokenExpirationTime: 15 # Number of minutes
-  tokenExpirationTime: 604800 # Number of minutes
-  refreshTokenExpTime: 604800 # Minutes
-  tokenIssuer: http://minlia.com
-  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+    tokenExpirationTime: 10086 # Number of minutes
+    refreshTokenExpTime: 10086 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
 swagger:
     title: ${spring.application.name}接口
@@ -67,22 +67,21 @@ swagger:
     redirect: true
 
 mybatis:
-#  mapper-locations: classpath:com/minlia/module/bible/mapper/*.xml
-  mapper-locations: classpath:mybatis/mapper/*.xml
-#  config-location: classpath:mybatis/mybatis-config.xml
+#    mapper-locations: classpath:com/minlia/module/bible/mapper/*.xml
+    mapper-locations: classpath:mybatis/mapper/*.xml
+    config-location:
+        classpath: mybatis/mybatis-config.xml
 
-#jdbc:
-#    dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
-#    url: jdbc:mysql://rm-bp1v94c921ols1ne60o.mysql.rds.aliyuncs.com/yuncard_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
-#    databaseName: yuncard_dev
-#    serverName: 127.0.0.1
-#    username: root
-#    password: yuncard123!
-#    cachePrepStmts: true
-#    prepStmtsSize: 250
-#    prepStmtsCacheSqlLimit: 2048
-#    userServerPrepStmts: true
+aliyun:
+    sms:
+        accessId: xxxx
+        accessKey: xxxx
+        endpoint: cn-hangzhou
+        regionId: cn-hangzhou
+        product: Sms
+        domain: sms.aliyuncs.com
+        signName: 测试
 
 sms:
-  templates:
-    SECURITY_CODE: XXXX
+    templates:
+        security-code: XXXX

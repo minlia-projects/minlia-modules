@@ -60,33 +60,3 @@
 #    version: 2.0
 #    contact: cloud@minlia.com
 #    path: /api/.*
-#
-#aliyun:
-#    oss:
-#        key: LTAIkdMFkDplTUJX
-##        accessId: LTAIkdMFkDplTUJX
-##        key: VApB4W2D6rqxJVO0WakbB1Zryn3tOQ
-##        bucketName: yinxingnetwork
-##        backend: oss-cn-shenzhen.aliyuncs.com
-#        secret: VApB4W2D6rqxJVO0WakbB1Zryn3tOQ
-#        bucket: yinxingnetwork
-#        endpoint: oss-cn-shenzhen.aliyuncs.com
-#    sms:
-#        accessId: LTAIc3r9adaIXwpH
-#        key: i86XebUFjiDY7cDQVCFFpPQBOUTcZt
-#        endpoint: cn-hangzhou
-#        regionId: cn-hangzhou
-#        product: Sms
-#        domain: sms.aliyuncs.com
-#        signName: 测试
-##minlia:
-##    messages:
-##        basename: mini
-##        basenames:
-##            - validationMessages
-#
-#
-#
-#sms:
-#    templates:
-#        userRegistration: SMS_56155265

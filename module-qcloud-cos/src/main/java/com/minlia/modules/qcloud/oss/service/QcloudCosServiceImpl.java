@@ -1,5 +1,6 @@
 package com.minlia.modules.qcloud.oss.service;
 
+import com.minlia.modules.qcloud.oss.client.QcloudCosClient;
 import com.minlia.modules.qcloud.oss.config.QcloudCosConfig;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.exception.CosClientException;
@@ -19,13 +20,7 @@ import java.io.InputStream;
  * Created by garen on 2018/6/6.
  */
 @Service
-public class Qcloud1CosServiceImpl implements Qcloud1CosService {
-
-    private final COSClient cosClient;
-
-    public Qcloud1CosServiceImpl(COSClient cosClient) {
-        this.cosClient = cosClient;
-    }
+public class QcloudCosServiceImpl implements QcloudCosService {
 
     @Autowired
     private QcloudCosConfig qcloudCosConfig;
@@ -40,7 +35,7 @@ public class Qcloud1CosServiceImpl implements Qcloud1CosService {
         if (StringUtils.isEmpty(bucketName)) {
             bucketName = qcloudCosConfig.getBucketName();
         }
-        return cosClient.putObject(bucketName,key,file);
+        return QcloudCosClient.cosClient().putObject(bucketName,key,file);
     }
 
     @Override
@@ -48,7 +43,7 @@ public class Qcloud1CosServiceImpl implements Qcloud1CosService {
         if (StringUtils.isEmpty(bucketName)) {
             bucketName = qcloudCosConfig.getBucketName();
         }
-        return cosClient.putObject(bucketName,key,input,metadata);
+        return QcloudCosClient.cosClient().putObject(bucketName,key,input,metadata);
     }
 
     @Override
@@ -56,7 +51,7 @@ public class Qcloud1CosServiceImpl implements Qcloud1CosService {
         if (StringUtils.isEmpty(putObjectRequest.getBucketName())) {
             putObjectRequest.setBucketName(qcloudCosConfig.getBucketName());
         }
-        return cosClient.putObject(putObjectRequest);
+        return QcloudCosClient.cosClient().putObject(putObjectRequest);
     }
 
     @Override

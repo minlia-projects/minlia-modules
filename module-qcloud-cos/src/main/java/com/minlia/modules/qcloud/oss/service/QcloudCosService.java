@@ -15,7 +15,7 @@ import java.io.InputStream;
  * 腾讯云对象存储
  * Created by garen on 2018/6/6.
  */
-public interface Qcloud1CosService {
+public interface QcloudCosService {
 
     QcloudCosConfig getQcloudCosConfig();
 

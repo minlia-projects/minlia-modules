@@ -1,5 +1,5 @@
 server:
-  port: 10009
+    port: 10000
 
 system:
     appId: miniq-runtime-app
@@ -23,7 +23,7 @@ spring:
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_miniq_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
@@ -83,30 +83,3 @@ pagehelper:
     reasonable: true
     support-methods-arguments: true
     params: count=countSql
-#  params: pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero
-#  row-bounds-with-count: true
-
-aliyun:
-    oss:
-        key: LTAI7w8hY3vG8RNb
-        secret: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        bucket: mini-q
-        endpoint: oss.apartscloud.com
-#        endpoint: oss-cn-shenzhen.aliyuncs.com
-    sms:
-        accessId: LTAI7w8hY3vG8RNb
-        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
-        endpoint: cn-hangzhou
-        regionId: cn-hangzhou
-        product: Dysmsapi
-        domain: dysmsapi.aliyuncs.com
-        signName: 小Q云管家
-
-sms:
-    templates:
-        securityCode: SMS_95635445
-        userRegistration: SMS_95635441
-        loginConfirm: SMS_95635443
-        resetPassword: SMS_95635440
-        changePassword: SMS_95635440
-        infoChange: SMS_95635439

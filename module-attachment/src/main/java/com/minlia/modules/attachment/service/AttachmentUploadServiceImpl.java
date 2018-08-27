@@ -13,7 +13,7 @@ import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.util.ContentTypeUtils;
 import com.minlia.modules.attachment.util.CosPathUtils;
-import com.minlia.modules.qcloud.oss.service.Qcloud1CosService;
+import com.minlia.modules.qcloud.oss.service.QcloudCosService;
 import com.minlia.modules.qcloud.oss.util.QcloudCosUtils;
 import com.qcloud.cos.model.PutObjectResult;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     private OssService ossService;
 
     @Autowired
-    private Qcloud1CosService qcloud1CosService;
+    private QcloudCosService qcloud1CosService;
 
     @Autowired
     private AttachmentService attachmentService;
