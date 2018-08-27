@@ -75,7 +75,7 @@ public class PooulPayServiceImpl implements PooulPayService {
 
         HttpResponse<String> response = null;
         try {
-            response = Unirest.post(pooulProperties.getUrlV2Pay()).body(token).asString();
+            response = Unirest.post(pooulProperties.getPayUrl()).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul创建订单失败:", e);
             ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul创建订单失败:" + e.getMessage());
@@ -107,9 +107,38 @@ public class PooulPayServiceImpl implements PooulPayService {
     }
 
     @Override
+    public StatefulBody query(String mchTradeId) {
+        Map<String,Object> map = Maps.newHashMap();
+        map.put("mch_trade_id",mchTradeId);
+        String token = PooulToken.create(map);
+        HttpResponse<String> response = null;
+        try {
+            response = Unirest.post(pooulProperties.getQueryOrderUrl()).body(token).asString();
+        } catch (UnirestException e) {
+            log.error("Pooul查询订单失败:", e);
+            ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul查询订单失败:" + e.getMessage());
+        }
+
+        //如果已"{"开始表明创建订单失败，返回错误信息
+        if (response.getBody().startsWith(PooulContracts.RIGHT_PARENTHESIS)) {
+            JSONObject jsonObject = JSONObject.fromObject(response.getBody());
+            return FailureResponseBody.builder().code((Integer) jsonObject.get(PooulContracts.CODE)).message((String) jsonObject.get(PooulContracts.MSG)).build();
+        }
+
+        //获取返回token
+        Map<String, Claim> claims = PooulToken.getClaims(response.getBody());
+        if (claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
+//            PooulOrderQueryDTO queryDTO = claims.get(PooulContracts.DATA).as(PooulOrderQueryDTO.class);
+            return SuccessResponseBody.builder().code(claims.get(PooulContracts.CODE).asInt()).message(claims.get(PooulContracts.MSG).asString()).payload(claims.get(PooulContracts.DATA).asMap()).build();
+        } else {
+            return FailureResponseBody.builder().code(claims.get(PooulContracts.CODE).asInt()).message(claims.get(PooulContracts.MSG).asString()).build();
+        }
+    }
+
+    @Override
     public StatefulBody close(String mchTradeId) {
         PooulOrderDO pooulOrderDO = pooulOrderMapper.queryOne(PooulOrderQO.builder().mchTradeId(mchTradeId).build());
-        ApiPreconditions.is(null == pooulOrderDO,ApiCode.BASED_ON,"订单不存在");
+//        ApiPreconditions.is(null == pooulOrderDO,ApiCode.BASED_ON,"订单不存在");
 
         Map<String,Object> map = Maps.newHashMap();
         map.put("mch_trade_id",mchTradeId);
@@ -118,7 +147,7 @@ public class PooulPayServiceImpl implements PooulPayService {
 
         HttpResponse<String> response = null;
         try {
-            response = Unirest.post("https://api-dev.pooul.com/v2/pay/close?merchant_id=2162288807443437").body(token).asString();
+            response = Unirest.post(pooulProperties.getCloseOrderUrl()).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul关闭订单失败:", e);
             ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul关闭订单失败:" + e.getMessage());

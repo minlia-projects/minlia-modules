@@ -65,4 +65,6 @@ public class PooulOrderQO {
 
     private String createBy;
 
+    private Integer gtCreateDateMinutes;
+
 }

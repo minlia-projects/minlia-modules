@@ -1,21 +1,14 @@
 package com.minlia.module.pooul.endpoint;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.module.common.util.NumberGenerator;
-import com.minlia.module.pooul.bean.dto.PooulPayNotifyData;
 import com.minlia.module.pooul.bean.dto.PooulPayNotifyDTO;
-import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
+import com.minlia.module.pooul.bean.dto.PooulPayNotifyData;
 import com.minlia.module.pooul.contract.PooulContracts;
-import com.minlia.module.pooul.enumeration.PayTypeEnum;
 import com.minlia.module.pooul.event.PooulEventPublisher;
-import com.minlia.module.pooul.service.PooulPayService;
 import com.minlia.module.pooul.util.PooulToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,25 +77,6 @@ public class PooulPayNotifyEndpoint {
 //            PooulEventPublisher.onPayFailure(notifyResponseBody);
 //        }
         return "success";
-    }
-
-    @Autowired
-    private PooulPayService pooulPayService;
-
-    @ApiOperation(value = "", notes = "测试", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "test", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody test() {
-        PooulWechatJsminipgTO body = new PooulWechatJsminipgTO();
-        body.setPayType(PayTypeEnum.wechat_jsminipg.getName());
-        body.setNonceStr(NumberGenerator.uuid32());
-        body.setMchTradeId(RandomStringUtils.randomAlphanumeric(10));     // TODO 订单号需修改，这个只是测试
-        body.setTotalFee(1);
-        body.setBody("花果山 Test jsminipg");
-        body.setSubAppid("wx469ffdb81de47e4d");
-        body.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
-        body.setNotifyUrl("http://pooul.frp.apartscloud.com/api/open/pooul/notify/pay");
-        StatefulBody statefulBody = pooulPayService.wechatJsminipg(body);
-        return statefulBody;
     }
 
 }

@@ -31,9 +31,19 @@ public class PooulProperties {
     private String pooulPublicKey;
 
     /**
-     * 统计支付URL
+     * 支付URL
      */
-    private String urlV2Pay;
+    private String payUrl;
+
+    /**
+     * 查询订单URL
+     */
+    private String queryOrderUrl;
+
+    /**
+     * 关闭订单
+     */
+    private String closeOrderUrl;
 
     /**
      * 通知地址
