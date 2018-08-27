@@ -110,40 +110,40 @@ public class OssService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        this.accessId = properties.getKey();
-        this.accessKey = properties.getSecret();
-        this.bucket = properties.getBucket();
-        this.endpoint = properties.getEndpoint();
-
-        if (endpoint == null) {
-            endpoint = Constant.DEFAULT_OSS_ENDPOINT;
-        } else if (endpoint.endsWith(Constant.SLASH)) {
-            endpoint = endpoint.replaceAll("/*$", Constant.EMPTY);
-        }
-
-        Assert.hasText(accessId, "请指定accessId。\n" + Constant.API_KEY_HELP);
-        Assert.hasText(accessKey, "请指定accessKey。\n" + Constant.API_KEY_HELP);
-        Assert.hasText(bucket, "请指定bucket。\n" + Constant.BUCKET_HELP);
-
-        ossClient = new OSSClient(ORIGIN_ENDPOINT, accessId, accessKey);
-        try {
-            ossClient.getBucketAcl(bucket);
-            // TODO 校验ACL
-        } catch (OSSException e) {
-            String errorCode = e.getErrorCode();
-            if (OSSErrorCode.INVALID_ACCESS_KEY_ID.equals(errorCode)) {
-                Assert.isTrue(false, "请指定正确的accessId。\n" + Constant.API_KEY_HELP);
-            } else if (OSSErrorCode.SIGNATURE_DOES_NOT_MATCH.equals(errorCode)) {
-                Assert.isTrue(false, "请指定正确的accessKey。\n" + Constant.API_KEY_HELP);
-            } else if (OSSErrorCode.NO_SUCH_BUCKET.equals(errorCode)) {
-                Assert.isTrue(false, "请指定一个存在的Bucket。");
-            } else {
-                Assert.isTrue(false, errorCode);
-            }
-        } catch (Exception e) {
-            // Ignore
-            e.printStackTrace();
-        }
+//        this.accessId = properties.getKey();
+//        this.accessKey = properties.getSecret();
+//        this.bucket = properties.getBucket();
+//        this.endpoint = properties.getEndpoint();
+//
+//        if (endpoint == null) {
+//            endpoint = Constant.DEFAULT_OSS_ENDPOINT;
+//        } else if (endpoint.endsWith(Constant.SLASH)) {
+//            endpoint = endpoint.replaceAll("/*$", Constant.EMPTY);
+//        }
+//
+//        Assert.hasText(accessId, "请指定accessId。\n" + Constant.API_KEY_HELP);
+//        Assert.hasText(accessKey, "请指定accessKey。\n" + Constant.API_KEY_HELP);
+//        Assert.hasText(bucket, "请指定bucket。\n" + Constant.BUCKET_HELP);
+//
+//        ossClient = new OSSClient(ORIGIN_ENDPOINT, accessId, accessKey);
+//        try {
+//            ossClient.getBucketAcl(bucket);
+//            // TODO 校验ACL
+//        } catch (OSSException e) {
+//            String errorCode = e.getErrorCode();
+//            if (OSSErrorCode.INVALID_ACCESS_KEY_ID.equals(errorCode)) {
+//                Assert.isTrue(false, "请指定正确的accessId。\n" + Constant.API_KEY_HELP);
+//            } else if (OSSErrorCode.SIGNATURE_DOES_NOT_MATCH.equals(errorCode)) {
+//                Assert.isTrue(false, "请指定正确的accessKey。\n" + Constant.API_KEY_HELP);
+//            } else if (OSSErrorCode.NO_SUCH_BUCKET.equals(errorCode)) {
+//                Assert.isTrue(false, "请指定一个存在的Bucket。");
+//            } else {
+//                Assert.isTrue(false, errorCode);
+//            }
+//        } catch (Exception e) {
+//            // Ignore
+//            e.printStackTrace();
+//        }
     }
 
 }
