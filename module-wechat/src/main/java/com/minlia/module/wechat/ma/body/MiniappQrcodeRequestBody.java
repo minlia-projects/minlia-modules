@@ -33,4 +33,6 @@ public class MiniappQrcodeRequestBody {
 
     private Object lineColor;
 
+    private boolean notUpload;
+
 }

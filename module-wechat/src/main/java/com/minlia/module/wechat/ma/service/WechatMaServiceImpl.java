@@ -11,6 +11,7 @@ import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
+import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  *
@@ -133,6 +135,30 @@ public class WechatMaServiceImpl implements WechatMaService {
             data.element("line_color", body.getLineColor());
         }
         String reqData = JSON.toJSONString(data);
+
+
+//        InputStream in = null;
+//        try {
+//            in = HttpClientUtil.sendPostByJsonToInputStream(reqUrl, reqData);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"生成小程序二维码异常："+e.getMessage());
+//        }
+//
+//        if (!body.isNotUpload()) {
+//            //上传附件
+//            String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
+//            String key = String.format("%s%s.png", path, NumberGenerator.uuid32());
+//            AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
+//                    .relationId(body.getNumber())
+//                    .belongsTo(body.getType())
+//                    .inputStream(in)
+//                    .key(key)
+//                    .build();
+//            return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
+//        }
+
+
         File file = null;
         try {
             file = HttpClientUtil.sendPostByJsonToFile(reqUrl, reqData);
@@ -141,15 +167,19 @@ public class WechatMaServiceImpl implements WechatMaService {
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"生成小程序二维码异常："+e.getMessage());
         }
 
-        String path = null == body.getPath() ? String.format("%s/",DEFAULT_QRCODE_PATH) : String.format("%s/%s/",DEFAULT_QRCODE_PATH,body.getPath());
+
         try {
-            AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
-                    .relationId(body.getScene())
-                    .belongsTo(body.getNumber())
-                    .file(file)
-                    .key(path + file.getName())
-                    .build();
-            return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
+            if (!body.isNotUpload()) {
+                //上传附件
+                String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
+                AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
+                        .relationId(body.getNumber())
+                        .belongsTo(body.getType())
+                        .file(file)
+                        .key(path + file.getName())
+                        .build();
+                return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
+            }
         } catch (Exception e) {
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());
         } finally {

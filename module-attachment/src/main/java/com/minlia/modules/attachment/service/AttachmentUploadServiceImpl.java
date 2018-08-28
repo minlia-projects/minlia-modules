@@ -32,7 +32,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     private OssService ossService;
 
     @Autowired
-    private QcloudCosService qcloud1CosService;
+    private QcloudCosService qcloudCosService;
 
     @Autowired
     private AttachmentService attachmentService;
@@ -40,15 +40,15 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     @Override
     public StatefulBody upload(MultipartFile file) throws Exception {
         String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
-        PutObjectResult result = qcloud1CosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
+        PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         OssFile ossFile= new OssFile(result.getETag());
         ossFile.setContentType(file.getContentType());
         ossFile.setName(file.getOriginalFilename());
         ossFile.setSize(file.getSize());
-        if (null != qcloud1CosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(file)) {
-            ossFile.setUrl(qcloud1CosService.getQcloudCosConfig().getImageDomain() + path);
+        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(file)) {
+            ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getImageDomain() + path);
         } else {
-            ossFile.setUrl(qcloud1CosService.getQcloudCosConfig().getDomain() + path);
+            ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getDomain() + path);
         }
         return SuccessResponseBody.builder().message("上传成功").payload(ossFile).build();
     }
@@ -57,13 +57,13 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     public StatefulBody upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
         String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
 
-        PutObjectResult result = qcloud1CosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
+        PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         Attachment attachment = Attachment.builder()
                 .belongsTo(belongsTo)
                 .relationId(relationId)
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .url(qcloud1CosService.getQcloudCosConfig().getDomain() + path)
+                .url(qcloudCosService.getQcloudCosConfig().getDomain() + path)
                 .size(file.getSize())
                 .accessKey(result.getETag())
                 .build();
@@ -79,13 +79,13 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
             requestBody.setKey(CosPathUtils.defaultBuild(requestBody.getFile().getName()));
         }
 
-        PutObjectResult result = qcloud1CosService.putObject(null,requestBody.getKey(),requestBody.getFile());
+        PutObjectResult result = qcloudCosService.putObject(null,requestBody.getKey(),requestBody.getFile());
 
         String url;
-        if (null != qcloud1CosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(requestBody.getFile())) {
-            url = qcloud1CosService.getQcloudCosConfig().getImageDomain() + requestBody.getKey();
+        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(requestBody.getFile())) {
+            url = qcloudCosService.getQcloudCosConfig().getImageDomain() + requestBody.getKey();
         } else {
-            url = qcloud1CosService.getQcloudCosConfig().getDomain() + requestBody.getKey();
+            url = qcloudCosService.getQcloudCosConfig().getDomain() + requestBody.getKey();
         }
         Attachment attachment = Attachment.builder()
                 .belongsTo(requestBody.getBelongsTo())

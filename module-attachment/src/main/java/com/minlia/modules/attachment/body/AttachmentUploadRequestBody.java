@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * Created by garen on 2018/6/6.
@@ -32,6 +33,6 @@ public class AttachmentUploadRequestBody {
 
     private File file;
 
-//    private FileInputStream fileInputStream;
+    private InputStream inputStream;
 
 }

@@ -458,7 +458,36 @@ public class HttpClientUtil {
     }
 
 
-
+    /**
+     * 返回图像数据，但是要确定post方法返回的是一个image文件；
+     *
+     * @param url
+     * @param body
+     * @return
+     * @throws Exception
+     */
+    public static InputStream sendPostByJsonToInputStream(String url, String body) throws Exception {
+        CloseableHttpClient httpclient = HttpClients.custom().build();
+        HttpPost post = null;
+        CloseableHttpResponse result = null;
+        try {
+            post = new HttpPost(url);
+            HttpEntity entity2 = new StringEntity(body, Consts.UTF_8);
+            post.setConfig(RequestConfig.custom().setConnectTimeout(30000).setSocketTimeout(30000).build());
+            post.setHeader("Content-Type", "application/json");
+            post.setEntity(entity2);
+            result = httpclient.execute(post);
+            return result.getEntity().getContent();
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (post != null) {
+                post.releaseConnection();
+            }
+            httpclient.close();
+        }
+    }
 
     /**
      * 返回图像数据，但是要确定post方法返回的是一个image文件；
@@ -494,6 +523,5 @@ public class HttpClientUtil {
             httpclient.close();
         }
     }
-
 
 }
