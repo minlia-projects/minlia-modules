@@ -15,6 +15,8 @@ public class MiniappQrcodeRequestBody {
     @NotBlank
     private String type;
 
+    private String number;
+
     @NotBlank
     private String scene;
 

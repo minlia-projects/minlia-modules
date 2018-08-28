@@ -145,7 +145,7 @@ public class WechatMaServiceImpl implements WechatMaService {
         try {
             AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
                     .relationId(body.getScene())
-                    .belongsTo(qrConfig.getCode())
+                    .belongsTo(body.getNumber())
                     .file(file)
                     .key(path + file.getName())
                     .build();

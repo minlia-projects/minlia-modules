@@ -118,7 +118,15 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         }
 
         //附件记录
-        Attachment attachment = Attachment.builder().relationId(relationId).belongsTo(belongsTo).name(ossFile.getOriginalName()).type(ossFile.getContentType()).url(ossFile.getUrl()).size(ossFile.getSize()).accessKey(ossFile.geteTag()).build();
+        Attachment attachment = Attachment.builder()
+                .relationId(relationId)
+                .belongsTo(belongsTo)
+                .name(ossFile.getOriginalName())
+                .type(ossFile.getContentType())
+                .url(ossFile.getUrl())
+                .size(ossFile.getSize())
+                .accessKey(ossFile.geteTag())
+                .build();
         attachmentService.create(attachment);
         return SuccessResponseBody.builder().message("上传成功").payload(Lists.newArrayList(attachment)).build();
     }
