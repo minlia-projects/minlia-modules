@@ -49,6 +49,11 @@ public class User extends AbstractEntity {
     private String password;
 
     /**
+     * 默认角色
+     */
+    private String defaultRole;
+
+    /**
      * 凭证是否有效
      */
     private Boolean credentialsExpired;
