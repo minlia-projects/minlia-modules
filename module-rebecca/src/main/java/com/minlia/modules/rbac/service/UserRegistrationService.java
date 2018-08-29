@@ -1,11 +1,10 @@
-package com.minlia.modules.rbac.openapi.registration.service;
+package com.minlia.modules.rbac.service;
 
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.openapi.registration.body.UserAvailablitityRequestBody;
-import com.minlia.modules.rbac.openapi.registration.body.UserRegistrationRequestBody;
-import org.springframework.transaction.annotation.Transactional;
+import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
+import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
 
 
 public interface UserRegistrationService {

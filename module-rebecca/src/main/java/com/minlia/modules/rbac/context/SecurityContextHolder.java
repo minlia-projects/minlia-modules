@@ -1,7 +1,6 @@
 package com.minlia.modules.rbac.context;
 
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
@@ -30,32 +29,6 @@ public final class SecurityContextHolder {
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserContext) {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
-
-                //添加navigations 到当前用户上下文
-//                List<Navigation> navigationList = Lists.newArrayList();
-//                Set<LoginLog> roles = getCurrentUser().getRoles();
-//                if (null != roles && roles.size() > 0) {
-//                    for (LoginLog role : roles) {
-//                        if(null!=role.getNavigations()) {
-//                            navigationList.addAll(role.getNavigations());
-//                        }
-////                        Set<Navigation> navigations = role.getNavigations();
-////                        if (null != navigations && navigations.size() > 0) {
-////                            for (Navigation navigation : navigations) {
-////                                Navigation item = new Navigation();
-////                                item.setParent(null);
-////                                item.setName(navigation.getName());
-////                                item.setIcon(navigation.getIcon());
-////                                item.setState(navigation.getState());
-////                                item.setId(navigation.getId());
-////                                navigationList.add(item);
-////                            }
-////                        }
-//                    }
-//                }
-//                if (null != navigationList && navigationList.size() > 0) {
-//                    userContext.setNavigations(navigationList);
-//                }
                 return userContext;
             }
         }
@@ -76,11 +49,11 @@ public final class SecurityContextHolder {
                 UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
                 return springSecurityUser.getUsername();
             } else if (authentication.getPrincipal() instanceof String) {
-                 if ("anonymousUser".equalsIgnoreCase((String)authentication.getPrincipal())) {
-                  return null;
-                 }else{
-                     return (String) authentication.getPrincipal();
-                 }
+                if ("anonymousUser".equalsIgnoreCase((String) authentication.getPrincipal())) {
+                    return null;
+                } else {
+                    return (String) authentication.getPrincipal();
+                }
             }
         }
         return null;
@@ -113,7 +86,6 @@ public final class SecurityContextHolder {
     public static User getCurrentUser() {
         String username = getCurrentUserLogin();
         if (!StringUtils.isEmpty(username)) {
-//            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByUsernameOrCellphoneOrEmail(username,username,username);
             User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByGuid(username);
             return user;
         } else {
@@ -130,7 +102,7 @@ public final class SecurityContextHolder {
         return getCurrentUserLogin();
     }
 
-    public static Boolean hasRole(String roleCode){
+    public static Boolean hasRole(String roleCode) {
         List<String> roles = ContextHolder.getContext().getBean(RoleService.class).queryCodeByUserId(getCurrentUserId());
         return roles.contains(roleCode);
     }
@@ -151,4 +123,5 @@ public final class SecurityContextHolder {
         }
         return false;
     }
+
 }

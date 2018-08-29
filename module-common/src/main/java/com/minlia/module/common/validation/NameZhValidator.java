@@ -10,17 +10,17 @@ import java.util.regex.Pattern;
  * Annotation that check the cellphone
  * Created by garen on 2017/6/30.
  */
-public class UsernameValidator implements ConstraintValidator<Username, String> {
+public class NameZhValidator implements ConstraintValidator<NameZh, String> {
 
     @Override
-    public void initialize(Username username) {
+    public void initialize(NameZh cellphone) {
 
     }
 
     @Override
-    public boolean isValid(String username, ConstraintValidatorContext constraintValidatorContext) {
-        if (StringUtils.isNotEmpty(username)) {
-            return Pattern.matches("^[a-zA-z][a-zA-Z0-9_]{2,9}$",username);
+    public boolean isValid(String nameZh, ConstraintValidatorContext ctx) {
+        if (StringUtils.isNotEmpty(nameZh)) {
+            return Pattern.matches("^[\\u4e00-\\u9fa5]{2,6}$",nameZh);
         } else {
             return true;
         }

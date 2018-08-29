@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.openapi.registration.service;
+package com.minlia.modules.rbac.service;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
@@ -8,8 +8,8 @@ import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.backend.user.service.UserService;
-import com.minlia.modules.rbac.openapi.registration.body.UserAvailablitityRequestBody;
-import com.minlia.modules.rbac.openapi.registration.body.UserRegistrationRequestBody;
+import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
+import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

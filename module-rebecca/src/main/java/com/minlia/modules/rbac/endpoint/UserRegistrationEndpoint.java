@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.openapi.registration.endpoint;
+package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
@@ -7,9 +7,9 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
-import com.minlia.modules.rbac.openapi.registration.body.UserAvailablitityRequestBody;
-import com.minlia.modules.rbac.openapi.registration.body.UserRegistrationRequestBody;
-import com.minlia.modules.rbac.openapi.registration.service.UserRegistrationService;
+import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
+import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
+import com.minlia.modules.rbac.service.UserRegistrationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +37,8 @@ public class UserRegistrationEndpoint {
 
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody registration(@RequestBody UserRegistrationRequestBody body ) {
+    public StatefulBody registration(@Valid @RequestBody UserRegistrationRequestBody body ) {
         captchaService.validity(body.getUsername(),body.getCode());
-
         User userRegistered = userRegistrationService.registration(body);
         return SuccessResponseBody.builder().payload(userRegistered).build();
     }

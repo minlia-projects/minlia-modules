@@ -1,9 +1,9 @@
-package com.minlia.modules.rbac.openapi.login.endpoint;
+package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.modules.rbac.openapi.login.body.LoginCredentialRequestBody;
+import com.minlia.modules.rbac.bean.to.LoginCredentialRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

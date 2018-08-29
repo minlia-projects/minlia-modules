@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.backend.authentication;
+package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
@@ -92,4 +92,5 @@ public class RefreshTokenEndpoint {
         UserContext userContext = UserContext.create(user.getGuid(), authorities, refreshToken.getClaims().getBody().getExpiration());
         return SuccessResponseBody.builder().payload(tokenFactory.createAccessJwtToken(userContext)).build();
     }
+
 }

@@ -1,8 +1,7 @@
 package com.minlia.modules.rbac.backend.user.validation;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.modules.rbac.openapi.registration.body.UserAvailablitityRequestBody;
-import com.minlia.modules.rbac.openapi.registration.service.UserRegistrationService;
+import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
+import com.minlia.modules.rbac.service.UserRegistrationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 

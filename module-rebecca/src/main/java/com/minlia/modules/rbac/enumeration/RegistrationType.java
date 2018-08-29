@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.openapi.registration.enumeration;
+package com.minlia.modules.rbac.enumeration;
 
 /**
  * Created by garen on 2018/1/31.

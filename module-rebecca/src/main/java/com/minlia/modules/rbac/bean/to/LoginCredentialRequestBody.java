@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.openapi.login.body;
+package com.minlia.modules.rbac.bean.to;
 
 import com.minlia.cloud.body.Body;
 import io.swagger.annotations.ApiModel;

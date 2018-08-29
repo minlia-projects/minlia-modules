@@ -1,7 +1,6 @@
-package com.minlia.modules.rbac.openapi.registration.event;
+package com.minlia.modules.rbac.event;
 
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.modules.rbac.backend.user.entity.User;
 import org.springframework.context.ApplicationEvent;
 
 /**
