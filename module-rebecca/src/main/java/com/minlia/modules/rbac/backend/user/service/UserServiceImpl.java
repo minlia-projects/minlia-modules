@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.backend.user.service;
 
 import com.minlia.cloud.code.ApiCode;
 import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.module.data.util.SequenceUtils;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
@@ -49,10 +50,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = User.builder()
-                //TODO 多机部署时需要设置这里的数据中心与机器ID
-//                .guid(new Long(new GuidGenerator(1l, 1l).nextId()).toString())
-//        TODO  太长了，直接用表序列、表中设置自增
-                .guid(userMapper.getGuidSequence()+"")
+                .guid(SequenceUtils.nextval("guid").toString())
                 .username(requestBody.getUsername())
                 .cellphone(requestBody.getCellphone())
                 .email(requestBody.getEmail())

@@ -52,10 +52,6 @@
         </where>
     </sql>
 
-    <select id="getGuidSequence" resultType="java.lang.Long">
-        SELECT nextval('guid')
-    </select>
-
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO minlia_user(
             guid ,

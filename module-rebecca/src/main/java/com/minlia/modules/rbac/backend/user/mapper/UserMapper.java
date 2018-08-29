@@ -11,8 +11,6 @@ import java.util.Set;
 @Component
 public interface UserMapper  {
 
-    Long getGuidSequence();
-
     void create(User user);
 
     void update(User user);
