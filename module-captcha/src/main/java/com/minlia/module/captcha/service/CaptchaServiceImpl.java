@@ -64,7 +64,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
         String code = RandomStringUtils.randomNumeric(4);
         Date currentDate = new Date();
-        Date effectiveDate = DateUtils.addMinutes(currentDate,3);
+        Date effectiveDate = DateUtils.addMinutes(currentDate,5);
 
         if (null == captcha) {
             captcha = Captcha.builder()

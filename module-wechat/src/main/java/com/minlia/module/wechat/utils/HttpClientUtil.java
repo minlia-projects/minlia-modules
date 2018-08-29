@@ -510,7 +510,7 @@ public class HttpClientUtil {
             post.setEntity(entity2);
             result = httpclient.execute(post);
             InputStream inputStream = result.getEntity().getContent();
-            File dest=File.createTempFile("",".png");
+            File dest=File.createTempFile("qr_",".png");
             FileUtils.copyInputStreamToFile(inputStream, dest);
             return dest;
         } finally {

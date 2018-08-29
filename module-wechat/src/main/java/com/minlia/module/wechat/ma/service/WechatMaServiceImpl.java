@@ -169,17 +169,15 @@ public class WechatMaServiceImpl implements WechatMaService {
 
 
         try {
-            if (!body.isNotUpload()) {
-                //上传附件
-                String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
-                AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
-                        .relationId(body.getNumber())
-                        .belongsTo(body.getType())
-                        .file(file)
-                        .key(path + file.getName())
-                        .build();
-                return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
-            }
+            //上传附件
+            String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
+            AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
+                    .relationId(body.getNumber())
+                    .belongsTo(body.getType())
+                    .file(file)
+                    .key(path + file.getName())
+                    .build();
+            return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
         } catch (Exception e) {
             ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());
         } finally {
