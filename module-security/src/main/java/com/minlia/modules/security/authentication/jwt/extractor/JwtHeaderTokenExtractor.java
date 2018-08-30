@@ -1,15 +1,18 @@
 package com.minlia.modules.security.authentication.jwt.extractor;
 
 import com.minlia.modules.security.exception.JwtAcceptableException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class JwtHeaderTokenExtractor implements TokenExtractor {
     public static String HEADER_PREFIX = "Bearer ";
 
     @Override
     public String extract(String header) {
+        log.info("extractot:{}",header);
 //        ApiPreconditions.checkNotNull(header, ApiCode.ACCESS_TOKEN_INVALID,"Authorization header cannot be blank!");
         if (StringUtils.isBlank(header)) {
             throw new JwtAcceptableException("Authorization header cannot be blank!");
