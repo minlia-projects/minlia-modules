@@ -12,7 +12,6 @@ public class JwtHeaderTokenExtractor implements TokenExtractor {
 
     @Override
     public String extract(String header) {
-        log.info("extractot:{}",header);
 //        ApiPreconditions.checkNotNull(header, ApiCode.ACCESS_TOKEN_INVALID,"Authorization header cannot be blank!");
         if (StringUtils.isBlank(header)) {
             throw new JwtAcceptableException("Authorization header cannot be blank!");
