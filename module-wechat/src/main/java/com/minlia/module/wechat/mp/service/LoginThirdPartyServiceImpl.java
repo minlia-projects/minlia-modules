@@ -151,7 +151,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         List<String> roles = roleService.queryCodeByUserId(user.getId());
 
         List<GrantedAuthority> authorities = permissionService.getGrantedAuthority(roles);
-        UserContext userContext = UserContext.create(user.getGuid(), authorities);
+        UserContext userContext = UserContext.builder().username(user.getGuid()).authorities(authorities).build();
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
 
