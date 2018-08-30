@@ -38,7 +38,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 .cellphone(body.getUsername())
                 .password(body.getPassword())
                 .defaultRole(SecurityConstant.ROLE_USER_CODE)
-                .roles(Sets.newHashSet(2L))
+                .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_ID))
                 .referral(body.getReferral())
                 .build());
 
