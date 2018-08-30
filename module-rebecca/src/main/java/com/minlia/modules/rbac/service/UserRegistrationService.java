@@ -23,11 +23,4 @@ public interface UserRegistrationService {
      */
     StatefulBody availablitity(UserAvailablitityRequestBody body);
 
-    /**
-     * 用户绑定或注册
-     * @param user
-     * @return
-     */
-//    User bindOrRegistration(UserRegistrationRequestBody user);
-
 }

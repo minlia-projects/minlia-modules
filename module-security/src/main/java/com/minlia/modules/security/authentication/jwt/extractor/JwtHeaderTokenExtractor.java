@@ -19,7 +19,6 @@ public class JwtHeaderTokenExtractor implements TokenExtractor {
         if (header.length() < HEADER_PREFIX.length()) {
             throw new JwtAcceptableException("Invalid authorization header size.");
         }
-
         return header.substring(HEADER_PREFIX.length(), header.length());
     }
 }

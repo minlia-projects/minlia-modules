@@ -33,19 +33,13 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         Jws<Claims> jwsClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
         String subject = jwsClaims.getBody().getSubject();
 
-        //校验redis里面的token是否存在，如果不存在抛出异常 TODO
-//        if (!redisService.hasKey(TokenRedisConstants.token + subject)){
-//            throw new JwtInvalidTokenException("Invalid JWT token");
-//        }
-
         Date expirDate = jwsClaims.getBody().getExpiration();
         List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
         List<GrantedAuthority> authorities = scopes.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority))
                 .collect(Collectors.toList());
 
-        UserContext context = UserContext.create(subject, authorities, expirDate);
-
+        UserContext context = UserContext.builder().username(subject).authorities(authorities).expireDate(expirDate).build();
         return new JwtAuthenticationToken(context, context.getAuthorities());
     }
 

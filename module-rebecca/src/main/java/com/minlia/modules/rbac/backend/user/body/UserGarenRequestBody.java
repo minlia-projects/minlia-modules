@@ -4,6 +4,7 @@ import com.minlia.cloud.body.ApiRequestBody;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -17,8 +18,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserGarenRequestBody implements ApiRequestBody {
 
-    @NotNull
-    private Long id;
+    @NotBlank
+    private String guid;
 
     @NotNull
     private Set<Long> roles;

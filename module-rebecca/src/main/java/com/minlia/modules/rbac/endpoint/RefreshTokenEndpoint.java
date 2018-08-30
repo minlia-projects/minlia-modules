@@ -89,7 +89,7 @@ public class RefreshTokenEndpoint {
         }
         List<GrantedAuthority> authorities = permissionService.getGrantedAuthority(roles);
 //        UserContext userContext = UserContext.create(user.getUsername(), authorities, refreshToken.getClaims().getBody().getExpiration());
-        UserContext userContext = UserContext.create(user.getGuid(), authorities, refreshToken.getClaims().getBody().getExpiration());
+        UserContext userContext = UserContext.builder().username(user.getGuid()).authorities(authorities).expireDate(refreshToken.getClaims().getBody().getExpiration()).build();
         return SuccessResponseBody.builder().payload(tokenFactory.createAccessJwtToken(userContext)).build();
     }
 

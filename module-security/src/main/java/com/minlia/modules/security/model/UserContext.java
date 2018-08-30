@@ -1,7 +1,10 @@
 package com.minlia.modules.security.model;
 
 import com.minlia.cloud.body.Body;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,12 +15,15 @@ import java.util.List;
  * 当前用户上下文
  */
 @Data
-public class UserContext implements Body {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public final class UserContext implements Body {
 
     /**
      * 用户名
      */
-    private final String username;
+    private String username;
 
     /**
      * 过期时间
@@ -30,36 +36,20 @@ public class UserContext implements Body {
     private String currrole;
 
     /**
-     * 权限点
-     * [{'authority':'user.change.password'}]
+     * 拥有角色
      */
-    private final List<GrantedAuthority> authorities;
+    private List<String> roles;
 
     /**
-     * 我拥有的菜单项
+     * 拥有权限点
+     * [{'authority':'user.change.password'}]
      */
-//    private List<Navigation> navigations= Lists.newArrayList();
+    private List<GrantedAuthority> authorities;
 
-    private UserContext(String username, List<GrantedAuthority> authorities) {
-        this.username = username;
-        this.authorities = authorities;
-    }
+    /**
+     * 拥有菜单
+     */
+    private List<String> navigations;
 
-    private UserContext(String username, List<GrantedAuthority> authorities, Date expireDate) {
-        this.username = username;
-        this.authorities = authorities;
-        this.expireDate = expireDate;
-    }
-
-    public static UserContext create(String username, List<GrantedAuthority> authorities) {
-        return new UserContext(username, authorities, null);
-    }
-
-    public static UserContext create(String username, List<GrantedAuthority> authorities, Date expirDate) {
-        if (StringUtils.isBlank(username)) {
-            throw new IllegalArgumentException("Username is blank: " + username);
-        }
-        return new UserContext(username, authorities, expirDate);
-    }
 
 }

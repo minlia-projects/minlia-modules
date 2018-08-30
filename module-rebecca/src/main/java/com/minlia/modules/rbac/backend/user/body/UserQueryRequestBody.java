@@ -11,6 +11,8 @@ public class UserQueryRequestBody {
 
     private Long id;
 
+    private String guid;
+
     private String referral;
 
     private String username;

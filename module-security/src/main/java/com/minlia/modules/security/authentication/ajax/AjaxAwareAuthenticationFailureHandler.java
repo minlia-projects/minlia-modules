@@ -20,6 +20,7 @@ import java.io.IOException;
 
 @Component
 public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
     private final ObjectMapper mapper;
     
     @Autowired
@@ -32,32 +33,36 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
+		//TODO 非自定义异常直接抛出，
 		if (e instanceof AuthMethodNotSupportedException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.BAD_REQUEST, AuthenticationErrorCode.AUTHENTICATION, "不支持的请求方式"));
-		} else if (e instanceof AuthenticationServiceException) {
+		} else if (e instanceof AuthenticationCredentialsNotFoundException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "用户名或密码不能为空"));
+		} else if (e instanceof UsernameNotFoundException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "用户不存在"));
+		} else if (e instanceof BadCredentialsException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "密码错误"));	//TODO
+		} else if (e instanceof AccountExpiredException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已过期"));
+		} else if (e instanceof DisabledException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已禁用"));
+		} else if (e instanceof LockedException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已锁定"));
+		} else if (e instanceof CredentialsExpiredException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "凭证已过期"));
+		} else if (e instanceof AuthenticationServiceException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "认证服务异常"));
+
 		} else if (e instanceof JwtExpiredTokenException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 已过期"));
 		} else if (e instanceof JwtInvalidTokenException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 无效"));
 		} else if (e instanceof JwtAcceptableException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.NOT_ACCEPTABLE, AuthenticationErrorCode.AUTHENTICATION, e.getMessage()));
-		} else if (e instanceof UsernameNotFoundException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "用户不存在"));
-//		} else if (e instanceof BadCredentialsException) {
-//			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "密码错误"));
 		} else if (e instanceof AjaxBadCredentialsException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, String.format("密码错误，已连续错误%s次",((AjaxBadCredentialsException) e).getFailureTimes()),((AjaxBadCredentialsException) e).getFailureTimes()));
-		} else if (e instanceof AccountExpiredException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已过期"));
-		} else if (e instanceof DisabledException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已禁用"));
-//		} else if (e instanceof LockedException) {
-//			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已锁定"));
 		} else if (e instanceof AjaxLockedException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, String.format("账号已锁定，%s秒后解锁",((AjaxLockedException) e).getLockTime()),((AjaxLockedException) e).getLockTime()));
-		} else if (e instanceof CredentialsExpiredException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "凭证已过期"));
 		}
 	}
 

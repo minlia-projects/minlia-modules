@@ -59,6 +59,11 @@ public class User extends AbstractEntity {
     private Boolean credentialsExpired;
 
     /**
+     * 有效期
+     */
+    private Date expireDate;
+
+    /**
      * 是否锁定
      */
     private Boolean locked;

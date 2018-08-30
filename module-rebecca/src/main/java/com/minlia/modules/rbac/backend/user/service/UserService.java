@@ -6,6 +6,8 @@ import com.minlia.modules.rbac.backend.user.body.UserGarenRequestBody;
 import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 
+import java.util.Set;
+
 /**
  * 用户接口
  */
@@ -23,6 +25,8 @@ public interface UserService {
 
     Boolean disabled(String guid);
 
-    void grant(UserGarenRequestBody requestBody);
+    void grant(String guid, Set<Long> roles);
+
+    void grant(long id, Set<Long> roles);
 
 }

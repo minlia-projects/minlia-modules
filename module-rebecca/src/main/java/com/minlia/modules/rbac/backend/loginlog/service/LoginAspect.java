@@ -35,10 +35,10 @@ public class LoginAspect {
     public void beforeLogin(JoinPoint joinPoint){
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) joinPoint.getArgs()[0];
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String username = (String) authenticationToken.getPrincipal();
-        String password = (String) authenticationToken.getCredentials();
-        String ipAddress = NetworkUtil.getIpAddress(request);
-        loginLogService.create(LoginLog.builder().username(username).password(password).ipAddress(ipAddress).time(new Date()).build());
+//        String username = (String) authenticationToken.getPrincipal();
+//        String password = (String) authenticationToken.getCredentials();
+//        String ipAddress = NetworkUtil.getIpAddress(request);
+//        loginLogService.create(LoginLog.builder().username(username).password(password).ipAddress(ipAddress).time(new Date()).build());
     }
 
 }

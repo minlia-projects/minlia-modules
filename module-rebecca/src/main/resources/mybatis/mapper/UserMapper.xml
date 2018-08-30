@@ -10,6 +10,7 @@
         ut.password ,
         ut.cellphone ,
         ut.email ,
+        ut.default_role ,
         ut.credentials_expired ,
         ut.locked ,
         ut.lock_limit ,
@@ -59,6 +60,7 @@
             cellphone ,
             email ,
             password ,
+            default_role ,
             referral
         )
         VALUES(
@@ -67,6 +69,7 @@
             #{cellphone,jdbcType=VARCHAR},
             #{email,jdbcType=VARCHAR},
             #{password,jdbcType=VARCHAR},
+            #{defaultRole,jdbcType=VARCHAR},
             #{referral,jdbcType=VARCHAR}
         )
     </insert>
@@ -83,6 +86,9 @@
         <if test="password != null">
             password = #{password,jdbcType=VARCHAR} ,
         </if>
+        <if test="defaultRole != null">
+            default_role = #{defaultRole,jdbcType=VARCHAR} ,
+        </if>
         <if test="locked != null">
             locked = #{locked,jdbcType=TINYINT} ,
         </if>
@@ -91,6 +97,12 @@
         </if>
         <if test="lockLimit != null">
             lock_limit = #{lockLimit,jdbcType=TINYINT} ,
+        </if>
+        <if test="lastLoginTime != null">
+            last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP} ,
+        </if>
+        <if test="lastLoginIp != null">
+            last_login_ip = #{lastLoginIp,jdbcType=VARCHAR} ,
         </if>
         last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
         WHERE guid = #{guid,jdbcType=VARCHAR}

@@ -6,13 +6,12 @@ import io.jsonwebtoken.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 
 @ApiModel
 @Slf4j
 public class RawAccessJwtToken implements JwtToken {
+
     @ApiModelProperty(value = "令牌",example = "x001")
     private String token;
     
@@ -44,8 +43,8 @@ public class RawAccessJwtToken implements JwtToken {
         return token;
     }
 
-
     public void setToken(String token) {
         this.token = token;
     }
+
 }

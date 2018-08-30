@@ -139,7 +139,6 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional(readOnly = true)
-//    @Cacheable(value = { "permission" }, key = "#p0",unless="#result==null")
     public List<GrantedAuthority> getGrantedAuthority(List<String> roleCodes) {
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         final List<String> permissions = queryCodesByRoleCodes(roleCodes);

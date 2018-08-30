@@ -7,7 +7,6 @@ public interface Credential {
 
     /**
      * 密码
-     *
      * @return
      */
     public String getPassword();

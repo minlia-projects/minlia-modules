@@ -79,7 +79,7 @@ public class UserEndpoint {
     @ApiOperation(value = "授予角色", notes = "授予角色", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "grant", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody grant(@Valid @RequestBody UserGarenRequestBody requestBody) {
-        userService.grant(requestBody);
+        userService.grant(requestBody.getGuid(),requestBody.getRoles());
         return SuccessResponseBody.builder().message("授权成功").build();
     }
 

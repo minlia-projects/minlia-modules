@@ -4,7 +4,6 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
@@ -27,9 +26,6 @@ import javax.validation.Valid;
 public class UserRegistrationEndpoint {
 
     @Autowired
-    private CaptchaService captchaService;
-
-    @Autowired
     private UserQueryService userQueryService;
 
     @Autowired
@@ -38,7 +34,6 @@ public class UserRegistrationEndpoint {
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody registration(@Valid @RequestBody UserRegistrationRequestBody body ) {
-        captchaService.validity(body.getUsername(),body.getCode());
         User userRegistered = userRegistrationService.registration(body);
         return SuccessResponseBody.builder().payload(userRegistered).build();
     }

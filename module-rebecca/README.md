@@ -24,8 +24,6 @@ PostAuthorized
 
 ```
 
-
-
 权限基础功能支持
 
 
@@ -33,8 +31,11 @@ PostAuthorized
 需要考虑在哪个级别引入用户系统
 
 
-
-
+系统默认角色 不要修改
+角色名     ID
+Admin      1
+User       2
+Guest      3
 
 
 

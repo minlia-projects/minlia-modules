@@ -1,32 +1,39 @@
 package com.minlia.modules.security.body;
 
+import com.minlia.cloud.i18n.Lang;
 import com.minlia.modules.security.code.AuthenticationErrorCode;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
 public class AuthenticationErrorResponseBody {
+
     // HTTP Response Status Code
     private final HttpStatus status;
-
-    // General Error message
-    private final String message;
 
     // Error code
     private final AuthenticationErrorCode code;
 
-    private Long lockTime;
+    // General Error message
+    private final String message;
 
-    private Integer failureTimes;
+    private long lockTime;
+
+    private int failureTimes;
 
     private final Date timestamp;
 
-    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message) {
-        this.message = message;
-        this.code = code;
+    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code) {
         this.status = status;
-//        this.path = path;
-//        this.exception = exception;
+        this.code = code;
+        this.message = code.getCode();
+        this.timestamp = new java.util.Date();
+    }
+
+    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message) {
+        this.status = status;
+        this.code = code;
+        this.message = Lang.get(message);
         this.timestamp = new java.util.Date();
     }
 
@@ -44,18 +51,6 @@ public class AuthenticationErrorResponseBody {
         this.status = status;
         this.failureTimes = failureTimes;
         this.timestamp = new java.util.Date();
-    }
-
-
-    protected AuthenticationErrorResponseBody(final String message, final AuthenticationErrorCode code, HttpStatus status) {
-        this.message = message;
-        this.code = code;
-        this.status = status;
-        this.timestamp = new Date();
-    }
-
-    public static AuthenticationErrorResponseBody of(final String message, final AuthenticationErrorCode authenticationErrorCode, HttpStatus status) {
-        return new AuthenticationErrorResponseBody(message, authenticationErrorCode, status);
     }
 
     public Integer getStatus() {
