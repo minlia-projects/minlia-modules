@@ -23,7 +23,6 @@ public class ScanHandler extends AbstractHandler {
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
-
         //获取微信用户基本信息
         WxMpUser wxMpUser = wxMpService.getUserService().userInfo(wxMessage.getFromUser());
         wechatOpenAccountService.save(wxMpUser);
