@@ -11,6 +11,7 @@ import com.minlia.module.captcha.util.SmsTemplateProperties;
 import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,18 +72,20 @@ public class CaptchaServiceImpl implements CaptchaService {
                     .cellphone(cellphone)
                     .code(code)
                     .effectiveTime(effectiveDate)
+                    .sendTime(currentDate)
                     .locked(false)
                     .used(false)
                     .failureCount(0)
                     .build();
             captchaMapper.create(captcha);
         } else {
-            ApiPreconditions.is(currentDate.after(DateUtils.addMinutes(captcha.getSendTime(),1)) ,CaptchaApiCode.ONE_TIME_CODE,CaptchaApiCode.ONE_TIME_DESC);
+            ApiPreconditions.is(currentDate.before(DateUtils.addMinutes(captcha.getSendTime(),1)) ,CaptchaApiCode.ONE_TIME_CODE,CaptchaApiCode.ONE_TIME_DESC);
             captcha.setCode(code);
             captcha.setUsed(false);
             captcha.setLocked(Boolean.FALSE);
             captcha.setFailureCount(0);
             captcha.setEffectiveTime(effectiveDate);
+            captcha.setSendTime(currentDate);
             captchaMapper.update(captcha);
         }
 

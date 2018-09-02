@@ -2,23 +2,28 @@ server:
     port: 10000
 
 system:
-    appId: countryapp
+    appId: captcha-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: country
+        name: Captcha
     http:
         encoding.charset: UTF-8
         encoding.enable: true
         encoding.force: true
+        multipart:
+              enabled: true
+              max-file-size: 300MB  #(这里是限制的文件大小)
+              max-request-size: 300MB #(这里是限制的文件大小)
+    session:
+        store-type: redis
 
     datasource:
-        name:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+        url: jdbc:log4jdbc:mysql://localhost:3306/xmj_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:
@@ -31,7 +36,7 @@ spring:
         minIdle: 1
         timeBetweenEvictionRunsMillis: 60000
         minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
+        validationQuery: select 1
         testWhileIdle: true
         testOnBorrow: false
         testOnReturn: false
@@ -43,18 +48,18 @@ spring:
     redis:
         database: 0
         host: 127.0.0.1
+        port: 6379
         password:
         pool:
-            max-active: 8
-            max-idle: 8
-            max-wait: -1
-            min-idle: 0
-        port: 6379
-        timeout: 0
+            max-active: 300
+            max-wait: 10000
+            max-idle: 50
+            min-idle: 10
+        timeout: 180
 
 system.security.jwt:
-    tokenExpirationTime: 10086 # Number of minutes
-    refreshTokenExpTime: 10086 # Minutes
+    tokenExpirationTime: 10080 # Number of minutes
+    refreshTokenExpTime: 10080 # Minutes
     tokenIssuer: http://minlia.com
     tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
@@ -67,21 +72,37 @@ swagger:
     redirect: true
 
 mybatis:
-#    mapper-locations: classpath:com/minlia/module/bible/mapper/*.xml
-    mapper-locations: classpath:mybatis/mapper/*.xml
-    config-location:
-        classpath: mybatis/mybatis-config.xml
+#    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath*:mybatis/mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
 
+# 分页配置
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
+
+#阿里云
 aliyun:
     sms:
-        accessId: xxxx
-        accessKey: xxxx
+        accessId: LTAI7w8hY3vG8RNb
+        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
         endpoint: cn-hangzhou
         regionId: cn-hangzhou
-        product: Sms
-        domain: sms.aliyuncs.com
-        signName: 测试
+        product: Dysmsapi
+        domain: dysmsapi.aliyuncs.com
+        signName: 智慧新民居
 
 sms:
+    day-times: 20
     templates:
-        security-code: XXXX
+        securityCode: SMS_143690074
+        test: SMS_95635444
+        loginConfirm: SMS_95635443
+        loginException: SMS_95635442
+        userRegistration: SMS_95635441
+        changePassword: SMS_95635440
+        infoChange: SMS_95635439
+        mp-attention: SMS_133969774

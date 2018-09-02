@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.captcha.mapper.CaptchaMapper">
 
-	<sql id="QUERY_CONTENT">
+    <sql id="QUERY_CONTENT">
 		SELECT
 			id ,
 			cellphone ,
@@ -17,33 +17,34 @@
 			minlia_captcha
 	</sql>
 
-	<sql id="QUERY_CONDITION">
-		WHERE 1=1
-		<if test="cellphone != null">
-			AND cellphone = #{cellphone}
-		</if>
-		<if test="code != null">
-			AND code = #{code}
-		</if>
-		<if test="used != null">
-			AND used = #{used}
-		</if>
-		<if test="locked != null">
-			AND locked = #{locked}
-		</if>
-		<if test="enabled != null">
-			AND enabled = #{enabled}
-		</if>
-	</sql>
+    <sql id="QUERY_CONDITION">
+        WHERE 1=1
+        <if test="cellphone != null">
+            AND cellphone = #{cellphone}
+        </if>
+        <if test="code != null">
+            AND code = #{code}
+        </if>
+        <if test="used != null">
+            AND used = #{used}
+        </if>
+        <if test="locked != null">
+            AND locked = #{locked}
+        </if>
+        <if test="enabled != null">
+            AND enabled = #{enabled}
+        </if>
+    </sql>
 
-	<insert id="create" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO minlia_captcha(
 			cellphone ,
 			code ,
 			used ,
 			locked ,
 			failure_count ,
-			effective_time
+			effective_time ,
+			send_time
 		)
 		VALUES
 			(
@@ -52,56 +53,57 @@
 				#{used,jdbcType=TINYINT} ,
 				#{locked,jdbcType=TINYINT} ,
 				#{failureCount,jdbcType=TINYINT} ,
-				#{effectiveTime,jdbcType=TIMESTAMP}
+				#{effectiveTime,jdbcType=TIMESTAMP},
+				#{sendTime,jdbcType=TIMESTAMP}
 			)
 	</insert>
 
-	<update id="update" parameterType="com.minlia.module.captcha.domain.Captcha">
-		UPDATE minlia_captcha
-		<set>
-		<if test="code != null">
-			code = #{code,jdbcType=VARCHAR} ,
-		</if>
-		<if test="used != null">
-			used = #{used,jdbcType=TINYINT} ,
-		</if>
-		<if test="locked != null">
-			locked = #{locked,jdbcType=TINYINT} ,
-		</if>
-		<if test="failureCount != null">
-			failure_count = #{failureCount,jdbcType=TINYINT} ,
-		</if>
-		<if test="effectiveTime != null">
-			effective_time = #{effectiveTime,jdbcType=TIMESTAMP} ,
-		</if>
-		<if test="sendTime != null">
-			send_time = #{sendTime,jdbcType=TIMESTAMP} ,
-		</if>
-		</set>
-		WHERE id = #{id,jdbcType=BIGINT}
-	</update>
+    <update id="update" parameterType="com.minlia.module.captcha.domain.Captcha">
+        UPDATE minlia_captcha
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR} ,
+            </if>
+            <if test="used != null">
+                used = #{used,jdbcType=TINYINT} ,
+            </if>
+            <if test="locked != null">
+                locked = #{locked,jdbcType=TINYINT} ,
+            </if>
+            <if test="failureCount != null">
+                failure_count = #{failureCount,jdbcType=TINYINT} ,
+            </if>
+            <if test="effectiveTime != null">
+                effective_time = #{effectiveTime,jdbcType=TIMESTAMP} ,
+            </if>
+            <if test="sendTime != null">
+                send_time = #{sendTime,jdbcType=TIMESTAMP} ,
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
 
-	<delete id="delete">
+    <delete id="delete">
 		DELETE FROM mdl_bible WHERE id = #{id}
 	</delete>
 
-	<select id="queryByCellphone" resultType="com.minlia.module.captcha.domain.Captcha">
-		<include refid="QUERY_CONTENT" />
-		WHERE cellphone = #{cellphone,jdbcType=VARCHAR}
-	</select>
+    <select id="queryByCellphone" resultType="com.minlia.module.captcha.domain.Captcha">
+        <include refid="QUERY_CONTENT"/>
+        WHERE cellphone = #{cellphone,jdbcType=VARCHAR}
+    </select>
 
-	<select id="queryOne" resultType="com.minlia.module.captcha.domain.Captcha">
-		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-	</select>
+    <select id="queryOne" resultType="com.minlia.module.captcha.domain.Captcha">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
 
-	<select id="queryList" resultType="com.minlia.module.captcha.domain.Captcha">
-		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-	</select>
+    <select id="queryList" resultType="com.minlia.module.captcha.domain.Captcha">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
 
-	<select id="queryAll" resultType="com.minlia.module.captcha.domain.Captcha">
-		<include refid="QUERY_CONTENT" />
-	</select>
+    <select id="queryAll" resultType="com.minlia.module.captcha.domain.Captcha">
+        <include refid="QUERY_CONTENT"/>
+    </select>
 
 </mapper>
