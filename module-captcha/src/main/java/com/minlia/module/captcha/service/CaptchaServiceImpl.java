@@ -77,7 +77,7 @@ public class CaptchaServiceImpl implements CaptchaService {
                     .build();
             captchaMapper.create(captcha);
         } else {
-            ApiPreconditions.is(captcha.getEffectiveTime().after(currentDate),CaptchaApiCode.ONE_TIME_CODE,CaptchaApiCode.ONE_TIME_DESC);
+            ApiPreconditions.is(currentDate.after(DateUtils.addMinutes(captcha.getSendTime(),1)) ,CaptchaApiCode.ONE_TIME_CODE,CaptchaApiCode.ONE_TIME_DESC);
             captcha.setCode(code);
             captcha.setUsed(false);
             captcha.setLocked(Boolean.FALSE);
