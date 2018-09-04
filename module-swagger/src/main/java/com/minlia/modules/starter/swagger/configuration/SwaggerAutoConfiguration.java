@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 //@ConditionalOnClass(Swagger2Config.class)
-@Profile(value = {"dev"})
+@Profile(value = {"!prod"})
 public class SwaggerAutoConfiguration {
 
     @EnableDevSwagger
