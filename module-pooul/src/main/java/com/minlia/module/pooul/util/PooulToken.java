@@ -12,7 +12,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.pooul.bean.to.PooulBaseOrderTO;
-import com.minlia.module.pooul.config.PooulProperties;
+import com.minlia.module.pooul.config.PooulPayProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -26,7 +26,7 @@ import java.util.Map;
 @Slf4j
 public class PooulToken {
 
-    private static PooulProperties pooulProperties;
+    private static PooulPayProperties pooulProperties;
 
     private static Map<String, Object> headerClaims = Maps.newConcurrentMap();
     static {
@@ -37,7 +37,7 @@ public class PooulToken {
     private static Algorithm algorithm = null;
     public static Algorithm getAlgorithm(){
         if (null == algorithm){
-            pooulProperties = ContextHolder.getContext().getBean(PooulProperties.class);
+            pooulProperties = ContextHolder.getContext().getBean(PooulPayProperties.class);
             RSAPublicKey publicKey = RSAEncrypt.getPublicKey(pooulProperties.getPooulPublicKey());
             RSAPrivateKey privateKey = RSAEncrypt.getPrivateKey(pooulProperties.getPrivateKey());
             algorithm = Algorithm.RSA256(publicKey,privateKey);

@@ -17,7 +17,7 @@ import com.minlia.module.pooul.bean.domain.PooulPayInfoDO;
 import com.minlia.module.pooul.bean.dto.PooulPayData;
 import com.minlia.module.pooul.bean.qo.PooulOrderQO;
 import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
-import com.minlia.module.pooul.config.PooulProperties;
+import com.minlia.module.pooul.config.PooulPayProperties;
 import com.minlia.module.pooul.contract.PooulContracts;
 import com.minlia.module.pooul.enumeration.PayStatusEnum;
 import com.minlia.module.pooul.enumeration.PayTypeEnum;
@@ -47,7 +47,7 @@ public class PooulPayServiceImpl implements PooulPayService {
     private Mapper mapper;
 
     @Autowired
-    private PooulProperties pooulProperties;
+    private PooulPayProperties pooulProperties;
 
     @Autowired
     private PooulOrderMapper pooulOrderMapper;

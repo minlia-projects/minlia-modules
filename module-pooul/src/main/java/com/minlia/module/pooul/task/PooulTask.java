@@ -28,6 +28,7 @@ public class PooulTask {
         //查询超过30分钟没付款的订单
         List<PooulOrderDO> orderDOS = pooulOrderMapper.queryList(PooulOrderQO.builder().payStatus(PayStatusEnum.UNPAID).gtCreateDateMinutes(30).build());
         for (PooulOrderDO orderDO : orderDOS) {
+            //关闭订单
             pooulPayService.close(orderDO.getMchTradeId());
         }
     }

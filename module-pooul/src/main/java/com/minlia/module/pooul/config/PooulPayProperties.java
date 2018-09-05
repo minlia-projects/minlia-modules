@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * Created by garen on 2018/7/18.
  */
-@ConfigurationProperties(prefix = "pooul",ignoreUnknownFields = true)
+@ConfigurationProperties(prefix = "pooul.pay",ignoreUnknownFields = true)
 @Data
-public class PooulProperties {
+public class PooulPayProperties {
 
     /**
      * 商户ID

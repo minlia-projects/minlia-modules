@@ -77,31 +77,21 @@ pagehelper:
     params: count=countSql
 
 #普尔支付配置-测试
-#pooul:
-#    merchant-id: xxxxxxxxx
-#    public-key: xxxxxxxxx
-#    private-key: xxxxxxxxx
-#    pooul-public-key: xxxxxxxxx
-#    url-v2-pay: https://json.pooulcloud.cn/v2/pay?merchant_id=%s
-
-#优足
 pooul:
-    merchant-id: 5979955761982077
-    public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq6B5lC99E+oaNV+7UhXYJElyEUdRCXQLaKGbzogBEzMOcHjq2EzEuxJMPG0gPT+u04yKiedHXblDE9+8MN9gpmIeo2jlb2F8iJDKYvX4HJfgbQtr7sPLhAbNEBUT2FWnPuZ5QajdimcN55TcvexLQX8umUh3WtF18LxaXdkB/BNlJgJMP0BfXiOJdsXXWmo+PXCoRD5qrEBLtji24JUTq+w+tJwxhdAqzP0y3M7AxApbweuDV6/31UnyefqyxyLB9op8uFqD+uLopC8lBythXF3LXGJBnYtZa7SwL3YzCrPIH7OjBRkNIqYM0DlZ/GjSfTsEgh76WPVIlqrpkGMi9wIDAQAB
-    private-key: MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCroHmUL30T6ho1X7tSFdgkSXIRR1EJdAtooZvOiAETMw5weOrYTMS7Ekw8bSA9P67TjIqJ50dduUMT37ww32CmYh6jaOVvYXyIkMpi9fgcl+BtC2vuw8uEBs0QFRPYVac+5nlBqN2KZw3nlNy97EtBfy6ZSHda0XXwvFpd2QH8E2UmAkw/QF9eI4l2xddaaj49cKhEPmqsQEu2OLbglROr7D60nDGF0CrM/TLczsDEClvB64NXr/fVSfJ5+rLHIsH2iny4WoP64uikLyUHK2FcXctcYkGdi1lrtLAvdjMKs8gfs6MFGQ0ipgzQOVn8aNJ9OwSCHvpY9UiWqumQYyL3AgMBAAECggEAHJ7hR3333MdQYZA6W8D6z2pUFF+ROwNYF7XDltiFXV9JTCZN+44pzIyLnBQSqUQicnLgc4jXFOEdN4Y7CudlZbm9JEEM6dsW+msy5PfhzVrieSzLbgDGwpijv8fUDGKURmAG3pU7hKYU4oannSB3mE+ORM+Z39JIWcH/S+ExfIi1R0s49zCA4VTaVBt7L2LPkt2XxMJxy+/ThUrVgXOAA9bgRgJ5bYqZIZtIhw7LoY8J6jt6N8GUjJoovNcfb3RIFkRG5Up/qs2bvJNbq5yZ4TOAd6c5YUi5yd3qdcSn2GZA1/So9MhxjB5Kf1WSe2ticETxsjyWiYg9vdacRUJiGQKBgQDlSCYTLmyk53ThMuc848dZiDe3RWG6oVnDcWFjfAyOJ3it2DN2EiZuBqeB9Jsi7w3hJMaW1IeyI/+k4b3lVHTPWXE9c8Hi1hmjW6dwWkNjiy6h22y9dZpepNTsstkUbMPXU4oXv91jH6vZEkfTEvzLYzrDKU4yRB04p6CHNnUdswKBgQC/oGJXmdKUN1mo7ALJVnmxENRYH3CSwPXFQxN1rbufIpy+EmI7yoSwPPeYEdd/X2HqtuC/7l+RpuuXnUDlL7GW027/kKT5j9m5mikFQSBcgFDgfN35c3sh1YVc8bsKfpgAZJflazGhhN3kP/3OMOQ4HM2LFMkskTTugYaHRTsrrQKBgBybeOyxwSp+Go4ynLlzLh9UqKb8SCpSEXIaRm10P9jIwfzm2dzkfNkDiYjkbSrZquCphwGwuNGYPkBjTh87/2sTnNZvCAT2c7J3MBgLmxbjeckGKLYm40Dlzg9ObVloDLNkH/nAna3NeNKXvlBusQ3rbpyFHdWVvBOijpvwRoKTAoGAGd49yFOUkLuUF/CcQ6+vx85cy/SajsULqHBwnQ8x576VaDc1GZsyJFRmnBm0fJZUsomzd1Vng1MENLhevVGd6J1sO4W8L5BStPJxnSr4gmQ0Bsn0cSs8sQmQ8kYTmMwUGuF5e9fnoEU+awSUb5Q8CrMgsCjDK4gCnDvR/ErFPRUCgYBis3hRUWZTQQdqixjEFrCaI0RUzKJGC846BO1VR3Fir3tg0MLqNeUGKdvzm1pNv4C6r/NG+J1udrbf4ZJGkGSGk0s3DVigGRgtXDIqN8Tp4ZG8rJ3SW5ZhTk19MyfTX/h9zvfCnKa0rJ9FOJ+UX1OcTdnuXIQJ9Xdr2urifP/GQg==
-    pooul-public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+Vd3j0McNfR3VvT7mZp/7M6ULFJSc3dh3/56JP8DZk+cDlXC2LR0z0OELJeyTitFeBjpPWzWH3OOFI/OL3nD5/oNZfK+wHd4Tzxj2SdWlyuqRhNv3xG2obUUYZ9urUvkCvxL1SclaXW7cq22V/TTNSgJq7CGdc+q/XLNqcmLt7QIDAQAB
-    pay-url: https://api-dev.pooul.com/v2/pay?merchant_id=${pooul.merchant-id}
-    query-order-url: https://api-dev.pooul.com/v2/pay/query?merchant_id=${pooul.merchant-id}
-    close-order-url: https://api-dev.pooul.com/v2/pay/close?merchant_id=${pooul.merchant-id}
-    notify-url: http://xmj.frp.apartscloud.com/api/open/pooul/notify/pay
-
-#花果山
-#pooul:
-#    merchant-id: 2162288807443437
-#    public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoRlcWxsXeLlqsasMEDfvNZ5OYBdiGZt5D3l7Li17AIi8o0JdRThqwpwF7Oabu+bfwfsMHWGy1fxvIpDLh1ftXkKqoGlQU10WibXTUrH90wYGBJRa4yF8qwdMYkkNi39kWtSbeberUWo1msKF2Oih1JanwXNXGb6DNoOixC2DR1C5wYSkvKqCimsbLNbF5/AOJ3X7EdinSI6PxLmMSGgQAlOJbwhG/fDkw9MYw4Binucy2gyEfoMTYHz6LZmNm06R6x+sETuDNv/ONa7ULA4Ww56YwvlXZJsI65exykY6c7O7UhMWSGjUk9Upk0K3Vg7IVdvuwExcIiEpiv2WZLqcnwIDAQAB
-#    private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQChGVxbGxd4uWqxqwwQN+81nk5gF2IZm3kPeXsuLXsAiLyjQl1FOGrCnAXs5pu75t/B+wwdYbLV/G8ikMuHV+1eQqqgaVBTXRaJtdNSsf3TBgYElFrjIXyrB0xiSQ2Lf2Ra1Jt5t6tRajWawoXY6KHUlqfBc1cZvoM2g6LELYNHULnBhKS8qoKKaxss1sXn8A4ndfsR2KdIjo/EuYxIaBACU4lvCEb98OTD0xjDgGKe5zLaDIR+gxNgfPotmY2bTpHrH6wRO4M2/841rtQsDhbDnpjC+Vdkmwjrl7HKRjpzs7tSExZIaNST1SmTQrdWDshV2+7ATFwiISmK/ZZkupyfAgMBAAECggEAYMRhC4CcerG1ev8pgdx3XZe3sFSbYpJXB4qLCVPcXJfF57MHX3rh9f/ON1zWEuo9YcGwpz12NL8q6nJbLvML6+DTqQNZcpmp3hJP2456zvUBTGLorSICRqFdqnQDJNXirASlV1mSGJdZl5pc18v02UOdhMAJg7dCDc7ISFqmToEhWwmvKpCi7BYK0eb7TlXscfb3mv8g086bTrvYKtYqV7WZG4kxiZ34I0BUslur71NQ5HFjrB1AocdYOOLtz0WHXboQmlT+RRDv/uoFlzcvCcR7HbR46tPQ78YNV+djD+shhTM836ya5r6VnxTM88tFdkxnPTMOkE0U1Xr4Y2APkQKBgQDxOgprB49kphD3Mj34wtUgMs5cQEovJ0b38RZxOsSSmTkw4jIQbXmOvw3Tjo4T4RMelyKszuQHkRbeCgRWmPmaOdfQPm9oDjT/B02CQd1LpJp+c3l7ZUIyx5lV5TkHbWK6LH9E5CmDvRNU3W5/iU/wsP+KPtxHAm8Ay5D1AMAPHQKBgQCq9xORCsdY9hK+cLT9pjjj/mMeq1OhbnLlc6GapvPzhSuqLq7tdumLaffnUu+xAm1/jPf3aUcr97fT2W1mBmg5usQQtC72P1zwgP6+PCZ6WMeKWCNhsTOJUOJmx/pi2lC8KPeTGWZ8jomQXXm4kd19W60a8ge1sFpE7azrsUIh6wKBgQCgiW7rgdGFOxupV290wT0TO5yoOkTkkrAhS/oSivjNU1mDVdXZpvGx9SYfeAzH4A9YWV7DQMDy5DUiuenfM9lRMVOWDCcaSfItE1Aa8vhyYe5LX1AmteHTZ5B9YJqOfdapbfmZAHs8aDWYUfE6wUhJN5IpD+KLA2yaS9+BnekzZQKBgGndkYoxCHw39CdlF04yDexwa+Rj5ueBwzf+QEXJuCpFfmJlggCdr8Sam93sZ2xOuotPOYVE9cNuI7DVZH7W3NdSpXJKgQIO/ngXCKe4C4ObUgSCy3YFCoqvQWKv1oY79d5t59B43BOpF9oDaAo4mNS1Xh3fXZLOXzdrjbZtDyx9AoGACNLSAE+rsiHPfvwOXLRf+AuHDXXVjC9TuOcW13O2sPS+enKw0Y/QaCu9Aj+q3Ctqdt6Jt2snLLmH5yN+VvCxNoW1ZAXYWgfPbqg8jo4c//lOsLz5ibbp6HcH84KtEXulTZ1FuvirUxc69NuZYkqgByC0mYVeu9MqTCR1OMSlcUA=
-#    pooul-public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+Vd3j0McNfR3VvT7mZp/7M6ULFJSc3dh3/56JP8DZk+cDlXC2LR0z0OELJeyTitFeBjpPWzWH3OOFI/OL3nD5/oNZfK+wHd4Tzxj2SdWlyuqRhNv3xG2obUUYZ9urUvkCvxL1SclaXW7cq22V/TTNSgJq7CGdc+q/XLNqcmLt7QIDAQAB
-#    pay-url: https://api-dev.pooul.com/v2/pay?merchant_id=${pooul.merchant-id}
-#    query-order-url: https://api-dev.pooul.com/v2/pay/query?merchant_id=${pooul.merchant-id}
-#    close-order-url: https://api-dev.pooul.com/v2/pay/close?merchant_id=${pooul.merchant-id}
-#    notify-url: http://xmj.frp.apartscloud.com/api/open/pooul/notify/pay
+    auth:
+        username: xxxxxx
+        password: xxxxxx
+    pay:
+        merchant-id: xxxxxx
+        public-key: xxxxxx
+        private-key: xxxxxx
+        pooul-public-key: xxxxxx
+        pay-url: https://api-dev.pooul.com/v2/pay?merchant_id=${pooul.merchant-id}
+        query-order-url: https://api-dev.pooul.com/v2/pay/query?merchant_id=${pooul.merchant-id}
+        close-order-url: https://api-dev.pooul.com/v2/pay/close?merchant_id=${pooul.merchant-id}
+        notify-url: http://xmj.frp.apartscloud.com/api/open/pooul/notify/pay
+    merchant:
+        platform-merchant-id: xxxxxx
+        parent-id: xxxxxx
+        create-url: https://api-dev.pooul.com/cms/merchants
+        delete-url: https://api-dev.pooul.com/cms/merchants/{merchantId}

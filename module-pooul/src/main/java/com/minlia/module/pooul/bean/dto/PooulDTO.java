@@ -5,13 +5,13 @@ import lombok.Data;
 @Data
 public class PooulDTO implements PooulApiHttpDTO {
 
-    private String code;
+    private Integer code;
 
     private String msg;
 
     @Override
     public Boolean isSuccess() {
-        return false;
+        return code == 0;
     }
 
 }
