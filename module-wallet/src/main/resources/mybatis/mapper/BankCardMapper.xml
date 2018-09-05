@@ -3,20 +3,27 @@
 <mapper namespace="com.minlia.module.wallet.mapper.BankCardMapper">
 
     <sql id="QUERY_CONTENT">
-		SELECT
-			bct.id,
-            bct.guid,
-            bct.type,
-            bct.holder,
-            bct.number,
-            bct.bank_code,
-            bct.is_withdraw,
-            bct.create_date,
-            bct.create_by,
-            bct.last_modified_date,
-            bct.last_modified_by
-		FROM
-			mdl_bank_card bct
+        SELECT
+            bct.id ,
+            bct.guid ,
+            bct.type ,
+            bct.holder ,
+            bct.number ,
+            bct.bank_code ,
+            bct.is_withdraw ,
+            bct.create_date ,
+            bct.create_by ,
+            bct.last_modified_date ,
+            bct.last_modified_by ,
+            bbt.province ,
+            bbt.city ,
+            bbt.district ,
+            bbt.street ,
+            bbt.bankname ,
+            bbt.branchname
+        FROM
+            mdl_bank_card bct
+        INNER JOIN mdl_bank_code bbt ON bbt.number = bct.bank_code
 	</sql>
 
     <sql id="QUERY_CONDITION">
