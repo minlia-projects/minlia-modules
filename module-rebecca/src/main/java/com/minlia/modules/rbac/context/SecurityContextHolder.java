@@ -38,7 +38,7 @@ public final class SecurityContextHolder {
     /**
      * Get the login of the current user.
      */
-    public static String getCurrentUserLogin() {
+    public static String getCurrentUsername() {
         SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         if (authentication != null) {
@@ -59,11 +59,25 @@ public final class SecurityContextHolder {
         return null;
     }
 
-    /**
-     * Check if a user is authenticated.
-     *
-     * @return true if the user is authenticated, false otherwise
-     */
+    public static User getCurrentUser() {
+        String username = getCurrentUsername();
+        if (!StringUtils.isEmpty(username)) {
+            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByUsername(username);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    public static Long getCurrentUserId() {
+        User user = getCurrentUser();
+        return null == user ? null : user.getId();
+    }
+
+    public static String getCurrentGuid() {
+        return getUserContext().getGuid();
+    }
+
     public static boolean isAuthenticated() {
         SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
         Collection<? extends GrantedAuthority> authorities = securityContext.getAuthentication().getAuthorities();
@@ -77,41 +91,11 @@ public final class SecurityContextHolder {
         return true;
     }
 
-    /**
-     * Return the current user, or throws an exception, if the user is not
-     * authenticated yet.
-     *
-     * @return the current user
-     */
-    public static User getCurrentUser() {
-        String username = getCurrentUserLogin();
-        if (!StringUtils.isEmpty(username)) {
-            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByGuid(username);
-            return user;
-        } else {
-            return null;
-        }
-    }
-
-    public static Long getCurrentUserId() {
-        User user = getCurrentUser();
-        return null == user ? null : user.getId();
-    }
-
-    public static String getCurrentGuid() {
-        return getCurrentUserLogin();
-    }
-
     public static Boolean hasRole(String roleCode) {
         List<String> roles = ContextHolder.getContext().getBean(RoleService.class).queryCodeByUserId(getCurrentUserId());
         return roles.contains(roleCode);
     }
 
-    /**
-     * If the current user has a specific authority (security role).
-     * <p>
-     * <p>The name of this method comes from the isUserInRole() method in the Servlet API</p>
-     */
     public static boolean isCurrentUserInRole(String authority) {
         SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();

@@ -4,12 +4,12 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.wallet.constants.WalletSecurityConstant;
-import com.minlia.module.wallet.bean.to.BankCardCreateTo;
-import com.minlia.module.wallet.bean.to.BankCardQueryTo;
-import com.minlia.module.wallet.bean.to.BankCardUpdateTo;
-import com.minlia.module.wallet.service.BankCardService;
+import com.minlia.module.wallet.bean.to.BankCardCTO;
+import com.minlia.module.wallet.bean.to.BankCardQO;
+import com.minlia.module.wallet.bean.to.BankCardUTO;
 import com.minlia.module.wallet.bean.vo.BankCardVo;
+import com.minlia.module.wallet.constants.WalletSecurityConstant;
+import com.minlia.module.wallet.service.BankCardService;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,15 +34,15 @@ public class BankCardEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_CREATE_CODE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody create(@Valid @RequestBody BankCardCreateTo createDto) {
-		return SuccessResponseBody.builder().payload(bankCardService.create(createDto)).build();
+	public StatefulBody create(@Valid @RequestBody BankCardCTO cto) {
+		return SuccessResponseBody.builder().payload(bankCardService.create(cto)).build();
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_UPDATE_CODE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody update(@Valid @RequestBody BankCardUpdateTo updateDto) {
-		return SuccessResponseBody.builder().payload(bankCardService.update(updateDto)).build();
+	public StatefulBody update(@Valid @RequestBody BankCardUTO uto) {
+		return SuccessResponseBody.builder().payload(bankCardService.update(uto)).build();
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_DELETE_CODE + "')")
@@ -65,7 +65,7 @@ public class BankCardEndpoint {
 	@ApiOperation(value = "我的银行卡", notes = "我的银行卡", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "me", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public StatefulBody me() {
-		List<BankCardVo> bankCards = bankCardService.queryList(BankCardQueryTo.builder().guid(SecurityContextHolder.getCurrentGuid()).build());
+		List<BankCardVo> bankCards = bankCardService.queryList(BankCardQO.builder().guid(SecurityContextHolder.getCurrentGuid()).build());
 		return SuccessResponseBody.builder().payload(bankCards).build();
 	}
 
@@ -80,16 +80,16 @@ public class BankCardEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody list(@RequestBody BankCardQueryTo dto) {
-		List<BankCardVo> bankCards = bankCardService.queryList(dto);
+	public StatefulBody list(@RequestBody BankCardQO qo) {
+		List<BankCardVo> bankCards = bankCardService.queryList(qo);
 		return SuccessResponseBody.builder().payload(bankCards).build();
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody paginated(@PageableDefault Pageable pageable, @RequestBody BankCardQueryTo dto) {
-		PageInfo pageInfo = bankCardService.queryPage(dto, pageable);
+	public StatefulBody paginated(@PageableDefault Pageable pageable, @RequestBody BankCardQO qo) {
+		PageInfo pageInfo = bankCardService.queryPage(qo, pageable);
 		return SuccessResponseBody.builder().payload(pageInfo).build();
 	}
 

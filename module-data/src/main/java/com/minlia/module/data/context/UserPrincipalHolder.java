@@ -19,7 +19,7 @@ public class UserPrincipalHolder {
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserContext) {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
-                return userContext.getUsername();
+                return userContext.getGuid();
             } else if (authentication.getPrincipal() instanceof UserDetails) {
                 UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
                 return springSecurityUser.getUsername();

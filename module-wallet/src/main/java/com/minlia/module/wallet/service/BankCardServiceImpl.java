@@ -9,11 +9,11 @@ import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
 import com.minlia.module.aliyun.market.config.AliyunMarketProperties;
 import com.minlia.module.aliyun.market.utils.AliyunMarketUtils;
 import com.minlia.module.bank.service.BankBranchService;
-import com.minlia.module.wallet.bean.to.BankCardCreateTo;
-import com.minlia.module.wallet.bean.to.BankCardQueryTo;
-import com.minlia.module.wallet.bean.to.BankCardUpdateTo;
+import com.minlia.module.wallet.bean.to.BankCardCTO;
+import com.minlia.module.wallet.bean.to.BankCardQO;
+import com.minlia.module.wallet.bean.to.BankCardUTO;
 import com.minlia.module.wallet.bean.vo.BankCardVo;
-import com.minlia.module.wallet.domain.BankCardDo;
+import com.minlia.module.wallet.bean.domain.BankCardDo;
 import com.minlia.module.wallet.mapper.BankCardMapper;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import org.dozer.Mapper;
@@ -42,36 +42,36 @@ public class BankCardServiceImpl implements BankCardService {
     private AliyunMarketProperties aliyunMarketProperties;
 
     @Override
-    public BankCardDo create(BankCardCreateTo dto) {
-        long count = bankCardMapper.count(BankCardQueryTo.builder().guid(SecurityContextHolder.getCurrentGuid()).number(dto.getNumber()).build());
+    public BankCardDo create(BankCardCTO cto) {
+        long count = bankCardMapper.count(BankCardQO.builder().guid(SecurityContextHolder.getCurrentGuid()).number(cto.getNumber()).build());
         ApiPreconditions.is(count > 0, ApiCode.NOT_AUTHORIZED,"记录已存在");
 
         //判断联行号是否存在
-        Boolean bankBranchExists = bankBranchService.exists(dto.getBankCode());
+        Boolean bankBranchExists = bankBranchService.exists(cto.getBankCode());
         ApiPreconditions.not(bankBranchExists,ApiCode.NOT_FOUND,"联行号不存在");
 
         //银行二、三、四要素验证
-        BankCardVerifyDTO verifyDTO = AliyunMarketUtils.verifyBankCard(aliyunMarketProperties.getBankcardVerifyLianzhuo(),mapper.map(dto,BankCardVerifyTO.class));
+        BankCardVerifyDTO verifyDTO = AliyunMarketUtils.verifyBankCard(aliyunMarketProperties.getBankcardVerifyLianzhuo(),mapper.map(cto,BankCardVerifyTO.class));
         if (!verifyDTO.isSuccess()) {
             ApiPreconditions.is(true,ApiCode.BASED_ON,verifyDTO.getResp().getDesc());
         }
 
-        BankCardDo bankCard = mapper.map(dto,BankCardDo.class);
+        BankCardDo bankCard = mapper.map(cto,BankCardDo.class);
         bankCard.setGuid(SecurityContextHolder.getCurrentGuid());
-        long withdrawCount = bankCardMapper.count(BankCardQueryTo.builder().guid(SecurityContextHolder.getCurrentGuid()).isWithdraw(true).build());
+        long withdrawCount = bankCardMapper.count(BankCardQO.builder().guid(SecurityContextHolder.getCurrentGuid()).isWithdraw(true).build());
         bankCard.setIsWithdraw(withdrawCount > 0 ? false : true);
         bankCardMapper.create(bankCard);
         return bankCard;
     }
 
     @Override
-    public BankCardDo update(BankCardUpdateTo dto) {
-        long count = bankCardMapper.count(BankCardQueryTo.builder().id(dto.getId()).guid(SecurityContextHolder.getCurrentGuid()).build());
+    public BankCardDo update(BankCardUTO uto) {
+        long count = bankCardMapper.count(BankCardQO.builder().id(uto.getId()).guid(SecurityContextHolder.getCurrentGuid()).build());
         ApiPreconditions.is(count == 0, ApiCode.NOT_FOUND,"记录不存在");
 
         //判断联行号是否存在 TODO
 
-        BankCardDo bankCard = mapper.map(dto,BankCardDo.class);
+        BankCardDo bankCard = mapper.map(uto,BankCardDo.class);
         bankCardMapper.update(bankCard);
         return bankCard;
     }
@@ -87,7 +87,7 @@ public class BankCardServiceImpl implements BankCardService {
     @Override
     public void setWithdrawCard(Long id) {
         String guid = SecurityContextHolder.getCurrentGuid();
-        long count = bankCardMapper.count(BankCardQueryTo.builder().id(id).guid(guid).build());
+        long count = bankCardMapper.count(BankCardQO.builder().id(id).guid(guid).build());
         ApiPreconditions.is(count == 0, ApiCode.NOT_FOUND,"记录不存在");
         bankCardMapper.setWithdraw(guid,id);
     }
@@ -98,23 +98,23 @@ public class BankCardServiceImpl implements BankCardService {
     }
 
     @Override
-    public long count(BankCardQueryTo dto) {
-        return bankCardMapper.count(dto);
+    public long count(BankCardQO qo) {
+        return bankCardMapper.count(qo);
     }
 
     @Override
-    public BankCardVo queryOne(BankCardQueryTo dto) {
-        return bankCardMapper.queryOne(dto);
+    public BankCardVo queryOne(BankCardQO qo) {
+        return bankCardMapper.queryOne(qo);
     }
 
     @Override
-    public List<BankCardVo> queryList(BankCardQueryTo dto) {
-        return bankCardMapper.queryList(dto);
+    public List<BankCardVo> queryList(BankCardQO qo) {
+        return bankCardMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo<BankCardVo> queryPage(BankCardQueryTo dto, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageSize(),pageable.getPageNumber()).doSelectPageInfo(()->bankCardMapper.queryList(dto));
+    public PageInfo<BankCardVo> queryPage(BankCardQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageSize(),pageable.getPageNumber()).doSelectPageInfo(()->bankCardMapper.queryList(qo));
     }
 
 }

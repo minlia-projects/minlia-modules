@@ -109,7 +109,7 @@ public class RbacAuthenticationService implements AuthenticationService {
 
             //获取登录角色权限点
             List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
-            UserContext userContext = UserContext.builder().username(user.getUsername()).currrole(currrole).authorities(authorities).build();
+            UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
 
             //登录成功事件
             LoginSuccessEvent.onSuccess(user);

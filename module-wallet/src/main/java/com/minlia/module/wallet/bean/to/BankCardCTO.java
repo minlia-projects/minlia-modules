@@ -3,6 +3,7 @@ package com.minlia.module.wallet.bean.to;
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.IdCard;
+import com.minlia.module.common.validation.NameZh;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +13,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @ApiModel("银行卡-创建")
-public class BankCardCreateTo implements ApiRequestBody {
+public class BankCardCTO implements ApiRequestBody {
 
 //    @ApiModelProperty(value = "银行卡类型")
 //    @NotNull(message = "银行卡类型必填")
@@ -28,13 +29,15 @@ public class BankCardCreateTo implements ApiRequestBody {
 
     @ApiModelProperty(value = "开户人")
     @NotBlank(message = "开户人不能为空")
+    @NameZh
     private String holder;
 
-    @ApiModelProperty(value = "身份证")
+    @ApiModelProperty(value = "身份证号码")
+    @NotBlank(message = "身份证号码不能为空")
     @IdCard
-    private String idCard;
+    private String idNumber;
 
-    @ApiModelProperty(value = "银行卡号")
+    @ApiModelProperty(value = "手机号码")
     @Cellphone
     private String cellphone;
 

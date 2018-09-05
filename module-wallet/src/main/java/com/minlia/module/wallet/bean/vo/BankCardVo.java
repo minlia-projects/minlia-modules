@@ -33,6 +33,11 @@ public class BankCardVo extends AbstractEntity {
     private String holder;
 
     /**
+     * 身份证号码
+     */
+    private String idNumber;
+
+    /**
      * 卡号
      */
     private String number;
@@ -61,5 +66,21 @@ public class BankCardVo extends AbstractEntity {
      * 省
      */
     private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 区
+     */
+    private String district;
+
+    /**
+     * 街道
+     */
+    private String street;
+
 
 }

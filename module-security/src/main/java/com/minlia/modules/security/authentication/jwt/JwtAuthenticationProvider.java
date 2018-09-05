@@ -31,15 +31,15 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         RawAccessJwtToken rawAccessToken = (RawAccessJwtToken) authentication.getCredentials();
         Jws<Claims> jwsClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
-        String subject = jwsClaims.getBody().getSubject();
-
+        String username = jwsClaims.getBody().getSubject();
         Date expirDate = jwsClaims.getBody().getExpiration();
-        List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
-        List<GrantedAuthority> authorities = scopes.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority))
-                .collect(Collectors.toList());
+        String guid = jwsClaims.getBody().get("guid", String.class);
+        String currrole = jwsClaims.getBody().get("currrole", String.class);
 
-        UserContext context = UserContext.builder().username(subject).authorities(authorities).expireDate(expirDate).build();
+        List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
+        List<GrantedAuthority> authorities = scopes.stream().map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
+
+        UserContext context = UserContext.builder().username(username).guid(guid).currrole(currrole).authorities(authorities).expireDate(expirDate).build();
         return new JwtAuthenticationToken(context, context.getAuthorities());
     }
 

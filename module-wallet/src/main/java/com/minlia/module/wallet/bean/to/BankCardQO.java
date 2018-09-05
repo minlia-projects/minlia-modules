@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("银行卡-查询")
-public class BankCardQueryTo implements QueryRequestBody {
+public class BankCardQO implements QueryRequestBody {
 
     @ApiModelProperty(value = "ID")
     private Long id;

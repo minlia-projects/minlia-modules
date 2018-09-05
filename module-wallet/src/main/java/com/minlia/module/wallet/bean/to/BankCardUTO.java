@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @ApiModel("银行卡-修改")
-public class BankCardUpdateTo extends BankCardCreateTo {
+public class BankCardUTO extends BankCardCTO {
 
     @ApiModelProperty(value = "ID")
     @NotNull(message = "ID必填")

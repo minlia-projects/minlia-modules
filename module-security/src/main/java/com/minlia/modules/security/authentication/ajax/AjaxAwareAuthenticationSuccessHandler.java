@@ -3,7 +3,6 @@ package com.minlia.modules.security.authentication.ajax;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.module.redis.service.RedisService;
-import com.minlia.modules.security.constant.TokenRedisConstants;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtToken;

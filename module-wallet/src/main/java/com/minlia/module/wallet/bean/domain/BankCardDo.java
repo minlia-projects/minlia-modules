@@ -1,4 +1,4 @@
-package com.minlia.module.wallet.domain;
+package com.minlia.module.wallet.bean.domain;
 
 
 import com.minlia.module.data.entity.AbstractEntity;
@@ -31,6 +31,11 @@ public class BankCardDo extends AbstractEntity {
      * 开户人
      */
     private String holder;
+
+    /**
+     * 身份证号码
+     */
+    private String idNumber;
 
     /**
      * 卡号
