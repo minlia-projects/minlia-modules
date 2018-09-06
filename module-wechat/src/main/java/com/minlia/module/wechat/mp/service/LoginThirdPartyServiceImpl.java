@@ -25,6 +25,7 @@ import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
@@ -41,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
@@ -158,8 +160,14 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         }
         List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
         UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
+
+
+
+        log.info("*****************************222");
+        log.info("*****************************222");
+        log.info("*****************************222" + userContext.toString());
 
         AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext);
         AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext);
