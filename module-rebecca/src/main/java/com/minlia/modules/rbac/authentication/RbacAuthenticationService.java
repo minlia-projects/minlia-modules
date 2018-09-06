@@ -13,6 +13,7 @@ import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.model.UserContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -44,6 +45,7 @@ import java.util.List;
  */
 @Component
 @Primary
+@Slf4j
 public class RbacAuthenticationService implements AuthenticationService {
 
     @Autowired
@@ -110,6 +112,9 @@ public class RbacAuthenticationService implements AuthenticationService {
             //获取登录角色权限点
             List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
             UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
+
+            log.info("************************************************************************************" +
+                    "**************************************************************************************************0"+ userContext.toString());
 
             //登录成功事件
             LoginSuccessEvent.onSuccess(user);
