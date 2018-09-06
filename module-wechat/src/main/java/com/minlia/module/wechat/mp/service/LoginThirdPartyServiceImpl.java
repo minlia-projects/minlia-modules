@@ -1,6 +1,7 @@
 package com.minlia.module.wechat.mp.service;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import com.google.common.collect.Lists;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
@@ -20,6 +21,7 @@ import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
 import com.minlia.modules.rbac.service.UserRegistrationService;
+import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
@@ -28,6 +30,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -148,10 +151,13 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
     @Override
     public HashMap getLoginInfoByUser(User user) {
-        List<String> roles = roleService.queryCodeByUserId(user.getId());
-
-        List<GrantedAuthority> authorities = permissionService.getGrantedAuthority(roles);
-        UserContext userContext = UserContext.builder().username(user.getGuid()).authorities(authorities).build();
+        //如果当前角色为空获取默认角色
+        String currrole = user.getDefaultRole();
+        if (StringUtils.isBlank(currrole)) {
+            currrole = SecurityConstant.ROLE_USER_CODE;
+        }
+        List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
+        UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
 
