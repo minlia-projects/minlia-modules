@@ -28,6 +28,13 @@ public final class SecurityContextHolder {
     public static UserContext getUserContext() {
         SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
+
+        log.info("************************************************************************************" +
+                "**************************************************************************************************5");
+
+        log.info("************************************************************************************" +
+                "**************************************************************************************************5"+ authentication.getPrincipal().toString());
+
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserContext) {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
