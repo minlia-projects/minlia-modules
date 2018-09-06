@@ -9,6 +9,8 @@ public class PooulDTO implements PooulApiHttpDTO {
 
     private String msg;
 
+    private String debug;
+
     @Override
     public Boolean isSuccess() {
         return code == 0;

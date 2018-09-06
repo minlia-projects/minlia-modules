@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.pooul.mapper.PooulMerchantMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            id ,
+            platform_merchant_id ,
+            parent_id ,
+            guid ,
+            name ,
+            number ,
+            create_by ,
+            create_date ,
+            last_modified_by ,
+            last_modified_date
+        FROM
+            pooul_merchant
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="platformMerchantId != null">
+                AND platform_merchant_id = #{platformMerchantId}
+            </if>
+            <if test="parentId != null">
+                AND parent_id = #{parentId}
+            </if>
+            <if test="guid != null">
+                AND guid = #{guid}
+            </if>
+            <if test="number != null">
+                AND number = #{number}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO pooul_merchant(
+            platform_merchant_id ,
+            parent_id ,
+            guid ,
+            name ,
+            number ,
+            create_by
+        )
+        VALUES (
+            #{platformMerchantId},
+            #{parentId},
+            #{guid},
+            #{name},
+            #{number},
+            #{createBy}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE pooul_merchant
+        <set>
+            <if test="null != name">
+                name = #{name},
+            </if>
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP} ,
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM pooul_merchant
+        <include refid="QUERY_CONDITION"/>
+    </delete>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM pooul_merchant
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.pooul.bean.domain.PooulMerchantDO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.pooul.bean.domain.PooulMerchantDO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+</mapper>

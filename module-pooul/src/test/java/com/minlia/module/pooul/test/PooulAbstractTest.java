@@ -1,16 +1,16 @@
 package com.minlia.module.pooul.test;
 
+import com.google.gson.Gson;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.common.config.RestConfiguration;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.pooul.Application;
-import com.minlia.module.pooul.bean.to.PooulMerchantBusinessTO;
-import com.minlia.module.pooul.bean.to.PooulMerchantOwnerTO;
-import com.minlia.module.pooul.bean.to.PooulMerchantPersonalCTO;
-import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
+import com.minlia.module.pooul.bean.dto.PooulBlancesDTO;
+import com.minlia.module.pooul.bean.to.*;
 import com.minlia.module.pooul.enumeration.PayTypeEnum;
 import com.minlia.module.pooul.service.PooulAuthService;
+import com.minlia.module.pooul.service.PooulBalancesService;
 import com.minlia.module.pooul.service.PooulMerchantService;
 import com.minlia.module.pooul.service.PooulPayService;
 import org.junit.Test;
@@ -46,6 +46,9 @@ public class PooulAbstractTest {
     @Autowired
     private PooulMerchantService pooulMerchantService;
 
+    @Autowired
+    private PooulBalancesService pooulBalancesService;
+
     @Test
     public void login(){
         String authorization = pooulAuthService.login();
@@ -78,13 +81,37 @@ public class PooulAbstractTest {
                 .business(PooulMerchantBusinessTO.builder().short_name("测试").build())
                 .owner(PooulMerchantOwnerTO.builder().idcard_type("1").name("测试").build())
                 .build();
-        pooulMerchantService.create(cto);
+        Response response = pooulMerchantService.create("100002",cto);
+        System.out.println(response.getCode());
     }
 
     @Test
     public void deleteMerchant() {
-        Response response = pooulMerchantService.delete("5551783456268768");
+        Response response = pooulMerchantService.delete("9646592604059242");
         System.out.println(response.isSuccess());
+    }
+
+    @Test
+    public void queryBalances() {
+        PooulBlancesDTO blancesDTO = pooulBalancesService.queryBalances("2162288807443437");
+        System.out.println(blancesDTO.getData().get(0).getBalance());
+    }
+
+    @Test
+    public void internalTransfers() {
+        PooulInternalTransfersTO transfersTO = PooulInternalTransfersTO.builder()
+                .payer_merchant_id("2849928048545130")
+                .payee_merchant_id("2162288807443437")
+                .voucher("T00002")
+                .amount(1)
+                .transfer_type("结算")
+                .op_user_id("100000")
+                .build();
+        pooulBalancesService.internalTransfers("2849928048545130",transfersTO);
+    }
+
+    public static void main(String[] args) {
+
     }
 
 }

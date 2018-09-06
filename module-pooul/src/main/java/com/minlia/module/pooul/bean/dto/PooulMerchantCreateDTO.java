@@ -37,7 +37,7 @@ public class PooulMerchantCreateDTO extends PooulDTO {
     private Data data;
 
     @lombok.Data
-    class Data {
+    public class Data {
         private String _id;
         private String _type;
         private Boolean arrears;
