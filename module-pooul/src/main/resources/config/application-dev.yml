@@ -4,6 +4,7 @@ server:
 system:
     appId: module-pooul
     token: bWlubGlhCg==
+    domain: xxxxxx
 
 # SPRING PROFILES
 spring:
@@ -107,12 +108,12 @@ pooul:
         public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoRlcWxsXeLlqsasMEDfvNZ5OYBdiGZt5D3l7Li17AIi8o0JdRThqwpwF7Oabu+bfwfsMHWGy1fxvIpDLh1ftXkKqoGlQU10WibXTUrH90wYGBJRa4yF8qwdMYkkNi39kWtSbeberUWo1msKF2Oih1JanwXNXGb6DNoOixC2DR1C5wYSkvKqCimsbLNbF5/AOJ3X7EdinSI6PxLmMSGgQAlOJbwhG/fDkw9MYw4Binucy2gyEfoMTYHz6LZmNm06R6x+sETuDNv/ONa7ULA4Ww56YwvlXZJsI65exykY6c7O7UhMWSGjUk9Upk0K3Vg7IVdvuwExcIiEpiv2WZLqcnwIDAQAB
         private-key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQChGVxbGxd4uWqxqwwQN+81nk5gF2IZm3kPeXsuLXsAiLyjQl1FOGrCnAXs5pu75t/B+wwdYbLV/G8ikMuHV+1eQqqgaVBTXRaJtdNSsf3TBgYElFrjIXyrB0xiSQ2Lf2Ra1Jt5t6tRajWawoXY6KHUlqfBc1cZvoM2g6LELYNHULnBhKS8qoKKaxss1sXn8A4ndfsR2KdIjo/EuYxIaBACU4lvCEb98OTD0xjDgGKe5zLaDIR+gxNgfPotmY2bTpHrH6wRO4M2/841rtQsDhbDnpjC+Vdkmwjrl7HKRjpzs7tSExZIaNST1SmTQrdWDshV2+7ATFwiISmK/ZZkupyfAgMBAAECggEAYMRhC4CcerG1ev8pgdx3XZe3sFSbYpJXB4qLCVPcXJfF57MHX3rh9f/ON1zWEuo9YcGwpz12NL8q6nJbLvML6+DTqQNZcpmp3hJP2456zvUBTGLorSICRqFdqnQDJNXirASlV1mSGJdZl5pc18v02UOdhMAJg7dCDc7ISFqmToEhWwmvKpCi7BYK0eb7TlXscfb3mv8g086bTrvYKtYqV7WZG4kxiZ34I0BUslur71NQ5HFjrB1AocdYOOLtz0WHXboQmlT+RRDv/uoFlzcvCcR7HbR46tPQ78YNV+djD+shhTM836ya5r6VnxTM88tFdkxnPTMOkE0U1Xr4Y2APkQKBgQDxOgprB49kphD3Mj34wtUgMs5cQEovJ0b38RZxOsSSmTkw4jIQbXmOvw3Tjo4T4RMelyKszuQHkRbeCgRWmPmaOdfQPm9oDjT/B02CQd1LpJp+c3l7ZUIyx5lV5TkHbWK6LH9E5CmDvRNU3W5/iU/wsP+KPtxHAm8Ay5D1AMAPHQKBgQCq9xORCsdY9hK+cLT9pjjj/mMeq1OhbnLlc6GapvPzhSuqLq7tdumLaffnUu+xAm1/jPf3aUcr97fT2W1mBmg5usQQtC72P1zwgP6+PCZ6WMeKWCNhsTOJUOJmx/pi2lC8KPeTGWZ8jomQXXm4kd19W60a8ge1sFpE7azrsUIh6wKBgQCgiW7rgdGFOxupV290wT0TO5yoOkTkkrAhS/oSivjNU1mDVdXZpvGx9SYfeAzH4A9YWV7DQMDy5DUiuenfM9lRMVOWDCcaSfItE1Aa8vhyYe5LX1AmteHTZ5B9YJqOfdapbfmZAHs8aDWYUfE6wUhJN5IpD+KLA2yaS9+BnekzZQKBgGndkYoxCHw39CdlF04yDexwa+Rj5ueBwzf+QEXJuCpFfmJlggCdr8Sam93sZ2xOuotPOYVE9cNuI7DVZH7W3NdSpXJKgQIO/ngXCKe4C4ObUgSCy3YFCoqvQWKv1oY79d5t59B43BOpF9oDaAo4mNS1Xh3fXZLOXzdrjbZtDyx9AoGACNLSAE+rsiHPfvwOXLRf+AuHDXXVjC9TuOcW13O2sPS+enKw0Y/QaCu9Aj+q3Ctqdt6Jt2snLLmH5yN+VvCxNoW1ZAXYWgfPbqg8jo4c//lOsLz5ibbp6HcH84KtEXulTZ1FuvirUxc69NuZYkqgByC0mYVeu9MqTCR1OMSlcUA=
         pooul-public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+Vd3j0McNfR3VvT7mZp/7M6ULFJSc3dh3/56JP8DZk+cDlXC2LR0z0OELJeyTitFeBjpPWzWH3OOFI/OL3nD5/oNZfK+wHd4Tzxj2SdWlyuqRhNv3xG2obUUYZ9urUvkCvxL1SclaXW7cq22V/TTNSgJq7CGdc+q/XLNqcmLt7QIDAQAB
-        pay-url: https://api-dev.pooul.com/v2/pay?merchant_id=${pooul.merchant-id}
-        query-order-url: https://api-dev.pooul.com/v2/pay/query?merchant_id=${pooul.merchant-id}
-        close-order-url: https://api-dev.pooul.com/v2/pay/close?merchant_id=${pooul.merchant-id}
-        notify-url: http://xmj.frp.apartscloud.com/api/open/pooul/notify/pay
+        pay-url: ${pooul.host}/v2/pay?merchant_id=${pooul.merchant-id}
+        query-order-url: ${pooul.host}/v2/pay/query?merchant_id=${pooul.merchant-id}
+        close-order-url: ${pooul.host}/v2/pay/close?merchant_id=${pooul.merchant-id}
+        notify-url: ${system.domain}/api/open/pooul/notify/pay
     merchant:
         platform-merchant-id: 2849928048545130
         parent-id: 2849928048545130
-        create-url: https://api-dev.pooul.com/cms/merchants
-        delete-url: https://api-dev.pooul.com/cms/merchants/{merchantId}
+        create-url: ${pooul.host}/cms/merchants
+        delete-url: ${pooul.host}/cms/merchants/{merchantId}

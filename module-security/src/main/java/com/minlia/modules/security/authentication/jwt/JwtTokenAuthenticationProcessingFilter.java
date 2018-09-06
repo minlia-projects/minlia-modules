@@ -21,16 +21,16 @@ import java.io.IOException;
 
 /**
  * Performs validation of provided JWT Token.
- * 
- * @author vladimir.stankovic
  *
- * Aug 5, 2016
+ * @author vladimir.stankovic
+ *         <p>
+ *         Aug 5, 2016
  */
 @Slf4j
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationFailureHandler failureHandler;
     private final TokenExtractor tokenExtractor;
-    
+
     @Autowired
     public JwtTokenAuthenticationProcessingFilter(AuthenticationFailureHandler failureHandler, TokenExtractor tokenExtractor, RequestMatcher matcher) {
         super(matcher);
@@ -40,9 +40,7 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        log.info("xxxxxxxxxxxxxxxxxx{}",request.getRequestURI());
         String tokenPayload = request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM);
-        log.info("xxxxxxxxxxxxxxxxxx{}",tokenPayload);
         RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extract(tokenPayload));
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
     }
@@ -60,4 +58,5 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
         SecurityContextHolder.clearContext();
         failureHandler.onAuthenticationFailure(request, response, failed);
     }
+
 }
