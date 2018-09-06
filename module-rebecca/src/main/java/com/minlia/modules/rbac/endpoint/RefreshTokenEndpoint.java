@@ -1,30 +1,29 @@
 package com.minlia.modules.rbac.endpoint;
 
+import com.google.common.collect.Lists;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
-import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
-import com.minlia.modules.rbac.backend.user.service.UserService;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.authentication.jwt.verifier.TokenVerifier;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.exception.InvalidJwtTokenException;
-import com.minlia.modules.security.exception.JwtInvalidTokenException;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
 import com.minlia.modules.security.model.token.RefreshToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.collections.CollectionUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RestController
 @Api(tags = "System Security", description = "系统安全")
 public class RefreshTokenEndpoint {
@@ -54,9 +54,6 @@ public class RefreshTokenEndpoint {
     @Autowired
     @Qualifier("jwtHeaderTokenExtractor")
     private TokenExtractor tokenExtractor;
-
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     private UserQueryService userQueryService;
@@ -83,13 +80,20 @@ public class RefreshTokenEndpoint {
             throw new UsernameNotFoundException("User not found: " + subject);
         }
 
-        List<String> roles = roleService.queryCodeByUserId(user.getId());
-        if (CollectionUtils.isEmpty(roles)) {
-            roles.add(SecurityConstant.ROLE_GUEST_CODE);
+        //如果当前角色为空获取默认角色
+        String currrole = user.getDefaultRole();
+        if (StringUtils.isBlank(currrole)) {
+            currrole = SecurityConstant.ROLE_USER_CODE;
         }
-        List<GrantedAuthority> authorities = permissionService.getGrantedAuthority(roles);
-//        UserContext userContext = UserContext.create(user.getUsername(), authorities, refreshToken.getClaims().getBody().getExpiration());
-        UserContext userContext = UserContext.builder().username(user.getGuid()).authorities(authorities).expireDate(refreshToken.getClaims().getBody().getExpiration()).build();
+        List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
+        UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
+
+        log.info("*****************************333");
+        log.info("*****************************333");
+        log.info("*****************************333" + userContext.toString());
+
+
         return SuccessResponseBody.builder().payload(tokenFactory.createAccessJwtToken(userContext)).build();
     }
 

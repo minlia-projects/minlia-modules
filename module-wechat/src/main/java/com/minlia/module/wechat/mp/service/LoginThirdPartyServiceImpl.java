@@ -163,12 +163,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
 
-
-
-        log.info("*****************************222");
-        log.info("*****************************222");
-        log.info("*****************************222" + userContext.toString());
-
         AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext);
         AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext);
         HashMap tokenMap = new HashMap();
