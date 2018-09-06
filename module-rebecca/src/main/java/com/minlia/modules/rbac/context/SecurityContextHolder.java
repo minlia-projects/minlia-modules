@@ -5,6 +5,7 @@ import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.security.model.UserContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * Utility class for Spring Security.
  */
+@Slf4j
 public final class SecurityContextHolder {
 
     private SecurityContextHolder() {
@@ -39,16 +41,34 @@ public final class SecurityContextHolder {
      * Get the login of the current user.
      */
     public static String getCurrentUsername() {
+
+        log.info("************************************************************************************" +
+                "**************************************************************************************************开始");
+
         SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
         if (authentication != null) {
+
+            log.info("************************************************************************************" +
+                    "**************************************************************************************************1");
+
             if (authentication.getPrincipal() instanceof UserContext) {
+                log.info("************************************************************************************" +
+                        "**************************************************************************************************2");
+
                 UserContext userContext = (UserContext) authentication.getPrincipal();
+                log.info("************************************************************************************" +
+                        "**************************************************************************************************2"+userContext.getUsername());
+
                 return userContext.getUsername();
             } else if (authentication.getPrincipal() instanceof UserDetails) {
+                log.info("************************************************************************************" +
+                        "**************************************************************************************************3");
                 UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
                 return springSecurityUser.getUsername();
             } else if (authentication.getPrincipal() instanceof String) {
+                log.info("************************************************************************************" +
+                        "**************************************************************************************************4");
                 if ("anonymousUser".equalsIgnoreCase((String) authentication.getPrincipal())) {
                     return null;
                 } else {
