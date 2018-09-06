@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
@@ -40,14 +39,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
         List<GrantedAuthority> authorities = scopes.stream().map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
-
         UserContext context = UserContext.builder().username(username).guid(guid).currrole(currrole).authorities(authorities).expireDate(expirDate).build();
-
-
-        log.info("*****************************111");
-        log.info("*****************************111");
-        log.info("*****************************111" + context.toString());
-
         return new JwtAuthenticationToken(context, context.getAuthorities());
     }
 

@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@Slf4j
 @RestController
 @Api(tags = "System Security", description = "系统安全")
 public class RefreshTokenEndpoint {
@@ -87,13 +86,7 @@ public class RefreshTokenEndpoint {
         }
         List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
         UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
-
-        log.info("*****************************333");
-        log.info("*****************************333");
-        log.info("*****************************333" + userContext.toString());
-
-
+//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
         return SuccessResponseBody.builder().payload(tokenFactory.createAccessJwtToken(userContext)).build();
     }
 
