@@ -5,6 +5,7 @@ import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.security.model.UserContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * Utility class for Spring Security.
  */
+@Slf4j
 public final class SecurityContextHolder {
 
     private SecurityContextHolder() {
@@ -29,6 +31,12 @@ public final class SecurityContextHolder {
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserContext) {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
+
+                log.info("*****************************************************1");
+                log.info("*****************************************************1");
+                log.info("*****************************************************1");
+                log.info("*****************************************************1" + userContext.toString());
+
                 return userContext;
             }
         }

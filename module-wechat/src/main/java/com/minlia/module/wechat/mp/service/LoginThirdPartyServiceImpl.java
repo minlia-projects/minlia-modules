@@ -42,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
 public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
@@ -159,6 +160,12 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         }
         List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
         UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
+
+        log.info("*****************************************************3");
+        log.info("*****************************************************3");
+        log.info("*****************************************************3");
+        log.info("*****************************************************3" + userContext.toString());
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
 
