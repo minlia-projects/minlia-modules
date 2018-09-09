@@ -42,11 +42,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         List<GrantedAuthority> authorities = scopes.stream().map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
         UserContext userContext = UserContext.builder().username(username).guid(guid).currrole(currrole).authorities(authorities).expireDate(expirDate).build();
 
-        log.info("*****************************************************4");
-        log.info("*****************************************************4");
-        log.info("*****************************************************4");
-        log.info("*****************************************************4" + userContext.toString());
-
         return new JwtAuthenticationToken(userContext, userContext.getAuthorities());
     }
 

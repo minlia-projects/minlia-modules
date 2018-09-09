@@ -43,24 +43,24 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
-        User user = SecurityContextHolder.getCurrentUser();
+        String guid = SecurityContextHolder.getCurrentGuid();
         //设置open信息
         List<WechatOpenAccount> wechatOpenAccounts = wechatOpenAccountService.queryList(WechatOpenAccountQueryBody.builder().unionId(wxMaUserInfo.getUnionId()).build());
         for (WechatOpenAccount wechatOpenAccount:wechatOpenAccounts) {
-            wechatOpenAccount.setGuid(user.getGuid());
+            wechatOpenAccount.setGuid(guid);
             wechatOpenAccount.setUnionId(wxMaUserInfo.getUnionId());
             wechatOpenAccountService.update(wechatOpenAccount);
         }
 
         //保存用户详情
-        WechatMaUser wechatMaUser = wxMaUserMapper.queryByGuid(user.getGuid());
+        WechatMaUser wechatMaUser = wxMaUserMapper.queryByGuid(guid);
         if (null == wechatMaUser) {
             wechatMaUser = mapper.map(wxMaUserInfo,WechatMaUser.class);
-            wechatMaUser.setGuid(user.getGuid());
+            wechatMaUser.setGuid(guid);
             wxMaUserMapper.create(wechatMaUser);
         } else {
             mapper.map(wxMaUserInfo,wechatMaUser);
-            wechatMaUser.setGuid(user.getGuid());
+            wechatMaUser.setGuid(guid);
             wxMaUserMapper.update(wechatMaUser);
         }
 

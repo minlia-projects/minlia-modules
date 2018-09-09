@@ -30,12 +30,12 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setStatus(HttpStatus.OK.value());
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
 		//TODO 非自定义异常直接抛出，
 		if (e instanceof AuthMethodNotSupportedException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.BAD_REQUEST, AuthenticationErrorCode.AUTHENTICATION, "不支持的请求方式"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "不支持的请求方式"));
 		} else if (e instanceof AuthenticationCredentialsNotFoundException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "用户名或密码不能为空"));
 		} else if (e instanceof UsernameNotFoundException) {
@@ -52,13 +52,12 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "凭证已过期"));
 		} else if (e instanceof AuthenticationServiceException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "认证服务异常"));
-
 		} else if (e instanceof JwtExpiredTokenException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 已过期"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 已过期"));
 		} else if (e instanceof JwtInvalidTokenException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 无效"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 无效"));
 		} else if (e instanceof JwtAcceptableException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.NOT_ACCEPTABLE, AuthenticationErrorCode.AUTHENTICATION, e.getMessage()));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, e.getMessage()));
 		} else if (e instanceof AjaxBadCredentialsException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, String.format("密码错误，已连续错误%s次",((AjaxBadCredentialsException) e).getFailureTimes()),((AjaxBadCredentialsException) e).getFailureTimes()));
 		} else if (e instanceof AjaxLockedException) {
