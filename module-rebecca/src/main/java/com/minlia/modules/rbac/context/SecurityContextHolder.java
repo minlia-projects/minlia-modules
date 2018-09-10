@@ -31,12 +31,6 @@ public final class SecurityContextHolder {
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserContext) {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
-
-                log.info("*****************************************************1");
-                log.info("*****************************************************1");
-                log.info("*****************************************************1");
-                log.info("*****************************************************1" + userContext.toString());
-
                 return userContext;
             }
         }
