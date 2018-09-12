@@ -1,16 +1,16 @@
 package com.minlia.module.wechat.mp.event;
 
+import com.minlia.module.websocket.body.ResponseMessage;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.mp.endpoint.WechatSecuritySocket;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
-import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
-import com.minlia.module.websocket.body.ResponseMessage;
+import com.minlia.module.wechat.mp.endpoint.WechatSecuritySocket;
+import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
-import com.minlia.modules.rbac.backend.user.service.UserService;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -30,8 +30,6 @@ public class WechatScanThirdLoginReceivers {
 
     @Autowired
     private WxMpService wxMpService;
-    @Autowired
-    private UserService userService;
     @Autowired
     private UserQueryService userQueryService;
     @Autowired
@@ -67,7 +65,7 @@ public class WechatScanThirdLoginReceivers {
             } else {
                 returnCode = SecurityApiCode.LOGIN_SUCCESS+"";
                 returnMessage = "ok";
-                User user = userQueryService.queryByGuid(wechatOpenAccount.getGuid());
+                User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
                 payload = loginThirdPartyService.getLoginInfoByUser(user);
             }
             String sessionId = wxMessage.getEventKey().replace("qr_wsl_","");

@@ -16,7 +16,7 @@ import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
-import com.minlia.modules.rbac.backend.role.service.RoleService;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
@@ -47,8 +47,6 @@ import java.util.List;
 @Transactional
 public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
-    @Autowired
-    private RoleService roleService;
     @Autowired
     private WxMpService wxMpService;
     @Autowired
@@ -98,7 +96,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
             } else {
                 wechatOpenAccount.setGuid(wechatOpenAccounts.get(0).getGuid());
                 wechatOpenAccountService.create(wechatOpenAccount);
-                User user = userQueryService.queryByGuid(wechatOpenAccount.getGuid());
+                User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
                 return SuccessResponseBody.builder().code(SecurityApiCode.LOGIN_SUCCESS).payload(getLoginInfoByUser(user)).build();
             }
         } else {
@@ -107,7 +105,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
             wechatOpenAccountService.update(wechatOpenAccount);
 
             if (null != wechatOpenAccount.getGuid()) {
-                User user = userQueryService.queryByGuid(wechatOpenAccount.getGuid());
+                User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
                 return SuccessResponseBody.builder().code(SecurityApiCode.LOGIN_SUCCESS).payload(getLoginInfoByUser(user)).build();
             } else {
                 return FailureResponseBody.builder().code(SecurityApiCode.LOGIN_NOT_REGISTRATION).message("未注册").build();
@@ -118,7 +116,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Override
     public StatefulBody bindByWxma(BindWxRequestBody body) {
         //根据手机号码查询用户是否存在
-        User user = userQueryService.queryByUsername(body.getUsername());
+        User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(body.getUsername()).build());
         //明文密码
         String rawPassword = RandomStringUtils.randomAlphabetic(6);
         //不存在就注册
@@ -160,11 +158,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         }
         List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
         UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
-
-        log.info("*****************************************************3");
-        log.info("*****************************************************3");
-        log.info("*****************************************************3");
-        log.info("*****************************************************3" + userContext.toString());
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
