@@ -76,6 +76,7 @@ public class PooulPayServiceImpl implements PooulPayService {
 
         HttpResponse<String> response = null;
         try {
+            log.info("**************************{}",pooulProperties.getPayUrl());
             response = Unirest.post(pooulProperties.getPayUrl()).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul创建订单失败:", e);
