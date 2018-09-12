@@ -32,6 +32,9 @@
             <if test="id != null">
                 AND id = #{id,jdbcType=BIGINT}
             </if>
+            <if test="guid != null">
+                AND guid = #{guid}
+            </if>
             <if test="username != null">
                 AND username = #{username,jdbcType=VARCHAR}
             </if>
