@@ -13,17 +13,17 @@ public class UserQueryRequestBody {
 
     private String guid;
 
-    private String referral;
-
     private String username;
 
     private String cellphone;
 
     private String email;
 
-    private Boolean enabled;
-
     private Boolean locked;
+
+    private String referral;
+
+    private Boolean enabled;
 
     private String roleCode;
 

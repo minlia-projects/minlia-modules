@@ -7,7 +7,7 @@ import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
-import com.minlia.modules.rbac.backend.user.body.UserGarenRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.event.UserDeleteEvent;
@@ -17,7 +17,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +31,6 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private Mapper mapper;
-    @Autowired
     private UserMapper userMapper;
     @Autowired
     private RoleService roleService;
@@ -44,12 +41,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserCreateRequestBody requestBody) {
-        ApiPreconditions.is(userQueryService.exists(requestBody.getUsername()), ApiCode.NOT_NULL,"用户名已被使用");
-
-        //验证推荐人
+        if (StringUtils.isNotEmpty(requestBody.getUsername())) {
+            ApiPreconditions.is(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getUsername()).build()), ApiCode.NOT_NULL,"用户名已被使用");
+        }
+        if (StringUtils.isNotEmpty(requestBody.getCellphone())) {
+            ApiPreconditions.is(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getCellphone()).build()), ApiCode.NOT_NULL,"手机号码已被使用");
+        }
+        if (StringUtils.isNotEmpty(requestBody.getEmail())) {
+            ApiPreconditions.is(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getEmail()).build()), ApiCode.NOT_NULL,"邮箱已被使用");
+        }
         if (StringUtils.isNotEmpty(requestBody.getReferral())) {
-            User user = userMapper.queryByGuid(requestBody.getReferral());
-            ApiPreconditions.is(null == user, SecurityApiCode.USER_REFERRAL_NOT_FOUND,"推荐人不存在");
+            ApiPreconditions.not(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getReferral()).build()), SecurityApiCode.USER_REFERRAL_NOT_FOUND,"推荐人不存在");
         }
 
         //校验默认角色是否存在
@@ -68,11 +70,6 @@ public class UserServiceImpl implements UserService {
                 .password(bCryptPasswordEncoder.encode(requestBody.getPassword()))
                 .defaultRole(requestBody.getDefaultRole())
                 .referral(requestBody.getReferral())
-                .enabled(Boolean.TRUE)
-                .credentialsExpired(Boolean.FALSE)
-                .locked(Boolean.FALSE)
-                .lockLimit(NumberUtils.INTEGER_ZERO)
-                .enabled(Boolean.FALSE)
                 .build();
         userMapper.create(user);
 
@@ -82,7 +79,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
-        RegistrationEvent.onCompleted(user.getId());
+        RegistrationEvent.onCompleted(user);
         return user;
     }
 
@@ -126,7 +123,6 @@ public class UserServiceImpl implements UserService {
             user.setLockTime(new Date());
         } else {
             user.setLocked(true);
-//            user.setLockTime(user.getLockTime().plusMonths(1));
             user.setLockTime(DateUtils.addMonths(new Date(),1));
         }
         userMapper.update(user);
@@ -147,7 +143,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void grant(String guid, Set<Long> roles) {
-        User user = userMapper.queryByGuid(guid);
+        User user = userMapper.queryOne(UserQueryRequestBody.builder().guid(guid).build());
         ApiPreconditions.is(null == user,SecurityApiCode.USER_NOT_EXISTED,"用户不存在："+user.getGuid());
         this.grant(user.getId(),roles);
     }

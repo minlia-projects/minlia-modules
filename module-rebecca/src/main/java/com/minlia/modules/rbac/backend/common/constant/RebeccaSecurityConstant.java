@@ -12,6 +12,7 @@ public class RebeccaSecurityConstant {
     public final static String USER_DELETE = USER + SecurityConstant.OPERATION_DELETE_CODE;
     public final static String USER_SEARCH = USER + SecurityConstant.OPERATION_SEARCH_CODE;
     public final static String USER_GRANT = USER + SecurityConstant.OPERATION_GRANT_CODE;
+    public final static String USER_READ = USER + SecurityConstant.OPERATION_READ_CODE;
 
     public final static String ROLE = APPLICATION + "role";
     public final static String ROLE_CREATE = ROLE + SecurityConstant.OPERATION_CREATE_CODE;

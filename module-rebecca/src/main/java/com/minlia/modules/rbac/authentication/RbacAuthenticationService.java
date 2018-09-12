@@ -64,7 +64,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
 
-        User user = userMapper.queryByUsernameOrCellphoneOrEmail(loginCredentials.getUsername(),loginCredentials.getCellphone(),loginCredentials.getEmail());
+        User user = userMapper.queryByUsernameOrCellphoneOrEmail(loginCredentials.getUsername());
         if (null == user) {
             throw new UsernameNotFoundException("User not exists:");
         } else if (null != user.getExpireDate() && user.getExpireDate().before(new Date())) {

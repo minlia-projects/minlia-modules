@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
@@ -76,7 +77,7 @@ public class RefreshTokenEndpoint {
         }
 
         String subject = refreshToken.getSubject();
-        User user = userQueryService.queryByGuid(subject);
+        User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(subject).build());
         if (null == user) {
             throw new UsernameNotFoundException("User not found: " + subject);
         }

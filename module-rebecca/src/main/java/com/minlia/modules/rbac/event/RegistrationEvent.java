@@ -1,6 +1,7 @@
 package com.minlia.modules.rbac.event;
 
 import com.minlia.cloud.holder.ContextHolder;
+import com.minlia.modules.rbac.backend.user.entity.User;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -18,10 +19,10 @@ public class RegistrationEvent extends ApplicationEvent {
      * 传入后续事件处理的入参
      * 其它业务由业务系统完成
      * 如绑定其它账户
-     * @param userId
+     * @param user
      */
-    public static void onCompleted(Long userId) {
-        ContextHolder.getContext().publishEvent(new RegistrationEvent(userId));
+    public static void onCompleted(User user) {
+        ContextHolder.getContext().publishEvent(new RegistrationEvent(user));
     }
 
 }

@@ -1,12 +1,14 @@
 package com.minlia.modules.rbac.service;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.utils.ApiPreconditions;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.backend.user.service.UserService;
@@ -32,7 +34,20 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Override
     public User registration(UserRegistrationRequestBody body) {
-        captchaService.validity(body.getUsername(),body.getCode());
+        switch (body.getType()) {
+            case USERNAME:
+                //用户名注册：没有验证码机制，可能存在恶意注册，暂时废弃
+                ApiPreconditions.is(true, ApiCode.BASED_ON,"暂不支持用户名注册");
+                break;
+            case CELLPHONE:
+                captchaService.validity(body.getCellphone(),body.getCode());
+                break;
+            case EMAIL:
+                ApiPreconditions.is(true, ApiCode.BASED_ON,"暂不支持邮箱注册");
+                captchaService.validity(body.getCellphone(),body.getCode());
+                break;
+        }
+
         User user = userService.create(UserCreateRequestBody.builder()
                 .username(body.getUsername())
                 .cellphone(body.getUsername())
@@ -41,16 +56,13 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_ID))
                 .referral(body.getReferral())
                 .build());
-
-        //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
-//    RegistrationEvent.onCompleted(user);
         return user;
     }
 
     @Override
     public StatefulBody availablitity(UserAvailablitityRequestBody body) {
         //正则校验 TODO
-        if (userQueryService.exists(body.getUsername())) {
+        if (userQueryService.exists(UserQueryRequestBody.builder().username(body.getUsername()).build())) {
             return FailureResponseBody.builder().message("账号已存在").build();
         } else {
             return SuccessResponseBody.builder().message("Available").build();

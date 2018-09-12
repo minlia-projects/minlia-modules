@@ -6,6 +6,7 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordByCaptchaRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordByRawPasswordRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ResetPasswordRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
@@ -30,7 +31,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         //验证验证码是否正确
         captchaService.validity(body.getUsername(), body.getCode());
 
-        User user = userMapper.queryByUsername(body.getUsername());
+        User user = userMapper.queryOne(UserQueryRequestBody.builder().guid(body.getUsername()).build());
         ApiPreconditions.is(user == null, ApiCode.NOT_FOUND,"该用户尚未注册");
         return change(user,body.getNewPassword());
     }

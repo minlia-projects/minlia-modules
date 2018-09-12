@@ -5,10 +5,19 @@ package com.minlia.modules.rbac.enumeration;
  */
 public enum  RegistrationType {
 
+    /**
+     * 自定义用户名
+     */
     USERNAME,
 
+    /**
+     * 手机号码
+     */
     CELLPHONE,
 
+    /**
+     * 邮箱
+     */
     EMAIL
 
 }

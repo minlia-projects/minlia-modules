@@ -4,27 +4,27 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
-        ut.id ,
-        ut.guid ,
-        ut.username ,
-        ut.password ,
-        ut.cellphone ,
-        ut.email ,
-        ut.default_role ,
-        ut.credentials_expired ,
-        ut.locked ,
-        ut.lock_limit ,
-        ut.lock_time ,
-        ut.last_login_time ,
-        ut.last_login_ip ,
-        ut.referral ,
-        ut.create_date ,
-        ut.create_by ,
-        ut.last_modified_date ,
-        ut.last_modified_by ,
-        ut.enabled
+            ut.id ,
+            ut.guid ,
+            ut.username ,
+            ut.password ,
+            ut.cellphone ,
+            ut.email ,
+            ut.default_role ,
+            ut.credentials_expired ,
+            ut.locked ,
+            ut.lock_limit ,
+            ut.lock_time ,
+            ut.last_login_time ,
+            ut.last_login_ip ,
+            ut.referral ,
+            ut.create_date ,
+            ut.create_by ,
+            ut.last_modified_date ,
+            ut.last_modified_by ,
+            ut.enabled
         FROM
-        minlia_user ut
+            minlia_user ut
     </sql>
 
     <sql id="QUERY_CONDITION">
@@ -130,30 +130,9 @@
         ;
     </update>
 
-    <select id="queryById" resultType="com.minlia.modules.rbac.backend.user.entity.User">
-        <include refid="QUERY_CONTENT"/>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </select>
-
-    <select id="queryByGuid" resultType="com.minlia.modules.rbac.backend.user.entity.User">
-        <include refid="QUERY_CONTENT"/>
-        WHERE guid = #{guid,jdbcType=VARCHAR}
-    </select>
-
-    <select id="queryByUsername" resultType="com.minlia.modules.rbac.backend.user.entity.User">
-        <include refid="QUERY_CONTENT"/>
-        WHERE username = #{username,jdbcType=VARCHAR}
-    </select>
-
-    <select id="queryByCellphone" resultType="com.minlia.modules.rbac.backend.user.entity.User">
-        <include refid="QUERY_CONTENT"/>
-        WHERE cellphone = #{cellphone,jdbcType=VARCHAR}
-    </select>
-
     <select id="queryByUsernameOrCellphoneOrEmail" resultType="com.minlia.modules.rbac.backend.user.entity.User">
         <include refid="QUERY_CONTENT"/>
-        WHERE ut.username = #{arg0,jdbcType=VARCHAR} OR ut.cellphone = #{arg1,jdbcType=VARCHAR} OR email =
-        #{arg2,jdbcType=VARCHAR}
+        WHERE ut.guid = #{arg0} OR ut.username = #{arg0} OR ut.cellphone = #{arg0} OR email = #{arg0}
     </select>
 
     <select id="count" resultType="java.lang.Long">

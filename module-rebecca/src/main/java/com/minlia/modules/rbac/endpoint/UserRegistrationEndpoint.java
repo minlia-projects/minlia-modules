@@ -4,6 +4,7 @@ import com.minlia.cloud.body.StatefulBody;
 import com.minlia.cloud.body.impl.FailureResponseBody;
 import com.minlia.cloud.body.impl.SuccessResponseBody;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
@@ -47,7 +48,7 @@ public class UserRegistrationEndpoint {
     @ApiOperation(value = "推荐人是否存在", notes = "推荐人是否有效", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "verifyReferral", produces = {MediaType.APPLICATION_JSON_VALUE})
     public StatefulBody invitationCode(@RequestParam String referral) {
-        if (userQueryService.exists(referral)) {
+        if (userQueryService.exists(UserQueryRequestBody.builder().referral(referral).build())) {
             return SuccessResponseBody.builder().payload(true).build();
         }
         else {

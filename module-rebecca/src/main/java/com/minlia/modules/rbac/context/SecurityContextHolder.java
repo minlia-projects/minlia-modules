@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.context;
 
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.security.model.UserContext;
@@ -64,7 +65,7 @@ public final class SecurityContextHolder {
     public static User getCurrentUser() {
         String username = getCurrentUsername();
         if (!StringUtils.isEmpty(username)) {
-            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryByUsername(username);
+            User user = ContextHolder.getContext().getBean(UserQueryService.class).queryOne(UserQueryRequestBody.builder().username(username).build());
             return user;
         } else {
             return null;

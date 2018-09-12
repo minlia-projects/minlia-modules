@@ -1,10 +1,9 @@
 package com.minlia.modules.rbac.bean.to;
 
 import com.minlia.cloud.body.ApiRequestBody;
-import com.minlia.cloud.constant.ValidationConstants;
 import com.minlia.module.common.validation.Cellphone;
-import com.minlia.module.common.validation.NameZh;
 import com.minlia.module.common.validation.Password;
+import com.minlia.module.common.validation.Username;
 import com.minlia.modules.rbac.enumeration.RegistrationType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,11 +22,11 @@ import javax.validation.constraints.Size;
 public class UserRegistrationRequestBody implements ApiRequestBody {
 
     @ApiModelProperty(value = "注册类型")
+    @NotBlank(message = "注册类型不能为空")
     private RegistrationType type;
 
     @ApiModelProperty(value = "用户名", example = "jack")
-    @NotBlank
-    @Cellphone
+    @Username
     private String username;
 
     @ApiModelProperty(value = "手机号码", example = "18888888888")
@@ -41,7 +40,6 @@ public class UserRegistrationRequestBody implements ApiRequestBody {
     @ApiModelProperty(value = "密码", example = "Xx123456")
     @NotBlank(message = "密码不能为空")
     @Password
-    @Size(min = ValidationConstants.MIN_SIZE, max = ValidationConstants.MAX_SIZE, message = "Password have to be grater than 8 characters")
     private String password;
 
     @ApiModelProperty(value = "验证码", example = "8888")
@@ -50,7 +48,7 @@ public class UserRegistrationRequestBody implements ApiRequestBody {
     private String code;
 
     @ApiModelProperty("推荐人")
-    @Size(max = 50)
+    @Size(max = 15)
     private String referral;
 
 }

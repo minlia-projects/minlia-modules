@@ -7,6 +7,7 @@ import com.minlia.modules.rbac.backend.role.body.RoleCreateRequestBody;
 import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.backend.user.service.UserService;
@@ -52,24 +53,10 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
     }
 
     /**
-     * 初始化管理员用户
+     * 初始化默认角色
      */
-    private User initialAdmin() {
-        User user = userQueryService.queryByUsername(SecurityConstant.ROLE_ADMIN_CODE);
-        if (null == user) {
-            Role role = roleService.queryByCode(SecurityConstant.ROLE_ADMIN_CODE);
-            user = userService.create(UserCreateRequestBody.builder()
-                    .username(SecurityConstant.ROLE_ADMIN_CODE)
-                    .password(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,SecurityConstant.ROLE_ADMIN_CODE))
-                    .roles(Sets.newHashSet(role.getId()))
-                    .build());
-        }
-        return user;
-    }
-
     private void initialRole() {
         if (!roleService.exists(SecurityConstant.ROLE_ADMIN_CODE)) {
-            //授予所有权限点
             Role role = roleService.create(RoleCreateRequestBody.builder().code(SecurityConstant.ROLE_ADMIN_CODE).label(SecurityConstant.ROLE_ADMIN_DESC).build());
             permissionService.grantAll(role.getId());
         }
@@ -79,6 +66,22 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
         if (!roleService.exists(SecurityConstant.ROLE_GUEST_CODE)) {
             roleService.create(RoleCreateRequestBody.builder().code(SecurityConstant.ROLE_GUEST_CODE).label(SecurityConstant.ROLE_GUEST_DESC).build());
         }
+    }
+
+    /**
+     * 初始化管理员用户
+     */
+    private User initialAdmin() {
+        User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(SecurityConstant.ROLE_ADMIN_CODE).build());
+        if (null == user) {
+            Role role = roleService.queryByCode(SecurityConstant.ROLE_ADMIN_CODE);
+            user = userService.create(UserCreateRequestBody.builder()
+                    .username(SecurityConstant.ROLE_ADMIN_CODE)
+                    .password(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,SecurityConstant.ROLE_ADMIN_CODE))
+                    .roles(Sets.newHashSet(role.getId()))
+                    .build());
+        }
+        return user;
     }
 
 }

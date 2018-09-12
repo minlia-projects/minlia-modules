@@ -12,27 +12,18 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface UserQueryService {
 
-    User queryById(Long id);
+    long count (UserQueryRequestBody requestBody);
 
-    User queryByGuid(String guid);
+    boolean exists(UserQueryRequestBody requestBody);
 
-    User queryByGuidAndNotNull(String guid);
-
-    User queryByUsername(String username);
-
-    User queryByCellphone(String cellphone);
-
-    /**
-     * 用户名、手机号码、邮箱
-     * @param username
-     * @return
-     */
-    boolean exists(String username);
+    User queryOne(UserQueryRequestBody requestBody);
 
     List<User> queryList(UserQueryRequestBody requestBody);
 
     PageInfo<User> queryPage(UserQueryRequestBody requestBody, Pageable pageable);
 
-    User queryByUsernameOrCellphoneOrEmail(String username, String email, String cellphone);
+    User queryByGuidAndNotNull(String guid);
+
+    User queryByUsernameOrCellphoneOrEmail(String arg);
 
 }

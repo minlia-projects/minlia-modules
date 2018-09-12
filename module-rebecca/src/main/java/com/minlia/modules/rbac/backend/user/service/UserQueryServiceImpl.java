@@ -21,40 +21,30 @@ public class UserQueryServiceImpl implements UserQueryService {
     private UserMapper userMapper;
 
     @Override
-    public User queryById(Long id) {
-        return userMapper.queryById(id);
-    }
-
-    @Override
-    public User queryByGuid(String guid) {
-        return userMapper.queryByGuid(guid);
-    }
-
-    @Override
     public User queryByGuidAndNotNull(String guid) {
-        User user = userMapper.queryByGuid(guid);
+        User user = userMapper.queryOne(UserQueryRequestBody.builder().guid(guid).build());
         ApiPreconditions.is(null == user, SecurityApiCode.USER_NOT_EXISTED,"用户不存在");
         return user;
     }
 
     @Override
-    public User queryByUsername(String username) {
-        return userMapper.queryByUsername(username);
+    public User queryByUsernameOrCellphoneOrEmail(String arg) {
+        return userMapper.queryByUsernameOrCellphoneOrEmail(arg);
     }
 
     @Override
-    public User queryByCellphone(String cellphone) {
-        return userMapper.queryByUsername(cellphone);
+    public long count(UserQueryRequestBody requestBody) {
+        return userMapper.count(requestBody);
     }
 
     @Override
-    public User queryByUsernameOrCellphoneOrEmail(String username, String email, String cellphone) {
-        return userMapper.queryByUsernameOrCellphoneOrEmail(username,email,cellphone);
+    public boolean exists(UserQueryRequestBody requestBody) {
+        return userMapper.count(requestBody) > 0;
     }
 
     @Override
-    public boolean exists(String username) {
-        return null != this.queryByUsername(username);
+    public User queryOne(UserQueryRequestBody requestBody) {
+        return userMapper.queryOne(requestBody);
     }
 
     @Override

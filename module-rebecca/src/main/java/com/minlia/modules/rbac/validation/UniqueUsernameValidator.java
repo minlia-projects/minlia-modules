@@ -1,5 +1,6 @@
 package com.minlia.modules.rbac.validation;
 
+import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +23,7 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
         // Check if the username is unique
-        return null != userQueryService.queryByUsernameOrCellphoneOrEmail(username,username,username);
+        return userQueryService.exists(UserQueryRequestBody.builder().username(username).build());
     }
 
 }
