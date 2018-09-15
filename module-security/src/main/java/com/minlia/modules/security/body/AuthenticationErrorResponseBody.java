@@ -1,7 +1,7 @@
 package com.minlia.modules.security.body;
 
+import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
-import com.minlia.modules.security.code.AuthenticationErrorCode;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;
@@ -12,7 +12,7 @@ public class AuthenticationErrorResponseBody {
     private final HttpStatus status;
 
     // Error code
-    private final AuthenticationErrorCode code;
+    private final Integer code;
 
     // General Error message
     private final String message;
@@ -23,32 +23,28 @@ public class AuthenticationErrorResponseBody {
 
     private final Date timestamp;
 
-    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code) {
+    public AuthenticationErrorResponseBody(HttpStatus status, final Code code) {
         this.status = status;
-        this.code = code;
-        this.message = code.getCode();
+        this.code = code.code();
+        this.message = Lang.get(code.i18nKey());
         this.timestamp = new java.util.Date();
     }
 
-    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message) {
-        this.status = status;
-        this.code = code;
-        this.message = Lang.get(message);
-        this.timestamp = new java.util.Date();
-    }
+    public AuthenticationErrorResponseBody(HttpStatus status, final Code code, final Long lockTime) {
 
-    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message,final Long lockTime) {
-        this.message = message;
-        this.code = code;
+        Object[] o = new Object[]{lockTime};
+
         this.status = status;
+        this.code = code.code();
+        this.message = Lang.get(code.i18nKey(), new Object[]{lockTime});
         this.lockTime = lockTime;
         this.timestamp = new java.util.Date();
     }
 
-    public AuthenticationErrorResponseBody(HttpStatus status, final AuthenticationErrorCode code, final String message,final Integer failureTimes) {
-        this.message = message;
-        this.code = code;
+    public AuthenticationErrorResponseBody(HttpStatus status, final Code code, final Integer failureTimes) {
         this.status = status;
+        this.code = code.code();
+        this.message = Lang.get(code.i18nKey(), new Object[]{failureTimes});
         this.failureTimes = failureTimes;
         this.timestamp = new java.util.Date();
     }
@@ -61,7 +57,7 @@ public class AuthenticationErrorResponseBody {
         return message;
     }
 
-    public AuthenticationErrorCode getCode() {
+    public Integer getCode() {
         return code;
     }
 

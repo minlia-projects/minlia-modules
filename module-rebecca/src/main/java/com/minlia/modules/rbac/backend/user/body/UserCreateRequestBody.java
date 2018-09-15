@@ -24,7 +24,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserCreateRequestBody implements ApiRequestBody {
 
-    @NotBlank
     @Username
     private String username;
 

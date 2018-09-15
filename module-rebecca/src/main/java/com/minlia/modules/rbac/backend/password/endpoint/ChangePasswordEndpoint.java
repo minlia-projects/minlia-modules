@@ -1,10 +1,9 @@
 package com.minlia.modules.rbac.backend.password.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.modules.rbac.backend.password.body.ChangePasswordByRawPasswordRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordByCaptchaRequestBody;
+import com.minlia.modules.rbac.backend.password.body.ChangePasswordByRawPasswordRequestBody;
 import com.minlia.modules.rbac.backend.password.service.UserPasswordService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import io.swagger.annotations.Api;
@@ -28,17 +27,17 @@ public class ChangePasswordEndpoint {
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据原密码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "raw", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody changePasswordMode1(@RequestBody ChangePasswordByRawPasswordRequestBody body) {
+    public Response changePasswordMode1(@RequestBody ChangePasswordByRawPasswordRequestBody body) {
         User entity = userPasswordService.change(body);
-        return SuccessResponseBody.builder().build();
+        return Response.success();
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据验证码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "captcha", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody changePasswordMode2(@RequestBody ChangePasswordByCaptchaRequestBody body) {
+    public Response changePasswordMode2(@RequestBody ChangePasswordByCaptchaRequestBody body) {
         User entity=userPasswordService.change(body);
-        return SuccessResponseBody.builder().build();
+        return Response.success();
     }
 
 }

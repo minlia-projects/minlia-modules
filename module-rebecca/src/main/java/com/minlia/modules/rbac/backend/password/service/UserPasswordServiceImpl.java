@@ -1,8 +1,8 @@
 package com.minlia.modules.rbac.backend.password.service;
 
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordByCaptchaRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ChangePasswordByRawPasswordRequestBody;
 import com.minlia.modules.rbac.backend.password.body.ResetPasswordRequestBody;
@@ -31,8 +31,8 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         //验证验证码是否正确
         captchaService.validity(body.getUsername(), body.getCode());
 
-        User user = userMapper.queryOne(UserQueryRequestBody.builder().guid(body.getUsername()).build());
-        ApiPreconditions.is(user == null, ApiCode.NOT_FOUND,"该用户尚未注册");
+        User user = userMapper.queryOne(UserQueryRequestBody.builder().username(body.getUsername()).build());
+        ApiAssert.notNull(null, RebaccaCode.Message.USER_NOT_EXISTED);
         return change(user,body.getNewPassword());
     }
 
@@ -51,8 +51,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         User user= SecurityContextHolder.getCurrentUser();
 
         Boolean bool = bCryptPasswordEncoder.matches(body.getRawPassword(),user.getPassword());
-        ApiPreconditions.not(bool, ApiCode.INVALID_RAW_PASSWORD,"原密码错误，请确认！");
-
+        ApiAssert.state(!bool, RebaccaCode.Message.USER_RAW_PASSWORD_ERROR);
         return change(user,body.getNewPassword());
     }
 

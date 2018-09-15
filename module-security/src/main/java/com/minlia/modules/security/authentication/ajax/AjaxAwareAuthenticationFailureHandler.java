@@ -2,7 +2,7 @@ package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minlia.modules.security.body.AuthenticationErrorResponseBody;
-import com.minlia.modules.security.code.AuthenticationErrorCode;
+import com.minlia.modules.security.code.SecurityCode;
 import com.minlia.modules.security.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,33 +35,33 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 
 		//TODO 非自定义异常直接抛出，
 		if (e instanceof AuthMethodNotSupportedException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "不支持的请求方式"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_METHOD_NOT_SUPPORTED));
 		} else if (e instanceof AuthenticationCredentialsNotFoundException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "用户名或密码不能为空"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND));
 		} else if (e instanceof UsernameNotFoundException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "用户不存在"));
-		} else if (e instanceof BadCredentialsException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "密码错误"));	//TODO
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.USERNAME_NOT_FOUND));
+//		} else if (e instanceof BadCredentialsException) {
+//			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTHENTICATION, "密码错误"));
 		} else if (e instanceof AccountExpiredException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已过期"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_EXPIRED));
 		} else if (e instanceof DisabledException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已禁用"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_DISABLED));
 		} else if (e instanceof LockedException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "账号已锁定"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_LOCKED));
 		} else if (e instanceof CredentialsExpiredException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "凭证已过期"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_CREDENTIALS_EXPIRED));
 		} else if (e instanceof AuthenticationServiceException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, "认证服务异常"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_SERVICE));
 		} else if (e instanceof JwtExpiredTokenException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 已过期"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_TOKEN_EXPIRED));
 		} else if (e instanceof JwtInvalidTokenException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.JWT_TOKEN_EXPIRED, "Token 无效"));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_TOKEN_INVALID));
 		} else if (e instanceof JwtAcceptableException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, e.getMessage()));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_ACCEPTABLE_NOT_NULL));
 		} else if (e instanceof AjaxBadCredentialsException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, String.format("密码错误，已连续错误%s次",((AjaxBadCredentialsException) e).getFailureTimes()),((AjaxBadCredentialsException) e).getFailureTimes()));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AJAX_BAD_CREDENTIALS, ((AjaxBadCredentialsException) e).getFailureTimes()));
 		} else if (e instanceof AjaxLockedException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, AuthenticationErrorCode.AUTHENTICATION, String.format("账号已锁定，%s秒后解锁",((AjaxLockedException) e).getLockTime()),((AjaxLockedException) e).getLockTime()));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AJAX_LOCKED, ((AjaxLockedException) e).getLockTime()));
 		}
 	}
 

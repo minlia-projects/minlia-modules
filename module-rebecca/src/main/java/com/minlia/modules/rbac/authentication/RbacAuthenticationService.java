@@ -74,7 +74,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         } else if (user.getCredentialsExpired()) {
             throw new CredentialsExpiredException("凭证已过期");
         } else if (user.getLocked() && new Date().before(user.getLockTime())) {
-            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(user.getLockTime().toInstant(),  new Date().toInstant()));
+            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(new Date().toInstant(),user.getLockTime().toInstant()));
         } else if (!encoder.matches(password,user.getPassword())) {
             //密码错误 锁定次数+1
             user.setLockLimit(user.getLockLimit()+ NumberUtils.INTEGER_ONE);

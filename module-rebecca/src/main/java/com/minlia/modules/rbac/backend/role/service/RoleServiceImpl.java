@@ -2,8 +2,8 @@ package com.minlia.modules.rbac.backend.role.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
+import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.role.body.RoleCreateRequestBody;
 import com.minlia.modules.rbac.backend.role.body.RoleUpdateRequestBody;
@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Role create(RoleCreateRequestBody body) {
-        ApiPreconditions.is(this.exists(body.getCode()), SecurityApiCode.ROLE_ALREADY_EXISTED,"角色已存在");
+        ApiAssert.state(!this.exists(body.getCode()), RebaccaCode.Message.ROLE_ALREADY_EXISTED);
 
         Role role = mapper.map(body,Role.class);
         roleMapper.create(role);
@@ -53,8 +52,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Role update(RoleUpdateRequestBody body) {
-        ApiPreconditions.not(this.exists(body.getCode()), SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在");
-
+        ApiAssert.state(this.exists(body.getCode()), RebaccaCode.Message.ROLE_NOT_EXISTED);
         Role role = mapper.map(body,Role.class);
         roleMapper.update(role);
         return role;
@@ -64,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void delete(String code) {
         Role role = roleMapper.queryByCode(code);
-        ApiPreconditions.is(null == role, SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在");
+        ApiAssert.notNull(role, RebaccaCode.Message.ROLE_NOT_EXISTED);
         //删除role、map_roles_permissions、map_users_roles
         roleMapper.delete(role.getId());
     }
@@ -73,7 +71,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void grantPermission(String code,List<Long> permissions) {
         Role role = roleMapper.queryByCode(code);
-        ApiPreconditions.is(null == role, SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在");
+        ApiAssert.notNull(role, RebaccaCode.Message.ROLE_NOT_EXISTED);
         roleMapper.grant(role.getId(),permissions);
     }
 
@@ -106,6 +104,7 @@ public class RoleServiceImpl implements RoleService {
     public List<String> queryCodeByUserId(Long userId) {
         return roleMapper.queryCodeByUserId(userId);
     }
+
     @Override
     public List<Long> queryIdByUserId(Long userId) {
         return roleMapper.queryIdByUserId(userId);

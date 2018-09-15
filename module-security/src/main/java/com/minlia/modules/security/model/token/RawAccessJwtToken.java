@@ -6,7 +6,6 @@ import io.jsonwebtoken.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
 
 @ApiModel
 @Slf4j
@@ -21,16 +20,12 @@ public class RawAccessJwtToken implements JwtToken {
 
     /**
      * Parses and validates JWT Token signature.
-     * 
-     * @throws BadCredentialsException
-     *
      */
     public Jws<Claims> parseClaims(String signingKey) {
         try {
             return Jwts.parser().setSigningKey(signingKey).parseClaimsJws(this.token);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException ex) {
             log.error("Invalid JWT Token", ex);
-//            throw new BadCredentialsException("Invalid JWT token: ", ex);
             throw new JwtInvalidTokenException("Invalid JWT token");
         } catch (ExpiredJwtException expiredEx) {
             log.info("JWT Token is expired", expiredEx);

@@ -1,7 +1,6 @@
 package com.minlia.modules.rbac.backend.password.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.rbac.backend.password.body.ResetPasswordRequestBody;
 import com.minlia.modules.rbac.backend.password.service.UserPasswordService;
@@ -30,9 +29,9 @@ public class ForgetPasswordEndpoint {
 
     @ApiOperation(value = "忘记密码", notes = "忘记密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "forget", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody resetPassword(@Valid @RequestBody ResetPasswordRequestBody body) {
+    public Response resetPassword(@Valid @RequestBody ResetPasswordRequestBody body) {
         User entity = userPasswordService.forget(body);
-        return SuccessResponseBody.builder().payload(entity).build();
+        return Response.success(entity);
     }
 
 }

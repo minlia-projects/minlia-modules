@@ -1,9 +1,9 @@
 package com.minlia.module.captcha.service;
 
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
-import com.minlia.module.captcha.constant.CaptchaApiCode;
+import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.domain.Captcha;
 import com.minlia.module.captcha.enumeration.CaptchaType;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
@@ -11,7 +11,6 @@ import com.minlia.module.captcha.util.SmsTemplateProperties;
 import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +33,10 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void validity(String cellphone, String code) {
         Captcha captcha = captchaMapper.queryByCellphone(cellphone);
-        ApiPreconditions.is(null == captcha, CaptchaApiCode.CELLPHONE_NOT_FOUND_CODE,CaptchaApiCode.CELLPHONE_NOT_FOUND_DESC);
-        ApiPreconditions.is(captcha.getEffectiveTime().getTime() < System.currentTimeMillis(), CaptchaApiCode.CAPTCHA_EXPIRED_CODE,CaptchaApiCode.CAPTCHA_EXPIRED_DESC);
-        ApiPreconditions.is(captcha.getFailureCount() == 3, CaptchaApiCode.REPETITIOUS_FAILURE_CODE,CaptchaApiCode.REPETITIOUS_FAILURE_DESC);
-        ApiPreconditions.is(captcha.getUsed(), CaptchaApiCode.ALREADY_USED_CODE,CaptchaApiCode.ALREADY_USED_DESC);
+        ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
+        ApiAssert.state(captcha.getEffectiveTime().getTime() > System.currentTimeMillis(), CaptchaCode.Message.CAPTCHA_EXPIRED);
+        ApiAssert.state(captcha.getFailureCount() != 3, CaptchaCode.Message.CAPTCHA_REPETITIOUS_ERROR);
+        ApiAssert.state(!captcha.getUsed(), CaptchaCode.Message.ALREADY_USED);
 
         if (code.equals(captcha.getCode())) {
             captcha.setUsed(true);
@@ -45,7 +44,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         } else {
             captcha.setFailureCount(captcha.getFailureCount()+ 1);
             captchaMapper.update(captcha);
-            ApiPreconditions.not(code.equals(captcha.getCode()), CaptchaApiCode.INVALID_CODE,CaptchaApiCode.INVALID_DESC);
+            ApiAssert.state(code.equals(captcha.getCode()), CaptchaCode.Message.CAPTCHA_ERROR);
         }
     }
 
@@ -55,7 +54,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         String smsTemplateId=smsTemplateProperties.get(CaptchaType.SECURITY_CODE.name());
 
         //检查获取了类型
-        ApiPreconditions.is(null == smsTemplateId, CaptchaApiCode.TEMPLATE_NOT_FOUND_CODE,CaptchaApiCode.TEMPLATE_NOT_FOUND_DESC);
+        ApiAssert.notNull(smsTemplateId, CaptchaCode.Message.TEMPLATE_NOT_FOUND);
 
         log.debug("Sending security code for cellphone: {}", cellphone);
 
@@ -79,7 +78,7 @@ public class CaptchaServiceImpl implements CaptchaService {
                     .build();
             captchaMapper.create(captcha);
         } else {
-            ApiPreconditions.is(currentDate.before(DateUtils.addMinutes(captcha.getSendTime(),1)) ,CaptchaApiCode.ONE_TIME_CODE,CaptchaApiCode.ONE_TIME_DESC);
+            ApiAssert.state(currentDate.after(DateUtils.addMinutes(captcha.getSendTime(),1)) , CaptchaCode.Message.ONCE_PER_MINUTE);
             captcha.setCode(code);
             captcha.setUsed(false);
             captcha.setLocked(Boolean.FALSE);
@@ -94,7 +93,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         if(!Environments.isDevelopment()){
             boolean bool = ContextHolder.getContext().getBean(AliyunSmsSendService.class).send(cellphone, smsTemplateId, "{\"code\":\"" + captcha.getCode() + "\"}");
             log.info("短信模板消息：————————————————————————————————————————————smsTemplateId:"+smsTemplateId);
-            ApiPreconditions.not(bool,1,"短信发送失败");
+            ApiAssert.state(bool,CaptchaCode.Message.SEND_FAILURE);
         }
         return captcha;
     }

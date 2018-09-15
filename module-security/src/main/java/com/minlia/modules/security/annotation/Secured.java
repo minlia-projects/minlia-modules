@@ -1,11 +1,7 @@
 package com.minlia.modules.security.annotation;
 
-import com.minlia.cloud.annotation.i18n.Localize;
-import com.minlia.cloud.annotation.i18n.Localized;
 import com.minlia.modules.security.enumeration.SecureStrategyEnum;
-import org.springframework.cglib.core.Local;
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -28,13 +24,6 @@ import java.lang.annotation.*;
 @Component
 public @interface Secured {
     String[] label() default {};
-
-    /**
-     * 国际化
-     * @return
-     */
-    @AliasFor(annotation = Localized.class)
-    Localized[] localized() default {};
 
     /**
      * 安全策略

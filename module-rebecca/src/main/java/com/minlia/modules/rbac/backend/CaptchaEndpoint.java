@@ -1,13 +1,12 @@
 package com.minlia.modules.rbac.backend;
 
 import com.aliyuncs.exceptions.ClientException;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.FailureResponseBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.domain.Captcha;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,18 +30,18 @@ public class CaptchaEndpoint {
 
     @ApiOperation(value = "发送验证码", notes = "发送验证码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "send", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody send() throws ClientException {
+    public Response send() throws ClientException {
         String cellphone = SecurityContextHolder.getCurrentUser().getCellphone();
         if (StringUtils.isEmpty(cellphone)) {
-            return FailureResponseBody.builder().message("未绑定手机号码").build();
+            return Response.failure(RebaccaCode.Message.USER_NO_CELLPHONE);
         } else {
             Captcha securityCode = captchaService.send(cellphone);
 
             //DEV环境时放出来
             if(Environments.isDevelopment()){
-                return SuccessResponseBody.builder().payload(securityCode).build();
+                return Response.success(securityCode);
             }else{
-                return SuccessResponseBody.builder().build();
+                return Response.success();
             }
         }
     }

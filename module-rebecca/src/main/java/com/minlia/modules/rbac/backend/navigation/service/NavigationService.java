@@ -2,7 +2,7 @@ package com.minlia.modules.rbac.backend.navigation.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationCreateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationGrantRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface NavigationService {
 
-    StatefulBody create(NavigationCreateRequestBody requestBody);
+    Response create(NavigationCreateRequestBody requestBody);
 
     Navigation update(NavigationUpdateRequestBody requestBody);
 

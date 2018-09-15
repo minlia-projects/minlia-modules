@@ -1,7 +1,7 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.module.redis.service.RedisService;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
@@ -50,7 +50,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         //将tokenMap 转换成状态化返回体再返回
-        mapper.writeValue(response.getWriter(), SuccessResponseBody.builder().payload(tokenMap).build());
+        mapper.writeValue(response.getWriter(), Response.success(tokenMap));
 
         clearAuthenticationAttributes(request);
 

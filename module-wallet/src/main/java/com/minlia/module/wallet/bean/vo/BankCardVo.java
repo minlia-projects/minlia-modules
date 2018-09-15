@@ -38,6 +38,11 @@ public class BankCardVo extends AbstractEntity {
     private String idNumber;
 
     /**
+     * 手机号码
+     */
+    private String cellphone;
+
+    /**
      * 卡号
      */
     private String number;

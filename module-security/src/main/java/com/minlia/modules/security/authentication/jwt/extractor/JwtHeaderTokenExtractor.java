@@ -1,5 +1,7 @@
 package com.minlia.modules.security.authentication.jwt.extractor;
 
+import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.modules.security.code.SecurityCode;
 import com.minlia.modules.security.exception.JwtAcceptableException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -12,14 +14,14 @@ public class JwtHeaderTokenExtractor implements TokenExtractor {
 
     @Override
     public String extract(String header) {
-//        ApiPreconditions.checkNotNull(header, ApiCode.ACCESS_TOKEN_INVALID,"Authorization header cannot be blank!");
+//        ApiAssert.isNull(header, SecurityCode.Exception.JWT_ACCEPTABLE_NOT_NULL);
         if (StringUtils.isBlank(header)) {
-            throw new JwtAcceptableException("Authorization header cannot be blank!");
+            throw new JwtAcceptableException(SecurityCode.Exception.JWT_ACCEPTABLE_NOT_NULL.message());
         }
 
-//        ApiPreconditions.is(header.length() < HEADER_PREFIX.length(), ApiCode.ACCESS_TOKEN_INVALID,"Invalid authorization header size.");
+//        ApiAssert.state(!(header.length() < HEADER_PREFIX.length()), SecurityCode.Exception.JWT_ACCEPTABLE_INVALID_SIZE);
         if (header.length() < HEADER_PREFIX.length()) {
-            throw new JwtAcceptableException("Invalid authorization header size.");
+            throw new JwtAcceptableException(SecurityCode.Exception.JWT_ACCEPTABLE_INVALID_SIZE.message());
         }
         return header.substring(HEADER_PREFIX.length(), header.length());
     }

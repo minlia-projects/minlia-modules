@@ -11,6 +11,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -22,7 +23,7 @@ import javax.validation.constraints.Size;
 public class UserRegistrationRequestBody implements ApiRequestBody {
 
     @ApiModelProperty(value = "注册类型")
-    @NotBlank(message = "注册类型不能为空")
+    @NotNull(message = "注册类型不能为空")
     private RegistrationType type;
 
     @ApiModelProperty(value = "用户名", example = "jack")

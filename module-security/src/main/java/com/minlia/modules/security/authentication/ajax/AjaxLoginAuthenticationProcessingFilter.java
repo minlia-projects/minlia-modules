@@ -1,10 +1,9 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.modules.security.authentication.credential.LoginCredential;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
-import com.minlia.modules.security.code.SecurityApiCode;
+import com.minlia.modules.security.code.SecurityCode;
 import com.minlia.modules.security.exception.AuthMethodNotSupportedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -53,24 +52,10 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         }
 
         //获取登录凭证：用户名、邮箱、手机号码、密码
-        LoginCredentials credential = objectMapper.readValue(request.getReader(), LoginCredentials.class);
-//        LoginCredential loginCredential = convertToLoginCredential(credential);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credential, credential.getPassword());
+        LoginCredentials loginCredentials = objectMapper.readValue(request.getReader(), LoginCredentials.class);
+        this.preConditions(loginCredentials);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginCredentials, loginCredentials.getPassword());
         return this.getAuthenticationManager().authenticate(token);
-    }
-
-    private LoginCredential convertToLoginCredential(LoginCredentials credential) {
-        ApiPreconditions.checkNotNull(credential, SecurityApiCode.NOT_NULL);
-        if(StringUtils.isNotBlank(credential.getCellphone())){
-//            return new LoginCredential(credential.getCellphone(),credential.getPassword());
-        }
-        if(StringUtils.isNotBlank(credential.getEmail())){
-//            return new LoginCredential(credential.getEmail(),credential.getPassword());
-        }
-        if(StringUtils.isNotBlank(credential.getUsername())){
-//            return new LoginCredential(credential.getUsername(),credential.getPassword());
-        }
-        return new LoginCredential();
     }
 
     /**
@@ -78,10 +63,9 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
      * @param credentials
      */
     private void preConditions(LoginCredentials credentials){
-        ApiPreconditions.checkNotNull(credentials, SecurityApiCode.NOT_NULL);
-        if ((StringUtils.isBlank(credentials.getUsername()) || StringUtils.isBlank(credentials.getCellphone()) || StringUtils.isBlank(credentials.getEmail())) || StringUtils.isBlank(credentials.getPassword())) {
+//        ApiAssert.isNull(credentials, SecurityCode.Exception.AJAX_BAD_CREDENTIALS);
+        if ((StringUtils.isNotBlank(credentials.getUsername()) || StringUtils.isNotBlank(credentials.getCellphone()) || StringUtils.isNotBlank(credentials.getEmail())) && StringUtils.isBlank(credentials.getPassword())) {
             throw new AuthenticationCredentialsNotFoundException("Username or Password not provided");
-//            SecurityContextHolder.getContext().setAuthentication(new AnonymousAuthenticationToken());
         }
     }
 

@@ -2,8 +2,8 @@ package com.minlia.modules.rbac.backend.user.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
+import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
@@ -23,7 +23,7 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public User queryByGuidAndNotNull(String guid) {
         User user = userMapper.queryOne(UserQueryRequestBody.builder().guid(guid).build());
-        ApiPreconditions.is(null == user, SecurityApiCode.USER_NOT_EXISTED,"用户不存在");
+        ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
         return user;
     }
 

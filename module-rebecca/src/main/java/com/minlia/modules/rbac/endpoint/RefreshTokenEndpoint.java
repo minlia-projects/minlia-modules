@@ -1,8 +1,7 @@
 package com.minlia.modules.rbac.endpoint;
 
 import com.google.common.collect.Lists;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
@@ -65,7 +64,7 @@ public class RefreshTokenEndpoint {
 
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌, 正常情况下TOKEN值在请求时以Header参数 X-Auth-Token: Bearer xxxxxx传入", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/api/v1/auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})//,headers = "X-Authorization"
-    public @ResponseBody StatefulBody refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public @ResponseBody Response refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
 
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
@@ -90,14 +89,9 @@ public class RefreshTokenEndpoint {
         List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
         UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
 
-        log.info("*****************************************************2");
-        log.info("*****************************************************2");
-        log.info("*****************************************************2");
-        log.info("*****************************************************2" + userContext.toString());
-
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
-        return SuccessResponseBody.builder().payload(tokenFactory.createAccessJwtToken(userContext)).build();
+        return Response.success(tokenFactory.createAccessJwtToken(userContext));
     }
 
 }

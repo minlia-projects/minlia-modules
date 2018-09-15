@@ -1,9 +1,9 @@
 package com.minlia.modules.rbac.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.FailureResponseBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
@@ -33,26 +33,28 @@ public class UserRegistrationEndpoint {
     private UserRegistrationService userRegistrationService;
 
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody registration(@Valid @RequestBody UserRegistrationRequestBody body ) {
+    @RequestMapping(value = "a", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response registration(@Valid @RequestBody UserRegistrationRequestBody body ) {
         User userRegistered = userRegistrationService.registration(body);
-        return SuccessResponseBody.builder().payload(userRegistered).build();
+        return Response.success(userRegistered);
     }
 
     @ApiOperation(value = "用户名有效性验证", notes = "用户名有效性验证", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "availablitity", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody availablitity(@Valid @RequestBody UserAvailablitityRequestBody body ) {
+    public Response availablitity(@Valid @RequestBody UserAvailablitityRequestBody body ) {
+        ApiAssert.state(false,RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
+        ApiAssert.state(false, RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
         return userRegistrationService.availablitity(body);
     }
 
     @ApiOperation(value = "推荐人是否存在", notes = "推荐人是否有效", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "verifyReferral", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody invitationCode(@RequestParam String referral) {
+    public Response invitationCode(@RequestParam String referral) {
         if (userQueryService.exists(UserQueryRequestBody.builder().referral(referral).build())) {
-            return SuccessResponseBody.builder().payload(true).build();
+            return Response.success();
         }
         else {
-            return FailureResponseBody.builder().payload(false).message("推荐人不存在").build();
+            return Response.failure(RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
         }
     }
 

@@ -8,6 +8,8 @@
             bct.guid ,
             bct.type ,
             bct.holder ,
+            bct.id_number ,
+            bct.cellphone ,
             bct.number ,
             bct.bank_code ,
             bct.is_withdraw ,
@@ -57,6 +59,8 @@
             guid,
             type,
             holder,
+            id_number,
+            cellphone,
             number,
             bank_code,
             is_withdraw,
@@ -67,6 +71,8 @@
             #{guid},
             #{type},
             #{holder},
+            #{idNumber},
+            #{cellphone},
             #{number},
             #{bankCode},
             #{isWithdraw},
@@ -85,6 +91,12 @@
             </if>
             <if test="holder != null">
                 holder = #{holder} ,
+            </if>
+            <if test="idNumber != null">
+                id_number = #{idNumber} ,
+            </if>
+            <if test="cellphone != null">
+                cellphone = #{cellphone} ,
             </if>
             <if test="number != null">
                 number = #{number} ,

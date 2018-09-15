@@ -1,9 +1,8 @@
 package com.minlia.modules.rbac.backend.user.service;
 
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.data.util.SequenceUtils;
-import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
+import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
 import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
@@ -13,6 +12,7 @@ import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.event.UserDeleteEvent;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import com.minlia.modules.rbac.event.RegistrationEvent;
+import com.minlia.modules.security.constant.SecurityConstant;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -41,24 +41,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(UserCreateRequestBody requestBody) {
         if (StringUtils.isNotEmpty(requestBody.getUsername())) {
-            ApiPreconditions.is(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getUsername()).build()), ApiCode.NOT_NULL,"用户名已被使用");
+            ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
         }
         if (StringUtils.isNotEmpty(requestBody.getCellphone())) {
-            ApiPreconditions.is(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getCellphone()).build()), ApiCode.NOT_NULL,"手机号码已被使用");
+            ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
         }
         if (StringUtils.isNotEmpty(requestBody.getEmail())) {
-            ApiPreconditions.is(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getEmail()).build()), ApiCode.NOT_NULL,"邮箱已被使用");
+            ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
         }
         if (StringUtils.isNotEmpty(requestBody.getReferral())) {
-            ApiPreconditions.not(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getReferral()).build()), SecurityApiCode.USER_REFERRAL_NOT_FOUND,"推荐人不存在");
+            ApiAssert.state(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getReferral()).build()), RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
         }
 
         //校验默认角色是否存在
         if (StringUtils.isNotBlank(requestBody.getDefaultRole())) {
             Role role = roleService.queryByCode(requestBody.getDefaultRole());
-            if (null == role) {
-                ApiPreconditions.is(true,SecurityApiCode.ROLE_NOT_EXISTED);
-            }
+            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
+        } else {
+            //如果不传默认为用户
+            requestBody.setDefaultRole(SecurityConstant.ROLE_USER_CODE);
         }
 
         User user = User.builder()
@@ -90,9 +91,7 @@ public class UserServiceImpl implements UserService {
         }
         if (StringUtils.isNotBlank(body.getDefaultRole())) {
             Role role = roleService.queryByCode(body.getDefaultRole());
-            if (null == role) {
-                ApiPreconditions.is(true,SecurityApiCode.ROLE_NOT_EXISTED);
-            }
+            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
             user.setDefaultRole(body.getDefaultRole());
         }
         userMapper.update(user);
@@ -143,7 +142,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void grant(String guid, Set<Long> roles) {
         User user = userMapper.queryOne(UserQueryRequestBody.builder().guid(guid).build());
-        ApiPreconditions.is(null == user,SecurityApiCode.USER_NOT_EXISTED,"用户不存在："+user.getGuid());
+        ApiAssert.notNull(user,RebaccaCode.Message.USER_NOT_EXISTED);
         this.grant(user.getId(),roles);
     }
 
@@ -151,7 +150,7 @@ public class UserServiceImpl implements UserService {
     public void grant(long id, Set<Long> roles) {
         for (Long roleId : roles) {
             Role role = roleService.queryById(roleId);
-            ApiPreconditions.is(null == role,SecurityApiCode.ROLE_NOT_EXISTED,"角色不存在："+roleId);
+            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
         }
         userMapper.grant(id,roles);
     }
