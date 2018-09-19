@@ -1,8 +1,6 @@
 package com.minlia.module.pooul.test;
 
-import com.google.gson.Gson;
 import com.minlia.cloud.body.Response;
-import com.minlia.cloud.body.StatefulBody;
 import com.minlia.module.common.config.RestConfiguration;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.pooul.Application;
@@ -65,8 +63,8 @@ public class PooulAbstractTest {
         body.setBody("花果山 Test jsminipg");
         body.setSubAppid("wx469ffdb81de47e4d");
         body.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
-        StatefulBody statefulBody = pooulPayService.wechatJsminipg(body);
-        System.out.println(statefulBody.getPayload());
+        Response response = pooulPayService.wechatJsminipg(body);
+        System.out.println(response.getPayload());
     }
 
     @Test

@@ -1,8 +1,7 @@
 package com.minlia.module.wallet.endpoint;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wallet.bean.to.BankCardCTO;
 import com.minlia.module.wallet.bean.to.BankCardQO;
@@ -34,63 +33,63 @@ public class BankCardEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_CREATE_CODE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody create(@Valid @RequestBody BankCardCTO cto) {
-		return SuccessResponseBody.builder().payload(bankCardService.create(cto)).build();
+	public Response create(@Valid @RequestBody BankCardCTO cto) {
+		return Response.success(bankCardService.create(cto));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_UPDATE_CODE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody update(@Valid @RequestBody BankCardUTO uto) {
-		return SuccessResponseBody.builder().payload(bankCardService.update(uto)).build();
+	public Response update(@Valid @RequestBody BankCardUTO uto) {
+		return Response.success(bankCardService.update(uto));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_DELETE_CODE + "')")
 	@ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody update(@PathVariable Long id) {
+	public Response update(@PathVariable Long id) {
 		bankCardService.delete(id);
-		return SuccessResponseBody.builder().build();
+		return Response.success();
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_UPDATE_CODE + "')")
 	@ApiOperation(value = "设置提现卡号", notes = "设置提现卡号", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "withdraw/{id}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody setWithdrawCard(@PathVariable Long id) {
+	public Response setWithdrawCard(@PathVariable Long id) {
 		bankCardService.setWithdrawCard(id);
-		return SuccessResponseBody.builder().build();
+		return Response.success();
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_READ_CODE + "')")
 	@ApiOperation(value = "我的银行卡", notes = "我的银行卡", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "me", produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody me() {
+	public Response me() {
 		List<BankCardVo> bankCards = bankCardService.queryList(BankCardQO.builder().guid(SecurityContextHolder.getCurrentGuid()).build());
-		return SuccessResponseBody.builder().payload(bankCards).build();
+		return Response.success(bankCards);
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "ID查询", notes = "单个查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody findOne(@PathVariable Long id) {
+	public Response findOne(@PathVariable Long id) {
 		BankCardVo bankCard = bankCardService.queryById(id);
-		return SuccessResponseBody.builder().payload(bankCard).build();
+		return Response.success(bankCard);
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody list(@RequestBody BankCardQO qo) {
+	public Response list(@RequestBody BankCardQO qo) {
 		List<BankCardVo> bankCards = bankCardService.queryList(qo);
-		return SuccessResponseBody.builder().payload(bankCards).build();
+		return Response.success(bankCards);
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public StatefulBody paginated(@PageableDefault Pageable pageable, @RequestBody BankCardQO qo) {
+	public Response paginated(@PageableDefault Pageable pageable, @RequestBody BankCardQO qo) {
 		PageInfo pageInfo = bankCardService.queryPage(qo, pageable);
-		return SuccessResponseBody.builder().payload(pageInfo).build();
+		return Response.success(pageInfo);
 	}
 
 }

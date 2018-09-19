@@ -1,7 +1,6 @@
 package com.minlia.module.wechat.material.service;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.module.wechat.material.dto.WxMpMaterialBatchGetResult;
 import com.minlia.module.wechat.material.mapper.MaterialMapper;
 import com.minlia.module.wechat.material.util.WxMpRestUtils;
@@ -29,18 +28,18 @@ public class MpMaterialServiceImpl implements MpMaterialService {
 
     @Override
 //    @Cacheable(value = "mp_material:id", key = "'mp_material_id:' + #p0")
-    public StatefulBody materialGet(String mediaId) {
+    public Response materialGet(String mediaId) {
         Map<String, Object> params = new HashMap<>();
         params.put("media_id", mediaId);
-        return SuccessResponseBody.builder().payload(WxMpRestUtils.post(MATERIAL_GET_URL, params)).build();
+        return Response.success(WxMpRestUtils.post(MATERIAL_GET_URL, params));
     }
 
     @Override
 //    @Cacheable(value = "mp_material:page", key = "'mp_material_page:'.concat(#p1.toString()).concat('_').concat(#p1.toString()).concat(#p2.toString())")
-    public StatefulBody materialBatchGet(String type, Integer offset, Integer count) {
+    public Response materialBatchGet(String type, Integer offset, Integer count) {
         WxMpMaterialBatchGetResult result = new WxMpMaterialBatchGetResult();
         result.setItem(materialMapper.queryList());
-        return SuccessResponseBody.builder().payload(result).build();
+        return Response.success(result);
     }
 
 }

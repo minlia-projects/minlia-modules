@@ -1,7 +1,7 @@
 package com.minlia.modules.attachment.endpoint;
 
 
-import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.attachment.service.AttachmentUploadService;
 import io.swagger.annotations.Api;
@@ -22,23 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(value = ApiPrefix.V1 + "/attachment/upload")
 public class AttachmentUploadEndpoint {
 
-//    @Autowired
-//    private OssService ossService;
-
     @Autowired
     private AttachmentUploadService attachmentUploadService;
 
-//    @ApiOperation(value = "上传", notes = "文件上传服务", httpMethod = "POST")
-//    @PostMapping(value = "",produces = MediaType.APPLICATION_JSON_VALUE)
-//    public StatefulBody upload(@RequestBody AttachmentUploadRequestBody requestBody) throws Exception {
-//
-//        return null;
-//    }
-
-
     @ApiOperation(value = "上传", notes = "文件上传服务", httpMethod = "POST")
     @PostMapping(value = "/{relationId}/{belongsTo}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody upload(MultipartFile file, @PathVariable String relationId, @PathVariable String belongsTo) throws Exception {
+    public Response upload(MultipartFile file, @PathVariable String relationId, @PathVariable String belongsTo) throws Exception {
         //检查是否满足上传条件 TODO 上传数量、belongsTo是否存在
 
 //        String key = keyGenerate(file,relationId,belongsTo);
@@ -56,7 +45,7 @@ public class AttachmentUploadEndpoint {
 
     @ApiOperation(value = "file", notes = "文件上传服务", httpMethod = "POST")
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody upload(MultipartFile file) throws Exception {
+    public Response upload(MultipartFile file) throws Exception {
         return attachmentUploadService.upload(file);
     }
 //

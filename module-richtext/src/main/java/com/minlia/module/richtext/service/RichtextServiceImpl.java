@@ -2,8 +2,8 @@ package com.minlia.module.richtext.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.richtext.body.RichtextCreateRequestBody;
 import com.minlia.module.richtext.body.RichtextQueryRequestBody;
 import com.minlia.module.richtext.body.RichtextUpdateRequestBody;
@@ -40,7 +40,7 @@ public class RichtextServiceImpl implements RichtextService {
     @Transactional
     public Richtext update(RichtextUpdateRequestBody body) {
         Richtext richtext = richtextMapper.queryById(body.getId());
-        ApiPreconditions.is(null == richtext, ApiCode.NOT_FOUND,"记录不存在");
+        ApiAssert.notNull(richtext, SystemCode.Message.DATA_NOT_EXISTS);
         mapper.map(body,richtext);
         richtextMapper.update(richtext);
         return richtext;

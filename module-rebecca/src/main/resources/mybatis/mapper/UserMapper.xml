@@ -24,7 +24,7 @@
             ut.last_modified_by ,
             ut.enabled
         FROM
-            minlia_user ut
+            mdl_user ut
     </sql>
 
     <sql id="QUERY_CONDITION">
@@ -57,7 +57,7 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO minlia_user(
+        INSERT INTO mdl_user(
             guid ,
             username ,
             cellphone ,
@@ -78,7 +78,7 @@
     </insert>
 
     <update id="update" parameterType="com.minlia.modules.rbac.backend.user.entity.User">
-        UPDATE minlia_user
+        UPDATE mdl_user
         SET
         <if test="enabled != null">
             enabled = #{enabled,jdbcType=TINYINT} ,
@@ -113,7 +113,7 @@
 
     <delete id="delete">
         DELETE FROM map_user_role WHERE user_id = #{id};
-        DELETE FROM minlia_user WHERE id = #{id};
+        DELETE FROM mdl_user WHERE id = #{id};
     </delete>
 
     <update id="grant">
@@ -139,7 +139,7 @@
     </select>
 
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM minlia_user ut
+        SELECT COUNT(1) FROM mdl_user ut
         <include refid="QUERY_CONDITION"/>
     </select>
 

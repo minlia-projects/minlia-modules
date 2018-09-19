@@ -2,11 +2,12 @@ package com.minlia.module.bible.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.body.BibleItemCreateRequestBody;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.body.BibleItemUpdateRequestBody;
-import com.minlia.module.bible.constant.BibleApiCode;
+import com.minlia.module.bible.constant.BibleCode;
 import com.minlia.module.bible.entity.Bible;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.mapper.BibleItemMapper;
@@ -46,10 +47,10 @@ public class BibleItemServiceImpl implements BibleItemService {
     )
     public BibleItem create(BibleItemCreateRequestBody requestBody) {
         Bible bible = bibleMapper.queryByCode(requestBody.getParentCode());
-        ApiPreconditions.is(null == bible, BibleApiCode.NOT_FOUND,"父级不存在");
+        ApiAssert.notNull(bible, BibleCode.Message.PARENT_NOT_EXISTS);
 
         BibleItem bibleItem = bibleItemMapper.queryOne(BibleItemQueryRequestBody.builder().parentCode(requestBody.getParentCode()).code(requestBody.getCode()).build());
-        ApiPreconditions.is(null != bibleItem, BibleApiCode.DATA_ALREADY_EXISTS,"数据已存在");
+        ApiAssert.isNull(bibleItem, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         bibleItem = mapper.map(requestBody,BibleItem.class);
         bibleItemMapper.create(bibleItem);
@@ -68,7 +69,7 @@ public class BibleItemServiceImpl implements BibleItemService {
     )
     public BibleItem update(BibleItemUpdateRequestBody body){
         BibleItem bibleItem=bibleItemMapper.queryById(body.getId());
-        ApiPreconditions.is(null == bibleItem, BibleApiCode.NOT_FOUND,"数据不存在");
+        ApiAssert.notNull(bibleItem, SystemCode.Message.DATA_NOT_EXISTS);
         mapper.map(body,bibleItem);
         bibleItemMapper.update(bibleItem);
         return bibleItem;

@@ -1,8 +1,7 @@
 package com.minlia.module.wechat.material.service;
 
 
-import com.minlia.cloud.body.StatefulBody;
-
+import com.minlia.cloud.body.Response;
 
 public interface MpMaterialService {
 
@@ -27,7 +26,7 @@ public interface MpMaterialService {
      * 接口url：https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN
      * @param mediaId 永久素材的id
      */
-    StatefulBody materialGet(String mediaId);
+    Response materialGet(String mediaId);
 
     /**
      * 获取永久素材列表
@@ -38,6 +37,6 @@ public interface MpMaterialService {
      * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
      * @param count  返回素材的数量，取值在1到20之间
      */
-    StatefulBody materialBatchGet(String type, Integer offset, Integer count);
+    Response materialBatchGet(String type, Integer offset, Integer count);
 
 }

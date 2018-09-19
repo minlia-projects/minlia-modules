@@ -3,11 +3,7 @@ package com.minlia.module.aliyun.dypls.service;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dyplsapi.model.v20170525.*;
 import com.aliyuncs.exceptions.ClientException;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.FailureResponseBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.body.Response;
 import com.minlia.module.aliyun.dypls.body.BindAxnRequestBody;
 import com.minlia.module.aliyun.dypls.config.DyplsConfig;
 import com.minlia.module.aliyun.dypls.entity.DyplsBind;
@@ -56,7 +52,7 @@ public class DyplsBindServiceImpl implements DyplsBindService {
     }
 
     @Override
-    public StatefulBody bindAxn(BindAxnRequestBody requestBody) {
+    public Response bindAxn(BindAxnRequestBody requestBody) {
         BindAxnRequest request = new BindAxnRequest();
         BeanUtils.copyProperties(requestBody,request);
         if (StringUtils.isEmpty(request.getPoolKey())) {
@@ -68,7 +64,7 @@ public class DyplsBindServiceImpl implements DyplsBindService {
             response = acsClient.getAcsResponse(request);
         } catch (ClientException e) {
             e.printStackTrace();
-            return FailureResponseBody.builder().message("AXN绑定失败").payload(e.getErrMsg()).build();
+            return Response.failure("AXN绑定失败", e.getErrMsg());
         }
 
         if(response.getCode() != null && response.getCode().equals("OK")) {
@@ -78,9 +74,9 @@ public class DyplsBindServiceImpl implements DyplsBindService {
             dyplsBind.setSecretNo(response.getSecretBindDTO().getSecretNo());
             dyplsBind.setExpireTime(requestBody.getExpireTime());
             DyplsBindEvent.onBind(dyplsBind);
-            return SuccessResponseBody.builder().message(response.getMessage()).payload(response.getSecretBindDTO()).build();
+            return Response.success(response.getMessage(), response.getSecretBindDTO());
         } else {
-            return FailureResponseBody.builder().message(response.getMessage()).build();
+            return Response.failure(response.getMessage());
         }
     }
 
@@ -129,7 +125,7 @@ public class DyplsBindServiceImpl implements DyplsBindService {
      * @throws ClientException
      */
     @Override
-    public StatefulBody unbind(String subsId, String secretNo) {
+    public Response unbind(String subsId, String secretNo) {
         //组装请求对象
         UnbindSubscriptionRequest request = new UnbindSubscriptionRequest();
         //必填:对应的号池Key
@@ -144,13 +140,13 @@ public class DyplsBindServiceImpl implements DyplsBindService {
             response = acsClient.getAcsResponse(request);
         } catch (ClientException e) {
             e.printStackTrace();
-            return FailureResponseBody.builder().message("Unbind绑定失败").payload(e.getErrMsg()).build();
+            return Response.failure("Unbind绑定失败", e.getErrMsg());
         }
         if(response.getCode() != null && response.getCode().equals("OK")) {
             DyplsUnbindEvent.unbind(secretNo);
-            return SuccessResponseBody.builder().message(response.getMessage()).build();
+            return Response.success(response.getMessage());
         } else {
-            return FailureResponseBody.builder().message(response.getMessage()).build();
+            return Response.failure(response.getMessage());
         }
     }
 

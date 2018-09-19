@@ -1,9 +1,9 @@
 package com.minlia.module.pooul.service.impl;
 
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.pooul.bean.dto.PooulDTO;
 import com.minlia.module.pooul.bean.to.PooulLoginTO;
+import com.minlia.module.pooul.contract.PooulCode;
 import com.minlia.module.pooul.service.PooulAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,14 +29,12 @@ public class PooulAuthServiceImpl implements PooulAuthService {
     @Value("${pooul.auth.password}")
     public String password;
 
-
-
     @Override
     public String login() {
         PooulLoginTO loginTO = new PooulLoginTO(username,password);
         ResponseEntity<PooulDTO> responseEntity = restTemplate.postForEntity("https://api-dev.pooul.com/web/user/session/login_name",loginTO,PooulDTO.class);
-        ApiPreconditions.not(responseEntity.getStatusCode().equals(HttpStatus.OK), ApiCode.BASED_ON, "登录支付平台失败:" + responseEntity.getStatusCodeValue());
-        ApiPreconditions.not(responseEntity.getBody().isSuccess(), ApiCode.BASED_ON, "登录支付平台失败:" + responseEntity.getBody().getMsg());
+        ApiAssert.state(responseEntity.getStatusCode().equals(HttpStatus.OK), PooulCode.Message.LOGIN_FAILURE, responseEntity.getStatusCodeValue());
+        ApiAssert.state(responseEntity.getBody().isSuccess(), PooulCode.Message.LOGIN_FAILURE, responseEntity.getBody().getMsg());
         return responseEntity.getHeaders().get("authorization").get(0);
     }
 

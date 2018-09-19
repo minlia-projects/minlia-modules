@@ -6,17 +6,15 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
 import com.alibaba.fastjson.JSON;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
+import com.minlia.module.wechat.ma.constant.WechatMaCode;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
-import com.minlia.module.wechat.mp.constant.WechatMpApiCode;
 import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
@@ -30,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.io.InputStream;
 
 /**
  *
@@ -55,7 +52,7 @@ public class WechatMaServiceImpl implements WechatMaService {
     @Override
     public WxMaService getWxMaService(String type) {
         BibleItem bibleItem = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(WechatMaBibleConstants.MINIAPP_CODE).code(type).build());
-        ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND,type+"类型的小程序参数数据字典未配置");
+        ApiAssert.notNull(bibleItem, WechatMaCode.Message.PARAMETER_NOT_CONFIG, type);
 
         WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
         wxMaConfig.setAppid(bibleItem.getValue());
@@ -86,7 +83,7 @@ public class WechatMaServiceImpl implements WechatMaService {
             result = wxMaService.getUserService().getSessionInfo(code);
         } catch (WxErrorException e) {
             e.printStackTrace();
-            ApiPreconditions.is(true, ApiCode.BASED_ON, "远程获取小程序session失败：" + e.getError());
+            ApiAssert.state(false, "远程获取小程序session失败：" + e.getMessage());
         }
         return result;
     }
@@ -106,20 +103,20 @@ public class WechatMaServiceImpl implements WechatMaService {
     @Override
     public OssFile createWxCodeLimit(MiniappQrcodeRequestBody body){
         BibleItem qrConfig = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
-        ApiPreconditions.is(null == qrConfig,ApiCode.NOT_FOUND,"小程序二维码类型不存在");
+        ApiAssert.notNull(qrConfig, WechatMaCode.Message.PARAMETER_NOT_CONFIG, body.getType());
 
         String accessToken = null;
         try {
             accessToken = wxMaService.getAccessToken();
         } catch (WxErrorException e) {
             e.printStackTrace();
-            ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"获取Access Token异常："+e.getMessage());
+            ApiAssert.state(false, "获取Access Token异常："+e.getMessage());
         }
-        ApiPreconditions.checkNotNull(accessToken,ApiCode.NOT_NULL,"accessToken不能为空");
+        ApiAssert.notNull(accessToken,"accessToken不能为空");
         String reqUrl = String.format("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s", accessToken);
 
         String page = String.format(qrConfig.getValue(), body.getScene());
-        ApiPreconditions.is(page.length()>32, 50005, "路径长度不能超过32个字符");
+        ApiAssert.state(page.length()<=32,  "路径长度不能超过32个字符");
 
         JSONObject data = new JSONObject();
         data.element("scene", body.getScene());
@@ -164,7 +161,7 @@ public class WechatMaServiceImpl implements WechatMaService {
             file = HttpClientUtil.sendPostByJsonToFile(reqUrl, reqData);
         } catch (Exception e) {
             e.printStackTrace();
-            ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"生成小程序二维码异常："+e.getMessage());
+            ApiAssert.state(false,"生成小程序二维码异常："+e.getMessage());
         }
 
 
@@ -179,7 +176,7 @@ public class WechatMaServiceImpl implements WechatMaService {
                     .build();
             return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
         } catch (Exception e) {
-            ApiPreconditions.is(true, WechatMpApiCode.ERROR_GET_ACCESS_TOKEN,"OSS上传异常："+e.getMessage());
+            ApiAssert.state(false,"OSS上传异常：" + e.getMessage());
         } finally {
             //删除文件
             FileUtils.deleteQuietly(file);

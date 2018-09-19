@@ -7,7 +7,7 @@
     <artifactId>module-qcloud-faceid</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Module Tencent Cloud Face ID</name>
+    <name>Module QCloud Face ID</name>
 
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
@@ -44,6 +44,12 @@
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-data</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-qcloud-start</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 

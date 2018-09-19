@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.modules.tencent.cloud.start.config.TcAutoConfiguration
+com.minlia.modules.qcloud.start.config.QcloudAutoConfiguration

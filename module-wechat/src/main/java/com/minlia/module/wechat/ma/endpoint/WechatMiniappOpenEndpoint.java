@@ -1,7 +1,6 @@
 package com.minlia.module.wechat.ma.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.service.WechatMaService;
@@ -31,8 +30,8 @@ public class WechatMiniappOpenEndpoint {
 
     @ApiOperation(value = "小程序二维码", notes = "小程序二维码", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "wxacode", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody createWxCodeLimit(@Valid @RequestBody MiniappQrcodeRequestBody body) {
-        return SuccessResponseBody.builder().payload(wechatMaService.createWxCodeLimit(body)).build();
+    public Response createWxCodeLimit(@Valid @RequestBody MiniappQrcodeRequestBody body) {
+        return Response.success(wechatMaService.createWxCodeLimit(body));
     }
 
 }

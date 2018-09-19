@@ -16,7 +16,7 @@
 			create_by ,
 			last_modified_date ,
 			last_modified_by
-		FROM minlia_aliyun_dypls
+		FROM aliyun_dypls
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -37,7 +37,7 @@
     </sql>
 
     <insert id="create">
-		INSERT INTO minlia_aliyun_dypls(
+		INSERT INTO aliyun_dypls(
 			pool_key ,
 			subs_id ,
 			secret_no ,
@@ -61,7 +61,7 @@
 	</insert>
 
     <update id="update" parameterType="com.minlia.module.aliyun.dypls.entity.DyplsBind">
-        UPDATE minlia_aliyun_dypls
+        UPDATE aliyun_dypls
         <set>
             <if test="value != null">
                 value = #{value},
@@ -76,11 +76,11 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM minlia_aliyun_dypls WHERE id = #{id}
+		DELETE FROM aliyun_dypls WHERE id = #{id}
 	</delete>
 
     <delete id="deleteBySecretNo">
-		DELETE FROM minlia_aliyun_dypls WHERE secret_no = #{secretNo}
+		DELETE FROM aliyun_dypls WHERE secret_no = #{secretNo}
 	</delete>
 
     <select id="queryById" resultType="com.minlia.module.aliyun.dypls.entity.DyplsBind">

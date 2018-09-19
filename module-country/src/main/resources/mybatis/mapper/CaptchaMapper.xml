@@ -16,7 +16,7 @@
 			send_time AS sendTime ,
 			enabled
 		FROM
-			minlia_captcha
+			mdl_captcha
 	</sql>
 
 	<sql id="QUERY_CONDITION">
@@ -39,7 +39,7 @@
 	</sql>
 
 	<insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_captcha(
+		INSERT INTO mdl_captcha(
 			cellphone ,
 			code ,
 			used ,
@@ -59,7 +59,7 @@
 	</insert>
 
 	<update id="update" parameterType="com.minlia.module.captcha.entity.Captcha">
-		UPDATE minlia_captcha
+		UPDATE mdl_captcha
 		SET
 		<if test="code != null">
 			code = #{code,jdbcType=VARCHAR} ,
@@ -112,7 +112,7 @@
 	</select>
 
 	<select id="count_queryPaginated" resultType="int">
-		SELECT COUNT(1) FROM minlia_captcha
+		SELECT COUNT(1) FROM mdl_captcha
 		<include refid="QUERY_CONDITION" />
 	</select>
 

@@ -127,7 +127,10 @@ public class SecurityCode {
 
     public enum Message implements Code{
 
-        M(1,"");
+        /**
+         * 没有操作此记录的权限
+         */
+        NOT_DATA_AUTHORIZED(100100, "没有操作此记录的权限");
 
         private int code;
         private String i18nKey;

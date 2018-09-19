@@ -4,17 +4,17 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
-        id ,
-        type ,
-        code ,
-        title ,
-        content ,
-        note ,
-        create_date ,
-        create_by ,
-        last_modified_date ,
-        last_modified_by ,
-        enabled
+            id ,
+            type ,
+            code ,
+            title ,
+            content ,
+            note ,
+            create_date ,
+            create_by ,
+            last_modified_date ,
+            last_modified_by ,
+            enabled
         FROM minlia_richtext
     </sql>
 
@@ -33,24 +33,23 @@
     </sql>
 
     <insert id="create">
-        INSERT INTO minlia_bible(
-        type ,
-        code ,
-        title ,
-        content ,
-        note ,
-        enabled ,
-        create_by
+        INSERT INTO minlia_richtext(
+            type ,
+            code ,
+            title ,
+            content ,
+            note ,
+            enabled ,
+            create_by
         )
-        VALUES
-        (
-        #{type} ,
-        #{code} ,
-        #{title} ,
-        #{content} ,
-        #{note} ,
-        #{enabled} ,
-        #{createBy}
+        VALUES (
+            #{type} ,
+            #{code} ,
+            #{title} ,
+            #{content} ,
+            #{note} ,
+            #{enabled} ,
+            #{createBy}
         )
     </insert>
 

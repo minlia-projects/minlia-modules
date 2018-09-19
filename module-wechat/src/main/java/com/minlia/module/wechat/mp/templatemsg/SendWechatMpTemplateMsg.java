@@ -1,16 +1,14 @@
 package com.minlia.module.wechat.mp.templatemsg;
 
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.FailureResponseBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.cloud.code.ApiCode;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.constant.WechatMaCode;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
@@ -56,7 +54,7 @@ public class SendWechatMpTemplateMsg {
     @Deprecated
     private MiniProgram builderMiniProgram(String appId, String templateId,List<Object> pathParams){
         BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
-        ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND, String.format("小程序路径%s不能为空",templateId));
+        ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
         return new MiniProgram(appId, String.format(bibleItem.getAttribute1(),pathParams));
     }
 
@@ -76,16 +74,16 @@ public class SendWechatMpTemplateMsg {
      * @param keyValue  内容
      * @return
      */
-    public StatefulBody sendByGuid(String guid, String templateId, String templateDesc, List<Object> pathParams, String... keyValue) {
+    public Response sendByGuid(String guid, String templateId, String templateDesc, List<Object> pathParams, String... keyValue) {
         String openId = this.getOpenId(guid);
         if (StringUtils.isEmpty(openId)) {
-            return FailureResponseBody.builder().message(String.format("公众号通知失败- %s %s OpenId不能为空",templateDesc, guid)).build();
+            return Response.failure(String.format("公众号通知失败- %s %s OpenId不能为空",templateDesc, guid));
         } else {
             return this.send(getOpenId(guid),templateId,templateDesc,pathParams,keyValue);
         }
     }
 
-    public StatefulBody send(String openId, String templateId, String templateDesc, List<Object> pathParams, String... keyValue) {
+    public Response send(String openId, String templateId, String templateDesc, List<Object> pathParams, String... keyValue) {
         try {
             List<WxMpTemplateData> data = new ArrayList<WxMpTemplateData>();
             String keyword;
@@ -105,7 +103,7 @@ public class SendWechatMpTemplateMsg {
             WxMpService wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
             WxMaConfig wxMaConfig = ContextHolder.getContext().getBean(WxMaConfig.class);
             BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
-            ApiPreconditions.is(null == bibleItem, ApiCode.NOT_FOUND, String.format("小程序路径%s不能为空",templateId));
+            ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
 
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
             wxMpTemplateMessage.setData(data);
@@ -115,15 +113,13 @@ public class SendWechatMpTemplateMsg {
 
             //发送模板消息
             String templateMsg = wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
-            return SuccessResponseBody.builder().message(templateMsg).build();
+            return Response.success(templateMsg);
         } catch (WxErrorException e) {
-            e.printStackTrace();
             log.error(String.format("微信公众号通知失败-%s: %s",templateDesc, e.getError()));
-            return FailureResponseBody.builder().code(e.getError().getErrorCode()).message(templateDesc + e.getMessage()).build();
+            return Response.failure(e.getError().getErrorCode(), templateDesc + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
             log.error(String.format("微信公众号通知失败-%s: %s",templateDesc, e.getMessage()));
-            return FailureResponseBody.builder().message(templateDesc + e.getMessage()).build();
+            return Response.failure(templateDesc + e.getMessage());
         }
     }
 

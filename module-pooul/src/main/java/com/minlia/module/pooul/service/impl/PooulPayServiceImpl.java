@@ -6,11 +6,8 @@ import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.FailureResponseBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.body.Response;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.pooul.bean.domain.PooulOrderDO;
 import com.minlia.module.pooul.bean.domain.PooulPayInfoDO;
@@ -18,6 +15,7 @@ import com.minlia.module.pooul.bean.dto.PooulPayData;
 import com.minlia.module.pooul.bean.qo.PooulOrderQO;
 import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
 import com.minlia.module.pooul.config.PooulPayProperties;
+import com.minlia.module.pooul.contract.PooulCode;
 import com.minlia.module.pooul.contract.PooulContracts;
 import com.minlia.module.pooul.enumeration.PayStatusEnum;
 import com.minlia.module.pooul.enumeration.PayTypeEnum;
@@ -58,11 +56,11 @@ public class PooulPayServiceImpl implements PooulPayService {
 
     @Override
     @Transactional
-    public StatefulBody wechatJsminipg(PooulWechatJsminipgTO jsminipgTO) {
+    public Response wechatJsminipg(PooulWechatJsminipgTO jsminipgTO) {
         //判断订单是否已存在
         PooulOrderDO pooulOrderDO = pooulOrderMapper.queryOne(PooulOrderQO.builder().mchTradeId(jsminipgTO.getMchTradeId()).build());
         if (null != pooulOrderDO) {
-            return SuccessResponseBody.builder().payload(pooulPayInfoMapper.queryOne(jsminipgTO.getMchTradeId())).build();
+            return Response.success(pooulPayInfoMapper.queryOne(jsminipgTO.getMchTradeId()));
         }
 
         jsminipgTO.setPayType(PayTypeEnum.wechat_jsminipg.getName());
@@ -80,20 +78,18 @@ public class PooulPayServiceImpl implements PooulPayService {
             response = Unirest.post(pooulProperties.getPayUrl()).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul创建订单失败:", e);
-            ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul创建订单失败:" + e.getMessage());
+            ApiAssert.state(false, PooulCode.Message.ORDER_CREATE_FAILURE, e.getMessage());
         }
 
         //如果已"{"开始表明创建订单失败，返回错误信息
         if (response.getBody().startsWith(PooulContracts.RIGHT_PARENTHESIS)) {
             JSONObject jsonObject = JSONObject.fromObject(response.getBody());
-            return FailureResponseBody.builder().code((Integer) jsonObject.get(PooulContracts.CODE)).message((String) jsonObject.get(PooulContracts.MSG)).build();
+            return Response.failure((Integer) jsonObject.get(PooulContracts.CODE), jsonObject.get(PooulContracts.MSG).toString());
         }
 
         //获取返回token
         Map<String, Claim> claims = PooulToken.getClaims(response.getBody());
-        if (!claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
-            ApiPreconditions.is(true, ApiCode.BASED_ON, claims.get(PooulContracts.MSG).asString());
-        }
+        ApiAssert.state(claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO), PooulCode.Message.ORDER_CREATE_FAILURE, claims.get(PooulContracts.MSG).asString());
 
         //保存订单请求信息
         pooulOrderDO = mapper.map(jsminipgTO, PooulOrderDO.class);
@@ -105,11 +101,11 @@ public class PooulPayServiceImpl implements PooulPayService {
         PooulPayInfoDO pooulPayInfo = new Gson().fromJson(pooulData.getPay_info(),PooulPayInfoDO.class);
         pooulPayInfo.setMchTradeId(jsminipgTO.getMchTradeId());
         pooulPayInfoMapper.create(pooulPayInfo);
-        return SuccessResponseBody.builder().payload(pooulPayInfo).build();
+        return Response.success(pooulPayInfo);
     }
 
     @Override
-    public StatefulBody query(String mchTradeId) {
+    public Response query(String mchTradeId) {
         Map<String,Object> map = Maps.newHashMap();
         map.put("mch_trade_id",mchTradeId);
         String token = PooulToken.create(map);
@@ -118,27 +114,28 @@ public class PooulPayServiceImpl implements PooulPayService {
             response = Unirest.post(pooulProperties.getQueryOrderUrl()).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul查询订单失败:", e);
-            ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul查询订单失败:" + e.getMessage());
+            ApiAssert.state(false, PooulCode.Message.ORDER_QUERY_FAILURE, e.getMessage());
         }
 
         //如果已"{"开始表明创建订单失败，返回错误信息
         if (response.getBody().startsWith(PooulContracts.RIGHT_PARENTHESIS)) {
             JSONObject jsonObject = JSONObject.fromObject(response.getBody());
-            return FailureResponseBody.builder().code((Integer) jsonObject.get(PooulContracts.CODE)).message((String) jsonObject.get(PooulContracts.MSG)).build();
+
+            return Response.failure((Integer) jsonObject.get(PooulContracts.CODE), (String) jsonObject.get(PooulContracts.MSG));
         }
 
         //获取返回token
         Map<String, Claim> claims = PooulToken.getClaims(response.getBody());
         if (claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
 //            PooulOrderQueryDTO queryDTO = claims.get(PooulContracts.DATA).as(PooulOrderQueryDTO.class);
-            return SuccessResponseBody.builder().code(claims.get(PooulContracts.CODE).asInt()).message(claims.get(PooulContracts.MSG).asString()).payload(claims.get(PooulContracts.DATA).asMap()).build();
+            return Response.success(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString(), claims.get(PooulContracts.DATA).asMap());
         } else {
-            return FailureResponseBody.builder().code(claims.get(PooulContracts.CODE).asInt()).message(claims.get(PooulContracts.MSG).asString()).build();
+            return Response.failure(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());
         }
     }
 
     @Override
-    public StatefulBody close(String mchTradeId) {
+    public Response close(String mchTradeId) {
         PooulOrderDO pooulOrderDO = pooulOrderMapper.queryOne(PooulOrderQO.builder().mchTradeId(mchTradeId).build());
 //        ApiPreconditions.is(null == pooulOrderDO,ApiCode.BASED_ON,"订单不存在");
 
@@ -152,13 +149,13 @@ public class PooulPayServiceImpl implements PooulPayService {
             response = Unirest.post(pooulProperties.getCloseOrderUrl()).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul关闭订单失败:", e);
-            ApiPreconditions.is(true, ApiCode.BASED_ON, "Pooul关闭订单失败:" + e.getMessage());
+            ApiAssert.state(false, PooulCode.Message.ORDER_CLOSE_FAILURE, e.getMessage());
         }
 
         //如果已"{"开始表明创建订单失败，返回错误信息
         if (response.getBody().startsWith(PooulContracts.RIGHT_PARENTHESIS)) {
             JSONObject jsonObject = JSONObject.fromObject(response.getBody());
-            return FailureResponseBody.builder().code((Integer) jsonObject.get(PooulContracts.CODE)).message((String) jsonObject.get(PooulContracts.MSG)).build();
+            return Response.failure((Integer) jsonObject.get(PooulContracts.CODE), (String) jsonObject.get(PooulContracts.MSG));
         }
 
         //获取返回token
@@ -166,14 +163,14 @@ public class PooulPayServiceImpl implements PooulPayService {
         if (claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
             pooulOrderDO.setPayStatus(PayStatusEnum.CLOSED);
             pooulOrderMapper.update(pooulOrderDO);
-            return SuccessResponseBody.builder().code(claims.get(PooulContracts.CODE).asInt()).message(claims.get(PooulContracts.MSG).asString()).build();
+            return Response.success(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());
         } else {
-            return FailureResponseBody.builder().code(claims.get(PooulContracts.CODE).asInt()).message(claims.get(PooulContracts.MSG).asString()).build();
+            return Response.failure(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());
         }
     }
 
     @Override
-    public StatefulBody reverse(String mchTradeId) {
+    public Response reverse(String mchTradeId) {
         return null;
     }
 

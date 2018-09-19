@@ -2,11 +2,8 @@ package com.minlia.module.wechat.mp.service;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import com.google.common.collect.Lists;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.FailureResponseBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.body.Response;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
@@ -14,7 +11,7 @@ import com.minlia.module.wechat.ma.service.WechatMaService;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
-import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
+import com.minlia.module.wechat.mp.constant.WechatMpCode;
 import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
@@ -63,20 +60,20 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     private WechatOpenAccountService wechatOpenAccountService;
 
     @Override
-    public StatefulBody loginByWxMpCode(LoginWechatRequestBody body) throws WxErrorException {
+    public Response loginByWxMpCode(LoginWechatRequestBody body) throws WxErrorException {
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(body.getCode());
         return this.login(WechatOpenidType.MINIAPP,wxMpOAuth2AccessToken.getUnionId(),wxMpOAuth2AccessToken.getOpenId(),body.getType(),body.getCode());
     }
 
     @Override
-    public StatefulBody loginByWxMaCode(LoginWechatRequestBody body) {
+    public Response loginByWxMaCode(LoginWechatRequestBody body) {
         //远程从微信获取小程序信息
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
-        ApiPreconditions.is( null == sessionResult.getOpenid(),ApiCode.NOT_NULL,"获取微信Session失败！");
+        ApiAssert.notNull(sessionResult.getOpenid(), WechatMpCode.Message.GET_SESSION_FAILURE);
         return this.login(WechatOpenidType.MINIAPP,sessionResult.getUnionid(),sessionResult.getOpenid(),body.getType(),body.getCode());
     }
 
-    private StatefulBody login(WechatOpenidType wechatOpenidType,String unionId,String openId,String openidSubitem,String wxCode){
+    private Response login(WechatOpenidType wechatOpenidType,String unionId,String openId,String openidSubitem,String wxCode){
         WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().type(wechatOpenidType).openId(openId).build());
 
         if (null == wechatOpenAccount) {
@@ -92,12 +89,12 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
             List<WechatOpenAccount> wechatOpenAccounts = wechatOpenAccountService.queryByUnionIdAndGuidNotNull(unionId);
             if (CollectionUtils.isEmpty(wechatOpenAccounts)) {
                 wechatOpenAccountService.create(wechatOpenAccount);
-                return FailureResponseBody.builder().code(SecurityApiCode.LOGIN_NOT_REGISTRATION).message("未注册").build();
+                return Response.failure("未注册");
             } else {
                 wechatOpenAccount.setGuid(wechatOpenAccounts.get(0).getGuid());
                 wechatOpenAccountService.create(wechatOpenAccount);
                 User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
-                return SuccessResponseBody.builder().code(SecurityApiCode.LOGIN_SUCCESS).payload(getLoginInfoByUser(user)).build();
+                return Response.success(getLoginInfoByUser(user));
             }
         } else {
             //更新wxCode
@@ -106,15 +103,15 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
             if (null != wechatOpenAccount.getGuid()) {
                 User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
-                return SuccessResponseBody.builder().code(SecurityApiCode.LOGIN_SUCCESS).payload(getLoginInfoByUser(user)).build();
+                return Response.success(getLoginInfoByUser(user));
             } else {
-                return FailureResponseBody.builder().code(SecurityApiCode.LOGIN_NOT_REGISTRATION).message("未注册").build();
+                return Response.failure("未注册");
             }
         }
     }
 
     @Override
-    public StatefulBody bindByWxma(BindWxRequestBody body) {
+    public Response bindByWxma(BindWxRequestBody body) {
         //根据手机号码查询用户是否存在
         User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(body.getUsername()).build());
         //明文密码
@@ -130,7 +127,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
         //查询CODE是否存在,CODE必须唯一
         WechatOpenAccount codeAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().wxCode(body.getWxCode()).build());
-        ApiPreconditions.is(null == codeAccount, ApiCode.NOT_FOUND,"wxCode未判断是否绑定");
+        ApiAssert.notNull(null == codeAccount, "wxCode未判断是否绑定");
 
         WechatOpenAccount wechatOpenAccountByUser = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().guid(user.getGuid()).type(WechatOpenidType.MINIAPP).wxCode(body.getWxCode()).build());
 
@@ -139,13 +136,12 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
                 //userId未绑定openId且 userId为空
                 codeAccount.setGuid(user.getGuid());
                 wechatOpenAccountService.update(codeAccount);
-                return SuccessResponseBody.builder().payload(getLoginInfoByUser(user)).build();
+                return Response.success(getLoginInfoByUser(user));
             } else {
-                ApiPreconditions.not(codeAccount.getGuid().equals(user.getId()), ApiCode.DATA_ALREADY_EXISTS, "该微信号已经绑定其他手机号码");
-                return FailureResponseBody.builder().message("该微信号已经绑定其他手机号码").build();
+                return Response.failure(WechatMpCode.Message.OPENID_ALREADY_BIND);
             }
         } else {
-            return FailureResponseBody.builder().message("该手机号码已经绑定其他微信号").build();
+            return Response.failure(WechatMpCode.Message.OPENID_ALREADY_BIND);
         }
     }
 

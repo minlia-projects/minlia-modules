@@ -7,7 +7,6 @@ import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.endpoint.WechatSecuritySocket;
 import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
-import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
@@ -59,11 +58,11 @@ public class WechatScanThirdLoginReceivers {
 
             WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
             if (null == wechatOpenAccount || null == wechatOpenAccount.getGuid()) {
-                returnCode = SecurityApiCode.LOGIN_NOT_REGISTRATION+"";
+                returnCode = "100102";
                 returnMessage = "未注册";
                 payload = wechatOpenAccount.getWxCode();
             } else {
-                returnCode = SecurityApiCode.LOGIN_SUCCESS+"";
+                returnCode = "100103";
                 returnMessage = "ok";
                 User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
                 payload = loginThirdPartyService.getLoginInfoByUser(user);

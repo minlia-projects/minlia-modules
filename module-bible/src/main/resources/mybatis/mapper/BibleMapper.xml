@@ -14,7 +14,7 @@
 			create_by ,
 			last_modified_date ,
 			last_modified_by
-		FROM minlia_bible t
+		FROM mdl_bible t
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -26,7 +26,7 @@
     </sql>
 
     <insert id="create">
-		INSERT INTO minlia_bible(
+		INSERT INTO mdl_bible(
 			code ,
 			value ,
 			notes ,
@@ -42,7 +42,7 @@
 	</insert>
 
     <update id="update" parameterType="com.minlia.module.bible.entity.Bible">
-        UPDATE minlia_bible
+        UPDATE mdl_bible
         <set>
             <if test="value != null">
                 value = #{value},
@@ -57,7 +57,7 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM minlia_bible WHERE id = #{id}
+		DELETE FROM mdl_bible WHERE id = #{id}
 	</delete>
 
     <select id="queryById" resultType="com.minlia.module.bible.entity.Bible">

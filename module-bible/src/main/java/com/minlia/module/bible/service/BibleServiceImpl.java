@@ -2,19 +2,18 @@ package com.minlia.module.bible.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.body.BibleCreateRequestBody;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.body.BibleQueryRequestBody;
 import com.minlia.module.bible.body.BibleUpdateRequestBody;
-import com.minlia.module.bible.constant.BibleApiCode;
+import com.minlia.module.bible.constant.BibleCode;
 import com.minlia.module.bible.entity.Bible;
 import com.minlia.module.bible.mapper.BibleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,7 +42,7 @@ public class BibleServiceImpl implements BibleService {
 //    )
     public Bible create(BibleCreateRequestBody requestBody) {
         Bible bible = bibleMapper.queryByCode(requestBody.getCode());
-        ApiPreconditions.is(null != bible, ApiCode.DATA_ALREADY_EXISTS,"数据已存在");
+        ApiAssert.isNull(bible, SystemCode.Message.DATA_ALREADY_EXISTS);
         bible = mapper.map(requestBody,Bible.class);
         bibleMapper.create(bible);
         return bible;
@@ -57,7 +56,7 @@ public class BibleServiceImpl implements BibleService {
 //    )
     public Bible update(BibleUpdateRequestBody body) {
         Bible bible = bibleMapper.queryById(body.getId());
-        ApiPreconditions.is(null == bible, ApiCode.NOT_FOUND,"数据不存在");
+        ApiAssert.notNull(bible, SystemCode.Message.DATA_NOT_EXISTS);
         bible.setValue(body.getValue());
         bible.setNotes(body.getNotes());
         bibleMapper.update(bible);
@@ -74,8 +73,8 @@ public class BibleServiceImpl implements BibleService {
 //    )
     public void delete(Long id) {
         Bible bible = bibleMapper.queryById(id);
-        ApiPreconditions.is(null == bible, BibleApiCode.NOT_FOUND,"数据不存在");
-        ApiPreconditions.is(bibleItemService.count(BibleItemQueryRequestBody.builder().parentCode(bible.getCode()).build()) > 0, ApiCode.NOT_AUTHORIZED,"请先删除子项");
+        ApiAssert.notNull(bible, SystemCode.Message.DATA_NOT_EXISTS);
+        ApiAssert.state(bibleItemService.count(BibleItemQueryRequestBody.builder().parentCode(bible.getCode()).build()) == 0, BibleCode.Message.COULD_NOT_DELETE_HAS_CHILDREN);
         bibleMapper.delete(id);
     }
 

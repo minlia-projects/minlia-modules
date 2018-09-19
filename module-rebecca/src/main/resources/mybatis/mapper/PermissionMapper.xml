@@ -13,7 +13,7 @@
 			pt.last_modified_by ,
 			pt.enabled
 		FROM
-			minlia_permission pt
+			mdl_permission pt
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -28,11 +28,11 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_permission(code, label)VALUES(#{code,jdbcType=VARCHAR} , #{label,jdbcType=VARCHAR})
+		INSERT INTO mdl_permission(code, label)VALUES(#{code,jdbcType=VARCHAR} , #{label,jdbcType=VARCHAR})
 	</insert>
 
     <update id="update" parameterType="com.minlia.modules.rbac.backend.permission.entity.Permission">
-        UPDATE minlia_permission
+        UPDATE mdl_permission
         SET
         <if test="label != null">
             label = #{label,jdbcType=VARCHAR} ,
@@ -49,19 +49,19 @@
             #{roleId} AS role_id ,
             id AS permission_id
         FROM
-            minlia_permission
+            mdl_permission
     </insert>
 
     <delete id="clear">
-		DELETE pt FROM minlia_permission pt WHERE NOT EXISTS( SELECT 1 FROM map_role_permission mt WHERE mt.permission_id = 1)
+		DELETE pt FROM mdl_permission pt WHERE NOT EXISTS( SELECT 1 FROM map_role_permission mt WHERE mt.permission_id = 1)
 	</delete>
 
     <select id="countById" resultType="java.lang.Long">
-		SELECT COUNT(1) FROM minlia_permission where id = #{id}
+		SELECT COUNT(1) FROM mdl_permission where id = #{id}
 	</select>
 
     <select id="countByCode" resultType="java.lang.Long">
-		SELECT COUNT(1) FROM minlia_permission where code = #{code}
+		SELECT COUNT(1) FROM mdl_permission where code = #{code}
 	</select>
 
     <select id="queryById" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
@@ -71,9 +71,9 @@
 
     <select id="queryCodesByRoleCodes" resultType="java.lang.String">
         SELECT pt.code
-        FROM minlia_permission pt
+        FROM mdl_permission pt
         INNER JOIN map_role_permission mp ON mp.permission_id = pt.id
-        INNER JOIN minlia_role rt ON rt.id = mp.role_id
+        INNER JOIN mdl_role rt ON rt.id = mp.role_id
         WHERE rt.code IN
         <foreach collection="list" item="item" separator="," open="(" close=")">
             #{item,jdbcType=VARCHAR}
@@ -88,16 +88,16 @@
     <select id="queryListByGuid" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
         <include refid="QUERY_CONTENT"/>
         INNER JOIN map_role_permission pm ON pm.permission_id = pt.id
-        INNER JOIN minlia_role rt ON rt.id = pm.role_id
+        INNER JOIN mdl_role rt ON rt.id = pm.role_id
         INNER JOIN map_user_role rm ON rm.role_id = rt.id
-        INNER JOIN minlia_user ut ON ut.id = rm.user_id
+        INNER JOIN mdl_user ut ON ut.id = rm.user_id
         WHERE ut.guid = #{guid,jdbcType=VARCHAR}
     </select>
 
     <select id="queryListByRoleCodes" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
         <include refid="QUERY_CONTENT"/>
         INNER JOIN map_role_permission mp ON mp.permission_id = pt.id
-        INNER JOIN minlia_role rt ON rt.id = mp.role_id
+        INNER JOIN mdl_role rt ON rt.id = mp.role_id
         WHERE rt.code IN
         <foreach collection="list" item="item" separator="," open="(" close=")">
             #{item,jdbcType=VARCHAR}
@@ -114,11 +114,11 @@
             ) AS two,
             SUBSTRING_INDEX(CODE , '.' , - 1) AS three
         FROM
-            minlia_permission t
+            mdl_permission t
     </select>
 
     <select id="oneLevel" resultType="java.lang.String">
-        SELECT DISTINCT SUBSTRING_INDEX(CODE , '.' , 1) FROM minlia_permission
+        SELECT DISTINCT SUBSTRING_INDEX(CODE , '.' , 1) FROM mdl_permission
     </select>
 
     <select id="twoLevel" resultType="java.lang.String">
@@ -128,7 +128,7 @@
                 '.' ,- 1
             )
         FROM
-            minlia_permission t
+            mdl_permission t
         WHERE
             INSTR(CODE , #{prefix}) = 1;
     </select>
@@ -138,7 +138,7 @@
             id ,
             SUBSTRING_INDEX(CODE , '.' , - 1) AS code
         FROM
-            minlia_permission t
+            mdl_permission t
         WHERE
             INSTR(CODE , #{prefix}) = 1;
     </select>

@@ -6,7 +6,6 @@ import com.minlia.module.websocket.body.RequestMessage;
 import com.minlia.module.websocket.body.ResponseMessage;
 import com.minlia.module.websocket.encoder.MessageDecoder;
 import com.minlia.module.websocket.encoder.MessageEncoder;
-import com.minlia.modules.rbac.backend.common.constant.SecurityApiCode;
 import io.swagger.annotations.Api;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -51,7 +50,8 @@ public class WechatSecuritySocket {
         WxMpService wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
         WxMpQrCodeTicket ticket=wxMpService.getQrcodeService().qrCodeCreateLastTicket(loginCode);
         String qrcode= wxMpService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(),true);
-        this.sendMessage(ResponseMessage.builder().code(SecurityApiCode.LOGIN_QR_CODE+"").message("qr code").payload(qrcode).build(),session);
+//        this.sendMessage(ResponseMessage.builder().code(SecurityApiCode.LOGIN_QR_CODE+"").message("qr code").payload(qrcode).build(),session);
+        this.sendMessage(ResponseMessage.builder().code("100103").message("qr code").payload(qrcode).build(),session);
     }
 
     @OnClose

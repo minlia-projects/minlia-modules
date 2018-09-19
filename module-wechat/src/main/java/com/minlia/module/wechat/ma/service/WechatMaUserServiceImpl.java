@@ -3,8 +3,8 @@ package com.minlia.module.wechat.ma.service;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatMaUser;
@@ -74,7 +74,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     @Override
     public WechatMaUser me() {
         User user = SecurityContextHolder.getCurrentUser();
-        ApiPreconditions.checkNotNull(user, ApiCode.INVALID_CREDENTIAL);
+        ApiAssert.notNull(user, SystemCode.Message.DATA_NOT_EXISTS);
         return wxMaUserMapper.queryByGuid(user.getGuid());
     }
 

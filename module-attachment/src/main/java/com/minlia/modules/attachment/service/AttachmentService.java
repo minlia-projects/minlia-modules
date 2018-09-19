@@ -2,7 +2,7 @@ package com.minlia.modules.attachment.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
 import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
@@ -47,14 +47,14 @@ public interface AttachmentService {
      * 删除
      * @param id
      */
-    StatefulBody delete(Long id);
+    Response delete(Long id);
 
     /**
      * 删除
      * @param relationId
      * @param belongsTo
      */
-    StatefulBody delete(String relationId, String belongsTo);
+    Response delete(String relationId, String belongsTo);
 
     /**
      * 通过令牌绑定业务ID

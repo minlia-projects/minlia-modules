@@ -1,14 +1,13 @@
 package com.minlia.modules.aliyun.oss.api.endpoint;
 
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.body.Response;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.aliyun.oss.api.body.MtsRequestBody;
 import com.minlia.modules.aliyun.oss.api.body.MtsResponseBody;
 import com.minlia.modules.aliyun.oss.api.body.UploadResponseBody;
 import com.minlia.modules.aliyun.oss.api.config.AliyunOssProperties;
-import com.minlia.modules.aliyun.oss.api.constant.UploadCode;
+import com.minlia.modules.aliyun.oss.api.constant.AliyunOssCode;
 import com.minlia.modules.aliyun.oss.api.enumeration.MtsTemplateType;
 import com.minlia.modules.aliyun.oss.api.service.MtsService;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
@@ -17,7 +16,6 @@ import com.minlia.modules.aliyun.oss.builder.PathBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,10 +34,10 @@ public class UploadEndpoint {
 
     @Autowired
     private AliyunOssProperties properties;
-    @Autowired
-    ResourceLoader resourceloader;
+    
     @Resource(type = OssService.class)
     private OssService ossService;
+    
     @Resource(type = MtsService.class)
     private MtsService mtsService;
 
@@ -47,12 +45,12 @@ public class UploadEndpoint {
 
     @PostMapping(value = "file/upload", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "文件上传服务", notes = "文件上传服务", httpMethod = "POST")
-    public StatefulBody upload(MultipartFile file) throws Exception {
+    public Response upload(MultipartFile file) throws Exception {
         OssFile ossFile = null;
         try {
             ossFile = ossService.upload(file);
         } catch (Exception e) {
-            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
         }
 
         UploadResponseBody ret = new UploadResponseBody();
@@ -65,7 +63,7 @@ public class UploadEndpoint {
 
     @ApiOperation(value = "视屏上传", notes = "视屏上传", httpMethod = "POST")
     @PostMapping(value = "video/upload", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody video(MultipartFile file) throws Exception {
+    public Response video(MultipartFile file) throws Exception {
         //上传文件
         String inputObject=keyGenerateByContentType();
 
@@ -73,7 +71,7 @@ public class UploadEndpoint {
         try {
             ossFile = ossService.upload(file,inputObject);
         } catch (Exception e) {
-            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
         }
         String inputObjectUrl = ossFile.getUrl();
 
@@ -84,17 +82,17 @@ public class UploadEndpoint {
         if(responseBody.getSuccess()){
             String outputObjectUrl=String.format(RETURN_URL_PATTERN,properties.getBucket(),properties.getEndpoint(),outputObject);
             responseBody.setOutputObjectUrl(outputObjectUrl);
-            return SuccessResponseBody.builder().payload(responseBody).build();
+            return Response.success(responseBody);
         }else {
-            return SuccessResponseBody.builder().payload(responseBody).code(2).build();
+            return Response.success(responseBody);
         }
     }
 
     @ApiOperation(value = "视屏转码", notes = "视屏转码", httpMethod = "POST")
     @PostMapping(value = "transcoding", produces = MediaType.APPLICATION_JSON_VALUE)
-    public StatefulBody transcoding(@Valid @RequestBody MtsRequestBody requestBody) throws Exception {
+    public Response transcoding(@Valid @RequestBody MtsRequestBody requestBody) throws Exception {
         mtsService.transcoding(requestBody);
-        return SuccessResponseBody.builder().build();
+        return Response.success();
     }
 
     private String outputObjectGenerate(MtsTemplateType mtsTemplateType){

@@ -16,7 +16,7 @@
 			create_by ,
 			last_modified_date ,
 			last_modified_by
-		FROM minlia_attachment t
+		FROM mdl_attachment t
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -34,7 +34,7 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_attachment(
+		INSERT INTO mdl_attachment(
 			belongs_to ,
 			relation_id ,
 			name ,
@@ -58,7 +58,7 @@
 	</insert>
 
     <insert id="createBatch">
-        INSERT INTO minlia_attachment(
+        INSERT INTO mdl_attachment(
             belongs_to ,
             relation_id ,
             name ,
@@ -84,7 +84,7 @@
     </insert>
 
     <update id="update" parameterType="com.minlia.modules.attachment.entity.Attachment">
-        UPDATE minlia_attachment
+        UPDATE mdl_attachment
         <set>
             <if test="name != null">
                 name = #{name},
@@ -108,11 +108,11 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM minlia_attachment WHERE id = #{id}
+		DELETE FROM mdl_attachment WHERE id = #{id}
 	</delete>
 
     <delete id="deleteByRelationIdAndBelongsTo">
-		DELETE FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+		DELETE FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
 	</delete>
 
     <select id="queryById" resultType="com.minlia.modules.attachment.entity.Attachment">
@@ -126,11 +126,11 @@
     </select>
 
     <select id="queryUrls" resultType="java.lang.String">
-        SELECT GROUP_CONCAT(url) FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+        SELECT GROUP_CONCAT(url) FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
     </select>
 
     <select id="queryFirstUrl" resultType="java.lang.String">
-        SELECT url FROM minlia_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1} LIMIT 0 , 1
+        SELECT url FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1} LIMIT 0 , 1
     </select>
 
     <select id="queryByRelationIdAndBelongsTo" resultType="com.minlia.modules.attachment.entity.Attachment">

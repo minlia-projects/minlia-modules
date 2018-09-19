@@ -18,12 +18,12 @@
 			bit.last_modified_date ,
 			bit.last_modified_by
 		FROM
-			minlia_bible_item bit
+			mdl_bible_item bit
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <if test="parentCode != null">
-            INNER JOIN minlia_bible bt on bt.code = bit.parent_code
+            INNER JOIN mdl_bible bt on bt.code = bit.parent_code
         </if>
         <where>
             <if test="parentCode != null">
@@ -42,7 +42,7 @@
     </sql>
 
     <insert id="create">
-		INSERT INTO minlia_bible_item(
+		INSERT INTO mdl_bible_item(
 			parent_code ,
 			code ,
 			value ,
@@ -68,7 +68,7 @@
 	</insert>
 
     <update id="update" parameterType="com.minlia.module.bible.entity.BibleItem">
-        UPDATE minlia_bible_item
+        UPDATE mdl_bible_item
         <set>
             <if test="value != null">
                 value = #{value},
@@ -95,11 +95,11 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM minlia_bible_item WHERE id = #{id}
+		DELETE FROM mdl_bible_item WHERE id = #{id}
 	</delete>
 
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM minlia_bible_item bit
+        SELECT COUNT(1) FROM mdl_bible_item bit
         <include refid="QUERY_CONDITION"/>
     </select>
 

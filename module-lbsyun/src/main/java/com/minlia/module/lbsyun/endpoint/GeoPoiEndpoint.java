@@ -1,7 +1,6 @@
 package com.minlia.module.lbsyun.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.lbsyun.body.request.GeoPoiCreateRequest;
 import com.minlia.module.lbsyun.body.request.GeoPoiDeleteRequest;
@@ -30,56 +29,56 @@ public class GeoPoiEndpoint {
 
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "create", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody create(@Valid @RequestBody GeoPoiCreateRequest request) {
-        return SuccessResponseBody.builder().payload(geoPoiService.create(request,null)).build();
+    public Response create(@Valid @RequestBody GeoPoiCreateRequest request) {
+        return Response.success(geoPoiService.create(request,null));
     }
 
     @ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PutMapping(value = "update", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody update(@Valid @RequestBody GeoPoiUpdateRequest request) {
-        return SuccessResponseBody.builder().payload(geoPoiService.update(request,null)).build();
+    public Response update(@Valid @RequestBody GeoPoiUpdateRequest request) {
+        return Response.success(geoPoiService.update(request,null));
     }
 
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @DeleteMapping(value = "delete", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody delete(@Valid @RequestBody GeoPoiDeleteRequest request) {
-        return SuccessResponseBody.builder().payload(geoPoiService.delete(request,null)).build();
+    public Response delete(@Valid @RequestBody GeoPoiDeleteRequest request) {
+        return Response.success(geoPoiService.delete(request,null));
     }
 
     @ApiOperation(value = "详情", notes = "详情", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "detail", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody detail(@Valid @RequestBody GeoPoiDetailRequest request) {
-        return SuccessResponseBody.builder().payload(geoPoiService.detail(request)).build();
+    public Response detail(@Valid @RequestBody GeoPoiDetailRequest request) {
+        return Response.success(geoPoiService.detail(request));
     }
 //
 //    @ApiOperation(value = "search id", notes = "ID检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public StatefulBody local(@PathVariable Long id) {
-//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchId(id)).build();
+//    public Response local(@PathVariable Long id) {
+//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchId(id));
 //    }
 //
 //    @ApiOperation(value = "search list", notes = "条件检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/list", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public StatefulBody list(@Valid @RequestBody GadYuntuSearchListRequestBody body) {
-//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchList(body)).build();
+//    public Response list(@Valid @RequestBody GadYuntuSearchListRequestBody body) {
+//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchList(body));
 //    }
 //
 //    @ApiOperation(value = "省数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/province", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public StatefulBody province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody body) {
-//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchProvince(body)).build();
+//    public Response province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody body) {
+//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchProvince(body));
 //    }
 //
 //    @ApiOperation(value = "市数据分布检索请求", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/city", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public StatefulBody city(@Valid @RequestBody GadYuntuSearchCityRequestBody body) {
-//        return SuccessResponseBody.builder().payload(yuntuService.searchCity(body)).build();
+//    public Response city(@Valid @RequestBody GadYuntuSearchCityRequestBody body) {
+//        return SuccessResponseBody.builder().payload(yuntuService.searchCity(body));
 //    }
 //
 //    @ApiOperation(value = "区县数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/district", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public StatefulBody district(@Valid @RequestBody GadYuntuSearchDistrictRequestBody body) {
-//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchDistrict(body)).build();
+//    public Response district(@Valid @RequestBody GadYuntuSearchDistrictRequestBody body) {
+//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchDistrict(body));
 //    }
 
 }

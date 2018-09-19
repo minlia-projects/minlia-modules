@@ -2,10 +2,9 @@ package com.minlia.modules.attachment.service;
 
 
 import com.google.common.collect.Lists;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.cloud.utils.ApiPreconditions;
-import com.minlia.modules.aliyun.oss.api.constant.UploadCode;
+import com.minlia.cloud.body.Response;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.aliyun.oss.builder.PathBuilder;
@@ -38,7 +37,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     private AttachmentService attachmentService;
 
     @Override
-    public StatefulBody upload(MultipartFile file) throws Exception {
+    public Response upload(MultipartFile file) throws Exception {
         String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
         PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         OssFile ossFile= new OssFile(result.getETag());
@@ -50,11 +49,11 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         } else {
             ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getDomain() + path);
         }
-        return SuccessResponseBody.builder().message("上传成功").payload(ossFile).build();
+        return Response.success(ossFile);
     }
 
     @Override
-    public StatefulBody upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
+    public Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
         String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
 
         PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
@@ -70,11 +69,11 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
         //附件记录
         attachmentService.create(attachment);
-        return SuccessResponseBody.builder().message("上传成功").payload(Lists.newArrayList(attachment)).build();
+        return Response.success(Lists.newArrayList(attachment));
     }
 
     @Override
-    public StatefulBody upload(AttachmentUploadRequestBody requestBody) {
+    public Response upload(AttachmentUploadRequestBody requestBody) {
         if (StringUtils.isEmpty(requestBody.getKey())){
             requestBody.setKey(CosPathUtils.defaultBuild(requestBody.getFile().getName()));
         }
@@ -104,17 +103,17 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         ossFile.setUrl(attachment.getUrl());
         //附件记录
         attachmentService.create(attachment);
-        return SuccessResponseBody.builder().message("上传成功").payload(ossFile).build();
+        return Response.success(ossFile);
     }
 
     @Deprecated
-    private StatefulBody uploadByAliyun(File file, String relationId, String belongsTo){
+    private Response uploadByAliyun(File file, String relationId, String belongsTo){
         String key = keyGenerate(file.getName(),relationId,belongsTo);
         OssFile ossFile=null;
         try {
             ossFile = ossService.upload(file, key);
         } catch (Exception e) {
-            ApiPreconditions.checkNotNull(e, UploadCode.E22, e.getMessage());
+            ApiAssert.state(false, SystemCode.Exception.REMOTE_REQUEST_FAILURE, e.getMessage());
         }
 
         //附件记录
@@ -128,7 +127,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
                 .accessKey(ossFile.geteTag())
                 .build();
         attachmentService.create(attachment);
-        return SuccessResponseBody.builder().message("上传成功").payload(Lists.newArrayList(attachment)).build();
+        return Response.success(Lists.newArrayList(attachment));
     }
 
     private String keyGenerate(String fileName, String relationId, String belongsTo){

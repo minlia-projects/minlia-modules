@@ -1,8 +1,8 @@
 package com.minlia.module.pooul.service.impl;
 
 import com.minlia.cloud.body.Response;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.pooul.bean.domain.PooulMerchantDO;
 import com.minlia.module.pooul.bean.dto.PooulDTO;
 import com.minlia.module.pooul.bean.dto.PooulMerchantCreateDTO;
@@ -58,7 +58,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
     public Response create(String guid, PooulMerchantCTO cto) {
         //判断是否已存在
         boolean exists = pooulMerchantInternalService.exists(PooulMerchatInternalQO.builder().guid(guid).build());
-        ApiPreconditions.is(exists, ApiCode.DATA_ALREADY_EXISTS);
+        ApiAssert.state(exists, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         cto.setMerchant_type(3);
         cto.setPlatform_merchant_id(pooulMerchantProperties.getPlatformMerchantId());
@@ -88,7 +88,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
     public Response delete(String merchantId) {
         //判断是否已存在
         boolean exists = pooulMerchantInternalService.exists(PooulMerchatInternalQO.builder().number(merchantId).build());
-        ApiPreconditions.not(exists, ApiCode.NOT_FOUND);
+        ApiAssert.state(exists, SystemCode.Message.DATA_NOT_EXISTS);
 
         HttpEntity httpEntity = new HttpEntity(null, pooulAuthService.getHeaders());
         ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulMerchantProperties.getDeleteUrl(), HttpMethod.DELETE, httpEntity,PooulDTO.class,merchantId);

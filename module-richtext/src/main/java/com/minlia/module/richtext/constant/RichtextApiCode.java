@@ -1,14 +1,12 @@
 package com.minlia.module.richtext.constant;
 
 
-import com.minlia.cloud.code.ApiCode;
-
 /**
  * API响应码
  * @author garen
  * @date 2018/3/26
  */
-public class RichtextApiCode extends ApiCode {
+public class RichtextApiCode {
 
   public RichtextApiCode() {
     throw new AssertionError();

@@ -8,7 +8,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.URL;
 
 @Data
 @NoArgsConstructor
@@ -27,17 +29,17 @@ public class BankCardCTO implements ApiRequestBody {
     @NotBlank(message = "银行卡号不能为空")
     private String number;
 
-    @ApiModelProperty(value = "开户人")
+    @ApiModelProperty(value = "开户人", example = "于含烟")
     @NotBlank(message = "开户人不能为空")
     @NameZh
     private String holder;
 
-    @ApiModelProperty(value = "身份证号码")
+    @ApiModelProperty(value = "身份证号码", example = "360602198305142880")
     @NotBlank(message = "身份证号码不能为空")
     @IdCard
     private String idNumber;
 
-    @ApiModelProperty(value = "手机号码")
+    @ApiModelProperty(value = "手机号码", example = "18066297716")
     @Cellphone
     private String cellphone;
 

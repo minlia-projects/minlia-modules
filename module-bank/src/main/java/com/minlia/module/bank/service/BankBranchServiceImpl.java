@@ -7,9 +7,9 @@ import com.minlia.module.bank.bean.domain.BankBranchDo;
 import com.minlia.module.bank.bean.dto.LhhResponse;
 import com.minlia.module.bank.bean.qo.BankBranchQo;
 import com.minlia.module.bank.mapper.BankcodeMapper;
-import com.minlia.module.map.district.body.GadDistrictQueryRequestBody;
-import com.minlia.module.map.district.entity.GadDistrict;
-import com.minlia.module.map.district.service.GadDistrictService;
+import com.minlia.module.disrtict.bean.domain.District;
+import com.minlia.module.disrtict.bean.qo.DistrictQO;
+import com.minlia.module.disrtict.service.DistrictService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
@@ -44,7 +44,7 @@ public class BankBranchServiceImpl implements BankBranchService {
     private BankcodeMapper bankcodeMapper;
 
     @Autowired
-    private GadDistrictService gadDistrictService;
+    private DistrictService districtService;
 
     private static String appcode = "APPCODE 6889a6bedf53468ea27d10f12a8e5159";
 
@@ -68,12 +68,12 @@ public class BankBranchServiceImpl implements BankBranchService {
         );
 
         for (String bank : banks) {
-            List<GadDistrict> provinces = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().level("province").build());
-            for (GadDistrict province : provinces) {
-                List<GadDistrict> citys = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().parent(province.getAdcode()).build());
-                for (GadDistrict city : citys) {
-                    List<GadDistrict> districts = gadDistrictService.queryList(GadDistrictQueryRequestBody.builder().parent(city.getAdcode()).build());
-                    for (GadDistrict district : districts) {
+            List<District> provinces = districtService.queryList(DistrictQO.builder().level("province").build());
+            for (District province : provinces) {
+                List<District> citys = districtService.queryList(DistrictQO.builder().parent(province.getAdcode()).build());
+                for (District city : citys) {
+                    List<District> districts = districtService.queryList(DistrictQO.builder().parent(city.getAdcode()).build());
+                    for (District district : districts) {
                         System.out.println(new StringJoiner("-").add(province.getName()).add(city.getName()).add(district.getName()).toString());
 
                         Map<String, Object> querys = new HashMap<String, Object>();

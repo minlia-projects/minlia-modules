@@ -24,7 +24,7 @@ public class BankCardVerifyTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "身份证")
     @IdCard
-    private String idCard;
+    private String idNumber;
 
     @ApiModelProperty(value = "银行卡号")
     @Cellphone

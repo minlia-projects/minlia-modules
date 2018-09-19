@@ -1,8 +1,7 @@
 package com.minlia.modules.attachment.endpoint;
 
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
 import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
@@ -38,51 +37,51 @@ public class AttachmentEndpoint {
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody create(@Valid @RequestBody AttachmentCreateRequestBody body) {
-        return SuccessResponseBody.builder().payload(attachmentService.create(body)).build();
+    public Response create(@Valid @RequestBody AttachmentCreateRequestBody body) {
+        return Response.success(attachmentService.create(body));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody update(@Valid @RequestBody AttachmentUpdateRequestBody requestBody) {
+    public Response update(@Valid @RequestBody AttachmentUpdateRequestBody requestBody) {
         Attachment attachment = mapper.map(requestBody,Attachment.class);
-        return SuccessResponseBody.builder().payload(attachmentService.update(attachment)).build();
+        return Response.success(attachmentService.update(attachment));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody delete(@PathVariable Long id) {
+    public Response delete(@PathVariable Long id) {
         return attachmentService.delete(id);
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody queryOne(@PathVariable Long id) {
-        return SuccessResponseBody.builder().payload(attachmentService.queryById(id)).build();
+    public Response queryOne(@PathVariable Long id) {
+        return Response.success(attachmentService.queryById(id));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "业务查询", notes = "业务查询", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "fbb/{relationId}/{belongsTo}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody queryAllByRelationIdAndBelongsTo(@PathVariable String relationId, @PathVariable String belongsTo) {
-        return SuccessResponseBody.builder().payload(attachmentService.queryAllByRelationIdAndBelongsTo(relationId,belongsTo)).build();
+    public Response queryAllByRelationIdAndBelongsTo(@PathVariable String relationId, @PathVariable String belongsTo) {
+        return Response.success(attachmentService.queryAllByRelationIdAndBelongsTo(relationId,belongsTo));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody list(@RequestBody AttachmentQueryRequestBody requestBody) {
-        return SuccessResponseBody.builder().payload(attachmentService.queryList(requestBody)).build();
+    public Response list(@RequestBody AttachmentQueryRequestBody requestBody) {
+        return Response.success(attachmentService.queryList(requestBody));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody page(@PageableDefault Pageable pageable, @RequestBody AttachmentQueryRequestBody requestBody) {
-        return SuccessResponseBody.builder().payload(attachmentService.queryPage(requestBody,pageable)).build();
+    public Response page(@PageableDefault Pageable pageable, @RequestBody AttachmentQueryRequestBody requestBody) {
+        return Response.success(attachmentService.queryPage(requestBody,pageable));
     }
 
 }

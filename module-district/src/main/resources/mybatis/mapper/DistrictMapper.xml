@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.disrtict.mapper.DistrictMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			id ,
+			parent ,
+			adcode ,
+			citycode ,
+			center ,
+			name ,
+			level ,
+			address ,
+			fullcode ,
+			create_date ,
+			create_by ,
+			last_modified_date ,
+			last_modified_by
+		FROM mdl_district t
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="parent != null">
+                AND parent = #{parent}
+            </if>
+            <if test="adcode != null">
+                AND adcode = #{adcode}
+            </if>
+            <if test="citycode != null">
+                AND citycode = #{citycode}
+            </if>
+            <if test="center != null">
+                AND center = #{center}
+            </if>
+            <if test="name != null">
+                AND name = #{name}
+            </if>
+            <if test="level != null">
+                AND level = #{level}
+            </if>
+            <if test="address != null">
+                AND address = #{address}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mdl_district(
+			parent ,
+			adcode ,
+			citycode ,
+			center ,
+			name ,
+			level ,
+			address ,
+			fullcode ,
+			create_by
+		)
+		VALUES
+		(
+			#{parent} ,
+			#{adcode} ,
+			#{citycode} ,
+			#{center} ,
+			#{name} ,
+			#{level} ,
+			#{address} ,
+			#{fullcode} ,
+			#{createBy}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.minlia.module.disrtict.bean.domain.District">
+        UPDATE mdl_district
+        <set>
+            <if test="adcode != null">
+                adcode = #{adcode},
+            </if>
+            <if test="citycode != null">
+                citycode = #{citycode},
+            </if>
+            <if test="center != null">
+                center = #{center},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="address != null">
+                address = #{address},
+            </if>
+            <if test="fullcode != null">
+                fullcode = #{fullcode},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+		DELETE FROM mdl_district WHERE id = #{id}
+	</delete>
+
+    <select id="queryById" resultType="com.minlia.module.disrtict.bean.domain.District">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryByAdCode" resultType="com.minlia.module.disrtict.bean.domain.District">
+        <include refid="QUERY_CONTENT"/>
+        WHERE code = #{code,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.disrtict.bean.domain.District">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.disrtict.bean.domain.District">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryAll" resultType="com.minlia.module.disrtict.bean.domain.District">
+        <include refid="QUERY_CONTENT"/>
+    </select>
+
+</mapper>

@@ -1,8 +1,8 @@
 package com.minlia.module.wechat.mp.endpoint;
 
 import com.google.gson.Gson;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
+import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +45,7 @@ public class WechatMpEndpoint {
 
     @ApiOperation(value = "获取素材列表", notes = "获取素材列表", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "material/{type}/{offset}/{count}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody material(@PathVariable String type, @PathVariable int offset, @PathVariable int count) throws WxErrorException {
+    public Response material(@PathVariable String type, @PathVariable int offset, @PathVariable int count) throws WxErrorException {
 //        WxMpMaterialFileBatchGetResult result = wxMpService.getMaterialService().materialFileBatchGet(type, offset, count);
 
         Map<String, Object> params = new HashMap<>();
@@ -57,25 +57,25 @@ public class WechatMpEndpoint {
         if (wxError.getErrorCode() != 0) {
             throw new WxErrorException(wxError);
         }
-        return SuccessResponseBody.builder().payload(new Gson().fromJson(responseText, HashMap.class)).build();
+        return Response.success(new Gson().fromJson(responseText, HashMap.class));
     }
 
     @ApiOperation(value = "临时二维码", notes = "临时二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "tempqrcode/{scene}/{seconds}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody qrcode(@PathVariable String scene, @PathVariable Integer seconds) throws WxErrorException {
+    public Response qrcode(@PathVariable String scene, @PathVariable Integer seconds) throws WxErrorException {
         WxMpQrCodeTicket ticket = wxMpService.getQrcodeService().qrCodeCreateTmpTicket(scene, seconds);
         String qrcode = wxMpService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
         log.debug("QRCODE {}", qrcode);
-        return SuccessResponseBody.builder().message(qrcode).build();
+        return Response.success(SystemCode.Message.SUCCESS, qrcode);
     }
 
     @ApiOperation(value = "永久二维码", notes = "永久二维码", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "lastqrcode/{scene}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody qrcode(@PathVariable String scene) throws WxErrorException {
+    public Response qrcode(@PathVariable String scene) throws WxErrorException {
         WxMpQrCodeTicket ticket = wxMpService.getQrcodeService().qrCodeCreateLastTicket(scene);
         String qrcode = wxMpService.getQrcodeService().qrCodePictureUrl(ticket.getTicket(), true);
         log.debug("QRCODE {}", qrcode);
-        return SuccessResponseBody.builder().message(qrcode).build();
+        return Response.success(SystemCode.Message.SUCCESS, qrcode);
     }
 
     /**

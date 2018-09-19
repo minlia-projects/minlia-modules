@@ -2,8 +2,8 @@ package com.minlia.module.todo.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.body.BibleItemQueryRequestBody;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
@@ -12,6 +12,7 @@ import com.minlia.module.todo.body.TodoCreateRequestBody;
 import com.minlia.module.todo.body.TodoOperateRequestBody;
 import com.minlia.module.todo.body.TodoQueryRequestBody;
 import com.minlia.module.todo.body.TodoUpdateRequestBody;
+import com.minlia.module.todo.constant.TodoCode;
 import com.minlia.module.todo.entity.MyTodo;
 import com.minlia.module.todo.enumeration.TodoStatus;
 import com.minlia.module.todo.event.TodoCreateEvent;
@@ -43,7 +44,7 @@ public class TodoServiceImpl implements TodoService {
     @Transactional
     public MyTodo create(TodoCreateRequestBody requestBody) {
         BibleItem bibleItem = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(BIBLE_TODO_TYPE).code(requestBody.getType()).build());
-        ApiPreconditions.is(null == bibleItem,ApiCode.NOT_FOUND,String.format("待办类型%s不存在",requestBody.getType()));
+        ApiAssert.notNull(bibleItem, TodoCode.Message.TYPE_NOT_EXISTS, requestBody.getType());
 
         MyTodo todo = mapper.map(requestBody, MyTodo.class);
         todo.setNumber(NumberGenerator.generatorByYMDHMSS("TD",1));
@@ -108,7 +109,7 @@ public class TodoServiceImpl implements TodoService {
 
     private MyTodo queryByNumberAndNotNull(String number) {
         MyTodo todo = todoMapper.queryByNumber(number);
-        ApiPreconditions.is(null == todo, ApiCode.NOT_FOUND, "记录不存在");
+        ApiAssert.notNull(todo, SystemCode.Message.DATA_NOT_EXISTS);
         return todo;
     }
 

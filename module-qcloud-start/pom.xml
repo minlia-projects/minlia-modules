@@ -7,7 +7,7 @@
     <artifactId>module-qcloud-start</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Module Tencent Cloud Start</name>
+    <name>Module Qcloud Start</name>
 
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>

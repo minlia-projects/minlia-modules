@@ -17,7 +17,7 @@
 			nt.last_modified_date ,
 			nt.last_modified_by
 		FROM
-			minlia_navigation nt
+			mdl_navigation nt
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -47,7 +47,7 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_navigation(
+		INSERT INTO mdl_navigation(
             type ,
             name ,
             icon ,
@@ -71,7 +71,7 @@
 	</insert>
 
     <update id="update" parameterType="com.minlia.modules.rbac.backend.navigation.entity.Navigation">
-        UPDATE minlia_navigation
+        UPDATE mdl_navigation
         SET
         <if test="type != null">
             type = #{type,jdbcType=VARCHAR} ,
@@ -100,7 +100,7 @@
     </update>
 
     <update id="updateType">
-        UPDATE minlia_navigation
+        UPDATE mdl_navigation
         SET
             type = #{arg1,jdbcType=VARCHAR} ,
             last_modified_date = SYSDATE()
@@ -108,7 +108,7 @@
     </update>
 
     <update id="display">
-        UPDATE minlia_navigation
+        UPDATE mdl_navigation
         SET
             display = #{arg1,jdbcType=TINYINT} ,
             last_modified_date = SYSDATE()
@@ -117,7 +117,7 @@
 
     <delete id="delete">
         DELETE FROM map_role_navigation where navigation_id = #{id};
-        DELETE FROM minlia_navigation where id = #{id};
+        DELETE FROM mdl_navigation where id = #{id};
     </delete>
 
     <insert id="grant">
@@ -138,7 +138,7 @@
     </insert>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM minlia_navigation nt
+        SELECT COUNT(1) FROM mdl_navigation nt
         <include refid="QUERY_CONDITION"/>
     </select>
 

@@ -1,19 +1,16 @@
 package com.minlia.modules.aliyun.oss.api.service;
 
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.OSSErrorCode;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.aliyun.oss.api.config.AliyunOssProperties;
-import com.minlia.modules.aliyun.oss.api.constant.UploadCode;
+import com.minlia.modules.aliyun.oss.api.constant.AliyunOssCode;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.aliyun.oss.builder.Constant;
 import com.minlia.modules.aliyun.oss.builder.PathBuilder;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -67,9 +64,9 @@ public class OssService implements InitializingBean {
             result.setSize(metadata.getContentLength());
             result.setContentType(metadata.getContentType());
         } catch (OSSException e) {
-            ApiPreconditions.checkNotNull(e, UploadCode.E23,e.getErrorCode()+" "+ e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
         } catch (Exception e) {
-            ApiPreconditions.checkNotNull(e, UploadCode.E24, e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
         }
         return result;
     }

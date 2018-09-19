@@ -1,6 +1,6 @@
 package com.minlia.module.wechat.mp.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.service.LoginThirdPartyService;
@@ -25,7 +25,7 @@ public class WechatRegisterEndpoint {
 
     @ApiOperation(value = "根据小程序绑定", notes = "根据小程序绑定", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "bind/wxma", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody bindByWxma(@RequestBody BindWxRequestBody body) throws WxErrorException {
+    public Response bindByWxma(@RequestBody BindWxRequestBody body) throws WxErrorException {
         return loginThirdPartyService.bindByWxma(body);
     }
 

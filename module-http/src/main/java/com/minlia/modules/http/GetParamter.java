@@ -2,10 +2,7 @@ package com.minlia.modules.http;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections.MapUtils;
+import com.minlia.cloud.utils.ApiAssert;
 import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -53,7 +50,7 @@ public class GetParamter {
             str = EntityUtils.toString(new UrlEncodedFormEntity(params, Consts.UTF_8));
         } catch (Exception e) {
             e.printStackTrace();
-            ApiPreconditions.is(true, ApiCode.BASED_ON,e.getMessage());
+            ApiAssert.state(false, e.getMessage());
         }
         return url + "?" + str;
     }
@@ -78,7 +75,7 @@ public class GetParamter {
                 o = getMethodValue(clz, bean, f.getName());
             } catch (Exception e) {
                 e.printStackTrace();
-                ApiPreconditions.is(true, ApiCode.BASED_ON,e.getMessage());
+                ApiAssert.state(false, e.getMessage());
             }
             if (o != null && !"".equals(o.toString())) {  
                 result.append(o + "&");  
@@ -106,7 +103,7 @@ public class GetParamter {
             url = getUrl(url,beanToMap(bean));
         } catch (Exception e) {
             e.printStackTrace();
-            ApiPreconditions.is(true, ApiCode.BASED_ON,e.getMessage());
+            ApiAssert.state(false, e.getMessage());
         }
         return url;
     }

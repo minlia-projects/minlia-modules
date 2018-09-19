@@ -1,9 +1,11 @@
 package com.minlia.module.lbsyun.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.lbsyun.body.request.*;
+import com.minlia.module.lbsyun.body.request.GeoSearchBoundRequest;
+import com.minlia.module.lbsyun.body.request.GeoSearchDetailRequest;
+import com.minlia.module.lbsyun.body.request.GeoSearchLocalRequest;
+import com.minlia.module.lbsyun.body.request.GeoSearchNearbyRequest;
 import com.minlia.module.lbsyun.service.GeoSearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,26 +32,26 @@ public class GeoSearchEndpoint {
 
     @ApiOperation(value = "nearby", notes = "周边检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "nearby", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody nearby(@Valid @RequestBody GeoSearchNearbyRequest request) {
-        return SuccessResponseBody.builder().payload(geoSearchService.nearby(request)).build();
+    public Response nearby(@Valid @RequestBody GeoSearchNearbyRequest request) {
+        return Response.success(geoSearchService.nearby(request));
     }
 
     @ApiOperation(value = "bound", notes = "矩形检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "bound", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody bound(@Valid @RequestBody GeoSearchBoundRequest request) {
-        return SuccessResponseBody.builder().payload(geoSearchService.bound(request)).build();
+    public Response bound(@Valid @RequestBody GeoSearchBoundRequest request) {
+        return Response.success(geoSearchService.bound(request));
     }
 
     @ApiOperation(value = "local", notes = "本地检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "local", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody local(@Valid @RequestBody GeoSearchLocalRequest body) {
-        return SuccessResponseBody.builder().payload(geoSearchService.local(body)).build();
+    public Response local(@Valid @RequestBody GeoSearchLocalRequest body) {
+        return Response.success(geoSearchService.local(body));
     }
 
     @ApiOperation(value = "detail", notes = "详情检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "detail", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody detail(@Valid @RequestBody GeoSearchDetailRequest request) {
-        return SuccessResponseBody.builder().payload(geoSearchService.detail(request)).build();
+    public Response detail(@Valid @RequestBody GeoSearchDetailRequest request) {
+        return Response.success(geoSearchService.detail(request));
     }
 
 }

@@ -10,7 +10,7 @@
 			ip_address ,
 			time
 		FROM
-			minlia_login_log
+			mdl_login_log
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -25,7 +25,7 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_login_log(
+		INSERT INTO mdl_login_log(
 		    username ,
 		    password ,
 		    ip_address ,

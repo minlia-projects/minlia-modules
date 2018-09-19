@@ -1,6 +1,6 @@
 package com.minlia.module.wechat.material.endpoint;
 
-import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.wechat.material.service.MpMaterialService;
 import io.swagger.annotations.Api;
@@ -27,13 +27,13 @@ public class MpMaterialEndpoint {
 
     @ApiOperation(value = "获取永久素材", notes = "获取永久素材", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "material/{mediaId}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody material(@PathVariable String mediaId) throws WxErrorException {
+    public Response material(@PathVariable String mediaId) throws WxErrorException {
         return materialService.materialGet(mediaId);
     }
 
     @ApiOperation(value = "获取永久素材列表", notes = "获取永久素材列表", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "material/batchget/{type}/{offset}/{count}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public StatefulBody material(@PathVariable String type, @PathVariable int offset, @PathVariable int count) throws WxErrorException {
+    public Response material(@PathVariable String type, @PathVariable int offset, @PathVariable int count) throws WxErrorException {
         return materialService.materialBatchGet(type,offset,count);
     }
 

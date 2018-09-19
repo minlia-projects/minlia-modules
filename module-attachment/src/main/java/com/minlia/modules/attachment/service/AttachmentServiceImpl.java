@@ -4,8 +4,7 @@ package com.minlia.modules.attachment.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
 import com.minlia.modules.attachment.body.AttachmentData;
 import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
@@ -80,16 +79,16 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public StatefulBody delete(Long id) {
+    public Response delete(Long id) {
         attachmentMapper.delete(id);
-        return SuccessResponseBody.builder().build();
+        return Response.success();
     }
 
     @Override
     @Transactional
-    public StatefulBody delete(String relationId, String belongsTo) {
+    public Response delete(String relationId, String belongsTo) {
         attachmentMapper.deleteByRelationIdAndBelongsTo(relationId,belongsTo);
-        return SuccessResponseBody.builder().build();
+        return Response.success();
     }
 
     @Override

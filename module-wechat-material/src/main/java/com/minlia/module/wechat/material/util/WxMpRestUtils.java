@@ -2,7 +2,7 @@ package com.minlia.module.wechat.material.util;
 
 import com.google.gson.Gson;
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.wechat.material.dto.WxMpMaterialBatchGetResult;
 import me.chanjar.weixin.common.error.WxError;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -31,12 +31,10 @@ public class WxMpRestUtils {
             responseText = getWxMpService().post(url, WxGsonBuilder.create().toJson(params));
         } catch (WxErrorException e) {
             e.printStackTrace();
-            ApiPreconditions.is(true, e.getError().getErrorCode(),e.getError().getErrorMsg());
+            ApiAssert.state(false, e.getError().getErrorCode(),e.getError().getErrorMsg());
         }
         WxError wxError = WxError.fromJson(responseText);
-        if (wxError.getErrorCode() != 0) {
-            ApiPreconditions.is(true,wxError.getErrorCode(),wxError.getErrorMsg());
-        }
+        ApiAssert.state(wxError.getErrorCode() == 0, wxError.getErrorCode(), wxError.getErrorMsg());
         return new Gson().fromJson(responseText, WxMpMaterialBatchGetResult.class);
     }
 

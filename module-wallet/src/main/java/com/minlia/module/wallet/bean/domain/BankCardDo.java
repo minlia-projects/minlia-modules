@@ -40,7 +40,7 @@ public class BankCardDo extends AbstractEntity {
     /**
      * 手机号码
      */
-    private Integer cellphone;
+    private String cellphone;
 
     /**
      * 卡号

@@ -14,7 +14,7 @@
 			send_time ,
 			enabled
 		FROM
-			minlia_captcha
+			mdl_captcha
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -37,7 +37,7 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_captcha(
+		INSERT INTO mdl_captcha(
 			cellphone ,
 			code ,
 			used ,
@@ -59,7 +59,7 @@
 	</insert>
 
     <update id="update" parameterType="com.minlia.module.captcha.domain.Captcha">
-        UPDATE minlia_captcha
+        UPDATE mdl_captcha
         <set>
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR} ,

@@ -18,7 +18,7 @@
 			create_by ,
 			last_modified_date ,
 			last_modified_by
-		FROM minlia_todo
+		FROM mdl_todo
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -45,7 +45,7 @@
     </sql>
 
     <insert id="create">
-		INSERT INTO minlia_todo(
+		INSERT INTO mdl_todo(
 			number ,
 			relation_id ,
 			type ,
@@ -73,7 +73,7 @@
 	</insert>
 
     <update id="update" parameterType="com.minlia.module.todo.entity.MyTodo">
-        UPDATE minlia_todo
+        UPDATE mdl_todo
         <set>
             <if test="content != null">
                 content = #{content},
@@ -97,11 +97,11 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM minlia_todo WHERE id = #{id}
+		DELETE FROM mdl_todo WHERE id = #{id}
 	</delete>
 
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM minlia_todo
+        SELECT COUNT(1) FROM mdl_todo
         <include refid="QUERY_CONDITION"/>
     </select>
 

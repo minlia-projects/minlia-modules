@@ -14,7 +14,7 @@
 			rt.last_modified_by ,
 			rt.enabled
 		FROM
-			minlia_role rt
+			mdl_role rt
 	</sql>
 
 	<sql id="QUERY_CONDITION">
@@ -29,7 +29,7 @@
 	</sql>
 
 	<insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO minlia_role(
+		INSERT INTO mdl_role(
 			code ,
 			label ,
 			notes ,
@@ -45,7 +45,7 @@
 	</insert>
 
 	<update id="update" parameterType="com.minlia.modules.rbac.backend.role.entity.Role">
-		UPDATE minlia_role
+		UPDATE mdl_role
 		SET
 		<if test="code != null">
 			code = #{code,jdbcType=VARCHAR} ,
@@ -67,7 +67,7 @@
 	<delete id="delete">
 		DELETE rt.*, ur.*, rp.*
 		FROM
-			minlia_role rt
+			mdl_role rt
 		LEFT JOIN map_user_role ur ON ur.role_id = rt.id
 		LEFT JOIN map_role_permission rp ON rp.role_id = rt.id
 		WHERE
@@ -104,7 +104,7 @@
 	<select id="queryByGuid" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
 		<include refid="QUERY_CONTENT" />
 		INNER JOIN map_user_role mp ON mp.role_id = rt.id
-		INNER JOIN minlia_user ut ON ut.id = mp.user_id
+		INNER JOIN mdl_user ut ON ut.id = mp.user_id
 		WHERE ut.guid = #{guid,jdbcType=VARCHAR}
 	</select>
 
@@ -112,9 +112,9 @@
 		SELECT
 			CODE
 		FROM
-			minlia_role rt
+			mdl_role rt
 		INNER JOIN map_user_role mp ON mp.role_id = rt.id
-		INNER JOIN minlia_user ut ON ut.id = mp.user_id
+		INNER JOIN mdl_user ut ON ut.id = mp.user_id
 		WHERE
 			ut.id = #{id,jdbcType=BIGINT}
 	</select>
@@ -123,9 +123,9 @@
 		SELECT
 			id
 		FROM
-			minlia_role rt
+			mdl_role rt
 		INNER JOIN map_user_role mp ON mp.role_id = rt.id
-		INNER JOIN minlia_user ut ON ut.id = mp.user_id
+		INNER JOIN mdl_user ut ON ut.id = mp.user_id
 		WHERE
 			ut.id = #{id,jdbcType=BIGINT}
 	</select>
