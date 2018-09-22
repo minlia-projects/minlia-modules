@@ -45,7 +45,7 @@ public class AliyunOssCode {
     public enum Message implements Code {
 
         /**
-         * 上传失败
+         * 上传失败-{0}
          */
         UPLOAD_FAILURE(100501,"system.aliyun.message.101100");
 

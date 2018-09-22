@@ -64,9 +64,9 @@ public class OssService implements InitializingBean {
             result.setSize(metadata.getContentLength());
             result.setContentType(metadata.getContentType());
         } catch (OSSException e) {
-            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Message.UPLOAD_FAILURE, e.getMessage());
         } catch (Exception e) {
-            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Message.UPLOAD_FAILURE, e.getMessage());
         }
         return result;
     }
