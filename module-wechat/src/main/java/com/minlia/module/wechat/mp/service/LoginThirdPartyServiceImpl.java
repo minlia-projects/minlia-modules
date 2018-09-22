@@ -17,6 +17,7 @@ import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
+import com.minlia.modules.rbac.enumeration.RegistrationType;
 import com.minlia.modules.rbac.service.UserRegistrationService;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
@@ -119,7 +120,9 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         //不存在就注册
         if (null == user) {
             UserRegistrationRequestBody userRegistrationRequestBody = new UserRegistrationRequestBody();
+            userRegistrationRequestBody.setType(RegistrationType.CELLPHONE);
             userRegistrationRequestBody.setUsername(body.getUsername());
+            userRegistrationRequestBody.setCellphone(body.getUsername());
             userRegistrationRequestBody.setCode(body.getSecurityCode());
             userRegistrationRequestBody.setPassword(rawPassword);
             user = userRegistrationService.registration(userRegistrationRequestBody);

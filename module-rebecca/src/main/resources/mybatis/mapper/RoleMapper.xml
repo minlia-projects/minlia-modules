@@ -68,16 +68,16 @@
 		DELETE rt.*, ur.*, rp.*
 		FROM
 			mdl_role rt
-		LEFT JOIN map_user_role ur ON ur.role_id = rt.id
-		LEFT JOIN map_role_permission rp ON rp.role_id = rt.id
+		LEFT JOIN mdl_user_role ur ON ur.role_id = rt.id
+		LEFT JOIN mdl_role_permission rp ON rp.role_id = rt.id
 		WHERE
 			rt.id = #{id,jdbcType=BIGINT}
 	</delete>
 
 	<delete id="grant">
-		DELETE FROM map_role_permission where role_id = #{arg0};
+		DELETE FROM mdl_role_permission where role_id = #{arg0};
 
-		INSERT INTO map_role_permission(
+		INSERT INTO mdl_role_permission(
 			role_id ,
 			permission_id
 		)
@@ -103,7 +103,7 @@
 
 	<select id="queryByGuid" resultType="com.minlia.modules.rbac.backend.role.entity.Role">
 		<include refid="QUERY_CONTENT" />
-		INNER JOIN map_user_role mp ON mp.role_id = rt.id
+		INNER JOIN mdl_user_role mp ON mp.role_id = rt.id
 		INNER JOIN mdl_user ut ON ut.id = mp.user_id
 		WHERE ut.guid = #{guid,jdbcType=VARCHAR}
 	</select>
@@ -113,7 +113,7 @@
 			CODE
 		FROM
 			mdl_role rt
-		INNER JOIN map_user_role mp ON mp.role_id = rt.id
+		INNER JOIN mdl_user_role mp ON mp.role_id = rt.id
 		INNER JOIN mdl_user ut ON ut.id = mp.user_id
 		WHERE
 			ut.id = #{id,jdbcType=BIGINT}
@@ -124,7 +124,7 @@
 			id
 		FROM
 			mdl_role rt
-		INNER JOIN map_user_role mp ON mp.role_id = rt.id
+		INNER JOIN mdl_user_role mp ON mp.role_id = rt.id
 		INNER JOIN mdl_user ut ON ut.id = mp.user_id
 		WHERE
 			ut.id = #{id,jdbcType=BIGINT}

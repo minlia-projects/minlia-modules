@@ -7,7 +7,7 @@ import com.minlia.modules.security.constant.SecurityConstant;
  */
 public class DistrictSecurityConstants {
 
-    public static final String MODULE = "district";
+    public static final String MODULE = "minlia.district";
 
     public static final String CREATE = MODULE + SecurityConstant.OPERATION_CREATE_CODE;
 

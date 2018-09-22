@@ -3,13 +3,15 @@ package com.minlia.module.common.constant;
 /**
  * Created by garen on 2018/9/13.
  */
-public class SymbolConstants {
+public final class SymbolConstants {
 
     public static final String EXCLAMATION_MARK = "!";
 
     public static final String LEFT_LINE = "/";
 
     public static final String QUOTE = "\"";
+
+    public static final String UNDERLINE = "_";
 
     public static final String ASSIGN = " = ";
 

@@ -116,14 +116,14 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM map_role_navigation where navigation_id = #{id};
+        DELETE FROM mdl_role_navigation where navigation_id = #{id};
         DELETE FROM mdl_navigation where id = #{id};
     </delete>
 
     <insert id="grant">
-        DELETE FROM map_role_navigation where role_id = #{arg0};
+        DELETE FROM mdl_role_navigation where role_id = #{arg0};
 
-        INSERT INTO map_role_navigation(
+        INSERT INTO mdl_role_navigation(
         role_id ,
         navigation_id
         )
@@ -155,7 +155,7 @@
     <select id="queryList" resultType="com.minlia.modules.rbac.backend.navigation.entity.Navigation">
         <include refid="QUERY_CONTENT"/>
         <if test="roleId != null">
-            INNER JOIN map_role_navigation rnm on rnm.navigation_id = nt.id
+            INNER JOIN mdl_role_navigation rnm on rnm.navigation_id = nt.id
         </if>
         <include refid="QUERY_CONDITION"/>
     </select>

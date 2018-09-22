@@ -112,14 +112,14 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM map_user_role WHERE user_id = #{id};
+        DELETE FROM mdl_user_role WHERE user_id = #{id};
         DELETE FROM mdl_user WHERE id = #{id};
     </delete>
 
     <update id="grant">
-        DELETE FROM map_user_role where user_id = #{arg0};
+        DELETE FROM mdl_user_role where user_id = #{arg0};
 
-        INSERT INTO map_user_role(
+        INSERT INTO mdl_user_role(
         user_id ,
         role_id
         )

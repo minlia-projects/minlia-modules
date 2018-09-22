@@ -9,7 +9,7 @@ public class PooulDTO implements PooulApiHttpDTO {
 
     private String msg;
 
-    private String debug;
+    private Float time_elapsed;
 
     @Override
     public Boolean isSuccess() {

@@ -45,7 +45,7 @@
     </update>
 
     <insert id="grantAll">
-        INSERT INTO map_role_permission(role_id , permission_id) SELECT
+        INSERT INTO mdl_role_permission(role_id , permission_id) SELECT
             #{roleId} AS role_id ,
             id AS permission_id
         FROM
@@ -53,7 +53,7 @@
     </insert>
 
     <delete id="clear">
-		DELETE pt FROM mdl_permission pt WHERE NOT EXISTS( SELECT 1 FROM map_role_permission mt WHERE mt.permission_id = 1)
+		DELETE pt FROM mdl_permission pt WHERE NOT EXISTS( SELECT 1 FROM mdl_role_permission mt WHERE mt.permission_id = 1)
 	</delete>
 
     <select id="countById" resultType="java.lang.Long">
@@ -72,7 +72,7 @@
     <select id="queryCodesByRoleCodes" resultType="java.lang.String">
         SELECT pt.code
         FROM mdl_permission pt
-        INNER JOIN map_role_permission mp ON mp.permission_id = pt.id
+        INNER JOIN mdl_role_permission mp ON mp.permission_id = pt.id
         INNER JOIN mdl_role rt ON rt.id = mp.role_id
         WHERE rt.code IN
         <foreach collection="list" item="item" separator="," open="(" close=")">
@@ -87,16 +87,16 @@
 
     <select id="queryListByGuid" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
         <include refid="QUERY_CONTENT"/>
-        INNER JOIN map_role_permission pm ON pm.permission_id = pt.id
+        INNER JOIN mdl_role_permission pm ON pm.permission_id = pt.id
         INNER JOIN mdl_role rt ON rt.id = pm.role_id
-        INNER JOIN map_user_role rm ON rm.role_id = rt.id
+        INNER JOIN mdl_user_role rm ON rm.role_id = rt.id
         INNER JOIN mdl_user ut ON ut.id = rm.user_id
         WHERE ut.guid = #{guid,jdbcType=VARCHAR}
     </select>
 
     <select id="queryListByRoleCodes" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
         <include refid="QUERY_CONTENT"/>
-        INNER JOIN map_role_permission mp ON mp.permission_id = pt.id
+        INNER JOIN mdl_role_permission mp ON mp.permission_id = pt.id
         INNER JOIN mdl_role rt ON rt.id = mp.role_id
         WHERE rt.code IN
         <foreach collection="list" item="item" separator="," open="(" close=")">

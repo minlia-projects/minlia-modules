@@ -15,14 +15,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PooulMerchantDO extends AbstractEntity{
 
+    /**
+     * 平台商户ID
+     */
     private String platformMerchantId;
 
+    /**
+     * 父级商户ID
+     */
     private String parentId;
 
+    /**
+     * 用户GUI，属于那个用户的
+     */
     private String guid;
 
+    /**
+     * 商户名称
+     */
     private String name;
 
+    /**
+     * 商户ID
+     */
     private String number;
 
 }
