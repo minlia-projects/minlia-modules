@@ -15,10 +15,7 @@ public class AliyunOssCode {
 
     public enum Exception implements Code {
 
-        /**
-         * 上传失败
-         */
-        UPLOAD_FAILURE(100501,"system.common.exception.100501");
+        TEST(100501,"system.common.exception.100501");
 
         private int code;
         private String i18nKey;
@@ -47,7 +44,10 @@ public class AliyunOssCode {
 
     public enum Message implements Code {
 
-        TEST(100501,"system.common.exception.100501");
+        /**
+         * 上传失败
+         */
+        UPLOAD_FAILURE(100501,"system.aliyun.message.101100");
 
         private int code;
         private String i18nKey;

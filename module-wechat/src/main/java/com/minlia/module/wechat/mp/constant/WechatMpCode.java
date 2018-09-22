@@ -47,17 +47,12 @@ public class WechatMpCode {
         /**
          * 该微信号已经绑定其他手机号码
          */
-        OPENID_ALREADY_BIND(100500,"system.common.exception.100500"),
+        OPENID_ALREADY_BIND(100800,"system.mp.message.100800"),
 
         /**
          * 获取微信Session失败
          */
-        GET_SESSION_FAILURE(100500,"system.common.exception.100500"),
-
-        /**
-         * 高德云图 table id 未配置
-         */
-        WEB_TABLE_ID_NOT_FOUND(100501,"system.common.exception.100501");
+        GET_SESSION_FAILURE(100801,"system.common.message.100801");
 
         private int code;
         private String i18nKey;

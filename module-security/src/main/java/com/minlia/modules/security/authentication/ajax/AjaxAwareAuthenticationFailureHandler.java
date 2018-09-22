@@ -57,7 +57,7 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 		} else if (e instanceof JwtInvalidTokenException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_TOKEN_INVALID));
 		} else if (e instanceof JwtAcceptableException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_ACCEPTABLE_NOT_NULL));
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_TOKEN_NOT_NULL));
 		} else if (e instanceof AjaxBadCredentialsException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AJAX_BAD_CREDENTIALS, ((AjaxBadCredentialsException) e).getFailureTimes()));
 		} else if (e instanceof AjaxLockedException) {

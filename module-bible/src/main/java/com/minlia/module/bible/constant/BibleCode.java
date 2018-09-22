@@ -42,14 +42,14 @@ public class BibleCode {
     public enum Message implements Code {
 
         /**
-         * 还有子项无法删除
+         * 存在字典子项无法删除
          */
-        COULD_NOT_DELETE_HAS_CHILDREN(100500,"system.common.exception.100500"),
+        COULD_NOT_DELETE_HAS_CHILDREN(100600,"system.common.exception.100600"),
 
         /**
-         * 父级不存在
+         * 字典父级不存在
          */
-        PARENT_NOT_EXISTS(100501,"system.common.exception.100501");
+        PARENT_NOT_EXISTS(100601,"system.common.exception.100601");
 
         private int code;
         private String i18nKey;

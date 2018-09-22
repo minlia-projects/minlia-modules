@@ -46,11 +46,12 @@ public class TodoCode {
     public enum Message implements Code {
 
         /**
-         * 待办类型%s不存在
+         * 待办类型{0}不存在
          */
-        TYPE_NOT_EXISTS(100600, "system.common.exception.100600");
+        TYPE_NOT_EXISTS(100700, "system.todo.message.100700");
 
         private int code;
+
         private String i18nKey;
 
         Message(int code, String i18nKey) {

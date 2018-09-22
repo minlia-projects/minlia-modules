@@ -48,12 +48,12 @@ public class WechatMaCode {
         /**
          * 小程序路径%s不能为空
          */
-        MA_PATH_NOT_NULL(100500,"system.common.exception.100500"),
+        MA_PATH_NOT_NULL(100900,"system.ma.message.100900"),
 
         /**
          * 小程序参数{type}未配置
          */
-        PARAMETER_NOT_CONFIG(100501,"system.common.exception.100501");
+        PARAMETER_NOT_CONFIG(100901,"system.ma.message.100901");
 
         private int code;
         private String i18nKey;

@@ -47,17 +47,17 @@ public class GadCode {
         /**
          * 高德地图 web api key 未配置
          */
-        WEB_API_KEY_NOT_FOUND(100500,"system.common.exception.100500"),
+        WEB_API_KEY_NOT_FOUND(101200,"system.gad.message.101200"),
 
         /**
          * 高德云图 table id 未配置
          */
-        WEB_TABLE_ID_NOT_FOUND(100501,"system.common.exception.100501"),
+        WEB_TABLE_ID_NOT_FOUND(101201,"system.gad.message.101201"),
 
         /**
          * 获取高德地理位置失败
          */
-        REGEO_FAILURE(100501,"system.common.exception.100501");
+        REGEO_FAILURE(101202,"system.gad.message.101202");
 
         private int code;
         private String i18nKey;

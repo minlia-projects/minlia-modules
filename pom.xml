@@ -38,8 +38,9 @@
         <module>module-bank</module>
         <module>module-wallet</module>
 
-        <!--普尔支付-->
-        <module>module-pooul</module>
+        <module>module-rebecca</module>
+        <module>module-bible</module>
+        <module>module-attachment</module>
 
         <!--微信-->
         <module>module-wechat</module>
@@ -63,9 +64,8 @@
         <!--高德地图-->
         <module>module-gad</module>
 
-        <module>module-rebecca</module>
-        <module>module-bible</module>
-        <module>module-attachment</module>
+        <!--普尔支付-->
+        <module>module-pooul</module>
 
         <!--<module>module-registry</module>-->
         <!--<module>module-nestedset</module>-->

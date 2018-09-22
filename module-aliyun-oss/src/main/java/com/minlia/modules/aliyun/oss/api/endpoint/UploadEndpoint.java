@@ -50,7 +50,7 @@ public class UploadEndpoint {
         try {
             ossFile = ossService.upload(file);
         } catch (Exception e) {
-            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Message.UPLOAD_FAILURE, e.getMessage());
         }
 
         UploadResponseBody ret = new UploadResponseBody();
@@ -71,7 +71,7 @@ public class UploadEndpoint {
         try {
             ossFile = ossService.upload(file,inputObject);
         } catch (Exception e) {
-            ApiAssert.state(false, AliyunOssCode.Exception.UPLOAD_FAILURE, e.getMessage());
+            ApiAssert.state(false, AliyunOssCode.Message.UPLOAD_FAILURE, e.getMessage());
         }
         String inputObjectUrl = ossFile.getUrl();
 

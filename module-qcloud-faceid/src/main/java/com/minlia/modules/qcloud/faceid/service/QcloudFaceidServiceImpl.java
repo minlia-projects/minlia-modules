@@ -64,7 +64,7 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
     public Response geth5faceid(QcloudFaceIdRequestBody requestBody) {
         String userId = SecurityContextHolder.getCurrentGuid();
         QcloudFaceIdRecord faceIdRecord = faceIdRecordService.queryOne(QcloudFaceIdRecordQueryRequestBody.builder().userId(userId).isAuth(true).build());
-        ApiAssert.notNull(faceIdRecord, QcloudCode.Message.FACEID_ALREADY_AUTHENTICATED);
+        ApiAssert.isNull(faceIdRecord, QcloudCode.Message.FACEID_ALREADY_AUTHENTICATED);
         String orderNo = NumberGenerator.generatorByTimestamp("ON",3);
 
         FaceAuth faceAuth = FaceAuth.builder()

@@ -40,24 +40,24 @@ public class PooulCode {
     public enum Message implements Code{
 
         /**
-         * 登录支付平台失败%s:code
+         * 登录支付平台失败-{0}-{1}
          */
-        LOGIN_FAILURE(100400,"system.user.exception.100400"),
+        LOGIN_FAILURE(101300,"system.pooul.message.101300"),
 
         /**
-         * Pooul创建订单失败{}：
+         * Pooul创建订单失败-{0}
          */
-        ORDER_CREATE_FAILURE(100400,"system.user.exception.100400"),
+        ORDER_CREATE_FAILURE(101301,"system.pooul.message.101301"),
 
         /**
-         * Pooul查询订单失败{}：
+         * Pooul查询订单失败{0}
          */
-        ORDER_QUERY_FAILURE(100400,"system.user.exception.100400"),
+        ORDER_QUERY_FAILURE(101302,"system.pooul.message.101302"),
 
         /**
-         * Pooul关闭订单失败{}：
+         * Pooul关闭订单失败{0}
          */
-        ORDER_CLOSE_FAILURE(100400,"system.user.exception.100400");
+        ORDER_CLOSE_FAILURE(101303,"system.pooul.message.101303");
 
         private int code;
         private String i18nKey;

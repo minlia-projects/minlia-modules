@@ -46,24 +46,24 @@ public class QcloudCode {
     public enum Message implements Code {
 
         /**
-         * 获取AccessToken失败%s
+         * 腾讯云获取AccessToken失败-{0}-{1}
          */
-        GET_ACCESS_TOKEN_FAILURE(100700, "system.common.exception.100700"),
+        GET_ACCESS_TOKEN_FAILURE(101000, "system.qcloud.message.101000"),
 
         /**
-         * 获取Api Sign Ticket失败%s
+         * 腾讯云获取Api Sign Ticket失败-{0}-{1}
          */
-        GET_API_SIGN_TICKET_FAILURE(100700, "system.common.exception.100700"),
+        GET_API_SIGN_TICKET_FAILURE(101001, "system.qcloud.message.101001"),
 
         /**
-         * 获取Api Sign Ticket失败%s
+         * 腾讯云获取Api Nonce Ticket失败-{0}-{1}
          */
-        GET_API_NONCE_TICKET_FAILURE(100700, "system.common.exception.100700"),
+        GET_API_NONCE_TICKET_FAILURE(101002, "system.qcloud.message.101002"),
 
         /**
-         * 面部识别已认证
+         * 腾讯云面部识别已认证
          */
-        FACEID_ALREADY_AUTHENTICATED(100700, "system.common.exception.100700");
+        FACEID_ALREADY_AUTHENTICATED(101003, "system.qcloud.message.101003");
 
         private int code;
         private String i18nKey;

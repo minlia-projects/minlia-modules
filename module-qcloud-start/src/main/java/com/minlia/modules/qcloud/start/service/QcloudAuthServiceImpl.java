@@ -46,7 +46,7 @@ public class QcloudAuthServiceImpl implements QcloudAuthService {
                 if (responseBody.isSuccess()) {
                     this.qcloudConfig.updateAccessToken(responseBody.getAccessToken(),responseBody.getExpireIn());
                 } else {
-                    ApiAssert.state(false, QcloudCode.Message.GET_ACCESS_TOKEN_FAILURE, responseBody.getCode());
+                    ApiAssert.state(false, QcloudCode.Message.GET_ACCESS_TOKEN_FAILURE, responseBody.getCode(), responseBody.getMsg());
                 }
             }
         } finally {
@@ -76,7 +76,7 @@ public class QcloudAuthServiceImpl implements QcloudAuthService {
                     QcloudApiTickets tcApiTickets = responseBody.getTickets().get(0);
                     this.qcloudConfig.updateApiSignTicket(tcApiTickets.getValue(),tcApiTickets.getExpireIn());
                 } else {
-                    ApiAssert.state(false, QcloudCode.Message.GET_API_SIGN_TICKET_FAILURE, responseBody.getCode());
+                    ApiAssert.state(false, QcloudCode.Message.GET_API_SIGN_TICKET_FAILURE, responseBody.getCode(), responseBody.getMsg());
                 }
             }
         } finally {
@@ -106,7 +106,7 @@ public class QcloudAuthServiceImpl implements QcloudAuthService {
                     QcloudApiTickets tcApiTickets = responseBody.getTickets().get(0);
                     this.qcloudConfig.updateApiNonceTicket(tcApiTickets.getValue(),tcApiTickets.getExpireIn());
                 } else {
-                    ApiAssert.state(false, QcloudCode.Message.GET_API_NONCE_TICKET_FAILURE, responseBody.getCode());
+                    ApiAssert.state(false, QcloudCode.Message.GET_API_NONCE_TICKET_FAILURE, responseBody.getCode(), responseBody.getMsg());
                 }
             }
         } finally {
