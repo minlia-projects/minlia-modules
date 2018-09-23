@@ -74,10 +74,16 @@
         </dependency>
 
         <dependency>
-            <groupId>net.dongliu</groupId>
-            <artifactId>requests</artifactId>
-            <version>4.18.1</version>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-i18n</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>net.dongliu</groupId>-->
+            <!--<artifactId>requests</artifactId>-->
+            <!--<version>4.18.1</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

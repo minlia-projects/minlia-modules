@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.gad.MapAutoConfiguration
+com.minlia.module.gad.GadAutoConfiguration

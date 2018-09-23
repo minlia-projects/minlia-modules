@@ -69,8 +69,8 @@ public class GeoSearchServiceImpl implements GeoSearchService {
             request.setGeotable_id(lbsProperties.getGeotableId());
         }
         url = GetParamter.getUrl1(url,request);
-        String response = restTemplate.getForObject(url,String.class);
-        return new Gson().fromJson(response, HashMap.class);
+        Map response = restTemplate.getForObject(url,Map.class);
+        return response;
     }
 
 }

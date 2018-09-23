@@ -16,4 +16,12 @@ public interface PooulBankCardService {
      */
     Response create(String merchantId, PooulBankCardCTO cto);
 
+    Response delete(String merchantId, Long recordId);
+
+    Response setDefaultUrl(String merchantId, Long recordId);
+
+    Response queryOne(String merchantId, Long recordId);
+
+    Response queryAll(String merchantId);
+
 }

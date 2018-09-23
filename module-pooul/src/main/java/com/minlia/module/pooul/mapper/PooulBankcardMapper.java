@@ -9,4 +9,6 @@ public interface PooulBankcardMapper {
 
     int create(PooulBankCardDO pooulBankCardDO);
 
+    int delete(Long recordId);
+
 }

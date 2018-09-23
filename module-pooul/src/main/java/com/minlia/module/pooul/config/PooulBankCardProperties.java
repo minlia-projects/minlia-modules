@@ -18,8 +18,10 @@ public class PooulBankCardProperties {
 
     private String deleteUrl;
 
-    private String getUrl;
+    private String queryIdUrl;
 
-    private String searchUrl;
+    private String queryAllUrl;
+
+    private String setDefaultUrl;
 
 }

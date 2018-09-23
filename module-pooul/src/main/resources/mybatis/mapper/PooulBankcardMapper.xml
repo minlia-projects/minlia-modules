@@ -4,18 +4,25 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
-            id ,
-            platform_merchant_id ,
-            parent_id ,
-            guid ,
-            name ,
-            number ,
+            id,
+            merchant_id,
+            record_id,
+            account_type,
+            owner_name,
+            account_num,
+            bank_full_name,
+            bank_sub_code,
+            cyber_bank_code,
+            province,
+            urbn,
+            area,
+            cmbc_bank,
             create_by ,
             create_date ,
             last_modified_by ,
             last_modified_date
         FROM
-            pooul_merchant
+            pooul_bank_card
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -36,26 +43,40 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO pooul_merchant(
-            platform_merchant_id ,
-            parent_id ,
-            guid ,
-            name ,
-            number ,
+        INSERT INTO pooul_bank_card(
+            merchant_id,
+            record_id,
+            account_type,
+            owner_name,
+            account_num,
+            bank_full_name,
+            bank_sub_code,
+            cyber_bank_code,
+            province,
+            urbn,
+            area,
+            cmbc_bank,
             create_by
         )
         VALUES (
-            #{platformMerchantId},
-            #{parentId},
-            #{guid},
-            #{name},
-            #{number},
+            #{merchant_id},
+            #{record_id},
+            #{account_type},
+            #{owner_name},
+            #{account_num},
+            #{bank_full_name},
+            #{bank_sub_code},
+            #{cyber_bank_code},
+            #{province},
+            #{urbn},
+            #{area},
+            #{cmbc_bank},
             #{createBy}
         )
     </insert>
 
     <update id="update">
-        UPDATE pooul_merchant
+        UPDATE pooul_bank_card
         <set>
             <if test="null != name">
                 name = #{name},
@@ -67,8 +88,7 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM pooul_merchant
-        <include refid="QUERY_CONDITION"/>
+        DELETE FROM pooul_bank_card WHERE record_id = #{recordId}
     </delete>
 
     <select id="count" resultType="java.lang.Long">
@@ -76,12 +96,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryOne" resultType="com.minlia.module.pooul.bean.domain.PooulMerchantDO">
+    <select id="queryOne" resultType="com.minlia.module.pooul.bean.domain.PooulBankCardDO">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.pooul.bean.domain.PooulMerchantDO">
+    <select id="queryList" resultType="com.minlia.module.pooul.bean.domain.PooulBankCardDO">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

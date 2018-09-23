@@ -1,6 +1,7 @@
-package com.minlia.module.gad.yuntu.config;
+package com.minlia.module.gad;
 
 import com.minlia.module.bible.service.BibleItemService;
+import com.minlia.module.gad.yuntu.config.GadYuntuConfig;
 import com.minlia.module.gad.yuntu.constant.GadYuntuBibleConstants;
 import com.minlia.module.gad.yuntu.service.GadYuntuService;
 import org.springframework.beans.factory.annotation.Autowired;
