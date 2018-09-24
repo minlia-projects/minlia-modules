@@ -1,6 +1,5 @@
 package com.minlia.module.lbsyun.service;
 
-import com.google.gson.Gson;
 import com.minlia.module.lbsyun.body.request.*;
 import com.minlia.module.lbsyun.config.LbsProperties;
 import com.minlia.modules.http.GetParamter;
@@ -69,8 +68,8 @@ public class GeoSearchServiceImpl implements GeoSearchService {
             request.setGeotable_id(lbsProperties.getGeotableId());
         }
         url = GetParamter.getUrl1(url,request);
-        Map response = restTemplate.getForObject(url,Map.class);
-        return response;
+        Map result = restTemplate.getForObject(url,HashMap.class);
+        return result;
     }
 
 }
