@@ -2,21 +2,20 @@ package com.minlia.module.pooul.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.pooul.bean.qo.PooulCmbaYqQO;
 import com.minlia.module.pooul.bean.to.PooulWithdrawTO;
 import com.minlia.module.pooul.service.PooulWithdrawService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 /**
  * 普尔支付
  * Created by garen on 2018/7/23.
  */
+@Profile("dev")
 @Api(tags = "Pooul Withdraw", description = "普尔转账")
 @RestController
 @RequestMapping(value = ApiPrefix.API + "pooul/withdraw")

@@ -7,6 +7,7 @@ import com.minlia.module.pooul.service.PooulPayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * 普尔支付
  * Created by garen on 2018/7/23.
  */
+@Profile("dev")
 @Api(tags = "Pooul Pay", description = "普尔支付")
 @RestController
 @RequestMapping(value = ApiPrefix.API + "pooul/pay")

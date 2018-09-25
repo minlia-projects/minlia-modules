@@ -7,12 +7,14 @@ import com.minlia.module.pooul.service.PooulBankCardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by garen on 2018/9/21.
  */
+@Profile("dev")
 @Api(tags = "Pooul Bank Card", description = "普尔-银行卡")
 @RestController
 @RequestMapping(value = ApiPrefix.API + "pooul/bankcard")
