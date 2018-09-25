@@ -19,7 +19,6 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage.MiniProgram;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -86,6 +85,10 @@ public class SendWechatMpTemplateMsg {
     }
 
     public Response send(String openId, String templateId, String templateDesc, List<Object> pathParams, String... keyValue) {
+        return this.send(null, openId, templateId, templateDesc, pathParams, keyValue);
+    }
+
+    public Response send(String appid, String openId, String templateId, String templateDesc, List<Object> pathParams, String... keyValue) {
         try {
             List<WxMpTemplateData> data = new ArrayList<WxMpTemplateData>();
             String keyword;
@@ -103,7 +106,9 @@ public class SendWechatMpTemplateMsg {
             }
 
             WxMpService wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
-            WxMaConfig wxMaConfig = ContextHolder.getContext().getBean(WxMaConfig.class);
+            if (null == appid) {
+                appid = ContextHolder.getContext().getBean(WxMaConfig.class).getAppid();
+            }
             BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
             ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
 
@@ -112,7 +117,7 @@ public class SendWechatMpTemplateMsg {
             wxMpTemplateMessage.setToUser(openId);
             wxMpTemplateMessage.setTemplateId(bibleItem.getValue());
 
-            wxMpTemplateMessage.setMiniProgram(new MiniProgram(wxMaConfig.getAppid(), CollectionUtils.isEmpty(pathParams) ? bibleItem.getAttribute1() : String.format(bibleItem.getAttribute1(),pathParams.toArray())));
+            wxMpTemplateMessage.setMiniProgram(new MiniProgram(appid, CollectionUtils.isEmpty(pathParams) ? bibleItem.getAttribute1() : String.format(bibleItem.getAttribute1(),pathParams.toArray())));
 
             //发送模板消息
             String templateMsg = wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
