@@ -76,8 +76,8 @@ public class PooulAbstractTest {
     public void createMerchant(){
         PooulMerchantPersonalCTO cto = PooulMerchantPersonalCTO.builder()
                 .note("测试")
-                .business(PooulMerchantBusinessTO.builder().short_name("测试").build())
-                .owner(PooulMerchantOwnerTO.builder().idcard_type("1").name("测试").build())
+                .business(PooulMerchantBusinessTO.builder().short_name("候志朋").build())
+                .owner(PooulMerchantOwnerTO.builder().idcard_type("1").name("候志朋").build())
                 .build();
         Response response = pooulMerchantService.create("100002",cto);
         System.out.println(response.getCode());

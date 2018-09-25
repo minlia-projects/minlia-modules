@@ -106,7 +106,7 @@ public class NavigationServiceImpl implements NavigationService {
 
         if (CollectionUtils.isNotEmpty(requestBody.getIds())) {
             for (Long id: requestBody.getIds()) {
-                boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).display(true).isOneLevel(false).build()) > 0;
+                boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).display(true).build()) > 0;
                 ApiAssert.state(exists,RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
             }
         }

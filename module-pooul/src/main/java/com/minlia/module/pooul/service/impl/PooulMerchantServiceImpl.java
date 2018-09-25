@@ -63,12 +63,13 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
     public Response create(String guid, PooulMerchantCTO cto) {
         //判断是否已存在
         boolean exists = pooulMerchantInternalService.exists(PooulMerchatInternalQO.builder().guid(guid).build());
-        ApiAssert.state(exists, SystemCode.Message.DATA_ALREADY_EXISTS);
+        ApiAssert.state(!exists, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         cto.setMerchant_type(3);
         cto.setPlatform_merchant_id(pooulMerchantProperties.getPlatformMerchantId());
         cto.setParent_id(pooulMerchantProperties.getParentId());
         HttpEntity<PooulMerchantCTO> httpEntity = new HttpEntity(cto, pooulAuthService.getHeaders());
+//        Object createDTO1 = restTemplate.postForObject(pooulHost + create_url,httpEntity,Object.class);
         PooulMerchantCreateDTO createDTO = restTemplate.postForObject(pooulHost + create_url,httpEntity,PooulMerchantCreateDTO.class);
 
         if (createDTO.isSuccess()) {
@@ -81,7 +82,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
                     .build()
             );
         }
-        return Response.is(createDTO.isSuccess(),createDTO.getMsg(),createDTO.getData());
+        return Response.is(createDTO.isSuccess(), createDTO.getCode(), createDTO.getMsg(),createDTO.getData());
     }
 
     @Override
@@ -92,8 +93,8 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
     @Override
     public Response delete(String merchantId) {
         //判断是否已存在
-        boolean exists = pooulMerchantInternalService.exists(PooulMerchatInternalQO.builder().number(merchantId).build());
-        ApiAssert.state(exists, SystemCode.Message.DATA_NOT_EXISTS);
+//        boolean exists = pooulMerchantInternalService.exists(PooulMerchatInternalQO.builder().number(merchantId).build());
+//        ApiAssert.state(exists, SystemCode.Message.DATA_NOT_EXISTS);
 
         HttpEntity httpEntity = new HttpEntity(null, pooulAuthService.getHeaders());
         ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulHost + delete_url, HttpMethod.DELETE, httpEntity,PooulDTO.class,merchantId);
