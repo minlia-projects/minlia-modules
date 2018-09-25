@@ -106,7 +106,7 @@ public class SendWechatMpTemplateMsg {
             }
 
             WxMpService wxMpService = ContextHolder.getContext().getBean(WxMpService.class);
-            if (null == appid) {
+            if (StringUtils.isBlank(appid)) {
                 appid = ContextHolder.getContext().getBean(WxMaConfig.class).getAppid();
             }
             BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
