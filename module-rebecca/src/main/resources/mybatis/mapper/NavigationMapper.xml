@@ -160,4 +160,37 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
+    <select id="queryByRoleId">
+        <include refid="QUERY_CONTENT"/>
+        WHERE
+            parent_id IS NULL
+        AND id IN(
+            SELECT DISTINCT
+                parent_id
+            FROM
+                mdl_navigation
+            WHERE
+                id IN(
+                    SELECT DISTINCT
+                        t.parent_id
+                    FROM
+                        mdl_navigation t
+                    INNER JOIN mdl_role_navigation rnm ON rnm.navigation_id = t.id
+                    WHERE
+                        t.type = 'LEAF'
+                    AND rnm.role_id = 1
+                )
+            OR parent_id IN(
+                SELECT DISTINCT
+                    t.parent_id
+                FROM
+                    mdl_navigation t
+                INNER JOIN mdl_role_navigation rnm ON rnm.navigation_id = t.id
+                WHERE
+                    t.type = 'LEAF'
+                AND rnm.role_id = 1
+            )
+        )
+    </select>
+
 </mapper>

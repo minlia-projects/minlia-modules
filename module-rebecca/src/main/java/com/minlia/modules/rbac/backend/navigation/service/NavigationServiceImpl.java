@@ -133,7 +133,9 @@ public class NavigationServiceImpl implements NavigationService {
 
     @Override
     public List<Navigation> queryByRoleId(Long id) {
-       return this.queryList(NavigationQueryRequestBody.builder().roleId(id).isOneLevel(true).build());
+        List<Navigation> navigations = navigationMapper.queryByRoleId(id);
+        bindChirdren(navigations);
+        return navigations;
     }
 
     @Override
