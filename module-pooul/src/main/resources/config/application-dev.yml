@@ -118,13 +118,3 @@ pooul:
     merchant:
         platform-merchant-id: 2849928048545130
         parent-id: 2849928048545130
-        create-url: ${pooul.host}/cms/merchants
-        delete-url: ${pooul.host}/cms/merchants/{merchantId}
-    bankcard:
-        create-url: ${pooul.host}/cms/bank_cards?merchnat_id={merchantId}
-        update-url: ${pooul.host}/cms/bank_cards/{recordId}?merchnat_id={merchantId}
-        delete-url: ${pooul.host}/cms/bank_cards/{recordId}?merchnat_id={merchantId}
-        query-id-url: ${pooul.host}/cms/bank_cards/{recordId}?merchnat_id={merchantId}
-        query-all-url: ${pooul.host}/cms/bank_cards?merchnat_id={merchantId}
-        set-default-url: ${pooul.host}/cms/bank_cards/{recordId}/default_card?merchnat_id={merchantId}
-

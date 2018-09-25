@@ -2,10 +2,12 @@ package com.minlia.module.pooul.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by garen on 2018/7/18.
  */
+@Component
 @ConfigurationProperties(prefix = "pooul.merchant",ignoreUnknownFields = true)
 @Data
 public class PooulMerchantProperties {
@@ -20,14 +22,14 @@ public class PooulMerchantProperties {
      */
     private String parentId;
 
-    private String createUrl;
-
-    private String updateUrl;
-
-    private String deleteUrl;
-
-    private String getUrl;
-
-    private String searchUrl;
+//    private String createUrl;
+//
+//    private String updateUrl;
+//
+//    private String deleteUrl;
+//
+//    private String getUrl;
+//
+//    private String searchUrl;
 
 }

@@ -11,6 +11,10 @@ import com.minlia.module.pooul.bean.to.PooulMerchantPersonalCTO;
  */
 public interface PooulMerchantService {
 
+    String create_url = "/cms/merchants";
+
+    String delete_url = "/cms/merchants/{merchantId}";
+
     Response create(String guid, PooulMerchantPersonalCTO cto);
 
     Response create(String guid, PooulMerchantCTO cto);

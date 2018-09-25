@@ -17,6 +17,7 @@ import com.minlia.module.pooul.service.PooulMerchantService;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,10 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Service
 public class PooulMerchantServiceImpl implements PooulMerchantService {
+
+
+    @Value("${pooul.host}")
+    public String pooulHost;
 
     @Autowired
     private Mapper mapper;
@@ -64,7 +69,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
         cto.setPlatform_merchant_id(pooulMerchantProperties.getPlatformMerchantId());
         cto.setParent_id(pooulMerchantProperties.getParentId());
         HttpEntity<PooulMerchantCTO> httpEntity = new HttpEntity(cto, pooulAuthService.getHeaders());
-        PooulMerchantCreateDTO createDTO = restTemplate.postForObject(pooulMerchantProperties.getCreateUrl(),httpEntity,PooulMerchantCreateDTO.class);
+        PooulMerchantCreateDTO createDTO = restTemplate.postForObject(pooulHost + create_url,httpEntity,PooulMerchantCreateDTO.class);
 
         if (createDTO.isSuccess()) {
             pooulMerchantInternalService.create(PooulMerchantDO.builder()
@@ -91,7 +96,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
         ApiAssert.state(exists, SystemCode.Message.DATA_NOT_EXISTS);
 
         HttpEntity httpEntity = new HttpEntity(null, pooulAuthService.getHeaders());
-        ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulMerchantProperties.getDeleteUrl(), HttpMethod.DELETE, httpEntity,PooulDTO.class,merchantId);
+        ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulHost + delete_url, HttpMethod.DELETE, httpEntity,PooulDTO.class,merchantId);
 
         if (responseEntity.getStatusCode().equals(HttpStatus.OK) && responseEntity.getBody().isSuccess()) {
             pooulMerchantInternalService.delete(PooulMerchantDO.builder().number(merchantId).build());

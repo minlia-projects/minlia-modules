@@ -8,6 +8,18 @@ import com.minlia.module.pooul.bean.to.PooulBankCardCTO;
  */
 public interface PooulBankCardService {
 
+    String create_url = "/cms/bank_cards?merchnat_id={merchantId}";
+
+    String update_url = "/cms/bank_cards/{recordId}?merchnat_id={merchantId}";
+
+    String delete_url = "/cms/bank_cards/{recordId}?merchnat_id={merchantId}";
+
+    String query_id_url = "/cms/bank_cards/{recordId}?merchnat_id={merchantId}";
+
+    String query_all_url = "/cms/bank_cards?merchnat_id={merchantId}";
+
+    String set_default_url = "/cms/bank_cards/{recordId}/default_card?merchnat_id={merchantId}";
+
     /**
      * 创建
      * @param merchantId
