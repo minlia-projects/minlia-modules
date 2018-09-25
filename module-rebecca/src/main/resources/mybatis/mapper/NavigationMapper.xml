@@ -160,7 +160,7 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryByRoleId">
+    <select id="queryByRoleId" resultType="com.minlia.modules.rbac.backend.navigation.entity.Navigation">
         <include refid="QUERY_CONTENT"/>
         WHERE
             parent_id IS NULL
