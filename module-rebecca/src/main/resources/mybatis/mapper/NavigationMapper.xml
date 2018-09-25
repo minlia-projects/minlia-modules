@@ -193,4 +193,8 @@
         )
     </select>
 
+    <delete id="clear">
+        DELETE FROM mdl_role_navigation WHERE role_id = #{roleId}
+    </delete>
+
 </mapper>

@@ -109,8 +109,10 @@ public class NavigationServiceImpl implements NavigationService {
                 boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).display(true).build()) > 0;
                 ApiAssert.state(exists,RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
             }
+            navigationMapper.grant(requestBody.getRoleId(),requestBody.getIds());
+        } else {
+            navigationMapper.clear(requestBody.getRoleId());
         }
-        navigationMapper.grant(requestBody.getRoleId(),requestBody.getIds());
     }
 
     @Override

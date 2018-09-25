@@ -35,4 +35,5 @@ public interface NavigationMapper {
 
     PageInfo<Navigation> queryPage(RowBounds rowBounds);
 
+    void clear(Long roleId);
 }
