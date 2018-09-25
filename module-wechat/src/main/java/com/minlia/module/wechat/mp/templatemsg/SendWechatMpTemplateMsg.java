@@ -18,6 +18,8 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage.MiniProgram;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -109,7 +111,8 @@ public class SendWechatMpTemplateMsg {
             wxMpTemplateMessage.setData(data);
             wxMpTemplateMessage.setToUser(openId);
             wxMpTemplateMessage.setTemplateId(bibleItem.getValue());
-            wxMpTemplateMessage.setMiniProgram(new MiniProgram(wxMaConfig.getAppid(), String.format(bibleItem.getAttribute1(),pathParams.toArray())));
+
+            wxMpTemplateMessage.setMiniProgram(new MiniProgram(wxMaConfig.getAppid(), CollectionUtils.isEmpty(pathParams) ? bibleItem.getAttribute1() : String.format(bibleItem.getAttribute1(),pathParams.toArray())));
 
             //发送模板消息
             String templateMsg = wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);
