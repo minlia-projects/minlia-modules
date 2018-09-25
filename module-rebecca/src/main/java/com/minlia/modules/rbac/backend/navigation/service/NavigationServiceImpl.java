@@ -136,31 +136,31 @@ public class NavigationServiceImpl implements NavigationService {
     @Override
     public List<Navigation> queryByRoleId(Long id) {
         List<Navigation> navigations = navigationMapper.queryByRoleId(id);
-        bindChirdren(navigations);
+        bindChirdren(navigations, id);
         return navigations;
     }
 
     @Override
     public List<Navigation> queryList(NavigationQueryRequestBody requestBody) {
         List<Navigation> navigations = navigationMapper.queryList(requestBody);
-        bindChirdren(navigations);
+        bindChirdren(navigations, requestBody.getRoleId());
         return navigations;
     }
 
     @Override
     public PageInfo<Navigation> queryPage(NavigationQueryRequestBody requestBody, Pageable pageable) {
         PageInfo pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
-        bindChirdren(pageInfo.getList());
+        bindChirdren(pageInfo.getList(), requestBody.getRoleId());
         return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
     }
 
-    private void bindChirdren(List<Navigation> navigations){
+    private void bindChirdren(List<Navigation> navigations, Long roleId){
         if (CollectionUtils.isNotEmpty(navigations)) {
             for (Navigation navigation : navigations) {
                 if (NavigationType.FOLDER.equals(navigation.getType())) {
-                    List<Navigation> chirdren = navigationMapper.queryList(NavigationQueryRequestBody.builder().parentId(navigation.getId()).display(true).build());
+                    List<Navigation> chirdren = navigationMapper.queryList(NavigationQueryRequestBody.builder().parentId(navigation.getId()).display(true).roleId(roleId).build());
                     navigation.setChildren(chirdren);
-                    bindChirdren(chirdren);
+                    bindChirdren(chirdren, roleId);
                 }
             }
         }
