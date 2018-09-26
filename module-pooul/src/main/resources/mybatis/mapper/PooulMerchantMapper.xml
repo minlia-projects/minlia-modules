@@ -7,9 +7,9 @@
             id ,
             platform_merchant_id ,
             parent_id ,
+            merchant_id ,
             guid ,
             name ,
-            number ,
             create_by ,
             create_date ,
             last_modified_by ,
@@ -29,8 +29,8 @@
             <if test="guid != null">
                 AND guid = #{guid}
             </if>
-            <if test="number != null">
-                AND number = #{number}
+            <if test="merchantId != null">
+                AND merchant_id = #{merchantId}
             </if>
         </where>
     </sql>
@@ -39,17 +39,17 @@
         INSERT INTO pooul_merchant(
             platform_merchant_id ,
             parent_id ,
+            merchant_id ,
             guid ,
             name ,
-            number ,
             create_by
         )
         VALUES (
             #{platformMerchantId},
             #{parentId},
+            #{merchantId},
             #{guid},
             #{name},
-            #{number},
             #{createBy}
         )
     </insert>

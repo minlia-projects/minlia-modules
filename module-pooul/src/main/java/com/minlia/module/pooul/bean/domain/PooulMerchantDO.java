@@ -26,6 +26,11 @@ public class PooulMerchantDO extends AbstractEntity{
     private String parentId;
 
     /**
+     * 商户ID
+     */
+    private String merchantId;
+
+    /**
      * 用户GUI，属于那个用户的
      */
     private String guid;
@@ -34,10 +39,5 @@ public class PooulMerchantDO extends AbstractEntity{
      * 商户名称
      */
     private String name;
-
-    /**
-     * 商户ID
-     */
-    private String number;
 
 }

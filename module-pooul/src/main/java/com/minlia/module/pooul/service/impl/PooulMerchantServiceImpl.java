@@ -69,7 +69,6 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
         cto.setPlatform_merchant_id(pooulMerchantProperties.getPlatformMerchantId());
         cto.setParent_id(pooulMerchantProperties.getParentId());
         HttpEntity<PooulMerchantCTO> httpEntity = new HttpEntity(cto, pooulAuthService.getHeaders());
-//        Object createDTO1 = restTemplate.postForObject(pooulHost + create_url,httpEntity,Object.class);
         PooulMerchantCreateDTO createDTO = restTemplate.postForObject(pooulHost + create_url,httpEntity,PooulMerchantCreateDTO.class);
 
         if (createDTO.isSuccess()) {
@@ -77,7 +76,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
                     .guid(guid)
                     .platformMerchantId(pooulMerchantProperties.getPlatformMerchantId())
                     .parentId(pooulMerchantProperties.getParentId())
-                    .number(createDTO.getData().get_id())
+                    .merchantId(createDTO.getData().get_id())
                     .name(cto.getBusiness().getShort_name())
                     .build()
             );
@@ -100,7 +99,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
         ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulHost + delete_url, HttpMethod.DELETE, httpEntity,PooulDTO.class,merchantId);
 
         if (responseEntity.getStatusCode().equals(HttpStatus.OK) && responseEntity.getBody().isSuccess()) {
-            pooulMerchantInternalService.delete(PooulMerchantDO.builder().number(merchantId).build());
+            pooulMerchantInternalService.delete(PooulMerchantDO.builder().merchantId(merchantId).build());
             return Response.success(responseEntity.getBody().getMsg());
         } else {
             return Response.failure(responseEntity.getBody().getMsg());

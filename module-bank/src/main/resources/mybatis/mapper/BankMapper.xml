@@ -47,7 +47,7 @@
         SELECT COUNT(1) FROM mdl_bank
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.bank.bean.domain.BankDo">
+    <select id="queryList" resultType="com.minlia.module.bank.bean.domain.BankDO">
         <include refid="QUERY_CONTENT"/>
     </select>
 

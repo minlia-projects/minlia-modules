@@ -25,7 +25,7 @@ public class PooulBankcardEndpoint {
 
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "{merchantId}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response close(@PathVariable String merchantId) {
+    public Response create(@PathVariable String merchantId) {
         PooulBankCardCTO cto = PooulBankCardCTO.builder()
                 .account_type(0)
                 .owner_name("候志朋")

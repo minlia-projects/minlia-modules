@@ -2,7 +2,7 @@ package com.minlia.module.bank.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.bank.bean.domain.BankDo;
+import com.minlia.module.bank.bean.domain.BankDO;
 import com.minlia.module.bank.mapper.BankMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,12 +20,12 @@ public class BankServiceImpl implements BankService {
     private BankMapper bankMapper;
 
     @Override
-    public BankDo create(BankDo bankDo) {
+    public BankDO create(BankDO bankDo) {
         return null;
     }
 
     @Override
-    public BankDo update(BankDo bankDo) {
+    public BankDO update(BankDO bankDo) {
         return null;
     }
 
@@ -35,17 +35,17 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public BankDo queryByNumber(String number) {
+    public BankDO queryByNumber(String number) {
         return bankMapper.queryByNumber(number);
     }
 
     @Override
-    public List<BankDo> queryList() {
+    public List<BankDO> queryList() {
         return bankMapper.queryList();
     }
 
     @Override
-    public PageInfo<BankDo> queryPage(Pageable pageable) {
+    public PageInfo<BankDO> queryPage(Pageable pageable) {
         return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> bankMapper.queryList());
     }
 

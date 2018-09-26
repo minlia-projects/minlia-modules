@@ -82,10 +82,7 @@ public class BibleEndpoint {
     @ApiOperation(value = "根据BODY查询分页", notes = "查询分页", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryPage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response queryPaginated(@PageableDefault Pageable pageable, @RequestBody BibleQueryRequestBody body) {
-        PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize());
-        List<Bible> bibles = bibleService.queryList(body);
-        PageInfo<Bible> page = new PageInfo<Bible>(bibles);
-        return Response.success(page);
+        return Response.success(bibleService.queryPage(body, pageable));
     }
 
 }

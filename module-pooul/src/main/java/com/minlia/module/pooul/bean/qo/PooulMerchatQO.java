@@ -11,11 +11,16 @@ public class PooulMerchatQO {
     /**
      * 入驻商户编号（merchant_id）
      */
-    private Long _id;
+    private Long merchantId;
 
     /**
      * 父级商户编号，输入此参数查询该父级商户所有下一级入驻商户
      */
     private Long parent_id;
+
+    /**
+     * 平台商户编号
+     */
+    private Long platformMerchantId;
 
 }

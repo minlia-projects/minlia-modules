@@ -3,7 +3,7 @@ package com.minlia.module.bank.endpoint;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.bank.bean.domain.BankDo;
+import com.minlia.module.bank.bean.domain.BankDO;
 import com.minlia.module.bank.service.BankService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,14 +29,14 @@ public class BankEndpoint {
 //    @PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_CREATE_CODE + "')")
 //	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-//	public StatefulBody create(@Valid @RequestBody BankDo bankDo) {
+//	public StatefulBody create(@Valid @RequestBody BankDO bankDo) {
 //		return SuccessResponseBody.builder().payload(bankService.create(bankDo)).build();
 //	}
 //
 //	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_UPDATE_CODE + "')")
 //	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-//	public StatefulBody update(@Valid @RequestBody BankDo bankDo) {
+//	public StatefulBody update(@Valid @RequestBody BankDO bankDo) {
 //		return SuccessResponseBody.builder().payload(bankService.update(bankDo)).build();
 //	}
 //
@@ -52,7 +52,7 @@ public class BankEndpoint {
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response list() {
-		List<BankDo> bankDos = bankService.queryList();
+		List<BankDO> bankDos = bankService.queryList();
 		return Response.success(bankDos);
 	}
 

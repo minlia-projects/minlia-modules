@@ -8,7 +8,7 @@ import lombok.Data;
  * 联行号
  */
 @Data
-public class BankBranchDo extends WithIdEntity {
+public class BankBranchDO extends WithIdEntity {
 
     /**
      * 省

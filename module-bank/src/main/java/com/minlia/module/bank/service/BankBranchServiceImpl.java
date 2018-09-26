@@ -3,9 +3,9 @@ package com.minlia.module.bank.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.minlia.module.bank.bean.domain.BankBranchDo;
+import com.minlia.module.bank.bean.domain.BankBranchDO;
 import com.minlia.module.bank.bean.dto.LhhResponse;
-import com.minlia.module.bank.bean.qo.BankBranchQo;
+import com.minlia.module.bank.bean.qo.BankBranchQO;
 import com.minlia.module.bank.mapper.BankcodeMapper;
 import com.minlia.module.disrtict.bean.domain.District;
 import com.minlia.module.disrtict.bean.qo.DistrictQO;
@@ -126,7 +126,7 @@ public class BankBranchServiceImpl implements BankBranchService {
         if (response.getBody().isSuccess()) {
             log.warn("获取联行号当前页数--------------:{}",response.getBody().getResult().getPaging().getPageNow());
             if (CollectionUtils.isNotEmpty(response.getBody().getResult().getList())) {
-                for (BankBranchDo bankcodeDo : response.getBody().getResult().getList()) {
+                for (BankBranchDO bankcodeDo : response.getBody().getResult().getList()) {
                     this.create(bankcodeDo);
                 }
             }
@@ -140,7 +140,7 @@ public class BankBranchServiceImpl implements BankBranchService {
     }
 
     @Override
-    public BankBranchDo create(BankBranchDo bankCard) {
+    public BankBranchDO create(BankBranchDO bankCard) {
         try {
             bankcodeMapper.create(bankCard);
         } catch (Exception e) {
@@ -150,7 +150,7 @@ public class BankBranchServiceImpl implements BankBranchService {
     }
 
     @Override
-    public BankBranchDo update(BankBranchDo bankCard) {
+    public BankBranchDO update(BankBranchDO bankCard) {
         bankcodeMapper.update(bankCard);
         return bankCard;
     }
@@ -162,21 +162,21 @@ public class BankBranchServiceImpl implements BankBranchService {
 
     @Override
     public boolean exists(String number) {
-        return bankcodeMapper.count(BankBranchQo.builder().number(number).build()) > 0;
+        return bankcodeMapper.count(BankBranchQO.builder().number(number).build()) > 0;
     }
 
     @Override
-    public BankBranchDo queryByNumber(String number) {
+    public BankBranchDO queryByNumber(String number) {
         return bankcodeMapper.queryByNumber(number);
     }
 
     @Override
-    public List<BankBranchDo> queryList(BankBranchQo qo) {
+    public List<BankBranchDO> queryList(BankBranchQO qo) {
         return bankcodeMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo<BankBranchDo> queryPage(BankBranchQo qo, Pageable pageable) {
+    public PageInfo<BankBranchDO> queryPage(BankBranchQO qo, Pageable pageable) {
         return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->bankcodeMapper.queryList(qo));
     }
 

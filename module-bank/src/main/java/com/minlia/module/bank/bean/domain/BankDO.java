@@ -8,7 +8,7 @@ import lombok.Data;
  * Created by garen on 2018/8/7.
  */
 @Data
-public class BankDo {
+public class BankDO {
 
     /**
      * 编号 感觉不需要

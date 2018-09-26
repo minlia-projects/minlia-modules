@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("联行号-查询")
-public class BankBranchQo implements QueryRequestBody {
+public class BankBranchQO implements QueryRequestBody {
 
     @ApiModelProperty(value = "省")
     private String province;

@@ -1,7 +1,7 @@
 package com.minlia.module.bank.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minlia.module.bank.bean.domain.BankBranchDo;
+import com.minlia.module.bank.bean.domain.BankBranchDO;
 import lombok.Data;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class LhhResponse {
 
         private Paging paging;
 
-        private List<BankBranchDo> list;
+        private List<BankBranchDO> list;
 
         public Paging getPaging() {
             return paging;
@@ -75,11 +75,11 @@ public class LhhResponse {
             this.paging = paging;
         }
 
-        public List<BankBranchDo> getList() {
+        public List<BankBranchDO> getList() {
             return list;
         }
 
-        public void setList(List<BankBranchDo> list) {
+        public void setList(List<BankBranchDO> list) {
             this.list = list;
         }
 
