@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by will on 8/22/17.
  */
-@CacheConfig(cacheNames = { "minlia:bible" })
+//@CacheConfig(cacheNames = { "minlia:bible" })
 public interface BibleMapper {
 
     void create(Bible bible);
@@ -26,7 +26,8 @@ public interface BibleMapper {
 
     Bible queryByCode(String code);
 
-    @Cacheable(value = "minlia:bible_list", key = "'bible_list:' + #p0")
+//    @Cacheable(value = "minlia:bible_list", key = "'bible_list:' + #p0")
+//    @Cacheable(key = "'bible_list:' + #p0")
     List<Bible> queryList(BibleQueryRequestBody body);
 
 }

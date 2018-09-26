@@ -86,7 +86,7 @@ public class NavigationServiceImpl implements NavigationService {
         ApiAssert.notNull(navigation, RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
 
         //当有子节点时报出异常
-        ApiAssert.state(NavigationType.FOLDER.equals(navigation.getType()), RebaccaCode.Message.NAVIGATION_CAN_NOT_DELETE_HAS_CHILDREN);
+        ApiAssert.state(NavigationType.LEAF.equals(navigation.getType()), RebaccaCode.Message.NAVIGATION_CAN_NOT_DELETE_HAS_CHILDREN);
 
         //检查父节点是否还有子节点, 如果无子节点时更新父节点为LEAF类型
         if (null != navigation.getParentId()) {

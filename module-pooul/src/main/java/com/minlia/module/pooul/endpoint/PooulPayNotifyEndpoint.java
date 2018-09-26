@@ -1,14 +1,19 @@
 package com.minlia.module.pooul.endpoint;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.minlia.module.pooul.bean.domain.PooulOrderDO;
 import com.minlia.module.pooul.bean.dto.PooulPayNotifyDTO;
 import com.minlia.module.pooul.bean.dto.PooulPayNotifyData;
+import com.minlia.module.pooul.bean.qo.PooulOrderQO;
 import com.minlia.module.pooul.contract.PooulContracts;
+import com.minlia.module.pooul.enumeration.PayStatusEnum;
 import com.minlia.module.pooul.event.PooulEventPublisher;
+import com.minlia.module.pooul.mapper.PooulOrderMapper;
 import com.minlia.module.pooul.util.PooulToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +35,9 @@ import java.util.Map;
 @Slf4j
 public class PooulPayNotifyEndpoint {
 
+    @Autowired
+    private PooulOrderMapper pooulOrderMapper;
+
     @ApiOperation(value = "通知", notes = "通知", httpMethod = "POST", consumes = MediaType.TEXT_PLAIN_VALUE)
     @PostMapping(value = "pay", produces = {MediaType.TEXT_PLAIN_VALUE})
     public String notify(String token, HttpServletRequest request, HttpServletResponse response) {
@@ -50,7 +58,7 @@ public class PooulPayNotifyEndpoint {
 
         //公钥验证数据是否合法、返回自定义数据/业务数据
         Map<String,Claim> claims = PooulToken.getClaims(sb.toString());
-        PooulPayNotifyDTO notifyResponseBody = PooulPayNotifyDTO.builder()
+        PooulPayNotifyDTO notifyDTO = PooulPayNotifyDTO.builder()
                 .code(claims.get(PooulContracts.CODE).asInt())
                 .nonceStr(claims.get(PooulContracts.NONCE_STR).asString())
                 .data(claims.get(PooulContracts.DATA).as(PooulPayNotifyData.class))
@@ -58,16 +66,20 @@ public class PooulPayNotifyEndpoint {
 
         //持久化通知记录：历史记录 TODO
 
-        if (notifyResponseBody.isSuccess() && notifyResponseBody.getData().isSuccess()) {
-            //成功 、处理后续业务
 
+        if (notifyDTO.isSuccess() && notifyDTO.getData().isSuccess()) {
+            //成功 、处理后续业务
+            //更新状态为支付成功
+            PooulOrderDO pooulOrderDO = pooulOrderMapper.queryOne(PooulOrderQO.builder().mchTradeId(notifyDTO.getData().getMchTradeId()).build());
+            pooulOrderDO.setPayStatus(PayStatusEnum.PAID);
+            pooulOrderMapper.update(pooulOrderDO);
         } else {
-            //失败、处理后续业务
+            //失败、处理后续业务 TODO
 
         }
 
         //发布通知事件
-        PooulEventPublisher.onPaid(notifyResponseBody);
+        PooulEventPublisher.onPaid(notifyDTO);
 
 //        if (notifyResponseBody.isSuccess() && notifyResponseBody.getData().isSuccess()) {
 //            //成功 、处理后续业务

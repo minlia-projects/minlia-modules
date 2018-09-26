@@ -46,10 +46,10 @@ public class PooulPayServiceImpl implements PooulPayService {
     private Mapper mapper;
 
     @Autowired
-    private PooulPayProperties pooulProperties;
+    private PooulOrderMapper pooulOrderMapper;
 
     @Autowired
-    private PooulOrderMapper pooulOrderMapper;
+    private PooulPayProperties pooulProperties;
 
     @Autowired
     private PooulPayInfoMapper pooulPayInfoMapper;
