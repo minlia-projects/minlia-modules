@@ -14,8 +14,8 @@ public interface PooulOrderMapper {
 
     int update(PooulOrderDO pooulOrderDO);
 
-    PooulOrderDO queryOne(PooulOrderQO qo);
+    PooulOrderDO one(PooulOrderQO qo);
 
-    List<PooulOrderDO> queryList(PooulOrderQO qo);
+    List<PooulOrderDO> list(PooulOrderQO qo);
 
 }

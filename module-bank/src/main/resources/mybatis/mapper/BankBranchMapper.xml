@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.minlia.module.bank.mapper.BankcodeMapper">
+<mapper namespace="com.minlia.module.bank.mapper.BankBranchMapper">
 
     <sql id="QUERY_CONTENT">
 		SELECT
@@ -17,19 +17,7 @@
             lat,
             lng
 		FROM
-			mdl_bank_code
-	</sql>
-
-    <sql id="QUERY_CONTENT1">
-		SELECT
-            id ,
-            province ,
-            city ,
-            bankname ,
-            branchname ,
-            number
-        FROM
-            mdl_bank_code1
+			mdl_bank_branch
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -59,7 +47,7 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO mdl_bank_code(
+		INSERT INTO mdl_bank_branch(
 			province,
             city,
             district,
@@ -89,7 +77,7 @@
 	</insert>
 
     <update id="update">
-        UPDATE mdl_bank_code
+        UPDATE mdl_bank_branch
         <set>
             <if test="guid != null">
                 guid = #{guid,jdbcType=VARCHAR} ,
@@ -104,7 +92,7 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM mdl_bank_code WHERE number = #{number}
+		DELETE FROM mdl_bank_branch WHERE number = #{number}
 	</delete>
 
     <select id="queryByNumber" resultType="com.minlia.module.bank.bean.domain.BankBranchDO">
@@ -113,7 +101,7 @@
     </select>
 
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM mdl_bank_code
+        SELECT COUNT(1) FROM mdl_bank_branch
         <include refid="QUERY_CONDITION"/>
     </select>
 

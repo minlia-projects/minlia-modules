@@ -30,7 +30,7 @@ public class PooulWithdrawEndpoint {
         withdrawTO = PooulWithdrawTO.builder()
                 .mch_withdraw_id("WD00005")
                 .withdraw_type(1)
-                .bank_card_id(261)
+                .bank_card_id(261L)
                 .local_flag(5)
                 .amount(1)
                 .trade_fee(0)

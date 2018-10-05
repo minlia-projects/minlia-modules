@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.minlia.module.bank.bean.domain.BankBranchDO;
 import com.minlia.module.bank.bean.dto.LhhResponse;
 import com.minlia.module.bank.bean.qo.BankBranchQO;
-import com.minlia.module.bank.mapper.BankcodeMapper;
+import com.minlia.module.bank.mapper.BankBranchMapper;
 import com.minlia.module.disrtict.bean.domain.District;
 import com.minlia.module.disrtict.bean.qo.DistrictQO;
 import com.minlia.module.disrtict.service.DistrictService;
@@ -41,7 +41,7 @@ public class BankBranchServiceImpl implements BankBranchService {
     private RestTemplate restTemplate;
 
     @Autowired
-    private BankcodeMapper bankcodeMapper;
+    private BankBranchMapper bankBranchMapper;
 
     @Autowired
     private DistrictService districtService;
@@ -126,8 +126,8 @@ public class BankBranchServiceImpl implements BankBranchService {
         if (response.getBody().isSuccess()) {
             log.warn("获取联行号当前页数--------------:{}",response.getBody().getResult().getPaging().getPageNow());
             if (CollectionUtils.isNotEmpty(response.getBody().getResult().getList())) {
-                for (BankBranchDO bankcodeDo : response.getBody().getResult().getList()) {
-                    this.create(bankcodeDo);
+                for (BankBranchDO bankBranchDo : response.getBody().getResult().getList()) {
+                    this.create(bankBranchDo);
                 }
             }
 
@@ -142,7 +142,7 @@ public class BankBranchServiceImpl implements BankBranchService {
     @Override
     public BankBranchDO create(BankBranchDO bankCard) {
         try {
-            bankcodeMapper.create(bankCard);
+            bankBranchMapper.create(bankCard);
         } catch (Exception e) {
             log.error("联行号已存在：{}-{}",bankCard.getNumber(),e.getMessage());
         }
@@ -151,33 +151,33 @@ public class BankBranchServiceImpl implements BankBranchService {
 
     @Override
     public BankBranchDO update(BankBranchDO bankCard) {
-        bankcodeMapper.update(bankCard);
+        bankBranchMapper.update(bankCard);
         return bankCard;
     }
 
     @Override
     public void delete(String number) {
-        bankcodeMapper.delete(number);
+        bankBranchMapper.delete(number);
     }
 
     @Override
     public boolean exists(String number) {
-        return bankcodeMapper.count(BankBranchQO.builder().number(number).build()) > 0;
+        return bankBranchMapper.count(BankBranchQO.builder().number(number).build()) > 0;
     }
 
     @Override
     public BankBranchDO queryByNumber(String number) {
-        return bankcodeMapper.queryByNumber(number);
+        return bankBranchMapper.queryByNumber(number);
     }
 
     @Override
     public List<BankBranchDO> queryList(BankBranchQO qo) {
-        return bankcodeMapper.queryList(qo);
+        return bankBranchMapper.queryList(qo);
     }
 
     @Override
     public PageInfo<BankBranchDO> queryPage(BankBranchQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->bankcodeMapper.queryList(qo));
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> bankBranchMapper.queryList(qo));
     }
 
 }

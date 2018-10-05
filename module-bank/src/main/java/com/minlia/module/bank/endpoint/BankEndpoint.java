@@ -13,6 +13,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,18 +50,26 @@ public class BankEndpoint {
 //	}
 
 	@PreAuthorize(value = "isAuthenticated()")
+	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "one", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Response one(@RequestBody BankDO bankDO) {
+		BankDO bankDo = bankService.one(bankDO);
+		return Response.success(bankDo);
+	}
+
+	@PreAuthorize(value = "isAuthenticated()")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response list() {
-		List<BankDO> bankDos = bankService.queryList();
+	public Response list(@RequestBody BankDO bankDO) {
+		List<BankDO> bankDos = bankService.list(bankDO);
 		return Response.success(bankDos);
 	}
 
 	@PreAuthorize(value = "isAuthenticated()")
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response paginated(@PageableDefault Pageable pageable) {
-		PageInfo pageInfo = bankService.queryPage(pageable);
+	public Response paginated(@PageableDefault Pageable pageable, BankDO bankDO) {
+		PageInfo pageInfo = bankService.page(bankDO, pageable);
 		return Response.success(pageInfo);
 	}
 

@@ -1,7 +1,6 @@
 package com.minlia.module.wechat.mp.service;
 
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
@@ -12,32 +11,24 @@ import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.module.wechat.mp.constant.WechatMpCode;
-import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
 import com.minlia.modules.rbac.enumeration.RegistrationType;
+import com.minlia.modules.rbac.service.LoginService;
 import com.minlia.modules.rbac.service.UserRegistrationService;
 import com.minlia.modules.security.constant.SecurityConstant;
-import com.minlia.modules.security.model.UserContext;
-import com.minlia.modules.security.model.token.AccessJwtToken;
-import com.minlia.modules.security.model.token.JwtTokenFactory;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -48,13 +39,11 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Autowired
     private WxMpService wxMpService;
     @Autowired
-    private JwtTokenFactory tokenFactory;
+    private LoginService loginService;
     @Autowired
     private WechatMaService wechatMaService;
     @Autowired
     private UserQueryService userQueryService;
-    @Autowired
-    private PermissionService permissionService;
     @Autowired
     private UserRegistrationService userRegistrationService;
     @Autowired
@@ -95,7 +84,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
                 wechatOpenAccount.setGuid(wechatOpenAccounts.get(0).getGuid());
                 wechatOpenAccountService.create(wechatOpenAccount);
                 User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
-                return Response.success(getLoginInfoByUser(user));
+                return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             }
         } else {
             //更新wxCode
@@ -104,7 +93,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
             if (null != wechatOpenAccount.getGuid()) {
                 User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
-                return Response.success(getLoginInfoByUser(user));
+                return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             } else {
                 return Response.failure("未注册");
             }
@@ -139,35 +128,13 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
                 //userId未绑定openId且 userId为空
                 codeAccount.setGuid(user.getGuid());
                 wechatOpenAccountService.update(codeAccount);
-                return Response.success(getLoginInfoByUser(user));
+                return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             } else {
                 return Response.failure(WechatMpCode.Message.OPENID_ALREADY_BIND);
             }
         } else {
             return Response.failure(WechatMpCode.Message.OPENID_ALREADY_BIND);
         }
-    }
-
-    @Override
-    public HashMap getLoginInfoByUser(User user) {
-        //如果当前角色为空获取默认角色
-        String currrole = user.getDefaultRole();
-        if (StringUtils.isBlank(currrole)) {
-            currrole = SecurityConstant.ROLE_USER_CODE;
-        }
-        List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
-        UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
-
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(token);
-
-        AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext);
-        AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext);
-        HashMap tokenMap = new HashMap();
-        tokenMap.put("token", accessToken.getToken());
-        tokenMap.put("expireDate", (accessToken).getClaims().getExpiration().getTime());
-        tokenMap.put("refreshToken", refreshToken.getToken());
-        return tokenMap;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.minlia.module.pooul.service;
 
 import com.minlia.module.pooul.bean.dto.PooulBlancesDTO;
+import com.minlia.module.pooul.bean.dto.PooulDTO;
 import com.minlia.module.pooul.bean.to.PooulInternalTransfersTO;
 
 /**
@@ -38,6 +39,6 @@ public interface PooulBalancesService {
      * @param transfersTO
      * @return
      */
-    Object internalTransfers(String merchantId, PooulInternalTransfersTO transfersTO);
+    PooulDTO internalTransfers(String merchantId, PooulInternalTransfersTO transfersTO);
 
 }

@@ -1,19 +1,16 @@
 package com.minlia.modules.rbac.authentication;
 
-import com.google.common.collect.Lists;
 import com.minlia.modules.http.NetworkUtil;
-import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import com.minlia.modules.rbac.backend.user.service.UserService;
 import com.minlia.modules.rbac.event.LoginSuccessEvent;
+import com.minlia.modules.rbac.service.LoginService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.authentication.service.AuthenticationService;
-import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.model.UserContext;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +20,6 @@ import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -36,7 +32,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by will on 8/14/17.
@@ -51,9 +46,9 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Autowired
     private UserService userService;
     @Autowired
-    private BCryptPasswordEncoder encoder;
+    private LoginService loginService;
     @Autowired
-    private PermissionService permissionService;
+    private BCryptPasswordEncoder encoder;
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -98,22 +93,12 @@ public class RbacAuthenticationService implements AuthenticationService {
             user.setLastLoginIp(ipAddress);
             userMapper.update(user);
 
-            //如果当前角色为空获取默认角色
-            if (StringUtils.isBlank(currrole)) {
-                if (StringUtils.isNotBlank(user.getDefaultRole())) {
-                    currrole = user.getDefaultRole();
-                } else {
-                    currrole = SecurityConstant.ROLE_GUEST_CODE;
-                }
-            }
-
-            //获取登录角色权限点
-            List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
-            UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
+            //获取用户上下文
+            UserContext userContext = loginService.getUserContext(user, currrole);
 
             //登录成功事件
             LoginSuccessEvent.onSuccess(user);
-            return new UsernamePasswordAuthenticationToken(userContext, null, authorities);
+            return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         }
     }
 

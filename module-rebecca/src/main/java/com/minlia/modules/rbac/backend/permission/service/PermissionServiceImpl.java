@@ -150,4 +150,9 @@ public class PermissionServiceImpl implements PermissionService {
         return authorities;
     }
 
+    @Override
+    public List<String> getPermissionCodes(List<String> roleCodes) {
+        return permissionMapper.queryCodesByRoleCodes(roleCodes);
+    }
+
 }

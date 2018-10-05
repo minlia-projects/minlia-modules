@@ -57,7 +57,12 @@ public class PooulCode {
         /**
          * Pooul关闭订单失败{0}
          */
-        ORDER_CLOSE_FAILURE(101303,"system.pooul.message.101303");
+        ORDER_CLOSE_FAILURE(101303,"system.pooul.message.101303"),
+
+        /**
+         * 商户不存在
+         */
+        MERCHANT_NOT_EXISTS(101304,"system.pooul.message.101304");
 
         private int code;
         private String i18nKey;

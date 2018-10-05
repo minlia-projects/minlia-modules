@@ -3,12 +3,11 @@ package com.minlia.module.pooul.service.impl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.pooul.bean.dto.PooulDTO;
 import com.minlia.module.pooul.bean.to.PooulLoginTO;
+import com.minlia.module.pooul.config.PooulProperties;
 import com.minlia.module.pooul.contract.PooulCode;
 import com.minlia.module.pooul.service.PooulAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,15 +22,12 @@ public class PooulAuthServiceImpl implements PooulAuthService {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${pooul.auth.username}")
-    public String username;
-
-    @Value("${pooul.auth.password}")
-    public String password;
+    @Autowired
+    private PooulProperties pooulProperties;
 
     @Override
     public String login() {
-        PooulLoginTO loginTO = new PooulLoginTO(username,password);
+        PooulLoginTO loginTO = new PooulLoginTO(pooulProperties.getUsername(), pooulProperties.getPassword());
         ResponseEntity<PooulDTO> responseEntity = restTemplate.postForEntity("https://api-dev.pooul.com/web/user/session/login_name",loginTO,PooulDTO.class);
 //        ApiAssert.state(responseEntity.getStatusCode().equals(HttpStatus.OK), PooulCode.Message.LOGIN_FAILURE, responseEntity.getStatusCodeValue());
         ApiAssert.state(responseEntity.getBody().isSuccess(), PooulCode.Message.LOGIN_FAILURE, responseEntity.getBody().getCode(), responseEntity.getBody().getMsg());

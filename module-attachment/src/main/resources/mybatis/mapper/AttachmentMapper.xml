@@ -86,6 +86,12 @@
     <update id="update" parameterType="com.minlia.modules.attachment.entity.Attachment">
         UPDATE mdl_attachment
         <set>
+            <if test="belongsTo != null">
+                belongs_to = #{belongsTo},
+            </if>
+            <if test="relationId != null">
+                relation_id = #{relationId},
+            </if>
             <if test="name != null">
                 name = #{name},
             </if>

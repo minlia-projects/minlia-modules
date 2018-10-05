@@ -30,7 +30,7 @@ public class PooulWithdrawTO {
      * 对外转账的银行卡ID，请先管理商户的银行卡
      * 必填
      */
-    private int bank_card_id;
+    private Long bank_card_id;
 
     /**
      * 对外转账所采取的汇路，如果是民生银行卡则使用 0:本地；1：异地；如果非民生银行卡使用 2:小额; 3大额; 5:网银互联;

@@ -11,13 +11,13 @@ import com.minlia.module.pooul.bean.qo.PooulMerchatQO;
 import com.minlia.module.pooul.bean.to.PooulMerchantCTO;
 import com.minlia.module.pooul.bean.to.PooulMerchantPersonalCTO;
 import com.minlia.module.pooul.config.PooulMerchantProperties;
+import com.minlia.module.pooul.config.PooulProperties;
 import com.minlia.module.pooul.service.PooulAuthService;
 import com.minlia.module.pooul.service.PooulMerchantInternalService;
 import com.minlia.module.pooul.service.PooulMerchantService;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -32,15 +32,14 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class PooulMerchantServiceImpl implements PooulMerchantService {
 
-
-    @Value("${pooul.host}")
-    public String pooulHost;
-
     @Autowired
     private Mapper mapper;
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    public PooulProperties pooulProperties;
 
     @Autowired
     private PooulAuthService pooulAuthService;
@@ -69,7 +68,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
         cto.setPlatform_merchant_id(pooulMerchantProperties.getPlatformMerchantId());
         cto.setParent_id(pooulMerchantProperties.getParentId());
         HttpEntity<PooulMerchantCTO> httpEntity = new HttpEntity(cto, pooulAuthService.getHeaders());
-        PooulMerchantCreateDTO createDTO = restTemplate.postForObject(pooulHost + create_url,httpEntity,PooulMerchantCreateDTO.class);
+        PooulMerchantCreateDTO createDTO = restTemplate.postForObject(pooulProperties.getHost() + create_url,httpEntity,PooulMerchantCreateDTO.class);
 
         if (createDTO.isSuccess()) {
             pooulMerchantInternalService.create(PooulMerchantDO.builder()
@@ -96,7 +95,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
 //        ApiAssert.state(exists, SystemCode.Message.DATA_NOT_EXISTS);
 
         HttpEntity httpEntity = new HttpEntity(null, pooulAuthService.getHeaders());
-        ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulHost + delete_url, HttpMethod.DELETE, httpEntity,PooulDTO.class,merchantId);
+        ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulProperties.getHost() + delete_url, HttpMethod.DELETE, httpEntity,PooulDTO.class,merchantId);
 
         if (responseEntity.getStatusCode().equals(HttpStatus.OK) && responseEntity.getBody().isSuccess()) {
             pooulMerchantInternalService.delete(PooulMerchantDO.builder().merchantId(merchantId).build());

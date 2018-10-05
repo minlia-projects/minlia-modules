@@ -18,6 +18,8 @@ public class PooulMerchatInternalQO {
 
     private String parentId;
 
+    private String merchantId;
+
     private String guid;
 
     private String number;

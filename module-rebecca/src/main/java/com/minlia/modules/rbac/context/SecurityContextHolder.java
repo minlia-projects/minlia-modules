@@ -33,9 +33,7 @@ public final class SecurityContextHolder {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
 
                 log.info("********************************************");
-                log.info("********************************************");
                 log.info("********************************************:{}",userContext.toString());
-
                 return userContext;
             }
         }

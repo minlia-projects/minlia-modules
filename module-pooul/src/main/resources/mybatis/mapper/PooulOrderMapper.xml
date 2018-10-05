@@ -5,12 +5,14 @@
     <sql id="QUERY_CONTENT">
         SELECT
             id ,
+            merchant_id ,
             mch_trade_id ,
             pay_status ,
             pay_type ,
-            nonce_str ,
             total_fee ,
             body ,
+            notes ,
+            nonce_str ,
             spbill_create_ip ,
             notify_url ,
             time_start ,
@@ -29,6 +31,9 @@
 
     <sql id="QUERY_CONDITION">
         <where>
+            <if test="merchantId != null">
+                AND merchant_id = #{merchantId}
+            </if>
             <if test="mchTradeId != null">
                 AND mch_trade_id = #{mchTradeId}
             </if>
@@ -49,12 +54,14 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO pooul_order(
+            merchant_id ,
             mch_trade_id ,
             pay_status ,
             pay_type ,
             nonce_str ,
             total_fee ,
             body ,
+            notes ,
             spbill_create_ip ,
             notify_url ,
             time_start ,
@@ -66,12 +73,14 @@
             create_by
         )
         VALUES (
+            #{merchantId},
             #{mchTradeId},
             #{payStatus},
             #{payType},
             #{nonceStr},
             #{totalFee},
             #{body},
+            #{notes},
             #{spbillCreateIp},
             #{notifyUrl},
             #{timeStart},
@@ -90,18 +99,24 @@
             <if test="null != payStatus">
                 pay_status = #{payStatus},
             </if>
+            <if test="null != settledStatus">
+                settled_status = #{settledStatus},
+            </if>
+            <if test="null != notes">
+                notes = #{notes},
+            </if>
             last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP} ,
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id}
     </update>
 
-    <select id="queryOne" resultType="com.minlia.module.pooul.bean.domain.PooulOrderDO">
+    <select id="one" resultType="com.minlia.module.pooul.bean.domain.PooulOrderDO">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.pooul.bean.domain.PooulOrderDO">
+    <select id="list" resultType="com.minlia.module.pooul.bean.domain.PooulOrderDO">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

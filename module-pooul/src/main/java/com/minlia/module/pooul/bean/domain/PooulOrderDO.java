@@ -1,8 +1,8 @@
 package com.minlia.module.pooul.bean.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.module.data.entity.AbstractEntity;
-import com.minlia.module.pooul.enumeration.PayStatusEnum;
+import com.minlia.module.pooul.enumeration.SettledStatusEnum;
+import com.minlia.module.pooul.enumeration.TradeStateEnum;
 import lombok.Data;
 
 /**
@@ -13,10 +13,48 @@ import lombok.Data;
 public class PooulOrderDO extends AbstractEntity {
 
     /**
+     * 商户ID
+     */
+    private String merchantId;
+
+    /**
+     * 商户订单号，在同一个merchant_id 下每次请求必须为唯一，如：alextest.scan.113
+     */
+    private String mchTradeId;
+
+    /**
+     * 支付状态（pooul的）
+     */
+    private TradeStateEnum payStatus;
+
+    /**
+     * 结算状态
+     */
+    private SettledStatusEnum settledStatus;
+
+    /**
+     * 支付总金额，单位为分，只能为整数，如：888 代表8.88元
+     * 必填
+     */
+    private Integer totalFee;
+
+    /**
+     * 支付类型，不同的支付类型，pay_type值不一样。wechat.jsminipg：微信小程序支付
+     * 必填
+     */
+    private String payType;
+
+    /**
+     * 备注
+     */
+    private String notes;
+
+    /****************其它参数******************/
+
+    /**
      * 与发起支付商户主体一致的小程序APPID
      * 必填
      */
-//    @JsonProperty(value = "sub_appid")
     private String subAppid;
 
     /**
@@ -26,33 +64,10 @@ public class PooulOrderDO extends AbstractEntity {
     private String subOpenid;
 
     /**
-     * 商户订单号，在同一个merchant_id 下每次请求必须为唯一，如：alextest.scan.113
-     * 必填
-     */
-    private String mchTradeId;
-
-    /**
-     * 支付状态
-     */
-    private PayStatusEnum payStatus;
-
-    /**
-     * 支付类型，不同的支付类型，pay_type值不一样。wechat.jsminipg：微信小程序支付
-     * 必填
-     */
-    private String payType;
-
-    /**
      * 随机字符串，在同一个merchant_id 下每次请求必须为唯一
      * 必填
      */
     private String nonceStr;
-
-    /**
-     * 支付总金额，单位为分，只能为整数，如：888 代表8.88元
-     * 必填
-     */
-    private Integer totalFee;
 
     private String body;
 

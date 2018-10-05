@@ -37,6 +37,7 @@
         <module>module-todo</module>
         <module>module-bank</module>
         <module>module-wallet</module>
+        <module>module-advertisement</module>
 
         <module>module-rebecca</module>
         <module>module-bible</module>

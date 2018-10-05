@@ -1,16 +1,14 @@
 package com.minlia.modules.rbac.endpoint;
 
-import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
-import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
+import com.minlia.modules.rbac.service.LoginService;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.authentication.jwt.verifier.TokenVerifier;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
-import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.exception.InvalidJwtTokenException;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
@@ -19,12 +17,10 @@ import com.minlia.modules.security.model.token.RefreshToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +32,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -45,6 +40,9 @@ public class RefreshTokenEndpoint {
 
     @Autowired
     private JwtProperty jwtProperty;
+
+    @Autowired
+    private LoginService loginService;
 
     @Autowired
     private TokenVerifier tokenVerifier;
@@ -58,9 +56,6 @@ public class RefreshTokenEndpoint {
 
     @Autowired
     private UserQueryService userQueryService;
-
-    @Autowired
-    private PermissionService permissionService;
 
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌, 正常情况下TOKEN值在请求时以Header参数 X-Auth-Token: Bearer xxxxxx传入", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/api/v1/auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})//,headers = "X-Authorization"
@@ -76,20 +71,15 @@ public class RefreshTokenEndpoint {
         }
 
         String subject = refreshToken.getSubject();
-        User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(subject).build());
+        User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(subject).build());
         if (null == user) {
             throw new UsernameNotFoundException("User not found: " + subject);
         }
 
         //如果当前角色为空获取默认角色
-        String currrole = user.getDefaultRole();
-        if (StringUtils.isBlank(currrole)) {
-            currrole = SecurityConstant.ROLE_USER_CODE;
-        }
-        List<GrantedAuthority> authorities= permissionService.getGrantedAuthority(Lists.newArrayList(currrole));
-        UserContext userContext = UserContext.builder().username(user.getUsername()).guid(user.getGuid()).currrole(currrole).authorities(authorities).build();
-
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, authorities);
+        String currrole = refreshToken.getClaims().getBody().get("currrole", String.class);
+        UserContext userContext = loginService.getUserContext(user, currrole);
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
         return Response.success(tokenFactory.createAccessJwtToken(userContext));
     }

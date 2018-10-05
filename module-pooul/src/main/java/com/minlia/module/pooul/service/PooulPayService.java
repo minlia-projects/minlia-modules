@@ -14,7 +14,7 @@ public interface PooulPayService {
      * @param requestBody
      * @return
      */
-    Response wechatJsminipg(PooulWechatJsminipgTO requestBody);
+    Response wechatJsminipg(PooulWechatJsminipgTO requestBody, String merchantId);
 
     /**
      * 查询订单

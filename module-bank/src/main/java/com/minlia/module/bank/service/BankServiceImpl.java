@@ -35,18 +35,18 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public BankDO queryByNumber(String number) {
-        return bankMapper.queryByNumber(number);
+    public BankDO one(BankDO bankDO) {
+        return bankMapper.one(bankDO);
     }
 
     @Override
-    public List<BankDO> queryList() {
-        return bankMapper.queryList();
+    public List<BankDO> list(BankDO bankDO) {
+        return bankMapper.list(bankDO);
     }
 
     @Override
-    public PageInfo<BankDO> queryPage(Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> bankMapper.queryList());
+    public PageInfo<BankDO> page(BankDO bankDO, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> bankMapper.list(bankDO));
     }
 
 }

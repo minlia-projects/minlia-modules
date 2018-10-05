@@ -28,7 +28,9 @@ public class PooulOrderQueryDTO implements Serializable{
     @SerializedName(value = "pay_type")
     private String pay_type;
 
-    @SerializedName(value = "trade_state")
+    /*
+     * 0：支付成功、2：未支付、3：已关闭
+     */
     private Integer trade_state;
 
     @SerializedName(value = "trade_info")

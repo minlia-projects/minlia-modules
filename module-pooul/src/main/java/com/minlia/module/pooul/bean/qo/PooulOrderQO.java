@@ -1,6 +1,7 @@
 package com.minlia.module.pooul.bean.qo;
 
-import com.minlia.module.pooul.enumeration.PayStatusEnum;
+import com.minlia.module.pooul.enumeration.SettledStatusEnum;
+import com.minlia.module.pooul.enumeration.TradeStateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,11 @@ public class PooulOrderQO {
     private String subOpenid;
 
     /**
+     * 商户订ID
+     */
+    private String merchantId;
+
+    /**
      * 商户订单号，在同一个merchant_id 下每次请求必须为唯一，如：alextest.scan.113
      */
     private String mchTradeId;
@@ -34,7 +40,12 @@ public class PooulOrderQO {
     /**
      * 支付状态
      */
-    private PayStatusEnum payStatus;
+    private TradeStateEnum payStatus;
+
+    /**
+     * 结算状态
+     */
+    private SettledStatusEnum settledStatus;
 
     /**
      * 支付类型，不同的支付类型，pay_type值不一样。wechat.jsminipg：微信小程序支付

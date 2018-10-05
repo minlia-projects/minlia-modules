@@ -25,7 +25,7 @@
             bbt.branchname
         FROM
             mdl_bank_card bct
-        INNER JOIN mdl_bank_code bbt ON bbt.number = bct.bank_code
+        INNER JOIN mdl_bank_branch bbt ON bbt.number = bct.bank_code
 	</sql>
 
     <sql id="QUERY_CONDITION">

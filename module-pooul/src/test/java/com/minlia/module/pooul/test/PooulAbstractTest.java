@@ -63,7 +63,7 @@ public class PooulAbstractTest {
         body.setBody("花果山 Test jsminipg");
         body.setSubAppid("wx469ffdb81de47e4d");
         body.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
-        Response response = pooulPayService.wechatJsminipg(body);
+        Response response = pooulPayService.wechatJsminipg(body, "2849928048545130");
         System.out.println(response.getPayload());
     }
 

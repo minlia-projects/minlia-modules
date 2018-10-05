@@ -18,6 +18,4 @@ public interface LoginThirdPartyService {
 
     Response bindByWxma(BindWxRequestBody body);
 
-    HashMap getLoginInfoByUser(User user);
-
 }

@@ -25,39 +25,39 @@ import java.util.List;
 public class BankBranchEndpoint {
 
 	@Autowired
-	private BankBranchService bankcodeService;
+	private BankBranchService bankBranchService;
 
 	@ApiOperation(value = "初始化", notes = "初始化", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "init", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response init() {
 
-//		BankBranchDO bankcodeDo = new BankBranchDO();
-//		bankcodeDo.setProvince("asdfdsa");
-//		bankcodeService.create(bankcodeDo);
+//		BankBranchDO bankBranchDo = new BankBranchDO();
+//		bankBranchDo.setProvince("asdfdsa");
+//		bankBranchService.create(bankBranchDo);
 
-		bankcodeService.init();
+		bankBranchService.init();
 		return Response.success();
 	}
 
     @PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_CREATE_CODE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response create(@Valid @RequestBody BankBranchDO bankcodeDo) {
-		return Response.success(bankcodeService.create(bankcodeDo));
+	public Response create(@Valid @RequestBody BankBranchDO bankBranchDo) {
+		return Response.success(bankBranchService.create(bankBranchDo));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_UPDATE_CODE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response update(@Valid @RequestBody BankBranchDO bankcodeDo) {
-		return Response.success(bankcodeService.update(bankcodeDo));
+	public Response update(@Valid @RequestBody BankBranchDO bankBranchDo) {
+		return Response.success(bankBranchService.update(bankBranchDo));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_DELETE_CODE + "')")
 	@ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response update(@PathVariable String number) {
-		bankcodeService.delete(number);
+		bankBranchService.delete(number);
 		return Response.success();
 	}
 
@@ -65,7 +65,7 @@ public class BankBranchEndpoint {
 	@ApiOperation(value = "编号查询", notes = "编号查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "{numbet}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response findOne(@PathVariable String number) {
-		BankBranchDO bankCard = bankcodeService.queryByNumber(number);
+		BankBranchDO bankCard = bankBranchService.queryByNumber(number);
 		return Response.success(bankCard);
 	}
 
@@ -73,7 +73,7 @@ public class BankBranchEndpoint {
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response list(@RequestBody BankBranchQO qo) {
-		List<BankBranchDO> bankCards = bankcodeService.queryList(qo);
+		List<BankBranchDO> bankCards = bankBranchService.queryList(qo);
 		return Response.success(bankCards);
 	}
 
@@ -81,7 +81,7 @@ public class BankBranchEndpoint {
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response paginated(@PageableDefault Pageable pageable, @RequestBody BankBranchQO qo) {
-		PageInfo pageInfo = bankcodeService.queryPage(qo, pageable);
+		PageInfo pageInfo = bankBranchService.queryPage(qo, pageable);
 		return Response.success(pageInfo);
 	}
 

@@ -99,10 +99,10 @@ public class GadYuntuSearchServiceImpl implements GadYuntuSearchService{
      */
     private GadYuntuSearchResponseBody request(GadYuntuAbstractRequestBody body, String url){
         ApiAssert.hasLength(yuntuConfig.getWebApiKey(), GadCode.Message.WEB_API_KEY_NOT_FOUND);
-        ApiAssert.hasLength(yuntuConfig.getTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
+        ApiAssert.hasLength(yuntuConfig.getYuntuTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
 
         body.setKey(yuntuConfig.getWebApiKey());
-        body.setTableid(yuntuConfig.getTableId());
+        body.setTableid(yuntuConfig.getYuntuTableId());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
         log.info("Gad search url:",GetParamter.getUrl(url,GadUtils.beanToMap(body)));
         ResponseEntity<GadYuntuSearchResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(url,GadUtils.beanToMap(body)),GadYuntuSearchResponseBody.class);

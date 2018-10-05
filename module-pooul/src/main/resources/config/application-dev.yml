@@ -103,9 +103,8 @@ pagehelper:
 #普尔支付-入驻商户-花果山
 pooul:
     host: https://api-dev.pooul.com
-    auth:
-        username: yunguanjia@aliyun.com
-        password: xiaoq123
+    username: yunguanjia@aliyun.com
+    password: xiaoq123
     pay:
         merchant-id: 2162288807443437
         public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoRlcWxsXeLlqsasMEDfvNZ5OYBdiGZt5D3l7Li17AIi8o0JdRThqwpwF7Oabu+bfwfsMHWGy1fxvIpDLh1ftXkKqoGlQU10WibXTUrH90wYGBJRa4yF8qwdMYkkNi39kWtSbeberUWo1msKF2Oih1JanwXNXGb6DNoOixC2DR1C5wYSkvKqCimsbLNbF5/AOJ3X7EdinSI6PxLmMSGgQAlOJbwhG/fDkw9MYw4Binucy2gyEfoMTYHz6LZmNm06R6x+sETuDNv/ONa7ULA4Ww56YwvlXZJsI65exykY6c7O7UhMWSGjUk9Upk0K3Vg7IVdvuwExcIiEpiv2WZLqcnwIDAQAB

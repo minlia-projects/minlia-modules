@@ -47,4 +47,6 @@ public interface PermissionService {
      */
     List<GrantedAuthority> getGrantedAuthority(List<String> roleCodes);
 
+    List<String> getPermissionCodes(List<String> roleCodes);
+
 }

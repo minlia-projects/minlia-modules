@@ -5,7 +5,7 @@ import com.minlia.module.bank.bean.qo.BankBranchQO;
 
 import java.util.List;
 
-public interface BankcodeMapper {
+public interface BankBranchMapper {
 
     void create(BankBranchDO bankCard);
 

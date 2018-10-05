@@ -35,7 +35,7 @@ public class PooulPayEndpoint {
 //        to.setSubAppid("wx469ffdb81de47e4d");
 //        to.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
 //        to.setNotifyUrl("http://pooul.frp.apartscloud.com/api/open/pooul/notify/pay");
-        Response response = pooulPayService.wechatJsminipg(to);
+        Response response = pooulPayService.wechatJsminipg(to,"2849928048545130");
         return response;
     }
 

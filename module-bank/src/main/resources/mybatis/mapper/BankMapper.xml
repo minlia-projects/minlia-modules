@@ -12,6 +12,20 @@
 			mdl_bank
 	</sql>
 
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="number != null">
+                AND number = #{number}
+            </if>
+            <if test="name != null">
+                AND name = #{name}
+            </if>
+        </where>
+    </sql>
+
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO mdl_bank(
 			number,
@@ -45,10 +59,17 @@
 
     <select id="count" resultType="java.lang.Long">
         SELECT COUNT(1) FROM mdl_bank
+        <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.bank.bean.domain.BankDO">
+    <select id="one" resultType="com.minlia.module.bank.bean.domain.BankDO">
         <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="list" resultType="com.minlia.module.bank.bean.domain.BankDO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
     </select>
 
 </mapper>

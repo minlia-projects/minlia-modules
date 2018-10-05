@@ -12,8 +12,8 @@ public interface BankMapper {
 
     void delete(String number);
 
-    BankDO queryByNumber(String number);
+    BankDO one(BankDO bankDO);
 
-    List<BankDO> queryList();
+    List<BankDO> list(BankDO bankDO);
 
 }

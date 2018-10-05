@@ -1,6 +1,5 @@
 package com.minlia.module.pooul.service.impl;
 
-import com.auth0.jwt.interfaces.Claim;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
@@ -12,17 +11,14 @@ import com.minlia.module.pooul.bean.dto.PooulDTO;
 import com.minlia.module.pooul.bean.dto.PooulWithdrawQueryDTO;
 import com.minlia.module.pooul.bean.qo.PooulCmbaYqQO;
 import com.minlia.module.pooul.bean.to.PooulWithdrawTO;
+import com.minlia.module.pooul.config.PooulProperties;
 import com.minlia.module.pooul.contract.PooulCode;
-import com.minlia.module.pooul.contract.PooulContracts;
 import com.minlia.module.pooul.service.PooulAuthService;
 import com.minlia.module.pooul.service.PooulWithdrawService;
 import com.minlia.module.pooul.util.PooulToken;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanMap;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -38,11 +34,11 @@ import java.util.Map;
 @Service
 public class PooulWithdrawServiceImpl implements PooulWithdrawService {
 
-    @Value("${pooul.host}")
-    public String pooulHost;
-
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private PooulProperties pooulProperties;
 
     @Autowired
     private PooulAuthService pooulAuthService;
@@ -53,7 +49,7 @@ public class PooulWithdrawServiceImpl implements PooulWithdrawService {
         String token = PooulToken.create(map);
         HttpResponse<String> response = null;
         try {
-            response = Unirest.post(pooulHost + POST_WITHDRAW_URL + merchantId).body(token).asString();
+            response = Unirest.post(pooulProperties.getHost() + POST_WITHDRAW_URL + merchantId).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul创建订单失败:", e);
             ApiAssert.state(false, PooulCode.Message.ORDER_CREATE_FAILURE, e.getMessage());
@@ -69,7 +65,7 @@ public class PooulWithdrawServiceImpl implements PooulWithdrawService {
         String token = PooulToken.create(map);
         HttpResponse<String> response = null;
         try {
-            response = Unirest.post(pooulHost + GET_WITHDRAW_URL + merchantId).body(token).asString();
+            response = Unirest.post(pooulProperties.getHost() + GET_WITHDRAW_URL + merchantId).body(token).asString();
         } catch (UnirestException e) {
             log.error("Pooul对外转账状态查询:", e);
             ApiAssert.state(false, PooulCode.Message.ORDER_CREATE_FAILURE, e.getMessage());
@@ -81,7 +77,7 @@ public class PooulWithdrawServiceImpl implements PooulWithdrawService {
     @Override
     public Response fundAccount(PooulCmbaYqQO qo) {
         HttpEntity httpEntity = new HttpEntity(pooulAuthService.getHeaders());
-        ResponseEntity<Map> responseEntity = restTemplate.exchange(pooulHost + FUND_ACCOUNT_URL, HttpMethod.GET, httpEntity, Map.class, qo);
+        ResponseEntity<Map> responseEntity = restTemplate.exchange(pooulProperties.getHost() + FUND_ACCOUNT_URL, HttpMethod.GET, httpEntity, Map.class, qo);
         return Response.success(responseEntity.getBody());
     }
 

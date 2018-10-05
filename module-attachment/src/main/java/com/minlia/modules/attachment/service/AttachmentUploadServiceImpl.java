@@ -49,6 +49,15 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         } else {
             ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getDomain() + path);
         }
+
+        Attachment attachment = Attachment.builder()
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .url(ossFile.getUrl())
+                .size(file.getSize())
+                .accessKey(result.getETag())
+                .build();
+        attachmentService.create(attachment);
         return Response.success(ossFile);
     }
 

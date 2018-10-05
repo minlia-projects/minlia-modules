@@ -37,7 +37,7 @@ public class BankTest {
     private RestTemplate restTemplate;
 
     @Autowired
-    private BankcodeService bankcodeService;
+    private BankcodeService bankBranchService;
 
 
 
@@ -64,7 +64,7 @@ public class BankTest {
 
         System.out.println(response);
 
-//        bankcodeService.create();
+//        bankBranchService.create();
     }
 
 }

@@ -24,47 +24,18 @@ public interface NavigationService {
 
     void delete(Long id);
 
-    /**
-     * 授权：给角色分配导航
-     * @param requestBody
-     */
     void grant(NavigationGrantRequestBody requestBody);
 
-    /**
-     * 展示、隐藏
-     * @param id
-     */
     Boolean display(Long id);
 
-    /**
-     * 根据ID查询：包含儿子
-     * @param id
-     * @return
-     */
     Navigation queryById(Long id);
 
-    /**
-     * 根据老子查询：包含儿子
-     * @param parentId
-     * @return
-     */
     List<Navigation> queryByParentId(Long parentId);
 
     List<Navigation> queryByRoleId(Long id);
 
-    /**
-     *
-     * @param requestBody
-     * @return
-     */
     List<Navigation> queryList(NavigationQueryRequestBody requestBody);
 
-    /**
-     * 分页查询：包含儿子
-     * @param requestBody
-     * @param pageable
-     * @return
-     */
     PageInfo<Navigation> queryPage(NavigationQueryRequestBody requestBody, Pageable pageable);
 
 }

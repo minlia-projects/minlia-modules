@@ -34,19 +34,19 @@ public class WechatMaUser extends WxMaUserInfo {
 //    private String nickName;
 //
 //    /**
+//     * 头像网址
+//     */
+//    private String avatarUrl;
+//
+//    /**
 //     * 性别
 //     */
 //    private Gender gender;
 //
 //    /**
-//     * 城市
+//     * 语言
 //     */
-//    private String city;
-//
-//    /**
-//     * 省份
-//     */
-//    private String province;
+//    private String language;
 //
 //    /**
 //     * 国家
@@ -54,9 +54,14 @@ public class WechatMaUser extends WxMaUserInfo {
 //    private String country;
 //
 //    /**
-//     * 头像网址
+//     * 省份
 //     */
-//    private String avatarUrl;
+//    private String province;
+//
+//    /**
+//     * 城市
+//     */
+//    private String city;
 //
 //    /**
 //     * 水印

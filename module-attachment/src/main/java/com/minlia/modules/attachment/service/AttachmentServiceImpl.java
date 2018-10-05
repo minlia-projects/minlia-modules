@@ -5,9 +5,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
 import com.minlia.modules.attachment.body.AttachmentData;
 import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
+import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.event.AttachmentEvent;
 import com.minlia.modules.attachment.mapper.AttachmentMapper;
@@ -72,6 +74,10 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Transactional
     public void bindByAccessKey(String accessKey, String relationId, String belongsTo) {
         Attachment attachment = attachmentMapper.queryByKey(accessKey);
+        ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
+        ApiAssert.isNull(attachment.getRelationId(), AttachmentCode.Message.ETAG_ALREADY_BIND);
+        ApiAssert.isNull(attachment.getBelongsTo(), AttachmentCode.Message.ETAG_ALREADY_BIND);
+
         attachment.setRelationId(relationId);
         attachment.setBelongsTo(belongsTo);
         attachmentMapper.update(attachment);

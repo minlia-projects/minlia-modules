@@ -8,6 +8,7 @@ import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.disrtict.bean.domain.District;
 import com.minlia.module.disrtict.bean.qo.DistrictQO;
 import com.minlia.module.disrtict.mapper.DistrictMapper;
+import com.minlia.module.gad.yuntu.config.GadYuntuConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +25,8 @@ import java.util.Map;
 @Slf4j
 public class DistrictServiceImpl implements DistrictService {
 
-    @Value("${gad.web-api-key}")
-    public String GAD_WEB_API_MAP_KEY;
+    @Autowired
+    private GadYuntuConfig gadYuntuConfig;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -35,7 +36,7 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public Response initAllDstrict() {
-        Map<String, Object> resultMap = restTemplate.getForObject(String.format(GAODE_MAP_URL_MAP_CHILDREN, 4, GAD_WEB_API_MAP_KEY), Map.class);
+        Map<String, Object> resultMap = restTemplate.getForObject(String.format(GAODE_MAP_URL_MAP_CHILDREN, 4, gadYuntuConfig.getWebApiKey()), Map.class);
 
         if(resultMap.get("status").equals("1")) {
             List<Map<String, Object>> districts = (List<Map<String, Object>>) resultMap.get("districts");

@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class UserPasswordServiceImpl implements UserPasswordService {
 
@@ -32,13 +34,13 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         captchaService.validity(body.getUsername(), body.getCode());
 
         User user = userMapper.queryOne(UserQueryRequestBody.builder().username(body.getUsername()).build());
-        ApiAssert.notNull(null, RebaccaCode.Message.USER_NOT_EXISTED);
+        ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
         return change(user,body.getNewPassword());
     }
 
     @Override
     public User change(ChangePasswordByCaptchaRequestBody body) {
-        User user= SecurityContextHolder.getCurrentUser();
+        User user = SecurityContextHolder.getCurrentUser();
 
         //验证验证码是否正确
         captchaService.validity(user.getUsername(), body.getCode());
@@ -61,6 +63,8 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         user.setEnabled(Boolean.TRUE);
         user.setCredentialsExpired(Boolean.FALSE);
         user.setLocked(Boolean.FALSE);
+        user.setLockLimit(0);
+        user.setLockTime(new Date());
         userMapper.update(user);
         return user;
     }

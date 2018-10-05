@@ -17,9 +17,10 @@ public interface BankService {
 
     void delete(String number);
 
-    BankDO queryByNumber(String number);
+    BankDO one(BankDO bankDO);
 
-    List<BankDO> queryList();
+    List<BankDO> list(BankDO bankDO);
 
-    PageInfo<BankDO> queryPage(Pageable pageable);
+    PageInfo<BankDO> page(BankDO bankDO, Pageable pageable);
+
 }

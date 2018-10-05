@@ -16,13 +16,13 @@ import javax.validation.Valid;
 @Api(tags = "System Login", description = "登录")
 @CrossOrigin
 @RestController
-@RequestMapping(value = ApiPrefix.API+"auth/login")
+@RequestMapping(value = ApiPrefix.API + "auth/login")
 public class LoginEndpoint {
 
-  @ApiOperation(value = "登录", notes = "登录")
-  @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
-  public Response login(@Valid @RequestBody LoginCredentialRequestBody credential) {
-    return Response.success();
-  }
+    @ApiOperation(value = "登录", notes = "登录")
+    @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
+    public Response login(@Valid @RequestBody LoginCredentialRequestBody credential) {
+        return Response.success();
+    }
 
 }

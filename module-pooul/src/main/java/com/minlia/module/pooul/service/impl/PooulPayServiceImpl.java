@@ -17,10 +17,10 @@ import com.minlia.module.pooul.bean.to.PooulWechatJsminipgTO;
 import com.minlia.module.pooul.config.PooulPayProperties;
 import com.minlia.module.pooul.contract.PooulCode;
 import com.minlia.module.pooul.contract.PooulContracts;
-import com.minlia.module.pooul.enumeration.PayStatusEnum;
 import com.minlia.module.pooul.enumeration.PayTypeEnum;
-import com.minlia.module.pooul.mapper.PooulOrderMapper;
+import com.minlia.module.pooul.enumeration.TradeStateEnum;
 import com.minlia.module.pooul.mapper.PooulPayInfoMapper;
+import com.minlia.module.pooul.service.PooulOrderService;
 import com.minlia.module.pooul.service.PooulPayService;
 import com.minlia.module.pooul.util.PooulToken;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ public class PooulPayServiceImpl implements PooulPayService {
     private Mapper mapper;
 
     @Autowired
-    private PooulOrderMapper pooulOrderMapper;
+    private PooulOrderService pooulOrderService;
 
     @Autowired
     private PooulPayProperties pooulProperties;
@@ -56,9 +56,9 @@ public class PooulPayServiceImpl implements PooulPayService {
 
     @Override
     @Transactional
-    public Response wechatJsminipg(PooulWechatJsminipgTO jsminipgTO) {
+    public Response wechatJsminipg(PooulWechatJsminipgTO jsminipgTO, String merchantId) {
         //判断订单是否已存在
-        PooulOrderDO pooulOrderDO = pooulOrderMapper.queryOne(PooulOrderQO.builder().mchTradeId(jsminipgTO.getMchTradeId()).build());
+        PooulOrderDO pooulOrderDO = pooulOrderService.queryByMchTradeId(jsminipgTO.getMchTradeId());
         if (null != pooulOrderDO) {
             return Response.success(pooulPayInfoMapper.queryOne(jsminipgTO.getMchTradeId()));
         }
@@ -93,8 +93,9 @@ public class PooulPayServiceImpl implements PooulPayService {
 
         //保存订单请求信息
         pooulOrderDO = mapper.map(jsminipgTO, PooulOrderDO.class);
-        pooulOrderDO.setPayStatus(PayStatusEnum.UNPAID);
-        pooulOrderMapper.create(pooulOrderDO);
+        pooulOrderDO.setMerchantId(merchantId);
+        pooulOrderDO.setPayStatus(TradeStateEnum.UNPAID);
+        pooulOrderService.create(pooulOrderDO);
 
         //保存支付参数
         PooulPayData pooulData = claims.get(PooulContracts.DATA).as(PooulPayData.class);
@@ -136,7 +137,7 @@ public class PooulPayServiceImpl implements PooulPayService {
 
     @Override
     public Response close(String mchTradeId) {
-        PooulOrderDO pooulOrderDO = pooulOrderMapper.queryOne(PooulOrderQO.builder().mchTradeId(mchTradeId).build());
+        PooulOrderDO pooulOrderDO = pooulOrderService.one(PooulOrderQO.builder().mchTradeId(mchTradeId).build());
 //        ApiPreconditions.is(null == pooulOrderDO,ApiCode.BASED_ON,"订单不存在");
 
         Map<String,Object> map = Maps.newHashMap();
@@ -161,8 +162,8 @@ public class PooulPayServiceImpl implements PooulPayService {
         //获取返回token
         Map<String, Claim> claims = PooulToken.getClaims(response.getBody());
         if (claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
-            pooulOrderDO.setPayStatus(PayStatusEnum.CLOSED);
-            pooulOrderMapper.update(pooulOrderDO);
+            pooulOrderDO.setPayStatus(TradeStateEnum.CLOSED);
+            pooulOrderService.update(pooulOrderDO);
             return Response.success(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());
         } else {
             return Response.failure(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());

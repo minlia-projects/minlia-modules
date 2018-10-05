@@ -1,13 +1,19 @@
 package com.minlia.module.pooul.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Created by garen on 2018/07/17.
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PooulPayNotifyData implements PooulApiHttpDTO {
 
 //    {

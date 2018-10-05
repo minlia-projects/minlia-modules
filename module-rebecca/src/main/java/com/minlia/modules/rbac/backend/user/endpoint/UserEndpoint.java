@@ -81,7 +81,7 @@ public class UserEndpoint {
     @ApiOperation(value = "me", notes = "me", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "me", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response me() {
-        return Response.success(SecurityContextHolder.getCurrentUser());
+        return Response.success(SecurityContextHolder.getUserContext());
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_SEARCH + "')")

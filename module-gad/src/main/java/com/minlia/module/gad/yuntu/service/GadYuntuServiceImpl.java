@@ -27,13 +27,14 @@ public class GadYuntuServiceImpl implements GadYuntuService{
 
     @Autowired
     private RestTemplate restTemplate;
+
     @Autowired
     private GadYuntuConfig yuntuConfig;
 
     @Override
     public GadYuntuResponseBody createData(JsonObject json) {
         ApiAssert.hasLength(yuntuConfig.getWebApiKey(), GadCode.Message.WEB_API_KEY_NOT_FOUND);
-        ApiAssert.hasLength(yuntuConfig.getTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
+        ApiAssert.hasLength(yuntuConfig.getYuntuTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
 
         if (null == json) {
             json = new JsonObject();
@@ -50,7 +51,7 @@ public class GadYuntuServiceImpl implements GadYuntuService{
 
         GadYuntuSingleDataRequestBody body = new GadYuntuSingleDataRequestBody();
         body.setKey(yuntuConfig.getWebApiKey());
-        body.setTableid(yuntuConfig.getTableId());
+        body.setTableid(yuntuConfig.getYuntuTableId());
         body.setLoctype(1);
         body.setData(json.toString());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
@@ -77,11 +78,11 @@ public class GadYuntuServiceImpl implements GadYuntuService{
     @Override
     public GadYuntuDeleteResponseBody deleteData(String ids) {
         ApiAssert.hasLength(yuntuConfig.getWebApiKey(), GadCode.Message.WEB_API_KEY_NOT_FOUND);
-        ApiAssert.hasLength(yuntuConfig.getTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
+        ApiAssert.hasLength(yuntuConfig.getYuntuTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
 
         GadYuntuDeleteRequestBody body = new GadYuntuDeleteRequestBody();
         body.setKey(yuntuConfig.getWebApiKey());
-        body.setTableid(yuntuConfig.getTableId());
+        body.setTableid(yuntuConfig.getYuntuTableId());
         body.setIds(ids);
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
 
@@ -158,11 +159,11 @@ public class GadYuntuServiceImpl implements GadYuntuService{
      */
     private GadYuntuResponseBody request(JsonObject json,String url){
         ApiAssert.hasLength(yuntuConfig.getWebApiKey(), GadCode.Message.WEB_API_KEY_NOT_FOUND);
-        ApiAssert.hasLength(yuntuConfig.getTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
+        ApiAssert.hasLength(yuntuConfig.getYuntuTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
 
         GadYuntuSingleDataRequestBody body = new GadYuntuSingleDataRequestBody();
         body.setKey(yuntuConfig.getWebApiKey());
-        body.setTableid(yuntuConfig.getTableId());
+        body.setTableid(yuntuConfig.getYuntuTableId());
         body.setLoctype(1);
         body.setData(json.toString());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
@@ -183,10 +184,10 @@ public class GadYuntuServiceImpl implements GadYuntuService{
      */
     private GadYuntuSearchResponseBody request(GadYuntuAbstractRequestBody body, String url){
         ApiAssert.hasLength(yuntuConfig.getWebApiKey(), GadCode.Message.WEB_API_KEY_NOT_FOUND);
-        ApiAssert.hasLength(yuntuConfig.getTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
+        ApiAssert.hasLength(yuntuConfig.getYuntuTableId(), GadCode.Message.WEB_TABLE_ID_NOT_FOUND);
 
         body.setKey(yuntuConfig.getWebApiKey());
-        body.setTableid(yuntuConfig.getTableId());
+        body.setTableid(yuntuConfig.getYuntuTableId());
         body.setSig(GadUtils.singMd5(body,yuntuConfig.getWebApiKey()));
         ResponseEntity<GadYuntuSearchResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(url,GadUtils.beanToMap(body)),GadYuntuSearchResponseBody.class);
         return responseEntity.getBody();

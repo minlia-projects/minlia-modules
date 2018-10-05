@@ -46,12 +46,12 @@ public class LbsCode {
         /**
          * 百度LBS创建失败：{0}
          */
-        CREATE_FAILURE(100500,"system.common.exception.100500"),
+        CREATE_FAILURE(101400,"system.lbs.message.101400"),
 
         /**
          * 百度LBS更新失败：{0}
          */
-        UPDATE_FAILURE(100501,"system.common.exception.100501");
+        UPDATE_FAILURE(101401,"system.lbs.message.101401");
 
         private int code;
         private String i18nKey;
