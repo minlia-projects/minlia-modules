@@ -73,6 +73,8 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     @Transactional
     public void bindByAccessKey(String accessKey, String relationId, String belongsTo) {
+        attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
+
         Attachment attachment = attachmentMapper.queryByKey(accessKey);
         ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
         ApiAssert.isNull(attachment.getRelationId(), AttachmentCode.Message.ETAG_ALREADY_BIND);
