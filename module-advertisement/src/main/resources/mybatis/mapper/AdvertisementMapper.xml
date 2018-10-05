@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.advertisement.mapper.AdvertisementMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            adt.id ,
+            adt.parent_id ,
+            adt.name ,
+            at.url AS cover,
+            adt.type ,
+            adt.path ,
+            adt.notes ,
+            adt.enabled ,
+            adt.create_by ,
+            adt.create_date ,
+            adt.last_modified_by ,
+            adt.last_modified_date
+        FROM
+            mdl_advertisement adt
+        LEFT JOIN mdl_attachment AT ON AT .relation_id = adt.id AND AT .belongs_to = 'AD_COVER'
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="parentId != null">
+                adt.parent_id = #{parentId}
+            </if>
+            <if test="name != null">
+                AND adt.name = #{name}
+            </if>
+            <if test="type != null">
+                AND adt.type = #{type}
+            </if>
+            <if test="enabled != null">
+                AND adt.enabled = #{enabled}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mdl_advertisement(
+            parent_id,
+            name,
+            cover,
+            type,
+            path,
+            notes,
+            enabled,
+            create_by
+        ) VALUES (
+            #{parentId},
+            #{name} ,
+            #{cover} ,
+            #{type} ,
+            #{path} ,
+            #{notes} ,
+            #{enabled} ,
+            #{createBy}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.minlia.module.advertisement.bean.domain.Advertisement">
+        UPDATE mdl_advertisement
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="cover != null">
+                cover = #{cover},
+            </if>
+            <if test="type != null">
+                type = #{type} ,
+            </if>
+            <if test="path != null">
+                path = #{path} ,
+            </if>
+            <if test="notes != null">
+                notes = #{notes} ,
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled} ,
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM mdl_advertisement WHERE id = #{id}
+    </delete>
+
+    <select id="queryById" resultType="com.minlia.module.advertisement.bean.domain.Advertisement">
+        <include refid="QUERY_CONTENT"/>
+        WHERE adt.id = #{id}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(1) FROM mdl_advertisement adt
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="one" resultType="com.minlia.module.advertisement.bean.domain.Advertisement">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="list" resultType="com.minlia.module.advertisement.bean.domain.Advertisement">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        ORDER BY adt.create_date DESC
+    </select>
+
+</mapper>
