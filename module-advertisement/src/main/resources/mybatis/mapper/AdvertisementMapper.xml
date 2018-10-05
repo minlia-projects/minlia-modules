@@ -18,7 +18,7 @@
             adt.last_modified_date
         FROM
             mdl_advertisement adt
-        LEFT JOIN mdl_attachment AT ON AT .relation_id = adt.id AND AT .belongs_to = 'AD_COVER'
+        LEFT JOIN mdl_attachment at ON at.relation_id = adt.id AND at.belongs_to = 'AD_COVER'
 	</sql>
 
     <sql id="QUERY_CONDITION">
