@@ -28,8 +28,7 @@ public class PooulAuthServiceImpl implements PooulAuthService {
     @Override
     public String login() {
         PooulLoginTO loginTO = new PooulLoginTO(pooulProperties.getUsername(), pooulProperties.getPassword());
-        ResponseEntity<PooulDTO> responseEntity = restTemplate.postForEntity("https://api-dev.pooul.com/web/user/session/login_name",loginTO,PooulDTO.class);
-//        ApiAssert.state(responseEntity.getStatusCode().equals(HttpStatus.OK), PooulCode.Message.LOGIN_FAILURE, responseEntity.getStatusCodeValue());
+        ResponseEntity<PooulDTO> responseEntity = restTemplate.postForEntity(pooulProperties.getHost() +  "/web/user/session/login_name",loginTO,PooulDTO.class);
         ApiAssert.state(responseEntity.getBody().isSuccess(), PooulCode.Message.LOGIN_FAILURE, responseEntity.getBody().getCode(), responseEntity.getBody().getMsg());
         return responseEntity.getHeaders().get("authorization").get(0);
     }
