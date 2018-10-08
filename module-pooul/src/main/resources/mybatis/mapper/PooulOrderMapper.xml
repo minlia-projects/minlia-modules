@@ -43,6 +43,9 @@
             <if test="payType != null">
                 AND pay_type = #{payType}
             </if>
+            <if test="settledStatus != null">
+                AND settled_status = #{settledStatus}
+            </if>
             <if test="createBy != null">
                 AND create_by = #{createBy}
             </if>
