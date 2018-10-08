@@ -78,4 +78,6 @@ public class PooulOrderQO {
 
     private Integer gtCreateDateMinutes;
 
+    private Integer gtCreateDateDay;
+
 }
