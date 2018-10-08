@@ -21,16 +21,16 @@ public class PooulBankCardCTO {
     private Integer account_type;
 
     /**
-     * 户名，个人账户为真实姓名，企业账户为公司全称
-     * 必填
-     */
-    private String owner_name;
-
-    /**
      * 银行账号， 如：6217680300228911
      * 必填
      */
     private String account_num;
+
+    /**
+     * 户名，个人账户为真实姓名，企业账户为公司全称
+     * 必填
+     */
+    private String owner_name;
 
     /**
      * 银行全称，如：中信银行股份有限公司深圳香林支行

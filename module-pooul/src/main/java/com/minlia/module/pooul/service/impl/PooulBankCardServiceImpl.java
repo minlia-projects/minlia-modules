@@ -47,9 +47,21 @@ public class PooulBankCardServiceImpl implements PooulBankCardService {
         HttpEntity<PooulMerchantCTO> httpEntity = new HttpEntity(cto, pooulAuthService.getHeaders());
         PooulBankcardCreateDTO dto = restTemplate.postForObject(pooulProperties.getHost() + create_url, httpEntity, PooulBankcardCreateDTO.class, merchantId);
         if (dto.isSuccess()) {
-            PooulBankCardDO bankCardDO = mapper.map(cto, PooulBankCardDO.class);
-            bankCardDO.setMerchant_id(merchantId);
-            bankCardDO.setRecord_id(dto.getData().get_id());
+            PooulBankCardDO bankCardDO = PooulBankCardDO.builder()
+                    .merchantId(merchantId)
+                    .recordId(dto.getData().get_id())
+                    .accountType(cto.getAccount_type())
+                    .accountNum(cto.getAccount_num())
+                    .ownerName(cto.getOwner_name())
+                    .bankFullName(cto.getBank_full_name())
+                    .bankSubCode(cto.getBank_sub_code())
+                    .contactMobile(cto.getContact_mobile())
+                    .province(cto.getProvince())
+                    .urbn(cto.getUrbn())
+                    .area(cto.getArea())
+                    .cyberBankCode(cto.getCyber_bank_code())
+                    .cmbcBank(cto.getCmbc_bank())
+                    .build();
             pooulBankcardMapper.create(bankCardDO);
             return Response.is(dto.isSuccess(), dto.getCode(), dto.getMsg(), bankCardDO);
         } else {

@@ -28,13 +28,13 @@ public class PooulWithdrawEndpoint {
     @PostMapping(value = "{merchantId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response pay(@RequestParam String merchantId, @RequestBody PooulWithdrawTO withdrawTO) {
         withdrawTO = PooulWithdrawTO.builder()
-                .mch_withdraw_id("WD00005")
+                .mch_withdraw_id("WD0001")
                 .withdraw_type(1)
-                .bank_card_id(261L)
+                .bank_card_id(263L)
                 .local_flag(5)
                 .amount(1)
                 .trade_fee(0)
-                .voucher("WD00002")
+                .voucher("WD0001")
                 .remarks("提现")
                 .op_user_id("-1")
                 .build();

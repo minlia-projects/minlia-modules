@@ -59,18 +59,18 @@
             create_by
         )
         VALUES (
-            #{merchant_id},
-            #{record_id},
-            #{account_type},
-            #{owner_name},
-            #{account_num},
-            #{bank_full_name},
-            #{bank_sub_code},
-            #{cyber_bank_code},
+            #{merchantId},
+            #{recordId},
+            #{accountType},
+            #{ownerName},
+            #{accountNum},
+            #{bankFullName},
+            #{bankSubCode},
+            #{cyberBankCode},
             #{province},
             #{urbn},
             #{area},
-            #{cmbc_bank},
+            #{cmbcBank},
             #{createBy}
         )
     </insert>
