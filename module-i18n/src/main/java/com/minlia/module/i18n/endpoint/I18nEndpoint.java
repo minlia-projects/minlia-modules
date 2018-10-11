@@ -2,6 +2,7 @@ package com.minlia.module.i18n.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.cloud.i18n.Lang;
 import com.minlia.module.i18n.bean.I18nCTO;
 import com.minlia.module.i18n.bean.I18nQO;
 import com.minlia.module.i18n.bean.I18nUTO;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "System I18n", description = "系统国际化")
 @RestController
-@RequestMapping(value = ApiPrefix.API+"i18n")
+@RequestMapping(value = ApiPrefix.V1+"i18n")
 public class I18nEndpoint {
 
     @Autowired
@@ -49,6 +50,13 @@ public class I18nEndpoint {
     public Response delete(@PathVariable Long id) {
         i18nService.delete(id);
         return Response.success();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_CREATE + "')")
+    @ApiOperation(value = "测试", notes = "测试", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "test/{i18nkey:.+}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response test(@PathVariable String i18nkey) {
+        return Response.success(Lang.get(i18nkey));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
