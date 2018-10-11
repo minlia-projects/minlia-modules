@@ -45,21 +45,14 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 //		this.reload();
 //	}
 
-	private void reload() {
+	public void reload() {
 		LOCAL_CACHE.clear();	//clear cache while reload data.
 		LOCAL_CACHE.putAll(getAllMessageResource());
 	}
 
 	public Map<String, Map<String, String>> getAllMessageResource() {
-//		if (CollectionUtils.isEmpty(i18ns)) {
-//			return MapUtils.EMPTY_MAP;
-//		}
-
 		final Map<String, Map<String, String>> messageResources = Maps.newHashMap();
 		for (int i = 0; i < LocaleEnum.values().length; i++) {
-//			Map<String, String> i18nMap = i18nService.queryMap(I18nQO.builder().locale(LocaleEnum.values()[i].name()).build());
-//			messageResources.put(LocaleEnum.values()[i].name(), i18nMap);
-
 			Map<String, String> localeMessageResources = new HashMap<>();
 			List<I18nDO> i18ns = i18nService.queryList(I18nQO.builder().locale(LocaleEnum.values()[i].name()).build());
 			for (I18nDO i18n : i18ns) {
@@ -89,12 +82,16 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 	}
 
 	private String getText(String code, Locale locale){
+		log.info("国际化资源-key:{}-{}", code,locale);
 		String localeText = LOCAL_CACHE.get(locale.toString()).get(code);
+		log.info("国际化资源-localeText:{}", localeText);
 		String resourceText = code;
 		if(localeText != null){
 			resourceText = localeText;
 		}else{
-			localeText = LOCAL_CACHE.get(Locale.SIMPLIFIED_CHINESE.toString()).get(code);;
+			localeText = LOCAL_CACHE.get(Locale.SIMPLIFIED_CHINESE.toString()).get(code);
+			log.info("国际化资源-localeText:{}", localeText);
+
 			if(localeText != null){
 				resourceText = localeText;
 			}else{

@@ -7,6 +7,7 @@ import com.minlia.module.i18n.bean.I18nCTO;
 import com.minlia.module.i18n.bean.I18nQO;
 import com.minlia.module.i18n.bean.I18nUTO;
 import com.minlia.module.i18n.constant.I18nConstants;
+import com.minlia.module.i18n.resource.MessageSource;
 import com.minlia.module.i18n.service.I18nService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,9 @@ public class I18nEndpoint {
     @Autowired
     private I18nService i18nService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +53,14 @@ public class I18nEndpoint {
     @DeleteMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response delete(@PathVariable Long id) {
         i18nService.delete(id);
+        return Response.success();
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_DELETE + "')")
+    @ApiOperation(value = "重置", notes = "重置", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "reload", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response reload() {
+        messageSource.reload();
         return Response.success();
     }
 
