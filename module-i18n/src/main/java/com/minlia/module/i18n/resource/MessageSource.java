@@ -82,26 +82,27 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 	}
 
 	private String getText(String code, Locale locale){
-		log.info("国际化资源1-key:{}-{}", code,locale);
-		String localeText = LOCAL_CACHE.get(locale.toString()).get(code);
-		log.info("国际化资源2-localeText:{}", localeText);
 		String resourceText = code;
+		String localeText = null;
+
+		Map<String, String> localeSourceMap = LOCAL_CACHE.get(locale.toString());
+		if (null != localeSourceMap) {
+			localeText = localeSourceMap.get(code);
+		}
+
 		if(localeText != null){
 			resourceText = localeText;
 		}else{
 			localeText = LOCAL_CACHE.get(Locale.SIMPLIFIED_CHINESE.toString()).get(code);
-			log.info("国际化资源3-localeText:{}", localeText);
 
 			if(localeText != null){
 				resourceText = localeText;
 			}else{
 				try {
 					if(getParentMessageSource() != null){
-						log.info("国际化资源4-localeText:{}", localeText);
 						resourceText = getParentMessageSource().getMessage(code, null, locale);
 					}
 				} catch (Exception e) {
-					log.info("国际化资源5-localeText:{}", localeText);
 					log.error("Con not find message with {}:", code, e.getMessage());
 				}
 			}
