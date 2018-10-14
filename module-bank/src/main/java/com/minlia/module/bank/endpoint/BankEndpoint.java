@@ -27,21 +27,21 @@ public class BankEndpoint {
 	@Autowired
 	private BankService bankService;
 	
-//    @PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_CREATE_CODE + "')")
+//    @PreAuthorize(value = "hasAnyAuthority('" + BankConstants.CREATE + "')")
 //	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 //	public StatefulBody create(@Valid @RequestBody BankDO bankDo) {
 //		return SuccessResponseBody.builder().payload(bankService.create(bankDo)).build();
 //	}
 //
-//	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_UPDATE_CODE + "')")
+//	@PreAuthorize(value = "hasAnyAuthority('" + BankConstants.UPDATE + "')")
 //	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 //	public StatefulBody update(@Valid @RequestBody BankDO bankDo) {
 //		return SuccessResponseBody.builder().payload(bankService.update(bankDo)).build();
 //	}
 //
-//	@PreAuthorize(value = "hasAnyAuthority('" + BankSecurityConstant.BANK_DELETE_CODE + "')")
+//	@PreAuthorize(value = "hasAnyAuthority('" + BankConstants.DELETE + "')")
 //	@ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 //	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 //	public StatefulBody update(@PathVariable String number) {

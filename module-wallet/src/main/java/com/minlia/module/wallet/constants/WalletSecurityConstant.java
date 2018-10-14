@@ -1,6 +1,7 @@
 package com.minlia.module.wallet.constants;
 
 
+import com.minlia.module.common.constant.MinliaConstants;
 import com.minlia.modules.security.constant.SecurityConstant;
 
 /**
@@ -8,7 +9,7 @@ import com.minlia.modules.security.constant.SecurityConstant;
  */
 public class WalletSecurityConstant {
 
-    public final static String MODULE_WALLET_CODE = "mdl.wallet";
+    public final static String MODULE_WALLET_CODE = MinliaConstants.APP_NAME + ".wallet";
     public final static String MODULE_WALLET_DESC = "钱包-";
 
     public final static String WALLET_CREATE_CODE = MODULE_WALLET_CODE + SecurityConstant.OPERATION_CREATE_CODE;
@@ -26,7 +27,7 @@ public class WalletSecurityConstant {
     public final static String WALLET_READ_CODE = MODULE_WALLET_CODE + SecurityConstant.OPERATION_READ_CODE;
     public final static String WALLET_READ_DESC = MODULE_WALLET_DESC + SecurityConstant.OPERATION_READ_DESC_CN;
 
-    public final static String MODULE_BANKCARD_CODE = "mdl.bankcard";
+    public final static String MODULE_BANKCARD_CODE = MinliaConstants.APP_NAME + ".bankcard";
     public final static String MODULE_BANKCARD_DESC = "银行卡-";
 
     public final static String BANKCARD_CREATE_CODE = MODULE_BANKCARD_CODE + SecurityConstant.OPERATION_CREATE_CODE;
@@ -44,7 +45,7 @@ public class WalletSecurityConstant {
     public final static String BANKCARD_READ_CODE = MODULE_BANKCARD_CODE + SecurityConstant.OPERATION_READ_CODE;
     public final static String BANKCARD_READ_DESC = MODULE_BANKCARD_DESC + SecurityConstant.OPERATION_READ_DESC_CN;
 
-    public final static String MODULE_WITHDRAW_CODE = "mdl.withdraw";
+    public final static String MODULE_WITHDRAW_CODE = MinliaConstants.APP_NAME + ".withdraw";
     public final static String MODULE_WITHDRAW_DESC = "提现-";
 
     public final static String WITHDRAW_APPLY_CODE = MODULE_WITHDRAW_CODE + SecurityConstant.OPERATION_APPLY_CODE;

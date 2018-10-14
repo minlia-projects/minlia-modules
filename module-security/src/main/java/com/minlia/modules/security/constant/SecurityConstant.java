@@ -55,6 +55,10 @@ public class SecurityConstant {
     public static final String OPERATION_RESET_DESC_CN = "重置";
     public static final String OPERATION_RESET_DESC_EN = "Reset";
 
+    public static final String OPERATION_CLEAR_CODE = ".clear";
+    public static final String OPERATION_CLEAR_DESC_CN = "清除";
+    public static final String OPERATION_CLEAR_DESC_EN = "Clear";
+
     public static final String OPERATION_REFRESH_CODE = ".refresh";
     public static final String OPERATION_REFRESH_DESC_CN = "刷新";
     public static final String OPERATION_REFRESH_DESC_EN = "Refresh";
@@ -70,6 +74,10 @@ public class SecurityConstant {
     public static final String OPERATION_EXPORT_CODE = ".export";
     public static final String OPERATION_EXPORT_DESC_CN = "导出";
     public static final String OPERATION_EXPORT_DESC_EN = "Export";
+
+    public static final String OPERATION_DISPLAY_CODE = ".display";
+    public static final String OPERATION_DISPLAY_DESC_CN = "显示";
+    public static final String OPERATION_DISPLAY_DESC_EN = "display";
 
     public static final String OPERATION_APPLY_CODE = ".apply";
     public static final String OPERATION_APPLY_DESC_CN = "申请";

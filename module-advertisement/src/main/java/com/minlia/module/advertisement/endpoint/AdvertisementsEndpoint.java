@@ -5,7 +5,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.advertisement.bean.qo.AdvertisementsQO;
 import com.minlia.module.advertisement.bean.to.AdvertisementsCTO;
 import com.minlia.module.advertisement.bean.to.AdvertisementsUTO;
-import com.minlia.module.advertisement.constant.AdSecurityConstants;
+import com.minlia.module.advertisement.constant.AdvertisementConstants;
 import com.minlia.module.advertisement.service.AdvertisementsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,21 +26,21 @@ public class AdvertisementsEndpoint {
 	@Autowired
 	private AdvertisementsService advertisementsService;
 
-	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.CREATE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.CREATE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response create(@Valid @RequestBody AdvertisementsCTO cto) {
 		return Response.success(advertisementsService.create(cto));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.UPDATE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.UPDATE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response update(@Valid @RequestBody AdvertisementsUTO uto) {
 		return Response.success(advertisementsService.update(uto));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.DELETE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.DELETE + "')")
 	@ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response update(@PathVariable Long id) {
@@ -48,28 +48,28 @@ public class AdvertisementsEndpoint {
 		return Response.success();
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response findByNumber(@PathVariable Long id) {
 		return Response.success(advertisementsService.queryById(id));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response count(@RequestBody AdvertisementsQO qo) {
 		return Response.success(advertisementsService.count(qo));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response one(@RequestBody AdvertisementsQO qo) {
 		return Response.success(advertisementsService.one(qo));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response queryList(@RequestBody AdvertisementsQO qo) {

@@ -30,7 +30,7 @@ public class DistrictEndpoint {
     @Autowired
     private DistrictService service;
 
-//    @PreAuthorize(value = "hasAnyAuthority('"+ DistrictSecurityConstants.ENTITY_CREATE +"')")
+//    @PreAuthorize(value = "hasAnyAuthority('"+ DistrictConstants.ENTITY_CREATE +"')")
 //    @ApiOperation(value = "区域初始化", notes = "区域初始化(省、市、区、县)", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @GetMapping(value = "init", produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public Response init() {

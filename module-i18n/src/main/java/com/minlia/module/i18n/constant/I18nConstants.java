@@ -1,5 +1,6 @@
 package com.minlia.module.i18n.constant;
 
+import com.minlia.module.common.constant.MinliaConstants;
 import com.minlia.modules.security.constant.SecurityConstant;
 
 /**
@@ -7,11 +8,7 @@ import com.minlia.modules.security.constant.SecurityConstant;
  */
 public class I18nConstants {
 
-    public static final String BASENAME = "Messages";
-    public static final String DEFAULT_LANGUAGE = "zh";
-    public static final String DEFAULT_COUNTRY = "CN";
-
-    public static final String MODULE = "system.i18n";
+    public final static String MODULE = MinliaConstants.APP_NAME + ".i18n";
 
     public final static String SEC_CREATE = MODULE + SecurityConstant.OPERATION_CREATE_CODE;
 

@@ -29,21 +29,21 @@ public class AdvertisementOpenEndpoint {
 	@Autowired
 	private AdvertisementsService advertisementsService;
 
-//	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+//	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 //	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 //	public Response findByNumber(@PathVariable Long id) {
 //		return Response.success(advertisementService.queryById(id));
 //	}
 //
-//	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+//	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 //	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 //	public Response count(@RequestBody AdvertisementQO qo) {
 //		return Response.success(advertisementService.count(qo));
 //	}
 //
-//	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+//	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 //	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 //	public Response one(@RequestBody AdvertisementQO qo) {
@@ -60,7 +60,7 @@ public class AdvertisementOpenEndpoint {
 		return Response.success(advertisementsList);
 	}
 
-//	@PreAuthorize(value = "hasAnyAuthority('" + AdSecurityConstants.SEARCH + "')")
+//	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 //	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 //	public Response queryPage(@PageableDefault Pageable pageable, @RequestBody AdvertisementQO qo) {

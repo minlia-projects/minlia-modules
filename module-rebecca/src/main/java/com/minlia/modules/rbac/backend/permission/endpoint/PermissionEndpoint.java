@@ -32,14 +32,14 @@ public class PermissionEndpoint {
     private PermissionService permissionService;
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_UPDATE +"')")
-    @ApiOperation(value = "update", notes = "update", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = "update", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ApiOperation(value = "update", notes = "update", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response update(@Valid @RequestBody PermissionUpdateRequestBody body) {
         Permission permission = permissionService.update(body);
         return Response.success(permission);
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_UPDATE +"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_CLEAR +"')")
     @ApiOperation(value = "clear", notes = "clear", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
     @DeleteMapping(value = "clear", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response clear() {
@@ -47,7 +47,7 @@ public class PermissionEndpoint {
         return Response.success();
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_GRANT +"')")
+    @PreAuthorize(value = "hasAnyAuthority('"+ RebeccaSecurityConstant.PERMISSION_SEARCH +"')")
     @ApiOperation(value = "tree", notes = "查询所有", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "tree", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response tree() {
