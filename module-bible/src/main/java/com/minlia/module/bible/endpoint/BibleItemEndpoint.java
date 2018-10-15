@@ -2,9 +2,9 @@ package com.minlia.module.bible.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.bible.body.BibleItemCreateRequestBody;
-import com.minlia.module.bible.body.BibleItemQueryRequestBody;
-import com.minlia.module.bible.body.BibleItemUpdateRequestBody;
+import com.minlia.module.bible.bean.qo.BibleItemQO;
+import com.minlia.module.bible.bean.to.BibleItemCTO;
+import com.minlia.module.bible.bean.to.BibleItemUTO;
 import com.minlia.module.bible.constant.BibleConstants;
 import com.minlia.module.bible.service.BibleItemService;
 import io.swagger.annotations.Api;
@@ -34,15 +34,15 @@ public class BibleItemEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response create(@Valid @RequestBody BibleItemCreateRequestBody body) {
-        return Response.success(bibleItemService.create(body));
+    public Response create(@Valid @RequestBody BibleItemCTO cto) {
+        return Response.success(bibleItemService.create(cto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.UPDATE + "')")
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response update(@Valid @RequestBody BibleItemUpdateRequestBody body) {
-        return Response.success(bibleItemService.update(body));
+    public Response update(@Valid @RequestBody BibleItemUTO uto) {
+        return Response.success(bibleItemService.update(uto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.DELETE + "')")
@@ -71,21 +71,21 @@ public class BibleItemEndpoint {
     @ApiOperation(value = "父CODE查询", notes = "父CODE查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryByParentCode", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response queryByParentCode(@RequestParam String parentCode) {
-        return Response.success(bibleItemService.queryList(BibleItemQueryRequestBody.builder().parentCode(parentCode).build()));
+        return Response.success(bibleItemService.queryList(BibleItemQO.builder().parentCode(parentCode).build()));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "查询集合", notes = "查询集合", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryList", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryList(@Valid @RequestBody BibleItemQueryRequestBody body) {
-        return Response.success(bibleItemService.queryList(body));
+    public Response queryList(@Valid @RequestBody BibleItemQO qo) {
+        return Response.success(bibleItemService.queryList(qo));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "查询分页", notes = "查询分页", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryPage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody BibleItemQueryRequestBody body) {
-        return Response.success(bibleItemService.queryPage(body,pageable));
+    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody BibleItemQO qo) {
+        return Response.success(bibleItemService.queryPage(qo, pageable));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.minlia.modules.attachment.mapper;
 
 
-import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
+import com.minlia.modules.attachment.body.AttachmentQueryRequest;
 import com.minlia.modules.attachment.entity.Attachment;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ public interface AttachmentMapper {
 
     List<Attachment> queryByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
-    List<Attachment> queryList(AttachmentQueryRequestBody body);
+    List<Attachment> queryList(AttachmentQueryRequest body);
 
     String queryUrls(String relationId, String belongsTo);
 

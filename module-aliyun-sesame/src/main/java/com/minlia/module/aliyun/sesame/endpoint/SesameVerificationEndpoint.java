@@ -1,8 +1,8 @@
 package com.minlia.module.aliyun.sesame.endpoint;
 
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.aliyun.sesame.body.SesameVerificationRequestBody;
-import com.minlia.module.aliyun.sesame.body.SesameVerificationResponseBody;
+import com.minlia.module.aliyun.sesame.body.SesameVerificationRequest;
+import com.minlia.module.aliyun.sesame.body.SesameVerificationResponse;
 import com.minlia.module.aliyun.sesame.service.SesameVerificationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ public class SesameVerificationEndpoint {
 	
 	@ApiOperation(value = "验证", notes = "验证", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "verification", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public SesameVerificationResponseBody verification(@Valid @RequestBody SesameVerificationRequestBody requestBody) {
+	public SesameVerificationResponse verification(@Valid @RequestBody SesameVerificationRequest requestBody) {
 		return sesameVerificationService.verification(requestBody);
 	}
 

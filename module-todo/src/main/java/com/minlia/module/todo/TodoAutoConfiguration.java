@@ -3,7 +3,7 @@ package com.minlia.module.todo;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Created by will on 6/21/17.
+ * Created by garen on 2018/4/27.
  */
 @Configuration
 public class TodoAutoConfiguration {

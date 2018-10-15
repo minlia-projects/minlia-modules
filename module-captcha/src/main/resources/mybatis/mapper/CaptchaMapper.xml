@@ -58,7 +58,7 @@
 			)
 	</insert>
 
-    <update id="update" parameterType="com.minlia.module.captcha.domain.Captcha">
+    <update id="update" parameterType="com.minlia.module.captcha.bean.domain.Captcha">
         UPDATE mdl_captcha
         <set>
             <if test="code != null">
@@ -87,22 +87,22 @@
 		DELETE FROM mdl_bible WHERE id = #{id}
 	</delete>
 
-    <select id="queryByCellphone" resultType="com.minlia.module.captcha.domain.Captcha">
+    <select id="queryByCellphone" resultType="com.minlia.module.captcha.bean.domain.Captcha">
         <include refid="QUERY_CONTENT"/>
         WHERE cellphone = #{cellphone,jdbcType=VARCHAR}
     </select>
 
-    <select id="queryOne" resultType="com.minlia.module.captcha.domain.Captcha">
+    <select id="queryOne" resultType="com.minlia.module.captcha.bean.domain.Captcha">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.captcha.domain.Captcha">
+    <select id="queryList" resultType="com.minlia.module.captcha.bean.domain.Captcha">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryAll" resultType="com.minlia.module.captcha.domain.Captcha">
+    <select id="queryAll" resultType="com.minlia.module.captcha.bean.domain.Captcha">
         <include refid="QUERY_CONTENT"/>
     </select>
 

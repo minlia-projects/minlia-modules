@@ -1,7 +1,7 @@
 package com.minlia.module.aliyun.sesame.service;
 
-import com.minlia.module.aliyun.sesame.body.SesameVerificationRequestBody;
-import com.minlia.module.aliyun.sesame.body.SesameVerificationResponseBody;
+import com.minlia.module.aliyun.sesame.body.SesameVerificationRequest;
+import com.minlia.module.aliyun.sesame.body.SesameVerificationResponse;
 
 
 public interface SesameVerificationService {
@@ -11,6 +11,6 @@ public interface SesameVerificationService {
      * @param requestBody
      * @return
      */
-    SesameVerificationResponseBody verification(SesameVerificationRequestBody requestBody);
+    SesameVerificationResponse verification(SesameVerificationRequest requestBody);
 
 }

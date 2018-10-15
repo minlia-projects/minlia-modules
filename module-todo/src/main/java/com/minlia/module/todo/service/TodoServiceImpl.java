@@ -4,16 +4,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.bible.body.BibleItemQueryRequestBody;
-import com.minlia.module.bible.entity.BibleItem;
+import com.minlia.module.bible.bean.domain.BibleItem;
+import com.minlia.module.bible.bean.qo.BibleItemQO;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.common.util.NumberGenerator;
-import com.minlia.module.todo.body.TodoCreateRequestBody;
-import com.minlia.module.todo.body.TodoOperateRequestBody;
-import com.minlia.module.todo.body.TodoQueryRequestBody;
-import com.minlia.module.todo.body.TodoUpdateRequestBody;
+import com.minlia.module.todo.bean.domain.MyTodo;
+import com.minlia.module.todo.bean.qo.TodoQO;
+import com.minlia.module.todo.bean.to.TodoCTO;
+import com.minlia.module.todo.bean.to.TodoOperateTO;
+import com.minlia.module.todo.bean.to.TodoUTO;
 import com.minlia.module.todo.constant.TodoCode;
-import com.minlia.module.todo.entity.MyTodo;
 import com.minlia.module.todo.enumeration.TodoStatus;
 import com.minlia.module.todo.event.TodoCreateEvent;
 import com.minlia.module.todo.mapper.TodoMapper;
@@ -42,11 +42,11 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @Transactional
-    public MyTodo create(TodoCreateRequestBody requestBody) {
-        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(BIBLE_TODO_TYPE).code(requestBody.getType()).build());
-        ApiAssert.notNull(bibleItem, TodoCode.Message.TYPE_NOT_EXISTS, requestBody.getType());
+    public MyTodo create(TodoCTO cto) {
+        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQO.builder().parentCode(BIBLE_TODO_TYPE).code(cto.getType()).build());
+        ApiAssert.notNull(bibleItem, TodoCode.Message.TYPE_NOT_EXISTS, cto.getType());
 
-        MyTodo todo = mapper.map(requestBody, MyTodo.class);
+        MyTodo todo = mapper.map(cto, MyTodo.class);
         todo.setNumber(NumberGenerator.generatorByYMDHMSS("TD",1));
         todo.setStatus(TodoStatus.UNDONE);
         todoMapper.create(todo);
@@ -57,17 +57,17 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @Transactional
-    public MyTodo update(TodoUpdateRequestBody body) {
-        MyTodo todo = this.queryByNumberAndNotNull(body.getNumber());
-        BeanUtils.copyProperties(body, todo);
+    public MyTodo update(TodoUTO uto) {
+        MyTodo todo = this.queryByNumberAndNotNull(uto.getNumber());
+        BeanUtils.copyProperties(uto, todo);
         todoMapper.update(todo);
         return todo;
     }
 
     @Override
-    public MyTodo operate(TodoOperateRequestBody body) {
-        MyTodo todo = this.queryByNumberAndNotNull(body.getNumber());
-        switch (body.getOperate()) {
+    public MyTodo operate(TodoOperateTO to) {
+        MyTodo todo = this.queryByNumberAndNotNull(to.getNumber());
+        switch (to.getOperate()) {
             case PEND:
                 todo.setStatus(TodoStatus.PENDING);
                 break;
@@ -80,7 +80,7 @@ public class TodoServiceImpl implements TodoService {
             default:
                 break;
         }
-        todo.setNotes(body.getNotes());
+        todo.setNotes(to.getNotes());
         todoMapper.update(todo);
         return todo;
     }
@@ -93,18 +93,13 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public MyTodo queryById(Long id) {
-        return todoMapper.queryById(id);
-    }
-
-    @Override
     public MyTodo queryByNumber(String number) {
         return todoMapper.queryByNumber(number);
     }
 
     @Override
-    public long count(TodoQueryRequestBody requestBody) {
-        return todoMapper.count(requestBody);
+    public long count(TodoQO qo) {
+        return todoMapper.count(qo);
     }
 
     private MyTodo queryByNumberAndNotNull(String number) {
@@ -114,13 +109,13 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<MyTodo> queryList(TodoQueryRequestBody requestBody) {
-        return todoMapper.queryList(requestBody);
+    public List<MyTodo> queryList(TodoQO qo) {
+        return todoMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo<MyTodo> queryPage(TodoQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(requestBody));
+    public PageInfo<MyTodo> queryPage(TodoQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(qo));
     }
 
 }

@@ -4,7 +4,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dyplsapi.model.v20170525.*;
 import com.aliyuncs.exceptions.ClientException;
 import com.minlia.cloud.body.Response;
-import com.minlia.module.aliyun.dypls.body.BindAxnRequestBody;
+import com.minlia.module.aliyun.dypls.bean.BindAxnTO;
 import com.minlia.module.aliyun.dypls.config.DyplsConfig;
 import com.minlia.module.aliyun.dypls.entity.DyplsBind;
 import com.minlia.module.aliyun.dypls.event.DyplsBindEvent;
@@ -52,13 +52,13 @@ public class DyplsBindServiceImpl implements DyplsBindService {
     }
 
     @Override
-    public Response bindAxn(BindAxnRequestBody requestBody) {
+    public Response bindAxn(BindAxnTO to) {
         BindAxnRequest request = new BindAxnRequest();
-        BeanUtils.copyProperties(requestBody,request);
+        BeanUtils.copyProperties(to,request);
         if (StringUtils.isEmpty(request.getPoolKey())) {
             request.setPoolKey(dyplsConfig.getPoolKey());
         }
-        request.setExpiration(DateFormatUtils.format(requestBody.getExpireTime(),"yyyy-MM-dd HH:mm:ss"));
+        request.setExpiration(DateFormatUtils.format(to.getExpireTime(),"yyyy-MM-dd HH:mm:ss"));
         BindAxnResponse response = null;
         try {
             response = acsClient.getAcsResponse(request);
@@ -72,7 +72,7 @@ public class DyplsBindServiceImpl implements DyplsBindService {
             BeanUtils.copyProperties(request,dyplsBind);
             dyplsBind.setSubsId(response.getSecretBindDTO().getSubsId());
             dyplsBind.setSecretNo(response.getSecretBindDTO().getSecretNo());
-            dyplsBind.setExpireTime(requestBody.getExpireTime());
+            dyplsBind.setExpireTime(to.getExpireTime());
             DyplsBindEvent.onBind(dyplsBind);
             return Response.success(response.getMessage(), response.getSecretBindDTO());
         } else {

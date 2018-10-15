@@ -6,7 +6,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.constant.CaptchaCode;
-import com.minlia.module.captcha.domain.Captcha;
+import com.minlia.module.captcha.bean.domain.Captcha;
 import com.minlia.module.captcha.service.CaptchaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -2,7 +2,7 @@ package com.minlia.module.aliyun.dypls.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.aliyun.dypls.body.BindAxnQueryRequestBody;
+import com.minlia.module.aliyun.dypls.bean.BindAxnQO;
 import com.minlia.module.aliyun.dypls.entity.DyplsBind;
 import com.minlia.module.aliyun.dypls.mapper.DyplsbindMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,18 +48,18 @@ public class DyplsServiceImpl implements DyplsService {
 
     @Override
     public DyplsBind queryFirstByCellphone(String cellphone) {
-        List<DyplsBind> dyplsBinds = this.queryList(BindAxnQueryRequestBody.builder().phoneNoA(cellphone).build());
+        List<DyplsBind> dyplsBinds = this.queryList(BindAxnQO.builder().phoneNoA(cellphone).build());
         return dyplsBinds.get(0);
     }
 
     @Override
-    public List<DyplsBind> queryList(BindAxnQueryRequestBody body) {
-        return dyplsbindMapper.queryList(body);
+    public List<DyplsBind> queryList(BindAxnQO qo) {
+        return dyplsbindMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo<DyplsBind> queryPage(BindAxnQueryRequestBody body,Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->dyplsbindMapper.queryList(body));
+    public PageInfo<DyplsBind> queryPage(BindAxnQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->dyplsbindMapper.queryList(qo));
     }
 
 }

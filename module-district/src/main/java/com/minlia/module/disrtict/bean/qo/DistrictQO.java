@@ -1,6 +1,6 @@
 package com.minlia.module.disrtict.bean.qo;
 
-import com.minlia.module.data.body.QueryRequestBody;
+import com.minlia.module.data.body.QueryRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "地图区域-查询")
-public class DistrictQO implements QueryRequestBody {
+public class DistrictQO implements QueryRequest {
 
     @ApiModelProperty(name = "区域编码", example = "440000")
     private String adcode;

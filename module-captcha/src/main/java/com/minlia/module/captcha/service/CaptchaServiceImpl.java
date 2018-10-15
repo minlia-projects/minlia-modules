@@ -4,7 +4,7 @@ import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.constant.CaptchaCode;
-import com.minlia.module.captcha.domain.Captcha;
+import com.minlia.module.captcha.bean.domain.Captcha;
 import com.minlia.module.captcha.enumeration.CaptchaType;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
 import com.minlia.module.captcha.util.SmsTemplateProperties;

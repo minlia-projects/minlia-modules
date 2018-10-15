@@ -2,7 +2,7 @@ package com.minlia.modules.qcloud.faceid.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequestBody;
+import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -18,14 +18,14 @@ public interface QcloudFaceIdRecordService {
 
     void delete(String orderNo);
 
-    long count(QcloudFaceIdRecordQueryRequestBody requestBody);
+    long count(QcloudFaceIdRecordQueryRequest requestBody);
 
     QcloudFaceIdRecord queryLastByUserId(String userId);
 
-    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQueryRequestBody recordRequestBody);
+    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQueryRequest recordRequestBody);
 
-    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQueryRequestBody recordRequestBody);
+    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQueryRequest recordRequestBody);
 
-    PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQueryRequestBody recordRequestBody, Pageable pageable);
+    PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQueryRequest recordRequestBody, Pageable pageable);
 
 }

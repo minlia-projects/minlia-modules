@@ -1,7 +1,7 @@
 package com.minlia.module.todo.event;
 
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.module.todo.entity.MyTodo;
+import com.minlia.module.todo.bean.domain.MyTodo;
 import org.springframework.context.ApplicationEvent;
 
 /**

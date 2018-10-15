@@ -22,24 +22,14 @@ public interface DistrictService {
      */
     Response initAllDstrict();
 
-    /**
-     * 是否存在
-     * @param body
-     * @return
-     */
-    boolean exists(DistrictQO body);
-
-    /**
-     * 查询数量
-     * @param body
-     * @return
-     */
-    long count(DistrictQO body);
-
     District queryById(Long id);
+
+    long count(DistrictQO qo);
+
+    boolean exists(DistrictQO qo);
 
     District queryIdAndNotNull(Long id);
 
-    List<District> queryList(DistrictQO requestBody);
+    List<District> queryList(DistrictQO qo);
 
 }

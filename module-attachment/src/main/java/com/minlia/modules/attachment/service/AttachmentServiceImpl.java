@@ -8,7 +8,7 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
 import com.minlia.modules.attachment.body.AttachmentData;
-import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
+import com.minlia.modules.attachment.body.AttachmentQueryRequest;
 import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.event.AttachmentEvent;
@@ -125,12 +125,12 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public List<Attachment> queryList(AttachmentQueryRequestBody requestBody) {
+    public List<Attachment> queryList(AttachmentQueryRequest requestBody) {
         return attachmentMapper.queryList(requestBody);
     }
 
     @Override
-    public PageInfo<Attachment> queryPage(AttachmentQueryRequestBody requestBody, Pageable pageable) {
+    public PageInfo<Attachment> queryPage(AttachmentQueryRequest requestBody, Pageable pageable) {
         return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> attachmentMapper.queryList(requestBody));
     }
 

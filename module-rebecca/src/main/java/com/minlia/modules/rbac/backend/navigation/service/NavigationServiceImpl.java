@@ -8,7 +8,7 @@ import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationCreateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationGrantRequestBody;
-import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
+import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequest;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationUpdateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.entity.Navigation;
 import com.minlia.modules.rbac.backend.navigation.enumeration.NavigationType;
@@ -40,7 +40,7 @@ public class NavigationServiceImpl implements NavigationService {
 
     @Override
     public Response create(NavigationCreateRequestBody requestBody) {
-        boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).build()) > 0;
+        boolean exists = navigationMapper.count(NavigationQueryRequest.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).build()) > 0;
         if (!exists) {
             updateTypeByChildren(requestBody.getParentId());
 
@@ -90,7 +90,7 @@ public class NavigationServiceImpl implements NavigationService {
 
         //检查父节点是否还有子节点, 如果无子节点时更新父节点为LEAF类型
         if (null != navigation.getParentId()) {
-            long countChildren = navigationMapper.count(NavigationQueryRequestBody.builder().parentId(navigation.getParentId()).build());
+            long countChildren = navigationMapper.count(NavigationQueryRequest.builder().parentId(navigation.getParentId()).build());
             //如果只有一个儿子
             if (countChildren == 1) {
                 navigationMapper.updateType(navigation.getParentId(),NavigationType.LEAF);
@@ -106,7 +106,7 @@ public class NavigationServiceImpl implements NavigationService {
 
         if (CollectionUtils.isNotEmpty(requestBody.getIds())) {
             for (Long id: requestBody.getIds()) {
-                boolean exists = navigationMapper.count(NavigationQueryRequestBody.builder().id(id).display(true).build()) > 0;
+                boolean exists = navigationMapper.count(NavigationQueryRequest.builder().id(id).display(true).build()) > 0;
                 ApiAssert.state(exists,RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
             }
             navigationMapper.grant(requestBody.getRoleId(),requestBody.getIds());
@@ -141,14 +141,14 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public List<Navigation> queryList(NavigationQueryRequestBody requestBody) {
+    public List<Navigation> queryList(NavigationQueryRequest requestBody) {
         List<Navigation> navigations = navigationMapper.queryList(requestBody);
         bindChirdren(navigations, requestBody.getRoleId());
         return navigations;
     }
 
     @Override
-    public PageInfo<Navigation> queryPage(NavigationQueryRequestBody requestBody, Pageable pageable) {
+    public PageInfo<Navigation> queryPage(NavigationQueryRequest requestBody, Pageable pageable) {
         PageInfo pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
         bindChirdren(pageInfo.getList(), requestBody.getRoleId());
         return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
@@ -158,7 +158,7 @@ public class NavigationServiceImpl implements NavigationService {
         if (CollectionUtils.isNotEmpty(navigations)) {
             for (Navigation navigation : navigations) {
                 if (NavigationType.FOLDER.equals(navigation.getType())) {
-                    List<Navigation> chirdren = navigationMapper.queryList(NavigationQueryRequestBody.builder().parentId(navigation.getId()).display(true).roleId(roleId).build());
+                    List<Navigation> chirdren = navigationMapper.queryList(NavigationQueryRequest.builder().parentId(navigation.getId()).display(true).roleId(roleId).build());
                     navigation.setChildren(chirdren);
                     bindChirdren(chirdren, roleId);
                 }

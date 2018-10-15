@@ -2,7 +2,7 @@ package com.minlia.modules.rbac.backend.navigation.mapper;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
+import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequest;
 import com.minlia.modules.rbac.backend.navigation.entity.Navigation;
 import com.minlia.modules.rbac.backend.navigation.enumeration.NavigationType;
 import org.apache.ibatis.session.RowBounds;
@@ -23,7 +23,7 @@ public interface NavigationMapper {
 
     void display(Long id, boolean display);
 
-    long count(NavigationQueryRequestBody body);
+    long count(NavigationQueryRequest body);
 
     Navigation queryById(Long id);
 
@@ -31,7 +31,7 @@ public interface NavigationMapper {
 
     List<Navigation> queryByRoleId(Long roleId);
 
-    List<Navigation> queryList(NavigationQueryRequestBody requestBody);
+    List<Navigation> queryList(NavigationQueryRequest requestBody);
 
     PageInfo<Navigation> queryPage(RowBounds rowBounds);
 

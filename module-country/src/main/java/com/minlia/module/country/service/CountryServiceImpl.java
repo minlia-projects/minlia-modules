@@ -1,21 +1,21 @@
 package com.minlia.module.country.service;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.country.body.CountryCreateRequestBody;
-import com.minlia.module.country.body.CountryQueryRequestBody;
-import com.minlia.module.country.body.CountryUpdateRequestBody;
+import com.minlia.module.country.bean.domain.Country;
+import com.minlia.module.country.bean.qo.CountryQO;
+import com.minlia.module.country.bean.to.CountryCTO;
+import com.minlia.module.country.bean.to.CountryUTO;
 import com.minlia.module.country.mapper.CountryMapper;
-import com.minlia.module.country.entity.Country;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.RowBounds;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Slf4j
 public class CountryServiceImpl implements CountryService {
 
     @Autowired
@@ -25,16 +25,16 @@ public class CountryServiceImpl implements CountryService {
     private CountryMapper countryMapper;
 
     @Override
-    public Country create(CountryCreateRequestBody requestBody) {
-        Country country = mapper.map(requestBody,Country.class);
+    public Country create(CountryCTO cto) {
+        Country country = mapper.map(cto, Country.class);
         countryMapper.create(country);
         return country;
     }
 
     @Override
-    public Country update(CountryUpdateRequestBody requestBody) {
-        Country country = countryMapper.queryById(requestBody.getId());
-        mapper.map(requestBody,country);
+    public Country update(CountryUTO uto) {
+        Country country = countryMapper.queryById(uto.getId());
+        mapper.map(uto,country);
         countryMapper.update(country);
         return country;
     }
@@ -50,13 +50,13 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<Country> queryList(CountryQueryRequestBody body) {
-        return countryMapper.queryList(body);
+    public List<Country> queryList(CountryQO qo) {
+        return countryMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo<Country> queryPage(CountryQueryRequestBody body, RowBounds rowBounds) {
-        return countryMapper.queryPage(body);
+    public PageInfo<Country> queryPage(CountryQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> countryMapper.queryPage(qo));
     }
 
 }

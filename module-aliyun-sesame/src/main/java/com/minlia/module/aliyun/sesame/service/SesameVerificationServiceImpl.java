@@ -2,9 +2,9 @@ package com.minlia.module.aliyun.sesame.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.minlia.module.aliyun.sesame.body.SesameVerificationResponseBody;
+import com.minlia.module.aliyun.sesame.body.SesameVerificationResponse;
 import com.minlia.module.aliyun.sesame.utils.HttpUtils;
-import com.minlia.module.aliyun.sesame.body.SesameVerificationRequestBody;
+import com.minlia.module.aliyun.sesame.body.SesameVerificationRequest;
 import com.minlia.module.aliyun.sesame.enumeration.SesameVerifyCodeEnum;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class SesameVerificationServiceImpl implements SesameVerificationService {
 
     @Override
-    public SesameVerificationResponseBody verification(SesameVerificationRequestBody requestBody) {
+    public SesameVerificationResponse verification(SesameVerificationRequest request) {
         String host = "https://dm-101.data.aliyun.com";
         String path = "/rest/161225/zmxy/api/zhima.credit.antifraud.verify.json";
         String method = "POST";
@@ -32,8 +32,8 @@ public class SesameVerificationServiceImpl implements SesameVerificationService 
         headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         Map<String, String> querys = new HashMap<String, String>();
         Map<String, String> bodys = new HashMap<String, String>();
-        bodys.put("name", requestBody.getName());
-        bodys.put("certNo", requestBody.getCertNo());
+        bodys.put("name", request.getName());
+        bodys.put("certNo", request.getCertNo());
         bodys.put("certType", "IDENTITY_CARD");
 
 //        bodys.put("address", "杭州市西湖区天目山路266号");
@@ -56,7 +56,7 @@ public class SesameVerificationServiceImpl implements SesameVerificationService 
              */
             HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
             Gson gson = new GsonBuilder().create();
-            SesameVerificationResponseBody responseBody = gson.fromJson(EntityUtils.toString(response.getEntity()),SesameVerificationResponseBody.class);
+            SesameVerificationResponse responseBody = gson.fromJson(EntityUtils.toString(response.getEntity()), SesameVerificationResponse.class);
 
             if (responseBody.getSuccess()) {
                 SesameVerifyCodeEnum sesameVerifyCode = responseBody.getData().getVerifyCode().get(0);
@@ -69,7 +69,7 @@ public class SesameVerificationServiceImpl implements SesameVerificationService 
             return responseBody;
         } catch (Exception e) {
             e.printStackTrace();
-            return SesameVerificationResponseBody.builder().success(false).code("-1").message(e.getMessage()).build();
+            return SesameVerificationResponse.builder().success(false).code("-1").message(e.getMessage()).build();
         }
     }
 }

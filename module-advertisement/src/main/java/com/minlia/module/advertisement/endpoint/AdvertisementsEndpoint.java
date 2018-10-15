@@ -43,7 +43,7 @@ public class AdvertisementsEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.DELETE + "')")
 	@ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response update(@PathVariable Long id) {
+	public Response delete(@PathVariable Long id) {
 		advertisementsService.delete(id);
 		return Response.success();
 	}
@@ -51,7 +51,7 @@ public class AdvertisementsEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response findByNumber(@PathVariable Long id) {
+	public Response id(@PathVariable Long id) {
 		return Response.success(advertisementsService.queryById(id));
 	}
 
@@ -72,14 +72,14 @@ public class AdvertisementsEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + AdvertisementConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response queryList(@RequestBody AdvertisementsQO qo) {
+	public Response list(@RequestBody AdvertisementsQO qo) {
 		return Response.success(advertisementsService.list(qo));
 	}
 
 	@PreAuthorize(value = "isAuthenticated()")
 	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response queryPage(@PageableDefault Pageable pageable, @RequestBody AdvertisementsQO qo) {
+	public Response page(@PageableDefault Pageable pageable, @RequestBody AdvertisementsQO qo) {
 		return Response.success(advertisementsService.page(qo, pageable));
 	}
 

@@ -1,7 +1,7 @@
 package com.minlia.module.captcha.service;
 
 
-import com.minlia.module.captcha.domain.Captcha;
+import com.minlia.module.captcha.bean.domain.Captcha;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

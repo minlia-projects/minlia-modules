@@ -1,6 +1,6 @@
 package com.minlia.modules.qcloud.faceid.mapper;
 
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequestBody;
+import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequest;
 import com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord;
 
 import java.util.List;
@@ -16,12 +16,12 @@ public interface QcloudFaceIdRecordMapper {
 
     int delete(String orderNo);
 
-    long count(QcloudFaceIdRecordQueryRequestBody requestBody);
+    long count(QcloudFaceIdRecordQueryRequest requestBody);
 
     QcloudFaceIdRecord queryLastByUserId(String userId);
 
-    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQueryRequestBody requestBody);
+    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQueryRequest requestBody);
 
-    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQueryRequestBody recordRequestBody);
+    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQueryRequest recordRequestBody);
 
 }

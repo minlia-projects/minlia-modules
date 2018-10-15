@@ -6,7 +6,7 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.modules.qcloud.faceid.bean.FaceAuth;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequestBody;
+import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequest;
 import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRequestBody;
 import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdResponseBody;
 import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdResult;
@@ -63,7 +63,7 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
     @Override
     public Response geth5faceid(QcloudFaceIdRequestBody requestBody) {
         String userId = SecurityContextHolder.getCurrentGuid();
-        QcloudFaceIdRecord faceIdRecord = faceIdRecordService.queryOne(QcloudFaceIdRecordQueryRequestBody.builder().userId(userId).isAuth(true).build());
+        QcloudFaceIdRecord faceIdRecord = faceIdRecordService.queryOne(QcloudFaceIdRecordQueryRequest.builder().userId(userId).isAuth(true).build());
         ApiAssert.isNull(faceIdRecord, QcloudCode.Message.FACEID_ALREADY_AUTHENTICATED);
         String orderNo = NumberGenerator.generatorByTimestamp("ON",3);
 

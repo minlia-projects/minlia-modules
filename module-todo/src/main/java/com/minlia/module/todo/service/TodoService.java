@@ -2,11 +2,11 @@ package com.minlia.module.todo.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.todo.body.TodoCreateRequestBody;
-import com.minlia.module.todo.body.TodoOperateRequestBody;
-import com.minlia.module.todo.body.TodoQueryRequestBody;
-import com.minlia.module.todo.body.TodoUpdateRequestBody;
-import com.minlia.module.todo.entity.MyTodo;
+import com.minlia.module.todo.bean.to.TodoCTO;
+import com.minlia.module.todo.bean.to.TodoOperateTO;
+import com.minlia.module.todo.bean.qo.TodoQO;
+import com.minlia.module.todo.bean.to.TodoUTO;
+import com.minlia.module.todo.bean.domain.MyTodo;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -16,22 +16,20 @@ import java.util.List;
  */
 public interface TodoService {
 
-    MyTodo create(TodoCreateRequestBody requestBody);
+    MyTodo create(TodoCTO cto);
 
-    MyTodo update(TodoUpdateRequestBody requestBody);
+    MyTodo update(TodoUTO uto);
 
-    MyTodo operate(TodoOperateRequestBody body);
+    MyTodo operate(TodoOperateTO to);
 
     void delete(String number);
 
-    MyTodo queryById(Long id);
-
     MyTodo queryByNumber(String number);
 
-    long count(TodoQueryRequestBody requestBody);
+    long count(TodoQO qo);
 
-    List<MyTodo> queryList(TodoQueryRequestBody requestBody);
+    List<MyTodo> queryList(TodoQO qo);
 
-    PageInfo<MyTodo> queryPage(TodoQueryRequestBody body, Pageable pageable);
+    PageInfo<MyTodo> queryPage(TodoQO qo, Pageable pageable);
 
 }

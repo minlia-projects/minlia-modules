@@ -3,7 +3,7 @@ package com.minlia.module.aliyun.dypls.service;
 import com.aliyuncs.dyplsapi.model.v20170525.*;
 import com.aliyuncs.exceptions.ClientException;
 import com.minlia.cloud.body.Response;
-import com.minlia.module.aliyun.dypls.body.BindAxnRequestBody;
+import com.minlia.module.aliyun.dypls.bean.BindAxnTO;
 
 /**
  * Created by garen on 2018/5/18.
@@ -12,7 +12,7 @@ public interface DyplsBindService {
 
     BindAxbResponse bindAxb(BindAxbRequest request) throws ClientException;
 
-    Response bindAxn(BindAxnRequestBody body);
+    Response bindAxn(BindAxnTO to);
 
     BindAxnExtensionResponse bindAxnExtension(BindAxnExtensionRequest request) throws ClientException;
 

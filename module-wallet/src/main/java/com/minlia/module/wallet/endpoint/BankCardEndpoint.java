@@ -7,7 +7,7 @@ import com.minlia.module.wallet.bean.to.BankCardCTO;
 import com.minlia.module.wallet.bean.to.BankCardQO;
 import com.minlia.module.wallet.bean.to.BankCardUTO;
 import com.minlia.module.wallet.bean.vo.BankCardVo;
-import com.minlia.module.wallet.constants.WalletSecurityConstant;
+import com.minlia.module.wallet.constant.WalletSecurityConstants;
 import com.minlia.module.wallet.service.BankCardService;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
@@ -30,21 +30,21 @@ public class BankCardEndpoint {
 	@Autowired
 	private BankCardService bankCardService;
 	
-    @PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_CREATE_CODE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_CREATE_CODE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response create(@Valid @RequestBody BankCardCTO cto) {
 		return Response.success(bankCardService.create(cto));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_UPDATE_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_UPDATE_CODE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response update(@Valid @RequestBody BankCardUTO uto) {
 		return Response.success(bankCardService.update(uto));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_DELETE_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_DELETE_CODE + "')")
 	@ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
 	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response update(@PathVariable Long id) {
@@ -52,7 +52,7 @@ public class BankCardEndpoint {
 		return Response.success();
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_UPDATE_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_UPDATE_CODE + "')")
 	@ApiOperation(value = "设置提现卡号", notes = "设置提现卡号", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "withdraw/{id}", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response setWithdrawCard(@PathVariable Long id) {
@@ -60,7 +60,7 @@ public class BankCardEndpoint {
 		return Response.success();
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_READ_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_READ_CODE + "')")
 	@ApiOperation(value = "我的银行卡", notes = "我的银行卡", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "me", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response me() {
@@ -68,7 +68,7 @@ public class BankCardEndpoint {
 		return Response.success(bankCards);
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "ID查询", notes = "单个查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response findOne(@PathVariable Long id) {
@@ -76,7 +76,7 @@ public class BankCardEndpoint {
 		return Response.success(bankCard);
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response list(@RequestBody BankCardQO qo) {
@@ -84,7 +84,7 @@ public class BankCardEndpoint {
 		return Response.success(bankCards);
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstant.BANKCARD_SEARCH_CODE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + WalletSecurityConstants.BANKCARD_SEARCH_CODE + "')")
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response paginated(@PageableDefault Pageable pageable, @RequestBody BankCardQO qo) {

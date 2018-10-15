@@ -4,7 +4,7 @@ package com.minlia.modules.attachment.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
-import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
+import com.minlia.modules.attachment.body.AttachmentQueryRequest;
 import com.minlia.modules.attachment.body.AttachmentUpdateRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.service.AttachmentService;
@@ -73,14 +73,14 @@ public class AttachmentEndpoint {
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody AttachmentQueryRequestBody requestBody) {
+    public Response list(@RequestBody AttachmentQueryRequest requestBody) {
         return Response.success(attachmentService.queryList(requestBody));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response page(@PageableDefault Pageable pageable, @RequestBody AttachmentQueryRequestBody requestBody) {
+    public Response page(@PageableDefault Pageable pageable, @RequestBody AttachmentQueryRequest requestBody) {
         return Response.success(attachmentService.queryPage(requestBody,pageable));
     }
 

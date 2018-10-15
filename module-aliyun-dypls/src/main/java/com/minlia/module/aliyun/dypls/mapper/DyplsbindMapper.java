@@ -1,6 +1,6 @@
 package com.minlia.module.aliyun.dypls.mapper;
 
-import com.minlia.module.aliyun.dypls.body.BindAxnQueryRequestBody;
+import com.minlia.module.aliyun.dypls.bean.BindAxnQO;
 import com.minlia.module.aliyun.dypls.entity.DyplsBind;
 
 import java.util.List;
@@ -17,6 +17,6 @@ public interface DyplsbindMapper {
 
     DyplsBind queryById(Long id);
 
-    List<DyplsBind> queryList(BindAxnQueryRequestBody body);
+    List<DyplsBind> queryList(BindAxnQO body);
 
 }

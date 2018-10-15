@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationCreateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationGrantRequestBody;
-import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
+import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequest;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationUpdateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.entity.Navigation;
 import org.springframework.data.domain.Pageable;
@@ -34,8 +34,8 @@ public interface NavigationService {
 
     List<Navigation> queryByRoleId(Long id);
 
-    List<Navigation> queryList(NavigationQueryRequestBody requestBody);
+    List<Navigation> queryList(NavigationQueryRequest requestBody);
 
-    PageInfo<Navigation> queryPage(NavigationQueryRequestBody requestBody, Pageable pageable);
+    PageInfo<Navigation> queryPage(NavigationQueryRequest requestBody, Pageable pageable);
 
 }

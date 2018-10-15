@@ -7,8 +7,8 @@ import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
 import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.bible.body.BibleItemQueryRequestBody;
-import com.minlia.module.bible.entity.BibleItem;
+import com.minlia.module.bible.bean.qo.BibleItemQO;
+import com.minlia.module.bible.bean.domain.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
@@ -51,7 +51,7 @@ public class WechatMaServiceImpl implements WechatMaService {
 
     @Override
     public WxMaService getWxMaService(String type) {
-        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(WechatMaBibleConstants.MINIAPP_CODE).code(type).build());
+        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQO.builder().parentCode(WechatMaBibleConstants.MINIAPP_CODE).code(type).build());
         ApiAssert.notNull(bibleItem, WechatMaCode.Message.PARAMETER_NOT_CONFIG, type);
 
         WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
@@ -102,7 +102,7 @@ public class WechatMaServiceImpl implements WechatMaService {
 
     @Override
     public OssFile createWxCodeLimit(MiniappQrcodeRequestBody body){
-        BibleItem qrConfig = bibleItemService.queryOne(BibleItemQueryRequestBody.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
+        BibleItem qrConfig = bibleItemService.queryOne(BibleItemQO.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
         ApiAssert.notNull(qrConfig, WechatMaCode.Message.PARAMETER_NOT_CONFIG, body.getType());
 
         String accessToken = null;

@@ -1,13 +1,11 @@
 package com.minlia.module.bible.service;
 
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.bible.body.BibleItemCreateRequestBody;
-import com.minlia.module.bible.body.BibleItemQueryRequestBody;
-import com.minlia.module.bible.body.BibleItemUpdateRequestBody;
-import com.minlia.module.bible.entity.BibleItem;
-import org.apache.ibatis.session.RowBounds;
+import com.minlia.module.bible.bean.domain.BibleItem;
+import com.minlia.module.bible.bean.qo.BibleItemQO;
+import com.minlia.module.bible.bean.to.BibleItemCTO;
+import com.minlia.module.bible.bean.to.BibleItemUTO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -17,21 +15,22 @@ import java.util.List;
  */
 public interface BibleItemService {
 
-    BibleItem create(BibleItemCreateRequestBody requestBody);
+    BibleItem create(BibleItemCTO cto);
 
-    BibleItem update(BibleItemUpdateRequestBody requestBody);
+    BibleItem update(BibleItemUTO uto);
 
     void delete(Long id);
 
     String get(String parentCode, String code);
 
-    long count(BibleItemQueryRequestBody requestBody);
-
     BibleItem queryById(Long id);
 
-    BibleItem queryOne(BibleItemQueryRequestBody requestBody);
+    long count(BibleItemQO qo);
 
-    List<BibleItem> queryList(BibleItemQueryRequestBody requestBody);
+    BibleItem queryOne(BibleItemQO qo);
 
-    PageInfo<BibleItem> queryPage(BibleItemQueryRequestBody requestBody, Pageable pageable);
+    List<BibleItem> queryList(BibleItemQO qo);
+
+    PageInfo<BibleItem> queryPage(BibleItemQO qo, Pageable pageable);
+
 }

@@ -1,7 +1,7 @@
 package com.minlia.module.todo.mapper;
 
-import com.minlia.module.todo.body.TodoQueryRequestBody;
-import com.minlia.module.todo.entity.MyTodo;
+import com.minlia.module.todo.bean.qo.TodoQO;
+import com.minlia.module.todo.bean.domain.MyTodo;
 
 import java.util.List;
 
@@ -16,12 +16,10 @@ public interface TodoMapper {
 
     int delete(Long id);
 
-    MyTodo queryById(Long id);
-
     MyTodo queryByNumber(String number);
 
-    List<MyTodo> queryList(TodoQueryRequestBody body);
+    List<MyTodo> queryList(TodoQO body);
 
-    long count(TodoQueryRequestBody requestBody);
+    long count(TodoQO requestBody);
 
 }

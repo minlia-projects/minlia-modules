@@ -2,7 +2,7 @@ package com.minlia.modules.qcloud.faceid.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequestBody;
+import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequest;
 import com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord;
 import com.minlia.modules.qcloud.faceid.mapper.QcloudFaceIdRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class QcloudFaceIdRecordServiceImpl implements QcloudFaceIdRecordService 
     }
 
     @Override
-    public long count(QcloudFaceIdRecordQueryRequestBody requestBody) {
+    public long count(QcloudFaceIdRecordQueryRequest requestBody) {
         return faceIdRecordMapper.count(requestBody);
     }
 
@@ -48,17 +48,17 @@ public class QcloudFaceIdRecordServiceImpl implements QcloudFaceIdRecordService 
     }
 
     @Override
-    public QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQueryRequestBody requestBody) {
+    public QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQueryRequest requestBody) {
         return faceIdRecordMapper.queryOne(requestBody);
     }
 
     @Override
-    public List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQueryRequestBody requestBody) {
+    public List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQueryRequest requestBody) {
         return faceIdRecordMapper.queryList(requestBody);
     }
 
     @Override
-    public PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQueryRequestBody requestBody, Pageable pageable) {
+    public PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQueryRequest requestBody, Pageable pageable) {
         return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(requestBody));
     }
 

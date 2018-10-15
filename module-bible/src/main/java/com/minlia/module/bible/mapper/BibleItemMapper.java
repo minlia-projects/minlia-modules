@@ -1,29 +1,27 @@
 package com.minlia.module.bible.mapper;
 
-import com.minlia.module.bible.body.BibleItemQueryRequestBody;
-import com.minlia.module.bible.entity.BibleItem;
-import org.springframework.cache.annotation.Cacheable;
+import com.minlia.module.bible.bean.domain.BibleItem;
+import com.minlia.module.bible.bean.qo.BibleItemQO;
 
 import java.util.List;
 
 /**
- * Created by will on 8/22/17.
+ * Created by garen on 2017/8/22.
  */
 public interface BibleItemMapper {
 
-    void create(BibleItem body);
+    void create(BibleItem bibleItem);
 
-    void update(BibleItem body);
+    void update(BibleItem bibleItem);
 
     void delete(Long id);
 
-    long count(BibleItemQueryRequestBody body);
+    long count(BibleItemQO qo);
 
     BibleItem queryById(Long id);
 
-//    @Cacheable(key = "'bible_item:one:' + #p0")
-    BibleItem queryOne(BibleItemQueryRequestBody body);
+    BibleItem queryOne(BibleItemQO qo);
 
-    List<BibleItem> queryList(BibleItemQueryRequestBody body);
+    List<BibleItem> queryList(BibleItemQO qo);
 
 }

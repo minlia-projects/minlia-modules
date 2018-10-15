@@ -6,7 +6,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.rbac.backend.common.constant.RebeccaSecurityConstant;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationCreateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationGrantRequestBody;
-import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequestBody;
+import com.minlia.modules.rbac.backend.navigation.body.NavigationQueryRequest;
 import com.minlia.modules.rbac.backend.navigation.body.NavigationUpdateRequestBody;
 import com.minlia.modules.rbac.backend.navigation.service.NavigationService;
 import io.swagger.annotations.Api;
@@ -93,14 +93,14 @@ public class NavigationEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "queryList", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryList(@RequestBody NavigationQueryRequestBody requestBody) {
+    public Response queryList(@RequestBody NavigationQueryRequest requestBody) {
         return Response.success(navigationService.queryList(requestBody));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "查询分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "queryPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQueryRequestBody requestBody) {
+    public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQueryRequest requestBody) {
         return Response.success(navigationService.queryPage(requestBody, pageable));
     }
 

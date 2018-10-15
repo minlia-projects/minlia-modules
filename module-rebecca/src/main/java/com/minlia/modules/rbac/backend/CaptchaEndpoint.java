@@ -4,7 +4,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.Environments;
-import com.minlia.module.captcha.domain.Captcha;
+import com.minlia.module.captcha.bean.domain.Captcha;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.context.SecurityContextHolder;

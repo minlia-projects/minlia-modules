@@ -4,7 +4,7 @@ package com.minlia.modules.attachment.service;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
-import com.minlia.modules.attachment.body.AttachmentQueryRequestBody;
+import com.minlia.modules.attachment.body.AttachmentQueryRequest;
 import com.minlia.modules.attachment.entity.Attachment;
 import org.springframework.data.domain.Pageable;
 
@@ -82,12 +82,12 @@ public interface AttachmentService {
      * 返回所有
      * @return
      */
-    List<Attachment> queryList(AttachmentQueryRequestBody requestBody);
+    List<Attachment> queryList(AttachmentQueryRequest requestBody);
 
     /**
      * 返回所有
      * @return
      */
-    PageInfo<Attachment> queryPage(AttachmentQueryRequestBody requestBody, Pageable pageable);
+    PageInfo<Attachment> queryPage(AttachmentQueryRequest requestBody, Pageable pageable);
 
 }

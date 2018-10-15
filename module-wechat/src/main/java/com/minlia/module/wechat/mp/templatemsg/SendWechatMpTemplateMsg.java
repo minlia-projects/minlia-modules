@@ -4,8 +4,8 @@ import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.bible.body.BibleItemQueryRequestBody;
-import com.minlia.module.bible.entity.BibleItem;
+import com.minlia.module.bible.bean.qo.BibleItemQO;
+import com.minlia.module.bible.bean.domain.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
@@ -54,7 +54,7 @@ public class SendWechatMpTemplateMsg {
      */
     @Deprecated
     private MiniProgram builderMiniProgram(String appId, String templateId,List<Object> pathParams){
-        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
+        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQO.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
         ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
         return new MiniProgram(appId, String.format(bibleItem.getAttribute1(),pathParams));
     }
@@ -109,7 +109,7 @@ public class SendWechatMpTemplateMsg {
             if (StringUtils.isBlank(appid)) {
                 appid = ContextHolder.getContext().getBean(WxMaConfig.class).getAppid();
             }
-            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQueryRequestBody.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
+            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQO.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
             ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
 
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();

@@ -58,15 +58,15 @@ public class DistrictEndpoint {
 
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "list", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody DistrictQO requestBody) {
-        List<District> districtList = service.queryList(requestBody);
+    public Response list(@RequestBody DistrictQO qo) {
+        List<District> districtList = service.queryList(qo);
         return Response.success(districtList);
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "page", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response paginated(@PageableDefault Pageable pageable, @RequestBody DistrictQO requestBody) {
-        PageInfo<District> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> service.queryList(requestBody));
+    public Response paginated(@PageableDefault Pageable pageable, @RequestBody DistrictQO qo) {
+        PageInfo<District> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> service.queryList(qo));
         return Response.success(pageInfo);
     }
 

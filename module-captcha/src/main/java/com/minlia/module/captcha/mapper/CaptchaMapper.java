@@ -1,7 +1,7 @@
 package com.minlia.module.captcha.mapper;
 
-import com.minlia.module.captcha.body.CaptchaQueryRequestBody;
-import com.minlia.module.captcha.domain.Captcha;
+import com.minlia.module.captcha.bean.qo.CaptchaQO;
+import com.minlia.module.captcha.bean.domain.Captcha;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,16 +32,16 @@ public interface CaptchaMapper {
 
     /**
      * 单个查询
-     * @param body
+     * @param qo
      * @return
      */
-    Captcha queryOne(CaptchaQueryRequestBody body);
+    Captcha queryOne(CaptchaQO qo);
 
     /**
      * 集合查询
-     * @param body
+     * @param qo
      * @return
      */
-    Captcha queryList(CaptchaQueryRequestBody body);
+    Captcha queryList(CaptchaQO qo);
 
 }

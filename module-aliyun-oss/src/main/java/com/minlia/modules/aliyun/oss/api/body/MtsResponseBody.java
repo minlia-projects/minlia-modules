@@ -17,9 +17,11 @@ public class MtsResponseBody {
     private Boolean success;
 
     private String inputObject;
+
     private String inputObjectUrl;
 
     private String outputObject;
+
     private String outputObjectUrl;
 
     private MtsTemplateType mtsTemplateType;
