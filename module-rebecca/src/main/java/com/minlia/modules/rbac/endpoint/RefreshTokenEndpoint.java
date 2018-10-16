@@ -61,7 +61,6 @@ public class RefreshTokenEndpoint {
     @RequestMapping(value = "/api/v1/auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})//,headers = "X-Authorization"
     public @ResponseBody Response refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
-
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
         RefreshToken refreshToken = RefreshToken.create(rawToken, jwtProperty.getTokenSigningKey()).orElseThrow(() -> new InvalidJwtTokenException());
 

@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.backend.loginlog.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.minlia.modules.rbac.enumeration.LoginStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +28,7 @@ public class LoginLog {
     private String ipAddress;
 
     private Date time;
+
+    private LoginStatusEnum status;
 
 }

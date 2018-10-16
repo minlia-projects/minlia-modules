@@ -64,6 +64,11 @@ public class User extends AbstractEntity {
     private Date expireDate;
 
     /**
+     * 是否可用
+     */
+    private Boolean enabled;
+
+    /**
      * 是否锁定
      */
     private Boolean locked;
@@ -97,10 +102,5 @@ public class User extends AbstractEntity {
      * 推荐人
      */
     private String referral;
-
-    /**
-     * 是否启用
-     */
-    private Boolean enabled;
 
 }

@@ -31,9 +31,6 @@ public final class SecurityContextHolder {
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserContext) {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
-
-                log.info("********************************************");
-                log.info("********************************************:{}",userContext.toString());
                 return userContext;
             }
         }
@@ -51,8 +48,8 @@ public final class SecurityContextHolder {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
                 return userContext.getUsername();
             } else if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                return springSecurityUser.getUsername();
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                return userDetails.getUsername();
             } else if (authentication.getPrincipal() instanceof String) {
                 if ("anonymousUser".equalsIgnoreCase((String) authentication.getPrincipal())) {
                     return null;
@@ -62,6 +59,10 @@ public final class SecurityContextHolder {
             }
         }
         return null;
+    }
+
+    public static String getCurrentGuid() {
+        return getUserContext().getGuid();
     }
 
     public static User getCurrentUser() {
@@ -77,10 +78,6 @@ public final class SecurityContextHolder {
     public static Long getCurrentUserId() {
         User user = getCurrentUser();
         return null == user ? null : user.getId();
-    }
-
-    public static String getCurrentGuid() {
-        return getUserContext().getGuid();
     }
 
     public static boolean isAuthenticated() {
@@ -101,16 +98,9 @@ public final class SecurityContextHolder {
         return roles.contains(roleCode);
     }
 
-    public static boolean isCurrentUserInRole(String authority) {
-        SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
-            }
-        }
-        return false;
+    public static boolean hasAuthority(String authority) {
+        Collection<? extends GrantedAuthority> authorities = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return authorities.contains(new SimpleGrantedAuthority(authority));
     }
 
 }
