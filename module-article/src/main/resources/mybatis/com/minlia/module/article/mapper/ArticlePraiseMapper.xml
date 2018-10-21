@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.article.mapper.ArticlePraiseMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            id,
+            article_id,
+            choose,
+            create_by,
+            create_date,
+            last_modified_by,
+            last_modified_date
+        FROM
+            mdl_article_praise
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="articleId != null">
+                AND article_id = #{articleId}
+            </if>
+            <if test="createBy != null">
+                AND create_by = #{createBy}
+            </if>
+            <if test="choose != null">
+                AND choose = #{choose}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" parameterType="com.minlia.module.article.bean.domain.ArticlePraise">
+        INSERT INTO mdl_article_praise(
+            article_id ,
+            choose ,
+            create_by
+        ) VALUES (
+            #{articleId} ,
+            #{choose} ,
+            #{createBy}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.minlia.module.article.bean.domain.ArticlePraise">
+        UPDATE mdl_article_praise
+        <set>
+            <if test="choose != null">
+                choose = #{choose},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM mdl_article_praise WHERE id = #{id}
+    </delete>
+
+    <select id="queryById" resultType="com.minlia.module.article.bean.domain.ArticlePraise">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(1) FROM mdl_article_praise
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="one" resultType="com.minlia.module.article.bean.domain.ArticlePraise">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="list" resultType="com.minlia.module.article.bean.domain.ArticlePraise">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        ORDER BY create_date DESC
+    </select>
+
+</mapper>

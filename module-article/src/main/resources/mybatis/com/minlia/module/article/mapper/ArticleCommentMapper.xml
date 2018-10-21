@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.article.mapper.ArticleCommentMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            id,
+            article_id,
+            content,
+            create_by,
+            create_date,
+            last_modified_by,
+            last_modified_date
+        FROM
+            mdl_article_comment
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="articleId != null">
+                AND article_id = #{articleId}
+            </if>
+            <if test="createBy != null">
+                AND create_by = #{createBy}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" parameterType="com.minlia.module.article.bean.domain.ArticleComment">
+        INSERT INTO mdl_article_comment(
+            article_id ,
+            content ,
+            create_by
+        ) VALUES (
+            #{articleId} ,
+            #{content} ,
+            #{createBy}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.minlia.module.article.bean.domain.ArticleComment">
+        UPDATE mdl_article_comment
+        <set>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM mdl_article_comment WHERE id = #{id}
+    </delete>
+
+    <select id="queryById" resultType="com.minlia.module.article.bean.domain.ArticleComment">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(1) FROM mdl_article_comment
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="one" resultType="com.minlia.module.article.bean.domain.ArticleComment">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="list" resultType="com.minlia.module.article.bean.domain.ArticleComment">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        ORDER BY create_date DESC
+    </select>
+
+</mapper>

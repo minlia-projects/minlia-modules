@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.version.mapper.VersionMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            id,
+            number,
+            type,
+            download_url,
+            is_test AS test,
+            notes,
+            enabled,
+            create_by,
+            create_date,
+            last_modified_by,
+            last_modified_date
+        FROM
+            mdl_version
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="number != null">
+                number = #{number}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+            <if test="test != null">
+                AND is_test = #{test}
+            </if>
+            <if test="enabled != null">
+                AND enabled = #{enabled}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mdl_version(
+            number,
+            type,
+            download_url,
+            is_test,
+            notes,
+            enabled,
+            create_by
+        ) VALUES (
+            #{number},
+            #{type} ,
+            #{downloadUrl} ,
+            #{test} ,
+            #{notes} ,
+            #{enabled} ,
+            #{createBy}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.minlia.module.version.bean.domain.Version">
+        UPDATE mdl_version
+        <set>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="downloadUrl != null">
+                download_url = #{downloadUrl},
+            </if>
+            <if test="test != null">
+                is_test = #{test} ,
+            </if>
+            <if test="notes != null">
+                notes = #{notes} ,
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled} ,
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM mdl_version WHERE id = #{id}
+    </delete>
+
+    <select id="queryById" resultType="com.minlia.module.version.bean.domain.Version">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="count" resultType="long">
+        SELECT COUNT(1) FROM mdl_version t
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="one" resultType="com.minlia.module.version.bean.domain.Version">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="list" resultType="com.minlia.module.version.bean.domain.Version">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        ORDER BY create_date DESC
+    </select>
+
+</mapper>
