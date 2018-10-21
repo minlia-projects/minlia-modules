@@ -5,13 +5,13 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
-import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserCTO;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserRegistrationTO;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.backend.user.service.UserService;
 import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
-import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
 import com.minlia.modules.security.constant.SecurityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,27 +31,28 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private UserQueryService userQueryService;
 
     @Override
-    public User registration(UserRegistrationRequestBody body) {
-        switch (body.getType()) {
+    public User registration(UserRegistrationTO to) {
+        switch (to.getType()) {
             case USERNAME:
                 ApiAssert.state(false, RebaccaCode.Message.USER_UNSUPPORTED_USERNAME_REGISTERED);
                 break;
             case CELLPHONE:
-                captchaService.validity(body.getCellphone(),body.getCode());
+                captchaService.validity(to.getCellphone(), to.getCode());
                 break;
             case EMAIL:
                 ApiAssert.state(false, RebaccaCode.Message.USER_UNSUPPORTED_EMAIL_REGISTERED);
-                captchaService.validity(body.getCellphone(),body.getCode());
+                captchaService.validity(to.getCellphone(),to.getCode());
                 break;
         }
 
-        User user = userService.create(UserCreateRequestBody.builder()
-                .username(body.getUsername())
-                .cellphone(body.getUsername())
-                .password(body.getPassword())
-                .defaultRole(SecurityConstant.ROLE_USER_CODE)
+        User user = userService.create(UserCTO.builder()
+                .method(to.getType())
+                .username(to.getUsername())
+                .cellphone(to.getUsername())
+                .password(to.getPassword())
+                .defaultRole(SecurityConstant.ROLE_USER_ID)
                 .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_ID))
-                .referral(body.getReferral())
+                .referral(to.getReferral())
                 .build());
         return user;
     }

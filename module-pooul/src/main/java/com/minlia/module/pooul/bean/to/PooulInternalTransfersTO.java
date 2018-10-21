@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class PooulInternalTransfersTO {
 
     /**
-     * 付款方商户编号,可以是平台商户或入驻商户
+     * 付款方商户编号,可以是平台商户或入驻商户LoginThirdPartyServiceImpl.jav
      * 必填
      */
     private String payer_merchant_id;

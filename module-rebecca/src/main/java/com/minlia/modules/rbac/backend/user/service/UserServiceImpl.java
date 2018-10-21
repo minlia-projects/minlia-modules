@@ -5,14 +5,13 @@ import com.minlia.module.data.util.SequenceUtils;
 import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
 import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
-import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserCTO;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.event.UserDeleteEvent;
 import com.minlia.modules.rbac.backend.user.mapper.UserMapper;
 import com.minlia.modules.rbac.event.RegistrationEvent;
-import com.minlia.modules.security.constant.SecurityConstant;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -39,43 +38,49 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User create(UserCreateRequestBody requestBody) {
-        if (StringUtils.isNotEmpty(requestBody.getUsername())) {
-            ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
-        }
-        if (StringUtils.isNotEmpty(requestBody.getCellphone())) {
-            ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
-        }
-        if (StringUtils.isNotEmpty(requestBody.getEmail())) {
-            ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
-        }
-        if (StringUtils.isNotEmpty(requestBody.getReferral())) {
-            ApiAssert.state(userQueryService.exists(UserQueryRequestBody.builder().username(requestBody.getReferral()).build()), RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
+    public User create(UserCTO cto) {
+        User user = new User();
+
+        //校验凭证是否有效
+        switch (cto.getMethod()) {
+            case USERNAME:
+                ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().username(cto.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
+                user.setUsername(cto.getUsername());
+                break;
+            case CELLPHONE:
+                ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().cellphone(cto.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
+                user.setCellphone(cto.getCellphone());
+                break;
+            case EMAIL:
+                ApiAssert.state(!userQueryService.exists(UserQueryRequestBody.builder().email(cto.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
+                user.setEmail(cto.getEmail());
+                break;
         }
 
-        //校验默认角色是否存在
-        if (StringUtils.isNotBlank(requestBody.getDefaultRole())) {
-            Role role = roleService.queryByCode(requestBody.getDefaultRole());
-            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
-        } else {
-            //如果不传默认为用户
-            requestBody.setDefaultRole(SecurityConstant.ROLE_USER_CODE);
+        //校验推荐人是否存在
+        if (StringUtils.isNotEmpty(cto.getReferral())) {
+            ApiAssert.state(userQueryService.exists(UserQueryRequestBody.builder().username(cto.getReferral()).build()), RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
+            user.setReferral(cto.getReferral());
         }
 
-        User user = User.builder()
-                .guid(SequenceUtils.nextval("guid").toString())
-                .username(requestBody.getUsername())
-                .cellphone(requestBody.getCellphone())
-                .email(requestBody.getEmail())
-                .password(bCryptPasswordEncoder.encode(requestBody.getPassword()))
-                .defaultRole(requestBody.getDefaultRole())
-                .referral(requestBody.getReferral())
-                .build();
+        //校验角色是否存在
+        for (Long roleId : cto.getRoles()) {
+            ApiAssert.state(roleService.exists(roleId), RebaccaCode.Message.ROLE_NOT_EXISTED);
+        }
+
+        //校验并查询默认角色
+        Role role = roleService.queryById(cto.getDefaultRole());
+        ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
+
+        user.setGuid(SequenceUtils.nextval("guid").toString());
+        user.setPassword(bCryptPasswordEncoder.encode(cto.getPassword()));
+        user.setDefaultRole(role.getCode());
         userMapper.create(user);
 
-        //授予角色
-        if (CollectionUtils.isNotEmpty(requestBody.getRoles())) {
-            this.grant(user.getId(),requestBody.getRoles());
+        //给用户授予角色
+        cto.getRoles().add(cto.getDefaultRole());
+        if (CollectionUtils.isNotEmpty(cto.getRoles())) {
+            this.grant(user.getId(),cto.getRoles());
         }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作

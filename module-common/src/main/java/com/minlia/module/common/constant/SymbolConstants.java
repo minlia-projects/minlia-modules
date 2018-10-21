@@ -43,4 +43,6 @@ public final class SymbolConstants {
 
     public static final String UNCHECKED = "unchecked";
 
+    public static final String COLON = ":";
+
 }

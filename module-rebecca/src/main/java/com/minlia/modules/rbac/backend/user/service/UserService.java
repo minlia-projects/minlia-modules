@@ -1,8 +1,7 @@
 package com.minlia.modules.rbac.backend.user.service;
 
 
-import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
-import com.minlia.modules.rbac.backend.user.body.UserGarenRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserCTO;
 import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 
@@ -13,7 +12,7 @@ import java.util.Set;
  */
 public interface UserService {
 
-    User create(UserCreateRequestBody entity);
+    User create(UserCTO entity);
 
     User update(UserUpdateRequestBody body);
 

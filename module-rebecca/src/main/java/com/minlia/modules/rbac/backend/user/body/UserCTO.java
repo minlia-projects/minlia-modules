@@ -5,6 +5,8 @@ import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
+import com.minlia.modules.rbac.enumeration.RegistrationMethodEnum;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +24,11 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateRequestBody implements ApiRequestBody {
+public class UserCTO implements ApiRequestBody {
+
+    @ApiModelProperty(value = "注册方式")
+    @NotNull(message = "注册方式不能为空")
+    private RegistrationMethodEnum method;
 
     @Username
     private String username;
@@ -37,8 +43,8 @@ public class UserCreateRequestBody implements ApiRequestBody {
     @Password
     private String password;
 
-    @NotBlank
-    private String defaultRole;
+    @NotNull
+    private Long defaultRole;
 
     @NotNull
     private Set<Long> roles;

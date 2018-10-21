@@ -72,12 +72,12 @@ public class RebaccaCode {
         /**
          * 手机号码已存在
          */
-        USER_EMAIL_ALREADY_EXISTED(100206,"system.user.message.100206"),
+        USER_CELLPHONE_ALREADY_EXISTED(100206,"system.user.message.100206"),
 
         /**
          * 邮箱已存在
          */
-        USER_CELLPHONE_ALREADY_EXISTED(100207,"system.user.message.100207"),
+        USER_EMAIL_ALREADY_EXISTED(100207,"system.user.message.100207"),
 
         /**
          * 用户原密码错误

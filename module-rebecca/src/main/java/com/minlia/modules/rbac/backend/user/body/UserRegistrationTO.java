@@ -1,10 +1,10 @@
-package com.minlia.modules.rbac.bean.to;
+package com.minlia.modules.rbac.backend.user.body;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
-import com.minlia.modules.rbac.enumeration.RegistrationType;
+import com.minlia.modules.rbac.enumeration.RegistrationMethodEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,11 +20,11 @@ import javax.validation.constraints.Size;
  */
 @ApiModel(value = "注册")
 @Data
-public class UserRegistrationRequestBody implements ApiRequestBody {
+public class UserRegistrationTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "注册类型")
     @NotNull(message = "注册类型不能为空")
-    private RegistrationType type;
+    private RegistrationMethodEnum type;
 
     @ApiModelProperty(value = "用户名", example = "jack")
     @Username

@@ -4,7 +4,7 @@ package com.minlia.modules.rbac.backend.user.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.modules.rbac.backend.common.constant.RebeccaSecurityConstant;
-import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserCTO;
 import com.minlia.modules.rbac.backend.user.body.UserGarenRequestBody;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.body.UserUpdateRequestBody;
@@ -36,7 +36,7 @@ public class UserEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response create(@Valid @RequestBody UserCreateRequestBody body) {
+    public Response create(@Valid @RequestBody UserCTO body) {
         return Response.success(userService.create(body));
     }
 

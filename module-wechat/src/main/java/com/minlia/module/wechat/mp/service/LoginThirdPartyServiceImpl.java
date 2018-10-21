@@ -12,10 +12,10 @@ import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.module.wechat.mp.constant.WechatMpCode;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserRegistrationTO;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
-import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
-import com.minlia.modules.rbac.enumeration.RegistrationType;
+import com.minlia.modules.rbac.enumeration.RegistrationMethodEnum;
 import com.minlia.modules.rbac.service.LoginService;
 import com.minlia.modules.rbac.service.UserRegistrationService;
 import com.minlia.modules.security.constant.SecurityConstant;
@@ -108,8 +108,8 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         String rawPassword = RandomStringUtils.randomAlphabetic(6);
         //不存在就注册
         if (null == user) {
-            UserRegistrationRequestBody userRegistrationRequestBody = new UserRegistrationRequestBody();
-            userRegistrationRequestBody.setType(RegistrationType.CELLPHONE);
+            UserRegistrationTO userRegistrationRequestBody = new UserRegistrationTO();
+            userRegistrationRequestBody.setType(RegistrationMethodEnum.CELLPHONE);
             userRegistrationRequestBody.setUsername(body.getUsername());
             userRegistrationRequestBody.setCellphone(body.getUsername());
             userRegistrationRequestBody.setCode(body.getSecurityCode());

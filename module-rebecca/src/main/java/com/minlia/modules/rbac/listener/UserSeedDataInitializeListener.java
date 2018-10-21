@@ -6,7 +6,7 @@ import com.minlia.modules.rbac.backend.permission.service.PermissionService;
 import com.minlia.modules.rbac.backend.role.body.RoleCreateRequestBody;
 import com.minlia.modules.rbac.backend.role.entity.Role;
 import com.minlia.modules.rbac.backend.role.service.RoleService;
-import com.minlia.modules.rbac.backend.user.body.UserCreateRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserCTO;
 import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
@@ -75,7 +75,7 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
         User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(SecurityConstant.ROLE_ADMIN_CODE).build());
         if (null == user) {
             Role role = roleService.queryByCode(SecurityConstant.ROLE_ADMIN_CODE);
-            user = userService.create(UserCreateRequestBody.builder()
+            user = userService.create(UserCTO.builder()
                     .username(SecurityConstant.ROLE_ADMIN_CODE)
                     .password(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,SecurityConstant.ROLE_ADMIN_CODE))
                     .roles(Sets.newHashSet(role.getId()))

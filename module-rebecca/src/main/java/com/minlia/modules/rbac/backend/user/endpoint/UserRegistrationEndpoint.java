@@ -1,4 +1,4 @@
-package com.minlia.modules.rbac.endpoint;
+package com.minlia.modules.rbac.backend.user.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
@@ -8,7 +8,7 @@ import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
 import com.minlia.modules.rbac.backend.user.entity.User;
 import com.minlia.modules.rbac.backend.user.service.UserQueryService;
 import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
-import com.minlia.modules.rbac.bean.to.UserRegistrationRequestBody;
+import com.minlia.modules.rbac.backend.user.body.UserRegistrationTO;
 import com.minlia.modules.rbac.service.UserRegistrationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,8 +34,8 @@ public class UserRegistrationEndpoint {
 
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "a", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response registration(@Valid @RequestBody UserRegistrationRequestBody body ) {
-        User userRegistered = userRegistrationService.registration(body);
+    public Response registration(@Valid @RequestBody UserRegistrationTO to ) {
+        User userRegistered = userRegistrationService.registration(to);
         return Response.success(userRegistered);
     }
 
