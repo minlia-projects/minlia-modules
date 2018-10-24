@@ -1,7 +1,8 @@
 package com.minlia.modules.rbac.validation;
 
-import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
-import com.minlia.modules.rbac.backend.user.service.UserQueryService;
+import com.minlia.modules.rbac.bean.to.UserAvailablitityTO;
+import com.minlia.modules.rbac.service.UserRegistrationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -10,10 +11,11 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Validator of unique username
  */
+@Slf4j
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
 
     @Autowired
-    private UserQueryService userQueryService;
+    UserRegistrationService userRegistrationService;
 
     @Override
     public void initialize(UniqueUsername constraintAnnotation) {
@@ -22,8 +24,14 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
+        // If the service is null then return null
+        if(userRegistrationService == null){
+            log.warn("Object is null at this time: userReadOnlyService");
+            return true;
+        }
         // Check if the username is unique
-        return userQueryService.exists(UserQueryRequestBody.builder().username(username).build());
+        UserAvailablitityTO body=new UserAvailablitityTO();
+        body.setUsername(username);
+        return userRegistrationService.availablitity(body).isSuccess();
     }
-
 }

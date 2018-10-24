@@ -1,9 +1,9 @@
 package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
-import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
-import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.backend.user.service.UserQueryService;
+import com.minlia.modules.rbac.bean.qo.UserQO;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.service.UserQueryService;
 import com.minlia.modules.rbac.service.LoginService;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.authentication.jwt.verifier.TokenVerifier;
@@ -70,7 +70,7 @@ public class RefreshTokenEndpoint {
         }
 
         String subject = refreshToken.getSubject();
-        User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(subject).build());
+        User user = userQueryService.queryOne(UserQO.builder().username(subject).build());
         if (null == user) {
             throw new UsernameNotFoundException("User not found: " + subject);
         }

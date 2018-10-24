@@ -58,7 +58,22 @@ public class CaptchaCode {
         /**
          * 验证码找不到
          */
-        NOT_FOUND(101409,"system.captcha.message.101409");
+        NOT_FOUND(101409,"system.captcha.message.101409"),
+
+        /**
+         * 邮箱格式有误:请输入正确的邮箱地址
+         */
+        EMAIL_WRONG_FORMAT(101410,"system.captcha.message.101410"),
+
+        /**
+         * 手机号码不能为空
+         */
+        CELLPHONE_NOT_NULL(101411,"system.captcha.message.101411"),
+
+        /**
+         * 邮箱不能为空
+         */
+        EMAIL_NOT_NULL(101412,"system.captcha.message.101412");
 
         private int code;
         private String i18nKey;

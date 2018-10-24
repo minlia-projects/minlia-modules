@@ -11,7 +11,7 @@ import com.minlia.module.wechat.ma.entity.WechatMaUser;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.event.WechatMaUpdatedEvent;
 import com.minlia.module.wechat.ma.mapper.WxMaUserMapper;
-import com.minlia.modules.rbac.backend.user.entity.User;
+import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;

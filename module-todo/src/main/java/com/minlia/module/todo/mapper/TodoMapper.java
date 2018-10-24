@@ -18,8 +18,8 @@ public interface TodoMapper {
 
     MyTodo queryByNumber(String number);
 
-    List<MyTodo> queryList(TodoQO body);
+    List<MyTodo> queryList(TodoQO qo);
 
-    long count(TodoQO requestBody);
+    long count(TodoQO qo);
 
 }

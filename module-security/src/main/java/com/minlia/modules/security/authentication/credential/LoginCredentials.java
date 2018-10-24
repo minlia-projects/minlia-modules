@@ -1,7 +1,14 @@
 package com.minlia.modules.security.authentication.credential;
 
 
+import com.minlia.module.common.validation.Cellphone;
+import com.minlia.module.common.validation.Password;
+import com.minlia.module.common.validation.Username;
+import com.minlia.modules.security.enumeration.LoginMethodEnum;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 只能用其中之一来登录
@@ -11,31 +18,30 @@ import lombok.Data;
  *
  */
 @Data
-public class LoginCredentials  implements WithUsernameCredential, WithEmailCredential, WithCellphoneCredential {
+public class LoginCredentials implements WithUsernameCredential, WithEmailCredential, WithCellphoneCredential {
 
-    /**
-     * 用户名
-     */
+    @ApiModelProperty(value = "登陆方式", example = "USERNAME")
+    @NotBlank(message = "登陆方式不能为空")
+    private LoginMethodEnum method;
+
+    @ApiModelProperty(value = "用户名", example = "admin")
+    @Username
     private String username;
 
-    /**
-     * 手机号码
-     */
+    @ApiModelProperty(value = "手机号码", example = "18588888888")
+    @Cellphone
     private String cellphone;
 
-    /**
-     * 邮箱
-     */
+    @ApiModelProperty(value = "邮箱", example = "admin@admin.com")
+    @Email
     private String email;
 
-    /**
-     * 密码
-     */
+    @ApiModelProperty(value = "密码", example = "admin")
+    @NotBlank(message = "密码不能为空")
+    @Password
     private String password;
 
-    /**
-     * 当前角色
-     */
+    @ApiModelProperty(value = "当前角色", example = "User")
     private String currrole;
 
 }

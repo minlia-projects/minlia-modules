@@ -11,12 +11,12 @@ import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
 import com.minlia.module.wechat.mp.constant.WechatMpCode;
-import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
-import com.minlia.modules.rbac.backend.user.body.UserRegistrationTO;
-import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.backend.user.service.UserQueryService;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.UserQO;
+import com.minlia.modules.rbac.bean.to.UserRegistrationTO;
 import com.minlia.modules.rbac.enumeration.RegistrationMethodEnum;
 import com.minlia.modules.rbac.service.LoginService;
+import com.minlia.modules.rbac.service.UserQueryService;
 import com.minlia.modules.rbac.service.UserRegistrationService;
 import com.minlia.modules.security.constant.SecurityConstant;
 import lombok.extern.slf4j.Slf4j;
@@ -83,7 +83,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
             } else {
                 wechatOpenAccount.setGuid(wechatOpenAccounts.get(0).getGuid());
                 wechatOpenAccountService.create(wechatOpenAccount);
-                User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
+                User user = userQueryService.queryOne(UserQO.builder().guid(wechatOpenAccount.getGuid()).build());
                 return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             }
         } else {
@@ -92,7 +92,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
             wechatOpenAccountService.update(wechatOpenAccount);
 
             if (null != wechatOpenAccount.getGuid()) {
-                User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
+                User user = userQueryService.queryOne(UserQO.builder().guid(wechatOpenAccount.getGuid()).build());
                 return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             } else {
                 return Response.failure("未注册");
@@ -103,18 +103,18 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Override
     public Response bindByWxma(BindWxRequestBody body) {
         //根据手机号码查询用户是否存在
-        User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(body.getUsername()).build());
+        User user = userQueryService.queryOne(UserQO.builder().username(body.getUsername()).build());
         //明文密码
         String rawPassword = RandomStringUtils.randomAlphabetic(6);
         //不存在就注册
         if (null == user) {
-            UserRegistrationTO userRegistrationRequestBody = new UserRegistrationTO();
-            userRegistrationRequestBody.setType(RegistrationMethodEnum.CELLPHONE);
-            userRegistrationRequestBody.setUsername(body.getUsername());
-            userRegistrationRequestBody.setCellphone(body.getUsername());
-            userRegistrationRequestBody.setCode(body.getSecurityCode());
-            userRegistrationRequestBody.setPassword(rawPassword);
-            user = userRegistrationService.registration(userRegistrationRequestBody);
+            UserRegistrationTO userRegistrationTO = new UserRegistrationTO();
+            userRegistrationTO.setType(RegistrationMethodEnum.CELLPHONE);
+            userRegistrationTO.setUsername(body.getUsername());
+            userRegistrationTO.setCellphone(body.getUsername());
+            userRegistrationTO.setCode(body.getSecurityCode());
+            userRegistrationTO.setPassword(rawPassword);
+            user = userRegistrationService.registration(userRegistrationTO);
         }
 
         //查询CODE是否存在,CODE必须唯一

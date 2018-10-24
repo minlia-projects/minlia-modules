@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.minlia.modules.rbac.backend.user.mapper.UserMapper">
+<mapper namespace="com.minlia.modules.rbac.mapper.UserMapper">
 
     <sql id="QUERY_CONTENT">
         SELECT
@@ -77,7 +77,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.modules.rbac.backend.user.entity.User">
+    <update id="update" parameterType="com.minlia.modules.rbac.bean.domain.User">
         UPDATE mdl_user
         SET
         <if test="enabled != null">
@@ -133,7 +133,7 @@
         ;
     </update>
 
-    <select id="queryByUsernameOrCellphoneOrEmail" resultType="com.minlia.modules.rbac.backend.user.entity.User">
+    <select id="queryByUsernameOrCellphoneOrEmail" resultType="com.minlia.modules.rbac.bean.domain.User">
         <include refid="QUERY_CONTENT"/>
         WHERE ut.guid = #{arg0} OR ut.username = #{arg0} OR ut.cellphone = #{arg0} OR email = #{arg0}
     </select>
@@ -143,12 +143,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryOne" resultType="com.minlia.modules.rbac.backend.user.entity.User">
+    <select id="queryOne" resultType="com.minlia.modules.rbac.bean.domain.User">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.modules.rbac.backend.user.entity.User">
+    <select id="queryList" resultType="com.minlia.modules.rbac.bean.domain.User">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

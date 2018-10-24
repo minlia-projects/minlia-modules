@@ -98,7 +98,12 @@ public class SecurityCode {
         /**
          * 认证服务异常
          */
-        AUTH_SERVICE(100117,"system.security.exception.100117");
+        AUTH_SERVICE(100117,"system.security.exception.100117"),
+
+        /**
+         * 登陆方式不能为空
+         */
+        LOGIN_METHOD_NOT_NULL(100118,"system.security.exception.100118");
 
         private int code;
         private String i18nKey;

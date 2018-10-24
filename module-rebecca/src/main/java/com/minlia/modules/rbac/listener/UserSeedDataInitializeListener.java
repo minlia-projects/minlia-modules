@@ -2,15 +2,15 @@ package com.minlia.modules.rbac.listener;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
-import com.minlia.modules.rbac.backend.permission.service.PermissionService;
-import com.minlia.modules.rbac.backend.role.body.RoleCreateRequestBody;
-import com.minlia.modules.rbac.backend.role.entity.Role;
-import com.minlia.modules.rbac.backend.role.service.RoleService;
-import com.minlia.modules.rbac.backend.user.body.UserCTO;
-import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
-import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.backend.user.service.UserQueryService;
-import com.minlia.modules.rbac.backend.user.service.UserService;
+import com.minlia.modules.rbac.service.PermissionService;
+import com.minlia.modules.rbac.bean.to.RoleCTO;
+import com.minlia.modules.rbac.bean.domain.Role;
+import com.minlia.modules.rbac.service.RoleService;
+import com.minlia.modules.rbac.bean.to.UserCTO;
+import com.minlia.modules.rbac.bean.qo.UserQO;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.service.UserQueryService;
+import com.minlia.modules.rbac.service.UserService;
 import com.minlia.modules.security.constant.SecurityConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +57,14 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
      */
     private void initialRole() {
         if (!roleService.exists(SecurityConstant.ROLE_ADMIN_CODE)) {
-            Role role = roleService.create(RoleCreateRequestBody.builder().code(SecurityConstant.ROLE_ADMIN_CODE).label(SecurityConstant.ROLE_ADMIN_DESC).build());
+            Role role = roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_ADMIN_CODE).label(SecurityConstant.ROLE_ADMIN_DESC).build());
             permissionService.grantAll(role.getId());
         }
         if (!roleService.exists(SecurityConstant.ROLE_USER_CODE)) {
-            roleService.create(RoleCreateRequestBody.builder().code(SecurityConstant.ROLE_USER_CODE).label(SecurityConstant.ROLE_USER_DESC).build());
+            roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_USER_CODE).label(SecurityConstant.ROLE_USER_DESC).build());
         }
         if (!roleService.exists(SecurityConstant.ROLE_GUEST_CODE)) {
-            roleService.create(RoleCreateRequestBody.builder().code(SecurityConstant.ROLE_GUEST_CODE).label(SecurityConstant.ROLE_GUEST_DESC).build());
+            roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_GUEST_CODE).label(SecurityConstant.ROLE_GUEST_DESC).build());
         }
     }
 
@@ -72,7 +72,7 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
      * 初始化管理员用户
      */
     private User initialAdmin() {
-        User user = userQueryService.queryOne(UserQueryRequestBody.builder().username(SecurityConstant.ROLE_ADMIN_CODE).build());
+        User user = userQueryService.queryOne(UserQO.builder().username(SecurityConstant.ROLE_ADMIN_CODE).build());
         if (null == user) {
             Role role = roleService.queryByCode(SecurityConstant.ROLE_ADMIN_CODE);
             user = userService.create(UserCTO.builder()

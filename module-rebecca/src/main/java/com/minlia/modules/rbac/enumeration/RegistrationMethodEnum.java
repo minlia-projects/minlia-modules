@@ -6,7 +6,7 @@ package com.minlia.modules.rbac.enumeration;
 public enum RegistrationMethodEnum {
 
     /**
-     * 自定义用户名
+     * 用户名
      */
     USERNAME,
 

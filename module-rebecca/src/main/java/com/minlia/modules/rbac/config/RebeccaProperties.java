@@ -7,6 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class RebeccaProperties {
 
-  private Boolean enableSecuredAnnotationScan;
+    private Boolean enableSecuredAnnotationScan;
 
 }

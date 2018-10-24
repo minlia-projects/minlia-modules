@@ -1,7 +1,7 @@
 package com.minlia.module.captcha.mapper;
 
-import com.minlia.module.captcha.bean.qo.CaptchaQO;
 import com.minlia.module.captcha.bean.domain.Captcha;
+import com.minlia.module.captcha.bean.qo.CaptchaQO;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,11 +24,11 @@ public interface CaptchaMapper {
     void update(Captcha captcha);
 
     /**
-     * 根据手机号码查询
+     * 计数查询
      * @param cellphone
      * @return
      */
-    Captcha queryByCellphone(String cellphone);
+    long count(String cellphone);
 
     /**
      * 单个查询

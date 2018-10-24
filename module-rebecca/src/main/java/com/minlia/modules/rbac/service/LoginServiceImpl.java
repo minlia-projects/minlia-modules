@@ -2,12 +2,9 @@ package com.minlia.modules.rbac.service;
 
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import com.minlia.modules.rbac.backend.navigation.entity.Navigation;
-import com.minlia.modules.rbac.backend.navigation.service.NavigationService;
-import com.minlia.modules.rbac.backend.permission.service.PermissionService;
-import com.minlia.modules.rbac.backend.role.entity.Role;
-import com.minlia.modules.rbac.backend.role.service.RoleService;
-import com.minlia.modules.rbac.backend.user.entity.User;
+import com.minlia.modules.rbac.bean.domain.Navigation;
+import com.minlia.modules.rbac.bean.domain.Role;
+import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;

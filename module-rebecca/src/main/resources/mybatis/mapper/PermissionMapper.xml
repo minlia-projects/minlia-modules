@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.minlia.modules.rbac.backend.permission.mapper.PermissionMapper">
+<mapper namespace="com.minlia.modules.rbac.mapper.PermissionMapper">
 
     <sql id="QUERY_CONTENT">
 		SELECT
@@ -31,7 +31,7 @@
 		INSERT INTO mdl_permission(code, label)VALUES(#{code,jdbcType=VARCHAR} , #{label,jdbcType=VARCHAR})
 	</insert>
 
-    <update id="update" parameterType="com.minlia.modules.rbac.backend.permission.entity.Permission">
+    <update id="update" parameterType="com.minlia.modules.rbac.bean.domain.Permission">
         UPDATE mdl_permission
         SET
         <if test="label != null">
@@ -64,7 +64,7 @@
 		SELECT COUNT(1) FROM mdl_permission where code = #{code}
 	</select>
 
-    <select id="queryById" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
+    <select id="queryById" resultType="com.minlia.modules.rbac.bean.domain.Permission">
         <include refid="QUERY_CONTENT"/>
         WHERE id = #{id}
     </select>
@@ -80,12 +80,12 @@
         </foreach>
     </select>
 
-    <select id="queryAll" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
+    <select id="queryAll" resultType="com.minlia.modules.rbac.bean.domain.Permission">
         <include refid="QUERY_CONTENT"/>
         ORDER BY pt.code DESC
     </select>
 
-    <select id="queryListByGuid" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
+    <select id="queryListByGuid" resultType="com.minlia.modules.rbac.bean.domain.Permission">
         <include refid="QUERY_CONTENT"/>
         INNER JOIN mdl_role_permission pm ON pm.permission_id = pt.id
         INNER JOIN mdl_role rt ON rt.id = pm.role_id
@@ -94,7 +94,7 @@
         WHERE ut.guid = #{guid,jdbcType=VARCHAR}
     </select>
 
-    <select id="queryListByRoleCodes" resultType="com.minlia.modules.rbac.backend.permission.entity.Permission">
+    <select id="queryListByRoleCodes" resultType="com.minlia.modules.rbac.bean.domain.Permission">
         <include refid="QUERY_CONTENT"/>
         INNER JOIN mdl_role_permission mp ON mp.permission_id = pt.id
         INNER JOIN mdl_role rt ON rt.id = mp.role_id

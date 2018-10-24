@@ -3,4 +3,6 @@
 
 
 
-spring.socket
+#spring.socket
+security:
+  ignored: /templates/**, /css/**, /js/**

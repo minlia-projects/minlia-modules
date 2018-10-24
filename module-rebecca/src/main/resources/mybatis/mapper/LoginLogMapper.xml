@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.minlia.modules.rbac.backend.loginlog.mapper.LoginLogMapper">
+<mapper namespace="com.minlia.modules.rbac.mapper.LoginLogMapper">
 
     <sql id="QUERY_CONTENT">
 		SELECT
@@ -38,7 +38,7 @@
         )
 	</insert>
 
-    <select id="queryList" resultType="com.minlia.modules.rbac.backend.loginlog.entity.LoginLog">
+    <select id="queryList" resultType="com.minlia.modules.rbac.bean.domain.LoginLog">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

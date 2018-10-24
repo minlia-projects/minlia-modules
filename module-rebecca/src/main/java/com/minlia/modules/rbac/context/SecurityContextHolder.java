@@ -1,9 +1,9 @@
 package com.minlia.modules.rbac.context;
 
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.modules.rbac.backend.role.service.RoleService;
-import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.backend.user.service.UserQueryService;
+import com.minlia.modules.rbac.service.RoleService;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.service.UserQueryService;
 import com.minlia.modules.security.model.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

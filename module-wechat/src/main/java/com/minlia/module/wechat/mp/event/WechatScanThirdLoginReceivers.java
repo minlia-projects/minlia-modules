@@ -6,10 +6,10 @@ import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.endpoint.WechatSecuritySocket;
-import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
-import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.backend.user.service.UserQueryService;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.service.LoginService;
+import com.minlia.modules.rbac.service.UserQueryService;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
@@ -64,7 +64,7 @@ public class WechatScanThirdLoginReceivers {
             } else {
                 returnCode = "100103";
                 returnMessage = "ok";
-                User user = userQueryService.queryOne(UserQueryRequestBody.builder().guid(wechatOpenAccount.getGuid()).build());
+                User user = userQueryService.queryOne(UserQO.builder().build().builder().guid(wechatOpenAccount.getGuid()).build());
                 payload = loginService.getLoginInfoByUser(user, user.getDefaultRole());
             }
             String sessionId = wxMessage.getEventKey().replace("qr_wsl_","");

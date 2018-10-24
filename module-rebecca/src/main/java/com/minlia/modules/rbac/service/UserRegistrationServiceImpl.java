@@ -4,14 +4,12 @@ import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
-import com.minlia.modules.rbac.backend.common.constant.RebaccaCode;
-import com.minlia.modules.rbac.backend.user.body.UserCTO;
-import com.minlia.modules.rbac.backend.user.body.UserQueryRequestBody;
-import com.minlia.modules.rbac.backend.user.body.UserRegistrationTO;
-import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.backend.user.service.UserQueryService;
-import com.minlia.modules.rbac.backend.user.service.UserService;
-import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
+import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.bean.to.UserCTO;
+import com.minlia.modules.rbac.bean.qo.UserQO;
+import com.minlia.modules.rbac.bean.to.UserRegistrationTO;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.to.UserAvailablitityTO;
 import com.minlia.modules.security.constant.SecurityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,11 +35,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 ApiAssert.state(false, RebaccaCode.Message.USER_UNSUPPORTED_USERNAME_REGISTERED);
                 break;
             case CELLPHONE:
-                captchaService.validity(to.getCellphone(), to.getCode());
+                captchaService.validityByCellphone(to.getCellphone(), to.getCode());
                 break;
             case EMAIL:
-                ApiAssert.state(false, RebaccaCode.Message.USER_UNSUPPORTED_EMAIL_REGISTERED);
-                captchaService.validity(to.getCellphone(),to.getCode());
+                captchaService.validityByEmail(to.getEmail(),to.getCode());
                 break;
         }
 
@@ -49,6 +46,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 .method(to.getType())
                 .username(to.getUsername())
                 .cellphone(to.getUsername())
+                .email(to.getEmail())
                 .password(to.getPassword())
                 .defaultRole(SecurityConstant.ROLE_USER_ID)
                 .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_ID))
@@ -58,12 +56,22 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public Response availablitity(UserAvailablitityRequestBody body) {
-        if (userQueryService.exists(UserQueryRequestBody.builder().username(body.getUsername()).build())) {
-            return Response.failure(RebaccaCode.Message.USER_ALREADY_EXISTS);
-        } else {
-            return Response.success("Available");
+    public Response availablitity(UserAvailablitityTO body) {
+        switch (body.getMethod()) {
+            case USERNAME:
+                ApiAssert.hasLength(body.getUsername(), RebaccaCode.Message.USERNAME_NOT_NULL);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(body.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
+                break;
+            case CELLPHONE:
+                ApiAssert.hasLength(body.getCellphone(), RebaccaCode.Message.USERNAME_NOT_NULL);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(body.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
+                break;
+            case EMAIL:
+                ApiAssert.hasLength(body.getEmail(), RebaccaCode.Message.USERNAME_NOT_NULL);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(body.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
+                break;
         }
+        return Response.success("Available");
     }
 
 }

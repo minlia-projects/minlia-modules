@@ -2,9 +2,9 @@ package com.minlia.modules.rbac.service;
 
 
 import com.minlia.cloud.body.Response;
-import com.minlia.modules.rbac.backend.user.entity.User;
-import com.minlia.modules.rbac.bean.to.UserAvailablitityRequestBody;
-import com.minlia.modules.rbac.backend.user.body.UserRegistrationTO;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.to.UserAvailablitityTO;
+import com.minlia.modules.rbac.bean.to.UserRegistrationTO;
 
 
 public interface UserRegistrationService {
@@ -21,6 +21,6 @@ public interface UserRegistrationService {
      * @param body
      * @return
      */
-    Response availablitity(UserAvailablitityRequestBody body);
+    Response availablitity(UserAvailablitityTO body);
 
 }
