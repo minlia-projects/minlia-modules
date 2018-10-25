@@ -120,7 +120,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
 
         //当生产环境时发送验证码, 否则不需要
-        if(Environments.isDevelopment()){
+        if(!Environments.isDevelopment()){
             Map vars = Maps.newHashMap();
             vars.put("code",code);
             EmailRecord emailRecord = emailService.sendTemplateMail(new String[]{email}, "验证码", "captcha", vars);
