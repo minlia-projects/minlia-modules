@@ -1,9 +1,11 @@
 package com.minlia.module.common.util;
 
+import com.minlia.module.common.constant.SymbolConstants;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Date;
+import java.util.StringJoiner;
 import java.util.UUID;
 
 /**
@@ -36,6 +38,26 @@ public class NumberGenerator {
     public static String uuid32() {
         String generated = UUID.randomUUID().toString().replace("-","");
         return generated;
+    }
+
+    /**
+     * 激活码 V7BP-C6H9-JFJ6-6FPX
+     * @return
+     */
+    public static String activationCode() {
+        return activationCode(4,4);
+    }
+
+    /**
+     * 激活码 V7BP-C6H9-JFJ6-6FPX
+     * @return
+     */
+    public static String activationCode(int length, int times) {
+        StringJoiner sj =  new StringJoiner(SymbolConstants.ZHX);
+        for (int i = 0; i < times; i++) {
+            sj.add(RandomStringUtils.randomAlphanumeric(length));
+        }
+        return sj.toString();
     }
 
 }

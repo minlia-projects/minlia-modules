@@ -13,6 +13,11 @@ public final class SymbolConstants {
 
     public static final String UNDERLINE = "_";
 
+    /**
+     * 中横线
+     */
+    public static final String ZHX = "-";
+
     public static final String ASSIGN = " = ";
 
     public static final String COMMA = ", ";

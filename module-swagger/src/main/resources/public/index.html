@@ -137,42 +137,17 @@
             <input type="button" id="refresh" class="btn" value="刷新页面"   />
         </div>
 
-
-        <div style="text-align: center;">
+        <div style="text-align: center;max-width: 400px;">
+            <select id="method" name="method" class="btn">
+                <option value="USERNAME">用户名</option>
+                <option value="CELLPHONE">手机号码</option>
+                <option value="EMAIL">邮箱</option>
+            </select>
+            <!--<input type="text" id="method" name="method" class="btn" value="USERNAME"   /><br />-->
             <input type="text" id="username" name="username" class="btn" value="admin"   /><br />
             <input type="text" id="password" name="password" class="btn" value="admin"   /><br />
             <input type="button" id="login" class="btn" value="登录"   />
         </div>
-
-        <textarea id="notificationContent" style="display: none;width: 500px;height: 500px;">
-<xml>
-<attach><![CDATA[TM14954154971939381496027268830]]></attach>
-<bank_type><![CDATA[ICBC_CREDIT]]></bank_type>
-<charset><![CDATA[UTF-8]]></charset>
-<coupon_fee><![CDATA[54]]></coupon_fee>
-<fee_type><![CDATA[CNY]]></fee_type>
-<is_subscribe><![CDATA[N]]></is_subscribe>
-<mch_id><![CDATA[103530027678]]></mch_id>
-<nonce_str><![CDATA[1496027281030]]></nonce_str>
-<openid><![CDATA[o7PjgtzOx3IM6kiFmztGOw_GpgIc]]></openid>
-<out_trade_no><![CDATA[TM14954154971939381496027268830]]></out_trade_no>
-<out_transaction_id><![CDATA[4005922001201705293150490893]]></out_transaction_id>
-<pay_result><![CDATA[0]]></pay_result>
-<result_code><![CDATA[0]]></result_code>
-<sign><![CDATA[CB4DA1A7E1489A79C2AE6F4FFDD13239]]></sign>
-<sign_type><![CDATA[MD5]]></sign_type>
-<status><![CDATA[0]]></status>
-<sub_appid><![CDATA[wx62eb98733173fa88]]></sub_appid>
-<sub_is_subscribe><![CDATA[Y]]></sub_is_subscribe>
-<sub_openid><![CDATA[oGM7bwLhOgUJ2rYbf4V7HG647pT4]]></sub_openid>
-<time_end><![CDATA[20170529110800]]></time_end>
-<total_fee><![CDATA[200]]></total_fee>
-<trade_type><![CDATA[pay.weixin.jspay]]></trade_type>
-<transaction_id><![CDATA[103530027678201705293125565288]]></transaction_id>
-<version><![CDATA[2.0]]></version>
-</xml>
-</textarea>
-
     </div>
 
     <script src="js/clipboard.min.js"></script>
@@ -194,11 +169,12 @@
 
         function login(){
 
+            var method=$("#method").val();
             var username=$("#username").val();
             var password=$("#password").val();
 
             var url='/api/auth/login';
-            var data={'username':username,'password':password};
+            var data={'method':method,'username':username,'password':password};
             $.ajax({
                 url:url,
                 data: JSON.stringify(data),
