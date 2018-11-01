@@ -18,9 +18,9 @@ public final class SymbolConstants {
      */
     public static final String ZHX = "-";
 
-    public static final String ASSIGN = " = ";
+    public static final String ASSIGN = "=";
 
-    public static final String COMMA = ", ";
+    public static final String COMMA = ",";
 
     public static final String DOT = ".";
 

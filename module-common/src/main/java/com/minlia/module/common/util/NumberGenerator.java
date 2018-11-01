@@ -2,6 +2,7 @@ package com.minlia.module.common.util;
 
 import com.minlia.module.common.constant.SymbolConstants;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Date;
@@ -57,7 +58,7 @@ public class NumberGenerator {
         for (int i = 0; i < times; i++) {
             sj.add(RandomStringUtils.randomAlphanumeric(length));
         }
-        return sj.toString();
+        return StringUtils.upperCase(sj.toString());
     }
 
 }
