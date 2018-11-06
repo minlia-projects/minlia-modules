@@ -6,7 +6,6 @@ import com.minlia.modules.security.authentication.ajax.DefaultLogoutSuccessHandl
 import com.minlia.modules.security.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.SkipPathRequestMatcher;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
-import com.minlia.modules.security.web.RestAuthenticationEntryPoint;
 import com.minlia.modules.security.web.filter.SystemCorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

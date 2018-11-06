@@ -18,18 +18,18 @@ public class PooulPayNotifyData implements PooulApiHttpDTO {
 
 //    {
 //        "bank_type":"CFT",
-//            "cash_fee":"1",
-//            "fee_type":"CNY",
-//            "out_trade_id":"4200000109201807243048279688",
-//            "sub_is_subscribe":"N",
-//            "sub_openid":"oerQA5Q5clTAK8eA3tGNOAiz7s4o",
-//            "total_fee":"1",
-//            "trade_id":"5b56cd9b01c911305d1ff1ca",
-//            "mch_trade_id":"n4GBxRbzXM",
-//            "merchant_id":"2162288807443437",
-//            "pay_type":"wechat.jsminipg",
-//            "trade_state":"0",
-//            "trade_info":"交易成功"
+//        "cash_fee":"1",
+//        "fee_type":"CNY",
+//        "out_trade_id":"4200000109201807243048279688",
+//        "sub_is_subscribe":"N",
+//        "sub_openid":"oerQA5Q5clTAK8eA3tGNOAiz7s4o",
+//        "total_fee":"1",
+//        "trade_id":"5b56cd9b01c911305d1ff1ca",
+//        "mch_trade_id":"n4GBxRbzXM",
+//        "merchant_id":"2162288807443437",
+//        "pay_type":"wechat.jsminipg",
+//        "trade_state":"0",
+//        "trade_info":"交易成功"
 //    }
 
     @JsonProperty("bank_type")
