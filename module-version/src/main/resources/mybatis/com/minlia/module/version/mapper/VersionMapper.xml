@@ -29,7 +29,7 @@
                 AND type = #{type}
             </if>
             <if test="test != null">
-                AND is_test = #{test}
+                AND test = #{test}
             </if>
             <if test="enabled != null">
                 AND enabled = #{enabled}
@@ -42,7 +42,7 @@
             number,
             type,
             download_url,
-            is_test,
+            test,
             notes,
             forced_download,
             enabled,
@@ -72,7 +72,7 @@
                 download_url = #{downloadUrl},
             </if>
             <if test="test != null">
-                is_test = #{test} ,
+                test = #{test} ,
             </if>
             <if test="notes != null">
                 notes = #{notes} ,
