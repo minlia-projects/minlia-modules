@@ -39,4 +39,7 @@ public class VersionCTO implements ApiRequestBody {
     @NotNull(message = "是否启用不能为空")
     private Boolean enabled;
 
+    @ApiModelProperty(value = "强制下载", example = "true")
+    private Boolean forcedDownload;
+
 }

@@ -10,6 +10,7 @@
             download_url,
             is_test AS test,
             notes,
+            forcedDownload,
             enabled,
             create_by,
             create_date,
@@ -43,6 +44,7 @@
             download_url,
             is_test,
             notes,
+            forced_download,
             enabled,
             create_by
         ) VALUES (
@@ -51,6 +53,7 @@
             #{downloadUrl} ,
             #{test} ,
             #{notes} ,
+            #{forcedDownload} ,
             #{enabled} ,
             #{createBy}
         )
@@ -73,6 +76,9 @@
             </if>
             <if test="notes != null">
                 notes = #{notes} ,
+            </if>
+            <if test="forcedDownload != null">
+                forced_download = #{forcedDownload} ,
             </if>
             <if test="enabled != null">
                 enabled = #{enabled} ,

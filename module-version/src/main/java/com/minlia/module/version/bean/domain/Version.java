@@ -46,4 +46,9 @@ public class Version extends AbstractEntity {
      */
     private Boolean enabled;
 
+    /**
+     * 强制下载
+     */
+    private Boolean forcedDownload;
+
 }
