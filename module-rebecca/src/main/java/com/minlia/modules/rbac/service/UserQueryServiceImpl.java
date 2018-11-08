@@ -33,28 +33,28 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     @Override
-    public long count(UserQO requestBody) {
-        return userMapper.count(requestBody);
+    public long count(UserQO qo) {
+        return userMapper.count(qo);
     }
 
     @Override
-    public boolean exists(UserQO requestBody) {
-        return userMapper.count(requestBody) > 0;
+    public boolean exists(UserQO qo) {
+        return userMapper.count(qo) > 0;
     }
 
     @Override
-    public User queryOne(UserQO requestBody) {
-        return userMapper.queryOne(requestBody);
+    public User queryOne(UserQO qo) {
+        return userMapper.queryOne(qo);
     }
 
     @Override
-    public List<User> queryList(UserQO requestBody) {
-        return userMapper.queryList(requestBody);
+    public List<User> queryList(UserQO qo) {
+        return userMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo queryPage(UserQO requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> userMapper.queryList(requestBody));
+    public PageInfo queryPage(UserQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> userMapper.queryList(qo));
     }
 
 }

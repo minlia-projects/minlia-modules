@@ -45,7 +45,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         User user = userService.create(UserCTO.builder()
                 .method(to.getType())
                 .username(to.getUsername())
-                .cellphone(to.getUsername())
+                .cellphone(to.getCellphone())
                 .email(to.getEmail())
                 .password(to.getPassword())
                 .defaultRole(SecurityConstant.ROLE_USER_ID)
