@@ -57,6 +57,7 @@ public class LoginServiceImpl implements LoginService {
                 authorities.add(new SimpleGrantedAuthority(permission));
             }
         }
+
         UserContext userContext = UserContext.builder()
                 .username(user.getUsername())
                 .guid(user.getGuid())

@@ -35,7 +35,7 @@ public final class UserContext implements Body {
      */
     private  Date expireDate;
 
-    /**
+    /**JwtTokenFactory
      * 当前角色
      */
     private String currrole;

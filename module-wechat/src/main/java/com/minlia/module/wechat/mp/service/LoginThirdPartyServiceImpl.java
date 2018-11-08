@@ -110,7 +110,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         if (null == user) {
             UserRegistrationTO userRegistrationTO = new UserRegistrationTO();
             userRegistrationTO.setType(RegistrationMethodEnum.CELLPHONE);
-            userRegistrationTO.setUsername(body.getUsername());
             userRegistrationTO.setCellphone(body.getUsername());
             userRegistrationTO.setCode(body.getSecurityCode());
             userRegistrationTO.setPassword(rawPassword);

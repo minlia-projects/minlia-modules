@@ -37,7 +37,7 @@ public class JwtTokenFactory {
      */
     public AccessJwtToken createAccessJwtToken(UserContext userContext) {
         if (StringUtils.isBlank(userContext.getUsername())) {
-            throw new IllegalArgumentException("Cannot create JWT Token without username");
+//            throw new IllegalArgumentException("Cannot create JWT Token without username");
         }
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("guid", userContext.getGuid());
@@ -64,7 +64,7 @@ public class JwtTokenFactory {
 
     public AccessJwtToken createRefreshToken(UserContext userContext) {
         if (StringUtils.isBlank(userContext.getUsername())) {
-            throw new IllegalArgumentException("Cannot create JWT Token without username");
+//            throw new IllegalArgumentException("Cannot create JWT Token without username");
         }
 
         LocalDateTime currentTime = LocalDateTime.now();
