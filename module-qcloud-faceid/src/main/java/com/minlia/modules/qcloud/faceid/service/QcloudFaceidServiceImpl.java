@@ -78,16 +78,9 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
                 .sign(this.sign(orderNo,requestBody.getName(),requestBody.getIdNo(),userId))
                 .build();
         ResponseEntity<QcloudFaceIdResponseBody> responseEntity = restTemplate.postForEntity("https://idasc.webank.com/api/server/h5/geth5faceid",faceAuth,QcloudFaceIdResponseBody.class);
-
-        log.error("-------------------------------------------------------------------");
-        log.error("-------------------------------------------------------------------");
-        log.error(responseEntity.getBody().toString());
-
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
             if (responseEntity.getBody().isSuccess()) {
                 QcloudFaceIdResult result = responseEntity.getBody().getResult();
-
-                log.error(result.toString());
 
                 String nonce = UUID.randomUUID().toString();
                 nonce = nonce.replace("-","");
@@ -120,8 +113,6 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
                             .build();
                     faceIdRecordService.create(faceIdRecord);
 //                }
-                log.error("-------------------------------------------------------------------");
-                log.error(result.toString());
                 return Response.success(result);
             } else {
                 return Response.failure(Integer.valueOf(responseEntity.getBody().getCode()), responseEntity.getBody().getMsg());
