@@ -21,5 +21,4 @@ public interface CreatePreOrderService {
      */
     public String getName();
 
-
 }

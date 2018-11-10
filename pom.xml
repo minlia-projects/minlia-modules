@@ -71,6 +71,9 @@
         <!--普尔支付-->
         <module>module-pooul</module>
 
+        <!--统一支付-->
+        <module>module-unified-payment</module>
+
         <!--<module>module-registry</module>-->
         <!--<module>module-nestedset</module>-->
         <!--<module>module-registry</module>-->

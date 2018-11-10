@@ -65,16 +65,23 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.alipay</groupId>
-            <artifactId>alipay-sdk-java</artifactId>
-            <version>20170829142630</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.alipay</groupId>-->
+            <!--<artifactId>alipay-sdk-java</artifactId>-->
+            <!--<version>20170829142630</version>-->
+        <!--</dependency>-->
 
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba</groupId>-->
+            <!--<artifactId>fastjson</artifactId>-->
+            <!--<version>1.2.31</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.31</version>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.4.27.ALL</version>
         </dependency>
 
         <dependency>

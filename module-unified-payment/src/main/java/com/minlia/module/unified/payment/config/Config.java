@@ -5,10 +5,10 @@ package com.minlia.module.unified.payment.config;
  */
 public interface Config {
 
-  public String getAppId();
+    String getAppId();
 
-  public Certificate getCertificate();
+    Certificate getCertificate();
 
-  public String getCallback();
+    String getCallback();
 
 }
