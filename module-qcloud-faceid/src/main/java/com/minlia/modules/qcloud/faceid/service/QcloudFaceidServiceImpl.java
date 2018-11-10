@@ -120,6 +120,8 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
                             .build();
                     faceIdRecordService.create(faceIdRecord);
 //                }
+                log.error("-------------------------------------------------------------------");
+                log.error(result.toString());
                 return Response.success(result);
             } else {
                 return Response.failure(Integer.valueOf(responseEntity.getBody().getCode()), responseEntity.getBody().getMsg());
