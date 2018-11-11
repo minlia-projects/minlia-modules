@@ -130,7 +130,7 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         //绑定前会先调登陆保存
         //查询CODE是否存在
         WechatOpenAccount codeAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQO.builder().wxCode(body.getWxCode()).build());
-        ApiAssert.notNull(null == codeAccount, "wxCode未判断是否绑定");
+        ApiAssert.notNull(codeAccount, "wxCode未判断是否绑定");
         ApiAssert.isNull(codeAccount.getGuid(), WechatMpCode.Message.OPENID_ALREADY_BIND);
 
         //根据手机号码查询用户是否存在
