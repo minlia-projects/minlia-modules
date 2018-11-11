@@ -1,4 +1,4 @@
-package com.minlia.module.wechat.ma.body;
+package com.minlia.module.wechat.ma.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

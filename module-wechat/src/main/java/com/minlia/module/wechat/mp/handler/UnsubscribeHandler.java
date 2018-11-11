@@ -1,6 +1,6 @@
 package com.minlia.module.wechat.mp.handler;
 
-import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;

@@ -5,10 +5,9 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
-import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.bean.MiniappUserDetailRequestBody;
+import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
 import com.minlia.module.wechat.ma.entity.WechatMaUser;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.event.WechatMaUpdatedEvent;
 import com.minlia.module.wechat.ma.mapper.WxMaUserMapper;
 import com.minlia.modules.rbac.bean.domain.User;
@@ -19,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * @author garen
@@ -39,37 +36,41 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     private WechatOpenAccountService wechatOpenAccountService;
 
     @Override
+    public WechatMaUser update(WechatMaUser wechatMaUser) {
+        //绑定用户GUID
+        wechatOpenAccountService.updateGuidByUnionId(wechatMaUser.getGuid(), wechatMaUser.getUnionId());
+        wxMaUserMapper.update(wechatMaUser);
+        return wechatMaUser;
+    }
+
+    @Override
     @Transactional
     public WechatMaUser update(MiniappUserDetailRequestBody body) {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
-
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
-
-        return this.update(wxMaUserInfo);
+        return this.update(wxMaUserInfo, body.getCode(), SecurityContextHolder.getCurrentGuid());
     }
 
     @Override
     @Async
-    public WechatMaUser update(WxMaUserInfo wxMaUserInfo) {
-        String guid = SecurityContextHolder.getCurrentGuid();
-        //设置open信息
-        List<WechatOpenAccount> wechatOpenAccounts = wechatOpenAccountService.queryList(WechatOpenAccountQueryBody.builder().unionId(wxMaUserInfo.getUnionId()).build());
-        for (WechatOpenAccount wechatOpenAccount : wechatOpenAccounts) {
-            wechatOpenAccount.setGuid(guid);
-            wechatOpenAccount.setUnionId(wxMaUserInfo.getUnionId());
-            wechatOpenAccountService.update(wechatOpenAccount);
+    public WechatMaUser update(WxMaUserInfo wxMaUserInfo, String code, String guid) {
+        if (null != guid) {
+            //绑定用户GUID
+            wechatOpenAccountService.updateGuidByUnionId(guid, wxMaUserInfo.getUnionId());
         }
 
         //保存用户详情
-        WechatMaUser wechatMaUser = wxMaUserMapper.queryByGuid(guid);
+        WechatMaUser wechatMaUser = wxMaUserMapper.queryOne(WechatMaUserQO.builder().unionId(wxMaUserInfo.getUnionId()).build());
         if (null == wechatMaUser) {
             wechatMaUser = mapper.map(wxMaUserInfo,WechatMaUser.class);
             wechatMaUser.setGuid(guid);
+            wechatMaUser.setCode(code);
             wxMaUserMapper.create(wechatMaUser);
         } else {
             mapper.map(wxMaUserInfo,wechatMaUser);
             wechatMaUser.setGuid(guid);
+            wechatMaUser.setCode(code);
             wxMaUserMapper.update(wechatMaUser);
         }
 
@@ -84,7 +85,12 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     public WechatMaUser me() {
         User user = SecurityContextHolder.getCurrentUser();
         ApiAssert.notNull(user, SystemCode.Message.DATA_NOT_EXISTS);
-        return wxMaUserMapper.queryByGuid(user.getGuid());
+        return wxMaUserMapper.queryOne(WechatMaUserQO.builder().guid(user.getGuid()).build());
+    }
+
+    @Override
+    public WechatMaUser queryOne(WechatMaUserQO qo) {
+        return wxMaUserMapper.queryOne(qo);
     }
 
     @Override

@@ -18,6 +18,9 @@ public class WechatMaUser extends WxMaUserInfo {
      */
     private String guid;
 
+
+    private String code;
+
 //    /**
 //     * 联合编号
 //     */

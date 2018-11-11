@@ -3,10 +3,7 @@ package com.minlia.module.wechat.ma.service;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
-import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
-import com.minlia.module.wechat.ma.body.WechatSession;
+import com.minlia.module.wechat.ma.bean.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 

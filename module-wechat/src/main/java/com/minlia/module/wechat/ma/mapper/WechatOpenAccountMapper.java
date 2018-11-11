@@ -1,6 +1,6 @@
 package com.minlia.module.wechat.ma.mapper;
 
-import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 
 import java.util.List;

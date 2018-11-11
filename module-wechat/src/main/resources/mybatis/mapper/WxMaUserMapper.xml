@@ -21,7 +21,20 @@
     </sql>
 
     <sql id="QUERY_CONDITION">
-
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="guid != null">
+                AND guid = #{guid}
+            </if>
+            <if test="code != null">
+                AND code = #{code}
+            </if>
+            <if test="unionId != null">
+                AND unionId = #{unionId}
+            </if>
+        </where>
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
@@ -60,6 +73,9 @@
             <if test="guid != null">
                 guid = #{guid,jdbcType=VARCHAR} ,
             </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR} ,
+            </if>
             <if test="unionId != null">
                 union_id = #{unionId,jdbcType=VARCHAR} ,
             </if>
@@ -95,16 +111,6 @@
     <delete id="delete">
         DELETE FROM wx_ma_user WHERE id = #{id}
     </delete>
-
-    <select id="queryById" resultType="com.minlia.module.wechat.ma.entity.WechatMaUser">
-        <include refid="QUERY_CONTENT"/>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </select>
-
-    <select id="queryByGuid" resultType="com.minlia.module.wechat.ma.entity.WechatMaUser">
-        <include refid="QUERY_CONTENT"/>
-        WHERE guid = #{guid,jdbcType=VARCHAR}
-    </select>
 
     <select id="count" resultType="java.lang.Long">
         SELECT COUNT(1) FROM wx_ma_user

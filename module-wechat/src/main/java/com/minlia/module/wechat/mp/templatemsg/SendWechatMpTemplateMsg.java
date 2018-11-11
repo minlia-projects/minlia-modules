@@ -7,7 +7,7 @@ import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.bean.qo.BibleItemQO;
 import com.minlia.module.bible.bean.domain.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;

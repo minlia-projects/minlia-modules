@@ -1,6 +1,6 @@
 package com.minlia.module.wechat.ma.mapper;
 
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
 import com.minlia.module.wechat.ma.entity.WechatMaUser;
 
 /**
@@ -10,10 +10,10 @@ import com.minlia.module.wechat.ma.entity.WechatMaUser;
  */
 public interface WxMaUserMapper {
 
-    void create(WxMaUserInfo wxMaUserInfo);
+    int create(WechatMaUser wechatMaUser);
 
-    void update(WxMaUserInfo wxMaUserInfo);
+    int update(WechatMaUser wechatMaUser);
 
-    WechatMaUser queryByGuid(String guid);
+    WechatMaUser queryOne(WechatMaUserQO qo);
 
 }

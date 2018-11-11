@@ -2,7 +2,7 @@ package com.minlia.module.wechat.ma.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
+import com.minlia.module.wechat.ma.bean.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.service.WechatMaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

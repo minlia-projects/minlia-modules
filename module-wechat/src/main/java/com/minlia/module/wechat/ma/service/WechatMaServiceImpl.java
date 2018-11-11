@@ -4,15 +4,13 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
 import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.bean.qo.BibleItemQO;
 import com.minlia.module.bible.bean.domain.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
-import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
+import com.minlia.module.wechat.ma.bean.MiniappQrcodeRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
@@ -144,13 +142,13 @@ public class WechatMaServiceImpl implements WechatMaService {
 //            ApiPreconditions.is(true, WechatMpApiCode.ERROR_CREATE_WX_CODE,"生成小程序二维码异常："+e.getMessage());
 //        }
 //
-//        if (!body.isNotUpload()) {
+//        if (!bean.isNotUpload()) {
 //            //上传附件
-//            String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
+//            String path = null == bean.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, bean.getPath());
 //            String key = String.format("%s%s.png", path, NumberGenerator.uuid32());
 //            AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
-//                    .relationId(body.getNumber())
-//                    .belongsTo(body.getType())
+//                    .relationId(bean.getNumber())
+//                    .belongsTo(bean.getType())
 //                    .inputStream(in)
 //                    .key(key)
 //                    .build();

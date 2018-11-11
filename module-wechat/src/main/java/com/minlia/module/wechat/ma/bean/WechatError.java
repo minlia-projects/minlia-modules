@@ -1,4 +1,4 @@
-package com.minlia.module.wechat.ma.body;
+package com.minlia.module.wechat.ma.bean;
 
 public class WechatError {
     private Integer errcode;

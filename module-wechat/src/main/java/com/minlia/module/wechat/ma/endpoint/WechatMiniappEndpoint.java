@@ -2,7 +2,7 @@ package com.minlia.module.wechat.ma.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
+import com.minlia.module.wechat.ma.bean.MiniappUserDetailRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.module.wechat.ma.service.WechatMaService;
 import com.minlia.module.wechat.ma.service.WechatMaUserService;
