@@ -56,7 +56,7 @@ public class SendWechatMpTemplateMsg {
     private MiniProgram builderMiniProgram(String appId, String templateId,List<Object> pathParams){
         BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQO.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
         ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
-        return new MiniProgram(appId, String.format(bibleItem.getAttribute1(),pathParams));
+        return new MiniProgram(appId, String.format(bibleItem.getAttribute1(),pathParams), false);
     }
 
     /**
@@ -117,7 +117,7 @@ public class SendWechatMpTemplateMsg {
             wxMpTemplateMessage.setToUser(openId);
             wxMpTemplateMessage.setTemplateId(bibleItem.getValue());
 
-            wxMpTemplateMessage.setMiniProgram(new MiniProgram(appid, CollectionUtils.isEmpty(pathParams) ? bibleItem.getAttribute1() : String.format(bibleItem.getAttribute1(),pathParams.toArray())));
+            wxMpTemplateMessage.setMiniProgram(new MiniProgram(appid, CollectionUtils.isEmpty(pathParams) ? bibleItem.getAttribute1() : String.format(bibleItem.getAttribute1(),pathParams.toArray()),false));
 
             //发送模板消息
             String templateMsg = wxMpService.getTemplateMsgService().sendTemplateMsg(wxMpTemplateMessage);

@@ -11,9 +11,11 @@ import com.minlia.module.wechat.ma.entity.WechatMaUser;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.event.WechatMaUpdatedEvent;
 import com.minlia.module.wechat.ma.mapper.WxMaUserMapper;
+import com.minlia.module.wechat.utils.WXBizDataCrypt;
 import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,14 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
 
         //TODO 老是报错
+        log.info("---------------------------------解密小程序用户信息：参数");
+        log.info("---------------------------------sessionResult.getSessionKey()");
+        log.info("---------------------------------body.getEncryptedData()");
+        log.info("---------------------------------body.getIv()");
+
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
+        log.info("---------------------------------解密小程序用户信息：", wxMaUserInfo.toString());
+
         String guid = SecurityContextHolder.getCurrentGuid();
         //设置open信息
         List<WechatOpenAccount> wechatOpenAccounts = wechatOpenAccountService.queryList(WechatOpenAccountQueryBody.builder().unionId(wxMaUserInfo.getUnionId()).build());
@@ -78,6 +87,19 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         User user = SecurityContextHolder.getCurrentUser();
         ApiAssert.notNull(user, SystemCode.Message.DATA_NOT_EXISTS);
         return wxMaUserMapper.queryByGuid(user.getGuid());
+    }
+
+    @Override
+    public WxMaUserInfo decrypt(MiniappUserDetailRequestBody body) {
+        WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
+        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
+//        WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
+
+        JSONObject jsonObject = WXBizDataCrypt.decrypt(body.getEncryptedData(), body.getIv(), sessionResult.getSessionKey(), wxMaService.getWxMaConfig().getAppid());
+
+        System.out.println(jsonObject.toString());
+        WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo("QAPPKFEk4N7Y9VieCtWpWQ==",body.getEncryptedData(),body.getIv());
+        return wxMaUserInfo;
     }
 
 }

@@ -3,6 +3,7 @@ package com.minlia.module.wechat.ma.body;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class MiniappUserDetailRequestBody {
 
     @ApiModelProperty(value = "用户CODE")
-    @NotNull
+    @NotBlank
     private String code;
 
     @ApiModelProperty(value = "解密一次性向量, 每次需要请求")

@@ -60,10 +60,11 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Override
     public Response loginByWxMaCode(LoginWechatRequestBody body) {
         //远程从微信获取小程序信息
-        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
-        ApiAssert.hasLength(sessionResult.getUnionid(), WechatMpCode.Message.UNION_ID_NOT_NULL);
-        ApiAssert.hasLength(sessionResult.getOpenid(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
-        return this.login(WechatOpenidType.MINIAPP,sessionResult.getUnionid(),sessionResult.getOpenid(),body.getType(),body.getCode());
+//        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
+//        ApiAssert.hasLength(sessionResult.getUnionid(), WechatMpCode.Message.UNION_ID_NOT_NULL);
+//        ApiAssert.hasLength(sessionResult.getOpenid(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
+//        return this.login(WechatOpenidType.MINIAPP,sessionResult.getUnionid(),sessionResult.getOpenid(),body.getType(),body.getCode());
+        return null;
     }
 
     private Response login(WechatOpenidType wechatOpenidType,String unionId,String openId,String openidSubitem,String wxCode){

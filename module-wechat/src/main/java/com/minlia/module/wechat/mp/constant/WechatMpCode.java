@@ -23,11 +23,11 @@ public class WechatMpCode {
         /**
          * 获取微信Session失败
          */
-        GET_SESSION_FAILURE(100801,"system.common.message.100801"),
+        GET_SESSION_FAILURE(100801,"system.mp.message.100801"),
 
-        UNION_ID_NOT_NULL(100802,"system.common.message.100802"),
+        UNION_ID_NOT_NULL(100802,"system.mp.message.100802"),
 
-        OPEN_ID_NOT_NULL(100803,"system.common.message.100803");
+        OPEN_ID_NOT_NULL(100803,"system.mp.message.100803");
 
         private int code;
         private String i18nKey;

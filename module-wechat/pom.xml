@@ -49,14 +49,14 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-miniapp</artifactId>
-            <version>3.1.0</version>
+            <version>3.2.0</version>
         </dependency>
 
         <!--公众号-->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
-            <version>3.1.0</version>
+            <version>3.2.0</version>
         </dependency>
 
         <dependency>

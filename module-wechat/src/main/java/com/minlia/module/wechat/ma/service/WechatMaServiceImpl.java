@@ -4,6 +4,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
 import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.utils.ApiAssert;
@@ -11,6 +12,7 @@ import com.minlia.module.bible.bean.qo.BibleItemQO;
 import com.minlia.module.bible.bean.domain.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.body.MiniappQrcodeRequestBody;
+import com.minlia.module.wechat.ma.body.MiniappUserDetailRequestBody;
 import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
@@ -183,4 +185,5 @@ public class WechatMaServiceImpl implements WechatMaService {
         }
         return null;
     }
+
 }

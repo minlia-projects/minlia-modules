@@ -27,10 +27,10 @@ import javax.validation.Valid;
 public class WechatMiniappEndpoint {
 
     @Autowired
-    private WechatMaUserService wechatMaUserService;
+    private WechatMaService wechatMaService;
 
     @Autowired
-    private WechatMaService wechatMaService;
+    private WechatMaUserService wechatMaUserService;
 
     @ApiOperation(value = "更新微信用户详情", notes = "更新微信用户详情", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "userinfo", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -48,6 +48,12 @@ public class WechatMiniappEndpoint {
     @RequestMapping(value = "getCellphone", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response getPhoneNumber(@RequestBody PhoneNumberRequestBody body) {
         return Response.success(wechatMaService.getBoundPhoneNumber(body));
+    }
+
+    @ApiOperation(value = "解密", notes = "解密", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "decrypt", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response decrypt(@RequestBody MiniappUserDetailRequestBody body) {
+        return Response.success(wechatMaUserService.decrypt(body));
     }
 
 }
