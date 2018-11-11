@@ -2,8 +2,7 @@ package com.minlia.module.wechat.mp.body;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by will on 6/24/17.
@@ -11,9 +10,15 @@ import javax.validation.constraints.NotNull;
 @Data
 public class LoginWechatRequestBody {
 
-    @ApiModelProperty(value = "WeChat code")
-    @NotNull
+    @ApiModelProperty(value = "微信CODE")
+    @NotBlank
     private String code;
+
+    @ApiModelProperty(value = "解密一次性向量, 每次需要请求")
+    private String iv;
+
+    @ApiModelProperty(value = "微信返回的加密码后的数据")
+    private String encryptedData;
 
     @ApiModelProperty(value = "类型，区分不用的小程序")
     private String type;

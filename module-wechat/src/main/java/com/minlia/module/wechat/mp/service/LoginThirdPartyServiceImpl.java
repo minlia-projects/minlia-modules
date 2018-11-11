@@ -1,6 +1,8 @@
 package com.minlia.module.wechat.mp.service;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
@@ -59,12 +61,23 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
     @Override
     public Response loginByWxMaCode(LoginWechatRequestBody body) {
+        WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
+        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
+
+        //TODO 老是报错
+        log.info("---------------------------------解密小程序用户信息：参数");
+        log.info("---------------------------------sessionResult.getSessionKey()");
+        log.info("---------------------------------body.getEncryptedData()");
+        log.info("---------------------------------body.getIv()");
+
+        WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
+        log.info("---------------------------------解密小程序用户信息：", wxMaUserInfo.toString());
+
         //远程从微信获取小程序信息
 //        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
-//        ApiAssert.hasLength(sessionResult.getUnionid(), WechatMpCode.Message.UNION_ID_NOT_NULL);
-//        ApiAssert.hasLength(sessionResult.getOpenid(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
-//        return this.login(WechatOpenidType.MINIAPP,sessionResult.getUnionid(),sessionResult.getOpenid(),body.getType(),body.getCode());
-        return null;
+        ApiAssert.hasLength(sessionResult.getUnionid(), WechatMpCode.Message.UNION_ID_NOT_NULL);
+        ApiAssert.hasLength(sessionResult.getOpenid(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
+        return this.login(WechatOpenidType.MINIAPP,wxMaUserInfo.getUnionId(),wxMaUserInfo.getOpenId(),body.getType(),body.getCode());
     }
 
     private Response login(WechatOpenidType wechatOpenidType,String unionId,String openId,String openidSubitem,String wxCode){
