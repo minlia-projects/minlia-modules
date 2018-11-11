@@ -66,12 +66,14 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
         //TODO 老是报错
         log.info("---------------------------------解密小程序用户信息：参数");
-        log.info("---------------------------------：" + sessionResult.getSessionKey());
-        log.info("---------------------------------：" + body.getEncryptedData());
-        log.info("---------------------------------：" + body.getIv());
+        log.info("---------------------------------：{}" + sessionResult.getSessionKey());
+        log.info("---------------------------------：{}" + body.getEncryptedData());
+        log.info("---------------------------------：{}" + body.getIv());
 
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
-        log.info("---------------------------------解密小程序用户信息：", wxMaUserInfo.getUnionId());
+        log.info("---------------------------------解密小程序用户信息：{}", wxMaUserInfo.toString());
+        log.info("---------------------------------解密小程序UnionId：{}", wxMaUserInfo.getUnionId());
+        log.info("---------------------------------解密小程序OpenId：{}", wxMaUserInfo.getUnionId());
 
         //远程从微信获取小程序信息
 //        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
