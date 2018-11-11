@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.ma.event;
 
 import com.minlia.cloud.holder.ContextHolder;
-import com.minlia.module.wechat.ma.entity.WechatMaUser;
+import com.minlia.module.wechat.ma.bean.domain.WechatMaUser;
 import org.springframework.context.ApplicationEvent;
 
 /**

@@ -5,9 +5,9 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.wechat.ma.bean.MiniappUserDetailRequestBody;
+import com.minlia.module.wechat.ma.bean.to.MiniappUserDetailTO;
 import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
-import com.minlia.module.wechat.ma.entity.WechatMaUser;
+import com.minlia.module.wechat.ma.bean.domain.WechatMaUser;
 import com.minlia.module.wechat.ma.event.WechatMaUpdatedEvent;
 import com.minlia.module.wechat.ma.mapper.WxMaUserMapper;
 import com.minlia.modules.rbac.bean.domain.User;
@@ -45,7 +45,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
 
     @Override
     @Transactional
-    public WechatMaUser update(MiniappUserDetailRequestBody body) {
+    public WechatMaUser update(MiniappUserDetailTO body) {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
@@ -94,7 +94,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     }
 
     @Override
-    public WxMaUserInfo decrypt(MiniappUserDetailRequestBody body) {
+    public WxMaUserInfo decrypt(MiniappUserDetailTO body) {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(), body.getEncryptedData(), body.getIv());

@@ -1,4 +1,4 @@
-package com.minlia.module.wechat.ma.bean;
+package com.minlia.module.wechat.ma.bean.to;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MiniappQrcodeRequestBody {
+public class MiniappQrcodeTO {
 
     @NotBlank
     private String type;

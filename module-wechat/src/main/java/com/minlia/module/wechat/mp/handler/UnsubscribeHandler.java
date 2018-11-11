@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.mp.handler;
 
-import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.bean.qo.WechatOpenAccountQO;
+import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import me.chanjar.weixin.common.session.WxSessionManager;
@@ -24,7 +24,7 @@ public class UnsubscribeHandler extends AbstractHandler {
         String openId = wxMessage.getFromUser();
         this.logger.info("取消关注用户 OPENID: " + openId);
         // TODO 可以更新本地数据库为取消关注状态
-        WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().openId(openId).type(WechatOpenidType.PUBLIC).isSubscribe(true).build());
+        WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQO.builder().openId(openId).type(WechatOpenidType.PUBLIC).isSubscribe(true).build());
         if(null != wechatOpenAccount){
             wechatOpenAccount.setIsSubscribe(false);
             wechatOpenAccountService.update(wechatOpenAccount);

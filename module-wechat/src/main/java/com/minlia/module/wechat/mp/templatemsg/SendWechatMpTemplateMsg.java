@@ -7,9 +7,9 @@ import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.bean.qo.BibleItemQO;
 import com.minlia.module.bible.bean.domain.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
+import com.minlia.module.wechat.ma.bean.qo.WechatOpenAccountQO;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class SendWechatMpTemplateMsg {
      * @return
      */
     private String getOpenId(String guid){
-        WechatOpenAccount wechatOpenAccount = getBeanByContext(WechatOpenAccountService.class).queryOne(WechatOpenAccountQueryBody.builder().guid(guid).type(WechatOpenidType.PUBLIC).isSubscribe(true).build());
+        WechatOpenAccount wechatOpenAccount = getBeanByContext(WechatOpenAccountService.class).queryOne(WechatOpenAccountQO.builder().guid(guid).type(WechatOpenidType.PUBLIC).isSubscribe(true).build());
         return null == wechatOpenAccount ? null : wechatOpenAccount.getOpenId();
     }
 

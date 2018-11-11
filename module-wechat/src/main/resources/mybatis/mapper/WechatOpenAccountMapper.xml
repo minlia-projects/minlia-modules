@@ -76,7 +76,7 @@
         )
 	</insert>
 
-    <update id="update" parameterType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <update id="update" parameterType="com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount">
         UPDATE wx_account
         <set>
             <if test="guid != null">
@@ -125,17 +125,17 @@
         SELECT COUNT(1) FROM  wx_account WHERE union_id = #{arg0} AND guid is not null
     </select>
 
-    <select id="queryById" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <select id="queryById" resultType="com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount">
         <include refid="QUERY_CONTENT"/>
         WHERE wat.id = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="queryByGuid" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <select id="queryByGuid" resultType="com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount">
         <include refid="QUERY_CONTENT"/>
         WHERE wat.guid = #{guid,jdbcType=VARCHAR}
     </select>
 
-    <select id="queryByUnionIdAndGuidNotNull" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <select id="queryByUnionIdAndGuidNotNull" resultType="com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount">
         <include refid="QUERY_CONTENT"/>
         WHERE wat.union_id = #{arg0} AND wat.guid is not null
     </select>
@@ -145,12 +145,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryOne" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <select id="queryOne" resultType="com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.wechat.ma.entity.WechatOpenAccount">
+    <select id="queryList" resultType="com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

@@ -1,4 +1,4 @@
-package com.minlia.module.wechat.ma.entity;
+package com.minlia.module.wechat.ma.bean.domain;
 
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import lombok.Data;

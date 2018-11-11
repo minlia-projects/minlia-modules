@@ -10,11 +10,11 @@ import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.bean.qo.BibleItemQO;
 import com.minlia.module.bible.bean.domain.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.module.wechat.ma.bean.MiniappQrcodeRequestBody;
-import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
+import com.minlia.module.wechat.ma.bean.to.MiniappQrcodeTO;
+import com.minlia.module.wechat.ma.bean.to.PhoneNumberTO;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
@@ -89,7 +89,7 @@ public class WechatMaServiceImpl implements WechatMaService {
     }
 
     @Override
-    public WxMaPhoneNumberInfo getBoundPhoneNumber(PhoneNumberRequestBody body) {
+    public WxMaPhoneNumberInfo getBoundPhoneNumber(PhoneNumberTO body) {
         WxMaJscode2SessionResult session = this.getSessionInfo(body.getCode());
         WxMaPhoneNumberInfo numberInfo = wxMaService.getUserService().getPhoneNoInfo(session.getSessionKey(),body.getEncryptedData(), body.getIv());
         return numberInfo;
@@ -101,7 +101,7 @@ public class WechatMaServiceImpl implements WechatMaService {
     }
 
     @Override
-    public OssFile createWxCodeLimit(MiniappQrcodeRequestBody body){
+    public OssFile createWxCodeLimit(MiniappQrcodeTO body){
         BibleItem qrConfig = bibleItemService.queryOne(BibleItemQO.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
         ApiAssert.notNull(qrConfig, WechatMaCode.Message.PARAMETER_NOT_CONFIG, body.getType());
 

@@ -14,6 +14,7 @@
             province ,
             country ,
             avatar_url ,
+            code,
             timestamp AS "watermark.timestamp" ,
             appid AS "watermark.appid"
         FROM
@@ -48,6 +49,7 @@
             province ,
             country ,
             avatar_url ,
+            code,
             timestamp ,
             appid
         )
@@ -62,12 +64,13 @@
             #{province,jdbcType=VARCHAR},
             #{country,jdbcType=VARCHAR},
             #{avatarUrl,jdbcType=VARCHAR},
+            #{code,jdbcType=VARCHAR},
             #{watermark.timestamp,jdbcType=VARCHAR},
             #{watermark.appid,jdbcType=VARCHAR}
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.wechat.ma.entity.WechatMaUser">
+    <update id="update" parameterType="com.minlia.module.wechat.ma.bean.domain.WechatMaUser">
         UPDATE wx_ma_user
         <set>
             <if test="guid != null">
@@ -117,12 +120,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryOne" resultType="com.minlia.module.wechat.ma.entity.WechatMaUser">
+    <select id="queryOne" resultType="com.minlia.module.wechat.ma.bean.domain.WechatMaUser">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.wechat.ma.entity.WechatMaUser">
+    <select id="queryList" resultType="com.minlia.module.wechat.ma.bean.domain.WechatMaUser">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

@@ -1,8 +1,8 @@
 package com.minlia.module.wechat.ma.service;
 
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.bean.qo.WechatOpenAccountQO;
+import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.mapper.WechatOpenAccountMapper;
 import com.minlia.module.wechat.mp.constant.WechatMpCode;
@@ -37,7 +37,7 @@ public class WechatOpenAccountServiceImpl implements WechatOpenAccountService {
         ApiAssert.hasLength(wxMpUser.getUnionId(), WechatMpCode.Message.UNION_ID_NOT_NULL);
         ApiAssert.hasLength(wxMpUser.getOpenId(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
 
-        WechatOpenAccount wechatOpenAccount = wechatOpenAccountMapper.queryOne(WechatOpenAccountQueryBody.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
+        WechatOpenAccount wechatOpenAccount = wechatOpenAccountMapper.queryOne(WechatOpenAccountQO.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
 
         //保存公众号OpenId
         if (null == wechatOpenAccount) {
@@ -85,12 +85,12 @@ public class WechatOpenAccountServiceImpl implements WechatOpenAccountService {
     }
 
     @Override
-    public WechatOpenAccount queryOne(WechatOpenAccountQueryBody body) {
+    public WechatOpenAccount queryOne(WechatOpenAccountQO body) {
         return wechatOpenAccountMapper.queryOne(body);
     }
 
     @Override
-    public List<WechatOpenAccount> queryList(WechatOpenAccountQueryBody body) {
+    public List<WechatOpenAccount> queryList(WechatOpenAccountQO body) {
         return wechatOpenAccountMapper.queryList(body);
     }
 

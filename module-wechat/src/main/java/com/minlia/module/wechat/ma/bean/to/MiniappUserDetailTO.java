@@ -1,4 +1,4 @@
-package com.minlia.module.wechat.ma.bean;
+package com.minlia.module.wechat.ma.bean.to;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @ApiModel(value = "小程序获取用户详情请求体")
-public class MiniappUserDetailRequestBody {
+public class MiniappUserDetailTO {
 
     @ApiModelProperty(value = "用户CODE")
     @NotBlank

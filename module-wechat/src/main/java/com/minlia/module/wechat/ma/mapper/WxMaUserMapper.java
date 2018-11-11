@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.ma.mapper;
 
 import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
-import com.minlia.module.wechat.ma.entity.WechatMaUser;
+import com.minlia.module.wechat.ma.bean.domain.WechatMaUser;
 
 /**
  *

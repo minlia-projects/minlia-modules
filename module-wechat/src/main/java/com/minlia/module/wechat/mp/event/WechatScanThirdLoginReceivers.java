@@ -1,8 +1,8 @@
 package com.minlia.module.wechat.mp.event;
 
 import com.minlia.module.websocket.body.ResponseMessage;
-import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.bean.qo.WechatOpenAccountQO;
+import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.endpoint.WechatSecuritySocket;
@@ -56,7 +56,7 @@ public class WechatScanThirdLoginReceivers {
             String returnMessage;
             Object payload;
 
-            WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQueryBody.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
+            WechatOpenAccount wechatOpenAccount = wechatOpenAccountService.queryOne(WechatOpenAccountQO.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
             if (null == wechatOpenAccount || null == wechatOpenAccount.getGuid()) {
                 returnCode = "100102";
                 returnMessage = "未注册";

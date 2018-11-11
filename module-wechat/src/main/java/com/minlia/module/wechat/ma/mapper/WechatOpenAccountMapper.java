@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.ma.mapper;
 
-import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.bean.qo.WechatOpenAccountQO;
+import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public interface WechatOpenAccountMapper{
 
     List<WechatOpenAccount> queryByUnionIdAndGuidNotNull(String unionId);
 
-    WechatOpenAccount queryOne(WechatOpenAccountQueryBody body);
+    WechatOpenAccount queryOne(WechatOpenAccountQO body);
 
-    List<WechatOpenAccount> queryList(WechatOpenAccountQueryBody body);
+    List<WechatOpenAccount> queryList(WechatOpenAccountQO body);
 
 }

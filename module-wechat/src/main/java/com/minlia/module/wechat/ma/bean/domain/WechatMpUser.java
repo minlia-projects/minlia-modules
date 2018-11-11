@@ -1,4 +1,4 @@
-package com.minlia.module.wechat.ma.entity;
+package com.minlia.module.wechat.ma.bean.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

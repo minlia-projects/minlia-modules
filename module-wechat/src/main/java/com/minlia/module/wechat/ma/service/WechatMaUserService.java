@@ -1,9 +1,9 @@
 package com.minlia.module.wechat.ma.service;
 
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import com.minlia.module.wechat.ma.bean.MiniappUserDetailRequestBody;
+import com.minlia.module.wechat.ma.bean.to.MiniappUserDetailTO;
 import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
-import com.minlia.module.wechat.ma.entity.WechatMaUser;
+import com.minlia.module.wechat.ma.bean.domain.WechatMaUser;
 
 /**
  *
@@ -14,7 +14,7 @@ public interface WechatMaUserService {
 
     WechatMaUser update(WechatMaUser wechatMaUser);
 
-    WechatMaUser update(MiniappUserDetailRequestBody body);
+    WechatMaUser update(MiniappUserDetailTO body);
 
     WechatMaUser update(WxMaUserInfo wxMaUserInfo, String code, String guid);
 
@@ -23,6 +23,6 @@ public interface WechatMaUserService {
     WechatMaUser queryOne(WechatMaUserQO qo);
 
     @Deprecated
-    WxMaUserInfo decrypt(MiniappUserDetailRequestBody body);
+    WxMaUserInfo decrypt(MiniappUserDetailTO body);
 
 }

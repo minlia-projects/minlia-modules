@@ -2,8 +2,8 @@ package com.minlia.module.wechat.ma.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.wechat.ma.bean.MiniappUserDetailRequestBody;
-import com.minlia.module.wechat.ma.config.PhoneNumberRequestBody;
+import com.minlia.module.wechat.ma.bean.to.MiniappUserDetailTO;
+import com.minlia.module.wechat.ma.bean.to.PhoneNumberTO;
 import com.minlia.module.wechat.ma.service.WechatMaService;
 import com.minlia.module.wechat.ma.service.WechatMaUserService;
 import io.swagger.annotations.Api;
@@ -34,7 +34,7 @@ public class WechatMiniappEndpoint {
 
     @ApiOperation(value = "更新微信用户详情", notes = "更新微信用户详情", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "userinfo", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response updateUserDetail(@Valid @RequestBody MiniappUserDetailRequestBody body) {
+    public Response updateUserDetail(@Valid @RequestBody MiniappUserDetailTO body) {
         return Response.success(wechatMaUserService.update(body));
     }
 
@@ -46,13 +46,13 @@ public class WechatMiniappEndpoint {
 
     @ApiOperation(value = "获取当前登录用户绑定的手机号码", notes = "获取当前登录用户绑定的手机号码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "getCellphone", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response getPhoneNumber(@RequestBody PhoneNumberRequestBody body) {
+    public Response getPhoneNumber(@RequestBody PhoneNumberTO body) {
         return Response.success(wechatMaService.getBoundPhoneNumber(body));
     }
 
     @ApiOperation(value = "解密", notes = "解密", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "decrypt", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response decrypt(@RequestBody MiniappUserDetailRequestBody body) {
+    public Response decrypt(@RequestBody MiniappUserDetailTO body) {
         return Response.success(wechatMaUserService.decrypt(body));
     }
 

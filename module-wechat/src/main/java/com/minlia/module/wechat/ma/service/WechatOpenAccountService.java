@@ -1,7 +1,7 @@
 package com.minlia.module.wechat.ma.service;
 
-import com.minlia.module.wechat.ma.bean.WechatOpenAccountQueryBody;
-import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
+import com.minlia.module.wechat.ma.bean.qo.WechatOpenAccountQO;
+import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 import java.util.List;
@@ -29,8 +29,8 @@ public interface WechatOpenAccountService {
 
     List<WechatOpenAccount> queryByUnionIdAndGuidNotNull(String unionId);
 
-    WechatOpenAccount queryOne(WechatOpenAccountQueryBody body);
+    WechatOpenAccount queryOne(WechatOpenAccountQO body);
 
-    List<WechatOpenAccount> queryList(WechatOpenAccountQueryBody body);
+    List<WechatOpenAccount> queryList(WechatOpenAccountQO body);
 
 }
