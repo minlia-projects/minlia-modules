@@ -66,9 +66,9 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
         //TODO 老是报错
         log.info("---------------------------------解密小程序用户信息：参数");
-        log.info("---------------------------------sessionResult.getSessionKey()");
-        log.info("---------------------------------body.getEncryptedData()");
-        log.info("---------------------------------body.getIv()");
+        log.info("---------------------------------：" + sessionResult.getSessionKey());
+        log.info("---------------------------------：" + body.getEncryptedData());
+        log.info("---------------------------------：" + body.getIv());
 
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
         log.info("---------------------------------解密小程序用户信息：", wxMaUserInfo.toString());
