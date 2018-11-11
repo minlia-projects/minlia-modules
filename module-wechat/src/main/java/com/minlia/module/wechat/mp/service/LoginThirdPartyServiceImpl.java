@@ -71,11 +71,15 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         log.info("---------------------------------EncryptedData：{}", body.getEncryptedData());
         log.info("---------------------------------Iv：{}", body.getIv());
 
-        WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
-        log.info("---------------------------------解密信息：{}", wxMaUserInfo.toString());
-
-        //保存用户信息
-        wechatMaUserService.update(wxMaUserInfo);
+        WxMaUserInfo wxMaUserInfo = null;
+        try {
+            wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
+            log.info("---------------------------------解密信息：{}", wxMaUserInfo.toString());
+            //保存用户信息
+            wechatMaUserService.update(wxMaUserInfo);
+        } catch (Exception e) {
+            log.error("小程序用户信息解密失败", e);
+        }
 
         ApiAssert.hasLength(wxMaUserInfo.getUnionId(), WechatMpCode.Message.UNION_ID_NOT_NULL);
         ApiAssert.hasLength(wxMaUserInfo.getOpenId(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
