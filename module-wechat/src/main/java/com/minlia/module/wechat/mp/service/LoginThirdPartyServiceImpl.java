@@ -9,6 +9,7 @@ import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.service.WechatMaService;
+import com.minlia.module.wechat.ma.service.WechatMaUserService;
 import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
 import com.minlia.module.wechat.mp.body.BindWxRequestBody;
 import com.minlia.module.wechat.mp.body.LoginWechatRequestBody;
@@ -47,6 +48,8 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
     @Autowired
     private UserQueryService userQueryService;
     @Autowired
+    private WechatMaUserService wechatMaUserService;
+    @Autowired
     private UserRegistrationService userRegistrationService;
     @Autowired
     private WechatOpenAccountService wechatOpenAccountService;
@@ -70,6 +73,9 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
 
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
         log.info("---------------------------------解密信息：{}", wxMaUserInfo.toString());
+
+        //保存用户信息
+        wechatMaUserService.update(wxMaUserInfo);
 
         ApiAssert.hasLength(wxMaUserInfo.getUnionId(), WechatMpCode.Message.UNION_ID_NOT_NULL);
         ApiAssert.hasLength(wxMaUserInfo.getOpenId(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
