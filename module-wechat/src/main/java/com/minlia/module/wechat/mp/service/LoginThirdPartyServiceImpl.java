@@ -64,7 +64,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
 
-        //TODO 老是报错
         log.info("---------------------------------解密小程序用户信息：参数");
         log.info("---------------------------------SessionKey：{}" + sessionResult.getSessionKey());
         log.info("---------------------------------EncryptedData：{}" + body.getEncryptedData());
@@ -75,8 +74,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         log.info("---------------------------------解密小程序UnionId：{}", wxMaUserInfo.getUnionId());
         log.info("---------------------------------解密小程序OpenId：{}", wxMaUserInfo.getUnionId());
 
-        //远程从微信获取小程序信息
-//        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(body.getType(),body.getCode());
         ApiAssert.hasLength(wxMaUserInfo.getUnionId(), WechatMpCode.Message.UNION_ID_NOT_NULL);
         ApiAssert.hasLength(wxMaUserInfo.getOpenId(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
         return this.login(WechatOpenidType.MINIAPP,wxMaUserInfo.getUnionId(),wxMaUserInfo.getOpenId(),body.getType(),body.getCode());
