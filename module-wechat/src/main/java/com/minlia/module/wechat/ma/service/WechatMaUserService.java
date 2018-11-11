@@ -13,6 +13,8 @@ public interface WechatMaUserService {
 
     WechatMaUser update(MiniappUserDetailRequestBody body);
 
+    WechatMaUser update(WxMaUserInfo wxMaUserInfo);
+
     WechatMaUser me();
 
     WxMaUserInfo decrypt(MiniappUserDetailRequestBody body);

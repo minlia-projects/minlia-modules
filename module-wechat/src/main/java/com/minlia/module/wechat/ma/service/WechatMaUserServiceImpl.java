@@ -16,6 +16,7 @@ import com.minlia.modules.rbac.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,10 +46,16 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
 
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
 
+        return this.update(wxMaUserInfo);
+    }
+
+    @Override
+    @Async
+    public WechatMaUser update(WxMaUserInfo wxMaUserInfo) {
         String guid = SecurityContextHolder.getCurrentGuid();
         //设置open信息
         List<WechatOpenAccount> wechatOpenAccounts = wechatOpenAccountService.queryList(WechatOpenAccountQueryBody.builder().unionId(wxMaUserInfo.getUnionId()).build());
-        for (WechatOpenAccount wechatOpenAccount:wechatOpenAccounts) {
+        for (WechatOpenAccount wechatOpenAccount : wechatOpenAccounts) {
             wechatOpenAccount.setGuid(guid);
             wechatOpenAccount.setUnionId(wxMaUserInfo.getUnionId());
             wechatOpenAccountService.update(wechatOpenAccount);

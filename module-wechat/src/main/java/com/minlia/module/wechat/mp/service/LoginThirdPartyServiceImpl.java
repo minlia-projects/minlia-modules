@@ -64,7 +64,6 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
 
-        log.info("---------------------------------解密小程序用户信息：参数");
         log.info("---------------------------------SessionKey：{}", sessionResult.getSessionKey());
         log.info("---------------------------------EncryptedData：{}", body.getEncryptedData());
         log.info("---------------------------------Iv：{}", body.getIv());
