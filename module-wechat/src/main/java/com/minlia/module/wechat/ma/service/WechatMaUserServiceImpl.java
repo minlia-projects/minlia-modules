@@ -45,11 +45,11 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
 
     @Override
     @Transactional
-    public WechatMaUser update(MiniappUserDetailTO body) {
-        WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
-        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
-        WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
-        return this.update(wxMaUserInfo, body.getCode(), SecurityContextHolder.getCurrentGuid());
+    public WechatMaUser update(MiniappUserDetailTO to) {
+        WxMaService wxMaService = wechatMaService.getWxMaService(to.getType());
+        WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,to.getCode());
+        WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),to.getEncryptedData(),to.getIv());
+        return this.update(wxMaUserInfo, to.getCode(), SecurityContextHolder.getCurrentGuid());
     }
 
     @Override
