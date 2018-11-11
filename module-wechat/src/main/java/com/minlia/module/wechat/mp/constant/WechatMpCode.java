@@ -13,35 +13,6 @@ public class WechatMpCode {
         throw new AssertionError();
     }
 
-    public enum Exception implements Code {
-
-        TEST(-1, "TEST");
-
-        private int code;
-        private String i18nKey;
-
-        Exception(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
-
-        @Override
-        public int code() {
-            return code;
-        }
-
-        @Override
-        public String i18nKey() {
-            return i18nKey;
-        }
-
-        @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
-        }
-
-    }
-
     public enum Message implements Code {
 
         /**
@@ -52,7 +23,11 @@ public class WechatMpCode {
         /**
          * 获取微信Session失败
          */
-        GET_SESSION_FAILURE(100801,"system.common.message.100801");
+        GET_SESSION_FAILURE(100801,"system.common.message.100801"),
+
+        UNION_ID_NOT_NULL(100802,"system.common.message.100802"),
+
+        OPEN_ID_NOT_NULL(100803,"system.common.message.100803");
 
         private int code;
         private String i18nKey;

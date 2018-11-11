@@ -1,9 +1,11 @@
 package com.minlia.module.wechat.ma.service;
 
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.wechat.ma.body.WechatOpenAccountQueryBody;
 import com.minlia.module.wechat.ma.entity.WechatOpenAccount;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import com.minlia.module.wechat.ma.mapper.WechatOpenAccountMapper;
+import com.minlia.module.wechat.mp.constant.WechatMpCode;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -32,6 +34,10 @@ public class WechatOpenAccountServiceImpl implements WechatOpenAccountService {
     @Override
     @Transactional
     public void save(WxMpUser wxMpUser) {
+        log.info("保存微信公众号用户信息：{}", wxMpUser.toString());
+        ApiAssert.hasLength(wxMpUser.getUnionId(), WechatMpCode.Message.UNION_ID_NOT_NULL);
+        ApiAssert.hasLength(wxMpUser.getOpenId(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
+
         WechatOpenAccount wechatOpenAccount = wechatOpenAccountMapper.queryOne(WechatOpenAccountQueryBody.builder().unionId(wxMpUser.getUnionId()).type(WechatOpenidType.PUBLIC).build());
 
         //保存公众号OpenId

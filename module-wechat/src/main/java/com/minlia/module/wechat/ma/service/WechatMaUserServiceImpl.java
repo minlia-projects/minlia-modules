@@ -42,6 +42,8 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     public WechatMaUser update(MiniappUserDetailRequestBody body) {
         WxMaService wxMaService = wechatMaService.getWxMaService(body.getType());
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
+
+        //TODO 老是报错
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
         String guid = SecurityContextHolder.getCurrentGuid();
         //设置open信息

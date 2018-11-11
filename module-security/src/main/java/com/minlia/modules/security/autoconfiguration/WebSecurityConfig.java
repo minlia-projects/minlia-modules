@@ -42,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String TOKEN_REFRESH_ENTRY_POINT = "/api/auth/token";
 
     public static final String LOGOUT_ENTRY_POINT = "/api/auth/logout";
-    public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/v1/**";
+    public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/v*/**";
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
@@ -110,10 +110,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(OPEN_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
-                .and()
-                .authorizeRequests()
                 .antMatchers(LOGOUT_ENTRY_POINT, TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
+                .antMatchers(OPEN_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
+//                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
