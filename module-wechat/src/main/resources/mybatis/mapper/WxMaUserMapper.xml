@@ -33,7 +33,7 @@
                 AND code = #{code}
             </if>
             <if test="unionId != null">
-                AND unionId = #{unionId}
+                AND union_id = #{unionId}
             </if>
         </where>
     </sql>
