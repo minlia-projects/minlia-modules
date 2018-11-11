@@ -65,14 +65,12 @@ public class LoginThirdPartyServiceImpl implements LoginThirdPartyService {
         WxMaJscode2SessionResult sessionResult = wechatMaService.getSessionInfo(wxMaService,body.getCode());
 
         log.info("---------------------------------解密小程序用户信息：参数");
-        log.info("---------------------------------SessionKey：{}" + sessionResult.getSessionKey());
-        log.info("---------------------------------EncryptedData：{}" + body.getEncryptedData());
-        log.info("---------------------------------Iv：{}" + body.getIv());
+        log.info("---------------------------------SessionKey：{}", sessionResult.getSessionKey());
+        log.info("---------------------------------EncryptedData：{}", body.getEncryptedData());
+        log.info("---------------------------------Iv：{}", body.getIv());
 
         WxMaUserInfo wxMaUserInfo = wxMaService.getUserService().getUserInfo(sessionResult.getSessionKey(),body.getEncryptedData(),body.getIv());
-        log.info("---------------------------------解密小程序用户信息：{}", wxMaUserInfo.toString());
-        log.info("---------------------------------解密小程序UnionId：{}", wxMaUserInfo.getUnionId());
-        log.info("---------------------------------解密小程序OpenId：{}", wxMaUserInfo.getUnionId());
+        log.info("---------------------------------解密信息：{}", wxMaUserInfo.toString());
 
         ApiAssert.hasLength(wxMaUserInfo.getUnionId(), WechatMpCode.Message.UNION_ID_NOT_NULL);
         ApiAssert.hasLength(wxMaUserInfo.getOpenId(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
