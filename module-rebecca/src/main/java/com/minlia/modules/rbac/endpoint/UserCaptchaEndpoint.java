@@ -38,11 +38,11 @@ public class UserCaptchaEndpoint {
     public Response send(@Valid @RequestBody CaptchaTO to) {
         User user = SecurityContextHolder.getCurrentUser();
         if (to.getMethod().equals(CaptchaMethodEnum.CELLPHONE)) {
-            ApiAssert.hasLength(to.getCellphone(), RebaccaCode.Message.USER_NO_CELLPHONE);
+            ApiAssert.hasLength(user.getCellphone(), RebaccaCode.Message.USER_NO_CELLPHONE);
             to.setCellphone(user.getCellphone());
         } else {
-            ApiAssert.hasLength(to.getEmail(), RebaccaCode.Message.USER_NO_EMAIL);
-            to.setCellphone(user.getEmail());
+            ApiAssert.hasLength(user.getEmail(), RebaccaCode.Message.USER_NO_EMAIL);
+            to.setEmail(user.getEmail());
         }
 
         Captcha captcha = captchaService.send(to);
