@@ -28,6 +28,11 @@ public class VersionQO {
     private boolean isTest;
 
     /**
+     * 是否最新
+     */
+    private boolean isNewest;
+
+    /**
      * 是否启用
      */
     private Boolean enabled;

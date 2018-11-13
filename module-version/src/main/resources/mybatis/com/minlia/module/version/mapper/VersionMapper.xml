@@ -34,6 +34,10 @@
             <if test="enabled != null">
                 AND enabled = #{enabled}
             </if>
+            <if test="isNewest">
+                ORDER BY create_date DESC
+                limit 1
+            </if>
         </where>
     </sql>
 
