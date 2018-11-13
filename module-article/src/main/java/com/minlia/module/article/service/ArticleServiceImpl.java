@@ -9,6 +9,7 @@ import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.qo.ArticleCategoryQO;
 import com.minlia.module.article.bean.to.ArticleCTO;
 import com.minlia.module.article.bean.to.ArticleUTO;
+import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.mapper.ArticleMapper;
 import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
@@ -43,20 +44,14 @@ public class ArticleServiceImpl implements ArticleService {
     public Article create(ArticleCTO cto) {
         long count = articleCategoryService.count(ArticleCategoryQO.builder().id(cto.getCategoryId()).build());
         ApiAssert.state(count == 1, SystemCode.Message.DATA_NOT_EXISTS);
-
         ApiAssert.state(articleMapper.count(ArticleQO.builder().categoryId(cto.getCategoryId()).title(cto.getTitle()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
-
-        if (StringUtils.isNotBlank(cto.getCoverETag())) {
-            Attachment attachment = attachmentService.queryByKey(cto.getCoverETag());
-            ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
-        }
 
         Article article = mapper.map(cto, Article.class);
         articleMapper.create(article);
 
         //绑定附件
         if (StringUtils.isNotBlank(cto.getCoverETag())) {
-            attachmentService.bindByAccessKey(cto.getCoverETag(), article.getId().toString(), "ARTICLE_COVER");
+            attachmentService.bindByAccessKey(cto.getCoverETag(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
         }
         return article;
     }
@@ -68,7 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         //绑定附件
         if (StringUtils.isNotBlank(uto.getCoverETag())) {
-            attachmentService.bindByAccessKey(uto.getCoverETag(), article.getId().toString(), "ARTICLE_COVER");
+            attachmentService.bindByAccessKey(uto.getCoverETag(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
         }
 
         mapper.map(uto, article);

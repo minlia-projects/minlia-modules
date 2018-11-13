@@ -41,14 +41,14 @@ public class Article extends AbstractEntity {
     private String keywords;
 
     /**
-     * 备注
-     */
-    private String notes;
-
-    /**
      * 扩展字段1：所属游戏
      */
     private String attribute1;
+
+    /**
+     * 备注
+     */
+    private String notes;
 
     /**
      * 是否启用

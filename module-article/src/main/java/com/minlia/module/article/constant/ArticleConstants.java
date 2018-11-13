@@ -9,6 +9,8 @@ import com.minlia.modules.security.constant.SecurityConstant;
  */
 public class ArticleConstants {
 
+    public final static String ARTICLE_COVER = "ARTICLE_COVER";
+
     public final static String MODULE = MinliaConstants.APP_NAME + ".article";
 
     public final static String CREATE = MODULE + SecurityConstant.OPERATION_CREATE_CODE;
