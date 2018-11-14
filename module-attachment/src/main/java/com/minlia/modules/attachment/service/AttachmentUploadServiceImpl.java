@@ -55,7 +55,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     }
 
     private Response uploadByQcloud(MultipartFile file, String relationId, String belongsTo) throws Exception {
-        String path = OSSPathUtils.defaultBuild(file.getOriginalFilename());
+        String path = this.keyGenerate(file, relationId, belongsTo);
         PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         OssFile ossFile= new OssFile(result.getETag());
         ossFile.setContentType(file.getContentType());
@@ -109,7 +109,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         if (StringUtils.isNotBlank(belongsTo)) {
             return String.format("%s/%s/%s", relationId, belongsTo, OSSPathUtils.uuidNameBuild(file.getOriginalFilename()));
         } else {
-            return OSSPathUtils.dateBuild() + OSSPathUtils.uuidNameBuild(file.getOriginalFilename());
+            return OSSPathUtils.defaultBuild(file.getOriginalFilename());
         }
     }
 
