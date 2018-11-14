@@ -1,4 +1,4 @@
-package com.minlia.modules.attachment.body;
+package com.minlia.modules.attachment.bean;
 
 
 import com.minlia.module.data.body.QueryRequest;
@@ -8,7 +8,7 @@ import lombok.Data;
 
 @ApiModel(value = "附件-查询")
 @Data
-public class AttachmentQueryRequest implements QueryRequest {
+public class AttachmentQO implements QueryRequest {
 
     @ApiModelProperty(value = "业务类型编码", example = "account.identity.frontend")
     private String belongsTo;

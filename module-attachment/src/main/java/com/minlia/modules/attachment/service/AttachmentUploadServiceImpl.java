@@ -1,17 +1,16 @@
 package com.minlia.modules.attachment.service;
 
 
-import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
-import com.minlia.modules.aliyun.oss.builder.PathBuilder;
-import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
 import com.minlia.modules.attachment.entity.Attachment;
+import com.minlia.modules.attachment.enumeration.AttachmentUploadTypeEnum;
+import com.minlia.modules.attachment.property.AttachmentProperties;
 import com.minlia.modules.attachment.util.ContentTypeUtils;
-import com.minlia.modules.attachment.util.CosPathUtils;
+import com.minlia.modules.attachment.util.OSSPathUtils;
 import com.minlia.modules.qcloud.oss.service.QcloudCosService;
 import com.minlia.modules.qcloud.oss.util.QcloudCosUtils;
 import com.qcloud.cos.model.PutObjectResult;
@@ -20,8 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 
 @Service
 @Slf4j
@@ -36,9 +33,29 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     @Autowired
     private AttachmentService attachmentService;
 
+    @Autowired
+    private AttachmentProperties attachmentProperties;
+
     @Override
     public Response upload(MultipartFile file) throws Exception {
-        String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
+        if (AttachmentUploadTypeEnum.aliyun.equals(attachmentProperties.getType())) {
+            return uploadByAliyun(file, null, null);
+        } else {
+            return uploadByQcloud(file, null, null);
+        }
+    }
+
+    @Override
+    public Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
+        if (AttachmentUploadTypeEnum.aliyun.equals(attachmentProperties.getType())) {
+            return uploadByAliyun(file, relationId, belongsTo);
+        } else {
+            return uploadByQcloud(file, relationId, belongsTo);
+        }
+    }
+
+    private Response uploadByQcloud(MultipartFile file, String relationId, String belongsTo) throws Exception {
+        String path = OSSPathUtils.defaultBuild(file.getOriginalFilename());
         PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         OssFile ossFile= new OssFile(result.getETag());
         ossFile.setContentType(file.getContentType());
@@ -51,6 +68,8 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         }
 
         Attachment attachment = Attachment.builder()
+                .relationId(relationId)
+                .belongsTo(belongsTo)
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .url(ossFile.getUrl())
@@ -61,63 +80,11 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         return Response.success(ossFile);
     }
 
-    @Override
-    public Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
-        String path = CosPathUtils.defaultBuild(file.getOriginalFilename());
+    private Response uploadByAliyun(MultipartFile file, String relationId, String belongsTo){
+        log.info(file.getContentType());
+        log.info(file.getOriginalFilename());
 
-        PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
-        Attachment attachment = Attachment.builder()
-                .belongsTo(belongsTo)
-                .relationId(relationId)
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .url(qcloudCosService.getQcloudCosConfig().getDomain() + path)
-                .size(file.getSize())
-                .accessKey(result.getETag())
-                .build();
-
-        //附件记录
-        attachmentService.create(attachment);
-        return Response.success(Lists.newArrayList(attachment));
-    }
-
-    @Override
-    public Response upload(AttachmentUploadRequestBody requestBody) {
-        if (StringUtils.isEmpty(requestBody.getKey())){
-            requestBody.setKey(CosPathUtils.defaultBuild(requestBody.getFile().getName()));
-        }
-
-        PutObjectResult result = qcloudCosService.putObject(null,requestBody.getKey(),requestBody.getFile());
-
-        String url;
-        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(requestBody.getFile())) {
-            url = qcloudCosService.getQcloudCosConfig().getImageDomain() + requestBody.getKey();
-        } else {
-            url = qcloudCosService.getQcloudCosConfig().getDomain() + requestBody.getKey();
-        }
-        Attachment attachment = Attachment.builder()
-                .belongsTo(requestBody.getBelongsTo())
-                .relationId(requestBody.getRelationId())
-                .name(requestBody.getFile().getName())
-                .type(ContentTypeUtils.getExtension(requestBody.getFile().getName()))
-                .url(url)
-                .size(requestBody.getFile().length())
-                .accessKey(result.getETag())
-                .build();
-
-        OssFile ossFile= new OssFile(result.getETag());
-        ossFile.setContentType(attachment.getType());
-        ossFile.setName(attachment.getName());
-        ossFile.setSize(attachment.getSize());
-        ossFile.setUrl(attachment.getUrl());
-        //附件记录
-        attachmentService.create(attachment);
-        return Response.success(ossFile);
-    }
-
-    @Deprecated
-    private Response uploadByAliyun(File file, String relationId, String belongsTo){
-        String key = keyGenerate(file.getName(),relationId,belongsTo);
+        String key = keyGenerate(file, relationId, belongsTo);
         OssFile ossFile=null;
         try {
             ossFile = ossService.upload(file, key);
@@ -125,7 +92,6 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
             ApiAssert.state(false, SystemCode.Exception.REMOTE_REQUEST_FAILURE, e.getMessage());
         }
 
-        //附件记录
         Attachment attachment = Attachment.builder()
                 .relationId(relationId)
                 .belongsTo(belongsTo)
@@ -136,11 +102,48 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
                 .accessKey(ossFile.geteTag())
                 .build();
         attachmentService.create(attachment);
-        return Response.success(Lists.newArrayList(attachment));
+        return Response.success(ossFile);
     }
 
-    private String keyGenerate(String fileName, String relationId, String belongsTo){
-        return String.format("%s/%s/%s",relationId,belongsTo, PathBuilder.uuidNameBuild(fileName));
+    private String keyGenerate(MultipartFile file, String relationId, String belongsTo){
+        if (StringUtils.isNotBlank(belongsTo)) {
+            return String.format("%s/%s/%s", relationId, belongsTo, OSSPathUtils.uuidNameBuild(file.getOriginalFilename()));
+        } else {
+            return OSSPathUtils.uuidNameBuild(file.getOriginalFilename());
+        }
     }
+
+//    private Response upload(AttachmentUploadTO to) {
+//        if (StringUtils.isEmpty(to.getKey())){
+//            to.setKey(OSSPathUtils.defaultBuild(to.getFile().getName()));
+//        }
+//
+//        PutObjectResult result = qcloudCosService.putObject(null,to.getKey(),to.getFile());
+//
+//        String url;
+//        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(to.getFile())) {
+//            url = qcloudCosService.getQcloudCosConfig().getImageDomain() + to.getKey();
+//        } else {
+//            url = qcloudCosService.getQcloudCosConfig().getDomain() + to.getKey();
+//        }
+//        Attachment attachment = Attachment.builder()
+//                .belongsTo(to.getBelongsTo())
+//                .relationId(to.getRelationId())
+//                .name(to.getFile().getName())
+//                .type(ContentTypeUtils.getExtension(to.getFile().getName()))
+//                .url(url)
+//                .size(to.getFile().length())
+//                .accessKey(result.getETag())
+//                .build();
+//
+//        OssFile ossFile= new OssFile(result.getETag());
+//        ossFile.setContentType(attachment.getType());
+//        ossFile.setName(attachment.getName());
+//        ossFile.setSize(attachment.getSize());
+//        ossFile.setUrl(attachment.getUrl());
+//        //附件记录
+//        attachmentService.create(attachment);
+//        return Response.success(ossFile);
+//    }
 
 }

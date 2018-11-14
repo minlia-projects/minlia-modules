@@ -1,11 +1,11 @@
 package com.minlia.modules.attachment;
 
+import com.minlia.modules.attachment.property.AttachmentProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Created by will on 6/21/17.
- */
 @Configuration
+@EnableConfigurationProperties({AttachmentProperties.class})
 public class AttachmentAutoConfiguration {
 
 }

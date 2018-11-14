@@ -1,4 +1,4 @@
-package com.minlia.modules.attachment.body;
+package com.minlia.modules.attachment.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import java.io.InputStream;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttachmentUploadRequestBody {
+public class AttachmentUploadTO {
 
     /**
      * 存储桶名称

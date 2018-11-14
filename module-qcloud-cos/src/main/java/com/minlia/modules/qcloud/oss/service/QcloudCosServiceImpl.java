@@ -31,23 +31,23 @@ public class QcloudCosServiceImpl implements QcloudCosService {
     }
 
     @Override
-    public PutObjectResult putObject(String bucketName, String key, File file) throws CosClientException, CosServiceException {
+    public PutObjectResult putObject(String bucketName, String key, File file) throws CosClientException {
         if (StringUtils.isEmpty(bucketName)) {
             bucketName = qcloudCosConfig.getBucketName();
         }
-        return QcloudCosClient.cosClient().putObject(bucketName,key,file);
+        return QcloudCosClient.cosClient().putObject(bucketName, key, file);
     }
 
     @Override
-    public PutObjectResult putObject(String bucketName, String key, InputStream input, ObjectMetadata metadata) throws CosClientException, CosServiceException {
+    public PutObjectResult putObject(String bucketName, String key, InputStream input, ObjectMetadata metadata) throws CosClientException {
         if (StringUtils.isEmpty(bucketName)) {
             bucketName = qcloudCosConfig.getBucketName();
         }
-        return QcloudCosClient.cosClient().putObject(bucketName,key,input,metadata);
+        return QcloudCosClient.cosClient().putObject(bucketName, key, input, metadata);
     }
 
     @Override
-    public PutObjectResult putObject(PutObjectRequest putObjectRequest) throws CosClientException, CosServiceException {
+    public PutObjectResult putObject(PutObjectRequest putObjectRequest) throws CosClientException {
         if (StringUtils.isEmpty(putObjectRequest.getBucketName())) {
             putObjectRequest.setBucketName(qcloudCosConfig.getBucketName());
         }
@@ -55,7 +55,7 @@ public class QcloudCosServiceImpl implements QcloudCosService {
     }
 
     @Override
-    public Upload upload(PutObjectRequest putObjectRequest) throws CosServiceException, CosClientException {
+    public Upload upload(PutObjectRequest putObjectRequest) throws CosClientException {
         return null;
     }
 

@@ -25,7 +25,13 @@ public class AttachmentUploadEndpoint {
     @Autowired
     private AttachmentUploadService attachmentUploadService;
 
-    @ApiOperation(value = "上传", notes = "文件上传服务", httpMethod = "POST")
+    @ApiOperation(value = "上传", notes = "上传", httpMethod = "POST")
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response upload(MultipartFile file) throws Exception {
+        return attachmentUploadService.upload(file);
+    }
+
+    @ApiOperation(value = "上传", notes = "上传", httpMethod = "POST")
     @PostMapping(value = "/{relationId}/{belongsTo}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response upload(MultipartFile file, @PathVariable String relationId, @PathVariable String belongsTo) throws Exception {
         //检查是否满足上传条件 TODO 上传数量、belongsTo是否存在
@@ -42,19 +48,5 @@ public class AttachmentUploadEndpoint {
         //附件记录
         return attachmentUploadService.upload(file,relationId,belongsTo);
     }
-
-    @ApiOperation(value = "file", notes = "文件上传服务", httpMethod = "POST")
-    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response upload(MultipartFile file) throws Exception {
-        return attachmentUploadService.upload(file);
-    }
-//
-//    private String keyGenerate(MultipartFile file){
-//        return String.format("%s", PathBuilder.uuidNameBuild(file.getOriginalFilename()));
-//    }
-//
-//    private String keyGenerate(MultipartFile file, String relationId, String belongsTo){
-//        return String.format("%s/%s/%s",relationId,belongsTo, PathBuilder.uuidNameBuild(file.getOriginalFilename()));
-//    }
 
 }

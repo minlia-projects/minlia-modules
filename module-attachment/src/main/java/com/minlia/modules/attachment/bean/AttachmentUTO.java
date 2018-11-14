@@ -1,4 +1,4 @@
-package com.minlia.modules.attachment.body;
+package com.minlia.modules.attachment.bean;
 
 
 import com.minlia.cloud.body.ApiRequestBody;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @ApiModel(value = "附件-更新")
 @Data
-public class AttachmentUpdateRequestBody implements ApiRequestBody {
+public class AttachmentUTO implements ApiRequestBody {
 
     @NotNull
     private Long id;

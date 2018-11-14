@@ -6,9 +6,9 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.modules.attachment.body.AttachmentCreateRequestBody;
-import com.minlia.modules.attachment.body.AttachmentData;
-import com.minlia.modules.attachment.body.AttachmentQueryRequest;
+import com.minlia.modules.attachment.bean.AttachmentCTO;
+import com.minlia.modules.attachment.bean.AttachmentData;
+import com.minlia.modules.attachment.bean.AttachmentQO;
 import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.event.AttachmentEvent;
@@ -43,7 +43,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public List<Attachment> create(AttachmentCreateRequestBody requestBody) {
+    public List<Attachment> create(AttachmentCTO requestBody) {
         attachmentMapper.deleteByRelationIdAndBelongsTo(requestBody.getRelationId(),requestBody.getBelongsTo());
 
         List<Attachment> attachments = Lists.newArrayList();
@@ -125,12 +125,12 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public List<Attachment> queryList(AttachmentQueryRequest requestBody) {
+    public List<Attachment> queryList(AttachmentQO requestBody) {
         return attachmentMapper.queryList(requestBody);
     }
 
     @Override
-    public PageInfo<Attachment> queryPage(AttachmentQueryRequest requestBody, Pageable pageable) {
+    public PageInfo<Attachment> queryPage(AttachmentQO requestBody, Pageable pageable) {
         return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> attachmentMapper.queryList(requestBody));
     }
 

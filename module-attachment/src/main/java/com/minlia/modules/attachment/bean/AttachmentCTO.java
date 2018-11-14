@@ -1,4 +1,4 @@
-package com.minlia.modules.attachment.body;
+package com.minlia.modules.attachment.bean;
 
 
 import com.minlia.cloud.body.ApiRequestBody;
@@ -12,7 +12,7 @@ import java.util.List;
 @ApiModel(value = "附件-创建")
 @Data
 
-public class AttachmentCreateRequestBody implements ApiRequestBody {
+public class AttachmentCTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "业务类型编码", example = "account.identity.frontend")
     @NotNull

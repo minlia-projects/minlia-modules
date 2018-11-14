@@ -1,4 +1,4 @@
-package com.minlia.modules.attachment.body;
+package com.minlia.modules.attachment.bean;
 
 import io.swagger.annotations.ApiModelProperty;
 

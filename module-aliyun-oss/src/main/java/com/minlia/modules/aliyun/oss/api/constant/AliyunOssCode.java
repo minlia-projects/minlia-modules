@@ -13,43 +13,35 @@ public class AliyunOssCode {
         throw new AssertionError();
     }
 
-    public enum Exception implements Code {
-
-        TEST(100501,"system.common.exception.100501");
-
-        private int code;
-        private String i18nKey;
-
-        Exception(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
-
-        @Override
-        public int code() {
-            return code;
-        }
-
-        @Override
-        public String i18nKey() {
-            return i18nKey;
-        }
-
-        @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
-        }
-
-    }
-
     public enum Message implements Code {
 
         /**
-         * 上传失败-{0}
+         * 阿里云OSS上传失败-{0}
          */
-        UPLOAD_FAILURE(100501,"system.aliyun.message.101100");
+        UPLOAD_FAILURE(101100, "aliyun.oss.message.101100"),
+
+        /**
+         * 阿里云OSS访问ID未配置
+         */
+        ACCESSKEYID_NOT_CONFIG(101101, "aliyun.oss.message.101101"),
+
+        /**
+         * 阿里云OSS访问密钥未配置
+         */
+        SECRETACCESSKEY_NOT_CONFIG(101102, "aliyun.oss.message.101102"),
+
+        /**
+         * 阿里云OSS存储桶未配置
+         */
+        BUCKET_NOT_CONFIG(101103, "aliyun.oss.message.101103"),
+
+        /**
+         * 阿里云OSS端点未配置
+         */
+        ENDPOINT_NOT_CONFIG(101104, "aliyun.oss.message.101104");
 
         private int code;
+
         private String i18nKey;
 
         Message(int code, String i18nKey) {
