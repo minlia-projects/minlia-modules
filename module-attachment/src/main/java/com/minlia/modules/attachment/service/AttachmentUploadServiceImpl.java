@@ -109,7 +109,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         if (StringUtils.isNotBlank(belongsTo)) {
             return String.format("%s/%s/%s", relationId, belongsTo, OSSPathUtils.uuidNameBuild(file.getOriginalFilename()));
         } else {
-            return OSSPathUtils.uuidNameBuild(file.getOriginalFilename());
+            return OSSPathUtils.dateBuild() + OSSPathUtils.uuidNameBuild(file.getOriginalFilename());
         }
     }
 
