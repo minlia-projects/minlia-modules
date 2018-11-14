@@ -10,7 +10,7 @@
             download_url,
             test,
             notes,
-            forcedDownload,
+            forced_download,
             enabled,
             create_by,
             create_date,
