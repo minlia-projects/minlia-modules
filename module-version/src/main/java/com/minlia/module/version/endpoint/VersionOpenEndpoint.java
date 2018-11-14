@@ -27,7 +27,6 @@ public class VersionOpenEndpoint {
 //		return Response.success(versionService.queryById(id));
 //	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + VersionConstants.SEARCH + "')")
 	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response one(@RequestBody VersionQO qo) {

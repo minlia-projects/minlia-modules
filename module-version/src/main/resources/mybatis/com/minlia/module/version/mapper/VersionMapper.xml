@@ -34,7 +34,7 @@
             <if test="enabled != null">
                 AND enabled = #{enabled}
             </if>
-            <if test="isNewest">
+            <if test="newest">
                 ORDER BY create_date DESC
                 limit 1
             </if>

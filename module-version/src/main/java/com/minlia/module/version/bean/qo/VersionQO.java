@@ -25,12 +25,12 @@ public class VersionQO {
     /**
      * 是否测试
      */
-    private boolean isTest;
+    private boolean test;
 
     /**
      * 是否最新
      */
-    private boolean isNewest;
+    private boolean newest;
 
     /**
      * 是否启用
