@@ -2,14 +2,14 @@ package com.minlia.modules.rbac.service;
 
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.to.PasswordByCaptchaChangeTO;
 import com.minlia.modules.rbac.bean.to.PasswordByRawPasswordChangeTO;
 import com.minlia.modules.rbac.bean.to.PasswordResetTO;
 import com.minlia.modules.rbac.constant.RebaccaCode;
-import com.minlia.modules.rbac.bean.qo.UserQO;
-import com.minlia.modules.rbac.bean.domain.User;
-import com.minlia.modules.rbac.mapper.UserMapper;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rbac.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,13 +29,22 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User forget(PasswordResetTO body) {
-        //验证验证码是否正确
-        captchaService.validityByCellphone(body.getUsername(), body.getCode());
-
-        User user = userMapper.queryOne(UserQO.builder().username(body.getUsername()).build());
-        ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
-        return change(user,body.getNewPassword());
+    public User forget(PasswordResetTO to) {
+        User user = null;
+        //校验凭证是否有效
+        switch (to.getMethod()) {
+            case CELLPHONE:
+                user = userMapper.queryOne(UserQO.builder().username(to.getCellphone()).build());
+                ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
+                captchaService.validityByCellphone(to.getCellphone(), to.getCode());
+                break;
+            case EMAIL:
+                user = userMapper.queryOne(UserQO.builder().username(to.getEmail()).build());
+                ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
+                captchaService.validityByEmail(to.getCellphone(), to.getCode());
+                break;
+        }
+        return change(user,to.getNewPassword());
     }
 
     @Override

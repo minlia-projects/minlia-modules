@@ -29,8 +29,8 @@ public class ForgetPasswordEndpoint {
 
     @ApiOperation(value = "忘记密码", notes = "忘记密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "forget", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response resetPassword(@Valid @RequestBody PasswordResetTO body) {
-        User entity = userPasswordService.forget(body);
+    public Response resetPassword(@Valid @RequestBody PasswordResetTO to) {
+        User entity = userPasswordService.forget(to);
         return Response.success(entity);
     }
 
