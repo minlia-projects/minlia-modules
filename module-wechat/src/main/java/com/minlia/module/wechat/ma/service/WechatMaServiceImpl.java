@@ -17,7 +17,7 @@ import com.minlia.module.wechat.ma.constant.WechatMaCode;
 import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
 import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
-import com.minlia.modules.attachment.body.AttachmentUploadRequestBody;
+import com.minlia.modules.attachment.bean.AttachmentUploadTO;
 import com.minlia.modules.attachment.service.AttachmentUploadService;
 import me.chanjar.weixin.common.error.WxErrorException;
 import net.sf.json.JSONObject;
@@ -168,13 +168,13 @@ public class WechatMaServiceImpl implements WechatMaService {
         try {
             //上传附件
             String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
-            AttachmentUploadRequestBody requestBody = AttachmentUploadRequestBody.builder()
+            AttachmentUploadTO to = AttachmentUploadTO.builder()
                     .relationId(body.getNumber())
                     .belongsTo(body.getType())
                     .file(file)
                     .key(path + file.getName())
                     .build();
-            return (OssFile) attachmentUploadService.upload(requestBody).getPayload();
+            return (OssFile) attachmentUploadService.upload(to).getPayload();
         } catch (Exception e) {
             ApiAssert.state(false,"OSS上传异常：" + e.getMessage());
         } finally {

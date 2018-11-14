@@ -6,6 +6,7 @@ import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
+import com.minlia.modules.attachment.bean.AttachmentUploadTO;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.enumeration.AttachmentUploadTypeEnum;
 import com.minlia.modules.attachment.property.AttachmentProperties;
@@ -113,37 +114,38 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         }
     }
 
-//    private Response upload(AttachmentUploadTO to) {
-//        if (StringUtils.isEmpty(to.getKey())){
-//            to.setKey(OSSPathUtils.defaultBuild(to.getFile().getName()));
-//        }
-//
-//        PutObjectResult result = qcloudCosService.putObject(null,to.getKey(),to.getFile());
-//
-//        String url;
-//        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(to.getFile())) {
-//            url = qcloudCosService.getQcloudCosConfig().getImageDomain() + to.getKey();
-//        } else {
-//            url = qcloudCosService.getQcloudCosConfig().getDomain() + to.getKey();
-//        }
-//        Attachment attachment = Attachment.builder()
-//                .belongsTo(to.getBelongsTo())
-//                .relationId(to.getRelationId())
-//                .name(to.getFile().getName())
-//                .type(ContentTypeUtils.getExtension(to.getFile().getName()))
-//                .url(url)
-//                .size(to.getFile().length())
-//                .accessKey(result.getETag())
-//                .build();
-//
-//        OssFile ossFile= new OssFile(result.getETag());
-//        ossFile.setContentType(attachment.getType());
-//        ossFile.setName(attachment.getName());
-//        ossFile.setSize(attachment.getSize());
-//        ossFile.setUrl(attachment.getUrl());
-//        //附件记录
-//        attachmentService.create(attachment);
-//        return Response.success(ossFile);
-//    }
+    @Override
+    public Response upload(AttachmentUploadTO to) {
+        if (StringUtils.isEmpty(to.getKey())){
+            to.setKey(OSSPathUtils.defaultBuild(to.getFile().getName()));
+        }
+
+        PutObjectResult result = qcloudCosService.putObject(null,to.getKey(),to.getFile());
+
+        String url;
+        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(to.getFile())) {
+            url = qcloudCosService.getQcloudCosConfig().getImageDomain() + to.getKey();
+        } else {
+            url = qcloudCosService.getQcloudCosConfig().getDomain() + to.getKey();
+        }
+        Attachment attachment = Attachment.builder()
+                .belongsTo(to.getBelongsTo())
+                .relationId(to.getRelationId())
+                .name(to.getFile().getName())
+                .type(ContentTypeUtils.getExtension(to.getFile().getName()))
+                .url(url)
+                .size(to.getFile().length())
+                .accessKey(result.getETag())
+                .build();
+
+        OssFile ossFile= new OssFile(result.getETag());
+        ossFile.setContentType(attachment.getType());
+        ossFile.setName(attachment.getName());
+        ossFile.setSize(attachment.getSize());
+        ossFile.setUrl(attachment.getUrl());
+        //附件记录
+        attachmentService.create(attachment);
+        return Response.success(ossFile);
+    }
 
 }

@@ -14,6 +14,6 @@ public interface AttachmentUploadService {
 
     Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception;
 
-//    Response upload(AttachmentUploadTO to);
+    Response upload(AttachmentUploadTO to);
 
 }
