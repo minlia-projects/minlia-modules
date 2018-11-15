@@ -50,6 +50,6 @@ public class ArticleCTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "是否启用", example = "true")
     @NotNull(message = "是否启用不能为空")
-    private Boolean enabled = true;
+    private boolean enabled = true;
 
 }

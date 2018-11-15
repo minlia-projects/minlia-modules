@@ -17,6 +17,11 @@ public class ArticleQO {
     private Long categoryId;
 
     /**
+     * 标签ID
+     */
+    private Long labelId;
+
+    /**
      * 文章ID
      */
     private Long id;

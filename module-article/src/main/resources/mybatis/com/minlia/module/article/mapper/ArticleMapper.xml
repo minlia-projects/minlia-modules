@@ -40,6 +40,9 @@
             <if test="enabled != null">
                 AND t.enabled = #{enabled}
             </if>
+            <if test="labelId != null">
+                AND EXISTS (SELECT 1 FROM mdl_article_label_m m WHERE m.article_id=t.id AND m.label_id=#{labelId})
+            </if>
         </where>
     </sql>
 
