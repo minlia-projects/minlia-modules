@@ -2,6 +2,7 @@ package com.minlia.module.article.mapper;
 
 import com.minlia.module.article.bean.domain.Article;
 import com.minlia.module.article.bean.qo.ArticleQO;
+import com.minlia.module.article.bean.to.ArticleSetLabelTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public interface ArticleMapper {
     long update(Article article);
 
     long delete(Long id);
+
+    void setLabels(ArticleSetLabelTO to);
 
     Article queryById(Long id);
 

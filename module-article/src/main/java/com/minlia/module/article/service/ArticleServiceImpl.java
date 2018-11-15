@@ -2,17 +2,18 @@ package com.minlia.module.article.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.domain.Article;
-import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.qo.ArticleCategoryQO;
+import com.minlia.module.article.bean.qo.ArticleLabelQO;
+import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleCTO;
+import com.minlia.module.article.bean.to.ArticleSetLabelTO;
 import com.minlia.module.article.bean.to.ArticleUTO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.mapper.ArticleMapper;
-import com.minlia.modules.attachment.constant.AttachmentCode;
-import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.service.AttachmentService;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
@@ -36,6 +37,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private AttachmentService attachmentService;
+
+    @Autowired
+    private ArticleLabelService articleLabelService;
 
     @Autowired
     private ArticleCategoryService articleCategoryService;
@@ -76,6 +80,19 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleMapper.queryById(id);
         ApiAssert.notNull(article, SystemCode.Message.DATA_NOT_EXISTS);
         articleMapper.delete(id);
+    }
+
+    @Override
+    public Response setLabels(ArticleSetLabelTO to) {
+        ApiAssert.notEmpty(to.getLabelIds(), SystemCode.Message.DATA_NOT_EXISTS);
+        Article article = articleMapper.queryById(to.getArticleId());
+        ApiAssert.notNull(article, SystemCode.Message.DATA_NOT_EXISTS);
+
+        for (Long labelId : to.getLabelIds()) {
+            ApiAssert.state(articleLabelService.count(ArticleLabelQO.builder().id(labelId).build()) == 1, SystemCode.Message.DATA_NOT_EXISTS);
+        }
+        articleMapper.setLabels(to);
+        return Response.success();
     }
 
     @Override

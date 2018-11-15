@@ -1,9 +1,11 @@
 package com.minlia.module.article.endpoint;
 
 import com.minlia.cloud.body.Response;
+import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleCTO;
+import com.minlia.module.article.bean.to.ArticleSetLabelTO;
 import com.minlia.module.article.bean.to.ArticleUTO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.service.ArticleService;
@@ -45,7 +47,14 @@ public class ArticleEndpoint {
 	@DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response delete(@PathVariable Long id) {
 		articleService.delete(id);
-		return Response.success();
+		return Response.success(SystemCode.Message.DELETE_SUCCESS);
+	}
+
+	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.CREATE + "')")
+	@ApiOperation(value = "设置标签", notes = "设置标签", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "set/labels", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Response setLabels(@Valid @RequestBody ArticleSetLabelTO to) {
+		return articleService.setLabels(to);
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")

@@ -101,6 +101,20 @@
         DELETE FROM mdl_article WHERE id = #{id}
     </delete>
 
+    <insert id="setLabels">
+        DELETE FROM mdl_article_label_m where article_id = #{articleId};
+        INSERT INTO mdl_article_label_m (
+            article_id,
+            label_id
+        ) VALUES
+        <foreach collection="labelIds" item="item" separator=",">
+        (
+            #{articleId},
+            #{item}
+        )
+        </foreach>
+    </insert>
+
     <select id="queryById" resultType="com.minlia.module.article.bean.domain.Article">
         <include refid="QUERY_CONTENT"/>
         WHERE t.id = #{id}

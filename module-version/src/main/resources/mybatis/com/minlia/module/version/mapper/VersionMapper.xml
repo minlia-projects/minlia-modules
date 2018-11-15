@@ -35,8 +35,7 @@
                 AND enabled = #{enabled}
             </if>
             <if test="newest">
-                ORDER BY create_date DESC
-                limit 1
+                (SELECT id FROM mdl_version WHERE type = #{type} AND enabled = 1 ORDER BY number DESC LIMIT 1)
             </if>
         </where>
     </sql>

@@ -1,9 +1,11 @@
 package com.minlia.module.article.service;
 
 import com.github.pagehelper.PageInfo;
+import com.minlia.cloud.body.Response;
 import com.minlia.module.article.bean.domain.Article;
 import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleCTO;
+import com.minlia.module.article.bean.to.ArticleSetLabelTO;
 import com.minlia.module.article.bean.to.ArticleUTO;
 import org.springframework.data.domain.Pageable;
 
@@ -16,6 +18,8 @@ public interface ArticleService {
     Article update(ArticleUTO uto);
 
     void delete(Long id);
+
+    Response setLabels(ArticleSetLabelTO to);
 
     Article queryById(Long id);
 
