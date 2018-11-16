@@ -9,7 +9,6 @@
             t.title,
             t.content,
             t.cover,
-            t.keywords,
             t.attribute1,
             t.notes,
             t.enabled,
@@ -30,7 +29,6 @@
             t.title,
             t.content,
             at.url AS cover,
-            t.keywords,
             t.attribute1,
             t.notes,
             t.enabled,
@@ -56,7 +54,7 @@
                 AND t.title = #{title}
             </if>
             <if test="keywords != null">
-                AND instr(t.keywords, #{keywords}) > 0
+                AND instr(t.title, #{title}) > 0
             </if>
             <if test="enabled != null">
                 AND t.enabled = #{enabled}
@@ -73,7 +71,6 @@
             title,
             content,
             cover,
-            keywords,
             attribute1,
             notes,
             enabled,
@@ -83,7 +80,6 @@
             #{title} ,
             #{content} ,
             #{cover} ,
-            #{keywords} ,
             #{attribute1} ,
             #{notes} ,
             #{enabled} ,
@@ -102,9 +98,6 @@
             </if>
             <if test="cover != null">
                 cover = #{cover},
-            </if>
-            <if test="keywords != null">
-                keywords = #{keywords} ,
             </if>
             <if test="attribute1 != null">
                 attribute1 = #{attribute1} ,
