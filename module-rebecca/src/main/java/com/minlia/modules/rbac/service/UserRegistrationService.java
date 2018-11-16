@@ -18,9 +18,9 @@ public interface UserRegistrationService {
 
     /**
      * 用户可用性验证
-     * @param body
+     * @param to
      * @return
      */
-    Response availablitity(UserAvailablitityTO body);
+    Response availablitity(UserAvailablitityTO to);
 
 }

@@ -34,12 +34,12 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         //校验凭证是否有效
         switch (to.getMethod()) {
             case CELLPHONE:
-                user = userMapper.queryOne(UserQO.builder().username(to.getCellphone()).build());
+                user = userMapper.queryOne(UserQO.builder().cellphone(to.getCellphone()).build());
                 ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
                 captchaService.validityByCellphone(to.getCellphone(), to.getCode());
                 break;
             case EMAIL:
-                user = userMapper.queryOne(UserQO.builder().username(to.getEmail()).build());
+                user = userMapper.queryOne(UserQO.builder().email(to.getEmail()).build());
                 ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
                 captchaService.validityByEmail(to.getCellphone(), to.getCode());
                 break;
