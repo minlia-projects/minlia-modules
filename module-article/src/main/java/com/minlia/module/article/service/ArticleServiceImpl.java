@@ -12,6 +12,7 @@ import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleCTO;
 import com.minlia.module.article.bean.to.ArticleSetLabelTO;
 import com.minlia.module.article.bean.to.ArticleUTO;
+import com.minlia.module.article.bean.vo.ArticleVO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.mapper.ArticleMapper;
 import com.minlia.modules.attachment.service.AttachmentService;
@@ -116,8 +117,18 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageInfo<Article> page(ArticleQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleMapper.list(qo));
+    public ArticleVO oneVO(ArticleQO qo) {
+        return articleMapper.oneVO(qo);
+    }
+
+    @Override
+    public ArticleVO listVO(ArticleQO qo) {
+        return articleMapper.listVO(qo);
+    }
+
+    @Override
+    public PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleMapper.listVO(qo));
     }
 
 }

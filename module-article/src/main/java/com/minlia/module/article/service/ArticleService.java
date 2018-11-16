@@ -7,6 +7,7 @@ import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleCTO;
 import com.minlia.module.article.bean.to.ArticleSetLabelTO;
 import com.minlia.module.article.bean.to.ArticleUTO;
+import com.minlia.module.article.bean.vo.ArticleVO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -29,6 +30,10 @@ public interface ArticleService {
 
     List<Article> list(ArticleQO qo);
 
-    PageInfo<Article> page(ArticleQO qo, Pageable pageable);
+    ArticleVO oneVO(ArticleQO qo);
+
+    ArticleVO listVO(ArticleQO qo);
+
+    PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable);
 
 }

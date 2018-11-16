@@ -3,6 +3,7 @@ package com.minlia.module.article.mapper;
 import com.minlia.module.article.bean.domain.Article;
 import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleSetLabelTO;
+import com.minlia.module.article.bean.vo.ArticleVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -27,5 +28,9 @@ public interface ArticleMapper {
     Article one(ArticleQO qo);
 
     List<Article> list(ArticleQO qo);
+
+    ArticleVO oneVO(ArticleQO qo);
+
+    ArticleVO listVO(ArticleQO qo);
 
 }

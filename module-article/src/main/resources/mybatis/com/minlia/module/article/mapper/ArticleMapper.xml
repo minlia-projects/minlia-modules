@@ -8,7 +8,27 @@
             t.category_id,
             t.title,
             t.content,
---             t.cover,
+            t.cover,
+            t.keywords,
+            t.attribute1,
+            t.notes,
+            t.enabled,
+            t.create_by,
+            t.create_date,
+            t.last_modified_by,
+            t.last_modified_date
+        FROM
+            mdl_article t
+	</sql>
+
+    <sql id="QUERY_DETAIL_CONTENT">
+        SELECT
+            t.id,
+            t.category_id,
+            act.`name` AS categoryName,
+            (SELECT GROUP_CONCAT(alt.`name`) FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=t.id) AS labelNames,
+            t.title,
+            t.content,
             at.url AS cover,
             t.keywords,
             t.attribute1,
@@ -20,6 +40,7 @@
             t.last_modified_date
         FROM
             mdl_article t
+        INNER JOIN mdl_article_category act on act.id = t.category_id
         LEFT JOIN mdl_attachment at ON at.relation_id = t.id AND at.belongs_to = 'ARTICLE_COVER'
 	</sql>
 
@@ -135,6 +156,17 @@
 
     <select id="list" resultType="com.minlia.module.article.bean.domain.Article">
         <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        ORDER BY t.create_date DESC
+    </select>
+
+    <select id="oneVO" resultType="com.minlia.module.article.bean.vo.ArticleVO">
+        <include refid="QUERY_DETAIL_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="listVO" resultType="com.minlia.module.article.bean.vo.ArticleVO">
+        <include refid="QUERY_DETAIL_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         ORDER BY t.create_date DESC
     </select>

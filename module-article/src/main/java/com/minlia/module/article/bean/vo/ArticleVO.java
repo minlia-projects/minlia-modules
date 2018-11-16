@@ -1,4 +1,4 @@
-package com.minlia.module.article.bean.domain;
+package com.minlia.module.article.bean.vo;
 
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
@@ -7,18 +7,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 文章
+ * 文章VO
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Article extends AbstractEntity {
+public class ArticleVO extends AbstractEntity {
 
     /**
      * 类目ID
      */
-    private Long categoryId;
+    private String categoryName;
+
+    /**
+     * 标签
+     */
+    private String labels;
 
     /**
      * 标题
