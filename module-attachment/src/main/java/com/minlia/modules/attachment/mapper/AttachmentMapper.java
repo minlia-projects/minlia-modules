@@ -27,6 +27,8 @@ public interface AttachmentMapper {
 
     Attachment queryByKey(String key);
 
+    Attachment queryFirstByUnusedKey(String key);
+
     List<Attachment> queryByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
     List<Attachment> queryList(AttachmentQO body);
