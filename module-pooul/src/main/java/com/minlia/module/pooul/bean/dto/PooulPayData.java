@@ -25,8 +25,8 @@ public class PooulPayData {
 //            }"
 //    }
 
-    @JsonProperty("prepay_id")
-    private String prepay_id;
+//    @JsonProperty("prepay_id")
+//    private String prepay_id;
 
     private String trade_id;
 
@@ -37,6 +37,10 @@ public class PooulPayData {
     private String pay_type;
 
     private String pay_info;
+
+    private String trade_state;
+
+    private String trade_info;
 
 }
 
