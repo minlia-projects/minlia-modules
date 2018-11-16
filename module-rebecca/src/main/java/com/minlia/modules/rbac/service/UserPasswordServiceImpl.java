@@ -41,7 +41,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
             case EMAIL:
                 user = userMapper.queryOne(UserQO.builder().email(to.getEmail()).build());
                 ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
-                captchaService.validityByEmail(to.getCellphone(), to.getCode());
+                captchaService.validityByEmail(to.getEmail(), to.getCode());
                 break;
         }
         return change(user,to.getNewPassword());
