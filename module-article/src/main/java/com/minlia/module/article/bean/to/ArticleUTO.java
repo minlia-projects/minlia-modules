@@ -31,10 +31,6 @@ public class ArticleUTO implements ApiRequestBody {
     @ApiModelProperty(value = "封面ETag", example = "XXXXXX")
     private String coverETag;
 
-    @ApiModelProperty(value = "关键词", example = "XXXXXX")
-    @Size(max = 200)
-    private String keywords;
-
     @ApiModelProperty(value = "扩展字段1", example = "刺客信条")
     @Size(max = 200)
     private String attribute1;

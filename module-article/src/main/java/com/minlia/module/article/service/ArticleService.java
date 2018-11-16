@@ -32,7 +32,7 @@ public interface ArticleService {
 
     ArticleVO oneVO(ArticleQO qo);
 
-    ArticleVO listVO(ArticleQO qo);
+    List<ArticleVO> listVO(ArticleQO qo);
 
     PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable);
 

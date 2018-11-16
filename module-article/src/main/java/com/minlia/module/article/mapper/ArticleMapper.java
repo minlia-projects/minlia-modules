@@ -31,6 +31,6 @@ public interface ArticleMapper {
 
     ArticleVO oneVO(ArticleQO qo);
 
-    ArticleVO listVO(ArticleQO qo);
+    List<ArticleVO> listVO(ArticleQO qo);
 
 }

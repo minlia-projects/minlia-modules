@@ -122,7 +122,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleVO listVO(ArticleQO qo) {
+    public List<ArticleVO> listVO(ArticleQO qo) {
         return articleMapper.listVO(qo);
     }
 
