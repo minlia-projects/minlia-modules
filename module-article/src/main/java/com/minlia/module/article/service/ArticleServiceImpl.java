@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Article create(ArticleCTO cto) {
         long count = articleCategoryService.count(ArticleCategoryQO.builder().id(cto.getCategoryId()).build());
         ApiAssert.state(count == 1, SystemCode.Message.DATA_NOT_EXISTS);
-        ApiAssert.state(articleMapper.count(ArticleQO.builder().categoryId(cto.getCategoryId()).title(cto.getTitle()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        ApiAssert.state(articleMapper.count(ArticleQO.builder().categoryId(cto.getCategoryId()).title(cto.getTitle()).enabled(true).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         Article article = mapper.map(cto, Article.class);
         articleMapper.create(article);

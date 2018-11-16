@@ -32,7 +32,7 @@
                 AND t.id = #{id}
             </if>
             <if test="title != null">
-                AND instr(t.title, #{title}) > 0
+                AND t.title = #{title}
             </if>
             <if test="keywords != null">
                 AND instr(t.keywords, #{keywords}) > 0
