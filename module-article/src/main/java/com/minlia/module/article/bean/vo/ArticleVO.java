@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * 文章VO
  */
@@ -28,12 +30,12 @@ public class ArticleVO extends AbstractEntity {
     /**
      * 标签ID集
      */
-    private String labelIds;
+    private List<Long> labelIds;
 
     /**
      * 标签名称集
      */
-    private String labelNames;
+    private List<String> labelNames;
 
     /**
      * 标题
