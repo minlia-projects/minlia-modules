@@ -20,13 +20,27 @@
             mdl_article t
 	</sql>
 
+    <resultMap id="articleVOMap" type="com.minlia.module.article.bean.vo.ArticleVO">
+        <id column="id" property="id" />
+        <collection property="labelIds" column="id" jdbcType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
+        <collection property="labelNames" column="id" jdbcType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
+    </resultMap>
+
+    <select id="queryLabelIdList" resultType="java.lang.Long">
+        SELECT alt.id FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+    </select>
+
+    <select id="queryLabelNameList" resultType="java.lang.String">
+        SELECT alt.name FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+    </select>
+
     <sql id="QUERY_DETAIL_CONTENT">
         SELECT
             t.id,
             t.category_id,
             act.`name` AS categoryName,
-            (SELECT GROUP_CONCAT(alt.`id`) FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=t.id) AS labelIds,
-            (SELECT GROUP_CONCAT(alt.`name`) FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=t.id) AS labelNames,
+--             (SELECT GROUP_CONCAT(alt.`id`) FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=t.id) AS labelIds,
+--             (SELECT GROUP_CONCAT(alt.`name`) FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=t.id) AS labelNames,
             t.title,
             t.content,
             at.url AS cover,
