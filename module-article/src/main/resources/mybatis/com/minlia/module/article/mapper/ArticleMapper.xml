@@ -168,12 +168,12 @@
         ORDER BY t.create_date DESC
     </select>
 
-    <select id="oneVO" resultType="com.minlia.module.article.bean.vo.ArticleVO">
+    <select id="oneVO" resultMap="articleVOMap">
         <include refid="QUERY_DETAIL_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="listVO" resultType="com.minlia.module.article.bean.vo.ArticleVO">
+    <select id="listVO" resultMap="articleVOMap">
         <include refid="QUERY_DETAIL_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         ORDER BY t.create_date DESC
