@@ -11,7 +11,6 @@ import lombok.Data;
 public class PooulPayData {
 
 //    {
-//        "prepay_id":"wx1918001472767249894ddfdc3284524819",
 //            "trade_id":"5b50612e01c9111b33aa837a",
 //            "mch_trade_id":"MO00002",
 //            "merchant_id":"2162288807443437",

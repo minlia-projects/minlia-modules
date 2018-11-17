@@ -16,6 +16,7 @@ import com.minlia.module.article.bean.vo.ArticleVO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.mapper.ArticleMapper;
 import com.minlia.modules.attachment.service.AttachmentService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,11 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = mapper.map(cto, Article.class);
         articleMapper.create(article);
 
+        //设置标签
+        if (CollectionUtils.isNotEmpty(cto.getLabelIds())) {
+            this.setLabels(new ArticleSetLabelTO(article.getId(), cto.getLabelIds()));
+        }
+
         //绑定附件
         if (StringUtils.isNotBlank(cto.getCoverETag())) {
             attachmentService.bindByAccessKey(cto.getCoverETag(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
@@ -65,6 +71,11 @@ public class ArticleServiceImpl implements ArticleService {
     public Article update(ArticleUTO uto) {
         Article article = articleMapper.queryById(uto.getId());
         ApiAssert.notNull(article, SystemCode.Message.DATA_NOT_EXISTS);
+
+        //设置标签
+        if (CollectionUtils.isNotEmpty(uto.getLabelIds())) {
+            this.setLabels(new ArticleSetLabelTO(article.getId(), uto.getLabelIds()));
+        }
 
         //绑定附件
         if (StringUtils.isNotBlank(uto.getCoverETag())) {

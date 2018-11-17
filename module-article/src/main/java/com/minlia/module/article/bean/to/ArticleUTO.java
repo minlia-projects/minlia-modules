@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @ApiModel(value = "ArticleUTO")
 @Data
@@ -15,6 +16,9 @@ public class ArticleUTO implements ApiRequestBody {
     @ApiModelProperty(value = "ID", example = "1")
     @NotNull(message = "ID不能为空")
     private Long id;
+
+    @ApiModelProperty(value = "标签ID集合", example = "[1,2]")
+    private List<Long> labelIds;
 
     @ApiModelProperty(value = "标题", example = "XXXXXX")
     @Size(max = 50)

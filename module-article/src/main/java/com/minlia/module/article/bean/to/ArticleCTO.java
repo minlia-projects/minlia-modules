@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @ApiModel(value = "ArticleCTO")
 @Data
@@ -16,6 +17,9 @@ public class ArticleCTO implements ApiRequestBody {
     @ApiModelProperty(value = "类目ID", example = "1")
     @NotNull(message = "类目ID不能为空")
     private Long categoryId;
+
+    @ApiModelProperty(value = "标签ID集合", example = "[1,2]")
+    private List<Long> labelIds;
 
     @ApiModelProperty(value = "标题", example = "XXXXXX")
     @NotBlank(message = "标题不能为空")

@@ -3,6 +3,7 @@ package com.minlia.module.article.bean.to;
 import com.minlia.cloud.body.ApiRequestBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @ApiModel
 @Data
+@AllArgsConstructor
 public class ArticleSetLabelTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "文章ID", example = "1")
