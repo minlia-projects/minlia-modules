@@ -22,8 +22,8 @@
 
     <resultMap id="articleVOMap" type="com.minlia.module.article.bean.vo.ArticleVO">
         <id column="id" property="id" />
-        <collection property="labelIds" column="id" jdbcType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
-        <collection property="labelNames" column="id" jdbcType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
+        <collection property="labelIds" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
+        <collection property="labelNames" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
     </resultMap>
 
     <select id="queryLabelIdList" resultType="java.lang.Long">
