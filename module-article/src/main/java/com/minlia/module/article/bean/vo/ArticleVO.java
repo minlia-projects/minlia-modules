@@ -18,12 +18,22 @@ public class ArticleVO extends AbstractEntity {
     /**
      * 类目ID
      */
+    private String categoryId;
+
+    /**
+     * 类目名称
+     */
     private String categoryName;
 
     /**
-     * 标签
+     * 标签ID集
      */
-    private String labels;
+    private String labelIds;
+
+    /**
+     * 标签名称集
+     */
+    private String labelNames;
 
     /**
      * 标题
