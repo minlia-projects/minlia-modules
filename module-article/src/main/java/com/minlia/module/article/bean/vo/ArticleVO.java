@@ -67,4 +67,14 @@ public class ArticleVO extends AbstractEntity {
      */
     private Boolean enabled;
 
+    /**
+     * 评论数
+     */
+    private Integer commentCount;
+
+    /**
+     * 阅读数
+     */
+    private Integer readCount;
+
 }

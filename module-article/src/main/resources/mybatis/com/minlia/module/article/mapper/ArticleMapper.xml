@@ -50,7 +50,8 @@
             t.create_by,
             t.create_date,
             t.last_modified_by,
-            t.last_modified_date
+            t.last_modified_date,
+            (SELECT 1 FROM mdl_article_comment WHERE article_id=t.id) AS commentCount
         FROM
             mdl_article t
         INNER JOIN mdl_article_category act on act.id = t.category_id
