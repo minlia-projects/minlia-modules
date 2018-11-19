@@ -32,6 +32,7 @@
         <module>module-redis</module>
         <module>module-district</module>
         <module>module-country</module>
+        <module>module-address</module>
         <module>module-email</module>
         <module>module-captcha</module>
         <module>module-richtext</module>
