@@ -5,9 +5,7 @@ import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceApacheHttpImpl;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.FailureResponseBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.module.unified.payment.CreatePreOrderService;
 import com.minlia.module.unified.payment.body.CreatePreOrderRequestBody;
 import com.minlia.module.unified.payment.util.OrderNumberUtil;
@@ -83,7 +81,7 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
      * 后端发起订单创建流程
      */
     @Override
-    public StatefulBody createPreOrder(CreatePreOrderRequestBody body) {
+    public Response createPreOrder(CreatePreOrderRequestBody body) {
         String number = "";
 
         if (StringUtils.isEmpty(body.getNumber())) {
@@ -101,13 +99,15 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
 
         wxPayService.setConfig(config);
         try {
-
-            WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+            WxPayUnifiedOrderRequest request = WxPayUnifiedOrderRequest.newBuilder()
+                    .notifyUrl(wechatConfig.getCallback())
+                    .build();
             request.setBody(body.getBody());
             request.setTotalFee(Integer.parseInt(body.getAmount().toString()));
             request.setAttach(body.getSubject());
             request.setSpbillCreateIp(RequestIpUtils.getIpAddr());
             request.setOutTradeNo(number);
+
 
             if (null != body.getTradeType()) {
                 request.setTradeType(body.getTradeType());
@@ -118,16 +118,12 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
                 request.setTradeType("APP");
             }
 
-
-            //设置回调地址
-            request.setNotifyURL(wechatConfig.getCallback());
-
             Map result = wxPayService.getPayInfo(request);
-            return SuccessResponseBody.builder().payload(result).build();
+            return Response.success(result);
         } catch (WxPayException e) {
             e.printStackTrace();
         }
-        return FailureResponseBody.builder().build();
+        return Response.failure();
     }
 
 }

@@ -90,7 +90,6 @@ public class WechatCallbackReceiveEndpoint {
         }
     }
 
-
     /**
      * 能够动态地从Bible里取到配置值
      */
@@ -106,4 +105,5 @@ public class WechatCallbackReceiveEndpoint {
 
         return wxPayService;
     }
+
 }
