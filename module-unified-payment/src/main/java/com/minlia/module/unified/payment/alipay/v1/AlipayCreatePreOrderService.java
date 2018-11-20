@@ -9,10 +9,9 @@ import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
-import com.minlia.cloud.body.StatefulBody;
-import com.minlia.cloud.body.impl.SuccessResponseBody;
-import com.minlia.cloud.code.ApiCode;
-import com.minlia.cloud.utils.ApiPreconditions;
+import com.minlia.cloud.body.Response;
+import com.minlia.cloud.code.SystemCode;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.unified.payment.CreatePreOrderService;
 import com.minlia.module.unified.payment.body.CreatePreOrderRequestBody;
 import com.minlia.module.unified.payment.util.OrderNumberUtil;
@@ -32,7 +31,7 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
      * 备注
      * 后端发起订单创建流程
      */
-    public StatefulBody createPreOrder(CreatePreOrderRequestBody body) {
+    public Response createPreOrder(CreatePreOrderRequestBody body) {
         String result = null;
         String number = "";
         Double amount = ((Double.parseDouble(body.getAmount().toString())) / 100);
@@ -52,7 +51,7 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         } else {
             result = alipayTradeAppPayPay(body,number,amount,result);
         }
-        return SuccessResponseBody.builder().payload(result).build();
+        return Response.success(result);
     }
 
 
@@ -77,7 +76,7 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
-            ApiPreconditions.is(true, ApiCode.BASED_ON,e.getMessage());
+            ApiAssert.state(false, SystemCode.Exception.INTERNAL_SERVER_ERROR.code(),e.getMessage());
         }
 
         return result;

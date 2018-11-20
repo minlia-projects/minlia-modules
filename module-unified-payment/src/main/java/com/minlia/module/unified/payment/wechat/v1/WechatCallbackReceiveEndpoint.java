@@ -94,7 +94,6 @@ public class WechatCallbackReceiveEndpoint {
      * 能够动态地从Bible里取到配置值
      */
     public WxPayService getWxPayService() {
-
         WxPayService wxPayService = new WxPayServiceApacheHttpImpl();
         //将本系统的交易凭证转换为WEIXIN交易参数
         WxPayConfig config = new WxPayConfig();

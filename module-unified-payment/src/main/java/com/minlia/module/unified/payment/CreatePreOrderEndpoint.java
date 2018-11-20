@@ -1,6 +1,6 @@
 package com.minlia.module.unified.payment;
 
-import com.minlia.cloud.body.StatefulBody;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.unified.payment.body.CreatePreOrderRequestBody;
 import io.swagger.annotations.Api;
@@ -19,17 +19,17 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "/api/v1/unified/payment")
-@Api(tags = "payment",value = "支付")
+@Api(tags = "System Unified Payment", value = "统一支付")
 public class CreatePreOrderEndpoint {
 
-  @ApiOperation(value = "create", notes = "create", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @PostMapping(value = "create",consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-  public StatefulBody create(@Valid @RequestBody CreatePreOrderRequestBody body) {
-    CreatePreOrderService service = ContextHolder.getContext().getBean(body.getGateway()+"CreatePreOrderService",CreatePreOrderService.class);
-    if(null==service){
-      throw  new RuntimeException("Unsupported gateway");
+    @ApiOperation(value = "create", notes = "create", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "create", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response create(@Valid @RequestBody CreatePreOrderRequestBody body) {
+        CreatePreOrderService service = ContextHolder.getContext().getBean(body.getGateway() + "CreatePreOrderService", CreatePreOrderService.class);
+        if (null == service) {
+            throw new RuntimeException("Unsupported gateway");
+        }
+        return service.createPreOrder(body);
     }
-    return service.createPreOrder(body);
-  }
 
 }
