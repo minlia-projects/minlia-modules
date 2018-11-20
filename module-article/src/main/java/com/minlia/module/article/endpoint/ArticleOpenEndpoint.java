@@ -40,12 +40,13 @@ public class ArticleOpenEndpoint {
 //		return Response.success(articleService.count(qo));
 //	}
 //
-//	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
-//	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-//	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-//	public Response one(@RequestBody ArticleQO qo) {
-//		return Response.success(articleService.one(qo));
-//	}
+	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
+	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Response one(@RequestBody ArticleQO qo) {
+		qo.setEnabled(true);
+		return Response.success(articleService.one(qo));
+	}
 
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
