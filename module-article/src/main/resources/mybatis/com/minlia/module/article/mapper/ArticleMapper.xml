@@ -51,7 +51,7 @@
             t.create_date,
             t.last_modified_by,
             t.last_modified_date,
-            (SELECT 1 FROM mdl_article_comment WHERE article_id=t.id) AS commentCount,
+            (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=t.id) AS commentCount,
             (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=t.id AND choose = 1) AS praiseCount
         FROM
             mdl_article t
