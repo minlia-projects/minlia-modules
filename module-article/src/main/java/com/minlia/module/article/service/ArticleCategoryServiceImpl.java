@@ -68,34 +68,31 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Override
     public ArticleCategory one(ArticleCategoryQO qo) {
         ArticleCategory articleCategory = articleCategoryMapper.one(qo);
-        this.setArticles(articleCategory);
         return articleCategory;
     }
 
     @Override
     public List<ArticleCategory> list(ArticleCategoryQO qo) {
         List<ArticleCategory> list = articleCategoryMapper.list(qo);
-        this.setArticles(list);
         return list;
     }
 
     @Override
     public PageInfo<ArticleCategory> page(ArticleCategoryQO qo, Pageable pageable) {
         PageInfo<ArticleCategory> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleCategoryMapper.list(qo));
-        this.setArticles(pageInfo.getList());
         return pageInfo;
     }
 
-    private void setArticles(ArticleCategory articleCategory) {
-        if (null != articleCategory) {
-            articleCategory.setArticles(articleService.list(ArticleQO.builder().categoryId(articleCategory.getId()).build()));
-        }
-    }
-
-    private void setArticles(List<ArticleCategory> articleCategories) {
-        for (ArticleCategory articleCategory : articleCategories) {
-            articleCategory.setArticles(articleService.list(ArticleQO.builder().categoryId(articleCategory.getId()).build()));
-        }
-    }
+//    private void setArticles(ArticleCategory articleCategory) {
+//        if (null != articleCategory) {
+//            articleCategory.setArticles(articleService.list(ArticleQO.builder().categoryId(articleCategory.getId()).build()));
+//        }
+//    }
+//
+//    private void setArticles(List<ArticleCategory> articleCategories) {
+//        for (ArticleCategory articleCategory : articleCategories) {
+//            articleCategory.setArticles(articleService.list(ArticleQO.builder().categoryId(articleCategory.getId()).build()));
+//        }
+//    }
 
 }
