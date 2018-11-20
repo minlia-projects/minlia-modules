@@ -5,8 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.domain.ArticleCategory;
-import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.qo.ArticleCategoryQO;
+import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleCategoryCTO;
 import com.minlia.module.article.bean.to.ArticleCategoryUTO;
 import com.minlia.module.article.mapper.ArticleCategoryMapper;
@@ -63,9 +63,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Override
     public ArticleCategory queryById(Long id) {
         ArticleCategory articleCategory = articleCategoryMapper.queryById(id);
-        if (null != articleCategory) {
-            articleCategory.setArticles(articleService.list(ArticleQO.builder().categoryId(id).build()));
-        }
+        this.setArticles(articleCategory);
         return articleCategory;
     }
 
@@ -76,17 +74,35 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public ArticleCategory one(ArticleCategoryQO qo) {
-        return articleCategoryMapper.one(qo);
+        ArticleCategory articleCategory = articleCategoryMapper.one(qo);
+        this.setArticles(articleCategory);
+        return articleCategory;
     }
 
     @Override
     public List<ArticleCategory> list(ArticleCategoryQO qo) {
-        return articleCategoryMapper.list(qo);
+        List<ArticleCategory> list = articleCategoryMapper.list(qo);
+        this.setArticles(list);
+        return list;
     }
 
     @Override
     public PageInfo<ArticleCategory> page(ArticleCategoryQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleCategoryMapper.list(qo));
+        PageInfo<ArticleCategory> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleCategoryMapper.list(qo));
+        this.setArticles(pageInfo.getList());
+        return pageInfo;
+    }
+
+    private void setArticles(ArticleCategory articleCategory) {
+        if (null != articleCategory) {
+            articleCategory.setArticles(articleService.list(ArticleQO.builder().categoryId(articleCategory.getId()).build()));
+        }
+    }
+
+    private void setArticles(List<ArticleCategory> articleCategories) {
+        for (ArticleCategory articleCategory : articleCategories) {
+            articleCategory.setArticles(articleService.list(ArticleQO.builder().categoryId(articleCategory.getId()).build()));
+        }
     }
 
 }
