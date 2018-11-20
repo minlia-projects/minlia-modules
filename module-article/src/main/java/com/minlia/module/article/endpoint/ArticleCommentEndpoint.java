@@ -6,6 +6,7 @@ import com.minlia.module.article.bean.qo.ArticleCommentQO;
 import com.minlia.module.article.bean.to.ArticleCommentCTO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.service.ArticleCommentService;
+import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,13 @@ public class ArticleCommentEndpoint {
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response id(@PathVariable Long id) {
 		return Response.success(articleCommentService.queryById(id));
+	}
+
+	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
+	@ApiOperation(value = "我的", notes = "我的", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "me/{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Response one(@PathVariable Long articleId) {
+		return Response.success(articleCommentService.list(ArticleCommentQO.builder().articleId(articleId).createBy(SecurityContextHolder.getCurrentGuid()).build()));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
