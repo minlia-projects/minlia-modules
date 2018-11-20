@@ -49,13 +49,6 @@ public class ArticleCategoryEndpoint {
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
-	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response id(@PathVariable Long id) {
-		return Response.success(articleCategoryService.queryById(id));
-	}
-
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response count(@RequestBody ArticleCategoryQO qo) {

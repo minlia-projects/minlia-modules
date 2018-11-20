@@ -72,22 +72,27 @@
         DELETE FROM mdl_article_category WHERE id = #{id}
     </delete>
 
-    <select id="queryById" resultType="com.minlia.module.article.bean.domain.ArticleCategory">
-        <include refid="QUERY_CONTENT"/>
-        WHERE id = #{id}
-    </select>
-
     <select id="count" resultType="long">
         SELECT COUNT(1) FROM mdl_article_category
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.article.bean.domain.ArticleCategory">
+    <resultMap id="categoryMap" type="com.minlia.module.article.bean.domain.ArticleCategory">
+        <id column="id" property="id" />
+        <collection property="articles" column="id" javaType="list" ofType="com.minlia.module.article.bean.vo.ArticleSimpleVO"
+                    select="queryArticleByCategoryId" />
+    </resultMap>
+
+    <select id="queryArticleByCategoryId" resultType="com.minlia.module.article.bean.vo.ArticleSimpleVO">
+        SELECT id,title FROM mdl_article where category_id = #{id}
+    </select>
+
+    <select id="one" resultMap="categoryMap">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.article.bean.domain.ArticleCategory">
+    <select id="list" resultMap="categoryMap">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         ORDER BY create_date DESC

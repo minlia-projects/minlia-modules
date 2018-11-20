@@ -61,13 +61,6 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     }
 
     @Override
-    public ArticleCategory queryById(Long id) {
-        ArticleCategory articleCategory = articleCategoryMapper.queryById(id);
-        this.setArticles(articleCategory);
-        return articleCategory;
-    }
-
-    @Override
     public long count(ArticleCategoryQO qo) {
         return articleCategoryMapper.count(qo);
     }

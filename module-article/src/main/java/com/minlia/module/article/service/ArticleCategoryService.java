@@ -17,8 +17,6 @@ public interface ArticleCategoryService {
 
     void delete(Long id);
 
-    ArticleCategory queryById(Long id);
-
     long count(ArticleCategoryQO qo);
 
     ArticleCategory one(ArticleCategoryQO qo);

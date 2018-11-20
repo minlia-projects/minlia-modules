@@ -1,5 +1,6 @@
 package com.minlia.module.article.bean.domain;
 
+import com.minlia.module.article.bean.vo.ArticleSimpleVO;
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.*;
 
@@ -37,6 +38,6 @@ public class ArticleCategory extends AbstractEntity {
     /**
      * 文章子项
      */
-    List<Article> articles;
+    List<ArticleSimpleVO> articles;
 
 }
