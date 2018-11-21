@@ -37,6 +37,11 @@ public class ArticleQO {
     private String keywords;
 
     /**
+     * 扩展字段
+     */
+    private String attribute1;
+
+    /**
      * 是否启用
      */
     private Boolean enabled;

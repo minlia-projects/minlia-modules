@@ -36,7 +36,7 @@ public class Article extends AbstractEntity {
     private String cover;
 
     /**
-     * 扩展字段1：所属游戏
+     * 扩展字段
      */
     private String attribute1;
 

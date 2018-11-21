@@ -73,6 +73,9 @@
             <if test="keywords != null">
                 AND instr(t.title, #{title}) > 0
             </if>
+            <if test="attribute1 != null">
+                AND t.attribute1 = #{attribute1}
+            </if>
             <if test="enabled != null">
                 AND t.enabled = #{enabled}
             </if>
