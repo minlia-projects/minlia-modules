@@ -30,4 +30,14 @@ public class ArticleComment extends AbstractEntity {
      */
     private String createBy;
 
+    /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
 }

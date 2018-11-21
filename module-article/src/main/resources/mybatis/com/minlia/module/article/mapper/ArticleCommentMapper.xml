@@ -4,27 +4,30 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
-            id,
-            article_id,
-            content,
-            create_by,
-            create_date,
-            last_modified_by,
-            last_modified_date
+            mact.id,
+            mact.article_id,
+            mact.content,
+            mact.create_by,
+            mact.create_date,
+            mact.last_modified_by,
+            mact.last_modified_date ,
+            muit.avatar,
+            muit.nickname
         FROM
-            mdl_article_comment
+            mdl_article_comment mact
+        LEFT JOIN mdl_user_info muit ON muit.guid = mact.create_by
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="id != null">
-                AND id = #{id}
+                AND mact.id = #{id}
             </if>
             <if test="articleId != null">
-                AND article_id = #{articleId}
+                AND mact.article_id = #{articleId}
             </if>
             <if test="createBy != null">
-                AND create_by = #{createBy}
+                AND mact.create_by = #{createBy}
             </if>
         </where>
     </sql>
@@ -59,11 +62,11 @@
 
     <select id="queryById" resultType="com.minlia.module.article.bean.domain.ArticleComment">
         <include refid="QUERY_CONTENT"/>
-        WHERE id = #{id}
+        WHERE mact.id = #{id}
     </select>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM mdl_article_comment
+        SELECT COUNT(1) FROM mdl_article_comment mact
         <include refid="QUERY_CONDITION"/>
     </select>
 
@@ -75,7 +78,7 @@
     <select id="list" resultType="com.minlia.module.article.bean.domain.ArticleComment">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        ORDER BY create_date DESC
+        ORDER BY mact.create_date DESC
     </select>
 
 </mapper>
