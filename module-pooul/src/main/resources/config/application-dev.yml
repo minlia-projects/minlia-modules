@@ -95,22 +95,3 @@ pagehelper:
 #    merchant:
 #        platform-merchant-id: xxxxxx
 #        parent-id: xxxxxx
-
-
-#普尔支付-云管家网络科技-入驻商户
-pooul:
-    host: https://api.pooul.com
-    username: qianfantech
-    password: Ab123456
-    pay:
-        merchant-id: 2198793490816689
-        public-key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAovM7NjpnEJNdkVCh2947JGjzaCi1OpblrRc5kFM2KJBfOzr6w4codchmx1By8+OVYANtQQdxIHJhyWN5B1bp5WMmlyV1QZMmQq95Jti59esDz6+IDCYLnQpBzVg0sla/mA3Qe6rBmjmg0d1N/bWy6NWKvtSDvSE/FH343BtwXWZxtx95G+FzIWMVAgVfjRJ/zhb2QWn9Ltic9P3xeKpPsRaNyckxfZ+N9rtie6t4MQ20cB6ElqPNwddGdW0NWOEdkmTzeW/FVsChOIbuLxvovsfMSlpKMWmLAGJPxi7Bv3gJ470tPf9SXyiSPEIhY+N0A6QvCw6yUWHzkyt6b8x4uwIDAQAB
-        private-key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC3F8I0NYtuoWHWuXcqu6/T/bIA46TCcczTGk6fyOIfJWRF3V2kPdScKdlN1YO0X+0QMolX1FCN3fcETT0RyoLewEYBB3MWPwm2lWPaH+V/TuX3rea3upiX8iVaJEk24DS0zdG5+9+wsGGuhXNoU1ZOU4FsV1GH2D+tylOf+SuzjBMbklQriZBbhDh8pxKhRUD2QB+OyoWY9+z2rNXSCPWGUwdzFROHut747CT6ewN0b2j1InJUFoHXpJGg+mWog9N0wDt1k4ifkFSbEd7IxfWGxi0zSvUw27u7tBOhPOx9sw0tKV2cTowRZo5SCIktE6wugC3T36COwdbr5L3F+qjNAgMBAAECggEAN51k5Tz6fIFS2cl+VCGsuAUQw8piKpossFcGWOzJGtLd0Yb7Qb9yTHk9w7G+jtSwisH/DAm26lDpDopzqWrNM+JNoVRk9fXx+l8IdKJJsNEDc6eENHzeixEHnYj2IFAcUmtOcGL8wIvjMALjWmYuCh69am5fmpbqSNzzZ91lE+VNK1NmOtdZaJEyNXaJAplznsLBC7MTon9SURLJWPqj6iGQFs8v7pv4CtHsCzGMp5nxcGSxv8ZMVAACfnsdDK5BEGVCdN0KIFa0I6v8I3uNyauSlWLpDnhm/2RsL3+1S6PyYColrNAscoujR03FCqwGHJ2xlg/eVY8lIjASMrG/gQKBgQDynN74G/u1MzH/rSM9UXSaL2B/KqlnCHVZM6h1kdSPJzWak8oPIrJ71/bbx16TcB4NWO5Rgdp2til4xVOfSc0f/6QPutXfg2nldKk0nTnkhUsZXfYHBlio1i7+cDLccHA6xuUY4siJCpDN4/nPIEZWk6kuy2QUMis/sChXrdWh4QKBgQDBMhz7m/MwJiPdf2BByE4vnX+um7U1YhzLVjWCAsK/EYnbNFtnZFo7QNM/cAUzrT/RCqEF7ORtqKILBwUOXJ0WawlickG0gwFGrOhqmR3XdI7347csalrhhIAIyGnRxG7QpixTWMf6ry51+PFWcfgidATC+yQimOG1cxhAWpQ8bQKBgQDJ5EMkAt1mv5Cm7GR73XID8NMDX/QSupY0wek41T8mVYGk/cFS8RPIPUK/R9xrIwzPHKdNiprK2PIP/12EG30oWKslL9xUoN4ZxQgdsY0Anu+Mz4Ux+VUEQyBeOe4JRUQPlX4GRIqOiA1SWJmEhJ4j48MRHs5MhCc7W5Nmy1EQ4QKBgDSAe+Pco6AIHWMKRIxb9PN3p8U5x2r0eMLBcNUeDvKBv6b0eYqFeQf1O/NXa/J5OIiEjPHhSMqMM00v4S3f+UioWeqJBlYZ6/Ta9GZTqgptQJUZKyRE2uHCclDwteEtsre9EPqte9siVEv3FQ7a9gXW5ZxfR5inV19KIeMLOpGZAoGBALu/14aMUJj7p0WPycatZiuQKnfk46O73EQpURTtNIUAWv6A5fDdbAKos8D/33AspgceP5jsX3vaAm/I1AMyBE8UmSR47ZtmL3J+766XgcjogG/QjViQBXMMAgERzSQoQlsirt83DFtdD1I3+Ewm4h8XxjQkTpbnDMrwSvSfWhdr
-        pooul-public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+Vd3j0McNfR3VvT7mZp/7M6ULFJSc3dh3/56JP8DZk+cDlXC2LR0z0OELJeyTitFeBjpPWzWH3OOFI/OL3nD5/oNZfK+wHd4Tzxj2SdWlyuqRhNv3xG2obUUYZ9urUvkCvxL1SclaXW7cq22V/TTNSgJq7CGdc+q/XLNqcmLt7QIDAQAB
-        pay-url: ${pooul.host}/v2/pay?merchant_id=${pooul.pay.merchant-id}
-        query-order-url: ${pooul.host}/v2/pay/query?merchant_id=${pooul.pay.merchant-id}
-        close-order-url: ${pooul.host}/v2/pay/close?merchant_id=${pooul.pay.merchant-id}
-        notify_url: ${system.domain}/api/open/pooul/notify/pay
-    merchant:
-        platform-merchant-id: 9005381795178490
-        parent-id: 9005381795178490
