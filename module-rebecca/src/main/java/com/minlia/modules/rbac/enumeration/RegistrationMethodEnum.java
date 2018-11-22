@@ -18,6 +18,11 @@ public enum RegistrationMethodEnum {
     /**
      * 邮箱
      */
-    EMAIL
+    EMAIL,
+//
+//    /**
+//     *
+//     */
+//    GUID
 
 }

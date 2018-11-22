@@ -53,7 +53,7 @@
                 AND TIMESTAMPDIFF(MINUTE,create_date,NOW()) > #{gtCreateDateMinutes}
             </if>
             <if test="gtCreateDateDay != null">
-                AND TIMESTAMPDIFF(DAY,create_date,NOW()) > #{gtCreateDateDay}
+                AND TIMESTAMPDIFF(DAY,create_date,NOW()) >= #{gtCreateDateDay}
             </if>
         </where>
     </sql>
