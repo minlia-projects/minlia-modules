@@ -29,6 +29,7 @@ public class PooulToken {
     private static PooulPayProperties pooulProperties;
 
     private static Map<String, Object> headerClaims = Maps.newConcurrentMap();
+
     static {
         headerClaims.put("alg", "RS256");
         headerClaims.put("typ", "JWT");
