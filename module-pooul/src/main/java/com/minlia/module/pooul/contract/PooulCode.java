@@ -37,7 +37,7 @@ public class PooulCode {
 
     }
 
-    public enum Message implements Code{
+    public enum Message implements Code {
 
         /**
          * 登录支付平台失败-{0}-{1}

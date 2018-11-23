@@ -2,6 +2,7 @@ package com.minlia.module.pooul.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Base64Utils;
+import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import java.security.*;
@@ -43,9 +44,19 @@ public class RSAEncrypt {
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
         //公私钥对象存入map中
-        Map<String, Object> keyMap = new HashMap<String, Object>(2);
-        keyMap.put(public_key, Base64Utils.encode(publicKey.getEncoded()));//获取公钥Base64编码
-        keyMap.put(private_key, Base64Utils.encode(privateKey.getEncoded()));//获取密钥Base64编码
+
+//        byte[] publicKeyBytes = publicKey.getEncoded();
+//        byte[] privateKeyBytes = privateKey.getEncoded();
+//
+//        String publicKeyBase64 = new BASE64Encoder().encode(publicKeyBytes);
+//        String privateKeyBase64 = new BASE64Encoder().encode(privateKeyBytes);
+//
+//        String publicKeyBase641 = Base64Utils.encodeToString(publicKey.getEncoded());
+//        String privateKeyBase641 = Base64Utils.encodeToString(privateKey.getEncoded());
+
+        Map<String, Object> keyMap = new HashMap(2);
+        keyMap.put(public_key, Base64Utils.encodeToString(publicKey.getEncoded()));//获取公钥Base64编码
+        keyMap.put(private_key, Base64Utils.encodeToString(privateKey.getEncoded()));//获取密钥Base64编码
         return keyMap;
     }
 
@@ -140,8 +151,13 @@ public class RSAEncrypt {
     static String plainTextString = "nwL56uf%2CThrpByhgk6fEUlCkx784OfS2YgF3son%2FG1YS2FKAURJ4Wg%3D%3D";
 
     public static void main(String[] args)  {
-        String xx = decrypt(plainTextString);
-        System.out.println(xx);
+//        String xx = decrypt(plainTextString);
+//        System.out.println(xx);
+
+        //随机生成公钥和私钥
+        Map<String, Object> map = getRandomKey();
+        System.out.println(map.get(public_key).toString());
+        System.out.println(map.get(private_key).toString());
     }
 
 }
