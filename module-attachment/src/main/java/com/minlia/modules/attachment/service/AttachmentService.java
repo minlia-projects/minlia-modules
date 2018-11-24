@@ -83,12 +83,12 @@ public interface AttachmentService {
      * 返回所有
      * @return
      */
-    List<Attachment> queryList(AttachmentQO requestBody);
+    List<Attachment> queryList(AttachmentQO qo);
 
     /**
      * 返回所有
      * @return
      */
-    PageInfo<Attachment> queryPage(AttachmentQO requestBody, Pageable pageable);
+    PageInfo<Attachment> queryPage(AttachmentQO qo, Pageable pageable);
 
 }
