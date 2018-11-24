@@ -104,7 +104,6 @@ public class AttachmentServiceImpl implements AttachmentService {
 //    }
 //
 
-
     @Override
     @Transactional
     public void bindByAccessKey(List<String> accessKeys, String relationId, String belongsTo) {
