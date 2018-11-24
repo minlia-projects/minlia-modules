@@ -64,13 +64,6 @@ public class AttachmentEndpoint {
     }
 
     @PreAuthorize(value = "isAuthenticated()")
-    @ApiOperation(value = "业务查询", notes = "业务查询", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "fbb/{relationId}/{belongsTo}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryAllByRelationIdAndBelongsTo(@PathVariable String relationId, @PathVariable String belongsTo) {
-        return Response.success(attachmentService.queryAllByRelationIdAndBelongsTo(relationId,belongsTo));
-    }
-
-    @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response list(@RequestBody AttachmentQO requestBody) {

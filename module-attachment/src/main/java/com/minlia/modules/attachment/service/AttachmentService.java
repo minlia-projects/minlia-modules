@@ -31,10 +31,10 @@ public interface AttachmentService {
 
     /**
      * 创建
-     * @param requestBody
+     * @param cto
      * @return
      */
-    List<Attachment> create(AttachmentCTO requestBody);
+    List<Attachment> create(AttachmentCTO cto);
 
     /**
      * 修改
@@ -64,31 +64,23 @@ public interface AttachmentService {
     void bindByAccessKey(String accessKey, String relationId, String belongsTo);
     void bindByAccessKey(List<String> accessKey, String relationId, String belongsTo);
 
-    /**
-     * 读取
-     * @param id
-     * @return
-     */
     Attachment queryById(Long id);
 
-    Attachment queryByKey(String key);
+    Attachment queryOne(AttachmentQO qo);
 
+    List<Attachment> queryList(AttachmentQO qo);
+
+    PageInfo<Attachment> queryPage(AttachmentQO qo, Pageable pageable);
+
+    /**
+     * 改为集合 TODO
+     * @param relationId
+     * @param belongsTo
+     * @return
+     */
+    @Deprecated
     String queryUrls(String relationId, String belongsTo);
 
     String queryFirstUrl(String relationId, String belongsTo);
-
-    List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo);
-
-    /**
-     * 返回所有
-     * @return
-     */
-    List<Attachment> queryList(AttachmentQO qo);
-
-    /**
-     * 返回所有
-     * @return
-     */
-    PageInfo<Attachment> queryPage(AttachmentQO qo, Pageable pageable);
 
 }

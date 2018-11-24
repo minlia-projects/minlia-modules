@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created by will on 6/21/17.
+ * Created by garen on 2017/7/27.
  */
 @Component
 public interface AttachmentMapper {
@@ -23,15 +23,11 @@ public interface AttachmentMapper {
 
     void deleteByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
-    Attachment queryById(Long id);
-
-    Attachment queryByKey(String key);
-
-    Attachment queryFirstByUnusedKey(String key);
-
-    List<Attachment> queryByRelationIdAndBelongsTo(String relationId, String belongsTo);
+    Attachment queryOne(AttachmentQO qo);
 
     List<Attachment> queryList(AttachmentQO qo);
+
+    Attachment queryFirstByUnusedKey(String key);
 
     String queryUrls(String relationId, String belongsTo);
 

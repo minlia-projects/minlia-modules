@@ -43,14 +43,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public List<Attachment> create(AttachmentCTO requestBody) {
-        attachmentMapper.deleteByRelationIdAndBelongsTo(requestBody.getRelationId(),requestBody.getBelongsTo());
+    public List<Attachment> create(AttachmentCTO cto) {
+        attachmentMapper.deleteByRelationIdAndBelongsTo(cto.getRelationId(),cto.getBelongsTo());
 
         List<Attachment> attachments = Lists.newArrayList();
-        for (AttachmentData data : requestBody.getData()) {
+        for (AttachmentData data : cto.getData()) {
             Attachment attachment = Attachment.builder()
-                    .relationId(requestBody.getRelationId())
-                    .belongsTo(requestBody.getBelongsTo())
+                    .relationId(cto.getRelationId())
+                    .belongsTo(cto.getBelongsTo())
                     .url(data.getUrl())
                     .accessKey(data.getAccessKey())
                     .build();
@@ -146,12 +146,22 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public Attachment queryById(Long id) {
-        return attachmentMapper.queryById(id);
+        return attachmentMapper.queryOne(AttachmentQO.builder().id(id).build());
     }
 
     @Override
-    public Attachment queryByKey(String key) {
-        return attachmentMapper.queryByKey(key);
+    public Attachment queryOne(AttachmentQO qo) {
+        return attachmentMapper.queryOne(qo);
+    }
+
+    @Override
+    public List<Attachment> queryList(AttachmentQO qo) {
+        return attachmentMapper.queryList(qo);
+    }
+
+    @Override
+    public PageInfo<Attachment> queryPage(AttachmentQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> attachmentMapper.queryList(qo));
     }
 
     @Override
@@ -162,21 +172,6 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     public String queryFirstUrl(String relationId, String belongsTo) {
         return attachmentMapper.queryFirstUrl(relationId,belongsTo);
-    }
-
-    @Override
-    public List<Attachment> queryAllByRelationIdAndBelongsTo(String relationId, String belongsTo) {
-        return attachmentMapper.queryByRelationIdAndBelongsTo(relationId,belongsTo);
-    }
-
-    @Override
-    public List<Attachment> queryList(AttachmentQO requestBody) {
-        return attachmentMapper.queryList(requestBody);
-    }
-
-    @Override
-    public PageInfo<Attachment> queryPage(AttachmentQO requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> attachmentMapper.queryList(requestBody));
     }
 
 }
