@@ -140,7 +140,7 @@
     </select>
 
     <select id="queryUrls" resultType="java.lang.String">
-        SELECT GROUP_CONCAT(url) FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+        SELECT IFNULL(GROUP_CONCAT(yuntu_id),'') FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
     </select>
 
     <select id="queryFirstUrl" resultType="java.lang.String">
