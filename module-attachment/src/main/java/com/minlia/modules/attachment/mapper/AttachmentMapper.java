@@ -31,7 +31,7 @@ public interface AttachmentMapper {
 
     List<Attachment> queryByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
-    List<Attachment> queryList(AttachmentQO body);
+    List<Attachment> queryList(AttachmentQO qo);
 
     String queryUrls(String relationId, String belongsTo);
 

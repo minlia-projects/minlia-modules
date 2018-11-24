@@ -75,14 +75,60 @@ public class AttachmentServiceImpl implements AttachmentService {
     public void bindByAccessKey(String accessKey, String relationId, String belongsTo) {
         Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
         ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
-//        ApiAssert.isNull(attachment.getRelationId(), AttachmentCode.Message.ETAG_ALREADY_BIND);
-//        ApiAssert.isNull(attachment.getBelongsTo(), AttachmentCode.Message.ETAG_ALREADY_BIND);
+
+        if (null != attachment.getRelationId() || null != attachment.getBelongsTo()) {
+            if (relationId.equals(attachment.getRelationId()) && belongsTo.equals(attachment.getBelongsTo())) {
+                log.info("附件accessKey重复绑定直接通过：{}-{}", relationId, belongsTo);
+            }
+            ApiAssert.state(false, AttachmentCode.Message.ETAG_ALREADY_BIND);
+        }
 
         attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
-
         attachment.setRelationId(relationId);
         attachment.setBelongsTo(belongsTo);
         attachmentMapper.update(attachment);
+    }
+//    @Override
+//    @Transactional
+//    public void bindByAccessKey(String accessKey, String relationId, String belongsTo) {
+//        Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
+//        ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
+////        ApiAssert.isNull(attachment.getRelationId(), AttachmentCode.Message.ETAG_ALREADY_BIND);
+////        ApiAssert.isNull(attachment.getBelongsTo(), AttachmentCode.Message.ETAG_ALREADY_BIND);
+//
+//        attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
+//
+//        attachment.setRelationId(relationId);
+//        attachment.setBelongsTo(belongsTo);
+//        attachmentMapper.update(attachment);
+//    }
+//
+
+
+    @Override
+    @Transactional
+    public void bindByAccessKey(List<String> accessKeys, String relationId, String belongsTo) {
+        //校验accessKey是否都存在、是否已绑定
+        for (String accessKey : accessKeys) {
+            Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
+            ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
+
+            if (null != attachment.getRelationId() || null != attachment.getBelongsTo()) {
+                 if (relationId.equals(attachment.getRelationId()) && belongsTo.equals(attachment.getBelongsTo())) {
+                     log.info("附件accessKey重复绑定直接通过：{}-{}", relationId, belongsTo);
+                     accessKeys.remove(accessKey);
+                 }
+                 ApiAssert.state(false, AttachmentCode.Message.ETAG_ALREADY_BIND);
+            }
+        }
+
+        attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
+        for (String accessKey : accessKeys) {
+            Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
+            attachment.setRelationId(relationId);
+            attachment.setBelongsTo(belongsTo);
+            attachmentMapper.update(attachment);
+        }
     }
 
     @Override
