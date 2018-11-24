@@ -32,14 +32,14 @@ public class AttachmentOpenEndpoint {
 
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody AttachmentQO requestBody) {
-        return Response.success(attachmentService.queryList(requestBody));
+    public Response list(@RequestBody AttachmentQO qo) {
+        return Response.success(attachmentService.queryList(qo));
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response page(@PageableDefault Pageable pageable,@RequestBody AttachmentQO requestBody) {
-        return Response.success(attachmentService.queryPage(requestBody,pageable));
+    public Response page(@PageableDefault Pageable pageable,@RequestBody AttachmentQO qo) {
+        return Response.success(attachmentService.queryPage(qo, pageable));
     }
 
 }
