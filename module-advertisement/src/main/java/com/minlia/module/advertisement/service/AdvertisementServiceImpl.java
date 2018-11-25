@@ -44,14 +44,13 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         long count = advertisementsService.count(AdvertisementsQO.builder().id(cto.getParentId()).build());
         ApiAssert.state(count == 1, SystemCode.Message.DATA_NOT_EXISTS);
 
-        Attachment attachment = attachmentService.queryByKey(cto.getCoverETag());
-        ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
-
         Advertisement advertisement = mapper.map(cto,Advertisement.class);
         advertisementMapper.create(advertisement);
 
         //绑定附件
-        attachmentService.bindByAccessKey(attachment.getAccessKey(), advertisement.getId().toString(), "AD_COVER");
+        if (null != cto.getCoverETag()) {
+            attachmentService.bindByAccessKey(cto.getCoverETag(), advertisement.getId().toString(), "AD_COVER");
+        }
         return advertisement;
     }
 
