@@ -25,7 +25,6 @@ public class ArticleCategoryOpenEndpoint {
 	@Autowired
 	private ArticleCategoryService articleCategoryService;
 
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response count(@RequestBody ArticleCategoryQO qo) {
@@ -33,7 +32,6 @@ public class ArticleCategoryOpenEndpoint {
 		return Response.success(articleCategoryService.count(qo));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response one(@RequestBody ArticleCategoryQO qo) {
@@ -41,7 +39,6 @@ public class ArticleCategoryOpenEndpoint {
 		return Response.success(articleCategoryService.one(qo));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response list(@RequestBody ArticleCategoryQO qo) {
@@ -49,7 +46,6 @@ public class ArticleCategoryOpenEndpoint {
 		return Response.success(articleCategoryService.list(qo));
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleCategoryQO qo) {
