@@ -5,8 +5,8 @@
 //import com.github.binarywang.wxpay.exception.WxPayException;
 //import com.github.binarywang.wxpay.service.WxPayService;
 //import com.github.binarywang.wxpay.service.impl.WxPayServiceApacheHttpImpl;
-//import com.minlia.module.unified.payment.body.OrderPaidNotificationBody;
-//import com.minlia.module.unified.payment.body.PayType;
+//import com.minlia.module.unified.payment.bean.OrderPaidNotificationBody;
+//import com.minlia.module.unified.payment.bean.PayType;
 //import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
 //import com.minlia.module.unified.payment.util.XmlUtils;
 //import io.swagger.annotations.Api;
@@ -38,35 +38,35 @@
 //        log.info("wechat callback here");
 //        if (verifySign(requestedXmlString)) {
 //            log.info("wechat sign here");
-//            OrderPaidNotificationBody body = new OrderPaidNotificationBody();
-//            body = mapToBody(requestedXmlString,body);
-//            log.info("返回所有参数了" + body.toString());
-//            OrderPaidEventProducer.onOrderPaid(body);
+//            OrderPaidNotificationBody bean = new OrderPaidNotificationBody();
+//            bean = mapToBody(requestedXmlString,bean);
+//            log.info("返回所有参数了" + bean.toString());
+//            OrderPaidEventProducer.onOrderPaid(bean);
 //            return "SUCCESS";
 //        } else {
 //            return "FAIL";
 //        }
 //    }
 //
-//    private OrderPaidNotificationBody mapToBody(String requestedXmlString,OrderPaidNotificationBody body) {
+//    private OrderPaidNotificationBody mapToBody(String requestedXmlString,OrderPaidNotificationBody bean) {
 //        log.info(requestedXmlString);
 //        try {
 //            //这里面已经做了验证签名
 //            WxPayOrderNotifyResult requestBody = getWxPayService()
 //                    .parseOrderNotifyResult(requestedXmlString);
-//            body.setPaidBy(requestBody.getOpenid());
-//            body.setAmount(Integer.valueOf(requestBody.getTotalFee().toString()));
-//            body.setBody(requestBody.getAttach());
-//            body.setSubject(requestBody.getAttach());
-//            body.setGatewayTradeNo(requestBody.getTransactionId());
-//            body.setMerchantTradeNo(requestBody.getOutTradeNo());
-//            body.setPaidBy(requestBody.getOpenid());
-//            body.setSign(requestBody.getSign());
-//            body.setPayType(PayType.WECHAT);
+//            bean.setPaidBy(requestBody.getOpenid());
+//            bean.setAmount(Integer.valueOf(requestBody.getTotalFee().toString()));
+//            bean.setBody(requestBody.getAttach());
+//            bean.setSubject(requestBody.getAttach());
+//            bean.setGatewayTradeNo(requestBody.getTransactionId());
+//            bean.setMerchantTradeNo(requestBody.getOutTradeNo());
+//            bean.setPaidBy(requestBody.getOpenid());
+//            bean.setSign(requestBody.getSign());
+//            bean.setPayType(PayType.WECHAT);
 //        } catch (WxPayException e) {
 //            log.info("解析異常" + e.toString());
 //        }
-//        return body;
+//        return bean;
 //    }
 //
 //    /**

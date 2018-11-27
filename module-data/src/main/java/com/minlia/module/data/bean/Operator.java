@@ -1,4 +1,4 @@
-package com.minlia.module.data.body;//package com.minlia.hummerpay.userinfo.bean.qo;
+package com.minlia.module.data.bean;//package com.minlia.hummerpay.userinfo.bean.qo;
 //
 ///**
 // * 运算符

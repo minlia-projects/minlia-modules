@@ -86,7 +86,7 @@ public class GadYuntuSearchServiceImpl implements GadYuntuSearchService{
         http://yuntuapi.amap.com/nearby/around?key=3f7cbf66ce0da2310dc052d4e7e47b04&center=117.500244,40.417801
 
         body.setKey("803e61def8f4676c37d6f801a3df5c14");
-//        body.setKey("3f7cbf66ce0da2310dc052d4e7e47b04");
+//        bean.setKey("3f7cbf66ce0da2310dc052d4e7e47b04");
         ResponseEntity<GadYuntuSearchResponseBody> responseEntity = restTemplate.getForEntity(GetParamter.getUrl(data_search_nearby_around_url,GadUtils.beanToMap(body)),GadYuntuSearchResponseBody.class);
         return responseEntity.getBody();
     }

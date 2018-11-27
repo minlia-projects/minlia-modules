@@ -1,6 +1,6 @@
 //package com.minlia.module.bible.endpoint;
 //
-//import com.minlia.cloud.body.Response;
+//import com.minlia.cloud.bean.Response;
 //import com.minlia.cloud.code.SystemCode;
 //import com.minlia.cloud.constant.ApiPrefix;
 //import com.minlia.cloud.utils.ApiAssert;

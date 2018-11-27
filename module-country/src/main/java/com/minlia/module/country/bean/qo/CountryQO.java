@@ -3,7 +3,7 @@ package com.minlia.module.country.bean.qo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import com.minlia.module.data.body.QueryRequest;
+import com.minlia.module.data.bean.QueryRequest;
 
 import javax.validation.constraints.Pattern;
 
@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 @ApiModel(value = "国家-查询")
-public class CountryQO implements QueryRequest {
+public class CountryQO extends QueryRequest {
 
     @ApiModelProperty(value = "名称",example = "中国")
     private String name;

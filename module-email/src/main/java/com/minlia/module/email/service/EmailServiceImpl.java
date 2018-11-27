@@ -67,9 +67,9 @@ public class EmailServiceImpl implements EmailService {
     public EmailRecord sendHtmlMail(String[] to, String subject, String content) {
         if (null == content) {
             content = "<html>\n" +
-                    "<body>\n" +
+                    "<bean>\n" +
                     "    <h3>hello world ! 这是一封Html邮件!</h3>\n" +
-                    "</body>\n" +
+                    "</bean>\n" +
                     "</html>";
         }
 

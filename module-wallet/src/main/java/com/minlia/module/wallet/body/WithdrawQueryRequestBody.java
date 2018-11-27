@@ -1,6 +1,6 @@
-//package com.minlia.module.wallet.v1.body;
+//package com.minlia.module.wallet.v1.bean;
 //
-//import com.minlia.module.data.query.v2.body.SearchRequestBody;
+//import com.minlia.module.data.query.v2.bean.SearchRequestBody;
 //import com.minlia.module.wallet.v1.enumeration.WithdrawStatusEnum;
 //import io.swagger.annotations.ApiModel;
 //import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +14,7 @@
 //@NoArgsConstructor
 //@AllArgsConstructor
 //@ApiModel(value = "提现-查询")
-//public class WithdrawQueryRequestBody implements SearchRequestBody {
+//public class WithdrawQueryRequestBody extends SearchRequestBody {
 //
 //    @ApiModelProperty(value = "用户ID")
 //    private Long userId;

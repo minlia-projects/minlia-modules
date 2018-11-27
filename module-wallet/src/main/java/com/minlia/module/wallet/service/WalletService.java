@@ -1,7 +1,7 @@
 //package com.minlia.module.wallet.v1.service;
 //
 //import com.minlia.boot.v1.service.IService;
-//import com.minlia.module.wallet.v1.body.WalletRequestBody;
+//import com.minlia.module.wallet.v1.bean.WalletRequestBody;
 //import com.minlia.module.wallet.v1.domain.Wallet;
 //import org.springframework.transaction.annotation.Transactional;
 //

@@ -43,7 +43,7 @@ public class JwtToken {
                 .withClaim("nonce_str", nonceStr)
                 .withClaim("mch_trade_id","alextest.jsminipg.03")
                 .withClaim("total_fee","1")
-                .withClaim("body","花果山 Test jsminipg")
+                .withClaim("bean","花果山 Test jsminipg")
                 .withClaim("sub_appid","XXXX")
                 .withClaim("sub_openid","XXXX")
                 .sign(algorithm);
@@ -61,7 +61,7 @@ public class JwtToken {
                     .withClaim("nonce_str", nonceStr)
                     .withClaim("mch_trade_id","alextest.jsminipg.03")
                     .withClaim("total_fee","1")
-                    .withClaim("body","花果山 Test jsminipg")
+                    .withClaim("bean","花果山 Test jsminipg")
                     .withClaim("sub_appid","XXXX")
                     .withClaim("sub_openid","XXXX")
                     .build();

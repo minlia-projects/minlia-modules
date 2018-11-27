@@ -1,6 +1,6 @@
-//package com.minlia.module.wallet.v1.body;
+//package com.minlia.module.wallet.v1.bean;
 //
-//import com.minlia.boot.v1.body.ApiRequestBody;
+//import com.minlia.boot.v1.bean.ApiRequestBody;
 //import lombok.AllArgsConstructor;
 //import lombok.Builder;
 //import lombok.Data;

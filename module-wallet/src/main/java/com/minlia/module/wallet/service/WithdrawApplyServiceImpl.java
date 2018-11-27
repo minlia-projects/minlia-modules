@@ -7,9 +7,9 @@
 //import com.minlia.module.security.v1.domain.User;
 //import com.minlia.module.security.v1.service.UserQueryService;
 //import com.minlia.module.security.v1.utils.SecurityUtils;
-//import com.minlia.module.wallet.v1.body.WalletRequestBody;
-//import com.minlia.module.wallet.v1.body.WithdrawApplyRequestBody;
-//import com.minlia.module.wallet.v1.body.WithdrawApprovalRequestBody;
+//import com.minlia.module.wallet.v1.bean.WalletRequestBody;
+//import com.minlia.module.wallet.v1.bean.WithdrawApplyRequestBody;
+//import com.minlia.module.wallet.v1.bean.WithdrawApprovalRequestBody;
 //import com.minlia.module.wallet.v1.domain.BankCardDo;
 //import com.minlia.module.wallet.v1.domain.Wallet;
 //import com.minlia.module.wallet.v1.domain.WithdrawApply;

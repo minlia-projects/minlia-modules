@@ -1,7 +1,7 @@
 //package com.minlia.module.wallet.v1.service;
 //
-//import com.minlia.module.wallet.v1.body.WithdrawApplyRequestBody;
-//import com.minlia.module.wallet.v1.body.WithdrawApprovalRequestBody;
+//import com.minlia.module.wallet.v1.bean.WithdrawApplyRequestBody;
+//import com.minlia.module.wallet.v1.bean.WithdrawApprovalRequestBody;
 //import com.minlia.module.wallet.v1.domain.WithdrawApply;
 //import org.springframework.transaction.annotation.Transactional;
 //

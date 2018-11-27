@@ -1,9 +1,9 @@
 //package com.minlia.module.unified.payment.pooul;
 //
-//import com.minlia.cloud.body.Response;
+//import com.minlia.cloud.bean.Response;
 //import com.minlia.module.unified.payment.CreatePreOrderService;
-//import com.minlia.module.unified.payment.body.CreatePreOrderRequestBody;
-//import com.minlia.module.unified.payment.pooul.body.PooulWechatMpPaymentRequestBody;
+//import com.minlia.module.unified.payment.bean.CreatePreOrderRequestBody;
+//import com.minlia.module.unified.payment.pooul.bean.PooulWechatMpPaymentRequestBody;
 //import org.apache.commons.lang3.RandomStringUtils;
 //import org.apache.commons.lang3.StringUtils;
 //
@@ -61,7 +61,7 @@
 //     * 后端发起订单创建流程
 //     */
 //    @Override
-//    public Response createPreOrder(CreatePreOrderRequestBody body) {
+//    public Response createPreOrder(CreatePreOrderRequestBody bean) {
 //        PooulWechatMpPaymentRequestBody requestBody = new PooulWechatMpPaymentRequestBody();
 //        requestBody.setSubAppid("wx469ffdb81de47e4d");
 //        requestBody.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");

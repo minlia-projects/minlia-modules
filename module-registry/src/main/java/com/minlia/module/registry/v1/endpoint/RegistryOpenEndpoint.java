@@ -1,11 +1,11 @@
 //package com.minlia.module.registry.v1.endpoint;
 //
-//import com.minlia.cloud.body.impl.SuccessResponseBody;
+//import com.minlia.cloud.bean.impl.SuccessResponseBody;
 //import com.minlia.cloud.constant.ApiPrefix;
 //import com.minlia.cloud.holder.ContextHolder;
 //import com.minlia.cloud.query.specification.batis.QueryCondition;
-//import com.minlia.cloud.query.specification.batis.body.ApiQueryRequestBody;
-//import com.minlia.module.registry.v1.body.RegistryQueryRequestBody;
+//import com.minlia.cloud.query.specification.batis.bean.ApiQueryRequestBody;
+//import com.minlia.module.registry.v1.bean.RegistryQueryRequestBody;
 //import com.minlia.module.registry.v1.service.RegistryReadOnlyService;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;

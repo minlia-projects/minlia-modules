@@ -1,6 +1,6 @@
-//package com.minlia.module.wallet.v1.body;
+//package com.minlia.module.wallet.v1.bean;
 //
-//import com.minlia.module.data.query.v2.body.SearchRequestBody;
+//import com.minlia.module.data.query.v2.bean.SearchRequestBody;
 //import com.minlia.module.wallet.v1.enumeration.WithdrawStatusEnum;
 //import io.swagger.annotations.ApiModel;
 //import io.swagger.annotations.ApiModelProperty;

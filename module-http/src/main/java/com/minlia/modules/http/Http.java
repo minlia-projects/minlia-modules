@@ -39,7 +39,7 @@ import java.util.Map.Entry;
  * <dd>execute and return the {@linkplain HttpResponse}</dd>
  * <p/>
  * <dt>{@link HttpRequestBuilder#asString() .asString()}</dt>
- * <dd>execute and return the payload body as a String</dd>
+ * <dd>execute and return the payload bean as a String</dd>
  * <p/>
  * <dt>{@link HttpRequestBuilder#asFile(File) .asFile(File)}</dt>
  * <dd>execute and save the stream to a file</dd>
@@ -150,8 +150,8 @@ public final class Http {
      *
      * @param response       the {@linkplain HttpResponse response} to convert.
      * @param defaultCharset character set to be applied if none found in the entity.
-     * @return the response body as a String or {@code null}, if no
-     * response body exists or an error occurred while converting.
+     * @return the response bean as a String or {@code null}, if no
+     * response bean exists or an error occurred while converting.
      * @throws NullPointerException if the given response was null
      */
     public static String asString(final HttpResponse response, final String defaultCharset) {
@@ -400,11 +400,11 @@ public final class Http {
         }
 
         /**
-         * Executes this request and returns the payload body of the result as a
-         * String. If no response body exists, this returns {@code null}.
+         * Executes this request and returns the payload bean of the result as a
+         * String. If no response bean exists, this returns {@code null}.
          *
-         * @return the response body as a String or {@code null} if
-         * no response body exists.
+         * @return the response bean as a String or {@code null} if
+         * no response bean exists.
          * @throws IOException if an error occurs while execution
          */
         public String asString() throws IOException {
@@ -414,9 +414,9 @@ public final class Http {
         /**
          * Executes this request and saves the response stream to a file. The
          * stream is going to be copied if and only if the response was
-         * successful ({@code 2xx}) and a response body exists. If the response
+         * successful ({@code 2xx}) and a response bean exists. If the response
          * code was {@code >= 300}, a {@link FileNotFoundException} is thrown.
-         * If no body exists, this returns {@code false} and no exception is
+         * If no bean exists, this returns {@code false} and no exception is
          * thrown.
          *
          * @param target the file in which the stream should be copied.

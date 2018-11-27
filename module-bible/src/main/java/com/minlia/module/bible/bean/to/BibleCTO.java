@@ -1,6 +1,6 @@
 package com.minlia.module.bible.bean.to;
 
-//import com.minlia.cloud.body.ApiRequestBody;
+//import com.minlia.cloud.bean.ApiRequestBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

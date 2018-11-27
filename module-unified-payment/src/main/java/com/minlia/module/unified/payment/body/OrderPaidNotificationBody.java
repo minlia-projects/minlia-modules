@@ -22,7 +22,7 @@ public class OrderPaidNotificationBody implements Body {
 
     private String subject;//付款主题, 为买什么而支付
 
-    private String body;//付款备注  attach body
+    private String body;//付款备注  attach bean
 
     private String sign;//sign
 
@@ -90,7 +90,7 @@ public class OrderPaidNotificationBody implements Body {
 // subject=支付主题,
 // sign=Qa+/QDeWc1vC1ihfnGsd++/9ovlTOR6//+92rM8MP6///==,
 // invoiceAmount=0.01,
-// body=备注内容,
+// bean=备注内容,
 // buyerId=2088002650456370,
 // buyerLogonId=mmi***@live.com,
 // receiptAmount=0.01,

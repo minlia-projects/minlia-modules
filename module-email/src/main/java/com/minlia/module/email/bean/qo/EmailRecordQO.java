@@ -1,6 +1,6 @@
 package com.minlia.module.email.bean.qo;
 
-import com.minlia.module.data.body.QueryRequest;
+import com.minlia.module.data.bean.QueryRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("联行号-查询")
-public class EmailRecordQO implements QueryRequest {
+public class EmailRecordQO extends QueryRequest {
 
     @ApiModelProperty(value = "省")
     private String province;

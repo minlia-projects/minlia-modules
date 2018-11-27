@@ -1,7 +1,7 @@
 package com.minlia.modules.attachment.bean;
 
 
-import com.minlia.module.data.body.QueryRequest;
+import com.minlia.module.data.bean.QueryRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttachmentQO implements QueryRequest {
+public class AttachmentQO extends QueryRequest {
 
     @ApiModelProperty(value = "ID", example = "1")
     private Long id;

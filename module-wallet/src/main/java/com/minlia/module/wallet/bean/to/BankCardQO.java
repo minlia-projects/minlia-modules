@@ -1,7 +1,7 @@
 package com.minlia.module.wallet.bean.to;
 
 import com.minlia.module.common.validation.IdCard;
-import com.minlia.module.data.body.QueryRequest;
+import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.wallet.enumeration.BankCardType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("银行卡-查询")
-public class BankCardQO implements QueryRequest {
+public class BankCardQO extends QueryRequest {
 
     @ApiModelProperty(value = "ID")
     private Long id;

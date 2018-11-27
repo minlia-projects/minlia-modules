@@ -1,11 +1,11 @@
 //package com.minlia.modules.aliyun.oss.api.endpoint;
 //
 //
-//import com.minlia.cloud.body.Response;
+//import com.minlia.cloud.bean.Response;
 //import com.minlia.cloud.utils.ApiAssert;
-//import com.minlia.modules.aliyun.oss.api.body.MtsRequestBody;
-//import com.minlia.modules.aliyun.oss.api.body.MtsResponseBody;
-//import com.minlia.modules.aliyun.oss.api.body.UploadResponseBody;
+//import com.minlia.modules.aliyun.oss.api.bean.MtsRequestBody;
+//import com.minlia.modules.aliyun.oss.api.bean.MtsResponseBody;
+//import com.minlia.modules.aliyun.oss.api.bean.UploadResponseBody;
 //import com.minlia.modules.aliyun.oss.api.config.AliyunOssProperties;
 //import com.minlia.modules.aliyun.oss.api.constant.AliyunOssCode;
 //import com.minlia.modules.aliyun.oss.api.enumeration.MtsTemplateType;

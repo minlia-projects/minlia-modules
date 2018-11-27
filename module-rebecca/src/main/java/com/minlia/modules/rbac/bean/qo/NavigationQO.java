@@ -1,6 +1,6 @@
 package com.minlia.modules.rbac.bean.qo;
 
-import com.minlia.module.data.body.QueryRequest;
+import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.modules.rbac.enumeration.NavigationType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "导航-查询")
-public class NavigationQO implements QueryRequest {
+public class NavigationQO extends QueryRequest {
 
     private Long id;
 

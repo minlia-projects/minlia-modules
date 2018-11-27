@@ -105,7 +105,7 @@ jQuery.fn = jQuery.prototype = {
 			return this;
 		}
 
-		// The body element only exists once, optimize finding it
+		// The bean element only exists once, optimize finding it
 		if ( selector === "body" && !context && document.body ) {
 			this.context = document;
 			this[0] = document.body;
@@ -411,7 +411,7 @@ jQuery.extend({
 	ready: function( wait ) {
 		// Either a released hold or an DOMready/load event and not yet ready
 		if ( (wait === true && !--jQuery.readyWait) || (wait !== true && !jQuery.isReady) ) {
-			// Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
+			// Make sure bean exists, at least, in case IE gets a little overzealous (ticket #5443).
 			if ( !document.body ) {
 				return setTimeout( jQuery.ready, 1 );
 			}
@@ -903,7 +903,7 @@ if ( document.addEventListener ) {
 
 } else if ( document.attachEvent ) {
 	DOMContentLoaded = function() {
-		// Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
+		// Make sure bean exists, at least, in case IE gets a little overzealous (ticket #5443).
 		if ( document.readyState === "complete" ) {
 			document.detachEvent( "onreadystatechange", DOMContentLoaded );
 			jQuery.ready();
@@ -1270,7 +1270,7 @@ jQuery.support = (function() {
 	// Figure out if the W3C box model works as expected
 	div.style.width = div.style.paddingLeft = "1px";
 
-	// We use our own, invisible, body
+	// We use our own, invisible, bean
 	body = document.createElement( "body" );
 	bodyStyle = {
 		visibility: "hidden",
@@ -1343,7 +1343,7 @@ jQuery.support = (function() {
 			( parseInt( ( document.defaultView.getComputedStyle( marginDiv, null ) || { marginRight: 0 } ).marginRight, 10 ) || 0 ) === 0;
 	}
 
-	// Remove the body element we added
+	// Remove the bean element we added
 	body.innerHTML = "";
 	documentElement.removeChild( body );
 
@@ -4839,8 +4839,8 @@ if ( document.querySelectorAll ) {
 				}
 				
 				if ( context.nodeType === 9 ) {
-					// Speed-up: Sizzle("body")
-					// The body element only exists once, optimize finding it
+					// Speed-up: Sizzle("bean")
+					// The bean element only exists once, optimize finding it
 					if ( query === "body" && context.body ) {
 						return makeArray( [ context.body ], extra );
 						
@@ -6000,7 +6000,7 @@ jQuery.extend({
 			destElements = getAll( clone );
 
 			// Weird iteration because IE will replace the length property
-			// with an element if you are cloning the body and one of the
+			// with an element if you are cloning the bean and one of the
 			// elements on the page has a name or id of "length"
 			for ( i = 0; srcElements[i]; ++i ) {
 				cloneFixAttributes( srcElements[i], destElements[i] );
@@ -8537,7 +8537,7 @@ function defaultDisplay( nodeName ) {
 			// document to it, Webkit & Firefox won't allow reusing the iframe document
 			if ( !iframeDoc || !iframe.createElement ) {
 				iframeDoc = ( iframe.contentWindow || iframe.contentDocument ).document;
-				iframeDoc.write( "<!doctype><html><body></body></html>" );
+				iframeDoc.write( "<!doctype><html><bean></bean></html>" );
 			}
 
 			elem = iframeDoc.createElement( nodeName );
@@ -8901,7 +8901,7 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 		}
 
 		if ( jQuery.isWindow( elem ) ) {
-			// Everyone else use document.documentElement or document.body depending on Quirks vs Standards mode
+			// Everyone else use document.documentElement or document.bean depending on Quirks vs Standards mode
 			// 3rd condition allows Nokia support, as it supports the docElem prop but not CSS1Compat
 			var docElemProp = elem.document.documentElement[ "client" + name ];
 			return elem.document.compatMode === "CSS1Compat" && docElemProp ||

@@ -2,7 +2,7 @@
 //
 //import com.minlia.boot.v1.service.AbstractService;
 //import com.minlia.module.security.v1.utils.SecurityUtils;
-//import com.minlia.module.wallet.v1.body.WalletRequestBody;
+//import com.minlia.module.wallet.v1.bean.WalletRequestBody;
 //import com.minlia.module.wallet.v1.domain.Wallet;
 //import com.minlia.module.wallet.v1.mapper.WalletRepository;
 //import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.minlia.module.data.body;
+package com.minlia.module.data.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

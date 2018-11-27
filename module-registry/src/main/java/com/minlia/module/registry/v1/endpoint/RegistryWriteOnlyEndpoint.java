@@ -1,7 +1,7 @@
 //package com.minlia.module.registry.v1.endpoint;
 //
-//import com.minlia.cloud.body.StatefulBody;
-//import com.minlia.cloud.body.impl.SuccessResponseBody;
+//import com.minlia.cloud.bean.StatefulBody;
+//import com.minlia.cloud.bean.impl.SuccessResponseBody;
 //import com.minlia.cloud.constant.ApiPrefix;
 //import com.minlia.cloud.endpoint.ApiWriteOnlyEndpoint;
 //import com.minlia.module.registry.v1.domain.Registry;
