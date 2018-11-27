@@ -84,7 +84,7 @@
     </resultMap>
 
     <select id="queryArticleByCategoryId" resultType="com.minlia.module.article.bean.vo.ArticleSimpleVO">
-        SELECT id,title FROM mdl_article where category_id = #{id}
+        SELECT id,title FROM mdl_article where category_id = #{id} ORDER BY create_date DESC
     </select>
 
     <select id="one" resultMap="categoryMap">
@@ -95,7 +95,7 @@
     <select id="list" resultMap="categoryMap">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        ORDER BY create_date DESC
+        ORDER BY create_date DESC, last_modified_date DESC
     </select>
 
 </mapper>
