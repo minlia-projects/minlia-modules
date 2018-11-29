@@ -17,7 +17,8 @@ import java.io.Serializable;
 public class PooulMerchantCTO implements Serializable {
 
     /**
-     * 商户类型，固定值为 3
+//     * 商户类型，固定值为 3
+     * 商户类型，创建入驻商户时不需要这个参数，创建普通商户时固定填1
      * 必填
      */
     private Integer merchant_type;

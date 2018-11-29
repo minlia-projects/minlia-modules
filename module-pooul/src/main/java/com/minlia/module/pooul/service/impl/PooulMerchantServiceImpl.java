@@ -64,7 +64,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
         boolean exists = pooulMerchantInternalService.exists(PooulMerchatInternalQO.builder().guid(guid).build());
         ApiAssert.state(!exists, SystemCode.Message.DATA_ALREADY_EXISTS);
 
-        cto.setMerchant_type(3);
+//        cto.setMerchant_type(1);
         cto.setPlatform_merchant_id(pooulMerchantProperties.getPlatformMerchantId());
         cto.setParent_id(pooulMerchantProperties.getParentId());
         HttpEntity<PooulMerchantCTO> httpEntity = new HttpEntity(cto, pooulAuthService.getHeaders());
