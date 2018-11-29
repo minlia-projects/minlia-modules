@@ -52,7 +52,7 @@
             <if test="gtCreateDateMinutes != null">
                 AND TIMESTAMPDIFF(MINUTE,create_date,NOW()) > #{gtCreateDateMinutes}
             </if>
-            <if test="gtCreateDateMinutes != null">
+            <if test="gtCreateDateHour != null">
                 AND TIMESTAMPDIFF(HOUR,create_date,NOW()) > #{gtCreateDateHour}
             </if>
             <if test="gtCreateDateDay != null">
