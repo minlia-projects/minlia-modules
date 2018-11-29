@@ -1,5 +1,6 @@
 package com.minlia.module.wechat.ma.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WechatMaUserQO {
+public class WechatMaUserQO extends QueryRequest {
 
     private Long id;
 

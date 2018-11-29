@@ -2,27 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.bible.mapper.BibleMapper">
 
-    <sql id="LIMIT">limit #{pageSize} offset #{offset}</sql>
-
     <sql id="QUERY_CONTENT">
 		SELECT
-			id ,
-			code ,
-			value ,
-			notes ,
-			create_date ,
-			create_by ,
-			last_modified_date ,
-			last_modified_by
-		FROM mdl_bible t
+			mbt.id ,
+			mbt.code ,
+			mbt.value ,
+			mbt.notes ,
+			mbt.create_date ,
+			mbt.create_by ,
+			mbt.last_modified_date ,
+			mbt.last_modified_by
+		FROM mdl_bible mbt
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="code != null">
-                AND code = #{code}
+                AND mbt.code = #{code}
             </if>
         </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                mbt.${item.filed} ${item.direction}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="create">
@@ -62,16 +69,12 @@
 
     <select id="queryById" resultType="com.minlia.module.bible.bean.domain.Bible">
         <include refid="QUERY_CONTENT"/>
-        WHERE id = #{id,jdbcType=BIGINT}
+        WHERE mbt.id = #{id,jdbcType=BIGINT}
     </select>
 
     <select id="queryByCode" resultType="com.minlia.module.bible.bean.domain.Bible">
         <include refid="QUERY_CONTENT"/>
-        WHERE code = #{code,jdbcType=VARCHAR}
-    </select>
-
-    <select id="queryAll" resultType="com.minlia.module.bible.bean.domain.Bible">
-        <include refid="QUERY_CONTENT"/>
+        WHERE mbt.code = #{code,jdbcType=VARCHAR}
     </select>
 
     <select id="queryOne" resultType="com.minlia.module.bible.bean.domain.Bible">
@@ -82,6 +85,7 @@
     <select id="queryList" resultType="com.minlia.module.bible.bean.domain.Bible">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

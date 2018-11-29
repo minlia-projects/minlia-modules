@@ -1,6 +1,6 @@
 package com.minlia.module.aliyun.dypls.bean;
 
-import com.minlia.cloud.body.ApiRequestBody;
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BindAxnQO implements ApiRequestBody {
+public class BindAxnQO extends QueryRequest {
 
     private String poolKey;
 

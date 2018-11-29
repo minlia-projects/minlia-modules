@@ -2,9 +2,9 @@ package com.minlia.module.richtext.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.richtext.body.RichtextCreateRequestBody;
-import com.minlia.module.richtext.body.RichtextQueryRequestBody;
-import com.minlia.module.richtext.body.RichtextUpdateRequestBody;
+import com.minlia.module.richtext.bean.RichtextCTO;
+import com.minlia.module.richtext.bean.RichtextQO;
+import com.minlia.module.richtext.bean.RichtextUTO;
 import com.minlia.module.richtext.constant.RichtextConstants;
 import com.minlia.module.richtext.service.RichtextService;
 import io.swagger.annotations.Api;
@@ -29,15 +29,15 @@ public class RichtextEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.CREATE+"')")
     @ApiOperation(value = "create", notes = "create", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "create", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response create(@Valid @RequestBody RichtextCreateRequestBody body) {
-        return Response.success(richtextService.create(body));
+    public Response create(@Valid @RequestBody RichtextCTO cto) {
+        return Response.success(richtextService.create(cto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.UPDATE+"')")
     @ApiOperation(value = "update", notes = "update", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PutMapping(value = "update", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response update(@Valid @RequestBody RichtextUpdateRequestBody body) {
-        return Response.success(richtextService.update(body));
+    public Response update(@Valid @RequestBody RichtextUTO uto) {
+        return Response.success(richtextService.update(uto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.DELETE+"')")
@@ -58,15 +58,15 @@ public class RichtextEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.SEARCH + "')")
     @ApiOperation(value = "list", notes = "list", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody RichtextQueryRequestBody body) {
-        return Response.success(richtextService.queryList(body));
+    public Response list(@RequestBody RichtextQO qo) {
+        return Response.success(richtextService.queryList(qo));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.SEARCH + "')")
     @ApiOperation(value = "page", notes = "page", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response paginated(@PageableDefault Pageable pageable, @RequestBody RichtextQueryRequestBody requestBody) {
-        return Response.success(richtextService.queryPage(requestBody,pageable));
+    public Response page(@PageableDefault Pageable pageable, @RequestBody RichtextQO qo) {
+        return Response.success(richtextService.queryPage(qo, pageable));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.minlia.module.pooul.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.pooul.enumeration.SettledStatusEnum;
 import com.minlia.module.pooul.enumeration.TradeStateEnum;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PooulOrderQO {
+public class PooulOrderQO extends QueryRequest {
 
     /**
      * 与发起支付商户主体一致的小程序APPID

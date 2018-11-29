@@ -1,5 +1,6 @@
 package com.minlia.module.bible.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(value = "数据字典搜索请求体")
-public class BibleQO {
+public class BibleQO extends QueryRequest {
 
   @ApiModelProperty(value = "编码")
   private String code;

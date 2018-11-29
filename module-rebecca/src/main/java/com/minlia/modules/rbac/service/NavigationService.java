@@ -30,8 +30,6 @@ public interface NavigationService {
 
     Navigation queryById(Long id);
 
-    List<Navigation> queryByParentId(Long parentId);
-
     List<Navigation> queryByRoleId(Long id);
 
     List<Navigation> queryList(NavigationQO requestBody);

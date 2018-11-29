@@ -4,46 +4,55 @@
 
     <sql id="QUERY_CONTENT">
 		SELECT
-            nt.id ,
-            nt.type ,
-            nt.name ,
-            nt.icon ,
-            nt.state ,
-            nt.orders ,
-            nt.parent_id ,
-            nt.display,
-			nt.create_date  ,
-			nt.create_by  ,
-			nt.last_modified_date ,
-			nt.last_modified_by
+            mnt.id ,
+            mnt.type ,
+            mnt.name ,
+            mnt.icon ,
+            mnt.state ,
+            mnt.orders ,
+            mnt.parent_id ,
+            mnt.display,
+			mnt.create_date  ,
+			mnt.create_by  ,
+			mnt.last_modified_date ,
+			mnt.last_modified_by
 		FROM
-			mdl_navigation nt
+			mdl_navigation mnt
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="id != null">
-                AND nt.id = #{id,jdbcType=SMALLINT}
+                AND mnt.id = #{id,jdbcType=SMALLINT}
             </if>
             <if test="parentId != null">
-                AND nt.parent_id = #{parentId,jdbcType=SMALLINT}
+                AND mnt.parent_id = #{parentId,jdbcType=SMALLINT}
             </if>
             <if test="isOneLevel == true">
-                AND nt.parent_id IS NULL
+                AND mnt.parent_id IS NULL
             </if>
             <if test="name != null">
-                AND nt.name = #{name,jdbcType=VARCHAR}
+                AND mnt.name = #{name,jdbcType=VARCHAR}
             </if>
             <if test="type != null">
                 AND nt.type = #{type,jdbcType=VARCHAR}
             </if>
             <if test="display != null">
-                AND nt.display = #{display,jdbcType=TINYINT}
+                AND mnt.display = #{display,jdbcType=TINYINT}
             </if>
             <if test="roleId != null">
-                AND rnm.role_id = #{roleId,jdbcType=TINYINT}
+                AND mrnm.role_id = #{roleId,jdbcType=TINYINT}
             </if>
         </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                mnt.${item.filed} ${item.direction}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
@@ -138,33 +147,29 @@
     </insert>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM mdl_navigation nt
+        SELECT COUNT(1) FROM mdl_navigation mnt
         <include refid="QUERY_CONDITION"/>
     </select>
 
     <select id="queryById" resultType="com.minlia.modules.rbac.bean.domain.Navigation">
         <include refid="QUERY_CONTENT"/>
-        WHERE id = #{id}
-    </select>
-
-    <select id="queryByParentId" resultType="com.minlia.modules.rbac.bean.domain.Navigation">
-        <include refid="QUERY_CONTENT"/>
-        WHERE parent_id = #{parentId}
+        WHERE mnt.id = #{id}
     </select>
 
     <select id="queryList" resultType="com.minlia.modules.rbac.bean.domain.Navigation">
         <include refid="QUERY_CONTENT"/>
         <if test="roleId != null">
-            INNER JOIN mdl_role_navigation rnm on rnm.navigation_id = nt.id
+            INNER JOIN mdl_role_navigation mrnm on mrnm.navigation_id = mnt.id
         </if>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryByRoleId" resultType="com.minlia.modules.rbac.bean.domain.Navigation">
         <include refid="QUERY_CONTENT"/>
         WHERE
-            parent_id IS NULL
-        AND id IN(
+            mnt.parent_id IS NULL
+        AND mnt.id IN(
             SELECT DISTINCT
                 IFNULL(parent_id,id)
             FROM
@@ -175,20 +180,20 @@
                         IFNULL(t.parent_id,t.id)
                     FROM
                         mdl_navigation t
-                    INNER JOIN mdl_role_navigation rnm ON rnm.navigation_id = t.id
+                    INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
                     WHERE
                         t.type = 'LEAF'
-                    AND rnm.role_id = #{roleId}
+                    AND mrnm.role_id = #{roleId}
                 )
             OR parent_id IN(
                 SELECT DISTINCT
                     IFNULL(t.parent_id,t.id)
                 FROM
                     mdl_navigation t
-                INNER JOIN mdl_role_navigation rnm ON rnm.navigation_id = t.id
+                INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
                 WHERE
                     t.type = 'LEAF'
-                AND rnm.role_id = #{roleId}
+                AND mrnm.role_id = #{roleId}
             )
         )
     </select>

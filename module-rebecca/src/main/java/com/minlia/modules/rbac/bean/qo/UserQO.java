@@ -1,5 +1,6 @@
 package com.minlia.modules.rbac.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class UserQO {
+public class UserQO extends QueryRequest {
 
     private Long id;
 

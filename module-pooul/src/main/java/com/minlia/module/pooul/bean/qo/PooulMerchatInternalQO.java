@@ -1,5 +1,6 @@
 package com.minlia.module.pooul.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PooulMerchatInternalQO {
+public class PooulMerchatInternalQO extends QueryRequest {
 
     private String platformMerchantId;
 

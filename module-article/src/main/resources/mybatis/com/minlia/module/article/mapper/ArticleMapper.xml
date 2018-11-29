@@ -85,6 +85,15 @@
         </where>
     </sql>
 
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                t.${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mdl_article(
             category_id,
@@ -170,7 +179,7 @@
     <select id="list" resultType="com.minlia.module.article.bean.domain.Article">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        ORDER BY t.create_date DESC
+        <include refid="ORDER_BY"/>
     </select>
 
     <select id="oneVO" resultMap="articleVOMap">
@@ -181,7 +190,7 @@
     <select id="listVO" resultMap="articleVOMap">
         <include refid="QUERY_DETAIL_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        ORDER BY t.create_date DESC
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

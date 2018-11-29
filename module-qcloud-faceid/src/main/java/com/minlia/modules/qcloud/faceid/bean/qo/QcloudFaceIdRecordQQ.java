@@ -1,4 +1,4 @@
-package com.minlia.modules.qcloud.faceid.body;
+package com.minlia.modules.qcloud.faceid.bean.qo;
 
 import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QcloudFaceIdRecordQueryRequest extends QueryRequest {
+public class QcloudFaceIdRecordQQ extends QueryRequest {
 
     private String userId;
 

@@ -139,8 +139,4 @@
 		<include refid="QUERY_CONTENT" />
 	</select>
 
-	<select id="queryAll" resultType="com.minlia.modules.rbac.bean.domain.Role">
-		<include refid="QUERY_CONTENT" />
-	</select>
-
 </mapper>

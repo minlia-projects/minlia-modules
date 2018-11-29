@@ -39,6 +39,15 @@
         </where>
     </sql>
 
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                ${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
     <insert id="create" parameterType="com.minlia.module.advertisement.bean.domain.Advertisements">
         INSERT INTO mdl_advertisements(
             name ,
@@ -108,7 +117,7 @@
     <select id="list" resultType="com.minlia.module.advertisement.bean.domain.Advertisements">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        ORDER BY create_date DESC
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

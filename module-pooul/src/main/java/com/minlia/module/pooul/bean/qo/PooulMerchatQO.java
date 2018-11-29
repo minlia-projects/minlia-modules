@@ -1,5 +1,6 @@
 package com.minlia.module.pooul.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
-package com.minlia.module.richtext.body;
+package com.minlia.module.richtext.bean;
 
-import com.minlia.cloud.body.ApiRequestBody;
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RichtextQueryRequestBody implements ApiRequestBody {
+public class RichtextQO extends QueryRequest {
 
     private String type;
 

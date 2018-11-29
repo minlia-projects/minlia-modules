@@ -1,4 +1,4 @@
-package com.minlia.modules.qcloud.faceid.entity;
+package com.minlia.modules.qcloud.faceid.bean.domain;
 
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;

@@ -4,36 +4,45 @@
 
     <sql id="QUERY_CONTENT">
 		SELECT
-			id ,
-			belongs_to ,
-			relation_id ,
-			name ,
-			type ,
-			url ,
-			size ,
-			access_key ,
-			create_date ,
-			create_by ,
-			last_modified_date ,
-			last_modified_by
-		FROM mdl_attachment t
+			mat.id ,
+			mat.belongs_to ,
+			mat.relation_id ,
+			mat.name ,
+			mat.type ,
+			mat.url ,
+			mat.size ,
+			mat.access_key ,
+			mat.create_date ,
+			mat.create_by ,
+			mat.last_modified_date ,
+			mat.last_modified_by
+		FROM mdl_attachment mat
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="id != null">
-                AND id = #{id}
+                AND mat.id = #{id}
             </if>
             <if test="belongsTo != null">
-                AND belongs_to = #{belongsTo}
+                AND mat.belongs_to = #{belongsTo}
             </if>
             <if test="relationId != null">
-                AND relation_id = #{relationId}
+                AND mat.relation_id = #{relationId}
             </if>
             <if test="accessKey != null">
-                AND access_key = #{accessKey}
+                AND mat.access_key = #{accessKey}
             </if>
         </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                mat.${item.filed} ${item.direction}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
@@ -132,13 +141,14 @@
     <select id="queryList" resultType="com.minlia.modules.attachment.entity.Attachment">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryFirstByUnusedKey" resultType="com.minlia.modules.attachment.entity.Attachment">
         <include refid="QUERY_CONTENT"/>
-        WHERE access_key = #{accessKey,jdbcType=VARCHAR}
-        AND relation_id IS NULL
-        AND belongs_to IS NULL
+        WHERE mat.access_key = #{accessKey,jdbcType=VARCHAR}
+        AND mat.relation_id IS NULL
+        AND mat.belongs_to IS NULL
         LIMIT 1
     </select>
 

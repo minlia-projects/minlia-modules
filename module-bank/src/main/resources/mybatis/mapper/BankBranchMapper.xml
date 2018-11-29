@@ -46,6 +46,15 @@
         </where>
     </sql>
 
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                ${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO mdl_bank_branch(
 			province,
@@ -113,6 +122,7 @@
     <select id="queryList" resultType="com.minlia.module.bank.bean.domain.BankBranchDO">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

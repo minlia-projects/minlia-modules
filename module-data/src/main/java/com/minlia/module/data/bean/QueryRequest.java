@@ -38,7 +38,6 @@ public class QueryRequest implements Body {
             sj.add(sb.toString());
         }
         return sj.toString();
-
     }
 
 }

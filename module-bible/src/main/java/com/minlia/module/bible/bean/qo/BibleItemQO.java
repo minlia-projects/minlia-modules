@@ -1,5 +1,6 @@
 package com.minlia.module.bible.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import javax.validation.constraints.Size;
 @Data
 @Builder
 @AllArgsConstructor
-public class BibleItemQO {
+public class BibleItemQO extends QueryRequest {
 
     @ApiModelProperty(value = "父编码", example = "GENDER")
     @Size(max = 30)

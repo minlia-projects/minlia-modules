@@ -2,8 +2,8 @@ package com.minlia.modules.qcloud.faceid.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequest;
-import com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord;
+import com.minlia.modules.qcloud.faceid.bean.qo.QcloudFaceIdRecordQQ;
+import com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord;
 import com.minlia.modules.qcloud.faceid.mapper.QcloudFaceIdRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +38,8 @@ public class QcloudFaceIdRecordServiceImpl implements QcloudFaceIdRecordService 
     }
 
     @Override
-    public long count(QcloudFaceIdRecordQueryRequest requestBody) {
-        return faceIdRecordMapper.count(requestBody);
+    public long count(QcloudFaceIdRecordQQ qo) {
+        return faceIdRecordMapper.count(qo);
     }
 
     @Override
@@ -48,18 +48,18 @@ public class QcloudFaceIdRecordServiceImpl implements QcloudFaceIdRecordService 
     }
 
     @Override
-    public QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQueryRequest requestBody) {
-        return faceIdRecordMapper.queryOne(requestBody);
+    public QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQQ qo) {
+        return faceIdRecordMapper.queryOne(qo);
     }
 
     @Override
-    public List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQueryRequest requestBody) {
-        return faceIdRecordMapper.queryList(requestBody);
+    public List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQQ qo) {
+        return faceIdRecordMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQueryRequest requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(requestBody));
+    public PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQQ qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(qo));
     }
 
 }

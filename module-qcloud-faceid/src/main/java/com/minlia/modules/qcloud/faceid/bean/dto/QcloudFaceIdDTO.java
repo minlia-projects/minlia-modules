@@ -1,4 +1,4 @@
-package com.minlia.modules.qcloud.faceid.body;
+package com.minlia.modules.qcloud.faceid.bean.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by garen on 2018/4/19.
  */
 @Data
-public class QcloudFaceIdResponseBody {
+public class QcloudFaceIdDTO {
 
     private String code;
 

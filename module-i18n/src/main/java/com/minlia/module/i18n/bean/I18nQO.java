@@ -1,5 +1,6 @@
 package com.minlia.module.i18n.bean;
 
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class I18nQO {
+public class I18nQO extends QueryRequest {
 
     //唯一标识
     private long id;

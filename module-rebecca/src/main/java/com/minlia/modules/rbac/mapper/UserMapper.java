@@ -1,8 +1,8 @@
 package com.minlia.modules.rbac.mapper;
 
 
-import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.UserQO;
 
 import java.util.List;
 import java.util.Set;
@@ -17,11 +17,11 @@ public interface UserMapper  {
 
     void grant(Long id, Set<Long> roles);
 
-    long count(UserQO body);
+    long count(UserQO qo);
 
-    User queryOne(UserQO body);
+    User queryOne(UserQO qo);
 
-    List<User> queryList(UserQO body);
+    List<User> queryList(UserQO qo);
 
     User queryByUsernameOrCellphoneOrEmail(String arg);
 

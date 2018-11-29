@@ -1,6 +1,6 @@
 package com.minlia.module.richtext.mapper;
 
-import com.minlia.module.richtext.body.RichtextQueryRequestBody;
+import com.minlia.module.richtext.bean.RichtextQO;
 import com.minlia.module.richtext.entity.Richtext;
 
 import java.util.List;
@@ -17,16 +17,14 @@ public interface RichtextMapper {
 
     int delete(Long id);
 
-    long count(RichtextQueryRequestBody requestBody);
-
     Richtext queryById(Long id);
 
     Richtext queryByCode(String code);
 
-    Richtext queryOne(RichtextQueryRequestBody requestBody);
+    long count(RichtextQO qo);
 
-    List<Richtext> queryList(RichtextQueryRequestBody requestBody);
+    Richtext queryOne(RichtextQO qo);
 
-    List<Richtext> queryAll();
+    List<Richtext> queryList(RichtextQO qo);
 
 }

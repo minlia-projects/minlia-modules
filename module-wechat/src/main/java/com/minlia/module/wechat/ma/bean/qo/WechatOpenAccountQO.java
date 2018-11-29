@@ -1,6 +1,7 @@
 package com.minlia.module.wechat.ma.bean.qo;
 
 
+import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WechatOpenAccountQO {
+public class WechatOpenAccountQO extends QueryRequest {
 
     @ApiModelProperty(value = "用户编号",example = "1")
     private String guid;

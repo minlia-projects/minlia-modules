@@ -1,6 +1,7 @@
 package com.minlia.module.captcha.bean.qo;
 
 import com.minlia.module.common.validation.Cellphone;
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import org.hibernate.validator.constraints.Email;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CaptchaQO {
+public class CaptchaQO extends QueryRequest {
 
     /**
      * 手机号码

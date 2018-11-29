@@ -4,41 +4,50 @@
 
     <sql id="QUERY_CONTENT">
 		SELECT
-			bit.id ,
-			bit.parent_code ,
-			bit.code ,
-			bit.value,
-			bit.notes ,
-			bit.sorts ,
-			bit.attribute1 ,
-			bit.attribute2 ,
-			bit.attribute3 ,
-			bit.create_date ,
-			bit.create_by ,
-			bit.last_modified_date ,
-			bit.last_modified_by
+			mbit.id ,
+			mbit.parent_code ,
+			mbit.code ,
+			mbit.value,
+			mbit.notes ,
+			mbit.sorts ,
+			mbit.attribute1 ,
+			mbit.attribute2 ,
+			mbit.attribute3 ,
+			mbit.create_date ,
+			mbit.create_by ,
+			mbit.last_modified_date ,
+			mbit.last_modified_by
 		FROM
-			mdl_bible_item bit
+			mdl_bible_item mbit
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <if test="parentCode != null">
-            INNER JOIN mdl_bible bt on bt.code = bit.parent_code
+            INNER JOIN mdl_bible mbt on mbt.code = mbit.parent_code
         </if>
         <where>
             <if test="parentCode != null">
-                AND bit.parent_code = #{parentCode}
+                AND mbit.parent_code = #{parentCode}
             </if>
             <if test="code != null">
-                AND bit.code = #{code}
+                AND mbit.code = #{code}
             </if>
             <if test="value != null">
-                AND bit.value = #{value}
+                AND mbit.value = #{value}
             </if>
             <if test="attribute1 != null">
-                AND bit.attribute1 = #{attribute1}
+                AND mbit.attribute1 = #{attribute1}
             </if>
         </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                mbit.${item.filed} ${item.direction}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="create">
@@ -99,13 +108,13 @@
 	</delete>
 
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM mdl_bible_item bit
+        SELECT COUNT(1) FROM mdl_bible_item mbit
         <include refid="QUERY_CONDITION"/>
     </select>
 
     <select id="queryById" resultType="com.minlia.module.bible.bean.domain.BibleItem">
         <include refid="QUERY_CONTENT"/>
-        WHERE bit.id = #{id}
+        WHERE mbit.id = #{id}
     </select>
 
     <select id="queryOne" resultType="com.minlia.module.bible.bean.domain.BibleItem">
@@ -116,6 +125,7 @@
     <select id="queryList" resultType="com.minlia.module.bible.bean.domain.BibleItem">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.minlia.module.todo.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.todo.enumeration.TodoStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodoQO {
+public class TodoQO extends QueryRequest {
 
     private String relationId;
 

@@ -1,8 +1,8 @@
 package com.minlia.modules.qcloud.faceid.service;
 
 import com.minlia.cloud.body.Response;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRequestBody;
-import com.minlia.modules.qcloud.faceid.body.response.QcloudFaceIdResultResponseBody;
+import com.minlia.modules.qcloud.faceid.bean.to.QcloudFaceIdTO;
+import com.minlia.modules.qcloud.faceid.bean.dto.QcloudFaceIdResultDTO;
 
 /**
  * Created by garen on 2018/4/19.
@@ -18,16 +18,16 @@ public interface QcloudFaceidService {
 
     /**
      * 人脸识别请求
-     * @param requestBody
+     * @param to
      * @return
      */
-    Response geth5faceid(QcloudFaceIdRequestBody requestBody);
+    Response geth5faceid(QcloudFaceIdTO to);
 
     /**
      * 获取人脸识别结果
      * @param orderNo
      * @return
      */
-    QcloudFaceIdResultResponseBody getH5faceidResult(String orderNo);
+    QcloudFaceIdResultDTO getH5faceidResult(String orderNo);
 
 }

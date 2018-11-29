@@ -37,6 +37,15 @@
         </where>
     </sql>
 
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                ${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
     <insert id="create">
 		INSERT INTO qcloud_faceid_record(
 			order_no ,
@@ -57,7 +66,7 @@
 		)
 	</insert>
 
-    <update id="update" parameterType="com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord">
+    <update id="update" parameterType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         UPDATE qcloud_faceid_record
         <set>
             <if test="isAuth != null">
@@ -73,33 +82,34 @@
 		DELETE FROM qcloud_faceid_record WHERE id = #{id}
 	</delete>
 
-    <select id="count" resultType="com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord">
+    <select id="count" resultType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         SELECT COUNT(1) FROM qcloud_faceid_record
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryById" resultType="com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord">
+    <select id="queryById" resultType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         <include refid="QUERY_CONTENT"/>
         WHERE id = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="queryLastByUserId" resultType="com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord">
+    <select id="queryLastByUserId" resultType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         <include refid="QUERY_CONTENT"/>
         WHERE user_id = #{userId} order by create_date desc limit 0,1;
     </select>
 
-    <select id="queryAll" resultType="com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord">
+    <select id="queryAll" resultType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         <include refid="QUERY_CONTENT"/>
     </select>
 
-    <select id="queryOne" resultType="com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord">
+    <select id="queryOne" resultType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord">
+    <select id="queryList" resultType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

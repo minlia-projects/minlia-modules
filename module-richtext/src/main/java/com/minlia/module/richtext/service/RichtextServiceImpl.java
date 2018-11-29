@@ -4,9 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.richtext.body.RichtextCreateRequestBody;
-import com.minlia.module.richtext.body.RichtextQueryRequestBody;
-import com.minlia.module.richtext.body.RichtextUpdateRequestBody;
+import com.minlia.module.richtext.bean.RichtextCTO;
+import com.minlia.module.richtext.bean.RichtextQO;
+import com.minlia.module.richtext.bean.RichtextUTO;
 import com.minlia.module.richtext.entity.Richtext;
 import com.minlia.module.richtext.mapper.RichtextMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -30,18 +30,18 @@ public class RichtextServiceImpl implements RichtextService {
 
     @Override
     @Transactional
-    public Richtext create(RichtextCreateRequestBody body) {
-        Richtext richtext = mapper.map(body,Richtext.class);
+    public Richtext create(RichtextCTO cto) {
+        Richtext richtext = mapper.map(cto,Richtext.class);
         richtextMapper.create(richtext);
         return richtext;
     }
 
     @Override
     @Transactional
-    public Richtext update(RichtextUpdateRequestBody body) {
-        Richtext richtext = richtextMapper.queryById(body.getId());
+    public Richtext update(RichtextUTO uto) {
+        Richtext richtext = richtextMapper.queryById(uto.getId());
         ApiAssert.notNull(richtext, SystemCode.Message.DATA_NOT_EXISTS);
-        mapper.map(body,richtext);
+        mapper.map(uto,richtext);
         richtextMapper.update(richtext);
         return richtext;
     }
@@ -53,8 +53,8 @@ public class RichtextServiceImpl implements RichtextService {
     }
 
     @Override
-    public long count(RichtextQueryRequestBody requestBody) {
-        return richtextMapper.count(requestBody);
+    public long count(RichtextQO qo) {
+        return richtextMapper.count(qo);
     }
 
     @Override
@@ -68,13 +68,13 @@ public class RichtextServiceImpl implements RichtextService {
     }
 
     @Override
-    public List<Richtext> queryList(RichtextQueryRequestBody requestBody) {
-        return richtextMapper.queryList(requestBody);
+    public List<Richtext> queryList(RichtextQO qo) {
+        return richtextMapper.queryList(qo);
     }
 
     @Override
-    public PageInfo<Richtext> queryPage(RichtextQueryRequestBody requestBody, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> richtextMapper.queryList(requestBody));
+    public PageInfo<Richtext> queryPage(RichtextQO qo, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> richtextMapper.queryList(qo));
     }
 
 }

@@ -4,25 +4,25 @@
 
     <sql id="QUERY_CONTENT">
 		SELECT
-			pt.id ,
-			pt.code ,
-			pt.label ,
-			pt.create_date ,
-			pt.create_by ,
-			pt.last_modified_date ,
-			pt.last_modified_by ,
-			pt.enabled
+			mpt.id ,
+			mpt.code ,
+			mpt.label ,
+			mpt.create_date ,
+			mpt.create_by ,
+			mpt.last_modified_date ,
+			mpt.last_modified_by ,
+			mpt.enabled
 		FROM
-			mdl_permission pt
+			mdl_permission mpt
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="code != null">
-                AND code = #{code,jdbcType=VARCHAR}
+                AND mpt.code = #{code,jdbcType=VARCHAR}
             </if>
             <if test="enabled != null">
-                AND enabled = #{enabled,jdbcType=TINYINT}
+                AND mpt.enabled = #{enabled,jdbcType=TINYINT}
             </if>
         </where>
     </sql>
@@ -53,7 +53,7 @@
     </insert>
 
     <delete id="clear">
-		DELETE pt FROM mdl_permission pt WHERE NOT EXISTS( SELECT 1 FROM mdl_role_permission mt WHERE mt.permission_id = 1)
+		DELETE mpt FROM mdl_permission mpt WHERE NOT EXISTS( SELECT 1 FROM mdl_role_permission mt WHERE mt.permission_id = 1)
 	</delete>
 
     <select id="countById" resultType="java.lang.Long">
@@ -70,9 +70,9 @@
     </select>
 
     <select id="queryCodesByRoleCodes" resultType="java.lang.String">
-        SELECT pt.code
-        FROM mdl_permission pt
-        INNER JOIN mdl_role_permission mp ON mp.permission_id = pt.id
+        SELECT mpt.code
+        FROM mdl_permission mpt
+        INNER JOIN mdl_role_permission mp ON mp.permission_id = mpt.id
         INNER JOIN mdl_role rt ON rt.id = mp.role_id
         WHERE rt.code IN
         <foreach collection="list" item="item" separator="," open="(" close=")">
@@ -82,12 +82,12 @@
 
     <select id="queryAll" resultType="com.minlia.modules.rbac.bean.domain.Permission">
         <include refid="QUERY_CONTENT"/>
-        ORDER BY pt.code DESC
+        ORDER BY mpt.code DESC
     </select>
 
     <select id="queryListByGuid" resultType="com.minlia.modules.rbac.bean.domain.Permission">
         <include refid="QUERY_CONTENT"/>
-        INNER JOIN mdl_role_permission pm ON pm.permission_id = pt.id
+        INNER JOIN mdl_role_permission pm ON pm.permission_id = mpt.id
         INNER JOIN mdl_role rt ON rt.id = pm.role_id
         INNER JOIN mdl_user_role rm ON rm.role_id = rt.id
         INNER JOIN mdl_user ut ON ut.id = rm.user_id
@@ -96,7 +96,7 @@
 
     <select id="queryListByRoleCodes" resultType="com.minlia.modules.rbac.bean.domain.Permission">
         <include refid="QUERY_CONTENT"/>
-        INNER JOIN mdl_role_permission mp ON mp.permission_id = pt.id
+        INNER JOIN mdl_role_permission mp ON mp.permission_id = mpt.id
         INNER JOIN mdl_role rt ON rt.id = mp.role_id
         WHERE rt.code IN
         <foreach collection="list" item="item" separator="," open="(" close=")">

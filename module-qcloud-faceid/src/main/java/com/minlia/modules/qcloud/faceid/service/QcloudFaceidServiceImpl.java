@@ -6,12 +6,12 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.modules.qcloud.faceid.bean.FaceAuth;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRecordQueryRequest;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdRequestBody;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdResponseBody;
-import com.minlia.modules.qcloud.faceid.body.QcloudFaceIdResult;
-import com.minlia.modules.qcloud.faceid.body.response.QcloudFaceIdResultResponseBody;
-import com.minlia.modules.qcloud.faceid.entity.QcloudFaceIdRecord;
+import com.minlia.modules.qcloud.faceid.bean.qo.QcloudFaceIdRecordQQ;
+import com.minlia.modules.qcloud.faceid.bean.to.QcloudFaceIdTO;
+import com.minlia.modules.qcloud.faceid.bean.dto.QcloudFaceIdDTO;
+import com.minlia.modules.qcloud.faceid.bean.dto.QcloudFaceIdResult;
+import com.minlia.modules.qcloud.faceid.bean.dto.QcloudFaceIdResultDTO;
+import com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord;
 import com.minlia.modules.qcloud.faceid.utils.SignUtils;
 import com.minlia.modules.qcloud.start.config.QcloudConfig;
 import com.minlia.modules.qcloud.start.constant.QcloudCode;
@@ -61,23 +61,23 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
     }
 
     @Override
-    public Response geth5faceid(QcloudFaceIdRequestBody requestBody) {
+    public Response geth5faceid(QcloudFaceIdTO to) {
         String userId = SecurityContextHolder.getCurrentGuid();
-        QcloudFaceIdRecord faceIdRecord = faceIdRecordService.queryOne(QcloudFaceIdRecordQueryRequest.builder().userId(userId).isAuth(true).build());
+        QcloudFaceIdRecord faceIdRecord = faceIdRecordService.queryOne(QcloudFaceIdRecordQQ.builder().userId(userId).isAuth(true).build());
         ApiAssert.isNull(faceIdRecord, QcloudCode.Message.FACEID_ALREADY_AUTHENTICATED);
         String orderNo = NumberGenerator.generatorByTimestamp("ON",3);
 
         FaceAuth faceAuth = FaceAuth.builder()
                 .webankAppId(this.qcloudConfig.getAppid())
                 .orderNo(orderNo)
-                .name(requestBody.getName())
-                .idNo(requestBody.getIdNo())
+                .name(to.getName())
+                .idNo(to.getIdNo())
                 .userId(userId)
                 .sourcePhotoType("1")
                 .version("1.0.0")
-                .sign(this.sign(orderNo,requestBody.getName(),requestBody.getIdNo(),userId))
+                .sign(this.sign(orderNo,to.getName(),to.getIdNo(),userId))
                 .build();
-        ResponseEntity<QcloudFaceIdResponseBody> responseEntity = restTemplate.postForEntity("https://idasc.webank.com/api/server/h5/geth5faceid",faceAuth,QcloudFaceIdResponseBody.class);
+        ResponseEntity<QcloudFaceIdDTO> responseEntity = restTemplate.postForEntity("https://idasc.webank.com/api/server/h5/geth5faceid",faceAuth, QcloudFaceIdDTO.class);
         if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
             if (responseEntity.getBody().isSuccess()) {
                 QcloudFaceIdResult result = responseEntity.getBody().getResult();
@@ -107,8 +107,8 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
                     faceIdRecord = QcloudFaceIdRecord.builder()
                             .orderNo(orderNo)
                             .userId(userId)
-                            .name(requestBody.getName())
-                            .idNo(requestBody.getIdNo())
+                            .name(to.getName())
+                            .idNo(to.getIdNo())
                             .isAuth(false)
                             .build();
                     faceIdRecordService.create(faceIdRecord);
@@ -123,7 +123,7 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
     }
 
     @Override
-    public QcloudFaceIdResultResponseBody getH5faceidResult(String orderNo) {
+    public QcloudFaceIdResultDTO getH5faceidResult(String orderNo) {
         String nonce = UUID.randomUUID().toString().replace("-", "");
         List<String> values = Lists.newArrayList();
         values.add(this.qcloudConfig.getAppid());
@@ -139,7 +139,7 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
         map.put("nonce",nonce);
         map.put("order_no",orderNo);
         map.put("sign",sign);
-        QcloudFaceIdResultResponseBody responseBody = restTemplate.getForObject(H5FACEID_RESULT_URL, QcloudFaceIdResultResponseBody.class,map);
+        QcloudFaceIdResultDTO responseBody = restTemplate.getForObject(H5FACEID_RESULT_URL, QcloudFaceIdResultDTO.class,map);
         return responseBody;
     }
 

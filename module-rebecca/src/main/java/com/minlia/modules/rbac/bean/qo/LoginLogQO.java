@@ -1,5 +1,6 @@
 package com.minlia.modules.rbac.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-public class LoginLogQO {
+public class LoginLogQO extends QueryRequest {
 
     @NotBlank
     @Size(max = 30)

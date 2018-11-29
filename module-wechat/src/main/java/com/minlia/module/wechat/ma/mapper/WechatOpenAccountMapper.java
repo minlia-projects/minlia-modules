@@ -22,8 +22,8 @@ public interface WechatOpenAccountMapper{
 
     List<WechatOpenAccount> queryByUnionIdAndGuidNotNull(String unionId);
 
-    WechatOpenAccount queryOne(WechatOpenAccountQO body);
+    WechatOpenAccount queryOne(WechatOpenAccountQO qo);
 
-    List<WechatOpenAccount> queryList(WechatOpenAccountQO body);
+    List<WechatOpenAccount> queryList(WechatOpenAccountQO qo);
 
 }

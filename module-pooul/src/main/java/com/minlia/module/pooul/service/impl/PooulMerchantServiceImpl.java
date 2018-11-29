@@ -53,6 +53,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
     @Override
     public Response create(String guid, PooulMerchantPersonalCTO cto) {
         PooulMerchantCTO pooulMerchantCTO = mapper.map(cto,PooulMerchantCTO.class);
+        pooulMerchantCTO.setMerchant_type(3);
         pooulMerchantCTO.setLicense_type(3);
         pooulMerchantCTO.setArrears(false);
         return this.create(guid, pooulMerchantCTO);
@@ -64,7 +65,6 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
         boolean exists = pooulMerchantInternalService.exists(PooulMerchatInternalQO.builder().guid(guid).build());
         ApiAssert.state(!exists, SystemCode.Message.DATA_ALREADY_EXISTS);
 
-//        cto.setMerchant_type(1);
         cto.setPlatform_merchant_id(pooulMerchantProperties.getPlatformMerchantId());
         cto.setParent_id(pooulMerchantProperties.getParentId());
         HttpEntity<PooulMerchantCTO> httpEntity = new HttpEntity(cto, pooulAuthService.getHeaders());

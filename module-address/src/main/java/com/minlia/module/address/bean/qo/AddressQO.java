@@ -1,6 +1,6 @@
 package com.minlia.module.address.bean.qo;
 
-import com.minlia.cloud.body.Body;
+import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressQO implements Body {
+public class AddressQO extends QueryRequest {
 
     /**
      * 地址ID

@@ -128,11 +128,6 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public List<Navigation> queryByParentId(Long parentId) {
-        return navigationMapper.queryByParentId(parentId);
-    }
-
-    @Override
     public List<Navigation> queryByRoleId(Long id) {
         List<Navigation> navigations = navigationMapper.queryByRoleId(id);
         bindChirdren(navigations, id);

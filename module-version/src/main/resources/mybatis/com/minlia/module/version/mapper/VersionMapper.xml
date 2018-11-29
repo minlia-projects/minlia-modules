@@ -40,6 +40,15 @@
         </where>
     </sql>
 
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                ${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mdl_version(
             number,
@@ -114,7 +123,7 @@
     <select id="list" resultType="com.minlia.module.version.bean.domain.Version">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        ORDER BY create_date DESC
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

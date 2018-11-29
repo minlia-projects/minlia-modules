@@ -72,7 +72,7 @@ public class NavigationEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "根据ID查询", notes = "根据ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryById", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response findOne(@RequestParam Long id) {
+    public Response queryById(@RequestParam Long id) {
         return Response.success(navigationService.queryById(id));
     }
 
@@ -80,7 +80,7 @@ public class NavigationEndpoint {
     @ApiOperation(value = "根据父ID查询", notes = "根据父ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryByParentId", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response queryByParentId(@RequestParam Long id) {
-        return Response.success(navigationService.queryByParentId(id));
+        return Response.success(navigationService.queryList(NavigationQO.builder().parentId(id).build()));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
@@ -92,16 +92,16 @@ public class NavigationEndpoint {
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "queryList", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryList(@RequestBody NavigationQO requestBody) {
-        return Response.success(navigationService.queryList(requestBody));
+    @PostMapping(value = "list", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response queryList(@RequestBody NavigationQO qo) {
+        return Response.success(navigationService.queryList(qo));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "查询分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "queryPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQO requestBody) {
-        return Response.success(navigationService.queryPage(requestBody, pageable));
+    @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQO qo) {
+        return Response.success(navigationService.queryPage(qo, pageable));
     }
 
 }

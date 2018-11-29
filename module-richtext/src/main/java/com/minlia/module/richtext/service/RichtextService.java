@@ -2,9 +2,9 @@ package com.minlia.module.richtext.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.richtext.body.RichtextCreateRequestBody;
-import com.minlia.module.richtext.body.RichtextQueryRequestBody;
-import com.minlia.module.richtext.body.RichtextUpdateRequestBody;
+import com.minlia.module.richtext.bean.RichtextCTO;
+import com.minlia.module.richtext.bean.RichtextQO;
+import com.minlia.module.richtext.bean.RichtextUTO;
 import com.minlia.module.richtext.entity.Richtext;
 import org.springframework.data.domain.Pageable;
 
@@ -17,20 +17,20 @@ import java.util.List;
  */
 public interface RichtextService {
 
-    Richtext create(RichtextCreateRequestBody requestBody);
+    Richtext create(RichtextCTO cto);
 
-    Richtext update(RichtextUpdateRequestBody requestBody);
+    Richtext update(RichtextUTO uto);
 
     void delete(Long id);
-
-    long count(RichtextQueryRequestBody requestBody);
 
     Richtext queryById(Long id);
 
     Richtext queryByCode(String code);
 
-    List<Richtext> queryList(RichtextQueryRequestBody requestBody);
+    long count(RichtextQO qo);
 
-    PageInfo<Richtext> queryPage(RichtextQueryRequestBody requestBody, Pageable pageable);
+    List<Richtext> queryList(RichtextQO qo);
+
+    PageInfo<Richtext> queryPage(RichtextQO qo, Pageable pageable);
 
 }

@@ -4,56 +4,65 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
-            ut.id ,
-            ut.guid ,
-            ut.username ,
-            ut.password ,
-            ut.cellphone ,
-            ut.email ,
-            ut.default_role ,
-            ut.credentials_expired ,
-            ut.locked ,
-            ut.lock_limit ,
-            ut.lock_time ,
-            ut.last_login_time ,
-            ut.last_login_ip ,
-            ut.referral ,
-            ut.create_date ,
-            ut.create_by ,
-            ut.last_modified_date ,
-            ut.last_modified_by ,
-            ut.enabled
+            mut.id ,
+            mut.guid ,
+            mut.username ,
+            mut.password ,
+            mut.cellphone ,
+            mut.email ,
+            mut.default_role ,
+            mut.credentials_expired ,
+            mut.locked ,
+            mut.lock_limit ,
+            mut.lock_time ,
+            mut.last_login_time ,
+            mut.last_login_ip ,
+            mut.referral ,
+            mut.create_date ,
+            mut.create_by ,
+            mut.last_modified_date ,
+            mut.last_modified_by ,
+            mut.enabled
         FROM
-            mdl_user ut
+            mdl_user mut
     </sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="id != null">
-                AND id = #{id,jdbcType=BIGINT}
+                AND mut.id = #{id,jdbcType=BIGINT}
             </if>
             <if test="guid != null">
-                AND guid = #{guid}
+                AND mut.guid = #{guid}
             </if>
             <if test="username != null">
-                AND username = #{username,jdbcType=VARCHAR}
+                AND mut.username = #{username,jdbcType=VARCHAR}
             </if>
             <if test="cellphone != null">
-                AND cellphone = #{cellphone,jdbcType=VARCHAR}
+                AND mut.cellphone = #{cellphone,jdbcType=VARCHAR}
             </if>
             <if test="email != null">
-                AND email = #{email,jdbcType=VARCHAR}
+                AND mut.email = #{email,jdbcType=VARCHAR}
             </if>
             <if test="referral != null">
-                AND referral = #{referral,jdbcType=VARCHAR}
+                AND mut.referral = #{referral,jdbcType=VARCHAR}
             </if>
             <if test="locked != null">
-                AND locked = #{locked,jdbcType=TINYINT}
+                AND mut.locked = #{locked,jdbcType=TINYINT}
             </if>
             <if test="enabled != null">
-                AND enabled = #{enabled,jdbcType=TINYINT}
+                AND mut.enabled = #{enabled,jdbcType=TINYINT}
             </if>
         </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                mut.${item.filed} ${item.direction}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
@@ -79,35 +88,36 @@
 
     <update id="update" parameterType="com.minlia.modules.rbac.bean.domain.User">
         UPDATE mdl_user
-        SET
-        <if test="enabled != null">
-            enabled = #{enabled,jdbcType=TINYINT} ,
-        </if>
-        <if test="username != null">
-            username = #{username,jdbcType=VARCHAR} ,
-        </if>
-        <if test="password != null">
-            password = #{password,jdbcType=VARCHAR} ,
-        </if>
-        <if test="defaultRole != null">
-            default_role = #{defaultRole,jdbcType=VARCHAR} ,
-        </if>
-        <if test="locked != null">
-            locked = #{locked,jdbcType=TINYINT} ,
-        </if>
-        <if test="lockTime != null">
-            lock_time = #{lockTime,jdbcType=TIMESTAMP} ,
-        </if>
-        <if test="lockLimit != null">
-            lock_limit = #{lockLimit,jdbcType=TINYINT} ,
-        </if>
-        <if test="lastLoginTime != null">
-            last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP} ,
-        </if>
-        <if test="lastLoginIp != null">
-            last_login_ip = #{lastLoginIp,jdbcType=VARCHAR} ,
-        </if>
-        last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        <set>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=TINYINT} ,
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR} ,
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR} ,
+            </if>
+            <if test="defaultRole != null">
+                default_role = #{defaultRole,jdbcType=VARCHAR} ,
+            </if>
+            <if test="locked != null">
+                locked = #{locked,jdbcType=TINYINT} ,
+            </if>
+            <if test="lockTime != null">
+                lock_time = #{lockTime,jdbcType=TIMESTAMP} ,
+            </if>
+            <if test="lockLimit != null">
+                lock_limit = #{lockLimit,jdbcType=TINYINT} ,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP} ,
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip = #{lastLoginIp,jdbcType=VARCHAR} ,
+            </if>
+            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        </set>
         WHERE guid = #{guid,jdbcType=VARCHAR}
     </update>
 
@@ -135,11 +145,11 @@
 
     <select id="queryByUsernameOrCellphoneOrEmail" resultType="com.minlia.modules.rbac.bean.domain.User">
         <include refid="QUERY_CONTENT"/>
-        WHERE ut.guid = #{arg0} OR ut.username = #{arg0} OR ut.cellphone = #{arg0} OR email = #{arg0}
+        WHERE mut.guid = #{arg0} OR mut.username = #{arg0} OR mut.cellphone = #{arg0} OR email = #{arg0}
     </select>
 
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM mdl_user ut
+        SELECT COUNT(1) FROM mdl_user mut
         <include refid="QUERY_CONDITION"/>
     </select>
 
@@ -151,6 +161,7 @@
     <select id="queryList" resultType="com.minlia.modules.rbac.bean.domain.User">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

@@ -27,11 +27,9 @@ public interface NavigationMapper {
 
     Navigation queryById(Long id);
 
-    List<Navigation> queryByParentId(Long parentId);
-
     List<Navigation> queryByRoleId(Long roleId);
 
-    List<Navigation> queryList(NavigationQO requestBody);
+    List<Navigation> queryList(NavigationQO qo);
 
     PageInfo<Navigation> queryPage(RowBounds rowBounds);
 

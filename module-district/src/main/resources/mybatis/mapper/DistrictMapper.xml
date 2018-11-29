@@ -17,7 +17,7 @@
 			create_by ,
 			last_modified_date ,
 			last_modified_by
-		FROM mdl_district t
+		FROM mdl_district
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -44,6 +44,15 @@
                 AND address = #{address}
             </if>
         </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                ${item.filed} ${item.direction}
+            </foreach>
+        </if>
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
@@ -124,6 +133,7 @@
     <select id="queryList" resultType="com.minlia.module.disrtict.bean.domain.District">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryAll" resultType="com.minlia.module.disrtict.bean.domain.District">

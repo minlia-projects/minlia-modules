@@ -1,5 +1,6 @@
 package com.minlia.module.version.bean.qo;
 
+import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.version.enumeration.PlatformTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VersionQO {
+public class VersionQO extends QueryRequest {
 
     /**
      * 版本号

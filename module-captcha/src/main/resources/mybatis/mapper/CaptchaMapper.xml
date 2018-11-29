@@ -41,6 +41,15 @@
         </where>
     </sql>
 
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                ${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO mdl_captcha(
 			cellphone ,
@@ -52,17 +61,16 @@
 			effective_time ,
 			send_time
 		)
-		VALUES
-			(
-				#{cellphone,jdbcType=VARCHAR} ,
-				#{email,jdbcType=VARCHAR} ,
-				#{code,jdbcType=VARCHAR} ,
-				#{used,jdbcType=TINYINT} ,
-				#{locked,jdbcType=TINYINT} ,
-				#{failureCount,jdbcType=TINYINT} ,
-				#{effectiveTime,jdbcType=TIMESTAMP},
-				#{sendTime,jdbcType=TIMESTAMP}
-			)
+		VALUES (
+            #{cellphone,jdbcType=VARCHAR} ,
+            #{email,jdbcType=VARCHAR} ,
+            #{code,jdbcType=VARCHAR} ,
+            #{used,jdbcType=TINYINT} ,
+            #{locked,jdbcType=TINYINT} ,
+            #{failureCount,jdbcType=TINYINT} ,
+            #{effectiveTime,jdbcType=TIMESTAMP},
+            #{sendTime,jdbcType=TIMESTAMP}
+        )
 	</insert>
 
     <update id="update" parameterType="com.minlia.module.captcha.bean.domain.Captcha">
@@ -102,10 +110,7 @@
     <select id="queryList" resultType="com.minlia.module.captcha.bean.domain.Captcha">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="queryAll" resultType="com.minlia.module.captcha.bean.domain.Captcha">
-        <include refid="QUERY_CONTENT"/>
+        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

@@ -1,4 +1,4 @@
-package com.minlia.modules.qcloud.faceid.body;
+package com.minlia.modules.qcloud.faceid.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
