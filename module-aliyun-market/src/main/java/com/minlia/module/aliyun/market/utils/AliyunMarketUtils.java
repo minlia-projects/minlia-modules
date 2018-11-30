@@ -23,6 +23,7 @@ public class AliyunMarketUtils {
 
     public static BankCardVerifyDTO verifyBankCard(String appcode, BankCardVerifyTO to) {
         ApiAssert.hasLength(appcode, "银行卡验证appcode不能为空");
+        log.info("银行卡验证参数：{}", to.toString());
         Map<String, Object> querys = new HashMap<String, Object>();
         querys.put("acct_pan", to.getNumber());
         if (StringUtils.isNotBlank(to.getHolder())) {
@@ -34,7 +35,7 @@ public class AliyunMarketUtils {
         if (StringUtils.isNotBlank(to.getCellphone())) {
             querys.put("phone_num", to.getCellphone());
         }
-
+        log.info("银行卡验证参数：{}", querys.toString());
         BankCardVerifyDTO dto = null;
         try {
             HttpResponse<String> response = Unirest.get(url).header("Authorization", "APPCODE " + appcode).queryString(querys).asString();
