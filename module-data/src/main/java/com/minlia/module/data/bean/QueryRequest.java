@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.cloud.body.Body;
 import com.minlia.module.common.constant.SymbolConstants;
 import lombok.Data;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -31,13 +32,17 @@ public class QueryRequest implements Body {
 
     @JsonProperty("sort")
     public String getSort() {
-        StringJoiner sj = new StringJoiner(SymbolConstants.COMMA);
-        for (Sort sort : sorts) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(sort.getFiled()).append(SymbolConstants.SPACE).append(sort.getDirection().name());
-            sj.add(sb.toString());
+        if (CollectionUtils.isNotEmpty(sorts)) {
+            StringJoiner sj = new StringJoiner(SymbolConstants.COMMA);
+            for (Sort sort : sorts) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(sort.getFiled()).append(SymbolConstants.SPACE).append(sort.getDirection().name());
+                sj.add(sb.toString());
+            }
+            return sj.toString();
+        } else {
+            return null;
         }
-        return sj.toString();
     }
 
 }
