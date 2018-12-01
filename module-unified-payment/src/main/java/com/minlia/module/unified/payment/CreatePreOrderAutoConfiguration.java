@@ -1,10 +1,14 @@
 package com.minlia.module.unified.payment;
 
+import com.minlia.module.unified.payment.alipay.v1.AlipayConfig;
+import com.minlia.module.unified.payment.wechat.v1.WechatConfig;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by will on 9/14/17.
  */
+@EnableConfigurationProperties({WechatConfig.class, AlipayConfig.class})
 @Configuration
 public class CreatePreOrderAutoConfiguration {
 

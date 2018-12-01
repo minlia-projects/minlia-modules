@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class JwtTokenFactory {
     private final JwtProperty settings;
 
-    public JwtProperty getSettings(){
+    public JwtProperty getSettings() {
         return settings;
     }
 
@@ -32,7 +32,7 @@ public class JwtTokenFactory {
 
     /**
      * Factory method for issuing new JWT Tokens.
-     * 
+     *
      * @return
      */
     public AccessJwtToken createAccessJwtToken(UserContext userContext) {
@@ -43,21 +43,21 @@ public class JwtTokenFactory {
         claims.put("guid", userContext.getGuid());
         claims.put("currrole", userContext.getCurrrole());
         claims.put("roles", userContext.getRoles());
-        claims.put("navigations", userContext.getNavigations());
-        claims.put("permissions", userContext.getPermissions());
+
+        //TODO
+//        claims.put("navigations", userContext.getNavigations());
+//        claims.put("permissions", userContext.getPermissions());
         claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
 
         LocalDateTime currentTime = LocalDateTime.now();
-        
+
         String token = Jwts.builder()
-          .setClaims(claims)
-          .setIssuer(settings.getTokenIssuer())
-          .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
-          .setExpiration(Date.from(currentTime
-              .plusMinutes(settings.getTokenExpirationTime())
-              .atZone(ZoneId.systemDefault()).toInstant()))
-          .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
-        .compact();
+                .setClaims(claims)
+                .setIssuer(settings.getTokenIssuer())
+                .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
+                .setExpiration(Date.from(currentTime.plusMinutes(settings.getTokenExpirationTime()).atZone(ZoneId.systemDefault()).toInstant()))
+                .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
+                .compact();
 
         return new AccessJwtToken(token, claims);
     }
@@ -73,20 +73,20 @@ public class JwtTokenFactory {
         claims.put("guid", userContext.getGuid());
         claims.put("currrole", userContext.getCurrrole());
         claims.put("roles", userContext.getRoles());
-        claims.put("navigations", userContext.getNavigations());
-        claims.put("permissions", Arrays.asList(Scopes.REFRESH_TOKEN.name()));
+
+        //TODO
+//        claims.put("navigations", userContext.getNavigations());
+//        claims.put("permissions", Arrays.asList(Scopes.REFRESH_TOKEN.name()));
         claims.put("scopes", Arrays.asList(Scopes.REFRESH_TOKEN.authority()));
 
         String token = Jwts.builder()
-          .setClaims(claims)
-          .setIssuer(settings.getTokenIssuer())
-          .setId(UUID.randomUUID().toString())
-          .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
-          .setExpiration(Date.from(currentTime
-              .plusMinutes(settings.getRefreshTokenExpTime())
-              .atZone(ZoneId.systemDefault()).toInstant()))
-          .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
-        .compact();
+                .setClaims(claims)
+                .setIssuer(settings.getTokenIssuer())
+                .setId(UUID.randomUUID().toString())
+                .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
+                .setExpiration(Date.from(currentTime.plusMinutes(settings.getRefreshTokenExpTime()).atZone(ZoneId.systemDefault()).toInstant()))
+                .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
+                .compact();
 
         return new AccessJwtToken(token, claims);
     }

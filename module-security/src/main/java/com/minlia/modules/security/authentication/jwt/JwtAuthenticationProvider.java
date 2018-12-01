@@ -37,8 +37,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String guid = jwsClaims.getBody().get("guid", String.class);
         String currrole = jwsClaims.getBody().get("currrole", String.class);
         List<String> roles = jwsClaims.getBody().get("roles", List.class);
-        Object navigations = jwsClaims.getBody().get("navigations", Object.class);
-        List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
+//        Object navigations = jwsClaims.getBody().get("navigations", Object.class);
+//        List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
         Date expirDate = jwsClaims.getBody().getExpiration();
 
         List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
@@ -49,8 +49,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .guid(guid)
                 .currrole(currrole)
                 .roles(roles)
-                .navigations(navigations)
-                .permissions(permissions)
+//                .navigations(navigations)
+//                .permissions(permissions)
                 .authorities(authorities)
                 .expireDate(expirDate)
                 .build();

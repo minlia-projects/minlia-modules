@@ -1,8 +1,11 @@
 package com.minlia.module.unified.payment.config;
 
+import lombok.Data;
+
 /**
  * Created by will on 9/14/17.
  */
+@Data
 public class Certificate {
 
   /**
@@ -24,38 +27,5 @@ public class Certificate {
    * 证书路径：微信需要使用
    */
   private String certificatePath;
-
-
-  public String getAppPublicKey() {
-    return appPublicKey;
-  }
-
-  public void setAppPublicKey(String appPublicKey) {
-    this.appPublicKey = appPublicKey;
-  }
-
-  public String getAppPrivateKey() {
-    return appPrivateKey;
-  }
-
-  public void setAppPrivateKey(String appPrivateKey) {
-    this.appPrivateKey = appPrivateKey;
-  }
-
-  public String getPlatformPublicKey() {
-    return platformPublicKey;
-  }
-
-  public void setPlatformPublicKey(String platformPublicKey) {
-    this.platformPublicKey = platformPublicKey;
-  }
-
-  public String getCertificatePath() {
-    return certificatePath;
-  }
-
-  public void setCertificatePath(String certificatePath) {
-    this.certificatePath = certificatePath;
-  }
 
 }

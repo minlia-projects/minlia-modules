@@ -49,7 +49,7 @@ public class LoginServiceImpl implements LoginService {
 
         List<String> roles = roleService.queryCodeByUserId(user.getId());
         Role role = roleService.queryByCode(currrole);
-        List<Navigation> navigations = navigationService.queryByRoleId(role.getId());
+//        List<Navigation> navigations = navigationService.queryByRoleId(role.getId());
         List<String> permissions = permissionService.getPermissionCodes(Lists.newArrayList(currrole));
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {
@@ -63,8 +63,8 @@ public class LoginServiceImpl implements LoginService {
                 .guid(user.getGuid())
                 .currrole(currrole)
                 .roles(roles)
-                .permissions(permissions)
-                .navigations(new Gson().toJson(navigations))
+//                .permissions(permissions)
+//                .navigations(new Gson().toJson(navigations))
                 .authorities(authorities)
                 .build();
         return userContext;

@@ -52,15 +52,14 @@ public final class UserContext implements Body {
     @JsonIgnore
     private List<GrantedAuthority> authorities;
 
-    /**
-     * 拥有权限点
-     */
-    private List<String> permissions;
-
-    /**
-     * 拥有菜单
-     */
-    private Object navigations;
-
+//    /**
+//     * 拥有权限点
+//     */
+//    private List<String> permissions;
+//
+//    /**
+//     * 拥有菜单
+//     */
+//    private Object navigations;
 
 }
