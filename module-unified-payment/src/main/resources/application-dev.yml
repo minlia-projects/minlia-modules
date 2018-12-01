@@ -1,53 +1,78 @@
 server:
-    port: 10013
+  port: 10086
 
 system:
-    appId: bibleapp
-    token: bWlubGlhCg==
+  appId: module-pooul
+  token: bWlubGlhCg==
+  domain: xxxxxx
 
+# SPRING PROFILES
 spring:
-    profile: dev
-    application:
-        name: bibleapp
+  profile: dev
+  application:
+    name: Module Pooul
+  session:
+    store-type: redis
 
+  datasource:
+    driverClassName: net.sf.log4jdbc.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/xmj_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+    name:
+    username: root
+    password: Root.2018
+    #        使用druid数据源
+    #        type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    continue-on-error: true
+    initialize: true
 
-    datasource:
-        testOnBorrow: true
-        validationQuery: "SELECT 1"
-#        driver-class-value: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
-        driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_cloud_m_unified_payment_dev_v1?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
-#        url: jdbc:log4jdbc:h2:mem:mit_ecommerce_webapp_v1;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE #;AUTO_SERVER=TRUE
-#        driverClassName: com.mysql.jdbc.Driver   192.168.1.201   net.sf.log4jdbc.DriverSpy
-#        url: jdbc:mysql://localhost:3306/iikar_dims_dev?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8
-        name:
-        username: root
-        password:
-        # 123123
-
-
-    jpa:
-#        database-platform: org.hibernate.dialect.H2Dialect
-#        database: H2
-        database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
-        database: MYSQL
-        show_sql: false
-        properties:
-          jadira.usertype.autoRegisterUserTypes: true
-        hibernate:
-#            naming:
-#                strategy:
-            ddl-auto: update
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 300
+      max-wait: 10000
+      max-idle: 50
+      min-idle: 10
+    timeout: 180
 
 system.security.jwt:
   tokenExpirationTime: 10080 # Number of minutes
   refreshTokenExpTime: 10080 # Minutes
   tokenIssuer: http://minlia.com
-  tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQus
+  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
 swagger:
-    title: ${spring.application.name}接口
-    description: ${spring.application.name}接口
-    version: 2.0
-    contact: cloud@minlia.com
-    path: /api/.*
+  title: ${spring.application.name}接口
+  description: ${spring.application.name}接口
+  version: 1.0
+  contact: cloud@minlia.com
+  path: /api/.*
+  redirect: true
+
+mybatis:
+  #    config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath*:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

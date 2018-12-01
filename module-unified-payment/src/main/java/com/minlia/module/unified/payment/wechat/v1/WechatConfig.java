@@ -15,7 +15,6 @@ public class WechatConfig implements Config {
     private String mchId;
     private String key;
 
-
     /**
      * 交易通道在创建完之后服务端 Server to Server(S2S)通知回调的入口
      */
@@ -80,4 +79,5 @@ public class WechatConfig implements Config {
     public void setCallback(String callback) {
         this.callback = callback;
     }
+
 }

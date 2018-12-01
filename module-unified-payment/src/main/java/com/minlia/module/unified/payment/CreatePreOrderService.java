@@ -18,6 +18,7 @@ public interface CreatePreOrderService {
 
     /**
      * 当前交易通道的名称
-     */String getName();
+     */
+    String getName();
 
 }
