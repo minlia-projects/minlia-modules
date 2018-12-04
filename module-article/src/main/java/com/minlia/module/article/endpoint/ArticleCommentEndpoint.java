@@ -42,17 +42,18 @@ public class ArticleCommentEndpoint {
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
+	@ApiOperation(value = "我的", notes = "我的", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "me", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Response me(@RequestBody ArticleCommentQO qo) {
+		qo.setCreateBy(SecurityContextHolder.getCurrentGuid());
+		return Response.success(articleCommentService.list(qo));
+	}
+
+	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response id(@PathVariable Long id) {
 		return Response.success(articleCommentService.queryById(id));
-	}
-
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
-	@ApiOperation(value = "我的", notes = "我的", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(value = "me/{articleId}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response one(@PathVariable Long articleId) {
-		return Response.success(articleCommentService.list(ArticleCommentQO.builder().articleId(articleId).createBy(SecurityContextHolder.getCurrentGuid()).build()));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")

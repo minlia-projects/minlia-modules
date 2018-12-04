@@ -25,10 +25,7 @@ public class ArticleComment extends AbstractEntity {
      */
     private String content;
 
-    /**
-     * 创建人
-     */
-    private String createBy;
+
 
     /**
      * 昵称
