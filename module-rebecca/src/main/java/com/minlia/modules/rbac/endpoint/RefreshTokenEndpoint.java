@@ -69,8 +69,9 @@ public class RefreshTokenEndpoint {
             throw new InvalidJwtTokenException();
         }
 
-        String subject = refreshToken.getSubject();
-        User user = userQueryService.queryOne(UserQO.builder().username(subject).build());
+//        String subject = refreshToken.getSubject();
+        String guid = refreshToken.getClaims().getBody().get("guid", String.class);
+        User user = userQueryService.queryOne(UserQO.builder().guid(guid).build());
         if (null == user) {
             throw new UsernameNotFoundException("User not found: " + subject);
         }
