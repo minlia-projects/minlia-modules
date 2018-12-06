@@ -73,7 +73,7 @@ public class RefreshTokenEndpoint {
         String guid = refreshToken.getClaims().getBody().get("guid", String.class);
         User user = userQueryService.queryOne(UserQO.builder().guid(guid).build());
         if (null == user) {
-            throw new UsernameNotFoundException("User not found: " + subject);
+            throw new UsernameNotFoundException("User not found: " + guid);
         }
 
         //如果当前角色为空获取默认角色
