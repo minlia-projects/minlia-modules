@@ -11,10 +11,13 @@
             mact.create_date,
             mact.last_modified_by,
             mact.last_modified_date ,
+            mat.title AS articleTitle,
+	        mat.enabled AS articleEnabled,
             muit.avatar,
             muit.nickname
         FROM
             mdl_article_comment mact
+        INNER JOIN mdl_article mat ON mat.id = mact.article_id
         LEFT JOIN mdl_user_info muit ON muit.guid = mact.create_by
 	</sql>
 
