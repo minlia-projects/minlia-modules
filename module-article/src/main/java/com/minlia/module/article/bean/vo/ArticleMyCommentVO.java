@@ -1,5 +1,6 @@
 package com.minlia.module.article.bean.vo;
 
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,12 +15,17 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleCommentVO {
+public class ArticleMyCommentVO {
 
     /**
      * 文章ID
      */
     private Long articleId;
+
+    /**
+     * 文章封面
+     */
+    private String articleCover;
 
     /**
      * 文章标题
@@ -40,15 +46,5 @@ public class ArticleCommentVO {
      * 评论时间
      */
     private Date createDate;
-
-    /**
-     * 昵称
-     */
-    private String nickname;
-
-    /**
-     * 头像
-     */
-    private String avatar;
 
 }

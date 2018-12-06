@@ -25,26 +25,4 @@ public class ArticleComment extends AbstractEntity {
      */
     private String content;
 
-
-
-    /**
-     * 文章标题
-     */
-    private String articleTitle;
-
-    /**
-     * 文章是否启用
-     */
-    private Boolean articleEnabled;
-
-    /**
-     * 昵称
-     */
-    private String nickname;
-
-    /**
-     * 头像
-     */
-    private String avatar;
-
 }

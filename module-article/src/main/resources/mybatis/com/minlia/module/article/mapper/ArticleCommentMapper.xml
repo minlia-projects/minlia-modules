@@ -10,15 +10,9 @@
             mact.create_by,
             mact.create_date,
             mact.last_modified_by,
-            mact.last_modified_date ,
-            mat.title AS articleTitle,
-	        mat.enabled AS articleEnabled,
-            muit.avatar,
-            muit.nickname
+            mact.last_modified_date
         FROM
             mdl_article_comment mact
-        INNER JOIN mdl_article mat ON mat.id = mact.article_id
-        LEFT JOIN mdl_user_info muit ON muit.guid = mact.create_by
 	</sql>
 
     <sql id="QUERY_CONDITION">
@@ -82,13 +76,44 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.article.bean.domain.ArticleComment">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
     <select id="list" resultType="com.minlia.module.article.bean.domain.ArticleComment">
         <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
+    </select>
+
+    <select id="queryDetailsList" resultType="com.minlia.module.article.bean.vo.ArticleCommentVO">
+        SELECT
+            mact.id,
+            mact.content,
+            mact.create_by,
+            mact.create_date,
+            mact.article_id,
+            mat.title AS articleTitle,
+            mat.enabled AS articleEnabled,
+            muit.avatar,
+            muit.nickname
+        FROM
+            mdl_article_comment mact
+        INNER JOIN mdl_article mat ON mat.id = mact.article_id
+        LEFT JOIN mdl_user_info muit ON muit.guid = mact.create_by
+        <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
+    </select>
+
+    <select id="queryMyList" resultType="com.minlia.module.article.bean.vo.ArticleMyCommentVO">
+        SELECT
+            mact.id,
+            mact.article_id,
+            mact.content,
+            mact.create_date,
+            mat.title AS articleTitle,
+            mat.enabled AS articleEnabled,
+            mat1.url AS articleCover
+        FROM
+            mdl_article_comment mact
+        INNER JOIN mdl_article mat ON mat.id = mact.article_id
+        LEFT JOIN mdl_attachment mat1 ON mat1.relation_id = mat.id AND mat1.belongs_to = 'ARTICLE_COVER'
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>
     </select>
