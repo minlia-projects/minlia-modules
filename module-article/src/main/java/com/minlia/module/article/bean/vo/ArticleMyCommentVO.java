@@ -1,6 +1,5 @@
 package com.minlia.module.article.bean.vo;
 
-import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +15,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleMyCommentVO {
+
+    private Long id;
 
     /**
      * 文章ID
