@@ -30,7 +30,7 @@ public class ArticleComment extends AbstractEntity {
     /**
      * 文章标题
      */
-    private Long articleTitle;
+    private String articleTitle;
 
     /**
      * 文章是否启用
