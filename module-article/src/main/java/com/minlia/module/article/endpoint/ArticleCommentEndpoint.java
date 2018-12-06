@@ -42,8 +42,8 @@ public class ArticleCommentEndpoint {
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
-	@ApiOperation(value = "我的", notes = "我的", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(value = "me", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+	@ApiOperation(value = "我的", notes = "我的", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "me", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response me(@RequestBody ArticleCommentQO qo) {
 		qo.setCreateBy(SecurityContextHolder.getCurrentGuid());
 		return Response.success(articleCommentService.list(qo));
