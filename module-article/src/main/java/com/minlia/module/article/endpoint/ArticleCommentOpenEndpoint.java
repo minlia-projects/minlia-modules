@@ -31,22 +31,22 @@ public class ArticleCommentOpenEndpoint {
 		return Response.success(articleCommentService.queryById(id));
 	}
 
-	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response one(@RequestBody ArticleCommentQO qo) {
-		return Response.success(articleCommentService.one(qo));
-	}
+//	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+//	public Response one(@RequestBody ArticleCommentQO qo) {
+//		return Response.success(articleCommentService.one(qo));
+//	}
 
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response list(@RequestBody ArticleCommentQO qo) {
-		return Response.success(articleCommentService.list(qo));
+		return Response.success(articleCommentService.queryDetailsList(qo));
 	}
 
 	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleCommentQO qo) {
-		return Response.success(articleCommentService.page(qo, pageable));
+		return Response.success(articleCommentService.queryDetailsPage(qo, pageable));
 	}
 
 }
