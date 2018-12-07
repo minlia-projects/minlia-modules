@@ -44,18 +44,17 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
 
         if (StringUtils.isNotEmpty(body.getTradeType())) {
             if (body.getTradeType().equals("NATIVE")) {
-                result = alipayTradePrecreatePay(body,number,amount,result);
+                result = alipayTradePrecreatePay(body, number, amount, result);
             } else {
-                result = alipayTradeAppPayPay(body,number,amount,result);
+                result = alipayTradeAppPayPay(body, number, amount, result);
             }
         } else {
-            result = alipayTradeAppPayPay(body,number,amount,result);
+            result = alipayTradeAppPayPay(body, number, amount, result);
         }
         return Response.success(result);
     }
 
-
-    private String alipayTradePrecreatePay(CreatePreOrderRequestBody body,String number,Double amount,String result) {
+    private String alipayTradePrecreatePay(CreatePreOrderRequestBody body, String number, Double amount, String result) {
         //页面端支付
 
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
@@ -72,17 +71,17 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
             AlipayTradePrecreateResponse response = alipayClient.execute(request);
             //得到SDK的返回结果
             result = response.getBody();
-            log.debug("For frontend {}",result);
+            log.debug("For frontend {}", result);
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
-            ApiAssert.state(false, SystemCode.Exception.INTERNAL_SERVER_ERROR.code(),e.getMessage());
+            ApiAssert.state(false, SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), e.getMessage());
         }
 
         return result;
     }
 
-    private String alipayTradeAppPayPay(CreatePreOrderRequestBody body,String number,Double amount,String result) {
+    private String alipayTradeAppPayPay(CreatePreOrderRequestBody body, String number, Double amount, String result) {
         //APP支付
         AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
         AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
@@ -98,13 +97,12 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
             AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
             //得到SDK的返回结果
             result = response.getBody();
-            log.debug("For frontend {}",result);
+            log.debug("For frontend {}", result);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
     }
-
 
     //在构造里面初始化
     private AlipayClient alipayClient;
@@ -116,55 +114,45 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
     }
 
     public AlipayCreatePreOrderService(AlipayConfig config) {
-
         if (null == config) {
             throw new RuntimeException("请提供交易参数配置");
         } else {
-
-
             if (StringUtils.isEmpty(config.getAppId())) {
                 throw new RuntimeException("请提供AppId");
             }
-
-
             if (StringUtils.isEmpty(config.getCallback())) {
                 throw new RuntimeException("请提供回调地址");
             }
-
             if (null == config.getCertificate()) {
                 throw new RuntimeException("请提供证书配置信息");
             }
-
             if (StringUtils.isEmpty(config.getCertificate().getAppPrivateKey())) {
                 throw new RuntimeException("请提供APP私钥");
             }
-
-            if (StringUtils.isEmpty(config.getCertificate().getAppPublicKey())) {
-                throw new RuntimeException("请提供APP公钥");
-            }
+//            if (StringUtils.isEmpty(config.getCertificate().getAppPublicKey())) {
+//                throw new RuntimeException("请提供APP公钥");
+//            }
             if (StringUtils.isEmpty(config.getCertificate().getPlatformPublicKey())) {
                 throw new RuntimeException("请提供平台公钥");
             }
-
             this.alipayConfig = config;
-
         }
 
         //校验通过后开始初始化
         //初始化官方SDK
         alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY,
                 config.getAppId(),
-                config.getCertificate().getAppPrivateKey(),AlipayConstants.FORMAT_JSON,
+                config.getCertificate().getAppPrivateKey(),
+                AlipayConstants.FORMAT_JSON,
                 AlipayConstants.CHARSET_UTF8,
-                config.getCertificate().getPlatformPublicKey(),AlipayConstants.SIGN_TYPE_RSA2);
+                config.getCertificate().getPlatformPublicKey(),
+                AlipayConstants.SIGN_TYPE_RSA2);
     }
-
 
     @Override
     public String getName() {
         return "alipay";
     }
-
 
     public static final String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
 

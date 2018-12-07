@@ -37,38 +37,21 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
      * 带参数的构造方法
      */
     public WechatCreatePreOrderService(WechatConfig wechatConfig) {
-
         if (null == wechatConfig) {
             throw new RuntimeException("请提供交易参数配置");
         } else {
-            if (null != (wechatConfig.getCertificate())) {
-                if (!StringUtils.isEmpty(wechatConfig.getCertificate().getPlatformPublicKey())) {
-                    throw new RuntimeException("微信支付无需配置平台公钥");
-                }
-                if (!StringUtils.isEmpty(wechatConfig.getCertificate().getAppPublicKey())) {
-                    throw new RuntimeException("微信支付无需配置应用公钥");
-                }
-                if (!StringUtils.isEmpty(wechatConfig.getCertificate().getAppPrivateKey())) {
-                    throw new RuntimeException("微信支付无需配置应用私钥钥");
-                }
-            }
-
             if (StringUtils.isEmpty(wechatConfig.getCallback())) {
                 throw new RuntimeException("请提供回调地址");
             }
-
             if (StringUtils.isEmpty(wechatConfig.getAppId())) {
                 throw new RuntimeException("请提供应用编号appId");
             }
-
             if (StringUtils.isEmpty(wechatConfig.getMchId())) {
                 throw new RuntimeException("请提供商户编号mchId");
             }
-
             if (StringUtils.isEmpty(wechatConfig.getKey())) {
                 throw new RuntimeException("请提供商户密钥key");
             }
-
             this.wechatConfig = wechatConfig;
         }
     }

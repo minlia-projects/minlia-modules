@@ -7,8 +7,6 @@ public interface Config {
 
     String getAppId();
 
-    Certificate getCertificate();
-
     String getCallback();
 
 }

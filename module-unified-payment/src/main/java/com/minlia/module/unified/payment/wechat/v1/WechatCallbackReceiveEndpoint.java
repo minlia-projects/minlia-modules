@@ -11,14 +11,13 @@ import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
 import com.minlia.module.unified.payment.util.XmlUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import javax.servlet.http.HttpServletRequest;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by will on 9/15/17.
@@ -41,7 +40,7 @@ public class WechatCallbackReceiveEndpoint {
         if (isOfficialNotificationRequest(requestedXmlString)) {
             log.info("wechat sign here");
             OrderPaidNotificationBody body = new OrderPaidNotificationBody();
-            body = mapToBody(requestedXmlString,body);
+            body = mapToBody(requestedXmlString, body);
             log.info("返回所有参数了" + body.toString());
             OrderPaidEventProducer.onOrderPaid(body);
             return "SUCCESS";
@@ -50,7 +49,7 @@ public class WechatCallbackReceiveEndpoint {
         }
     }
 
-    private OrderPaidNotificationBody mapToBody(String requestedXmlString,OrderPaidNotificationBody body) {
+    private OrderPaidNotificationBody mapToBody(String requestedXmlString, OrderPaidNotificationBody body) {
         log.info(requestedXmlString);
         try {
             //这里面已经做了验证签名
@@ -101,7 +100,6 @@ public class WechatCallbackReceiveEndpoint {
         config.setMchId(wechatConfig.getMchId());
         config.setMchKey(wechatConfig.getKey());
         wxPayService.setConfig(config);
-
         return wxPayService;
     }
 

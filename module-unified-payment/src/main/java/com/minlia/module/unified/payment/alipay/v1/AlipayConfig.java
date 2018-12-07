@@ -24,14 +24,11 @@ public class AlipayConfig implements Config {
             if (StringUtils.isEmpty(this.getCertificate().getPlatformPublicKey())) {
                 throw new RuntimeException("支付宝支付需配置平台公钥");
             }
-            if (StringUtils.isEmpty(this.getCertificate().getAppPublicKey())) {
-                throw new RuntimeException("支付宝支付需配置应用公钥");
-            }
+//            if (StringUtils.isEmpty(this.getCertificate().getAppPublicKey())) {
+//                throw new RuntimeException("支付宝支付需配置应用公钥");
+//            }
             if (StringUtils.isEmpty(this.getCertificate().getAppPrivateKey())) {
                 throw new RuntimeException("支付宝支付需配置应用私钥钥");
-            }
-            if (!StringUtils.isEmpty(this.getCertificate().getCertificatePath())) {
-                throw new RuntimeException("支付宝支付无需配置证书路径");
             }
         }
     }
