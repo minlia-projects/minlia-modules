@@ -135,17 +135,17 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public List<Navigation> queryList(NavigationQO requestBody) {
-        List<Navigation> navigations = navigationMapper.queryList(requestBody);
-        bindChirdren(navigations, requestBody.getRoleId());
+    public List<Navigation> queryList(NavigationQO qo) {
+        List<Navigation> navigations = navigationMapper.queryList(qo);
+        bindChirdren(navigations, qo.getRoleId());
         return navigations;
     }
 
     @Override
-    public PageInfo<Navigation> queryPage(NavigationQO requestBody, Pageable pageable) {
-        PageInfo pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
-        bindChirdren(pageInfo.getList(), requestBody.getRoleId());
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(requestBody));
+    public PageInfo<Navigation> queryPage(NavigationQO qo, Pageable pageable) {
+        PageInfo pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qo));
+        bindChirdren(pageInfo.getList(), qo.getRoleId());
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qo));
     }
 
     private void bindChirdren(List<Navigation> navigations, Long roleId){

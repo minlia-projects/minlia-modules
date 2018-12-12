@@ -3,12 +3,14 @@ package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.modules.rbac.constant.RebeccaSecurityConstant;
+import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationCTO;
 import com.minlia.modules.rbac.bean.to.NavigationGrantTO;
-import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationUTO;
+import com.minlia.modules.rbac.constant.RebeccaSecurityConstant;
+import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.rbac.service.NavigationService;
+import com.minlia.modules.rbac.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "navigation")
 public class NavigationEndpoint {
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private NavigationService navigationService;
@@ -67,6 +72,16 @@ public class NavigationEndpoint {
     @RequestMapping(value = "display", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response display(@RequestParam Long id) {
         return Response.success(navigationService.display(id));
+    }
+
+
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
+    @ApiOperation(value = "我的", notes = "我的", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "me", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response me() {
+        String currentRole = SecurityContextHolder.getUserContext().getCurrrole();
+        Long roleId = roleService.queryByCode(currentRole).getId();
+        return Response.success(navigationService.queryList(NavigationQO.builder().roleId(roleId).display(true).build()));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")

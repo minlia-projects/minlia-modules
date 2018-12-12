@@ -21,6 +21,10 @@
 	</sql>
 
     <sql id="QUERY_CONDITION">
+        <if test="roleId != null">
+            INNER JOIN mdl_role_navigation mrnm on mrnm.navigation_id = mnt.id
+        </if>
+
         <where>
             <if test="id != null">
                 AND mnt.id = #{id,jdbcType=SMALLINT}
@@ -41,8 +45,11 @@
                 AND mnt.display = #{display,jdbcType=TINYINT}
             </if>
             <if test="roleId != null">
-                AND mrnm.role_id = #{roleId,jdbcType=TINYINT}
+                AND EXISTS (SELECT 1 FROM mdl_role_navigation mrnm WHERE mrnm.role_id = #{roleId,jdbcType=TINYINT} AND mrnm.navigation_id = mnt.id)
             </if>
+            <!--<if test="roleCode != null">-->
+                <!--AND EXISTS (SELECT 1 FROM mdl_role_navigation mrnm INNER JOIN mdl_role mrt ON mrt.id = mrnm.role_id WHERE mrt.`code`= #{roleId,jdbcType=VARCHAR} AND mrnm.navigation_id=mnt.id)-->
+            <!--</if>-->
         </where>
     </sql>
 
@@ -65,18 +72,16 @@
             parent_id,
             display,
             create_by
+        ) VALUES (
+            #{type,jdbcType=VARCHAR} ,
+            #{name,jdbcType=VARCHAR} ,
+            #{icon,jdbcType=VARCHAR} ,
+            #{state,jdbcType=VARCHAR} ,
+            #{orders,jdbcType=TINYINT} ,
+            #{parentId,jdbcType=SMALLINT},
+            #{display,jdbcType=TINYINT},
+            #{createBy,jdbcType=VARCHAR}
         )
-        VALUES
-            (
-                #{type,jdbcType=VARCHAR} ,
-                #{name,jdbcType=VARCHAR} ,
-                #{icon,jdbcType=VARCHAR} ,
-                #{state,jdbcType=VARCHAR} ,
-                #{orders,jdbcType=TINYINT} ,
-                #{parentId,jdbcType=SMALLINT},
-                #{display,jdbcType=TINYINT},
-                #{createBy,jdbcType=VARCHAR}
-            )
 	</insert>
 
     <update id="update" parameterType="com.minlia.modules.rbac.bean.domain.Navigation">
@@ -158,9 +163,6 @@
 
     <select id="queryList" resultType="com.minlia.modules.rbac.bean.domain.Navigation">
         <include refid="QUERY_CONTENT"/>
-        <if test="roleId != null">
-            INNER JOIN mdl_role_navigation mrnm on mrnm.navigation_id = mnt.id
-        </if>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>
     </select>
