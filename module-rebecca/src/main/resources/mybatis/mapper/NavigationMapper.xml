@@ -39,7 +39,7 @@
                 AND mnt.name = #{name,jdbcType=VARCHAR}
             </if>
             <if test="type != null">
-                AND nt.type = #{type,jdbcType=VARCHAR}
+                AND mnt.type = #{type,jdbcType=VARCHAR}
             </if>
             <if test="display != null">
                 AND mnt.display = #{display,jdbcType=TINYINT}
