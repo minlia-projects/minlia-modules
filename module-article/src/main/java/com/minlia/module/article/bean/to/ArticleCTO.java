@@ -28,7 +28,6 @@ public class ArticleCTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "内容", example = "XXXXXX")
     @NotBlank(message = "内容不能为空")
-    @Size(max = 5000)
     private String content;
 
     @ApiModelProperty(value = "封面ETag", example = "XXXXXX")
