@@ -1,19 +1,24 @@
 package com.minlia.modules.security.model.token;
 
+import com.google.common.collect.Lists;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.model.Scopes;
 import com.minlia.modules.security.model.UserContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -43,11 +48,10 @@ public class JwtTokenFactory {
         claims.put("guid", userContext.getGuid());
         claims.put("currrole", userContext.getCurrrole());
         claims.put("roles", userContext.getRoles());
-
         //TODO
-//        claims.put("navigations", userContext.getNavigations());
-//        claims.put("permissions", userContext.getPermissions());
-        claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
+        claims.put("navigations", userContext.getNavigations());
+        claims.put("permissions", userContext.getPermissions());
+//        claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
 
         LocalDateTime currentTime = LocalDateTime.now();
 
@@ -73,11 +77,10 @@ public class JwtTokenFactory {
         claims.put("guid", userContext.getGuid());
         claims.put("currrole", userContext.getCurrrole());
         claims.put("roles", userContext.getRoles());
-
         //TODO
-//        claims.put("navigations", userContext.getNavigations());
-//        claims.put("permissions", Arrays.asList(Scopes.REFRESH_TOKEN.name()));
-        claims.put("scopes", Arrays.asList(Scopes.REFRESH_TOKEN.authority()));
+        claims.put("navigations", userContext.getNavigations());
+        claims.put("permissions", Arrays.asList(Scopes.REFRESH_TOKEN.name()));
+//        claims.put("scopes", Arrays.asList(Scopes.REFRESH_TOKEN.authority()));
 
         String token = Jwts.builder()
                 .setClaims(claims)

@@ -35,7 +35,8 @@ public final class UserContext implements Body {
      */
     private  Date expireDate;
 
-    /**JwtTokenFactory
+    /**
+     * JwtTokenFactory
      * 当前角色
      */
     private String currrole;
@@ -46,20 +47,20 @@ public final class UserContext implements Body {
     private List<String> roles;
 
     /**
+     * 拥有菜单
+     */
+    private List navigations;
+
+    /**
+     * 拥有权限点
+     */
+    private List<String> permissions;
+
+    /**
      * 拥有权限
      * [{'authority':'user.change.password'}]
      */
     @JsonIgnore
     private List<GrantedAuthority> authorities;
-
-//    /**
-//     * 拥有权限点
-//     */
-//    private List<String> permissions;
-//
-//    /**
-//     * 拥有菜单
-//     */
-//    private Object navigations;
 
 }

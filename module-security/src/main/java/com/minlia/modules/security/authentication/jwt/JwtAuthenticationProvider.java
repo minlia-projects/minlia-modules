@@ -1,11 +1,13 @@
 package com.minlia.modules.security.authentication.jwt;
 
+import com.google.common.collect.Lists;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -16,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -38,21 +39,28 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String guid = jwsClaims.getBody().get("guid", String.class);
         String currrole = jwsClaims.getBody().get("currrole", String.class);
         List<String> roles = jwsClaims.getBody().get("roles", List.class);
-//        Object navigations = jwsClaims.getBody().get("navigations", Object.class);
-//        List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
+        List navigations = jwsClaims.getBody().get("navigations", List.class);
+        List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
         Date expirDate = jwsClaims.getBody().getExpiration();
 
-        List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
-        List<GrantedAuthority> authorities = scopes.stream().map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
+        //TODO
+//        List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
+//        List<GrantedAuthority> authorities = scopes.stream().map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
+        List<GrantedAuthority> authorities = Lists.newArrayList();
+        if (CollectionUtils.isNotEmpty(permissions)) {
+            for (String permission : permissions) {
+                authorities.add(new SimpleGrantedAuthority(permission));
+            }
+        }
 
         UserContext userContext = UserContext.builder()
                 .username(username)
                 .guid(guid)
                 .currrole(currrole)
                 .roles(roles)
-//                .navigations(navigations)
-//                .permissions(permissions)
-                .authorities(authorities)
+                .navigations(navigations)
+                .permissions(permissions)
+//                .authorities(authorities)
                 .expireDate(expirDate)
                 .build();
         return new JwtAuthenticationToken(userContext, authorities);
