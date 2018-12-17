@@ -28,7 +28,7 @@ public class RefreshToken implements JwtToken {
         Jws<Claims> claims = token.parseClaims(signingKey);
         //TODO
         List<String> permissions = claims.getBody().get("permissions", List.class);
-        if (CollectionUtils.isNotEmpty(permissions)) {
+        if (CollectionUtils.isEmpty(permissions)) {
             return Optional.empty();
         }
 
