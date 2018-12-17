@@ -72,6 +72,12 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleMapper.queryById(uto.getId());
         ApiAssert.notNull(article, SystemCode.Message.DATA_NOT_EXISTS);
 
+        //检查类目是否存在
+        if (null != uto.getCategoryId()) {
+            long count = articleCategoryService.count(ArticleCategoryQO.builder().id(uto.getCategoryId()).build());
+            ApiAssert.state(count == 1, SystemCode.Message.DATA_NOT_EXISTS);
+        }
+
         //设置标签
         if (CollectionUtils.isNotEmpty(uto.getLabelIds())) {
             this.setLabels(new ArticleSetLabelTO(article.getId(), uto.getLabelIds()));

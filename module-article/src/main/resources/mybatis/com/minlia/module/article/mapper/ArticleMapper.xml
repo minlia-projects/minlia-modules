@@ -122,6 +122,9 @@
     <update id="update" parameterType="com.minlia.module.article.bean.domain.Article">
         UPDATE mdl_article
         <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
             <if test="title != null">
                 title = #{title},
             </if>

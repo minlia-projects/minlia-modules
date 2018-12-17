@@ -17,6 +17,9 @@ public class ArticleUTO implements ApiRequestBody {
     @NotNull(message = "ID不能为空")
     private Long id;
 
+    @ApiModelProperty(value = "类目ID", example = "1")
+    private Long categoryId;
+
     @ApiModelProperty(value = "标签ID集合", example = "[1,2]")
     private List<Long> labelIds;
 
