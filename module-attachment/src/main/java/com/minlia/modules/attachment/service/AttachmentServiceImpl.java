@@ -72,7 +72,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     @Transactional
-    public void bindByAccessKey(String accessKey, String relationId, String belongsTo) {
+    public String bindByAccessKey(String accessKey, String relationId, String belongsTo) {
         Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
         ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
 
@@ -87,6 +87,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         attachment.setRelationId(relationId);
         attachment.setBelongsTo(belongsTo);
         attachmentMapper.update(attachment);
+        return attachment.getUrl();
     }
 //    @Override
 //    @Transactional

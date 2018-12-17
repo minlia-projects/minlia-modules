@@ -82,4 +82,16 @@ public class ArticleVO extends AbstractEntity {
      */
     private Integer readCount;
 
+
+
+    /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
 }

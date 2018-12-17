@@ -52,10 +52,13 @@
             t.last_modified_by,
             t.last_modified_date,
             (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=t.id) AS commentCount,
-            (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=t.id AND choose = 1) AS praiseCount
+            (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=t.id AND choose = 1) AS praiseCount,
+            muit.avatar,
+            muit.nickname
         FROM
             mdl_article t
         INNER JOIN mdl_article_category act on act.id = t.category_id
+        LEFT JOIN mdl_user_info muit ON muit.guid = t.create_by
         LEFT JOIN mdl_attachment at ON at.relation_id = t.id AND at.belongs_to = 'ARTICLE_COVER'
 	</sql>
 

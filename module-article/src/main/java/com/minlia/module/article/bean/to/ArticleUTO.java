@@ -25,7 +25,6 @@ public class ArticleUTO implements ApiRequestBody {
     private String title;
 
     @ApiModelProperty(value = "内容", example = "XXXXXX")
-    @Size(max = 5000)
     private String content;
 
 //    @ApiModelProperty(value = "封面", example = "http://xxxxxx")
