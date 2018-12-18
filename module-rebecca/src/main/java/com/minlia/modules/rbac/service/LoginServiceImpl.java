@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.minlia.modules.rbac.bean.domain.Navigation;
 import com.minlia.modules.rbac.bean.domain.Role;
 import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
@@ -49,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
 
         List<String> roles = roleService.queryCodeByUserId(user.getId());
         Role role = roleService.queryByCode(currrole);
-        List<Navigation> navigations = navigationService.queryByRoleId(role.getId());
+        List<MyNavigationVO> navigations = navigationService.queryMyNavigationByRoleId(role.getId());
         List<String> permissions = permissionService.getPermissionCodes(Lists.newArrayList(currrole));
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {
@@ -63,7 +64,6 @@ public class LoginServiceImpl implements LoginService {
                 .guid(user.getGuid())
                 .currrole(currrole)
                 .roles(roles)
-//                .navigations(new Gson().toJson(navigations))
                 .navigations(navigations)
                 .permissions(permissions)
                 .authorities(authorities)

@@ -3,11 +3,12 @@ package com.minlia.modules.rbac.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
+import com.minlia.modules.rbac.bean.domain.Navigation;
+import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationCTO;
 import com.minlia.modules.rbac.bean.to.NavigationGrantTO;
-import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationUTO;
-import com.minlia.modules.rbac.bean.domain.Navigation;
+import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -18,13 +19,13 @@ import java.util.List;
  */
 public interface NavigationService {
 
-    Response create(NavigationCTO requestBody);
+    Response create(NavigationCTO cto);
 
-    Navigation update(NavigationUTO requestBody);
+    Navigation update(NavigationUTO uto);
 
     void delete(Long id);
 
-    void grant(NavigationGrantTO requestBody);
+    void grant(NavigationGrantTO grantTO);
 
     Boolean display(Long id);
 
@@ -32,8 +33,10 @@ public interface NavigationService {
 
     List<Navigation> queryByRoleId(Long id);
 
-    List<Navigation> queryList(NavigationQO requestBody);
+    List<Navigation> queryList(NavigationQO qo);
 
-    PageInfo<Navigation> queryPage(NavigationQO requestBody, Pageable pageable);
+    PageInfo<Navigation> queryPage(NavigationQO qo, Pageable pageable);
+
+    List<MyNavigationVO> queryMyNavigationByRoleId(Long id);
 
 }

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
 import com.minlia.modules.rbac.constant.RebaccaCode;
 import com.minlia.modules.rbac.bean.to.NavigationCTO;
 import com.minlia.modules.rbac.bean.to.NavigationGrantTO;
@@ -38,12 +39,12 @@ public class NavigationServiceImpl implements NavigationService {
     private NavigationMapper navigationMapper;
 
     @Override
-    public Response create(NavigationCTO requestBody) {
-        boolean exists = navigationMapper.count(NavigationQO.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).build()) > 0;
+    public Response create(NavigationCTO cto) {
+        boolean exists = navigationMapper.count(NavigationQO.builder().parentId(cto.getParentId()).name(cto.getName()).build()) > 0;
         if (!exists) {
-            updateTypeByChildren(requestBody.getParentId());
+            updateTypeByChildren(cto.getParentId());
 
-            Navigation navigation = Navigation.builder().parentId(requestBody.getParentId()).name(requestBody.getName()).icon(requestBody.getIcon()).state(requestBody.getState()).orders(requestBody.getOrders()).type(NavigationType.LEAF).display(true).build();
+            Navigation navigation = Navigation.builder().parentId(cto.getParentId()).name(cto.getName()).icon(cto.getIcon()).state(cto.getState()).orders(cto.getOrders()).type(NavigationType.LEAF).display(true).build();
             navigationMapper.create(navigation);
             return Response.success(SystemCode.Message.SUCCESS,navigation);
         } else {
@@ -52,13 +53,13 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public Navigation update(NavigationUTO requestBody) {
-        Navigation navigation = navigationMapper.queryById(requestBody.getId());
+    public Navigation update(NavigationUTO uto) {
+        Navigation navigation = navigationMapper.queryById(uto.getId());
         ApiAssert.notNull(navigation, RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
 
-        updateTypeByChildren(requestBody.getParentId());
+        updateTypeByChildren(uto.getParentId());
 
-        mapper.map(requestBody,navigation);
+        mapper.map(uto,navigation);
         navigationMapper.update(navigation);
         return navigation;
     }
@@ -99,18 +100,18 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public void grant(NavigationGrantTO requestBody) {
-        boolean existsRole = roleService.exists(requestBody.getRoleId());
+    public void grant(NavigationGrantTO grantTO) {
+        boolean existsRole = roleService.exists(grantTO.getRoleId());
         ApiAssert.state(existsRole,RebaccaCode.Message.ROLE_NOT_EXISTED);
 
-        if (CollectionUtils.isNotEmpty(requestBody.getIds())) {
-            for (Long id: requestBody.getIds()) {
+        if (CollectionUtils.isNotEmpty(grantTO.getIds())) {
+            for (Long id: grantTO.getIds()) {
                 boolean exists = navigationMapper.count(NavigationQO.builder().id(id).display(true).build()) > 0;
                 ApiAssert.state(exists,RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
             }
-            navigationMapper.grant(requestBody.getRoleId(),requestBody.getIds());
+            navigationMapper.grant(grantTO.getRoleId(),grantTO.getIds());
         } else {
-            navigationMapper.clear(requestBody.getRoleId());
+            navigationMapper.clear(grantTO.getRoleId());
         }
     }
 
@@ -143,9 +144,16 @@ public class NavigationServiceImpl implements NavigationService {
 
     @Override
     public PageInfo<Navigation> queryPage(NavigationQO qo, Pageable pageable) {
-        PageInfo pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qo));
+        PageInfo<Navigation> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qo));
         bindChirdren(pageInfo.getList(), qo.getRoleId());
         return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qo));
+    }
+
+    @Override
+    public List<MyNavigationVO> queryMyNavigationByRoleId(Long id) {
+        List<MyNavigationVO> navigations = navigationMapper.queryMyNavigationByRoleId(id);
+        myBindChirdren(navigations, id);
+        return navigations;
     }
 
     private void bindChirdren(List<Navigation> navigations, Long roleId){
@@ -155,6 +163,18 @@ public class NavigationServiceImpl implements NavigationService {
                     List<Navigation> chirdren = navigationMapper.queryList(NavigationQO.builder().parentId(navigation.getId()).display(true).roleId(roleId).build());
                     navigation.setChildren(chirdren);
                     bindChirdren(chirdren, roleId);
+                }
+            }
+        }
+    }
+
+    private void myBindChirdren(List<MyNavigationVO> navigations, Long roleId){
+        if (CollectionUtils.isNotEmpty(navigations)) {
+            for (MyNavigationVO navigation : navigations) {
+                if (NavigationType.FOLDER.equals(navigation.getType())) {
+                    List<MyNavigationVO> chirdren = navigationMapper.queryMyNavigationList(NavigationQO.builder().parentId(navigation.getId()).display(true).roleId(roleId).build());
+                    navigation.setChildren(chirdren);
+                    myBindChirdren(chirdren, roleId);
                 }
             }
         }

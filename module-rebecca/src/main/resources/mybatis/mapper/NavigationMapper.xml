@@ -47,9 +47,6 @@
             <if test="roleId != null">
                 AND EXISTS (SELECT 1 FROM mdl_role_navigation mrnm WHERE mrnm.role_id = #{roleId,jdbcType=TINYINT} AND mrnm.navigation_id = mnt.id)
             </if>
-            <!--<if test="roleCode != null">-->
-                <!--AND EXISTS (SELECT 1 FROM mdl_role_navigation mrnm INNER JOIN mdl_role mrt ON mrt.id = mrnm.role_id WHERE mrt.`code`= #{roleId,jdbcType=VARCHAR} AND mrnm.navigation_id=mnt.id)-->
-            <!--</if>-->
         </where>
     </sql>
 
@@ -198,6 +195,56 @@
                 AND mrnm.role_id = #{roleId}
             )
         )
+        ORDER BY mnt.orders ASC
+    </select>
+
+    <select id="queryMyNavigationList" resultType="com.minlia.modules.rbac.bean.vo.MyNavigationVO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
+    </select>
+
+    <select id="queryMyNavigationByRoleId" resultType="com.minlia.modules.rbac.bean.vo.MyNavigationVO">
+        SELECT
+            mnt.id ,
+            mnt.type ,
+            mnt.name ,
+            mnt.icon ,
+            mnt.state ,
+            mnt.orders ,
+            mnt.display
+		FROM
+			mdl_navigation mnt
+        WHERE
+            mnt.parent_id IS NULL
+        AND mnt.id IN(
+            SELECT DISTINCT
+                IFNULL(parent_id,id)
+            FROM
+                mdl_navigation
+            WHERE
+                id IN(
+                    SELECT DISTINCT
+                        IFNULL(t.parent_id,t.id)
+                    FROM
+                        mdl_navigation t
+                    INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
+                    WHERE
+                        t.type = 'LEAF'
+                    AND mrnm.role_id = #{roleId}
+                )
+            OR parent_id IN(
+                SELECT DISTINCT
+                    IFNULL(t.parent_id,t.id)
+                FROM
+                    mdl_navigation t
+                INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
+                WHERE
+                    t.type = 'LEAF'
+                AND mrnm.role_id = #{roleId}
+            )
+        )
+        ORDER BY mnt.orders ASC
     </select>
 
     <delete id="clear">
