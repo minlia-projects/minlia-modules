@@ -1,7 +1,6 @@
 package com.minlia.modules.rbac.service;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
 import com.minlia.modules.rbac.bean.domain.Navigation;
 import com.minlia.modules.rbac.bean.domain.Role;
 import com.minlia.modules.rbac.bean.domain.User;
