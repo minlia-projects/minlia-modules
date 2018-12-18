@@ -31,12 +31,10 @@ public interface NavigationService {
 
     Navigation queryById(Long id);
 
-    List<Navigation> queryByRoleId(Long id);
-
     List<Navigation> queryList(NavigationQO qo);
 
     PageInfo<Navigation> queryPage(NavigationQO qo, Pageable pageable);
 
-    List<MyNavigationVO> queryMyNavigationByRoleId(Long id);
+    List<MyNavigationVO> queryMyNavigationList(NavigationQO qo);
 
 }

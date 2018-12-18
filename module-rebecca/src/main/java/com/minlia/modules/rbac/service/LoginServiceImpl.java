@@ -1,9 +1,9 @@
 package com.minlia.modules.rbac.service;
 
 import com.google.common.collect.Lists;
-import com.minlia.modules.rbac.bean.domain.Navigation;
 import com.minlia.modules.rbac.bean.domain.Role;
 import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
@@ -49,7 +49,7 @@ public class LoginServiceImpl implements LoginService {
 
         List<String> roles = roleService.queryCodeByUserId(user.getId());
         Role role = roleService.queryByCode(currrole);
-        List<MyNavigationVO> navigations = navigationService.queryMyNavigationByRoleId(role.getId());
+        List<MyNavigationVO> navigations = navigationService.queryMyNavigationList(NavigationQO.builder().isOneLevel(true).display(true).roleId(role.getId()).build());
         List<String> permissions = permissionService.getPermissionCodes(Lists.newArrayList(currrole));
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {

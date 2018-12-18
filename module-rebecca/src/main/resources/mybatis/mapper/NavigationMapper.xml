@@ -21,10 +21,6 @@
 	</sql>
 
     <sql id="QUERY_CONDITION">
-        <if test="roleId != null">
-            INNER JOIN mdl_role_navigation mrnm on mrnm.navigation_id = mnt.id
-        </if>
-
         <where>
             <if test="id != null">
                 AND mnt.id = #{id,jdbcType=SMALLINT}
@@ -56,6 +52,9 @@
             <foreach collection="sorts" item="item" separator=",">
                 mnt.${item.filed} ${item.direction}
             </foreach>
+        </if>
+        <if test="sorts == null">
+            ORDER BY orders ASC
         </if>
     </sql>
 
@@ -135,8 +134,8 @@
         DELETE FROM mdl_role_navigation where role_id = #{arg0};
 
         INSERT INTO mdl_role_navigation(
-        role_id ,
-        navigation_id
+            role_id ,
+            navigation_id
         )
         VALUES
         <foreach collection="arg1" item="item" index="index" separator=",">
@@ -164,87 +163,10 @@
         <include refid="ORDER_BY"/>
     </select>
 
-    <select id="queryByRoleId" resultType="com.minlia.modules.rbac.bean.domain.Navigation">
-        <include refid="QUERY_CONTENT"/>
-        WHERE
-            mnt.parent_id IS NULL
-        AND mnt.id IN(
-            SELECT DISTINCT
-                IFNULL(parent_id,id)
-            FROM
-                mdl_navigation
-            WHERE
-                id IN(
-                    SELECT DISTINCT
-                        IFNULL(t.parent_id,t.id)
-                    FROM
-                        mdl_navigation t
-                    INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
-                    WHERE
-                        t.type = 'LEAF'
-                    AND mrnm.role_id = #{roleId}
-                )
-            OR parent_id IN(
-                SELECT DISTINCT
-                    IFNULL(t.parent_id,t.id)
-                FROM
-                    mdl_navigation t
-                INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
-                WHERE
-                    t.type = 'LEAF'
-                AND mrnm.role_id = #{roleId}
-            )
-        )
-        ORDER BY mnt.orders ASC
-    </select>
-
     <select id="queryMyNavigationList" resultType="com.minlia.modules.rbac.bean.vo.MyNavigationVO">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>
-    </select>
-
-    <select id="queryMyNavigationByRoleId" resultType="com.minlia.modules.rbac.bean.vo.MyNavigationVO">
-        SELECT
-            mnt.id ,
-            mnt.type ,
-            mnt.name ,
-            mnt.icon ,
-            mnt.state ,
-            mnt.orders ,
-            mnt.display
-		FROM
-			mdl_navigation mnt
-        WHERE
-            mnt.parent_id IS NULL
-        AND mnt.id IN(
-            SELECT DISTINCT
-                IFNULL(parent_id,id)
-            FROM
-                mdl_navigation
-            WHERE
-                id IN(
-                    SELECT DISTINCT
-                        IFNULL(t.parent_id,t.id)
-                    FROM
-                        mdl_navigation t
-                    INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
-                    WHERE
-                        t.type = 'LEAF'
-                    AND mrnm.role_id = #{roleId}
-                )
-            OR parent_id IN(
-                SELECT DISTINCT
-                    IFNULL(t.parent_id,t.id)
-                FROM
-                    mdl_navigation t
-                INNER JOIN mdl_role_navigation mrnm ON mrnm.navigation_id = t.id
-                WHERE
-                    t.type = 'LEAF'
-                AND mrnm.role_id = #{roleId}
-            )
-        )
-        ORDER BY mnt.orders ASC
     </select>
 
     <delete id="clear">

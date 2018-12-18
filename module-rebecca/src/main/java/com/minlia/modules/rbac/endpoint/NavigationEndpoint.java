@@ -102,7 +102,7 @@ public class NavigationEndpoint {
     @ApiOperation(value = "根据角色ID查询", notes = "根据角色ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryByRoleId", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response queryByRoleId(@RequestParam Long id) {
-        return Response.success(navigationService.queryByRoleId(id));
+        return Response.success(navigationService.queryMyNavigationList(NavigationQO.builder().isOneLevel(true).roleId(id).build()));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")

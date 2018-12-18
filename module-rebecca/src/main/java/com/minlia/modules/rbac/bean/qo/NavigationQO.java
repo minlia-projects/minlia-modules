@@ -22,8 +22,6 @@ public class NavigationQO extends QueryRequest {
 
     private Long roleId;
 
-//    private String roleCode;
-
     private NavigationType type;
 
     private String name;

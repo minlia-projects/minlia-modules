@@ -28,11 +28,7 @@ public interface NavigationMapper {
 
     List<Navigation> queryList(NavigationQO qo);
 
-    List<Navigation> queryByRoleId(Long roleId);
-
     List<MyNavigationVO> queryMyNavigationList(NavigationQO qo);
-
-    List<MyNavigationVO> queryMyNavigationByRoleId(Long roleId);
 
     void clear(Long roleId);
 }

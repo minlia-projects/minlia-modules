@@ -2,12 +2,14 @@ package com.minlia.module.data.bean;
 
 import com.google.common.base.CaseFormat;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * Created by will on 3/19/17.
  */
 @Data
+@AllArgsConstructor
 public class Sort {
 
     @ApiModelProperty(example = "id")

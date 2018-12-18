@@ -2,16 +2,18 @@ package com.minlia.modules.rbac.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.module.data.bean.Sort;
+import com.minlia.modules.rbac.bean.domain.Navigation;
+import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationCTO;
 import com.minlia.modules.rbac.bean.to.NavigationGrantTO;
-import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationUTO;
-import com.minlia.modules.rbac.bean.domain.Navigation;
+import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
+import com.minlia.modules.rbac.constant.RebaccaCode;
 import com.minlia.modules.rbac.enumeration.NavigationType;
 import com.minlia.modules.rbac.mapper.NavigationMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -129,13 +131,6 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public List<Navigation> queryByRoleId(Long id) {
-        List<Navigation> navigations = navigationMapper.queryByRoleId(id);
-        bindChirdren(navigations, id);
-        return navigations;
-    }
-
-    @Override
     public List<Navigation> queryList(NavigationQO qo) {
         List<Navigation> navigations = navigationMapper.queryList(qo);
         bindChirdren(navigations, qo.getRoleId());
@@ -150,9 +145,10 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public List<MyNavigationVO> queryMyNavigationByRoleId(Long id) {
-        List<MyNavigationVO> navigations = navigationMapper.queryMyNavigationByRoleId(id);
-        myBindChirdren(navigations, id);
+    public List<MyNavigationVO> queryMyNavigationList(NavigationQO qo) {
+//        qo.setSorts(Lists.newArrayList(new Sort("sorts", Sort.Direction.ASC)));
+        List<MyNavigationVO> navigations = navigationMapper.queryMyNavigationList(qo);
+        myBindChirdren(navigations, qo.getRoleId());
         return navigations;
     }
 
