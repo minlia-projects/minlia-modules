@@ -51,7 +51,7 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         } else {
             result = alipayTradeAppPayPay(body, number, amount, result);
         }
-        return Response.success(result, SystemCode.Message.SUCCESS);
+        return Response.success(SystemCode.Message.SUCCESS, result);
     }
 
     private String alipayTradePrecreatePay(CreatePreOrderRequestBody body, String number, Double amount, String result) {
