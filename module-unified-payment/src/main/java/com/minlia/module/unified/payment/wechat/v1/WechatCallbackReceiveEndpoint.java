@@ -37,6 +37,26 @@ public class WechatCallbackReceiveEndpoint {
     public String process(HttpServletRequest request) {
         String requestedXmlString = XmlUtils.parseRequst(request);
         log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
+        log.info("wechat callback here");
         if (isOfficialNotificationRequest(requestedXmlString)) {
             log.info("wechat sign here");
             OrderPaidNotificationBody body = new OrderPaidNotificationBody();
