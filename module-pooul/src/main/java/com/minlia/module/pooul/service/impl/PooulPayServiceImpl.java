@@ -98,7 +98,12 @@ public class PooulPayServiceImpl implements PooulPayService {
         pooulOrderService.create(pooulOrderDO);
 
         //保存支付参数
-        PooulPayData pooulData = claims.get(PooulContracts.DATA).as(PooulPayData.class);
+
+//        PooulPayData pooulData = claims.get(PooulContracts.DATA).as(PooulPayData.class);
+
+        String pooulDataStr = claims.get(PooulContracts.DATA).asString();
+        PooulPayData pooulData = new Gson().fromJson(pooulDataStr, PooulPayData.class);
+
         PooulPayInfoDO pooulPayInfo = new Gson().fromJson(pooulData.getPay_info(),PooulPayInfoDO.class);
         pooulPayInfo.setMchTradeId(jsminipgTO.getMchTradeId());
         pooulPayInfoMapper.create(pooulPayInfo);
