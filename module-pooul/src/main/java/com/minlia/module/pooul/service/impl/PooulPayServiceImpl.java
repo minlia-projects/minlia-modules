@@ -102,11 +102,11 @@ public class PooulPayServiceImpl implements PooulPayService {
 //        PooulPayData pooulData = claims.get(PooulContracts.DATA).as(PooulPayData.class);
 
         log.info("支付返回参数：{}", claims.toString());
-        String pooulDataStr = claims.get(PooulContracts.DATA).asString();
-        log.info("支付返回参数：{}", pooulDataStr);
-        PooulPayData pooulData = new Gson().fromJson(pooulDataStr, PooulPayData.class);
+        Map pooulDataMap = claims.get(PooulContracts.DATA).asMap();
+        log.info("支付返回参数：{}", pooulDataMap.toString());
+//        PooulPayData pooulData = new Gson().fromJson(pooulDataMap.get(), PooulPayData.class);
 
-        PooulPayInfoDO pooulPayInfo = new Gson().fromJson(pooulData.getPay_info(),PooulPayInfoDO.class);
+        PooulPayInfoDO pooulPayInfo = new Gson().fromJson(pooulDataMap.get("pay_info").toString(), PooulPayInfoDO.class);
         pooulPayInfo.setMchTradeId(jsminipgTO.getMchTradeId());
         pooulPayInfoMapper.create(pooulPayInfo);
         return Response.success(pooulPayInfo);
