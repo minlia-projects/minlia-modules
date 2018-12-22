@@ -101,8 +101,9 @@ public class PooulPayServiceImpl implements PooulPayService {
 
 //        PooulPayData pooulData = claims.get(PooulContracts.DATA).as(PooulPayData.class);
 
+        log.info("支付返回参数：{}", claims.toString());
         String pooulDataStr = claims.get(PooulContracts.DATA).asString();
-        System.out.println(pooulDataStr);
+        log.info("支付返回参数：{}", pooulDataStr);
         PooulPayData pooulData = new Gson().fromJson(pooulDataStr, PooulPayData.class);
 
         PooulPayInfoDO pooulPayInfo = new Gson().fromJson(pooulData.getPay_info(),PooulPayInfoDO.class);
