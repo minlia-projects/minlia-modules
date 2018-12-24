@@ -36,21 +36,21 @@ public abstract class AbstractEntity extends WithDateEntity {
     }
 
     public String getLastModifiedBy() {
-        return UserPrincipalHolder.getCurrentUserLogin();
+        return null == lastModifiedBy ? UserPrincipalHolder.getCurrentUserLogin() : lastModifiedBy;
     }
 
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    @JsonProperty("createBy")
-    public String getCreateByAsJson() {
-        return this.createBy;
-    }
-
-    @JsonProperty("lastModifiedBy")
-    public String getLastModifiedByAsJson() {
-        return this.lastModifiedBy;
-    }
+//    @JsonProperty("createBy")
+//    public String getCreateByAsJson() {
+//        return this.createBy;
+//    }
+//
+//    @JsonProperty("lastModifiedBy")
+//    public String getLastModifiedByAsJson() {
+//        return this.lastModifiedBy;
+//    }
 
 }
