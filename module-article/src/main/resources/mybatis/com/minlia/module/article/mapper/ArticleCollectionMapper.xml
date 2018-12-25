@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.article.mapper.ArticleCollectionMapper">
+
+    <resultMap id="articleVOMap" type="com.minlia.module.article.bean.vo.ArticleVO">
+        <id column="id" property="id" />
+        <collection property="labelIds" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
+        <collection property="labelNames" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
+    </resultMap>
+
+    <select id="queryLabelIdList" resultType="java.lang.Long">
+        SELECT alt.id FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+    </select>
+
+    <select id="queryLabelNameList" resultType="java.lang.String">
+        SELECT alt.name FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+    </select>
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            mat.id,
+            mat.category_id,
+            act.`name` AS categoryName,
+            mat.title,
+            mat.content,
+            at.url AS cover,
+            mat.attribute1,
+            mat.notes,
+            mat.enabled,
+            mat.create_by,
+            mat.create_date,
+            mat.last_modified_by,
+            mat.last_modified_date,
+            (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=mat.id) AS commentCount,
+            (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=mat.id AND choose = 1) AS praiseCount,
+            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=mat.id) AS collectionCount,
+            muit.avatar,
+            muit.nickname
+        FROM
+            mdl_article mat
+        INNER JOIN mdl_article_collection mact ON mact.article_id = mat.id
+        INNER JOIN mdl_article_category act on act.id = mat.category_id
+        LEFT JOIN mdl_user_info muit ON muit.guid = mat.create_by
+        LEFT JOIN mdl_attachment at ON at.relation_id = mat.id AND at.belongs_to = 'ARTICLE_COVER'
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="articleId != null">
+                AND mact.article_id = #{articleId}
+            </if>
+            <if test="collector != null">
+                AND mact.collector = #{collector}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                mact.${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+    <insert id="create">
+        INSERT INTO mdl_article_collection (article_id, collector)VALUES(#{arg0}, #{arg1})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM mdl_article_collection WHERE article_id = #{arg0} AND collector = #{arg1}
+    </delete>
+
+    <select id="queryCount" resultType="long">
+        SELECT COUNT(1) FROM mdl_article_collection mact
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultMap="articleVOMap">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
+    </select>
+
+</mapper>

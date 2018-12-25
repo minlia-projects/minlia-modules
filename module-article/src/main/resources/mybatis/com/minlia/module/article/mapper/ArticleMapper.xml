@@ -39,8 +39,6 @@
             t.id,
             t.category_id,
             act.`name` AS categoryName,
---             (SELECT GROUP_CONCAT(alt.`id`) FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=t.id) AS labelIds,
---             (SELECT GROUP_CONCAT(alt.`name`) FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=t.id) AS labelNames,
             t.title,
             t.content,
             at.url AS cover,
@@ -53,6 +51,7 @@
             t.last_modified_date,
             (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=t.id) AS commentCount,
             (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=t.id AND choose = 1) AS praiseCount,
+            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=mat.id) AS collectionCount,
             muit.avatar,
             muit.nickname
         FROM
