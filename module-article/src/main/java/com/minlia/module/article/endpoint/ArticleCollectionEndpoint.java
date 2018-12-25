@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = "System Article Collection", description = "文章收藏")
+@Api(tags = "System Article Collection", description = "文章-收藏")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "article/collection")
 public class ArticleCollectionEndpoint {
