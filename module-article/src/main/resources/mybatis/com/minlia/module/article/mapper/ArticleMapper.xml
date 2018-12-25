@@ -51,7 +51,7 @@
             t.last_modified_date,
             (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=t.id) AS commentCount,
             (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=t.id AND choose = 1) AS praiseCount,
-            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=mat.id) AS collectionCount,
+            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=t.id) AS collectionCount,
             muit.avatar,
             muit.nickname
         FROM
