@@ -27,9 +27,12 @@ public interface AttachmentMapper {
 
     List<Attachment> queryList(AttachmentQO qo);
 
+    List<String> queryUrlList(AttachmentQO qo);
+
     Attachment queryFirstByUnusedKey(String key);
 
     String queryUrls(String relationId, String belongsTo);
 
     String queryFirstUrl(String relationId, String belongsTo);
+
 }

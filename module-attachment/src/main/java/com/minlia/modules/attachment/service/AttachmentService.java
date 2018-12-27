@@ -72,6 +72,8 @@ public interface AttachmentService {
 
     PageInfo<Attachment> queryPage(AttachmentQO qo, Pageable pageable);
 
+    List<String>  queryUrls(AttachmentQO qo);
+
     /**
      * 改为集合 TODO
      * @param relationId
