@@ -146,7 +146,7 @@
 
     <select id="queryUrlList" resultType="String">
         SELECT
-            mat.url ,
+            mat.url
         FROM mdl_attachment mat
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>
