@@ -2,6 +2,7 @@ package com.minlia.module.unified.payment.alipay.v1;
 
 import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayConstants;
+import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.domain.AlipayTradePrecreateModel;
@@ -32,8 +33,8 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
      * 后端发起订单创建流程
      */
     public Response createPreOrder(CreatePreOrderRequestBody body) {
-        String result = null;
-        String number = "";
+        AlipayResponse result;
+        String number;
         Double amount = ((Double.parseDouble(body.getAmount().toString())) / 100);
 
         if (StringUtils.isEmpty(body.getNumber())) {
@@ -44,19 +45,18 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
 
         if (StringUtils.isNotEmpty(body.getTradeType())) {
             if (body.getTradeType().equals("NATIVE")) {
-                result = alipayTradePrecreatePay(body, number, amount, result);
+                result = alipayTradePrecreatePay(body, number, amount);
             } else {
-                result = alipayTradeAppPayPay(body, number, amount, result);
+                result = alipayTradeAppPayPay(body, number, amount);
             }
         } else {
-            result = alipayTradeAppPayPay(body, number, amount, result);
+            result = alipayTradeAppPayPay(body, number, amount);
         }
-        return Response.success(SystemCode.Message.SUCCESS, result);
+        return Response.success(result);
     }
 
-    private String alipayTradePrecreatePay(CreatePreOrderRequestBody body, String number, Double amount, String result) {
+    private AlipayTradePrecreateResponse alipayTradePrecreatePay(CreatePreOrderRequestBody body, String number, Double amount) {
         //页面端支付
-
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         AlipayTradePrecreateModel model = new AlipayTradePrecreateModel();
         model.setOutTradeNo(number);
@@ -68,20 +68,16 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         request.setBizModel(model);
         request.setNotifyUrl(alipayConfig.getCallback());
         try {
-            AlipayTradePrecreateResponse response = alipayClient.execute(request);
-            //得到SDK的返回结果
-            result = response.getBody();
-            log.debug("For frontend {}", result);
+            return alipayClient.execute(request);
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
             ApiAssert.state(false, SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), e.getMessage());
         }
-
-        return result;
+        return null;
     }
 
-    private String alipayTradeAppPayPay(CreatePreOrderRequestBody body, String number, Double amount, String result) {
+    private AlipayTradeAppPayResponse alipayTradeAppPayPay(CreatePreOrderRequestBody body, String number, Double amount) {
         //APP支付
         AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
         AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
@@ -94,14 +90,11 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         request.setBizModel(model);
         request.setNotifyUrl(alipayConfig.getCallback());
         try {
-            AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
-            //得到SDK的返回结果
-            result = response.getBody();
-            log.debug("For frontend {}", result);
+            return alipayClient.sdkExecute(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return null;
     }
 
     //在构造里面初始化
