@@ -58,7 +58,7 @@
             mdl_article mat
         INNER JOIN mdl_article_category act ON act.id = mat.category_id
         LEFT JOIN mdl_user_info muit ON muit.guid = mat.create_by
-        LEFT JOIN mdl_attachment AT ON AT.relation_id = mat.id AND AT.belongs_to = 'ARTICLE_COVER'
+        LEFT JOIN mdl_attachment at ON at.relation_id = mat.id AND at.belongs_to = 'ARTICLE_COVER'
 	</sql>
 
     <sql id="QUERY_CONDITION">
