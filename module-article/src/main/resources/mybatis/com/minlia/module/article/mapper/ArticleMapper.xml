@@ -4,20 +4,20 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
-            t.id,
-            t.category_id,
-            t.title,
-            t.content,
-            t.cover,
-            t.attribute1,
-            t.notes,
-            t.enabled,
-            t.create_by,
-            t.create_date,
-            t.last_modified_by,
-            t.last_modified_date
+            mat.id,
+            mat.category_id,
+            mat.title,
+            mat.content,
+            mat.cover,
+            mat.attribute1,
+            mat.notes,
+            mat.enabled,
+            mat.create_by,
+            mat.create_date,
+            mat.last_modified_by,
+            mat.last_modified_date
         FROM
-            mdl_article t
+            mdl_article mat
 	</sql>
 
     <resultMap id="articleVOMap" type="com.minlia.module.article.bean.vo.ArticleVO">
@@ -27,62 +27,62 @@
     </resultMap>
 
     <select id="queryLabelIdList" resultType="java.lang.Long">
-        SELECT alt.id FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+        SELECT malt.id FROM mdl_article_label_t malt INNER JOIN mdl_article_label_m malm ON malm.label_id=malt.id WHERE malm.article_id=#{id}
     </select>
 
     <select id="queryLabelNameList" resultType="java.lang.String">
-        SELECT alt.name FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+        SELECT malt.name FROM mdl_article_label_t malt INNER JOIN mdl_article_label_m malm ON malm.label_id=malt.id WHERE malm.article_id=#{id}
     </select>
 
     <sql id="QUERY_DETAIL_CONTENT">
         SELECT
-            t.id,
-            t.category_id,
+            mat.id,
+            mat.category_id,
             act.`name` AS categoryName,
-            t.title,
-            t.content,
+            mat.title,
+            mat.content,
             at.url AS cover,
-            t.attribute1,
-            t.notes,
-            t.enabled,
-            t.create_by,
-            t.create_date,
-            t.last_modified_by,
-            t.last_modified_date,
-            (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=t.id) AS commentCount,
-            (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=t.id AND choose = 1) AS praiseCount,
-            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=t.id) AS collectionCount,
+            mat.attribute1,
+            mat.notes,
+            mat.enabled,
+            mat.create_by,
+            mat.create_date,
+            mat.last_modified_by,
+            mat.last_modified_date,
+            (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=mat.id) AS commentCount,
+            (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=mat.id AND choose=1) AS praiseCount,
+            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=mat.id) AS collectionCount,
             muit.avatar,
             muit.nickname
         FROM
-            mdl_article t
-        INNER JOIN mdl_article_category act on act.id = t.category_id
-        LEFT JOIN mdl_user_info muit ON muit.guid = t.create_by
-        LEFT JOIN mdl_attachment at ON at.relation_id = t.id AND at.belongs_to = 'ARTICLE_COVER'
+            mdl_article mat
+        INNER JOIN mdl_article_category act ON act.id = mat.category_id
+        LEFT JOIN mdl_user_info muit ON muit.guid = mat.create_by
+        LEFT JOIN mdl_attachment AT ON AT.relation_id = mat.id AND AT.belongs_to = 'ARTICLE_COVER'
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="categoryId != null">
-                t.category_id = #{categoryId}
+                mat.category_id = #{categoryId}
             </if>
             <if test="id != null">
-                AND t.id = #{id}
+                AND mat.id = #{id}
             </if>
             <if test="title != null">
-                AND instr(t.title, #{title}) > 0
+                AND instr(mat.title, #{title}) > 0
             </if>
             <if test="keywords != null">
-                AND instr(t.title, #{title}) > 0
+                AND instr(mat.title, #{title}) > 0
             </if>
             <if test="attribute1 != null">
-                AND t.attribute1 = #{attribute1}
+                AND mat.attribute1 = #{attribute1}
             </if>
             <if test="enabled != null">
-                AND t.enabled = #{enabled}
+                AND mat.enabled = #{enabled}
             </if>
             <if test="labelId != null">
-                AND EXISTS (SELECT 1 FROM mdl_article_label_m m WHERE m.article_id=t.id AND m.label_id=#{labelId})
+                AND EXISTS (SELECT 1 FROM mdl_article_label_m m WHERE m.article_id = mat.id AND m.label_id = #{labelId})
             </if>
         </where>
     </sql>
@@ -91,7 +91,7 @@
         <if test="sorts != null">
             ORDER BY
             <foreach collection="sorts" item="item" separator=",">
-                t.${item.filed} ${item.direction}
+                mat.${item.filed} ${item.direction}
             </foreach>
         </if>
     </sql>
@@ -168,11 +168,11 @@
 
     <select id="queryById" resultType="com.minlia.module.article.bean.domain.Article">
         <include refid="QUERY_CONTENT"/>
-        WHERE t.id = #{id}
+        WHERE mat.id = #{id}
     </select>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM mdl_article t
+        SELECT COUNT(1) FROM mdl_article mat
         <include refid="QUERY_CONDITION"/>
     </select>
 
