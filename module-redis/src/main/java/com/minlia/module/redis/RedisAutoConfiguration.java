@@ -96,24 +96,26 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
     @Primary
     public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         StringRedisTemplate redisTemplate = new StringRedisTemplate(redisConnectionFactory);
+        redisTemplate.afterPropertiesSet();
+        this.setSerializer(redisTemplate);
+        return redisTemplate;
+    }
 
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
-        redisTemplate.setKeySerializer(stringRedisSerializer);
-
+    private void setSerializer(RedisTemplate<String, String> redisTemplate) {
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
-
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
-//        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-        redisTemplate.afterPropertiesSet();
-        return redisTemplate;
+
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
     }
 
-
     @Bean
+    @Primary
     @ConditionalOnBean(value = {RedisTemplate.class})
     public ZSetOperations zSetOperations(RedisTemplate redisTemplate) {
         return redisTemplate.opsForZSet();

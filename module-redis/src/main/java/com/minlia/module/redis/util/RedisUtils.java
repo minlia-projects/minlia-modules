@@ -33,7 +33,7 @@ public class RedisUtils {
     }
 
     public static ZSetOperations getZSetOperations(){
-        if (null == redisTemplate) {
+        if (null == zSetOperations) {
             zSetOperations = ContextHolder.getContext().getBean(ZSetOperations.class);
         }
         return zSetOperations;
@@ -430,6 +430,24 @@ public class RedisUtils {
      */
     public static boolean zset(String key, Object value, long scope){
         return getZSetOperations().add(key, value, scope);
+    }
+
+    /**
+     * 正序获取
+     * @param key
+     * @return
+     */
+    public static Set<Object> zrange(String key, long start, long end){
+        return getZSetOperations().rangeByScore(key, start, end);
+    }
+
+    /**
+     * 倒序获取
+     * @param key
+     * @return
+     */
+    public static Set<Object> reverseRange(String key, long start, long end){
+        return getZSetOperations().rangeByScore(key, start, end);
     }
 
     /**
