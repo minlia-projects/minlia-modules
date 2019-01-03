@@ -26,6 +26,4 @@ public interface UserService {
 
     void grant(String guid, Set<Long> roles);
 
-    void grant(long id, Set<Long> roles);
-
 }

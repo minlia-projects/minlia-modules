@@ -109,6 +109,11 @@ public class RebaccaCode {
          */
         USER_NO_EMAIL(100213,"system.user.message.100213"),
 
+        /**
+         * 用户没有当前角色
+         */
+        USER_DOES_NOT_HAD_ROLE(100214,"system.user.message.100214"),
+
 
 
         /**

@@ -8,6 +8,8 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
+
 
 /**
  * 用户-修改
@@ -31,6 +33,6 @@ public class UserUTO implements ApiRequestBody {
     @Password
     private String password;
 
-    private String defaultRole;
+    private Long defaultRole;
 
 }

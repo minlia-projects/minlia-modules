@@ -110,7 +110,7 @@
 
 	<select id="queryCodeByUserId" resultType="java.lang.String">
 		SELECT
-			CODE
+			rt.code
 		FROM
 			mdl_role rt
 		INNER JOIN mdl_user_role mp ON mp.role_id = rt.id
@@ -121,7 +121,7 @@
 
 	<select id="queryIdByUserId" resultType="java.lang.Long">
 		SELECT
-			id
+			rt.id
 		FROM
 			mdl_role rt
 		INNER JOIN mdl_user_role mp ON mp.role_id = rt.id

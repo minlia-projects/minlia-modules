@@ -1,5 +1,6 @@
 package com.minlia.modules.rbac.service;
 
+import com.google.common.collect.Sets;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.data.util.SequenceUtils;
 import com.minlia.modules.rbac.constant.RebaccaCode;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -79,7 +81,7 @@ public class UserServiceImpl implements UserService {
         //给用户授予角色
         cto.getRoles().add(cto.getDefaultRole());
         if (CollectionUtils.isNotEmpty(cto.getRoles())) {
-            this.grant(user.getId(),cto.getRoles());
+            userMapper.grant(user.getId(), cto.getRoles());
         }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
@@ -88,16 +90,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(UserUTO body) {
-        User user = userQueryService.queryByGuidAndNotNull(body.getGuid());
-        if (StringUtils.isNotBlank(body.getPassword())) {
-            user.setPassword(bCryptPasswordEncoder.encode(body.getPassword()));
+    public User update(UserUTO uto) {
+        User user = userQueryService.queryByGuidAndNotNull(uto.getGuid());
+        if (StringUtils.isNotBlank(uto.getPassword())) {
+            user.setPassword(bCryptPasswordEncoder.encode(uto.getPassword()));
         }
-        if (StringUtils.isNotBlank(body.getDefaultRole())) {
-            Role role = roleService.queryByCode(body.getDefaultRole());
-            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
-            user.setDefaultRole(body.getDefaultRole());
+        if (null !=uto.getDefaultRole()) {
+            Role role = roleService.queryById(uto.getDefaultRole());
+            ApiAssert.notNull(role, RebaccaCode.Message.USER_DOES_NOT_HAD_ROLE);
+
+            List<Long> roleIds = roleService.queryIdByUserId(user.getId());
+            roleIds.add(role.getId());
+            userMapper.grant(user.getId(), Sets.newHashSet(roleIds));
+
+            user.setDefaultRole(role.getCode());
         }
+//        if (StringUtils.isNotBlank(body.getDefaultRole())) {
+//            Role role = roleService.queryByCode(body.getDefaultRole());
+//            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
+//            user.setDefaultRole(body.getDefaultRole());
+//        }
         userMapper.update(user);
         return user;
     }
@@ -147,16 +159,12 @@ public class UserServiceImpl implements UserService {
     public void grant(String guid, Set<Long> roles) {
         User user = userMapper.queryOne(UserQO.builder().guid(guid).build());
         ApiAssert.notNull(user,RebaccaCode.Message.USER_NOT_EXISTED);
-        this.grant(user.getId(),roles);
-    }
 
-    @Override
-    public void grant(long id, Set<Long> roles) {
         for (Long roleId : roles) {
             Role role = roleService.queryById(roleId);
             ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
         }
-        userMapper.grant(id,roles);
+        userMapper.grant(user.getId(),roles);
     }
 
 }
