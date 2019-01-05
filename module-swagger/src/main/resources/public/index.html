@@ -137,16 +137,8 @@
             <input type="button" id="refresh" class="btn" value="刷新页面"   />
         </div>
         <div style="text-align: center;">
-            <select id="method" name="method" class="btn">
-                <option value="USERNAME">用户名</option>
-                <option value="CELLPHONE">手机号码</option>
-                <option value="EMAIL">邮箱</option>
-            </select>
-        </div>
-
-        <div style="text-align: center;">
-            <input type="text" id="username" name="username" class="btn" value="admin"   /><br />
-            <input type="text" id="password" name="password" class="btn" value="admin"   /><br />
+            <input type="text" id="username" name="username" class="btn" placeholder="用户名/手机号码/邮箱" /><br />
+            <input type="text" id="password" name="password" class="btn" placeholder="密码" /><br />
             <input type="button" id="login" class="btn" value="登录"   />
         </div>
     </div>
@@ -169,13 +161,11 @@
 
 
         function login(){
-
-            var method=$("#method").val();
             var username=$("#username").val();
             var password=$("#password").val();
 
             var url='/api/auth/login';
-            var data={'method':method,'username':username,'password':password};
+            var data={'username':username,'password':password};
             $.ajax({
                 url:url,
                 data: JSON.stringify(data),
