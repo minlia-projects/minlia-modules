@@ -48,22 +48,22 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     }
 
     @Override
-    public User change(PasswordByCaptchaChangeTO body) {
+    public User change(PasswordByCaptchaChangeTO to) {
         User user = SecurityContextHolder.getCurrentUser();
 
         //验证验证码是否正确
-        captchaService.validityByCellphone(user.getUsername(), body.getCode());
+        captchaService.validityByCellphone(user.getUsername(), to.getCode());
 
-        return change(user,body.getNewPassword());
+        return change(user,to.getNewPassword());
     }
 
     @Override
-    public User change(PasswordByRawPasswordChangeTO body) {
+    public User change(PasswordByRawPasswordChangeTO to) {
         User user= SecurityContextHolder.getCurrentUser();
 
-        Boolean bool = bCryptPasswordEncoder.matches(body.getRawPassword(),user.getPassword());
-        ApiAssert.state(!bool, RebaccaCode.Message.USER_RAW_PASSWORD_ERROR);
-        return change(user,body.getNewPassword());
+        Boolean bool = bCryptPasswordEncoder.matches(to.getRawPassword(),user.getPassword());
+        ApiAssert.state(bool, RebaccaCode.Message.USER_RAW_PASSWORD_ERROR);
+        return change(user,to.getNewPassword());
     }
 
     private User change(User user,String newPassword) {
