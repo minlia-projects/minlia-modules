@@ -7,11 +7,11 @@
 			mpt.id ,
 			mpt.code ,
 			mpt.label ,
-			mpt.create_date ,
+			mpt.enabled ,
 			mpt.create_by ,
-			mpt.last_modified_date ,
+			mpt.create_date ,
 			mpt.last_modified_by ,
-			mpt.enabled
+			mpt.last_modified_date
 		FROM
 			mdl_permission mpt
 	</sql>
@@ -40,7 +40,7 @@
         <if test="enabled != null">
             enabled = #{enabled,jdbcType=TINYINT} ,
         </if>
-        last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
 

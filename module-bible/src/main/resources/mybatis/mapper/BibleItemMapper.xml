@@ -13,10 +13,10 @@
 			mbit.attribute1 ,
 			mbit.attribute2 ,
 			mbit.attribute3 ,
-			mbit.create_date ,
 			mbit.create_by ,
-			mbit.last_modified_date ,
-			mbit.last_modified_by
+			mbit.create_date ,
+			mbit.last_modified_by,
+			mbit.last_modified_date
 		FROM
 			mdl_bible_item mbit
 	</sql>
@@ -97,8 +97,7 @@
             <if test="sorts != null">
                 sorts = #{sorts},
             </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
     </update>

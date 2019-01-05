@@ -8,10 +8,10 @@
 			mbt.code ,
 			mbt.value ,
 			mbt.notes ,
-			mbt.create_date ,
 			mbt.create_by ,
-			mbt.last_modified_date ,
-			mbt.last_modified_by
+			mbt.create_date ,
+			mbt.last_modified_by,
+			mbt.last_modified_date
 		FROM mdl_bible mbt
 	</sql>
 
@@ -57,8 +57,7 @@
             <if test="notes != null">
                 notes = #{notes},
             </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
     </update>

@@ -14,8 +14,8 @@
 			mat.access_key ,
 			mat.create_date ,
 			mat.create_by ,
-			mat.last_modified_date ,
-			mat.last_modified_by
+			mat.last_modified_by,
+			mat.last_modified_date
 		FROM mdl_attachment mat
 	</sql>
 
@@ -119,8 +119,7 @@
             <if test="accessKey != null">
                 access_key = #{accessKey},
             </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
     </update>

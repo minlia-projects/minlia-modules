@@ -123,7 +123,6 @@
             <if test="null != notes">
                 notes = #{notes},
             </if>
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP} ,
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id}

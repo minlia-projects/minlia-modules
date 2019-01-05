@@ -12,10 +12,10 @@
             mnt.orders ,
             mnt.parent_id ,
             mnt.display,
-			mnt.create_date  ,
 			mnt.create_by  ,
-			mnt.last_modified_date ,
-			mnt.last_modified_by
+			mnt.create_date  ,
+			mnt.last_modified_by,
+			mnt.last_modified_date
 		FROM
 			mdl_navigation mnt
 	</sql>
@@ -104,8 +104,7 @@
         <if test="display != null">
             display = #{display,jdbcType=TINYINT} ,
         </if>
-        last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
-        last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         WHERE id = #{id,jdbcType=SMALLINT}
     </update>
 

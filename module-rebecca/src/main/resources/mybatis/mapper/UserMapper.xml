@@ -18,11 +18,11 @@
             mut.last_login_time ,
             mut.last_login_ip ,
             mut.referral ,
-            mut.create_date ,
+            mut.enabled,
             mut.create_by ,
-            mut.last_modified_date ,
+            mut.create_date ,
             mut.last_modified_by ,
-            mut.enabled
+            mut.last_modified_date
         FROM
             mdl_user mut
     </sql>
@@ -116,7 +116,7 @@
             <if test="lastLoginIp != null">
                 last_login_ip = #{lastLoginIp,jdbcType=VARCHAR} ,
             </if>
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE guid = #{guid,jdbcType=VARCHAR}
     </update>

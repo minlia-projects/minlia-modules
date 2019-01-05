@@ -77,7 +77,6 @@
             <if test="locale != null">
                 locale = #{locale},
             </if>
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP} ,
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
     </update>

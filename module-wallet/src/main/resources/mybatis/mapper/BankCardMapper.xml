@@ -13,10 +13,10 @@
             bct.number ,
             bct.bank_code ,
             bct.is_withdraw ,
-            bct.create_date ,
             bct.create_by ,
-            bct.last_modified_date ,
+            bct.create_date ,
             bct.last_modified_by ,
+            bct.last_modified_date ,
             bbt.province ,
             bbt.city ,
             bbt.district ,
@@ -107,8 +107,7 @@
             <if test="isWithdraw != null">
                 is_withdraw = #{isWithdraw} ,
             </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=TINYINT}
     </update>

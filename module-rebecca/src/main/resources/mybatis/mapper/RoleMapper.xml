@@ -8,11 +8,11 @@
 			rt.code ,
 			rt.label ,
 			rt.notes ,
-			rt.create_date ,
+			rt.enabled ,
 			rt.create_by ,
-			rt.last_modified_date ,
+			rt.create_date ,
 			rt.last_modified_by ,
-			rt.enabled
+			rt.last_modified_date
 		FROM
 			mdl_role rt
 	</sql>
@@ -59,8 +59,7 @@
 		<if test="enabled != null">
 			enabled = #{enabled,jdbcType=TINYINT} ,
 		</if>
-			last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
-			last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+			last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
 		WHERE code = #{code,jdbcType=VARCHAR}
 	</update>
 

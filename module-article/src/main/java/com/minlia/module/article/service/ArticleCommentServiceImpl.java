@@ -39,7 +39,7 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
         long count = articleService.count(ArticleQO.builder().id(cto.getArticleId()).build());
         ApiAssert.state(count == 1, SystemCode.Message.DATA_NOT_EXISTS);
 
-        ApiAssert.state(articleCommentMapper.count(ArticleCommentQO.builder().articleId(cto.getArticleId()).createBy(SecurityContextHolder.getCurrentGuid()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+//        ApiAssert.state(articleCommentMapper.count(ArticleCommentQO.builder().articleId(cto.getArticleId()).createBy(SecurityContextHolder.getCurrentGuid()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         ArticleComment articleComment = mapper.map(cto, ArticleComment.class);
         articleCommentMapper.create(articleComment);

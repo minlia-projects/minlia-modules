@@ -1,33 +1,23 @@
 package com.minlia.module.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minlia.module.data.context.UserPrincipalHolder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-//@JsonInclude(JsonInclude.Include.NON_NULL)
-//@JsonAutoDetect(
-//        fieldVisibility = JsonAutoDetect.Visibility.DEFAULT,
-//        getterVisibility = JsonAutoDetect.Visibility.NONE,
-//        setterVisibility = JsonAutoDetect.Visibility.NONE,
-//        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
-//        creatorVisibility = JsonAutoDetect.Visibility.NONE)
+/**
+ * 审计字段不要手动赋值，与业务无关
+ */
 public abstract class WithDateEntity extends WithIdEntity {
 
     @CreatedDate
-    @NotNull
     private Date createDate;
 
-    @JsonIgnore
     @LastModifiedDate
     private Date lastModifiedDate;
 
     public Date getCreateDate() {
-        return null == createDate ? new Date() : createDate;
+        return createDate;
     }
 
     public void setCreateDate(Date createDate) {
@@ -35,16 +25,11 @@ public abstract class WithDateEntity extends WithIdEntity {
     }
 
     public Date getLastModifiedDate() {
-        return null == lastModifiedDate ? new Date() : lastModifiedDate;
+        return lastModifiedDate;
     }
 
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
-
-//    @JsonProperty("lastModifiedDate")
-//    public Date getLastModifiedDateAsJson(){
-//        return this.lastModifiedDate;
-//    }
 
 }

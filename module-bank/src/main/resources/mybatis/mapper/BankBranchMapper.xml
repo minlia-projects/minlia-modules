@@ -94,8 +94,7 @@
             <if test="type != null">
                 type = #{type,jdbcType=VARCHAR} ,
             </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=TINYINT}
     </update>
