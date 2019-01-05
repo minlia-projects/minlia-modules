@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.code.SecurityCode;
+import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AuthMethodNotSupportedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
@@ -64,10 +67,21 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
      */
     private void preConditions(LoginCredentials credentials){
         ApiAssert.notNull(credentials, SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND);
-        ApiAssert.notNull(credentials.getMethod(), SecurityCode.Exception.LOGIN_METHOD_NOT_NULL);
-
-        if ((StringUtils.isNotBlank(credentials.getUsername()) || StringUtils.isNotBlank(credentials.getCellphone()) || StringUtils.isNotBlank(credentials.getEmail())) && StringUtils.isBlank(credentials.getPassword())) {
+        if (StringUtils.isBlank(credentials.getAccount())) {
             throw new AuthenticationCredentialsNotFoundException("Username or Password not provided");
+        } else {
+            if (Pattern.matches("^1[0-9]{10}$", credentials.getAccount())) {
+                credentials.setCellphone(credentials.getAccount());
+                credentials.setMethod(LoginMethodEnum.CELLPHONE);
+            } else if (Pattern.matches("^[a-zA-z][a-zA-Z0-9_]{2,9}$", credentials.getAccount())) {
+                credentials.setUsername(credentials.getAccount());
+                credentials.setMethod(LoginMethodEnum.USERNAME);
+            } else if (Pattern.matches("^([A-Za-z0-9_\\-\\.\\u4e00-\\u9fa5])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,8})$", credentials.getAccount())) {
+                credentials.setEmail(credentials.getAccount());
+                credentials.setMethod(LoginMethodEnum.EMAIL);
+            } else {
+                throw new BadCredentialsException("");
+            }
         }
     }
 

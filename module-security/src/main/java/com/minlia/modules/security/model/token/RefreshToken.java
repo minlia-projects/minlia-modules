@@ -37,7 +37,7 @@ public class RefreshToken implements JwtToken {
 ////                || !scopes.stream().filter(scope -> Scopes.REFRESH_TOKEN.authority().equals(scope)).findFirst().isPresent()
 //) {
 //            return Optional.empty();
-//        }
+//        }LoginCredentials
         return Optional.of(new RefreshToken(claims));
     }
 

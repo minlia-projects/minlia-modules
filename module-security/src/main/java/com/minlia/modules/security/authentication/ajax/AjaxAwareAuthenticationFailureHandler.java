@@ -40,8 +40,8 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND));
 		} else if (e instanceof UsernameNotFoundException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.USERNAME_NOT_FOUND));
-//		} else if (e instanceof BadCredentialsException) {
-//			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTHENTICATION, "密码错误"));
+		} else if (e instanceof BadCredentialsException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.BAD_CREDENTIALS));
 		} else if (e instanceof AccountExpiredException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_EXPIRED));
 		} else if (e instanceof DisabledException) {

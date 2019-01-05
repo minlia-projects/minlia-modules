@@ -103,7 +103,12 @@ public class SecurityCode {
         /**
          * 登陆方式不能为空
          */
-        LOGIN_METHOD_NOT_NULL(100118,"system.security.exception.100118");
+        LOGIN_METHOD_NOT_NULL(100118,"system.security.exception.100118"),
+
+        /**
+         * 非法账号格式
+         */
+        DAD_ACCOUNT_PATTERN(100118,"system.security.exception.100118");
 
         private int code;
         private String i18nKey;
