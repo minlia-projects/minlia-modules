@@ -17,6 +17,11 @@ import java.util.Date;
 public class ArticleCommentVO {
 
     /**
+     * 评论ID
+     */
+    private Long id;
+
+    /**
      * 文章ID
      */
     private Long articleId;
@@ -50,5 +55,10 @@ public class ArticleCommentVO {
      * 头像
      */
     private String avatar;
+
+    /**
+     * 评论人
+     */
+    private String createBy;
 
 }
