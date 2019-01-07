@@ -3,8 +3,9 @@ package com.minlia.modules.rbac.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.minlia.modules.rbac.bean.to.PermissionUTO;
+import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.modules.rbac.bean.domain.Permission;
+import com.minlia.modules.rbac.bean.to.PermissionUTO;
 import com.minlia.modules.rbac.mapper.PermissionMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -90,7 +91,7 @@ public class PermissionServiceImpl implements PermissionService {
             List<String> twoLevel = permissionMapper.twoLevel(one);
             for (String two : twoLevel) {
                 List<Map<String,Object>> threes = Lists.newArrayList();
-                List<Map> threeLevel = permissionMapper.threeLevel(one+"."+two);
+                List<Map> threeLevel = permissionMapper.threeLevel(one + SymbolConstants.DOT + two + SymbolConstants.DOT);
                 for (Map three : threeLevel) {
                     threes.add(three);
                 }
