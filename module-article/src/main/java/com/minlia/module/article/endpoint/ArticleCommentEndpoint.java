@@ -26,7 +26,7 @@ public class ArticleCommentEndpoint {
 	@Autowired
 	private ArticleCommentService articleCommentService;
 
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.CREATE + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.READ + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response create(@Valid @RequestBody ArticleCommentCTO cto) {
@@ -41,7 +41,7 @@ public class ArticleCommentEndpoint {
 		return Response.success();
 	}
 
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
+	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.READ + "')")
 	@ApiOperation(value = "我的", notes = "我的", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "me", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response me(@PageableDefault Pageable pageable, @RequestBody ArticleCommentQO qo) {
@@ -62,13 +62,6 @@ public class ArticleCommentEndpoint {
 	public Response count(@RequestBody ArticleCommentQO qo) {
 		return Response.success(articleCommentService.count(qo));
 	}
-
-//	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
-//	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-//	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-//	public Response one(@RequestBody ArticleCommentQO qo) {
-//		return Response.success(articleCommentService.one(qo));
-//	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
