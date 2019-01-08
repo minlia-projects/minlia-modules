@@ -25,7 +25,6 @@ public class ArticleOpenEndpoint {
 	@Autowired
 	private ArticleService articleService;
 
-	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response findByNumber(@PathVariable Long id) {
