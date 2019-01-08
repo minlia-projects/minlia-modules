@@ -30,4 +30,5 @@ public interface UserPasswordService {
      */
     User change(PasswordByRawPasswordChangeTO body);
 
+    User change(User user, String newPassword);
 }

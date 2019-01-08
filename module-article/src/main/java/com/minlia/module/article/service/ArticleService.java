@@ -36,4 +36,11 @@ public interface ArticleService {
 
     PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable);
 
+    /**
+     * 增加阅读数
+     * @param id
+     * @param increment
+     */
+    void plusReadCount(Long id, Integer increment);
+
 }

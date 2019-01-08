@@ -4,7 +4,6 @@ import com.minlia.module.article.bean.domain.Article;
 import com.minlia.module.article.bean.qo.ArticleQO;
 import com.minlia.module.article.bean.to.ArticleSetLabelTO;
 import com.minlia.module.article.bean.vo.ArticleVO;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -32,5 +31,7 @@ public interface ArticleMapper {
     ArticleVO oneVO(ArticleQO qo);
 
     List<ArticleVO> listVO(ArticleQO qo);
+
+    long plusReadCount(Long id, Integer increment);
 
 }

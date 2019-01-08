@@ -46,6 +46,11 @@ public class Article extends AbstractEntity {
     private String notes;
 
     /**
+     * 阅读数
+     */
+    private Integer readCount;
+
+    /**
      * 是否启用
      */
     private Boolean enabled;

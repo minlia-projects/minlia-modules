@@ -66,7 +66,8 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         return change(user,to.getNewPassword());
     }
 
-    private User change(User user,String newPassword) {
+    @Override
+    public User change(User user,String newPassword) {
         //设置新密码
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
         user.setEnabled(Boolean.TRUE);

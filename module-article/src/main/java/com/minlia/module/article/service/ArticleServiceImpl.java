@@ -16,6 +16,7 @@ import com.minlia.module.article.bean.vo.ArticleVO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.mapper.ArticleMapper;
 import com.minlia.modules.attachment.service.AttachmentService;
+import io.swagger.models.auth.In;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
@@ -146,6 +147,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable) {
         return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleMapper.listVO(qo));
+    }
+
+    @Override
+    public void plusReadCount(Long id, Integer increment) {
+        articleMapper.plusReadCount(id, increment);
     }
 
 }
