@@ -8,7 +8,7 @@ import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.bean.AttachmentUploadTO;
-import com.minlia.modules.attachment.bean.dao.AttachmentDTO;
+import com.minlia.modules.attachment.bean.dto.AttachmentDTO;
 import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.property.AttachmentProperties;
