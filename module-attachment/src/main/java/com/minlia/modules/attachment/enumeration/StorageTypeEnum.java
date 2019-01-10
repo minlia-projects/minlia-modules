@@ -1,9 +1,11 @@
 package com.minlia.modules.attachment.enumeration;
 
-public enum AttachmentUploadTypeEnum {
+public enum StorageTypeEnum {
 
     aliyun,
 
-    qcloud
+    qcloud,
+
+    local
 
 }

@@ -20,7 +20,12 @@ public class AttachmentCode {
         /**
          * 附件eTag已绑定
          */
-        ETAG_ALREADY_BIND(101502,"system.attachment.message.101502");
+        ETAG_ALREADY_BIND(101502,"system.attachment.message.101502"),
+
+        /**
+         * 存储类型未设置或设置有误
+         */
+        UNSUPPORTED_OSS_TYPE(101503,"system.attachment.message.101503");
 
         private int code;
         private String i18nKey;

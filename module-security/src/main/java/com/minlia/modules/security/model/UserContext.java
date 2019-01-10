@@ -54,11 +54,11 @@ public final class UserContext implements Body {
     /**
      * 拥有权限点
      */
+    @JsonIgnore
     private List<String> permissions;
 
     /**
      * 拥有权限
-     * [{'authority':'user.change.password'}]
      */
     @JsonIgnore
     private List<GrantedAuthority> authorities;

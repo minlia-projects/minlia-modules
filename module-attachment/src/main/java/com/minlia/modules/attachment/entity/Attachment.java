@@ -3,6 +3,7 @@ package com.minlia.modules.attachment.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.modules.attachment.enumeration.StorageTypeEnum;
 import lombok.*;
 
 /**
@@ -53,5 +54,10 @@ public class Attachment extends AbstractEntity {
      * 访问令牌：234ehdskjds-sdfas-dfds-fds-fa-sdfs-sdfas-d
      */
     private String accessKey;
+
+    /**
+     * 存储类型
+     */
+    private StorageTypeEnum storageType;
 
 }

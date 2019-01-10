@@ -4,11 +4,13 @@ package com.minlia.modules.attachment.service;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.bean.AttachmentUploadTO;
+import com.minlia.modules.attachment.bean.dao.AttachmentDTO;
+import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
-import com.minlia.modules.attachment.enumeration.AttachmentUploadTypeEnum;
 import com.minlia.modules.attachment.property.AttachmentProperties;
 import com.minlia.modules.attachment.util.ContentTypeUtils;
 import com.minlia.modules.attachment.util.OSSPathUtils;
@@ -16,10 +18,14 @@ import com.minlia.modules.qcloud.oss.service.QcloudCosService;
 import com.minlia.modules.qcloud.oss.util.QcloudCosUtils;
 import com.qcloud.cos.model.PutObjectResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 @Service
 @Slf4j
@@ -39,24 +45,24 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
     @Override
     public Response upload(MultipartFile file) throws Exception {
-        if (AttachmentUploadTypeEnum.aliyun.equals(attachmentProperties.getType())) {
-            return uploadByAliyun(file, null, null);
-        } else {
-            return uploadByQcloud(file, null, null);
-        }
+        return upload(file, null, null);
     }
 
     @Override
     public Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
-        if (AttachmentUploadTypeEnum.aliyun.equals(attachmentProperties.getType())) {
-            return uploadByAliyun(file, relationId, belongsTo);
-        } else {
-            return uploadByQcloud(file, relationId, belongsTo);
+        switch (attachmentProperties.getType()) {
+            case aliyun:
+                return uploadByAliyun(file, relationId, belongsTo);
+            case qcloud:
+                return uploadByQcloud(file, relationId, belongsTo);
+            case local:
+                return uploadByLocal(file, relationId, belongsTo);
         }
+        return Response.failure(AttachmentCode.Message.UNSUPPORTED_OSS_TYPE);
     }
 
     private Response uploadByQcloud(MultipartFile file, String relationId, String belongsTo) throws Exception {
-        String path = this.keyGenerate(file, relationId, belongsTo);
+        String path = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
         PutObjectResult result = qcloudCosService.putObject(null,path,file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
         OssFile ossFile= new OssFile(result.getETag());
         ossFile.setContentType(file.getContentType());
@@ -85,7 +91,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         log.info(file.getContentType());
         log.info(file.getOriginalFilename());
 
-        String key = keyGenerate(file, relationId, belongsTo);
+        String key = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
         OssFile ossFile=null;
         try {
             ossFile = ossService.upload(file, key);
@@ -106,18 +112,41 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         return Response.success(ossFile);
     }
 
-    private String keyGenerate(MultipartFile file, String relationId, String belongsTo){
-        if (StringUtils.isNotBlank(belongsTo)) {
-            return String.format("%s/%s/%s", relationId, belongsTo, OSSPathUtils.uuidNameBuild(file.getOriginalFilename()));
-        } else {
-            return OSSPathUtils.defaultBuild(file.getOriginalFilename());
+    private Response uploadByLocal(MultipartFile file, String relationId, String belongsTo){
+        String path = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
+        String filePath = attachmentProperties.getLocal().get("bucket") + path;
+        try {
+            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(filePath));//保存上传的文件到指定路径下
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        Attachment attachment = Attachment.builder()
+                .relationId(relationId)
+                .belongsTo(belongsTo)
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .url(path)
+                .size(file.getSize())
+                .accessKey(NumberGenerator.uuid32())
+                .build();
+        attachmentService.create(attachment);
+
+        AttachmentDTO dto = AttachmentDTO.builder()
+                .url(path)
+                .eTag(attachment.getAccessKey())
+                .fileName(file.getName())
+                .originalFilename(file.getOriginalFilename())
+                .contentType(file.getContentType())
+                .size(file.getSize())
+                .build();
+        return Response.success(dto);
     }
 
     @Override
     public Response upload(AttachmentUploadTO to) {
         if (StringUtils.isEmpty(to.getKey())){
-            to.setKey(OSSPathUtils.defaultBuild(to.getFile().getName()));
+            to.setKey(OSSPathUtils.getDefaultPath(to.getFile().getName()));
         }
 
         PutObjectResult result = qcloudCosService.putObject(null,to.getKey(),to.getFile());

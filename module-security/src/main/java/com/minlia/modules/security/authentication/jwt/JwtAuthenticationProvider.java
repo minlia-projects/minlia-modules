@@ -39,13 +39,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String guid = jwsClaims.getBody().get("guid", String.class);
         String currrole = jwsClaims.getBody().get("currrole", String.class);
         List<String> roles = jwsClaims.getBody().get("roles", List.class);
-        List navigations = jwsClaims.getBody().get("navigations", List.class);
+//        List navigations = jwsClaims.getBody().get("navigations", List.class);
         List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
         Date expirDate = jwsClaims.getBody().getExpiration();
 
-        //TODO
-//        List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
-//        List<GrantedAuthority> authorities = scopes.stream().map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {
             for (String permission : permissions) {
@@ -58,9 +55,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .guid(guid)
                 .currrole(currrole)
                 .roles(roles)
-                .navigations(navigations)
+//                .navigations(navigations)
                 .permissions(permissions)
-//                .authorities(authorities)
                 .expireDate(expirDate)
                 .build();
         return new JwtAuthenticationToken(userContext, authorities);

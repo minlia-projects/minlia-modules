@@ -33,8 +33,8 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private PermissionService permissionService;
 
-    @Autowired
-    private NavigationService navigationService;
+//    @Autowired
+//    private NavigationService navigationService;
 
     @Override
     public UserContext getUserContext(User user, String currrole) {
@@ -48,8 +48,8 @@ public class LoginServiceImpl implements LoginService {
         }
 
         List<String> roles = roleService.queryCodeByUserId(user.getId());
-        Role role = roleService.queryByCode(currrole);
-        List<MyNavigationVO> navigations = navigationService.queryMyNavigationList(NavigationQO.builder().isOneLevel(true).display(true).roleId(role.getId()).build());
+//        Role role = roleService.queryByCode(currrole);
+//        List<MyNavigationVO> navigations = navigationService.queryMyNavigationList(NavigationQO.builder().isOneLevel(true).display(true).roleId(role.getId()).build());
         List<String> permissions = permissionService.getPermissionCodes(Lists.newArrayList(currrole));
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {
@@ -63,7 +63,7 @@ public class LoginServiceImpl implements LoginService {
                 .guid(user.getGuid())
                 .currrole(currrole)
                 .roles(roles)
-                .navigations(navigations)
+//                .navigations(navigations)
                 .permissions(permissions)
                 .authorities(authorities)
                 .build();

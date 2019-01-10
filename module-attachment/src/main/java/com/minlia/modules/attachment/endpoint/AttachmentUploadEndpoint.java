@@ -35,9 +35,8 @@ public class AttachmentUploadEndpoint {
     @PostMapping(value = "/{relationId}/{belongsTo}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response upload(MultipartFile file, @PathVariable String relationId, @PathVariable String belongsTo) throws Exception {
         //检查是否满足上传条件 TODO 上传数量、belongsTo是否存在
-
 //        String key = keyGenerate(file,relationId,belongsTo);
-//        OssFile ossFile=null;
+//        AttachmentDTO ossFile=null;
 //        try {
 //            ossFile = ossService.upload(file, key);
 //        } catch (Exception e) {
