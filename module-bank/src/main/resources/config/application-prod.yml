@@ -44,9 +44,9 @@ spring:
 
     redis:
         database: 0
-        host: 39.108.168.147
+        host: 127.0.0.1
         port: 6379
-        password: moffvape2017
+        password:
         pool:
             max-active: 300
             max-wait: 1000
