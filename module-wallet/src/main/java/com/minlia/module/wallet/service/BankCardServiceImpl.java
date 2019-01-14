@@ -8,7 +8,6 @@ import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDTO;
 import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
 import com.minlia.module.aliyun.market.config.AliyunMarketProperties;
 import com.minlia.module.aliyun.market.utils.AliyunMarketUtils;
-import com.minlia.module.bank.service.BankBranchService;
 import com.minlia.module.wallet.bean.domain.BankCardDo;
 import com.minlia.module.wallet.bean.to.BankCardCTO;
 import com.minlia.module.wallet.bean.to.BankCardQO;

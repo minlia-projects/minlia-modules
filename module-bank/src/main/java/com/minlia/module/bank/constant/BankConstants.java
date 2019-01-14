@@ -19,6 +19,4 @@ public class BankConstants {
 
     public final static String SEARCH = MODULE + SecurityConstant.OPERATION_SEARCH_CODE;
 
-    public final static String READ = MODULE + SecurityConstant.OPERATION_READ_CODE;
-
 }

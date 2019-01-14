@@ -1,6 +1,5 @@
 package com.minlia.module.bank.bean.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.module.data.entity.WithIdEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +25,11 @@ public class BankDO extends WithIdEntity {
      * 名称
      */
     private String name;
+
+    /**
+     * 标识
+     */
+    private String mark;
 
     /**
      * 图标

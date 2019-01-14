@@ -7,6 +7,7 @@
 			id,
             number,
             name,
+            mark,
             icon
 		FROM
 			mdl_bank
@@ -30,12 +31,14 @@
 		INSERT INTO mdl_bank(
 			number,
             name,
+            mark,
             icon
 		)
 		VALUES
         (
             #{number,jdbcType=VARCHAR},
             #{name,jdbcType=VARCHAR},
+            #{mark,jdbcType=VARCHAR},
             #{icon,jdbcType=VARCHAR}
         )
 	</insert>
@@ -45,6 +48,9 @@
         <set>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR} ,
+            </if>
+            <if test="mark != null">
+                mark = #{mark,jdbcType=VARCHAR} ,
             </if>
             <if test="icon != null">
                 icon = #{icon,jdbcType=VARCHAR} ,
