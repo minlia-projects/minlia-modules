@@ -1,7 +1,7 @@
 package com.minlia.module.wallet.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.wallet.bean.domain.BankCardDo;
+import com.minlia.module.wallet.bean.domain.BankCardDO;
 import com.minlia.module.wallet.bean.to.BankCardCTO;
 import com.minlia.module.wallet.bean.to.BankCardQO;
 import com.minlia.module.wallet.bean.to.BankCardUTO;
@@ -17,14 +17,14 @@ public interface BankCardService {
      * @param cto
      * @return
      */
-    BankCardDo create(BankCardCTO cto);
+    BankCardDO create(BankCardCTO cto);
 
     /**
      * 修改
      * @param uto
      * @return
      */
-    BankCardDo update(BankCardUTO uto);
+    BankCardDO update(BankCardUTO uto);
 
     /**
      * 删除

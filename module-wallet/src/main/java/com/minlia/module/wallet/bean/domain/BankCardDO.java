@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BankCardDo extends AbstractEntity {
+public class BankCardDO extends AbstractEntity {
 
     /**
      * 用户ID

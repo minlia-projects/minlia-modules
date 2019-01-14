@@ -10,7 +10,7 @@
 //import com.minlia.module.wallet.v1.bean.WalletRequestBody;
 //import com.minlia.module.wallet.v1.bean.WithdrawApplyRequestBody;
 //import com.minlia.module.wallet.v1.bean.WithdrawApprovalRequestBody;
-//import com.minlia.module.wallet.v1.domain.BankCardDo;
+//import com.minlia.module.wallet.v1.domain.BankCardDO;
 //import com.minlia.module.wallet.v1.domain.Wallet;
 //import com.minlia.module.wallet.v1.domain.WithdrawApply;
 //import com.minlia.module.wallet.v1.enumeration.WalletOperationTypeEnum;
@@ -41,7 +41,7 @@
 //    @Override
 //    public synchronized WithdrawApply apply(WithdrawApplyRequestBody requestBody) {
 //        User user = SecurityUtils.getCurrentUser();
-//        BankCardDo bankCard = bankCardService.findByUserIdAndIsWithdrawIsTrue(user.getId());
+//        BankCardDO bankCard = bankCardService.findByUserIdAndIsWithdrawIsTrue(user.getId());
 ////        ApiPreconditions.is(null == bankCard, ApiCode.NOT_FOUND,"未设置提现银行卡");
 //        ApiPreconditions.not(this.verifyBalanceEnough(requestBody.getAmount()), ApiCode.NOT_FOUND,"余额不足");
 //        BigDecimal limitAmount = getWithdrawPrecondition();

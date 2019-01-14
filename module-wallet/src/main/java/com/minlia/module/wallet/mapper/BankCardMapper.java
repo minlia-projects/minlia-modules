@@ -1,6 +1,6 @@
 package com.minlia.module.wallet.mapper;
 
-import com.minlia.module.wallet.bean.domain.BankCardDo;
+import com.minlia.module.wallet.bean.domain.BankCardDO;
 import com.minlia.module.wallet.bean.to.BankCardQO;
 import com.minlia.module.wallet.bean.vo.BankCardVo;
 
@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface BankCardMapper {
 
-    void create(BankCardDo bankCard);
+    void create(BankCardDO bankCard);
 
-    void update(BankCardDo bankCard);
+    void update(BankCardDO bankCard);
 
     void setWithdraw(String guid,Long id);
 

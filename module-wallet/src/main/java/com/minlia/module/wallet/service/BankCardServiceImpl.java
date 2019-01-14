@@ -8,7 +8,8 @@ import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDTO;
 import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
 import com.minlia.module.aliyun.market.config.AliyunMarketProperties;
 import com.minlia.module.aliyun.market.utils.AliyunMarketUtils;
-import com.minlia.module.wallet.bean.domain.BankCardDo;
+import com.minlia.module.bankbranch.service.BankBranchService;
+import com.minlia.module.wallet.bean.domain.BankCardDO;
 import com.minlia.module.wallet.bean.to.BankCardCTO;
 import com.minlia.module.wallet.bean.to.BankCardQO;
 import com.minlia.module.wallet.bean.to.BankCardUTO;
@@ -42,7 +43,7 @@ public class BankCardServiceImpl implements BankCardService {
     private AliyunMarketProperties aliyunMarketProperties;
 
     @Override
-    public BankCardDo create(BankCardCTO cto) {
+    public BankCardDO create(BankCardCTO cto) {
         long count = bankCardMapper.count(BankCardQO.builder().guid(SecurityContextHolder.getCurrentGuid()).number(cto.getNumber()).build());
         ApiAssert.state(count == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
 
@@ -54,7 +55,7 @@ public class BankCardServiceImpl implements BankCardService {
         BankCardVerifyDTO verifyDTO = AliyunMarketUtils.verifyBankCard(aliyunMarketProperties.getBankcardVerifyLianzhuo(),mapper.map(cto,BankCardVerifyTO.class));
         ApiAssert.state(verifyDTO.isSuccess(), verifyDTO.getResp().getCode(), verifyDTO.getResp().getDesc());
 
-        BankCardDo bankCard = mapper.map(cto,BankCardDo.class);
+        BankCardDO bankCard = mapper.map(cto, BankCardDO.class);
         bankCard.setGuid(SecurityContextHolder.getCurrentGuid());
         long withdrawCount = bankCardMapper.count(BankCardQO.builder().guid(SecurityContextHolder.getCurrentGuid()).isWithdraw(true).build());
         bankCard.setIsWithdraw(withdrawCount > 0 ? false : true);
@@ -63,12 +64,12 @@ public class BankCardServiceImpl implements BankCardService {
     }
 
     @Override
-    public BankCardDo update(BankCardUTO uto) {
+    public BankCardDO update(BankCardUTO uto) {
         long count = bankCardMapper.count(BankCardQO.builder().id(uto.getId()).guid(SecurityContextHolder.getCurrentGuid()).build());
         ApiAssert.state(count == 1, SystemCode.Message.DATA_NOT_EXISTS);
 
         //判断联行号是否存在 TODO
-        BankCardDo bankCard = mapper.map(uto,BankCardDo.class);
+        BankCardDO bankCard = mapper.map(uto, BankCardDO.class);
         bankCardMapper.update(bankCard);
         return bankCard;
     }
