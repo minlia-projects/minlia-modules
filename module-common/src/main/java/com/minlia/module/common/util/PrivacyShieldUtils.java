@@ -11,6 +11,12 @@ public class PrivacyShieldUtils {
     private static String suffix_id_no_capital = "X";
     private static String suffix_id_no_lowercase = "x";
 
+    public static String longText(String text) {
+        int fullLenth = text.length() - 8;
+        String regex = "(\\d{4})\\d{" + fullLenth + "}(\\d{4})";
+        return text.replaceAll(regex, "$1****$2");
+    }
+
     public static String idNo(String idNo) {
         if (StringUtils.isNotEmpty(idNo)) {
 //            if (idNo.endsWith(suffix_id_no_capital) || idNo.endsWith(suffix_id_no_lowercase)) {

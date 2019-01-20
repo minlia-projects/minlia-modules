@@ -21,10 +21,10 @@ public class QueryRequest implements Body {
     @JsonIgnore
     private String query;
 
-    @JsonIgnore
+//    @JsonIgnore
     private Integer page;
 
-    @JsonIgnore
+//    @JsonIgnore
     private Integer size;
 
     //排序
