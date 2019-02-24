@@ -37,6 +37,7 @@
         <module>module-captcha</module>
         <module>module-richtext</module>
         <module>module-todo</module>
+        <module>module-bank-branch</module>
         <module>module-bank</module>
         <module>module-wallet</module>
         <module>module-advertisement</module>
