@@ -3,15 +3,15 @@ package com.minlia.modules.rbac.service;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.data.util.SequenceUtils;
-import com.minlia.modules.rbac.constant.RebaccaCode;
 import com.minlia.modules.rbac.bean.domain.Role;
-import com.minlia.modules.rbac.bean.to.UserCTO;
-import com.minlia.modules.rbac.bean.qo.UserQO;
-import com.minlia.modules.rbac.bean.to.UserUTO;
 import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.UserQO;
+import com.minlia.modules.rbac.bean.to.UserCTO;
+import com.minlia.modules.rbac.bean.to.UserUTO;
+import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.event.RegistrationEvent;
 import com.minlia.modules.rbac.event.UserDeleteEvent;
 import com.minlia.modules.rbac.mapper.UserMapper;
-import com.minlia.modules.rbac.event.RegistrationEvent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
         user.setGuid(SequenceUtils.nextval("guid").toString());
         user.setPassword(bCryptPasswordEncoder.encode(cto.getPassword()));
         user.setDefaultRole(role.getCode());
+        user.setNickname(cto.getNickname());
         userMapper.create(user);
 
         //给用户授予角色

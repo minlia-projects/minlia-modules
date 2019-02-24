@@ -10,6 +10,7 @@
             mut.password ,
             mut.cellphone ,
             mut.email ,
+            mut.nickname ,
             mut.default_role ,
             mut.credentials_expired ,
             mut.locked ,
@@ -71,6 +72,7 @@
             username ,
             cellphone ,
             email ,
+            nickname ,
             password ,
             default_role ,
             referral
@@ -80,6 +82,7 @@
             #{username,jdbcType=VARCHAR},
             #{cellphone,jdbcType=VARCHAR},
             #{email,jdbcType=VARCHAR},
+            #{nickname,jdbcType=VARCHAR},
             #{password,jdbcType=VARCHAR},
             #{defaultRole,jdbcType=VARCHAR},
             #{referral,jdbcType=VARCHAR}
@@ -94,6 +97,9 @@
             </if>
             <if test="username != null">
                 username = #{username,jdbcType=VARCHAR} ,
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR} ,
             </if>
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR} ,
@@ -130,8 +136,8 @@
         DELETE FROM mdl_user_role where user_id = #{arg0};
 
         INSERT INTO mdl_user_role(
-        user_id ,
-        role_id
+            user_id ,
+            role_id
         )
         VALUES
         <foreach collection="arg1" item="item" index="index" separator=",">

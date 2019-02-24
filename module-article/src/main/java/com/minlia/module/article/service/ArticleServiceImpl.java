@@ -146,7 +146,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleMapper.listVO(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> articleMapper.listVO(qo));
     }
 
     @Override

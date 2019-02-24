@@ -42,7 +42,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public ArticleCategory update(ArticleCategoryUTO uto) {
-        ArticleCategory articleCategory = articleCategoryMapper.queryById(uto.getId());
+        ArticleCategory articleCategory = articleCategoryMapper.one(ArticleCategoryQO.builder().id(uto.getId()).build());
         ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
         mapper.map(uto, articleCategory);
         articleCategoryMapper.update(articleCategory);
@@ -51,7 +51,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public void delete(Long id) {
-        ArticleCategory articleCategory = articleCategoryMapper.queryById(id);
+        ArticleCategory articleCategory = articleCategoryMapper.one(ArticleCategoryQO.builder().id(id).build());
         ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
 
         //判断是否有子项
@@ -79,7 +79,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public PageInfo<ArticleCategory> page(ArticleCategoryQO qo, Pageable pageable) {
-        PageInfo<ArticleCategory> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleCategoryMapper.list(qo));
+        PageInfo<ArticleCategory> pageInfo = PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> articleCategoryMapper.list(qo));
         return pageInfo;
     }
 

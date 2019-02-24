@@ -17,8 +17,6 @@ public interface ArticleCategoryMapper {
 
     long delete(Long id);
 
-    ArticleCategory queryById(Long id);
-
     long count(ArticleCategoryQO qo);
 
     ArticleCategory one(ArticleCategoryQO qo);

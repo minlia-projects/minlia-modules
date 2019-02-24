@@ -23,6 +23,7 @@ public final class SymbolConstants {
     public static final String COMMA = ",";
 
     public static final String DOT = ".";
+    public static final String DOT_ZY = "\\.";
 
     public static final String DOT_CLASS = ".class";
 

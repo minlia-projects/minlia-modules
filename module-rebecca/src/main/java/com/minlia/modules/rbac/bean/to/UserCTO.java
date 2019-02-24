@@ -15,6 +15,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -51,5 +52,11 @@ public class UserCTO implements ApiRequestBody {
 
     @JsonIgnore
     private String referral;
+
+    /**
+     * 昵称
+     */
+    @Size(min = 1, max = 11)
+    private String nickname;
 
 }

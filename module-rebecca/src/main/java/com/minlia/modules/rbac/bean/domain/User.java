@@ -43,6 +43,11 @@ public class User extends AbstractEntity {
     private String email;
 
     /**
+     * 昵称
+     */
+    private String nickname;
+
+    /**
      * 密码
      */
     @JsonIgnore
@@ -82,11 +87,6 @@ public class User extends AbstractEntity {
      * 锁定时间，多少分钟内不能登录
      */
     private Date lockTime;
-
-//    @JsonProperty("lockTime")
-//    public Long getLockTimeEpochDay(){
-//        return null != lockTime ? lockTime.toEpochSecond(ZoneOffset.of("+8")) : null;
-//    }
 
     /**
      * 最后登录时间

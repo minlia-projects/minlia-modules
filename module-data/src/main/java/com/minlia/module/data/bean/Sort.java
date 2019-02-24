@@ -4,12 +4,14 @@ import com.google.common.base.CaseFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Created by will on 3/19/17.
  */
 @Data
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"filed"})
 public class Sort {
 
     @ApiModelProperty(example = "id")
