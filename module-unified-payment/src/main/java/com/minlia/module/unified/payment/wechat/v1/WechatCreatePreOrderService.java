@@ -10,6 +10,7 @@ import com.minlia.module.unified.payment.CreatePreOrderService;
 import com.minlia.module.unified.payment.body.CreatePreOrderRequestBody;
 import com.minlia.module.unified.payment.util.OrderNumberUtil;
 import com.minlia.module.unified.payment.util.RequestIpUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -17,6 +18,7 @@ import java.util.Map;
 /**
  * 微信创建预订单服务
  */
+@Slf4j
 public class WechatCreatePreOrderService implements CreatePreOrderService {
 
     private WechatConfig wechatConfig;
@@ -102,6 +104,7 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
             }
 
             Map result = wxPayService.getPayInfo(request);
+            log.info("微信第三方返回参数：{}", request);
             return Response.success(result);
         } catch (WxPayException e) {
             e.printStackTrace();

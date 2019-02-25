@@ -52,6 +52,7 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         } else {
             result = alipayTradeAppPayPay(body, number, amount);
         }
+        log.info("支付宝第三方返回参数：{}", result);
         return Response.success(result);
     }
 
