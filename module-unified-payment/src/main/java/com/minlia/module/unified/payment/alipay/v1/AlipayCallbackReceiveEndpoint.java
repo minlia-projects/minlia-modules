@@ -39,6 +39,7 @@ public class AlipayCallbackReceiveEndpoint {
         if (isOfficialNotificationRequest(request)) {
             OrderPaidNotificationBody body = new OrderPaidNotificationBody();
             body = mapToBody(request,body);
+            log.info("支付宝第三方回调参数3：{}", body);
             OrderPaidEventProducer.onOrderPaid(body);
             return "success";
         } else {
@@ -51,9 +52,10 @@ public class AlipayCallbackReceiveEndpoint {
         Map<String, String> camelCaseKeyMap = RequestUtils.convertKeyToCamelCase(underScoreKeyMap);
         String jsonStr = JSON.toJSONString(camelCaseKeyMap);
 
-        log.info("支付宝第三方回调参数：{}", jsonStr);
+        log.info("支付宝第三方回调参数1：{}", jsonStr);
 
-        AlipayNotification requestBody = JSON.parseObject(jsonStr,AlipayNotification.class);
+        AlipayNotification requestBody = JSON.parseObject(jsonStr, AlipayNotification.class);
+        log.info("支付宝第三方回调参数2：{}", requestBody);
         body.setMerchantTradeNo(requestBody.getTradeNo());
         body.setPayType(PayType.ALIPAY);
         return body;
