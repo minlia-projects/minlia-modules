@@ -4,9 +4,9 @@ package com.minlia.module.unified.payment.alipay.v1;
 import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayConstants;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
 import com.minlia.module.unified.payment.body.OrderPaidNotificationBody;
 import com.minlia.module.unified.payment.body.PayType;
+import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
 import com.minlia.module.unified.payment.util.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,8 +38,7 @@ public class AlipayCallbackReceiveEndpoint {
     public String process(HttpServletRequest request) {
         if (isOfficialNotificationRequest(request)) {
             OrderPaidNotificationBody body = new OrderPaidNotificationBody();
-            body = mapToBody(request,body);
-            log.info("支付宝第三方回调参数3：{}", body);
+            body = mapToBody(request, body);
             OrderPaidEventProducer.onOrderPaid(body);
             return "success";
         } else {
@@ -52,13 +51,20 @@ public class AlipayCallbackReceiveEndpoint {
         Map<String, String> camelCaseKeyMap = RequestUtils.convertKeyToCamelCase(underScoreKeyMap);
         String jsonStr = JSON.toJSONString(camelCaseKeyMap);
 
-        log.info("支付宝第三方回调参数1：{}", jsonStr);
-
         AlipayNotification requestBody = JSON.parseObject(jsonStr, AlipayNotification.class);
-        log.info("支付宝第三方回调参数2：{}", requestBody);
-        body.setMerchantTradeNo(requestBody.getTradeNo());
+        body.setMerchantTradeNo(requestBody.getOutTradeNo());
+        body.setGatewayTradeNo(requestBody.getTradeNo());
         body.setPayType(PayType.ALIPAY);
         return body;
+    }
+
+    public static void main(String[] args) {
+        AlipayNotification body = new AlipayNotification();
+        body.setTradeNo("2019022522001491651029770879");
+
+        OrderPaidNotificationBody notificationBody = new OrderPaidNotificationBody();
+        notificationBody.setMerchantTradeNo(body.getTradeNo());
+        log.info("支付宝第三方回调参数3：{}", body.toString());
     }
 
     private Boolean isOfficialNotificationRequest(HttpServletRequest request) {
