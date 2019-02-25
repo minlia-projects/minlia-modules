@@ -53,16 +53,17 @@ public class WechatCallbackReceiveEndpoint {
         log.info(requestedXmlString);
         try {
             //这里面已经做了验证签名
-            WxPayOrderNotifyResult requestBody = getWxPayService()
-                    .parseOrderNotifyResult(requestedXmlString);
-            body.setPaidBy(requestBody.getOpenid());
-            body.setAmount(Integer.valueOf(requestBody.getTotalFee().toString()));
-            body.setBody(requestBody.getAttach());
-            body.setSubject(requestBody.getAttach());
-            body.setGatewayTradeNo(requestBody.getTransactionId());
-            body.setMerchantTradeNo(requestBody.getOutTradeNo());
-            body.setPaidBy(requestBody.getOpenid());
-            body.setSign(requestBody.getSign());
+            WxPayOrderNotifyResult result = getWxPayService().parseOrderNotifyResult(requestedXmlString);
+            log.info("微信第三方回调参数：{}", result);
+
+            body.setPaidBy(result.getOpenid());
+            body.setAmount(Integer.valueOf(result.getTotalFee().toString()));
+            body.setBody(result.getAttach());
+            body.setSubject(result.getAttach());
+            body.setGatewayTradeNo(result.getTransactionId());
+            body.setMerchantTradeNo(result.getOutTradeNo());
+            body.setPaidBy(result.getOpenid());
+            body.setSign(result.getSign());
             body.setPayType(PayType.WECHAT);
         } catch (WxPayException e) {
             log.info("解析異常" + e.toString());

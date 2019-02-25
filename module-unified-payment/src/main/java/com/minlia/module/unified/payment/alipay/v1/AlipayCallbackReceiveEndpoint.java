@@ -50,6 +50,9 @@ public class AlipayCallbackReceiveEndpoint {
         Map<String, String> underScoreKeyMap = RequestUtils.getStringParams(request);
         Map<String, String> camelCaseKeyMap = RequestUtils.convertKeyToCamelCase(underScoreKeyMap);
         String jsonStr = JSON.toJSONString(camelCaseKeyMap);
+
+        log.info("支付宝第三方回调参数：{}", jsonStr);
+
         AlipayNotification requestBody = JSON.parseObject(jsonStr,AlipayNotification.class);
         body.setMerchantTradeNo(requestBody.getOutTradeNo());
         body.setPayType(PayType.ALIPAY);
