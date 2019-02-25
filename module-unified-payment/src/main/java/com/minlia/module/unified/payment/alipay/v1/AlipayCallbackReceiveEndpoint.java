@@ -54,7 +54,7 @@ public class AlipayCallbackReceiveEndpoint {
         log.info("支付宝第三方回调参数：{}", jsonStr);
 
         AlipayNotification requestBody = JSON.parseObject(jsonStr,AlipayNotification.class);
-        body.setMerchantTradeNo(requestBody.getOutTradeNo());
+        body.setMerchantTradeNo(requestBody.getTradeNo());
         body.setPayType(PayType.ALIPAY);
         return body;
     }
