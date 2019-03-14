@@ -1,11 +1,11 @@
-package com.minlia.module.richtext;
+package com.minlia.module.email;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class EmailApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(EmailApplication.class, args);
     }
 }

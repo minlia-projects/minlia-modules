@@ -2,14 +2,14 @@ server:
     port: 10000
 
 system:
-    appId: xmj-todo-app
+    appId: minlia-todo-app
     token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
     profile: dev
     application:
-        name: Xmj Todo
+        name: minlia Todo
     http:
         encoding.charset: UTF-8
         encoding.enable: true
@@ -23,7 +23,7 @@ spring:
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/xmj_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_mdl?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
         password:

@@ -1,11 +1,13 @@
-package com.minlia.module.article;
+package com.minlia.module.disrtict;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class DistrictApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(DistrictApplication.class, args);
     }
+
 }

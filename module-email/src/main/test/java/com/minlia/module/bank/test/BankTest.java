@@ -1,6 +1,6 @@
 package com.minlia.module.email.test;
 
-import com.minlia.module.email.Application;
+import com.minlia.module.email.EmailApplication;
 import com.minlia.module.email.service.BankcodeService;
 import com.minlia.module.common.config.RestConfiguration;
 import org.junit.Test;

@@ -1,11 +1,11 @@
-package com.minlia.module.pooul;
+package com.minlia.module.country;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class CountryApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(CountryApplication.class, args);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class Application {
+public class AliyunSesameApplication {
 
     @Autowired
     private RestTemplateBuilder builder;
@@ -20,7 +20,7 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AliyunSesameApplication.class, args);
     }
 
 }

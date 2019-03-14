@@ -19,7 +19,7 @@ public class AddressCode {
         /**
          * 最多添加5个地址
          */
-        ADD_UP_TO_5_ADDRESSES(200004,"xmj.user.message.200004");
+        ADD_UP_TO_5_ADDRESSES(200004,"mdl.address.message.200004");
 
         private int code;
         private String i18nKey;

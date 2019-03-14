@@ -1,11 +1,11 @@
-package com.minlia.modules.attachment;
+package com.minlia.module.unified.payment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class UnifiedPaymentApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(UnifiedPaymentApplication.class, args);
     }
 }

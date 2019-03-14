@@ -1,14 +1,11 @@
-package com.minlia.module.gad;
+package com.minlia.module.richtext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-//@EnableTransactionManagement
-public class Application {
-
+public class RichtextApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(RichtextApplication.class, args);
     }
-
 }

@@ -69,7 +69,7 @@ public class GadYuntuServiceImpl implements GadYuntuService{
         if (null == json) {
             json = new JsonObject();
             json.addProperty("_id", "20");
-            json.addProperty("_name", "百瑞达大厦");
+            json.addProperty("_name", "xxx大厦");
         }
         GadYuntuResponseBody responseBody = request(json,update_data_url);
         return responseBody;

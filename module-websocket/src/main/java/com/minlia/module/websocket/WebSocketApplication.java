@@ -7,8 +7,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 //@ComponentScan(basePackages ="com.minlia.module.websocket")
 @SpringBootApplication
 @EnableScheduling
-public class Application {
+public class WebSocketApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(WebSocketApplication.class, args);
     }
 }

@@ -1,6 +1,6 @@
 package com.minlia.module.bankbranch.test;
 
-import com.minlia.module.bank.Application;
+import com.minlia.module.bank.BankApplication;
 import com.minlia.module.bankbranch.service.BankBranchService;
 import com.minlia.module.common.config.RestConfiguration;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import java.util.Map;
  * Created by will on 9/10/17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {RestConfiguration.class,Application.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {RestConfiguration.class, BankApplication.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BankBranchTest {
 
 //    @Before

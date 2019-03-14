@@ -1,7 +1,7 @@
 package com.minlia.module.bank.test;
 
 import com.google.gson.Gson;
-import com.minlia.module.bank.Application;
+import com.minlia.module.bank.BankApplication;
 import com.minlia.module.bank.bean.domain.BankDO;
 import com.minlia.module.bank.mapper.BankMapper;
 import com.minlia.module.common.config.RestConfiguration;
@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {RestConfiguration.class, Application.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {RestConfiguration.class, BankApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BankTest {
 
     @Autowired

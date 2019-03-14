@@ -1,11 +1,11 @@
-package com.minlia.module.wechat.material;
+package com.minlia.module.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class BankBranchApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(BankApplication.class, args);
     }
 }

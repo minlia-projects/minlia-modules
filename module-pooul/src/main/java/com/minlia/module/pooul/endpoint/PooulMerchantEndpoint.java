@@ -31,11 +31,11 @@ public class PooulMerchantEndpoint {
     @PostMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response close() {
         PooulMerchantPersonalCTO cto = PooulMerchantPersonalCTO.builder()
-                .note("测试")
-                .business(PooulMerchantBusinessTO.builder().short_name("候志朋").build())
-                .owner(PooulMerchantOwnerTO.builder().idcard_type("1").name("候志朋").build())
+                .note("not")
+                .business(PooulMerchantBusinessTO.builder().short_name("赵立新").build())
+                .owner(PooulMerchantOwnerTO.builder().idcard_type("1").name("赵立新").build())
                 .build();
-        Response response = pooulMerchantService.create("100002",cto);
+        Response response = pooulMerchantService.create("10000",cto);
         return response;
     }
 

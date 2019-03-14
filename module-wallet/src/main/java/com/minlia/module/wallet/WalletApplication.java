@@ -1,14 +1,11 @@
-package com.minlia.module.disrtict;
+package com.minlia.module.wallet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-//@EnableTransactionManagement
-public class Application {
-
+public class WalletApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(WalletApplication.class, args);
     }
-
 }

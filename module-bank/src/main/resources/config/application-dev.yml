@@ -26,7 +26,7 @@ spring:
         url: jdbc:log4jdbc:mysql://localhost:3306/luban_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
         name:
         username: root
-        password: Root.2018
+        password:
 #        使用druid数据源
 #        type: com.alibaba.druid.pool.DruidDataSource
         filters: stat

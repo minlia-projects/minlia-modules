@@ -27,7 +27,7 @@
 //    @PostMapping(value = "file/upload", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @ApiOperation(value = "文件上传服务", notes = "文件上传服务", httpMethod = "POST")
 //    public PutObjectResult upload(MultipartFile file) throws Exception {
-//        PutObjectRequest request = new PutObjectRequest("xmj-1255765487",file.getName(),file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
+//        PutObjectRequest request = new PutObjectRequest("mdl-1255765487",file.getName(),file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
 //        PutObjectResult result = qcloudCosService.putObject(request);
 //        return result;
 //    }

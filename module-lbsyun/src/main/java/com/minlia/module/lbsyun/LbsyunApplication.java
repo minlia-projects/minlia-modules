@@ -1,11 +1,13 @@
-package com.minlia.modules.qcloud.start;
+package com.minlia.module.lbsyun;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class LbsyunApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(LbsyunApplication.class, args);
     }
+
 }

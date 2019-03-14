@@ -28,13 +28,22 @@ public class PooulBankcardEndpoint {
     public Response create(@PathVariable String merchantId) {
         PooulBankCardCTO cto = PooulBankCardCTO.builder()
                 .account_type(0)
-                .owner_name("候志朋")
-                .account_num("6226097806221512")
-                .bank_full_name("招商银行深圳龙华支行")
-                .bank_sub_code("308584001651")
-                .cyber_bank_code("308584000013")
+                .owner_name("赵立新")
+                .account_num("6212264000045368590")
+                .bank_full_name("中国工商银行股份有限公司深圳西乡支行")
+                .bank_sub_code("102584002346")
+                .cyber_bank_code("102100099996")
                 .cmbc_bank(false)
                 .build();
+//        PooulBankCardCTO cto = PooulBankCardCTO.builder()
+//                .account_type(0)
+//                .owner_name("候志朋")
+//                .account_num("6226097806221512")
+//                .bank_full_name("招商银行深圳龙华支行")
+//                .bank_sub_code("308584001651")
+//                .cyber_bank_code("308584000013")
+//                .cmbc_bank(false)
+//                .build();
         return pooulBankCardService.create(merchantId, cto);
     }
 

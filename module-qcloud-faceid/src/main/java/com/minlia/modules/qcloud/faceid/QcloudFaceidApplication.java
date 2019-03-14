@@ -1,11 +1,11 @@
-package com.minlia.module.address;
+package com.minlia.modules.qcloud.faceid;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Application {
+public class QcloudFaceidApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(QcloudFaceidApplication.class, args);
     }
 }
