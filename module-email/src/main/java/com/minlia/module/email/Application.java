@@ -1,11 +1,11 @@
-package com.minlia.module.article;
+package com.minlia.module.email;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ArticleApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(ArticleApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

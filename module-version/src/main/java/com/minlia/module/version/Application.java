@@ -1,14 +1,11 @@
-package com.minlia.module.gad;
+package com.minlia.module.version;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-//@EnableTransactionManagement
-public class GadApplication {
-
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(GadApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
-
 }

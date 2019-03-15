@@ -1,11 +1,11 @@
-package com.minlia.modules.qcloud.start;
+package com.minlia.module.aliyun.market;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class QcloudStartApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(QcloudStartApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

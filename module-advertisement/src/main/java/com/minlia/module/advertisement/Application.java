@@ -1,11 +1,11 @@
-package com.minlia.module.bank;
+package com.minlia.module.advertisement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BankBranchApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(BankApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

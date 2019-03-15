@@ -1,11 +1,11 @@
-package com.minlia.module.aliyun.dypls;
+package com.minlia.module.article;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AliyunDyplsApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(AliyunDyplsApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

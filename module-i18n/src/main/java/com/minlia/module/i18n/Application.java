@@ -1,13 +1,11 @@
-package com.minlia.modules.security;
+package com.minlia.module.i18n;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SecurityApplication {
-
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(com.minlia.modules.security.SecurityApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
-
 }

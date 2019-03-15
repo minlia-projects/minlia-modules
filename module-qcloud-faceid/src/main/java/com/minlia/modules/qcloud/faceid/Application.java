@@ -1,11 +1,11 @@
-package com.minlia.module.version;
+package com.minlia.modules.qcloud.faceid;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VersionApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(VersionApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }

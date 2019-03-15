@@ -1,11 +1,11 @@
-package com.minlia.modules.attachment;
+package com.minlia.module.aliyun.dypls;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AttachmentApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(AttachmentApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
