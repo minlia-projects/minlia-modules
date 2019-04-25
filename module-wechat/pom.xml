@@ -41,26 +41,6 @@
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-swagger</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <!--微信小程序-->
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-
-        <!--公众号-->
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-mp</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-websocket</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
@@ -75,6 +55,22 @@
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-attachment</artifactId>
             <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+
+        <!--微信小程序-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+        <!--公众号-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.3.0</version>
         </dependency>
 
         <dependency>

@@ -1,8 +1,8 @@
 package com.minlia.module.i18n.resource;
 
 import com.google.common.collect.Maps;
-import com.minlia.module.i18n.bean.I18nDO;
-import com.minlia.module.i18n.bean.I18nQO;
+import com.minlia.module.i18n.entity.I18n;
+import com.minlia.module.i18n.ro.I18nQRO;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.i18n.service.I18nService;
 import lombok.extern.slf4j.Slf4j;
@@ -54,8 +54,8 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 		final Map<String, Map<String, String>> messageResources = Maps.newHashMap();
 		for (int i = 0; i < LocaleEnum.values().length; i++) {
 			Map<String, String> localeMessageResources = new HashMap<>();
-			List<I18nDO> i18ns = i18nService.queryList(I18nQO.builder().locale(LocaleEnum.values()[i].name()).build());
-			for (I18nDO i18n : i18ns) {
+			List<I18n> i18ns = i18nService.queryList(I18nQRO.builder().locale(LocaleEnum.values()[i].name()).build());
+			for (I18n i18n : i18ns) {
 				localeMessageResources.put(i18n.getCode(),i18n.getValue());
 			}
 			messageResources.put(LocaleEnum.values()[i].name(), localeMessageResources);

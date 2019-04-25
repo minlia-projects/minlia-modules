@@ -1,7 +1,7 @@
 package com.minlia.module.aliyun.dypls.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.aliyun.dypls.bean.BindAxnQO;
+import com.minlia.module.aliyun.dypls.ro.BindAxnQRO;
 import com.minlia.module.aliyun.dypls.entity.DyplsBind;
 import org.springframework.data.domain.Pageable;
 
@@ -24,8 +24,8 @@ public interface DyplsService {
 
     DyplsBind queryFirstByCellphone(String cellphone);
 
-    List<DyplsBind> queryList(BindAxnQO qo);
+    List<DyplsBind> queryList(BindAxnQRO qo);
 
-    PageInfo<DyplsBind> queryPage(BindAxnQO qo, Pageable pageable);
+    PageInfo<DyplsBind> queryPage(BindAxnQRO qo, Pageable pageable);
 
 }

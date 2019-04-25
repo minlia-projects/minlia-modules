@@ -16,7 +16,7 @@
     </parent>
 
     <properties>
-        <start-class>com.minlia.module.websocket.WebSocketApplication</start-class>
+        <start-class>com.minlia.module.websocket.Application</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>

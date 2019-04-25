@@ -1,8 +1,8 @@
 package com.minlia.modules.attachment.mapper;
 
 
-import com.minlia.modules.attachment.bean.AttachmentQO;
 import com.minlia.modules.attachment.entity.Attachment;
+import com.minlia.modules.attachment.ro.AttachmentQRO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,21 +13,26 @@ import java.util.List;
 @Component
 public interface AttachmentMapper {
 
-    void create(Attachment attachment);
+    int create(Attachment attachment);
 
-    void createBatch(List<Attachment> attachments);
+    int createBatch(List<Attachment> attachments);
 
-    void update(Attachment attachment);
+    int update(Attachment attachment);
 
-    void delete(Long id);
+    int delete(Long id);
 
-    void deleteByRelationIdAndBelongsTo(String relationId, String belongsTo);
+    int deleteByRelationIdAndBelongsTo(String relationId, String belongsTo);
 
-    Attachment queryOne(AttachmentQO qo);
+    int deleteByRelationIdAndBelongsToAndNotExistAccessKeys(String relationId, String belongsTo, List<String> accessKeys);
 
-    List<Attachment> queryList(AttachmentQO qo);
+    long queryCount(AttachmentQRO qro);
 
-    List<String> queryUrlList(AttachmentQO qo);
+    Attachment queryOne(AttachmentQRO qo);
+
+    List<Attachment> queryList(AttachmentQRO qo);
+
+
+    List<String> queryUrlList(AttachmentQRO qo);
 
     Attachment queryFirstByUnusedKey(String key);
 

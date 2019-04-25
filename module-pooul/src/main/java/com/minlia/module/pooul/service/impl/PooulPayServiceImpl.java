@@ -84,7 +84,7 @@ public class PooulPayServiceImpl implements PooulPayService {
         //如果已"{"开始表明创建订单失败，返回错误信息
         if (response.getBody().startsWith(PooulContracts.RIGHT_PARENTHESIS)) {
             JSONObject jsonObject = JSONObject.fromObject(response.getBody());
-            return Response.failure((Integer) jsonObject.get(PooulContracts.CODE), jsonObject.get(PooulContracts.MSG).toString());
+            return Response.failure(jsonObject.get(PooulContracts.CODE).toString(), jsonObject.get(PooulContracts.MSG).toString());
         }
 
         //获取返回token
@@ -126,17 +126,16 @@ public class PooulPayServiceImpl implements PooulPayService {
         //如果已"{"开始表明创建订单失败，返回错误信息
         if (response.getBody().startsWith(PooulContracts.RIGHT_PARENTHESIS)) {
             JSONObject jsonObject = JSONObject.fromObject(response.getBody());
-
-            return Response.failure((Integer) jsonObject.get(PooulContracts.CODE), (String) jsonObject.get(PooulContracts.MSG));
+            return Response.failure(jsonObject.get(PooulContracts.CODE).toString(), (String) jsonObject.get(PooulContracts.MSG));
         }
 
         //获取返回token
         Map<String, Claim> claims = PooulToken.getClaims(response.getBody());
         if (claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
 //            PooulOrderQueryDTO queryDTO = claims.get(PooulContracts.DATA).as(PooulOrderQueryDTO.class);
-            return Response.success(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString(), claims.get(PooulContracts.DATA).asMap());
+            return Response.success(claims.get(PooulContracts.CODE).asString(), claims.get(PooulContracts.MSG).asString(), claims.get(PooulContracts.DATA).asMap());
         } else {
-            return Response.failure(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());
+            return Response.failure(claims.get(PooulContracts.CODE).asString(), claims.get(PooulContracts.MSG).asString());
         }
     }
 
@@ -161,7 +160,7 @@ public class PooulPayServiceImpl implements PooulPayService {
         //如果已"{"开始表明创建订单失败，返回错误信息
         if (response.getBody().startsWith(PooulContracts.RIGHT_PARENTHESIS)) {
             JSONObject jsonObject = JSONObject.fromObject(response.getBody());
-            return Response.failure((Integer) jsonObject.get(PooulContracts.CODE), (String) jsonObject.get(PooulContracts.MSG));
+            return Response.failure(jsonObject.get(PooulContracts.CODE).toString(), (String) jsonObject.get(PooulContracts.MSG));
         }
 
         //获取返回token
@@ -169,9 +168,9 @@ public class PooulPayServiceImpl implements PooulPayService {
         if (claims.get(PooulContracts.CODE).asInt().equals(NumberUtils.INTEGER_ZERO)) {
             pooulOrderDO.setPayStatus(TradeStateEnum.CLOSED);
             pooulOrderService.update(pooulOrderDO);
-            return Response.success(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());
+            return Response.success(claims.get(PooulContracts.CODE).asString(), claims.get(PooulContracts.MSG).asString());
         } else {
-            return Response.failure(claims.get(PooulContracts.CODE).asInt(), claims.get(PooulContracts.MSG).asString());
+            return Response.failure(claims.get(PooulContracts.CODE).asString(), claims.get(PooulContracts.MSG).asString());
         }
     }
 

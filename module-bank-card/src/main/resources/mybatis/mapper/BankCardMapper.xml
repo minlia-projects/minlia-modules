@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.bankcard.mapper.BankCardMapper">
+
+    <sql id="QUERY_CONTENT">
+        SELECT
+            bct.id ,
+            bct.guid ,
+            bct.type ,
+            bct.holder ,
+            bct.id_number ,
+            bct.cellphone ,
+            bct.number ,
+            bct.bank_code ,
+            bct.is_withdraw ,
+            bct.create_by ,
+            bct.create_date ,
+            bct.last_modified_by ,
+            bct.last_modified_date ,
+            bbt.province ,
+            bbt.city ,
+            bbt.district ,
+            bbt.street ,
+            bbt.bankname ,
+            bbt.branchname
+        FROM
+            mdl_bank_card bct
+        INNER JOIN mdl_bank_branch bbt ON bbt.number = bct.bank_code
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="guid != null">
+                AND bct.guid = #{guid}
+            </if>
+            <if test="type != null">
+                AND bct.type = #{type}
+            </if>
+            <if test="holder != null">
+                AND bct.holder = #{holder}
+            </if>
+            <if test="number != null">
+                AND bct.number = #{number}
+            </if>
+            <if test="bankName != null">
+                AND bct.bank_name = #{bankName}
+            </if>
+            <if test="bankCode != null">
+                AND bct.bank_code = #{bankCode}
+            </if>
+            <if test="isWithdraw != null">
+                AND bct.is_withdraw = #{isWithdraw}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mdl_bank_card(
+            guid,
+            type,
+            holder,
+            id_number,
+            cellphone,
+            number,
+            bank_code,
+            is_withdraw,
+            create_by
+		)
+		VALUES
+        (
+            #{guid},
+            #{type},
+            #{holder},
+            #{idNumber},
+            #{cellphone},
+            #{number},
+            #{bankCode},
+            #{isWithdraw},
+            #{createBy}
+        )
+	</insert>
+
+    <update id="update">
+        UPDATE mdl_bank_card
+        <set>
+            <if test="guid != null">
+                guid = #{guid} ,
+            </if>
+            <if test="type != null">
+                type = #{type} ,
+            </if>
+            <if test="holder != null">
+                holder = #{holder} ,
+            </if>
+            <if test="idNumber != null">
+                id_number = #{idNumber} ,
+            </if>
+            <if test="cellphone != null">
+                cellphone = #{cellphone} ,
+            </if>
+            <if test="number != null">
+                number = #{number} ,
+            </if>
+            <if test="bankCode != null">
+                bank_code = #{bankCode} ,
+            </if>
+            <if test="isWithdraw != null">
+                is_withdraw = #{isWithdraw} ,
+            </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+        </set>
+        WHERE id = #{id,jdbcType=TINYINT}
+    </update>
+
+    <update id="setWithdraw">
+        UPDATE mdl_bank_card SET is_withdraw = 0 WHERE guid = #{arg0};
+        UPDATE mdl_bank_card SET is_withdraw = 1 WHERE guid = #{arg0} AND id = #{arg1};
+    </update>
+
+    <delete id="delete">
+		DELETE FROM mdl_bank_card WHERE id = #{id}
+	</delete>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mdl_bank_card bct
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryById" resultType="com.minlia.module.bankcard.vo.BankCardVO">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.bankcard.vo.BankCardVO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultType="com.minlia.module.bankcard.vo.BankCardVO">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+</mapper>

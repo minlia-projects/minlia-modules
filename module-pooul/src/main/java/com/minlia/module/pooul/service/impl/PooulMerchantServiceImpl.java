@@ -80,7 +80,7 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
                     .build()
             );
         }
-        return Response.is(createDTO.isSuccess(), createDTO.getCode(), createDTO.getMsg(),createDTO.getData());
+        return Response.is(createDTO.isSuccess(), createDTO.getCode().toString(), createDTO.getMsg(),createDTO.getData());
     }
 
     @Override
@@ -106,12 +106,12 @@ public class PooulMerchantServiceImpl implements PooulMerchantService {
     }
 
     @Override
-    public Response queryOne(PooulMerchatQO qo) {
+    public Response queryOne(PooulMerchatQO qro) {
         return null;
     }
 
     @Override
-    public Response queryPage(PooulMerchatQO qo) {
+    public Response queryPage(PooulMerchatQO qro) {
         return null;
     }
 

@@ -1,7 +1,7 @@
 package com.minlia.modules.aliyun.sms.event;//package com.minlia.modules.starter.sms;
 //
 //import com.minlia.boot.context.ContextHolder;
-//import com.minlia.modules.starter.sms.bean.NotificationRequestBody;
+//import com.minlia.modules.starter.sms.ro.NotificationRequestBody;
 //import com.minlia.modules.starter.sms.event.NotificationEvent;
 //
 ///**

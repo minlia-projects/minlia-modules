@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
+ * 隐私号码
  * Created by garen on 2018/5/18.
  */
 @Data

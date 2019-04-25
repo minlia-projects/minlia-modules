@@ -1,19 +1,19 @@
 package com.minlia.module.bank.mapper;
 
-import com.minlia.module.bank.bean.domain.BankDO;
+import com.minlia.module.bank.entity.Bank;
 
 import java.util.List;
 
 public interface BankMapper {
 
-    void create(BankDO bankDo);
+    void create(Bank bank);
 
-    void update(BankDO bankDo);
+    void update(Bank bank);
 
     void delete(String number);
 
-    BankDO one(BankDO bankDO);
+    Bank one(Bank bank);
 
-    List<BankDO> list(BankDO bankDO);
+    List<Bank> list(Bank bank);
 
 }

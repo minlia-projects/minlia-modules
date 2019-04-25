@@ -99,7 +99,7 @@ public class GetParamter {
 
     public static String getUrl1(String url,Object bean) {
         try {
-//            Map map = BeanUtils.describe(bean);
+//            Map map = BeanUtils.describe(ro);
             url = getUrl(url,beanToMap(bean));
         } catch (Exception e) {
             e.printStackTrace();

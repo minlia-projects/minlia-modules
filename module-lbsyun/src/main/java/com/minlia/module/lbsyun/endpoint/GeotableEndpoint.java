@@ -49,14 +49,14 @@ public class GeotableEndpoint {
 //
 //    @ApiOperation(value = "search local", notes = "本地检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/local", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response local(@Valid @RequestBody GadYuntuSearchLocalRequestBody bean) {
-//        return Response.success(gadYuntuSearchService.searchLocal(bean));
+//    public Response local(@Valid @RequestBody GadYuntuSearchLocalRequestBody ro) {
+//        return Response.success(gadYuntuSearchService.searchLocal(ro));
 //    }
 //
 //    @ApiOperation(value = "search around", notes = "周边检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/around", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response around(@Valid @RequestBody GadYuntuSearchAroundRequestBody bean) {
-//        return Response.success(gadYuntuSearchService.searchAround(bean));
+//    public Response around(@Valid @RequestBody GadYuntuSearchAroundRequestBody ro) {
+//        return Response.success(gadYuntuSearchService.searchAround(ro));
 //    }
 //
 //    @ApiOperation(value = "search id", notes = "ID检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,26 +67,26 @@ public class GeotableEndpoint {
 //
 //    @ApiOperation(value = "search list", notes = "条件检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/list", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response list(@Valid @RequestBody GadYuntuSearchListRequestBody bean) {
-//        return Response.success(gadYuntuSearchService.searchList(bean));
+//    public Response list(@Valid @RequestBody GadYuntuSearchListRequestBody ro) {
+//        return Response.success(gadYuntuSearchService.searchList(ro));
 //    }
 //
 //    @ApiOperation(value = "省数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/province", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody bean) {
-//        return Response.success(gadYuntuSearchService.searchProvince(bean));
+//    public Response province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody ro) {
+//        return Response.success(gadYuntuSearchService.searchProvince(ro));
 //    }
 //
 //    @ApiOperation(value = "市数据分布检索请求", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/city", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response city(@Valid @RequestBody GadYuntuSearchCityRequestBody bean) {
-//        return Response.success(yuntuService.searchCity(bean));
+//    public Response city(@Valid @RequestBody GadYuntuSearchCityRequestBody ro) {
+//        return Response.success(yuntuService.searchCity(ro));
 //    }
 //
 //    @ApiOperation(value = "区县数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/district", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response district(@Valid @RequestBody GadYuntuSearchDistrictRequestBody bean) {
-//        return Response.success(gadYuntuSearchService.searchDistrict(bean));
+//    public Response district(@Valid @RequestBody GadYuntuSearchDistrictRequestBody ro) {
+//        return Response.success(gadYuntuSearchService.searchDistrict(ro));
 //    }
 
 }

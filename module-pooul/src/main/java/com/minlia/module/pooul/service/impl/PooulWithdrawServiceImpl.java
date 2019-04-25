@@ -55,7 +55,7 @@ public class PooulWithdrawServiceImpl implements PooulWithdrawService {
             ApiAssert.state(false, PooulCode.Message.ORDER_CREATE_FAILURE, e.getMessage());
         }
         PooulDTO pooulDTO = new Gson().fromJson(response.getBody(),PooulDTO.class);
-        return Response.is(pooulDTO.isSuccess(), pooulDTO.getCode(), pooulDTO.getMsg());
+        return Response.is(pooulDTO.isSuccess(), pooulDTO.getCode().toString(), pooulDTO.getMsg());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class PooulWithdrawServiceImpl implements PooulWithdrawService {
             ApiAssert.state(false, PooulCode.Message.ORDER_CREATE_FAILURE, e.getMessage());
         }
         PooulWithdrawQueryDTO queryDTO = new Gson().fromJson(response.getBody(),PooulWithdrawQueryDTO.class);
-        return Response.success(queryDTO.getCode(), queryDTO.getMsg(), queryDTO.getData());
+        return Response.success(queryDTO.getCode().toString(), queryDTO.getMsg(), queryDTO.getData());
     }
 
     @Override

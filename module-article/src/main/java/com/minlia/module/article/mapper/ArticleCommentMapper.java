@@ -1,9 +1,9 @@
 package com.minlia.module.article.mapper;
 
-import com.minlia.module.article.bean.domain.ArticleComment;
-import com.minlia.module.article.bean.qo.ArticleCommentQO;
-import com.minlia.module.article.bean.vo.ArticleCommentVO;
-import com.minlia.module.article.bean.vo.ArticleMyCommentVO;
+import com.minlia.module.article.entity.ArticleComment;
+import com.minlia.module.article.ro.ArticleCommentQRO;
+import com.minlia.module.article.vo.ArticleCommentVO;
+import com.minlia.module.article.vo.ArticleMyCommentVO;
 
 import java.util.List;
 
@@ -20,23 +20,23 @@ public interface ArticleCommentMapper {
 
     ArticleComment queryById(Long id);
 
-    long count(ArticleCommentQO qo);
+    long count(ArticleCommentQRO qro);
 
-    List<ArticleComment> list(ArticleCommentQO qo);
+    List<ArticleComment> list(ArticleCommentQRO qro);
 
 
     /**
      * 查询评论集合
-     * @param qo
+     * @param qro
      * @return
      */
-    List<ArticleCommentVO> queryDetailsList(ArticleCommentQO qo);
+    List<ArticleCommentVO> queryDetailsList(ArticleCommentQRO qro);
 
     /**
      * 查询我的评论集合
-     * @param qo
+     * @param qro
      * @return
      */
-    List<ArticleMyCommentVO> queryMyList(ArticleCommentQO qo);
+    List<ArticleMyCommentVO> queryMyList(ArticleCommentQRO qro);
 
 }

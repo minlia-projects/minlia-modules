@@ -2,9 +2,9 @@ package com.minlia.module.bible.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.bible.bean.qo.BibleQO;
-import com.minlia.module.bible.bean.to.BibleCTO;
-import com.minlia.module.bible.bean.to.BibleUTO;
+import com.minlia.module.bible.ro.BibleQRO;
+import com.minlia.module.bible.ro.BibleCRO;
+import com.minlia.module.bible.ro.BibleURO;
 import com.minlia.module.bible.constant.BibleConstants;
 import com.minlia.module.bible.service.BibleService;
 import io.swagger.annotations.Api;
@@ -34,14 +34,14 @@ public class BibleEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response create(@Valid @RequestBody BibleCTO cto) {
+    public Response create(@Valid @RequestBody BibleCRO cto) {
         return Response.success(bibleService.create(cto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.UPDATE + "')")
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response update(@Valid @RequestBody BibleUTO uto) {
+    public Response update(@Valid @RequestBody BibleURO uto) {
         return Response.success(bibleService.update(uto));
     }
 
@@ -49,8 +49,7 @@ public class BibleEndpoint {
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response delete(@PathVariable Long id) {
-        bibleService.delete(id);
-        return Response.success();
+        return Response.success(bibleService.delete(id));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
@@ -70,15 +69,15 @@ public class BibleEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "根据BODY查询集合", notes = "查询集合", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryList", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryList(@Valid @RequestBody BibleQO qo) {
-        return Response.success(bibleService.queryList(qo));
+    public Response queryList(@Valid @RequestBody BibleQRO qro) {
+        return Response.success(bibleService.queryList(qro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "根据BODY查询分页", notes = "查询分页", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryPage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryPaginated(@PageableDefault Pageable pageable, @RequestBody BibleQO qo) {
-        return Response.success(bibleService.queryPage(qo, pageable));
+    public Response queryPaginated(@PageableDefault Pageable pageable, @RequestBody BibleQRO qro) {
+        return Response.success(bibleService.queryPage(qro, pageable));
     }
 
 }

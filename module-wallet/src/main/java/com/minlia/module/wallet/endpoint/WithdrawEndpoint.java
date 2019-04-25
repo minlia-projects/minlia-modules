@@ -1,10 +1,10 @@
 //package com.minlia.module.wallet.v1.endpoint;
 //
-//import com.minlia.boot.v1.bean.StatefulBody;
-//import com.minlia.boot.v1.bean.impl.SuccessResponseBody;
+//import com.minlia.boot.v1.ro.StatefulBody;
+//import com.minlia.boot.v1.ro.impl.SuccessResponseBody;
 //import com.minlia.boot.v1.web.ApiPrefix;
-//import com.minlia.module.wallet.v1.bean.WithdrawApplyRequestBody;
-//import com.minlia.module.wallet.v1.bean.WithdrawApprovalRequestBody;
+//import com.minlia.module.wallet.v1.ro.WithdrawApplyRequestBody;
+//import com.minlia.module.wallet.v1.ro.WithdrawApprovalRequestBody;
 //import com.minlia.module.wallet.v1.constants.WalletSecurityConstants;
 //import com.minlia.module.wallet.v1.service.WithdrawApplyService;
 //import io.swagger.annotations.Api;

@@ -1,10 +1,7 @@
-//package com.minlia.module.wallet.v1.enumeration;
-//
-///**
-// * Created by garen on 2017/4/6.
-// */
-//public enum WithdrawStatusEnum {
-//
-//    apply, settled, reject
-//
-//}
+package com.minlia.module.wallet.enumeration;
+
+public enum WithdrawStatusEnum {
+
+    PENDING, SETTLED, REJECTED
+
+}

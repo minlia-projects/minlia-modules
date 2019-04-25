@@ -3,7 +3,7 @@
 //import com.minlia.cloud.service.ReadOnlyService;
 //import com.minlia.cloud.service.WriteOnlyService;
 //import com.minlia.module.registry.v1.dao.RegistryDao;
-//import com.minlia.module.registry.v1.domain.Registry;
+//import com.minlia.module.registry.v1.entity.Registry;
 //import org.springframework.transaction.annotation.Transactional;
 //
 ///**

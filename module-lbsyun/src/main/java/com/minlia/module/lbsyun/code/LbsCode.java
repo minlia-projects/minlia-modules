@@ -1,79 +1,48 @@
 package com.minlia.module.lbsyun.code;
 
+import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
+import com.minlia.module.common.constant.MinliaConstants;
+import com.minlia.module.common.constant.SymbolConstants;
+
+import java.util.StringJoiner;
 
 /**
  * Created by garen On 2017/12/16.
  */
 public class LbsCode {
 
-    public LbsCode(){
-        throw new AssertionError();
-    }
-
-    public enum Exception implements Code {
-
-        TEST(-1, "TEST");
-
-        private int code;
-        private String i18nKey;
-
-        Exception(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
-
-        @Override
-        public int code() {
-            return code;
-        }
-
-        @Override
-        public String i18nKey() {
-            return i18nKey;
-        }
-
-        @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
-        }
-
-    }
+    final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".baidulbs";
 
     public enum Message implements Code {
 
         /**
          * 百度LBS创建失败：{0}
          */
-        CREATE_FAILURE(101400,"system.lbs.message.101400"),
+        CREATE_FAILURE,
 
         /**
          * 百度LBS更新失败：{0}
          */
-        UPDATE_FAILURE(101401,"system.lbs.message.101401");
-
-        private int code;
-        private String i18nKey;
-
-        Message(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
+        UPDATE_FAILURE;
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return this.name();
         }
 
         @Override
         public String i18nKey() {
-            return i18nKey;
+            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
+                    .add(CODE_PREFIX)
+                    .add(this.getClass().getSimpleName())
+                    .add(this.name()).toString());
         }
 
         @Override
         public String message() {
-            return Lang.get(this.i18nKey);
+            return Lang.get(this.i18nKey());
         }
 
     }

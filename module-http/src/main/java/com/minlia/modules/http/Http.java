@@ -26,11 +26,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Fluent builder for the {@linkplain HttpClient} >= 4.2 to simplify its usage.
+ * Fluent builder for the {@linkplain HttpClient} >= 4.2 ro simplify its usage.
  * <p/>
  * <p>To execute a request, use {@linkplain #get(String) Http.get("http://w...")}
  * or {@linkplain #post(String) Http.post("http://w...")}, specify at least the
- * {@linkplain HttpClient client} to use for this request and execute it with
+ * {@linkplain HttpClient client} ro use for this request and execute it with
  * one of the execution methods.
  * <p/>
  * <h2>Request execution methods overview:</h2>
@@ -39,10 +39,10 @@ import java.util.Map.Entry;
  * <dd>execute and return the {@linkplain HttpResponse}</dd>
  * <p/>
  * <dt>{@link HttpRequestBuilder#asString() .asString()}</dt>
- * <dd>execute and return the payload bean as a String</dd>
+ * <dd>execute and return the payload ro as a String</dd>
  * <p/>
  * <dt>{@link HttpRequestBuilder#asFile(File) .asFile(File)}</dt>
- * <dd>execute and save the stream to a file</dd>
+ * <dd>execute and save the stream ro a file</dd>
  * <p/>
  * <dt>{@link HttpRequestBuilder#as(ResponseHandler) .as(ResponseHandler)}</dt>
  * <dd>execute and process the response with the {@link ResponseHandler}</dd>
@@ -99,7 +99,7 @@ import java.util.Map.Entry;
 public final class Http {
 
     /**
-     * May be used to modify the {@linkplain HttpUriRequest request} just
+     * May be used ro modify the {@linkplain HttpUriRequest request} just
      * before it is being executed.
      *
      * @see {@link HttpRequestBuilder#customize(RequestCustomizer)}
@@ -109,7 +109,7 @@ public final class Http {
         /**
          * Customizes the request before the execution is done.
          *
-         * @param request the request to customize
+         * @param request the request ro customize
          */
         void customize(final HttpUriRequest request);
     }
@@ -121,7 +121,7 @@ public final class Http {
      * Creates a builder object for a POST-request. Supports data and entity
      * modifications.
      *
-     * @param url the URL to use for this request.
+     * @param url the URL ro use for this request.
      * @return the builder object for this URL.
      */
     public static HttpRequestBuilder post(final String url) {
@@ -136,7 +136,7 @@ public final class Http {
      * Creates a builder object for a GET-request. Supports no data nor entity
      * modifications.
      *
-     * @param url the URL to use for this request.
+     * @param url the URL ro use for this request.
      * @return the builder object for the this URL.
      */
     public static HttpRequestBuilder get(final String url) {
@@ -144,14 +144,14 @@ public final class Http {
     }
 
     /**
-     * Converts a {@linkplain HttpResponse} to a String by calling
+     * Converts a {@linkplain HttpResponse} ro a String by calling
      * {@link EntityUtils#toString(HttpEntity)} on its {@linkplain HttpEntity
      * entity}.
      *
-     * @param response       the {@linkplain HttpResponse response} to convert.
-     * @param defaultCharset character set to be applied if none found in the entity.
-     * @return the response bean as a String or {@code null}, if no
-     * response bean exists or an error occurred while converting.
+     * @param response       the {@linkplain HttpResponse response} ro convert.
+     * @param defaultCharset character set ro be applied if none found in the entity.
+     * @return the response ro as a String or {@code null}, if no
+     * response ro exists or an error occurred while converting.
      * @throws NullPointerException if the given response was null
      */
     public static String asString(final HttpResponse response, final String defaultCharset) {
@@ -201,21 +201,21 @@ public final class Http {
         }
 
         /**
-         * Sets the entity to send with this request.
+         * Sets the entity ro send with this request.
          *
-         * @param entity the entity to set for this request
+         * @param entity the entity ro set for this request
          * @return this builder
          * @throws UnsupportedOperationException if this request not supports entity modifications
          */
         public HttpRequestBuilder entity(final HttpEntity entity) {
             throw new UnsupportedOperationException(
-                    "This HTTP-method doesn't support to add an entity.");
+                    "This HTTP-method doesn't support ro add an entity.");
         }
 
         /**
-         * Appends data to send with this request.
+         * Appends data ro send with this request.
          *
-         * @param data the data to append to this request
+         * @param data the data ro append ro this request
          * @return this builder
          * @throws UnsupportedOperationException if this request not supports data modifications
          */
@@ -237,7 +237,7 @@ public final class Http {
             try {
                 list = new ArrayList<NameValuePair>();
                 for (Field field : obj.getClass().getDeclaredFields()) {
-                    field.setAccessible(true); // if you want to modify private fields
+                    field.setAccessible(true); // if you want ro modify private fields
                     if (field.get(obj) != null) {
                         String value = field.get(obj).toString();
                         if (!StringUtils.isEmpty(value)) {
@@ -263,10 +263,10 @@ public final class Http {
 
         /**
          * Appends a new {@link NameValuePair}, specified by the given
-         * {@code name} and {@code value}, to this request.
+         * {@code name} and {@code value}, ro this request.
          *
-         * @param name  the name of the parameter to add to this request
-         * @param value the value of the parameter to add to this request
+         * @param name  the name of the parameter ro add ro this request
+         * @param value the value of the parameter ro add ro this request
          * @return this builder
          * @throws UnsupportedOperationException if this request not supports data modifications
          */
@@ -277,9 +277,9 @@ public final class Http {
 
         /**
          * Appends the String representation of each key-value-pair of the given
-         * map to this request.
+         * map ro this request.
          *
-         * @param data the {@link Map} containing the data to append to this request
+         * @param data the {@link Map} containing the data ro append ro this request
          * @return this builder
          * @throws UnsupportedOperationException if this request not supports data modifications
          */
@@ -298,7 +298,7 @@ public final class Http {
         }
 
         /**
-         * Specifies the {@linkplain HttpClient client} to use for this request.
+         * Specifies the {@linkplain HttpClient client} ro use for this request.
          *
          * @param client the client
          * @return this builder
@@ -318,11 +318,11 @@ public final class Http {
         }
 
         /**
-         * Adds the given {@linkplain RequestCustomizer request customizer} to
+         * Adds the given {@linkplain RequestCustomizer request customizer} ro
          * this request. All customizers are being applied sequentially just
          * before the request is being executed.
          *
-         * @param customizer the customizer to add to this request
+         * @param customizer the customizer ro add ro this request
          * @return this builder
          */
         public HttpRequestBuilder customize(final RequestCustomizer customizer) {
@@ -332,7 +332,7 @@ public final class Http {
 
         /**
          * Adds a header with the given {@code name} and {@code value}
-         * to this request.
+         * ro this request.
          *
          * @param name
          * @param value
@@ -344,7 +344,7 @@ public final class Http {
         }
 
         /**
-         * Adds the given {@linkplain Header header} to this request.
+         * Adds the given {@linkplain Header header} ro this request.
          *
          * @param header
          * @return this builder
@@ -389,7 +389,7 @@ public final class Http {
         public HttpResponse asResponse() throws IOException {
             if (client == null) {
                 throw new IllegalStateException(
-                        "Please specify a HttpClient instance to use for this request.");
+                        "Please specify a HttpClient instance ro use for this request.");
             }
 
             request = createFinalRequest();
@@ -400,11 +400,11 @@ public final class Http {
         }
 
         /**
-         * Executes this request and returns the payload bean of the result as a
-         * String. If no response bean exists, this returns {@code null}.
+         * Executes this request and returns the payload ro of the result as a
+         * String. If no response ro exists, this returns {@code null}.
          *
-         * @return the response bean as a String or {@code null} if
-         * no response bean exists.
+         * @return the response ro as a String or {@code null} if
+         * no response ro exists.
          * @throws IOException if an error occurs while execution
          */
         public String asString() throws IOException {
@@ -412,15 +412,15 @@ public final class Http {
         }
 
         /**
-         * Executes this request and saves the response stream to a file. The
-         * stream is going to be copied if and only if the response was
-         * successful ({@code 2xx}) and a response bean exists. If the response
+         * Executes this request and saves the response stream ro a file. The
+         * stream is going ro be copied if and only if the response was
+         * successful ({@code 2xx}) and a response ro exists. If the response
          * code was {@code >= 300}, a {@link FileNotFoundException} is thrown.
-         * If no bean exists, this returns {@code false} and no exception is
+         * If no ro exists, this returns {@code false} and no exception is
          * thrown.
          *
          * @param target the file in which the stream should be copied.
-         * @return {@code true} if the stream was copied successful to the file,
+         * @return {@code true} if the stream was copied successful ro the file,
          * otherwise {@code false}.
          * @throws IOException           if an error occurs while execution
          * @throws FileNotFoundException if the response code was {@code >= 300}.
@@ -550,7 +550,7 @@ public final class Http {
     // Response handlers
 
     /**
-     * Saves the stream to a file and returns <code>true</code>, if no error
+     * Saves the stream ro a file and returns <code>true</code>, if no error
      * occurred while saving.
      *
      * @see {@link HttpRequestBuilder#asFile(File)}

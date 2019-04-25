@@ -3,7 +3,7 @@ package com.minlia.module.email.endpoint;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.email.bean.domain.EmailRecord;
+import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.service.EmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

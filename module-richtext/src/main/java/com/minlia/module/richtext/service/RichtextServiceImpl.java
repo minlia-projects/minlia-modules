@@ -53,8 +53,8 @@ public class RichtextServiceImpl implements RichtextService {
     }
 
     @Override
-    public long count(RichtextQO qo) {
-        return richtextMapper.count(qo);
+    public long count(RichtextQO qro) {
+        return richtextMapper.count(qro);
     }
 
     @Override
@@ -68,13 +68,13 @@ public class RichtextServiceImpl implements RichtextService {
     }
 
     @Override
-    public List<Richtext> queryList(RichtextQO qo) {
-        return richtextMapper.queryList(qo);
+    public List<Richtext> queryList(RichtextQO qro) {
+        return richtextMapper.queryList(qro);
     }
 
     @Override
-    public PageInfo<Richtext> queryPage(RichtextQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> richtextMapper.queryList(qo));
+    public PageInfo<Richtext> queryPage(RichtextQO qro, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> richtextMapper.queryList(qro));
     }
 
 }

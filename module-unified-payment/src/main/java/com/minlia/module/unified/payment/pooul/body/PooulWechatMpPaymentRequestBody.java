@@ -35,8 +35,8 @@ public class PooulWechatMpPaymentRequestBody extends PooulApiHttpRequestBody {
      * 商品描述	  String(127）
      * 必填
      */
-    @XmlElement(name = "bean", required = true)
-    @JsonProperty(value = "bean")
+    @XmlElement(name = "ro", required = true)
+    @JsonProperty(value = "ro")
     private String body;
 
     /**

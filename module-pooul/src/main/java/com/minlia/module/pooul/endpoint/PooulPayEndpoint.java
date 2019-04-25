@@ -27,14 +27,14 @@ public class PooulPayEndpoint {
     @ApiOperation(value = "支付", notes = "支付", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response pay(PooulWechatJsminipgTO to) {
-//        to.setPayType(PayTypeEnum.wechat_jsminipg.getName());
-//        to.setNonceStr(NumberGenerator.uuid32());
-//        to.setMchTradeId(RandomStringUtils.randomAlphanumeric(10));     // TODO 订单号需修改，这个只是测试
-//        to.setTotalFee(1);
-//        to.setBody("花果山 Test jsminipg");
-//        to.setSubAppid("wx469ffdb81de47e4d");
-//        to.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
-//        to.setNotifyUrl("http://pooul.frp.apartscloud.com/api/open/pooul/notify/pay");
+//        ro.setPayType(PayTypeEnum.wechat_jsminipg.getName());
+//        ro.setNonceStr(NumberGenerator.uuid32());
+//        ro.setMchTradeId(RandomStringUtils.randomAlphanumeric(10));     // TODO 订单号需修改，这个只是测试
+//        ro.setTotalFee(1);
+//        ro.setBody("花果山 Test jsminipg");
+//        ro.setSubAppid("wx469ffdb81de47e4d");
+//        ro.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
+//        ro.setNotifyUrl("http://pooul.frp.apartscloud.com/api/open/pooul/notify/pay");
         Response response = pooulPayService.wechatJsminipg(to,"2849928048545130");
         return response;
     }

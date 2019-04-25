@@ -1,7 +1,7 @@
 package com.minlia.module.article.mapper;
 
-import com.minlia.module.article.bean.domain.ArticleCategory;
-import com.minlia.module.article.bean.qo.ArticleCategoryQO;
+import com.minlia.module.article.entity.ArticleCategory;
+import com.minlia.module.article.ro.ArticleCategoryQRO;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ public interface ArticleCategoryMapper {
 
     long delete(Long id);
 
-    long count(ArticleCategoryQO qo);
+    long count(ArticleCategoryQRO qo);
 
-    ArticleCategory one(ArticleCategoryQO qo);
+    ArticleCategory one(ArticleCategoryQRO qo);
 
-    List<ArticleCategory> list(ArticleCategoryQO qo);
+    List<ArticleCategory> list(ArticleCategoryQRO qo);
 
 }

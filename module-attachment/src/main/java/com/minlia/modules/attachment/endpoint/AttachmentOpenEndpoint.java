@@ -3,7 +3,7 @@ package com.minlia.modules.attachment.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.modules.attachment.bean.AttachmentQO;
+import com.minlia.modules.attachment.ro.AttachmentQRO;
 import com.minlia.modules.attachment.service.AttachmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,13 +32,13 @@ public class AttachmentOpenEndpoint {
 
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody AttachmentQO qo) {
+    public Response list(@RequestBody AttachmentQRO qo) {
         return Response.success(attachmentService.queryList(qo));
     }
 
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response page(@PageableDefault Pageable pageable,@RequestBody AttachmentQO qo) {
+    public Response page(@PageableDefault Pageable pageable,@RequestBody AttachmentQRO qo) {
         return Response.success(attachmentService.queryPage(qo, pageable));
     }
 

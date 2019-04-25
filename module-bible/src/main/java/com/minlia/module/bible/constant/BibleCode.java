@@ -1,8 +1,13 @@
 package com.minlia.module.bible.constant;
 
 
+import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
+import com.minlia.module.common.constant.MinliaConstants;
+import com.minlia.module.common.constant.SymbolConstants;
+
+import java.util.StringJoiner;
 
 /**
  * Created by will on 6/21/17.
@@ -10,68 +15,36 @@ import com.minlia.cloud.i18n.Lang;
  */
 public class BibleCode {
 
-    public enum Exception implements Code {
-
-        TEST(-1, "TEST");
-
-        private int code;
-        private String i18nKey;
-
-        Exception(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
-
-        @Override
-        public int code() {
-            return code;
-        }
-
-        @Override
-        public String i18nKey() {
-            return i18nKey;
-        }
-
-        @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
-        }
-
-    }
+    final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".bible";
 
     public enum Message implements Code {
 
         /**
          * 存在字典子项无法删除
          */
-        COULD_NOT_DELETE_HAS_CHILDREN(100600,"system.common.exception.100600"),
+        COULD_NOT_DELETE_HAS_CHILDREN,
 
         /**
          * 字典父级不存在
          */
-        PARENT_NOT_EXISTS(100601,"system.common.exception.100601");
-
-        private int code;
-        private String i18nKey;
-
-        Message(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
+        PARENT_NOT_EXISTS;
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return this.name();
         }
 
         @Override
         public String i18nKey() {
-            return i18nKey;
+            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
+                    .add(CODE_PREFIX)
+                    .add(this.getClass().getSimpleName())
+                    .add(this.name()).toString());
         }
 
         @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
+        public String message(){
+            return Lang.get(this.i18nKey());
         }
 
     }

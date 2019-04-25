@@ -1,12 +1,10 @@
 package com.minlia.module.unified.payment.wechat.v1;
 
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
-import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
-import com.github.binarywang.wxpay.service.impl.WxPayServiceApacheHttpImpl;
-import com.minlia.module.unified.payment.body.OrderPaidNotificationBody;
-import com.minlia.module.unified.payment.body.PayType;
+import com.minlia.module.unified.payment.bean.OrderPaidNotificationResponse;
+import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
 import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
 import com.minlia.module.unified.payment.util.XmlUtils;
 import io.swagger.annotations.Api;
@@ -32,14 +30,16 @@ public class WechatCallbackReceiveEndpoint {
     @Autowired
     private WechatConfig wechatConfig;
 
+    @Autowired
+    private WxPayService wxPayService;
+
     @RequestMapping
     @ApiOperation(value = "微信回调", notes = "微信回调", httpMethod = "POST")
     public String process(HttpServletRequest request) {
         String requestedXmlString = XmlUtils.parseRequst(request);
-        log.info("wechat callback here");
         if (isOfficialNotificationRequest(requestedXmlString)) {
             log.info("wechat sign here");
-            OrderPaidNotificationBody body = new OrderPaidNotificationBody();
+            OrderPaidNotificationResponse body = new OrderPaidNotificationResponse();
             body = mapToBody(requestedXmlString, body);
             log.info("返回所有参数了" + body.toString());
             OrderPaidEventProducer.onOrderPaid(body);
@@ -49,11 +49,11 @@ public class WechatCallbackReceiveEndpoint {
         }
     }
 
-    private OrderPaidNotificationBody mapToBody(String requestedXmlString, OrderPaidNotificationBody body) {
+    private OrderPaidNotificationResponse mapToBody(String requestedXmlString, OrderPaidNotificationResponse body) {
         log.info(requestedXmlString);
         try {
             //这里面已经做了验证签名
-            WxPayOrderNotifyResult result = getWxPayService().parseOrderNotifyResult(requestedXmlString);
+            WxPayOrderNotifyResult result = wxPayService.parseOrderNotifyResult(requestedXmlString);
             log.info("微信第三方回调参数：{}", result);
 
             body.setPaidBy(result.getOpenid());
@@ -64,7 +64,7 @@ public class WechatCallbackReceiveEndpoint {
             body.setMerchantTradeNo(result.getOutTradeNo());
             body.setPaidBy(result.getOpenid());
             body.setSign(result.getSign());
-            body.setPayType(PayType.WECHAT);
+            body.setChannel(PayChannelEnum.wechat);
         } catch (WxPayException e) {
             log.info("解析異常" + e.toString());
         }
@@ -77,7 +77,7 @@ public class WechatCallbackReceiveEndpoint {
     private boolean isOfficialNotificationRequest(String requestedXmlString) {
         if (StringUtils.isNotEmpty(requestedXmlString)) {
             try {
-                getWxPayService().parseOrderNotifyResult(requestedXmlString);
+                WxPayOrderNotifyResult result = wxPayService.parseOrderNotifyResult(requestedXmlString);
                 //这里面已经做了验证签名, 所以直接返回真
                 return Boolean.TRUE;
             } catch (WxPayException e) {
@@ -88,20 +88,6 @@ public class WechatCallbackReceiveEndpoint {
             //非微信请求过来的通知, 忽略
             return Boolean.FALSE;
         }
-    }
-
-    /**
-     * 能够动态地从Bible里取到配置值
-     */
-    public WxPayService getWxPayService() {
-        WxPayService wxPayService = new WxPayServiceApacheHttpImpl();
-        //将本系统的交易凭证转换为WEIXIN交易参数
-        WxPayConfig config = new WxPayConfig();
-        config.setAppId(wechatConfig.getAppId());
-        config.setMchId(wechatConfig.getMchId());
-        config.setMchKey(wechatConfig.getKey());
-        wxPayService.setConfig(config);
-        return wxPayService;
     }
 
 }

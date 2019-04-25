@@ -69,15 +69,15 @@ public class TodoEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + TodoConstants.SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "查询集合", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryList(@Valid @RequestBody TodoQO qo) {
-        return Response.success(bibleService.queryList(qo));
+    public Response queryList(@Valid @RequestBody TodoQO qro) {
+        return Response.success(bibleService.queryList(qro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + TodoConstants.SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "查询分页", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody TodoQO qo) {
-        return Response.success(bibleService.queryPage(qo, pageable));
+    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody TodoQO qro) {
+        return Response.success(bibleService.queryPage(qro, pageable));
     }
 
 }

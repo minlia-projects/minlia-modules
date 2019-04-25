@@ -2,11 +2,10 @@ package com.minlia.module.country.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.country.bean.domain.Country;
-import com.minlia.module.country.bean.qo.CountryQO;
-import com.minlia.module.country.bean.to.CountryCTO;
-import com.minlia.module.country.bean.to.CountryUTO;
-import org.apache.ibatis.session.RowBounds;
+import com.minlia.module.country.entity.Country;
+import com.minlia.module.country.ro.CountryQRO;
+import com.minlia.module.country.ro.CountryCRO;
+import com.minlia.module.country.ro.CountryURO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,16 +17,16 @@ import java.util.List;
 @Transactional
 public interface CountryService {
 
-    Country create(CountryCTO cto);
+    Country create(CountryCRO cto);
 
-    Country update(CountryUTO uto);
+    Country update(CountryURO uro);
 
-    void delete(Long id);
+    int delete(Long id);
 
     Country queryById(Long id);
 
-    List<Country> queryList(CountryQO qo);
+    List<Country> queryList(CountryQRO qo);
 
-    PageInfo<Country> queryPage(CountryQO qo, Pageable pageable);
+    PageInfo<Country> queryPage(CountryQRO qo, Pageable pageable);
 
 }

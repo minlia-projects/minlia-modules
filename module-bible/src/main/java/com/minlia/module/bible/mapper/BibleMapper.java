@@ -1,7 +1,7 @@
 package com.minlia.module.bible.mapper;
 
-import com.minlia.module.bible.bean.domain.Bible;
-import com.minlia.module.bible.bean.qo.BibleQO;
+import com.minlia.module.bible.entity.Bible;
+import com.minlia.module.bible.ro.BibleQRO;
 
 import java.util.List;
 
@@ -10,16 +10,16 @@ import java.util.List;
  */
 public interface BibleMapper {
 
-    void create(Bible bible);
+    int create(Bible bible);
 
-    void update(Bible bible);
+    int update(Bible bible);
 
-    void delete(Long id);
+    int delete(Long id);
 
     Bible queryById(Long id);
 
     Bible queryByCode(String code);
 
-    List<Bible> queryList(BibleQO qo);
+    List<Bible> queryList(BibleQRO qro);
 
 }

@@ -19,10 +19,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} true if two are equal.
 	 */
 	public boolean eq(BigDecimal decimal) {
@@ -30,10 +30,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> equal </b></i> ro the provided
 	 * {@link Double} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} true if two are equal.
 	 */
 	public boolean eq(double decimal) {
@@ -41,10 +41,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> greater than </b></i> to the provided
+	 * Checks whether input argument is <i><b> greater than </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean gt(BigDecimal decimal) {
@@ -52,10 +52,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> greater than </b></i> to the provided
+	 * Checks whether input argument is <i><b> greater than </b></i> ro the provided
 	 * {@link Double} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean gt(double decimal) {
@@ -63,10 +63,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> greater than equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> greater than equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean gte(BigDecimal decimal) {
@@ -74,10 +74,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> greater than equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> greater than equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean gte(double decimal) {
@@ -85,10 +85,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> less than </b></i> to the provided
+	 * Checks whether input argument is <i><b> less than </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean lt(BigDecimal decimal) {
@@ -96,10 +96,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> less than </b></i> to the provided
+	 * Checks whether input argument is <i><b> less than </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean lt(double decimal) {
@@ -107,10 +107,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> less than equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> less than equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean lte(BigDecimal decimal) {
@@ -118,10 +118,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> less than equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> less than equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean lte(double decimal) {
@@ -129,10 +129,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> not equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} true if two are not equal.
 	 */
 	public boolean notEq(BigDecimal decimal) {
@@ -140,10 +140,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> not equal </b></i> ro the provided
 	 * {@link Double} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} true if two are not equal.
 	 */
 	public boolean notEq(double decimal) {
@@ -151,10 +151,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not greater than </b></i> to the provided
+	 * Checks whether input argument is <i><b> not greater than </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notGt(BigDecimal decimal) {
@@ -162,10 +162,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not greater than </b></i> to the provided
+	 * Checks whether input argument is <i><b> not greater than </b></i> ro the provided
 	 * {@link Double} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notGt(double decimal) {
@@ -173,10 +173,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not greater than or equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> not greater than or equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notGte(BigDecimal decimal) {
@@ -184,10 +184,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not greater than or equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> not greater than or equal </b></i> ro the provided
 	 * {@link Double} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notGte(double decimal) {
@@ -195,10 +195,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not less than </b></i> to the provided
+	 * Checks whether input argument is <i><b> not less than </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notLt(BigDecimal decimal) {
@@ -206,10 +206,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not less than </b></i> to the provided
+	 * Checks whether input argument is <i><b> not less than </b></i> ro the provided
 	 * {@link Double} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notLt(double decimal) {
@@ -217,10 +217,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not less than equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> not less than equal </b></i> ro the provided
 	 * {@link BigDecimal} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notLte(BigDecimal decimal) {
@@ -228,10 +228,10 @@ public class BigDecimalWrapper {
 	}
 
 	/**
-	 * Checks whether input argument is <i><b> not less than equal </b></i> to the provided
+	 * Checks whether input argument is <i><b> not less than equal </b></i> ro the provided
 	 * {@link Double} or not;
 	 *
-	 * @param decimal value to compare
+	 * @param decimal value ro compare
 	 * @return {@link Boolean} value
 	 */
 	public boolean notLte(double decimal) {

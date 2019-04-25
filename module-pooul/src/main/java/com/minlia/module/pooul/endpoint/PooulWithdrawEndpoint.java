@@ -50,8 +50,8 @@ public class PooulWithdrawEndpoint {
 
 //    @ApiOperation(value = "查询", notes = "查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "fund_account", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response fund_account(@Valid @RequestBody PooulCmbaYqQO qo) {
-//        return pooulWithdrawService.fundAccount(qo);
+//    public Response fund_account(@Valid @RequestBody PooulCmbaYqQO ro) {
+//        return pooulWithdrawService.fundAccount(ro);
 //    }
 
 //    @ApiOperation(value = "关闭订单", notes = "关闭订单", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)

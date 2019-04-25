@@ -96,7 +96,7 @@
 //	    			finance.setRechargeRecordUuid(recharge.getRechargeRecordUuid());
 //	    			finance.setRecordType(1);
 //	    			finance.setUserUuid(recharge.getUserUuid());
-//	    			finance.setPayType(2);
+//	    			finance.setPayTypeEnum(2);
 //
 //	    			int i1 = financeRecordService.insertSelective(finance);
 //	    			int i2 = usersService.updateByPrimaryKeySelective(user);

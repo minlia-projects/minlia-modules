@@ -1,9 +1,9 @@
 package com.minlia.module.address.service;
 
-import com.minlia.module.address.bean.domain.AddressDO;
-import com.minlia.module.address.bean.qo.AddressQO;
-import com.minlia.module.address.bean.to.AddressCTO;
-import com.minlia.module.address.bean.to.AddressUTO;
+import com.minlia.module.address.entity.Address;
+import com.minlia.module.address.ro.AddressQRO;
+import com.minlia.module.address.ro.AddressCRO;
+import com.minlia.module.address.ro.AddressURO;
 
 import java.util.List;
 
@@ -13,18 +13,18 @@ import java.util.List;
  */
 public interface AddressService {
 
-    AddressDO create(AddressCTO cto);
+    Address create(AddressCRO cro);
 
-    AddressDO update(AddressUTO uto);
+    Address update(AddressURO uto);
 
     int updateDefault(Long id);
 
     int delete(Long id);
 
-    long count(AddressQO qo);
+    long count(AddressQRO qro);
 
-    AddressDO queryOne(AddressQO qo);
+    Address queryOne(AddressQRO qro);
 
-    List<AddressDO> queryList(AddressQO qo);
+    List<Address> queryList(AddressQRO qro);
 
 }

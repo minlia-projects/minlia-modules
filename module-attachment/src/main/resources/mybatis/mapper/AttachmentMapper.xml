@@ -132,6 +132,19 @@
 		DELETE FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
 	</delete>
 
+    <delete id="deleteByRelationIdAndBelongsToAndNotExistAccessKeys">
+        DELETE FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+        AND access_key NOT IN
+        <foreach collection="arg2" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="queryCount" resultType="long">
+        SELECT COUNT(1) FROM mdl_attachment mat
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
     <select id="queryOne" resultType="com.minlia.modules.attachment.entity.Attachment">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>

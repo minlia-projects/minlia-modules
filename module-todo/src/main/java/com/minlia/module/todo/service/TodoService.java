@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface TodoService {
 
-    MyTodo create(TodoCTO cto);
+    MyTodo create(TodoCTO cro);
 
     MyTodo update(TodoUTO uto);
 
@@ -26,10 +26,10 @@ public interface TodoService {
 
     MyTodo queryByNumber(String number);
 
-    long count(TodoQO qo);
+    long count(TodoQO qro);
 
-    List<MyTodo> queryList(TodoQO qo);
+    List<MyTodo> queryList(TodoQO qro);
 
-    PageInfo<MyTodo> queryPage(TodoQO qo, Pageable pageable);
+    PageInfo<MyTodo> queryPage(TodoQO qro, Pageable pageable);
 
 }

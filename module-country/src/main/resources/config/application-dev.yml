@@ -16,29 +16,10 @@ spring:
         encoding.force: true
 
     datasource:
-        name:
         driverClassName: net.sf.log4jdbc.DriverSpy
         url: jdbc:log4jdbc:mysql://localhost:3306/minlia_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
-        name:
         username: root
         password:
-#        使用druid数据源
-#        type: com.alibaba.druid.pool.DruidDataSource
-        filters: stat
-        maxActive: 20
-        initialSize: 1
-        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-        continue-on-error: true
-        initialize: true
 
     redis:
         database: 0

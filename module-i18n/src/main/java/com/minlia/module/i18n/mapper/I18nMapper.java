@@ -1,7 +1,7 @@
 package com.minlia.module.i18n.mapper;
 
-import com.minlia.module.i18n.bean.I18nDO;
-import com.minlia.module.i18n.bean.I18nQO;
+import com.minlia.module.i18n.entity.I18n;
+import com.minlia.module.i18n.ro.I18nQRO;
 import org.apache.ibatis.annotations.MapKey;
 
 import java.util.List;
@@ -12,16 +12,17 @@ import java.util.Map;
  */
 public interface I18nMapper {
 
-    void create(I18nDO i18nDO);
+    void create(I18n i18N);
 
-    void update(I18nDO i18nDO);
+    void update(I18n i18N);
 
     void delete(Long id);
 
-    I18nDO queryOne(Long id);
+    I18n queryOne(Long id);
 
-    List<I18nDO> queryList(I18nQO qo);
+    List<I18n> queryList(I18nQRO qro);
 
     @MapKey("code")
-    Map<String,String> queryMap(I18nQO qo);
+    Map<String,String> queryMap(I18nQRO qro);
+
 }

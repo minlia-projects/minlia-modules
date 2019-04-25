@@ -27,10 +27,10 @@ public interface RichtextService {
 
     Richtext queryByCode(String code);
 
-    long count(RichtextQO qo);
+    long count(RichtextQO qro);
 
-    List<Richtext> queryList(RichtextQO qo);
+    List<Richtext> queryList(RichtextQO qro);
 
-    PageInfo<Richtext> queryPage(RichtextQO qo, Pageable pageable);
+    PageInfo<Richtext> queryPage(RichtextQO qro, Pageable pageable);
 
 }

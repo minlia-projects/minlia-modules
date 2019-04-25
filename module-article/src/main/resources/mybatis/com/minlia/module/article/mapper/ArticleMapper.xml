@@ -21,7 +21,7 @@
             mdl_article mat
 	</sql>
 
-    <resultMap id="articleVOMap" type="com.minlia.module.article.bean.vo.ArticleVO">
+    <resultMap id="articleVOMap" type="com.minlia.module.article.vo.ArticleVO">
         <id column="id" property="id" />
         <collection property="labelIds" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
         <collection property="labelNames" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
@@ -120,7 +120,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.article.bean.domain.Article">
+    <update id="update" parameterType="com.minlia.module.article.entity.Article">
         UPDATE mdl_article
         <set>
             <if test="categoryId != null">
@@ -167,7 +167,7 @@
         </foreach>
     </insert>
 
-    <select id="queryById" resultType="com.minlia.module.article.bean.domain.Article">
+    <select id="queryById" resultType="com.minlia.module.article.entity.Article">
         <include refid="QUERY_CONTENT"/>
         WHERE mat.id = #{id}
     </select>
@@ -177,12 +177,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.article.bean.domain.Article">
+    <select id="one" resultType="com.minlia.module.article.entity.Article">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.article.bean.domain.Article">
+    <select id="list" resultType="com.minlia.module.article.entity.Article">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

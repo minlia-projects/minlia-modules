@@ -4,12 +4,12 @@ import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
-import com.minlia.modules.rbac.constant.RebaccaCode;
-import com.minlia.modules.rbac.bean.to.UserCTO;
-import com.minlia.modules.rbac.bean.qo.UserQO;
-import com.minlia.modules.rbac.bean.to.UserRegistrationTO;
 import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.to.UserAvailablitityTO;
+import com.minlia.modules.rbac.bean.to.UserCTO;
+import com.minlia.modules.rbac.bean.to.UserRegistrationTO;
+import com.minlia.modules.rbac.constant.RebaccaCode;
 import com.minlia.modules.security.constant.SecurityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +51,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 .defaultRole(SecurityConstant.ROLE_USER_ID)
                 .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_ID))
                 .referral(to.getReferral())
+                .nickname(to.getNickname())
                 .build());
         return user;
     }

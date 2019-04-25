@@ -68,12 +68,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.bank.bean.domain.BankDO">
+    <select id="one" resultType="com.minlia.module.bank.entity.Bank">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.bank.bean.domain.BankDO">
+    <select id="list" resultType="com.minlia.module.bank.entity.Bank">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>

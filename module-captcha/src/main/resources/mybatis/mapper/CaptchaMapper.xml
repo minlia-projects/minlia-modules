@@ -73,7 +73,7 @@
         )
 	</insert>
 
-    <update id="update" parameterType="com.minlia.module.captcha.bean.domain.Captcha">
+    <update id="update" parameterType="com.minlia.module.captcha.entity.Captcha">
         UPDATE mdl_captcha
         <set>
             <if test="code != null">
@@ -102,12 +102,12 @@
 		DELETE FROM mdl_bible WHERE id = #{id}
 	</delete>
 
-    <select id="queryOne" resultType="com.minlia.module.captcha.bean.domain.Captcha">
+    <select id="queryOne" resultType="com.minlia.module.captcha.entity.Captcha">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.captcha.bean.domain.Captcha">
+    <select id="queryList" resultType="com.minlia.module.captcha.entity.Captcha">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

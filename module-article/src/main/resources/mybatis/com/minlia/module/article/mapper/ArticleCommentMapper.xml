@@ -38,7 +38,7 @@
         </if>
     </sql>
 
-    <insert id="create" parameterType="com.minlia.module.article.bean.domain.ArticleComment">
+    <insert id="create" parameterType="com.minlia.module.article.entity.ArticleComment">
         INSERT INTO mdl_article_comment(
             article_id ,
             content ,
@@ -50,7 +50,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.article.bean.domain.ArticleComment">
+    <update id="update" parameterType="com.minlia.module.article.entity.ArticleComment">
         UPDATE mdl_article_comment
         <set>
             <if test="content != null">
@@ -65,7 +65,7 @@
         DELETE FROM mdl_article_comment WHERE id = #{id}
     </delete>
 
-    <select id="queryById" resultType="com.minlia.module.article.bean.domain.ArticleComment">
+    <select id="queryById" resultType="com.minlia.module.article.entity.ArticleComment">
         <include refid="QUERY_CONTENT"/>
         WHERE mact.id = #{id}
     </select>
@@ -75,13 +75,13 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.article.bean.domain.ArticleComment">
+    <select id="list" resultType="com.minlia.module.article.entity.ArticleComment">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>
     </select>
 
-    <select id="queryDetailsList" resultType="com.minlia.module.article.bean.vo.ArticleCommentVO">
+    <select id="queryDetailsList" resultType="com.minlia.module.article.vo.ArticleCommentVO">
         SELECT
             mact.id,
             mact.content,
@@ -100,7 +100,7 @@
         <include refid="ORDER_BY"/>
     </select>
 
-    <select id="queryMyList" resultType="com.minlia.module.article.bean.vo.ArticleMyCommentVO">
+    <select id="queryMyList" resultType="com.minlia.module.article.vo.ArticleMyCommentVO">
         SELECT
             mact.id,
             mact.article_id,

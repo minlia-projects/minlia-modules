@@ -1,30 +1,30 @@
 package com.minlia.module.article.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.article.bean.domain.ArticleLabel;
-import com.minlia.module.article.bean.qo.ArticleLabelQO;
-import com.minlia.module.article.bean.to.ArticleLabelCTO;
-import com.minlia.module.article.bean.to.ArticleLabelUTO;
+import com.minlia.module.article.entity.ArticleLabel;
+import com.minlia.module.article.ro.ArticleLabelQRO;
+import com.minlia.module.article.ro.ArticleLabelCRO;
+import com.minlia.module.article.ro.ArticleLabelURO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ArticleLabelService {
 
-    ArticleLabel create(ArticleLabelCTO cto);
+    ArticleLabel create(ArticleLabelCRO cto);
 
-    ArticleLabel update(ArticleLabelUTO uto);
+    ArticleLabel update(ArticleLabelURO uto);
 
     void delete(Long id);
 
     ArticleLabel queryById(Long id);
 
-    long count(ArticleLabelQO qo);
+    long count(ArticleLabelQRO qo);
 
-    ArticleLabel one(ArticleLabelQO qo);
+    ArticleLabel one(ArticleLabelQRO qo);
 
-    List<ArticleLabel> list(ArticleLabelQO qo);
+    List<ArticleLabel> list(ArticleLabelQRO qo);
 
-    PageInfo<ArticleLabel> page(ArticleLabelQO qo, Pageable pageable);
+    PageInfo<ArticleLabel> page(ArticleLabelQRO qo, Pageable pageable);
 
 }

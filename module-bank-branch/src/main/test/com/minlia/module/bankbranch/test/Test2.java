@@ -1,7 +1,7 @@
 package com.minlia.module.bankbranch.test;
 
 import com.google.gson.Gson;
-import com.minlia.module.bankbranch.bean.dto.LhhResponse;
+import com.minlia.module.bankbranch.dto.LhhResponse;
 import org.junit.Test;
 
 /**

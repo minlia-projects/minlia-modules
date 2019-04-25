@@ -1,7 +1,7 @@
 package com.minlia.module.article.mapper;
 
-import com.minlia.module.article.bean.qo.ArticleCollectionQO;
-import com.minlia.module.article.bean.vo.ArticleVO;
+import com.minlia.module.article.ro.ArticleCollectionQRO;
+import com.minlia.module.article.vo.ArticleVO;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ public interface ArticleCollectionMapper {
 
     int delete(Long articleId, String guid);
 
-    long queryCount(ArticleCollectionQO qo);
+    long queryCount(ArticleCollectionQRO qro);
 
-    List<ArticleVO> queryList(ArticleCollectionQO qo);
+    List<ArticleVO> queryList(ArticleCollectionQRO qro);
 
 }

@@ -1,168 +1,165 @@
 package com.minlia.modules.security.code;
 
+import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
+import com.minlia.module.common.constant.MinliaConstants;
+import com.minlia.module.common.constant.SymbolConstants;
+
+import java.util.StringJoiner;
 
 /**
  * Created by garen on 2018/9/14.
  */
 public class SecurityCode {
 
+    final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".security";
+
     public enum Exception implements Code {
 
         /**
          * 不支持的请求方式
          */
-        AUTH_METHOD_NOT_SUPPORTED(100100,"system.security.exception.100100"),
+        AUTH_METHOD_NOT_SUPPORTED,
 
         /**
          * 未登录
          */
-        NOT_LOGIN(100101,"system.security.exception.100101"),
+        NOT_LOGIN,
 
         /**
          * 认证凭证不能为空：用户名、密码
          */
-        AUTH_CREDENTIALS_NOT_FOUND(100102,"system.security.exception.100102"),
+        AUTH_CREDENTIALS_NOT_FOUND,
 
         /**
          * 坏的登录凭证:用户名或密码错误
          */
-        BAD_CREDENTIALS(100103,"system.security.exception.100103"),
+        BAD_CREDENTIALS,
 
         /**
          * 未授权
          */
-        NOT_AUTHORIZED(100104,"system.security.exception.100104"),
+        NOT_AUTHORIZED,
 
         /**
          * 登录失败
          */
-        LOGIN_FAILED(100105,"system.security.exception.100105"),
+        LOGIN_FAILED,
 
         /**
          * 用户不存在
          */
-        USERNAME_NOT_FOUND(100106,"system.security.exception.100106"),
+        USERNAME_NOT_FOUND,
 
         /**
          * 账户已禁用
          */
-        ACCOUNT_DISABLED(100107,"system.security.exception.100107"),
+        ACCOUNT_DISABLED,
 
         /**
          * 账户已锁定
          */
-        ACCOUNT_LOCKED(100108,"system.security.exception.100108"),
+        ACCOUNT_LOCKED,
 
         /**
          * 账户已过期
          */
-        ACCOUNT_EXPIRED(100109,"system.security.exception.100109"),
+        ACCOUNT_EXPIRED,
 
         /**
          * 账户凭证已过期：密码已过期
          */
-        ACCOUNT_CREDENTIALS_EXPIRED(100110,"system.security.exception.100110"),
+        ACCOUNT_CREDENTIALS_EXPIRED,
 
         /**
          * 访问令牌已过期:(登录态已过期)
          */
-        JWT_TOKEN_EXPIRED(100111,"system.security.exception.100111"),
+        JWT_TOKEN_EXPIRED,
 
         /**
          * 访问令牌无效:(登录态无效)
          */
-        JWT_TOKEN_INVALID(100112,"system.security.exception.100112"),
+        JWT_TOKEN_INVALID,
 
         /**
          * 访问令牌不能为空 Authorization header cannot be blank
          */
-        JWT_TOKEN_NOT_NULL(100113,"system.security.exception.100113"),
+        JWT_TOKEN_NOT_NULL,
 
         /**
          * 访问令牌有误 Invalid authorization header size.
          */
-        JWT_BAD_TOKEN(100114,"system.security.exception.100114"),
+        JWT_BAD_TOKEN,
 
         /**
          * 坏的凭证：密码错误，已连续错误{0}次
          */
-        AJAX_BAD_CREDENTIALS(100115,"system.security.exception.100115"),
+        AJAX_BAD_CREDENTIALS,
 
         /**
          * 锁定：账号已锁定，{0}秒后解锁
          */
-        AJAX_LOCKED(100116,"system.security.exception.100116"),
+        AJAX_LOCKED,
 
         /**
          * 认证服务异常
          */
-        AUTH_SERVICE(100117,"system.security.exception.100117"),
+        AUTH_SERVICE,
 
         /**
          * 登陆方式不能为空
          */
-        LOGIN_METHOD_NOT_NULL(100118,"system.security.exception.100118"),
+        LOGIN_METHOD_NOT_NULL,
 
         /**
          * 非法账号格式
          */
-        DAD_ACCOUNT_PATTERN(100118,"system.security.exception.100118");
-
-        private int code;
-        private String i18nKey;
-
-        Exception(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
+        DAD_ACCOUNT_PATTERN;
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return this.name();
         }
 
         @Override
         public String i18nKey() {
-            return i18nKey;
+            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
+                    .add(CODE_PREFIX)
+                    .add(this.getClass().getSimpleName())
+                    .add(this.name()).toString());
         }
 
         @Override
-        public String message(){
-            return Lang.get(this.i18nKey);
+        public String message() {
+            return Lang.get(this.i18nKey());
         }
 
     }
 
-    public enum Message implements Code{
+    public enum Message implements Code {
 
         /**
          * 没有操作此记录的权限
          */
-        NOT_DATA_AUTHORIZED(100100, "没有操作此记录的权限");
-
-        private int code;
-        private String i18nKey;
-
-        Message(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
+        NOT_DATA_AUTHORIZED;
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return this.name();
         }
 
         @Override
         public String i18nKey() {
-            return i18nKey;
+            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
+                    .add(CODE_PREFIX)
+                    .add(this.getClass().getSimpleName())
+                    .add(this.name()).toString());
         }
 
         @Override
-        public String message(){
-            return Lang.get(this.i18nKey);
+        public String message() {
+            return Lang.get(this.i18nKey());
         }
 
     }

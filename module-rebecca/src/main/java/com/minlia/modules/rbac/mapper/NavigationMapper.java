@@ -22,13 +22,13 @@ public interface NavigationMapper {
 
     void display(Long id, boolean display);
 
-    long count(NavigationQO qo);
+    long count(NavigationQO qro);
 
     Navigation queryById(Long id);
 
-    List<Navigation> queryList(NavigationQO qo);
+    List<Navigation> queryList(NavigationQO qro);
 
-    List<MyNavigationVO> queryMyNavigationList(NavigationQO qo);
+    List<MyNavigationVO> queryMyNavigationList(NavigationQO qro);
 
     void clear(Long roleId);
 }

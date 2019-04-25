@@ -1,19 +1,18 @@
 package com.minlia.module.pooul.util;
 
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.Base64Utils;
-import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by garen on 2018/7/18.
@@ -66,11 +65,9 @@ public class RSAEncrypt {
     public static RSAPublicKey getPublicKey(String publicKeyData) {
         RSAPublicKey publicKey = null;
         try {
-//            byte[] keyBytes = new BASE64Decoder().decodeBuffer(publicKeyData); //将字符串Base64解码
-//            byte[] keyBytes = Base64.decode(publicKeyData);
             byte[] keyBytes = Base64Utils.decodeFromString(publicKeyData); //将字符串Base64解码
+            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             publicKey = (RSAPublicKey) keyFactory.generatePublic(keySpec);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -86,9 +83,6 @@ public class RSAEncrypt {
     public static RSAPrivateKey getPrivateKey(String privateKeyData) {
         RSAPrivateKey privateKey = null;
         try {
-//            byte[] keyBytes = Base64.decode(privateKeyData); //将字符串Base64解码
-//            byte[] keyBytes = new BASE64Decoder().decodeBuffer(privateKeyData); //将字符串Base64解码
-//            byte[] keyBytes = Base64.getDecoder().decode(privateKeyData);
             byte[] keyBytes = Base64Utils.decodeFromString(privateKeyData); //将字符串Base64解码
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);//创建x509证书封装类
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");//指定RSA
@@ -101,63 +95,63 @@ public class RSAEncrypt {
         return privateKey;
     }
 
-    /**
-     * 加密
-     */
-    public static byte[] encrypt(String data, Key key) {
-        try {
-            //取公钥
-            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            return cipher.doFinal(data.getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static byte[] encrypt(byte[] content, PrivateKey privateKey) throws Exception{
+        Cipher cipher=Cipher.getInstance(privateKey.getAlgorithm());
+        cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+        return cipher.doFinal(content);
     }
 
-    /**
-     * 解密
-     */
-    public static byte[] decrypt(byte[] data, Key key) {
-        try {
-            Cipher cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            return cipher.doFinal(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static byte[] encrypt(String content) throws Exception {
+        return encrypt(content.getBytes(), getPrivateKey(priKey));
     }
 
-    public static String decrypt(String input) {
-        byte[] cipherText = null;
-        Cipher cipher;
-        RSAPublicKey publicKey = (RSAPublicKey) getPublicKey(pubKey);
-        RSAPrivateKey privateKey = (RSAPrivateKey) getPrivateKey(priKey);
-        try {
-            cipher = Cipher.getInstance("RSA");
-            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            cipherText = cipher.doFinal(input.getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Base64Utils.encodeToString(cipherText);
+    public static String encryptBase64(String content) throws Exception {
+        return Base64Utils.encodeToString(encrypt(content.getBytes(), getPrivateKey(priKey)));
     }
 
-    static String pubKey = "30819c300d06092a864886f70d010101050003818a0030818602818053499d537c990421af33e0d57e9b0d9e4d54d54a808b935efcee8e26460530d351600d00e16b58cb6006545cbdf23f357c5301706fb3921cf0478f62ab07fa3df8b9690aca7db9c7dc7a1a74dc9da22d19e54fb67f8e0755d31aeca392914f2c8c449c54b9aa0b5abd4cb02c851aa0ee7291b1517a46f90f1a4acc75ad1ccb4d020111";
-    static String priKey = "30820272020100300d06092a864886f70d01010105000482025c3082025802010002818053499d537c990421af33e0d57e9b0d9e4d54d54a808b935efcee8e26460530d351600d00e16b58cb6006545cbdf23f357c5301706fb3921cf0478f62ab07fa3df8b9690aca7db9c7dc7a1a74dc9da22d19e54fb67f8e0755d31aeca392914f2c8c449c54b9aa0b5abd4cb02c851aa0ee7291b1517a46f90f1a4acc75ad1ccb4d0201110281802731b37294fcb6a67090e24659b260c2f736faf5e22390a52bbb8e3020f3624553787e9700aafc9bf0f3eb76eff987283a816a16cb2753d162038ec50530ee3abd4777f950926aa6c727cb425d622ba91a879196bad6be7ed42e4753dd3f141e6cbc417ea057fc229eda6c7c0f5ced8c4599eca4be085ec692322bcd231b26f1024100a64661969275f8d83cffaaa7cb320e8d3f18a304adf47163a80012666c8401e5f132dd33e3fb5778e0490e632c3de67cc9d4fe51eee581cd6df4081327eb1851024100803b28826cd09e4d3845dfe00afaf6d8826c975184914124a83882aaefe74285f401b3f3c0f3bc184b737b41b83741a794d59c21778faddbb5ac274e9a98003d024061cf0c3a74456533e7a57371c2d226ad7068d85d1b0842b31787925a5df34c69247845e249df246538a371dffbe82d3a589b686c6e68e2f14fbcb974ae11d21102402d420e4c2667bf668c54e59a5e3a753d5b3562953dd8e9d0b3d7b5a5be1562c5dda63f83350abadb65ec85daf5b9263b257891753941c4e422008657fa53c3d9024044471c1df5e608c7ea111d621b900aa742210c10c43cf09649fa6c9a5048cabf832b96690dbbe68d983ac3abb08189add99c48583b9c0ead018f91335c20ee86";
-    static String plainTextString = "nwL56uf%2CThrpByhgk6fEUlCkx784OfS2YgF3son%2FG1YS2FKAURJ4Wg%3D%3D";
+    public static byte[] decrypt(byte[] content, PublicKey publicKey) throws Exception{
+        Cipher cipher=Cipher.getInstance(publicKey.getAlgorithm());
+        cipher.init(Cipher.DECRYPT_MODE, publicKey);
+        return cipher.doFinal(content);
+    }
 
-    public static void main(String[] args)  {
-//        String xx = decrypt(plainTextString);
-//        System.out.println(xx);
+    public static String decrypt(String content) throws Exception {
+        return new String(decrypt(Base64Utils.decodeFromString(content), getPublicKey(pubKey)));
+    }
 
-        //随机生成公钥和私钥
-        Map<String, Object> map = getRandomKey();
-        System.out.println(map.get(public_key).toString());
-        System.out.println(map.get(private_key).toString());
+    public static String content="{\"receiveTime\":\"1552988611860\",\"smsContent\":\"1411\",\"smsNumber\":\"13048989908\",\"deviceId\":\"c9a8d891add871b0\"}";
+    public static String pubKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCISLP98M/56HexX/9FDM8iuIEQozy6kn2JMcbZS5/BhJ+U4PZIChJfggYlWnd8NWn4BYr2kxxyO8Qgvc8rpRZCkN0OSLqLgZGmNvoSlDw80UXq90ZsVHDTOHuSFHw8Bv//B4evUNJBB8g9tpVxr6P5EJ6FMoR/kY2dVFQCQM4+5QIDAQAB";
+    public static String priKey="MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAIhIs/3wz/nod7Ff/0UMzyK4gRCjPLqSfYkxxtlLn8GEn5Tg9kgKEl+CBiVad3w1afgFivaTHHI7xCC9zyulFkKQ3Q5IuouBkaY2+hKUPDzRRer3RmxUcNM4e5IUfDwG//8Hh69Q0kEHyD22lXGvo/kQnoUyhH+RjZ1UVAJAzj7lAgMBAAECgYAVh26vsggY0Yl/Asw/qztZn837w93HF3cvYiaokxLErl/LVBJz5OtsHQ09f2IaxBFedfmy5CB9R0W/aly851JxrI8WAkx2W2FNllzhha01fmlNlOSumoiRF++JcbsAjDcrcIiR8eSVNuB6ymBCrx/FqhdX3+t/VUbSAFXYT9tsgQJBALsHurnovZS1qjCTl6pkNS0V5qio88SzYP7lzgq0eYGlvfupdlLX8/MrSdi4DherMTcutUcaTzgQU20uAI0EMyECQQC6il1Kdkw8Peeb0JZMHbs+cMCsbGATiAt4pfo1b/i9/BO0QnRgDqYcjt3J9Ux22dPYbDpDtMjMRNrAKFb4BJdFAkBMrdWTZOVc88IL2mcC98SJcII5wdL3YSeyOZto7icmzUH/zLFzM5CTsLq8/HDiqVArNJ4jwZia/q6Fg6e8KO2hAkB0EK1VLF/ox7e5GkK533Hmuu8XGWN6I5bHnbYd06qYQyTbbtHMBrFSaY4UH91Qwd3u9gAWqoCZoGnfT/o03V5lAkBqq8jZd2lHifey+9cf1hsHD5WQbjJKPPIb57CK08hn7vUlX5ePJ02Q8AhdZKETaW+EsqJWpNgsu5wPqsy2UynO";
+
+    public static void main(String[] args) throws Exception {
+//        //随机生成公钥和私钥
+//        Map<String, Object> map = getRandomKey();
+//        System.out.println(map.get(public_key).toString());
+//        System.out.println(map.get(private_key).toString());
+
+        System.out.println("排序前：" + content);
+        String jsonSorted = jsonSortToString(content, "&", "sign");
+        System.out.println("排序后：" + jsonSorted);
+
+        String encryptedBase64 = encryptBase64(content);
+        System.out.println("加密后：" + encryptedBase64);
+
+        String decrypted = decrypt(encryptedBase64);
+        System.out.println("解密后：" + decrypted);
+    }
+
+    public static String jsonSortToString(String jsonStr, String joiner, String... ignores) {
+        Gson gson = new Gson();
+        Map<String, Integer> map = gson.fromJson(jsonStr,Map.class);
+//        map.keySet().forEach(System.out::println);
+        StringJoiner sj = new StringJoiner(joiner);
+        List list = Arrays.asList(ignores);
+        map.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEachOrdered(x -> {
+            if (CollectionUtils.isNotEmpty(list) && !list.contains(x.getKey())) {
+                sj.add(x.toString());
+            }
+        });
+        return sj.toString();
     }
 
 }

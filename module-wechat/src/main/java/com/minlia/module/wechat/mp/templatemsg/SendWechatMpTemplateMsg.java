@@ -4,14 +4,14 @@ import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.bible.bean.qo.BibleItemQO;
-import com.minlia.module.bible.bean.domain.BibleItem;
+import com.minlia.module.bible.ro.BibleItemQRO;
+import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.service.BibleItemService;
-import com.minlia.module.wechat.ma.bean.qo.WechatOpenAccountQO;
+import com.minlia.module.wechat.login.ro.WechatUserQO;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
-import com.minlia.module.wechat.ma.bean.domain.WechatOpenAccount;
+import com.minlia.module.wechat.login.entity.WechatUser;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
-import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
+import com.minlia.module.wechat.login.service.WechatUserService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -54,7 +54,7 @@ public class SendWechatMpTemplateMsg {
      */
     @Deprecated
     private MiniProgram builderMiniProgram(String appId, String templateId,List<Object> pathParams){
-        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQO.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
+        BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQRO.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
         ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
         return new MiniProgram(appId, String.format(bibleItem.getAttribute1(),pathParams), false);
     }
@@ -64,8 +64,8 @@ public class SendWechatMpTemplateMsg {
      * @return
      */
     private String getOpenId(String guid){
-        WechatOpenAccount wechatOpenAccount = getBeanByContext(WechatOpenAccountService.class).queryOne(WechatOpenAccountQO.builder().guid(guid).type(WechatOpenidType.PUBLIC).isSubscribe(true).build());
-        return null == wechatOpenAccount ? null : wechatOpenAccount.getOpenId();
+        WechatUser wechatUser = getBeanByContext(WechatUserService.class).queryOne(WechatUserQO.builder().guid(guid).type(WechatOpenidType.PUBLIC).isSubscribe(true).build());
+        return null == wechatUser ? null : wechatUser.getOpenId();
     }
 
     /**
@@ -109,7 +109,7 @@ public class SendWechatMpTemplateMsg {
             if (StringUtils.isBlank(appid)) {
                 appid = ContextHolder.getContext().getBean(WxMaConfig.class).getAppid();
             }
-            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQO.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
+            BibleItem bibleItem = getBeanByContext(BibleItemService.class).queryOne(BibleItemQRO.builder().parentCode(WECHAT_MP_TEMPLATE).code(templateId).build());
             ApiAssert.notNull(bibleItem, WechatMaCode.Message.MA_PATH_NOT_NULL, templateId);
 
             WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
@@ -124,7 +124,7 @@ public class SendWechatMpTemplateMsg {
             return Response.success(templateMsg);
         } catch (WxErrorException e) {
             log.error(String.format("微信公众号通知失败-%s: %s",templateDesc, e.getError()));
-            return Response.failure(e.getError().getErrorCode(), templateDesc + e.getMessage());
+            return Response.failure(e.getError().getErrorCode() + "", templateDesc + e.getMessage());
         } catch (Exception e) {
             log.error(String.format("微信公众号通知失败-%s: %s",templateDesc, e.getMessage()));
             return Response.failure(templateDesc + e.getMessage());

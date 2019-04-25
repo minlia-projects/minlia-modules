@@ -65,18 +65,6 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.alipay</groupId>-->
-            <!--<artifactId>alipay-sdk-java</artifactId>-->
-            <!--<version>20170829142630</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>com.alibaba</groupId>-->
-            <!--<artifactId>fastjson</artifactId>-->
-            <!--<version>1.2.31</version>-->
-        <!--</dependency>-->
-
         <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
         <dependency>
             <groupId>com.alipay.sdk</groupId>
@@ -86,7 +74,7 @@
 
         <dependency>
             <groupId>com.github.binarywang</groupId>
-            <version>3.1.0</version>
+            <version>3.3.0</version>
             <artifactId>weixin-java-pay</artifactId>
         </dependency>
 

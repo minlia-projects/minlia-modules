@@ -4,8 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.bible.bean.domain.BibleItem;
-import com.minlia.module.bible.bean.qo.BibleItemQO;
+import com.minlia.module.bible.entity.BibleItem;
+import com.minlia.module.bible.ro.BibleItemQRO;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.todo.bean.domain.MyTodo;
@@ -43,7 +43,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     @Transactional
     public MyTodo create(TodoCTO cto) {
-        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQO.builder().parentCode(BIBLE_TODO_TYPE).code(cto.getType()).build());
+        BibleItem bibleItem = bibleItemService.queryOne(BibleItemQRO.builder().parentCode(BIBLE_TODO_TYPE).code(cto.getType()).build());
         ApiAssert.notNull(bibleItem, TodoCode.Message.TYPE_NOT_EXISTS, cto.getType());
 
         MyTodo todo = mapper.map(cto, MyTodo.class);
@@ -98,8 +98,8 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public long count(TodoQO qo) {
-        return todoMapper.count(qo);
+    public long count(TodoQO qro) {
+        return todoMapper.count(qro);
     }
 
     private MyTodo queryByNumberAndNotNull(String number) {
@@ -109,13 +109,13 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<MyTodo> queryList(TodoQO qo) {
-        return todoMapper.queryList(qo);
+    public List<MyTodo> queryList(TodoQO qro) {
+        return todoMapper.queryList(qro);
     }
 
     @Override
-    public PageInfo<MyTodo> queryPage(TodoQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(qo));
+    public PageInfo<MyTodo> queryPage(TodoQO qro, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(qro));
     }
 
 }

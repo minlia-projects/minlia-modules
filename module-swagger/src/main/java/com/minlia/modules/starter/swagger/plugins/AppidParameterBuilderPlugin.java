@@ -7,7 +7,7 @@
 //import java.util.List;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.core.MethodParameter;
-//import org.springframework.data.domain.Pageable;
+//import org.springframework.data.entity.Pageable;
 //import springfox.documentation.schema.ModelReference;
 //import springfox.documentation.schema.ResolvedTypes;
 //import springfox.documentation.schema.TypeNameExtractor;

@@ -1,7 +1,7 @@
 package com.minlia.module.unified.payment.event;
 
 
-import com.minlia.module.unified.payment.body.OrderPaidNotificationBody;
+import com.minlia.module.unified.payment.bean.OrderPaidNotificationResponse;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class OrderPaidEvent extends ApplicationEvent {
 
-    public OrderPaidEvent(OrderPaidNotificationBody source) {
+    public OrderPaidEvent(OrderPaidNotificationResponse source) {
         super(source);
     }
 }

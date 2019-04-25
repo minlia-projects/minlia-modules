@@ -18,7 +18,7 @@ public class JwtProperty {
     private String tokenIssuer;
 
     /**
-     * Key is used to sign {@link JwtToken}.
+     * Key is used ro sign {@link JwtToken}.
      */
     private String tokenSigningKey;
 

@@ -3,8 +3,8 @@ package com.minlia.modules.attachment.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
-import com.minlia.modules.attachment.bean.AttachmentCTO;
-import com.minlia.modules.attachment.bean.AttachmentQO;
+import com.minlia.modules.attachment.ro.AttachmentCRO;
+import com.minlia.modules.attachment.ro.AttachmentQRO;
 import com.minlia.modules.attachment.entity.Attachment;
 import org.springframework.data.domain.Pageable;
 
@@ -34,7 +34,7 @@ public interface AttachmentService {
      * @param cto
      * @return
      */
-    List<Attachment> create(AttachmentCTO cto);
+    List<Attachment> create(AttachmentCRO cto);
 
     /**
      * 修改
@@ -66,13 +66,13 @@ public interface AttachmentService {
 
     Attachment queryById(Long id);
 
-    Attachment queryOne(AttachmentQO qo);
+    Attachment queryOne(AttachmentQRO qo);
 
-    List<Attachment> queryList(AttachmentQO qo);
+    List<Attachment> queryList(AttachmentQRO qo);
 
-    PageInfo<Attachment> queryPage(AttachmentQO qo, Pageable pageable);
+    PageInfo<Attachment> queryPage(AttachmentQRO qo, Pageable pageable);
 
-    List<String>  queryUrls(AttachmentQO qo);
+    List<String>  queryUrls(AttachmentQRO qo);
 
     /**
      * 改为集合 TODO

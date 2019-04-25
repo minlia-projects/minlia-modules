@@ -31,10 +31,10 @@ public class WxMpRestUtils {
             responseText = getWxMpService().post(url, WxGsonBuilder.create().toJson(params));
         } catch (WxErrorException e) {
             e.printStackTrace();
-            ApiAssert.state(false, e.getError().getErrorCode(),e.getError().getErrorMsg());
+            ApiAssert.state(false, e.getError().getErrorCode() + "",e.getError().getErrorMsg());
         }
         WxError wxError = WxError.fromJson(responseText);
-        ApiAssert.state(wxError.getErrorCode() == 0, wxError.getErrorCode(), wxError.getErrorMsg());
+        ApiAssert.state(wxError.getErrorCode() == 0, wxError.getErrorCode() + "", wxError.getErrorMsg());
         return new Gson().fromJson(responseText, WxMpMaterialBatchGetResult.class);
     }
 

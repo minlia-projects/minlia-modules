@@ -3,9 +3,9 @@ package com.minlia.module.i18n.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.i18n.Lang;
-import com.minlia.module.i18n.bean.I18nCTO;
-import com.minlia.module.i18n.bean.I18nQO;
-import com.minlia.module.i18n.bean.I18nUTO;
+import com.minlia.module.i18n.ro.I18nCRO;
+import com.minlia.module.i18n.ro.I18nQRO;
+import com.minlia.module.i18n.ro.I18nURO;
 import com.minlia.module.i18n.constant.I18nConstants;
 import com.minlia.module.i18n.resource.MessageSource;
 import com.minlia.module.i18n.service.I18nService;
@@ -37,14 +37,14 @@ public class I18nEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response create(@Valid @RequestBody I18nCTO cto) {
+    public Response create(@Valid @RequestBody I18nCRO cto) {
         return Response.success(i18nService.create(cto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_UPDATE + "')")
     @ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response update(@Valid @RequestBody I18nUTO uto) {
+    public Response update(@Valid @RequestBody I18nURO uto) {
         return Response.success(i18nService.update(uto));
     }
 
@@ -81,15 +81,15 @@ public class I18nEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "ID查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response queryList(@RequestBody I18nQO qo) {
-        return Response.success(i18nService.queryList(qo));
+    public Response queryList(@RequestBody I18nQRO qro) {
+        return Response.success(i18nService.queryList(qro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "ID查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "page", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody I18nQO qo) {
-        return Response.success(i18nService.queryPage(qo,pageable));
+    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody I18nQRO qro) {
+        return Response.success(i18nService.queryPage(qro,pageable));
     }
 
 }

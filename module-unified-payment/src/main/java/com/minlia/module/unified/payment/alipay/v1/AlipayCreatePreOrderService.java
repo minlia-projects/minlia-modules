@@ -13,9 +13,10 @@ import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.unified.payment.CreatePreOrderService;
-import com.minlia.module.unified.payment.body.CreatePreOrderRequestBody;
-import com.minlia.module.unified.payment.util.OrderNumberUtil;
+import com.minlia.module.unified.payment.bean.CreatePreOrderRequest;
+import com.minlia.module.unified.payment.enumeration.PayOperationEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,13 +33,13 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
      * 备注
      * 后端发起订单创建流程
      */
-    public Response createPreOrder(CreatePreOrderRequestBody body) {
+    public Response createPreOrder(CreatePreOrderRequest body) {
         AlipayResponse result;
         String number;
         Double amount = ((Double.parseDouble(body.getAmount().toString())) / 100);
 
         if (StringUtils.isEmpty(body.getNumber())) {
-            number = OrderNumberUtil.generateOrderNumberTimestamp(DEFAULT_ALIPAY_ORDER_NUMBER_PREFIX);
+            number = NumberGenerator.generatorByYMDHMSS(DEFAULT_ALIPAY_ORDER_NUMBER_PREFIX,1);
         } else {
             number = body.getNumber();
         }
@@ -56,7 +57,17 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         return Response.success(result);
     }
 
-    private AlipayTradePrecreateResponse alipayTradePrecreatePay(CreatePreOrderRequestBody body, String number, Double amount) {
+    @Override
+    public Response createOrder(Object o) {
+        return null;
+    }
+
+    @Override
+    public Response createOrder(Object o, PayOperationEnum operation) {
+        return null;
+    }
+
+    private AlipayTradePrecreateResponse alipayTradePrecreatePay(CreatePreOrderRequest body, String number, Double amount) {
         //页面端支付
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         AlipayTradePrecreateModel model = new AlipayTradePrecreateModel();
@@ -78,7 +89,7 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         return null;
     }
 
-    private AlipayTradeAppPayResponse alipayTradeAppPayPay(CreatePreOrderRequestBody body, String number, Double amount) {
+    private AlipayTradeAppPayResponse alipayTradeAppPayPay(CreatePreOrderRequest body, String number, Double amount) {
         //APP支付
         AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
         AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
@@ -102,10 +113,6 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
     private AlipayClient alipayClient;
 
     private AlipayConfig alipayConfig;
-
-    public AlipayCreatePreOrderService() {
-        this(null);
-    }
 
     public AlipayCreatePreOrderService(AlipayConfig config) {
         if (null == config) {
@@ -137,9 +144,9 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY,
                 config.getAppId(),
                 config.getCertificate().getAppPrivateKey(),
+                config.getCertificate().getPlatformPublicKey(),
                 AlipayConstants.FORMAT_JSON,
                 AlipayConstants.CHARSET_UTF8,
-                config.getCertificate().getPlatformPublicKey(),
                 AlipayConstants.SIGN_TYPE_RSA2);
     }
 

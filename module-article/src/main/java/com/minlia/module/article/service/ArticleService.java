@@ -2,39 +2,39 @@ package com.minlia.module.article.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
-import com.minlia.module.article.bean.domain.Article;
-import com.minlia.module.article.bean.qo.ArticleQO;
-import com.minlia.module.article.bean.to.ArticleCTO;
-import com.minlia.module.article.bean.to.ArticleSetLabelTO;
-import com.minlia.module.article.bean.to.ArticleUTO;
-import com.minlia.module.article.bean.vo.ArticleVO;
+import com.minlia.module.article.entity.Article;
+import com.minlia.module.article.ro.ArticleQRO;
+import com.minlia.module.article.ro.ArticleCRO;
+import com.minlia.module.article.ro.ArticleSetLabelRO;
+import com.minlia.module.article.ro.ArticleURO;
+import com.minlia.module.article.vo.ArticleVO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ArticleService {
 
-    Article create(ArticleCTO cto);
+    Article create(ArticleCRO cto);
 
-    Article update(ArticleUTO uto);
+    Article update(ArticleURO uto);
 
     void delete(Long id);
 
-    Response setLabels(ArticleSetLabelTO to);
+    Response setLabels(ArticleSetLabelRO to);
 
     Article queryById(Long id);
 
-    long count(ArticleQO qo);
+    long count(ArticleQRO qro);
 
-    Article one(ArticleQO qo);
+    Article one(ArticleQRO qro);
 
-    List<Article> list(ArticleQO qo);
+    List<Article> list(ArticleQRO qro);
 
-    ArticleVO oneVO(ArticleQO qo);
+    ArticleVO oneVO(ArticleQRO qro);
 
-    List<ArticleVO> listVO(ArticleQO qo);
+    List<ArticleVO> listVO(ArticleQRO qro);
 
-    PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable);
+    PageInfo<ArticleVO> pageVO(ArticleQRO qro, Pageable pageable);
 
     /**
      * 增加阅读数

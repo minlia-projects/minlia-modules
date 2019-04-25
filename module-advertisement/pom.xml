@@ -34,7 +34,7 @@
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-rebecca</artifactId>
+            <artifactId>module-security</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 

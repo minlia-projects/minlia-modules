@@ -59,26 +59,26 @@ public class GeoPoiEndpoint {
 //
 //    @ApiOperation(value = "search list", notes = "条件检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/list", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response list(@Valid @RequestBody GadYuntuSearchListRequestBody bean) {
-//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchList(bean));
+//    public Response list(@Valid @RequestBody GadYuntuSearchListRequestBody ro) {
+//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchList(ro));
 //    }
 //
 //    @ApiOperation(value = "省数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/province", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody bean) {
-//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchProvince(bean));
+//    public Response province(@Valid @RequestBody GadYuntuSearchProvinceRequestBody ro) {
+//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchProvince(ro));
 //    }
 //
 //    @ApiOperation(value = "市数据分布检索请求", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/city", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response city(@Valid @RequestBody GadYuntuSearchCityRequestBody bean) {
-//        return SuccessResponseBody.builder().payload(yuntuService.searchCity(bean));
+//    public Response city(@Valid @RequestBody GadYuntuSearchCityRequestBody ro) {
+//        return SuccessResponseBody.builder().payload(yuntuService.searchCity(ro));
 //    }
 //
 //    @ApiOperation(value = "区县数据分布检索", notes = "分布检索", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "search/statistics/district", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response district(@Valid @RequestBody GadYuntuSearchDistrictRequestBody bean) {
-//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchDistrict(bean));
+//    public Response district(@Valid @RequestBody GadYuntuSearchDistrictRequestBody ro) {
+//        return SuccessResponseBody.builder().payload(gadYuntuSearchService.searchDistrict(ro));
 //    }
 
 }

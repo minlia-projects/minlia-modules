@@ -20,4 +20,8 @@ public class WechatMaUserQO extends QueryRequest {
 
     private String unionId;
 
+    private String openId;
+
+    private boolean guidNotNull;
+
 }

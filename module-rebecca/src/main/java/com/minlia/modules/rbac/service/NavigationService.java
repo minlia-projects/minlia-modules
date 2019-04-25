@@ -19,9 +19,9 @@ import java.util.List;
  */
 public interface NavigationService {
 
-    Response create(NavigationCTO cto);
+    Response create(NavigationCTO cro);
 
-    Navigation update(NavigationUTO uto);
+    Navigation update(NavigationUTO uro);
 
     void delete(Long id);
 
@@ -31,10 +31,10 @@ public interface NavigationService {
 
     Navigation queryById(Long id);
 
-    List<Navigation> queryList(NavigationQO qo);
+    List<Navigation> queryList(NavigationQO qro);
 
-    PageInfo<Navigation> queryPage(NavigationQO qo, Pageable pageable);
+    PageInfo<Navigation> queryPage(NavigationQO qro, Pageable pageable);
 
-    List<MyNavigationVO> queryMyNavigationList(NavigationQO qo);
+    List<MyNavigationVO> queryMyNavigationList(NavigationQO qro);
 
 }

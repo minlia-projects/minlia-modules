@@ -1,9 +1,9 @@
 //package com.minlia.module.unified.payment.pooul;
 //
-//import com.minlia.cloud.bean.Response;
+//import com.minlia.cloud.ro.Response;
 //import com.minlia.module.unified.payment.CreatePreOrderService;
-//import com.minlia.module.unified.payment.bean.CreatePreOrderRequestBody;
-//import com.minlia.module.unified.payment.pooul.bean.PooulWechatMpPaymentRequestBody;
+//import com.minlia.module.unified.payment.ro.CreatePreOrderRequest;
+//import com.minlia.module.unified.payment.pooul.ro.PooulWechatMpPaymentRequestBody;
 //import org.apache.commons.lang3.RandomStringUtils;
 //import org.apache.commons.lang3.StringUtils;
 //
@@ -61,7 +61,7 @@
 //     * 后端发起订单创建流程
 //     */
 //    @Override
-//    public Response createPreOrder(CreatePreOrderRequestBody bean) {
+//    public Response createPreOrder(CreatePreOrderRequest ro) {
 //        PooulWechatMpPaymentRequestBody requestBody = new PooulWechatMpPaymentRequestBody();
 //        requestBody.setSubAppid("wx469ffdb81de47e4d");
 //        requestBody.setSubOpenid("oerQA5Q5clTAK8eA3tGNOAiz7s4o");
@@ -71,7 +71,7 @@
 //        requestBody.setNonceStr(RandomStringUtils.randomAlphabetic(32));
 ////        requestBody.setNotifyUrl("XXXX");
 //
-//        requestBody.setPayType("wechat.jsapi");
+//        requestBody.setPayTypeEnum("wechat.jsapi");
 //
 ////        //设置为沙箱模式
 ////        SwiftpassStatefulApiResponseBody statefulApiResponseBody = swiftpassApi.wechatJspay(requestBody);

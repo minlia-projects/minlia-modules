@@ -2,25 +2,23 @@ package com.minlia.module.country.mapper;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.country.bean.domain.Country;
-import com.minlia.module.country.bean.qo.CountryQO;
-import org.apache.ibatis.annotations.Mapper;
+import com.minlia.module.country.entity.Country;
+import com.minlia.module.country.ro.CountryQRO;
 
 import java.util.List;
 
-@Mapper
 public interface CountryMapper {
 
-    void create(Country country);
+    int create(Country country);
 
-    void update(Country country);
+    int update(Country country);
 
-    void delete(Long id);
+    int delete(Long id);
 
     Country queryById(Long id);
 
-    List<Country> queryList(CountryQO qo);
+    List<Country> queryList(CountryQRO qo);
 
-    PageInfo<Country> queryPage(CountryQO qo);
+    PageInfo<Country> queryPage(CountryQRO qo);
 
 }

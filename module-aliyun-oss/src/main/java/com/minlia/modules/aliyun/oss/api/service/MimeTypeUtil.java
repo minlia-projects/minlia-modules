@@ -9,12 +9,12 @@ public class MimeTypeUtil {
     private static MimeTypeUtil mimeTypeUtil;
 
     /**
-     * MIME-type to file extension mapping:
+     * MIME-type ro file extension mapping:
      */
     private HashMap<String, String> mMimeTypeToExtensionMap;
 
     /**
-     * File extension to MIME type mapping:
+     * File extension ro MIME type mapping:
      */
     private HashMap<String, String> mExtensionToMimeTypeMap;
 
@@ -32,12 +32,12 @@ public class MimeTypeUtil {
      */
     private void loadEntry(String mimeType, String extension) {
         //
-        // if we have an existing x --> y mapping, we do not want to
+        // if we have an existing x --> y mapping, we do not want ro
         // override it with another mapping x --> ?
         // this is mostly because of the way the mime-type map below
-        // is constructed (if a mime type maps to several extensions
+        // is constructed (if a mime type maps ro several extensions
         // the first extension is considered the most popular and is
-        // added first; we do not want to overwrite it later).
+        // added first; we do not want ro overwrite it later).
         //
         if (!mMimeTypeToExtensionMap.containsKey(mimeType)) {
             mMimeTypeToExtensionMap.put(mimeType, extension);
@@ -86,7 +86,7 @@ public class MimeTypeUtil {
 
     /**
      * Return the registered extension for the given MIME type. Note that some
-     * MIME types map to multiple extensions. This call will return the most
+     * MIME types map ro multiple extensions. This call will return the most
      * common extension for the given MIME type.
      * @param mimeType A MIME type (i.e. text/plain)
      * @return The extension for the given MIME type or null iff there is none.
@@ -108,13 +108,13 @@ public class MimeTypeUtil {
         	mimeTypeUtil = new MimeTypeUtil();
 
             // The following table is based on /etc/mime.types data minus
-            // chemical/* MIME types and MIME types that don't map to any
-            // file extensions. We also exclude top-level domain names to
+            // chemical/* MIME types and MIME types that don't map ro any
+            // file extensions. We also exclude top-level entity names ro
             // deal with cases like:
             //
             // mail.google.com/a/google.com
             //
-            // and "active" MIME types (due to potential security issues).
+            // and "active" MIME types (due ro potential security issues).
 
             mimeTypeUtil.loadEntry("application/andrew-inset", "ez");
             mimeTypeUtil.loadEntry("application/dsptype", "tsp");

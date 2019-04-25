@@ -1,7 +1,12 @@
 package com.minlia.module.gad.code;
 
+import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
+import com.minlia.module.common.constant.MinliaConstants;
+import com.minlia.module.common.constant.SymbolConstants;
+
+import java.util.StringJoiner;
 
 /**
  * Created by Calvin On 2017/12/16.
@@ -9,77 +14,41 @@ import com.minlia.cloud.i18n.Lang;
  */
 public class GadCode {
 
-    public GadCode(){
-        throw new AssertionError();
-    }
-
-    public enum Exception implements Code {
-
-        TEST(-1, "TEST");
-
-        private int code;
-        private String i18nKey;
-
-        Exception(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
-
-        @Override
-        public int code() {
-            return code;
-        }
-
-        @Override
-        public String i18nKey() {
-            return i18nKey;
-        }
-
-        @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
-        }
-
-    }
+    final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".gad";
 
     public enum Message implements Code {
 
         /**
          * 高德地图 web api key 未配置
          */
-        WEB_API_KEY_NOT_FOUND(101200,"system.gad.message.101200"),
+        WEB_API_KEY_NOT_FOUND,
 
         /**
          * 高德云图 table id 未配置
          */
-        WEB_TABLE_ID_NOT_FOUND(101201,"system.gad.message.101201"),
+        WEB_TABLE_ID_NOT_FOUND,
 
         /**
          * 获取高德地理位置失败
          */
-        REGEO_FAILURE(101202,"system.gad.message.101202");
-
-        private int code;
-        private String i18nKey;
-
-        Message(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
+        REGEO_FAILURE;
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return this.name();
         }
 
         @Override
         public String i18nKey() {
-            return i18nKey;
+            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
+                    .add(CODE_PREFIX)
+                    .add(this.getClass().getSimpleName())
+                    .add(this.name()).toString());
         }
 
         @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
+        public String message(){
+            return Lang.get(this.i18nKey());
         }
 
     }

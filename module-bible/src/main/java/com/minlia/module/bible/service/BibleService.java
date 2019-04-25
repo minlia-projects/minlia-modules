@@ -2,10 +2,10 @@ package com.minlia.module.bible.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.bible.bean.to.BibleCTO;
-import com.minlia.module.bible.bean.qo.BibleQO;
-import com.minlia.module.bible.bean.to.BibleUTO;
-import com.minlia.module.bible.bean.domain.Bible;
+import com.minlia.module.bible.ro.BibleCRO;
+import com.minlia.module.bible.ro.BibleQRO;
+import com.minlia.module.bible.ro.BibleURO;
+import com.minlia.module.bible.entity.Bible;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -15,11 +15,11 @@ import java.util.List;
  */
 public interface BibleService {
 
-    Bible create(BibleCTO cto);
+    Bible create(BibleCRO cto);
 
-    Bible update(BibleUTO uto);
+    Bible update(BibleURO uto);
 
-    void delete(Long id);
+    int delete(Long id);
 
     void initialBibleWithCode(String bibleCode,String code,String label,String notes,String attribute1);
 
@@ -27,8 +27,8 @@ public interface BibleService {
 
     Bible queryByCode(String code);
 
-    List<Bible> queryList(BibleQO qo);
+    List<Bible> queryList(BibleQRO qro);
 
-    PageInfo<Bible> queryPage(BibleQO qo, Pageable pageable);
+    PageInfo<Bible> queryPage(BibleQRO qro, Pageable pageable);
 
 }

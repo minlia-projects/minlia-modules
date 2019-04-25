@@ -20,7 +20,7 @@ public abstract class AbstractEntity extends WithDateEntity {
 
     @JsonIgnore
     @CreatedBy
-    @NotBlank
+//    @NotBlank
     private String createBy;
 
     @JsonIgnore

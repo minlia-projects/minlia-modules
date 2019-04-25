@@ -20,4 +20,6 @@ public class WechatConfig implements Config {
 
     private String callback;
 
+    public String keyPath;
+
 }

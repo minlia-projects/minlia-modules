@@ -1,8 +1,7 @@
 package com.minlia.module.article.mapper;
 
-import com.minlia.module.article.bean.domain.ArticlePraise;
-import com.minlia.module.article.bean.qo.ArticlePraiseQO;
-import org.apache.ibatis.annotations.Mapper;
+import com.minlia.module.article.entity.ArticlePraise;
+import com.minlia.module.article.ro.ArticlePraiseQRO;
 
 import java.util.List;
 
@@ -19,10 +18,10 @@ public interface ArticlePraiseMapper {
 
     ArticlePraise queryById(Long id);
 
-    long count(ArticlePraiseQO qo);
+    long count(ArticlePraiseQRO qo);
 
-    ArticlePraise one(ArticlePraiseQO qo);
+    ArticlePraise one(ArticlePraiseQRO qo);
 
-    List<ArticlePraise> list(ArticlePraiseQO qo);
+    List<ArticlePraise> list(ArticlePraiseQRO qo);
 
 }

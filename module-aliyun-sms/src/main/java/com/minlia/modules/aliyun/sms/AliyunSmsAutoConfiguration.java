@@ -47,7 +47,7 @@ public class AliyunSmsAutoConfiguration implements EnvironmentAware {
         try {
             DefaultProfile.addEndpoint(endpointName, regionId, product, domain);
         } catch (ClientException e) {
-            log.debug("Initialize bean with exception {}",e.getMessage());
+            log.debug("Initialize ro with exception {}",e.getMessage());
         }
         IAcsClient acsClient = new DefaultAcsClient(profile);
         return acsClient;

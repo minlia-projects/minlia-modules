@@ -1,8 +1,8 @@
 package com.minlia.module.captcha.service;
 
 
-import com.minlia.module.captcha.bean.domain.Captcha;
-import com.minlia.module.captcha.bean.to.CaptchaTO;
+import com.minlia.module.captcha.entity.Captcha;
+import com.minlia.module.captcha.ro.CaptchaCRO;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 持久化一个新的security Code
  * validityByCellphone 校验当前验证码是否有效
  */
-@Transactional(readOnly = false)
+@Transactional
 public interface CaptchaService {
 
     /**
@@ -25,10 +25,10 @@ public interface CaptchaService {
 
     /**
      * 发送验证码
-     * @param to
+     * @param cro
      * @return
      */
-    Captcha send(CaptchaTO to);
+    Captcha send(CaptchaCRO cro);
 
     /**
      * 发送手机验证码

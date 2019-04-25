@@ -2,11 +2,9 @@ package com.minlia.modules.rbac.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.data.bean.Sort;
 import com.minlia.modules.rbac.bean.domain.Navigation;
 import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationCTO;
@@ -41,12 +39,12 @@ public class NavigationServiceImpl implements NavigationService {
     private NavigationMapper navigationMapper;
 
     @Override
-    public Response create(NavigationCTO cto) {
-        boolean exists = navigationMapper.count(NavigationQO.builder().parentId(cto.getParentId()).name(cto.getName()).build()) > 0;
+    public Response create(NavigationCTO cro) {
+        boolean exists = navigationMapper.count(NavigationQO.builder().parentId(cro.getParentId()).name(cro.getName()).build()) > 0;
         if (!exists) {
-            updateTypeByChildren(cto.getParentId());
+            updateTypeByChildren(cro.getParentId());
 
-            Navigation navigation = Navigation.builder().parentId(cto.getParentId()).name(cto.getName()).icon(cto.getIcon()).state(cto.getState()).orders(cto.getOrders()).type(NavigationType.LEAF).display(true).build();
+            Navigation navigation = Navigation.builder().parentId(cro.getParentId()).name(cro.getName()).icon(cro.getIcon()).state(cro.getState()).orders(cro.getOrders()).type(NavigationType.LEAF).display(true).build();
             navigationMapper.create(navigation);
             return Response.success(SystemCode.Message.SUCCESS,navigation);
         } else {
@@ -55,13 +53,13 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public Navigation update(NavigationUTO uto) {
-        Navigation navigation = navigationMapper.queryById(uto.getId());
+    public Navigation update(NavigationUTO uro) {
+        Navigation navigation = navigationMapper.queryById(uro.getId());
         ApiAssert.notNull(navigation, RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
 
-        updateTypeByChildren(uto.getParentId());
+        updateTypeByChildren(uro.getParentId());
 
-        mapper.map(uto,navigation);
+        mapper.map(uro,navigation);
         navigationMapper.update(navigation);
         return navigation;
     }
@@ -131,24 +129,24 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public List<Navigation> queryList(NavigationQO qo) {
-        List<Navigation> navigations = navigationMapper.queryList(qo);
-        bindChirdren(navigations, qo.getRoleId());
+    public List<Navigation> queryList(NavigationQO qro) {
+        List<Navigation> navigations = navigationMapper.queryList(qro);
+        bindChirdren(navigations, qro.getRoleId());
         return navigations;
     }
 
     @Override
-    public PageInfo<Navigation> queryPage(NavigationQO qo, Pageable pageable) {
-        PageInfo<Navigation> pageInfo = PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qo));
-        bindChirdren(pageInfo.getList(), qo.getRoleId());
+    public PageInfo<Navigation> queryPage(NavigationQO qro, Pageable pageable) {
+        PageInfo<Navigation> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qro));
+        bindChirdren(pageInfo.getList(), qro.getRoleId());
         return pageInfo;
     }
 
     @Override
-    public List<MyNavigationVO> queryMyNavigationList(NavigationQO qo) {
-//        qo.setSorts(Lists.newArrayList(new Sort("sorts", Sort.Direction.ASC)));
-        List<MyNavigationVO> navigations = navigationMapper.queryMyNavigationList(qo);
-        myBindChirdren(navigations, qo.getRoleId());
+    public List<MyNavigationVO> queryMyNavigationList(NavigationQO qro) {
+//        ro.setSorts(Lists.newArrayList(new Sort("sorts", Sort.Direction.ASC)));
+        List<MyNavigationVO> navigations = navigationMapper.queryMyNavigationList(qro);
+        myBindChirdren(navigations, qro.getRoleId());
         return navigations;
     }
 

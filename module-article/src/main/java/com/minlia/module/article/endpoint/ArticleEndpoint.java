@@ -3,10 +3,10 @@ package com.minlia.module.article.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.article.bean.qo.ArticleQO;
-import com.minlia.module.article.bean.to.ArticleCTO;
-import com.minlia.module.article.bean.to.ArticleSetLabelTO;
-import com.minlia.module.article.bean.to.ArticleUTO;
+import com.minlia.module.article.ro.ArticleQRO;
+import com.minlia.module.article.ro.ArticleCRO;
+import com.minlia.module.article.ro.ArticleSetLabelRO;
+import com.minlia.module.article.ro.ArticleURO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.service.ArticleService;
 import io.swagger.annotations.Api;
@@ -31,14 +31,14 @@ public class ArticleEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.CREATE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response create(@Valid @RequestBody ArticleCTO cto) {
+	public Response create(@Valid @RequestBody ArticleCRO cto) {
 		return Response.success(articleService.create(cto));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.UPDATE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response update(@Valid @RequestBody ArticleUTO uto) {
+	public Response update(@Valid @RequestBody ArticleURO uto) {
 		return Response.success(articleService.update(uto));
 	}
 
@@ -53,7 +53,7 @@ public class ArticleEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.CREATE + "')")
 	@ApiOperation(value = "设置标签", notes = "设置标签", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "set/labels", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response setLabels(@Valid @RequestBody ArticleSetLabelTO to) {
+	public Response setLabels(@Valid @RequestBody ArticleSetLabelRO to) {
 		return articleService.setLabels(to);
 	}
 
@@ -67,28 +67,28 @@ public class ArticleEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response count(@RequestBody ArticleQO qo) {
+	public Response count(@RequestBody ArticleQRO qo) {
 		return Response.success(articleService.count(qo));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response one(@RequestBody ArticleQO qo) {
+	public Response one(@RequestBody ArticleQRO qo) {
 		return Response.success(articleService.oneVO(qo));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response list(@RequestBody ArticleQO qo) {
+	public Response list(@RequestBody ArticleQRO qo) {
 		return Response.success(articleService.listVO(qo));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleQO qo) {
+	public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleQRO qo) {
 		return Response.success(articleService.pageVO(qo, pageable));
 	}
 

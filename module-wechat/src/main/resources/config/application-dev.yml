@@ -23,24 +23,6 @@ spring:
         name:
         username: root
         password:
-#        使用druid数据源
-#        type: com.alibaba.druid.pool.DruidDataSource
-        filters: stat
-        maxActive: 20
-        initialSize: 1
-        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 1
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-        continue-on-error: true
-        initialize: true
-        data: classpath*:sql/minlia_init.sql
 
     redis:
         database: 0

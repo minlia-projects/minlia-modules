@@ -1,29 +1,29 @@
 package com.minlia.module.bankbranch.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.bankbranch.bean.domain.BankBranchDO;
-import com.minlia.module.bankbranch.bean.qo.BankBranchQO;
+import com.minlia.module.bankbranch.entity.BankBranch;
+import com.minlia.module.bankbranch.ro.BankBranchQRO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface BankBranchService {
 
-    void init();
+//    void init();
 
     /**
      * 创建
      * @param BankcodeDo
      * @return
      */
-    BankBranchDO create(BankBranchDO BankcodeDo);
+    BankBranch create(BankBranch BankcodeDo);
 
     /**
      * 修改
      * @param BankcodeDo
      * @return
      */
-    BankBranchDO update(BankBranchDO BankcodeDo);
+    BankBranch update(BankBranch BankcodeDo);
 
     /**
      * 删除
@@ -33,10 +33,10 @@ public interface BankBranchService {
 
     boolean exists(String number);
 
-    BankBranchDO queryByNumber(String number);
+    BankBranch queryByNumber(String number);
 
-    List<BankBranchDO> queryList(BankBranchQO qo);
+    List<BankBranch> queryList(BankBranchQRO qo);
 
-    PageInfo<BankBranchDO> queryPage(BankBranchQO qo, Pageable pageable);
+    PageInfo<BankBranch> queryPage(BankBranchQRO qo, Pageable pageable);
 
 }

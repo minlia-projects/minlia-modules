@@ -18,10 +18,10 @@ public interface QcloudFaceIdRecordMapper {
 
     QcloudFaceIdRecord queryLastByUserId(String userId);
 
-    long count(QcloudFaceIdRecordQQ qo);
+    long count(QcloudFaceIdRecordQQ qro);
 
-    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQQ qo);
+    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQQ qro);
 
-    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQQ qo);
+    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQQ qro);
 
 }

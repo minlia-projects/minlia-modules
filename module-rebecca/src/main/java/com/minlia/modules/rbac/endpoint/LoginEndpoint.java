@@ -11,7 +11,7 @@ import javax.validation.Valid;
 
 /**
  * Created by will on 7/21/17.
- * This is just a fake control for springfox-swagger2 to generate api-docs
+ * This is just a fake control for springfox-swagger2 ro generate api-docs
  */
 @Api(tags = "System Login", description = "登录")
 @CrossOrigin

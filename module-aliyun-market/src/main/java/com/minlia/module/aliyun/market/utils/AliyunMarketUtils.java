@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.aliyun.market.bean.dto.BankCardVerifyDTO;
-import com.minlia.module.aliyun.market.bean.to.BankCardVerifyTO;
+import com.minlia.module.aliyun.market.dto.BankCardVerifyDTO;
+import com.minlia.module.aliyun.market.ro.BankCardVerifyRO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class AliyunMarketUtils {
 
     private final static String url = "http://lundroid.market.alicloudapi.com/lianzhuo/verifi";
 
-    public static BankCardVerifyDTO verifyBankCard(String appcode, BankCardVerifyTO to) {
+    public static BankCardVerifyDTO verifyBankCard(String appcode, BankCardVerifyRO to) {
         ApiAssert.hasLength(appcode, "银行卡验证appcode不能为空");
         log.info("银行卡验证参数：{}", to.toString());
         Map<String, Object> querys = new HashMap<String, Object>();
@@ -42,7 +42,7 @@ public class AliyunMarketUtils {
             if (response.getStatus() == HttpStatus.OK.value()) {
                 dto = new Gson().fromJson(String.valueOf(response.getBody()),BankCardVerifyDTO.class);
             } else {
-                ApiAssert.state(false, response.getStatus(), response.getStatusText());
+                ApiAssert.state(false, response.getStatusText(), response.getBody());
             }
         } catch (Exception e) {
             log.error("银行卡验证异常：",e);
@@ -52,7 +52,7 @@ public class AliyunMarketUtils {
     }
 
     public static void main(String[] args) {
-        BankCardVerifyTO to = new BankCardVerifyTO("62260978062215121","候志朋",null,null);
+        BankCardVerifyRO to = new BankCardVerifyRO("62260978062215121","候志朋",null,null);
         BankCardVerifyDTO dto = verifyBankCard("6889a6bedf53468ea27d10f12a8e5159",to);
     }
 

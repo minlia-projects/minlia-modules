@@ -1,17 +1,17 @@
 //package com.minlia.modules.aliyun.oss.api.endpoint;
 //
 //
-//import com.minlia.cloud.bean.Response;
+//import com.minlia.cloud.ro.Response;
 //import com.minlia.cloud.utils.ApiAssert;
-//import com.minlia.modules.aliyun.oss.api.bean.MtsRequestBody;
-//import com.minlia.modules.aliyun.oss.api.bean.MtsResponseBody;
-//import com.minlia.modules.aliyun.oss.api.bean.UploadResponseBody;
+//import com.minlia.modules.aliyun.oss.api.ro.MtsRequestBody;
+//import com.minlia.modules.aliyun.oss.api.ro.MtsResponseBody;
+//import com.minlia.modules.aliyun.oss.api.ro.UploadResponseBody;
 //import com.minlia.modules.aliyun.oss.api.config.AliyunOssProperties;
 //import com.minlia.modules.aliyun.oss.api.constant.AliyunOssCode;
 //import com.minlia.modules.aliyun.oss.api.enumeration.MtsTemplateType;
 //import com.minlia.modules.aliyun.oss.api.service.MtsService;
 //import com.minlia.modules.aliyun.oss.api.service.OssService;
-//import com.minlia.modules.aliyun.oss.bean.OssFile;
+//import com.minlia.modules.aliyun.oss.ro.OssFile;
 //import com.minlia.modules.aliyun.oss.builder.PathBuilder;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;

@@ -91,7 +91,7 @@ pagehelper:
 #        pay-url: ${pooul.host}/v2/pay?merchant_id=${pooul.merchant-id}
 #        query-order-url: ${pooul.host}/v2/pay/query?merchant_id=${pooul.merchant-id}
 #        close-order-url: ${pooul.host}/v2/pay/close?merchant_id=${pooul.merchant-id}
-#        notify-url: ${system.domain}/api/open/pooul/notify/pay
+#        notify-url: ${system.entity}/api/open/pooul/notify/pay
 #    merchant:
 #        platform-merchant-id: xxxxxx
 #        parent-id: xxxxxx

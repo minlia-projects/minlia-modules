@@ -1,7 +1,7 @@
 package com.minlia.module.address.mapper;
 
-import com.minlia.module.address.bean.domain.AddressDO;
-import com.minlia.module.address.bean.qo.AddressQO;
+import com.minlia.module.address.entity.Address;
+import com.minlia.module.address.ro.AddressQRO;
 
 import java.util.List;
 
@@ -10,18 +10,18 @@ import java.util.List;
  */
 public interface AddressMapper {
 
-    int create(AddressDO addressDO);
+    int create(Address address);
 
-    int update(AddressDO addressDO);
+    int update(Address address);
 
     int updateDefault(String guid, Long id);
 
     int delete(Long id);
 
-    long count(AddressQO qo);
+    long count(AddressQRO qro);
 
-    AddressDO queryOne(AddressQO qo);
+    Address queryOne(AddressQRO qro);
 
-    List<AddressDO> queryList(AddressQO qo);
+    List<Address> queryList(AddressQRO qro);
 
 }

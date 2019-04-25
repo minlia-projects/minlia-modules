@@ -23,43 +23,38 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"},callSuper = true)
 public class Navigation extends AbstractEntity {
 
-    @JsonProperty
+    /**
+     * 父ID
+     */
+    private Long parentId;
+
+    /**
+     * 类型
+     */
     private NavigationType type;
 
     /**
      * 名称
      */
-    @JsonProperty
     private String name;
 
     /**
      * 图标
      */
-    @JsonProperty
     private String icon;
 
     /**
      * 路由
      */
-    @JsonProperty
     private String state;
 
     /**
      * 顺序
      */
-    @JsonProperty
     private Integer orders;
 
-    @JsonProperty
     private Boolean display;
 
-    /**
-     * 父ID
-     */
-    @JsonProperty
-    private Long parentId;
-
-    @JsonProperty
     private List<Navigation> children;
 
 }

@@ -38,7 +38,7 @@
         </if>
     </sql>
 
-    <insert id="create" parameterType="com.minlia.module.article.bean.domain.ArticlePraise">
+    <insert id="create" parameterType="com.minlia.module.article.entity.ArticlePraise">
         INSERT INTO mdl_article_praise(
             article_id ,
             choose ,
@@ -50,7 +50,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.article.bean.domain.ArticlePraise">
+    <update id="update" parameterType="com.minlia.module.article.entity.ArticlePraise">
         UPDATE mdl_article_praise
         <set>
             <if test="choose != null">
@@ -65,7 +65,7 @@
         DELETE FROM mdl_article_praise WHERE id = #{id}
     </delete>
 
-    <select id="queryById" resultType="com.minlia.module.article.bean.domain.ArticlePraise">
+    <select id="queryById" resultType="com.minlia.module.article.entity.ArticlePraise">
         <include refid="QUERY_CONTENT"/>
         WHERE id = #{id}
     </select>
@@ -75,12 +75,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.article.bean.domain.ArticlePraise">
+    <select id="one" resultType="com.minlia.module.article.entity.ArticlePraise">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.article.bean.domain.ArticlePraise">
+    <select id="list" resultType="com.minlia.module.article.entity.ArticlePraise">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

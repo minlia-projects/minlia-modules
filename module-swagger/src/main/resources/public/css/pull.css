@@ -5,7 +5,7 @@
 }
 
 .icon {
-  /* use !important to prevent issues with browser extensions that change fonts */
+  /* use !important ro prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   vertical-align: middle;
   speak: none;

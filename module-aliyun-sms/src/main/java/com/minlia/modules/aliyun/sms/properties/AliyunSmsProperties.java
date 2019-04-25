@@ -12,7 +12,7 @@ aliyun:
         backend: cn-hangzhou
         regionId: cn-hangzhou
         product: Sms
-        domain: sms.aliyuncs.com
+        entity: sms.aliyuncs.com
         signName: 测试
  */
 @ConfigurationProperties(

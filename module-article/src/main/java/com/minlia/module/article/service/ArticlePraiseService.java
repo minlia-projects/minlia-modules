@@ -2,16 +2,16 @@ package com.minlia.module.article.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
-import com.minlia.module.article.bean.domain.ArticlePraise;
-import com.minlia.module.article.bean.qo.ArticlePraiseQO;
-import com.minlia.module.article.bean.to.ArticlePraiseTO;
+import com.minlia.module.article.entity.ArticlePraise;
+import com.minlia.module.article.ro.ArticlePraiseQRO;
+import com.minlia.module.article.ro.ArticlePraiseRO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ArticlePraiseService {
 
-    Response operate(ArticlePraiseTO to);
+    Response operate(ArticlePraiseRO to);
 
     Response trample(Long articleId);
 
@@ -19,12 +19,12 @@ public interface ArticlePraiseService {
 
     ArticlePraise queryById(Long id);
 
-    long count(ArticlePraiseQO qo);
+    long count(ArticlePraiseQRO qo);
 
-    ArticlePraise one(ArticlePraiseQO qo);
+    ArticlePraise one(ArticlePraiseQRO qo);
 
-    List<ArticlePraise> list(ArticlePraiseQO qo);
+    List<ArticlePraise> list(ArticlePraiseQRO qo);
 
-    PageInfo<ArticlePraise> page(ArticlePraiseQO qo, Pageable pageable);
+    PageInfo<ArticlePraise> page(ArticlePraiseQRO qo, Pageable pageable);
 
 }

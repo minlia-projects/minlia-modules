@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.advertisement.AdAutoConfiguration
+com.minlia.module.ad.AdAutoConfiguration

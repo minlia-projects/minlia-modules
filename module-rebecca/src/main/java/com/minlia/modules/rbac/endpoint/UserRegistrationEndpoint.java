@@ -22,7 +22,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "System Registration", description = "注册")
 @RestController
-@RequestMapping(value = ApiPrefix.API+"user/registration")
+@RequestMapping(value = ApiPrefix.API + "user/registration")
 public class UserRegistrationEndpoint {
 
     @Autowired

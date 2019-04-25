@@ -2,11 +2,11 @@ package com.minlia.module.address.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.address.bean.domain.AddressDO;
-import com.minlia.module.address.bean.qo.AddressQO;
-import com.minlia.module.address.bean.to.AddressCTO;
-import com.minlia.module.address.bean.to.AddressUTO;
 import com.minlia.module.address.constant.AddressConstants;
+import com.minlia.module.address.entity.Address;
+import com.minlia.module.address.ro.AddressCRO;
+import com.minlia.module.address.ro.AddressQRO;
+import com.minlia.module.address.ro.AddressURO;
 import com.minlia.module.address.service.AddressService;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by garen on 2017/6/23.
  */
-@Api(tags = "Xmj Address", description = "通讯地址")
+@Api(tags = "System Address", description = "通讯地址")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "address")
 public class AddressEndpoint {
@@ -34,15 +34,15 @@ public class AddressEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + AddressConstants.CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "",method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response create(@Valid @RequestBody AddressCTO cto) {
-        return Response.success(addressService.create(cto));
+    public Response create(@Valid @RequestBody AddressCRO cro) {
+        return Response.success(addressService.create(cro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + AddressConstants.UPDATE + "')")
     @ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "",method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response update(@Valid @RequestBody AddressUTO uto) {
-        return Response.success(addressService.update(uto));
+    public Response update(@Valid @RequestBody AddressURO uro) {
+        return Response.success(addressService.update(uro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ AddressConstants.UPDATE +"')")
@@ -63,15 +63,15 @@ public class AddressEndpoint {
     @ApiOperation(value = "我的", notes = "我的", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "me", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response me() {
-        List<AddressDO> list = addressService.queryList(AddressQO.builder().guid(SecurityContextHolder.getCurrentGuid()).enabled(true).build());
+        List<Address> list = addressService.queryList(AddressQRO.builder().guid(SecurityContextHolder.getCurrentGuid()).enabled(true).build());
         return Response.success(list);
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ AddressConstants.SEARCH +"')")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody AddressQO qo) {
-        List<AddressDO> list = addressService.queryList(qo);
+    public Response list(@RequestBody AddressQRO qro) {
+        List<Address> list = addressService.queryList(qro);
         return Response.success(list);
     }
 

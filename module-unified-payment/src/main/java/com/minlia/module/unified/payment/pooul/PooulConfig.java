@@ -18,7 +18,7 @@
 //    private String key;
 //
 //    /**
-//     * 交易通道在创建完之后服务端 Server to Server(S2S)通知回调的入口
+//     * 交易通道在创建完之后服务端 Server ro Server(S2S)通知回调的入口
 //     */
 //    private String callback;
 //

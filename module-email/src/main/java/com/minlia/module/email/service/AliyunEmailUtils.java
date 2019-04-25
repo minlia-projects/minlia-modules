@@ -10,7 +10,7 @@
 //import com.aliyuncs.profile.DefaultProfile;
 //import com.aliyuncs.profile.IClientProfile;
 //import com.minlia.cloud.holder.ContextHolder;
-//import com.minlia.module.email.bean.to.EmailTO;
+//import com.minlia.module.email.ro.ro.EmailHtmlRO;
 //import com.minlia.module.email.property.AliyunEmailProperties;
 //
 //
@@ -27,7 +27,7 @@
 //        return properties;
 //    }
 //
-//    public static void send(EmailTO to) {
+//    public static void send(EmailHtmlRO ro) {
 //        // 如果是除杭州region外的其它region（如新加坡、澳洲Region），需要将下面的"cn-hangzhou"替换为"ap-southeast-1"、或"ap-southeast-2"。
 //        IClientProfile profile = DefaultProfile.getProfile(getProperties().getRegionId(), getProperties().getAccessKey(), getProperties().getAccessSecret());
 //
@@ -52,11 +52,11 @@
 //            request.setAddressType(1);
 //            request.setTagName(getProperties().getTagName());
 //            request.setReplyToAddress(true);
-//            request.setToAddress(to.getToAddress());
+//            request.setToAddress(ro.getToAddress());
 //            //可以给多个收件人发送邮件，收件人之间用逗号分开，批量发信建议使用BatchSendMailRequest方式
 //            //request.setToAddress("邮箱1,邮箱2");
-//            request.setSubject(to.getSubject());
-//            request.setHtmlBody(to.getText());
+//            request.setSubject(ro.getSubject());
+//            request.setHtmlBody(ro.getText());
 //            SingleSendMailResponse httpResponse = client.getAcsResponse(request);
 //            System.out.println(httpResponse.getRequestId());
 //        } catch (ServerException e) {

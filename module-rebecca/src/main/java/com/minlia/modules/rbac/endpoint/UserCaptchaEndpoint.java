@@ -4,8 +4,8 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
-import com.minlia.module.captcha.bean.domain.Captcha;
-import com.minlia.module.captcha.bean.to.CaptchaTO;
+import com.minlia.module.captcha.entity.Captcha;
+import com.minlia.module.captcha.ro.CaptchaCRO;
 import com.minlia.module.captcha.enumeration.CaptchaMethodEnum;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.bean.domain.User;
@@ -35,7 +35,7 @@ public class UserCaptchaEndpoint {
 
     @ApiOperation(value = "发送当前用户验证码", notes = "发送当前用户验证码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "send", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response send(@Valid @RequestBody CaptchaTO to) {
+    public Response send(@Valid @RequestBody CaptchaCRO to) {
         User user = SecurityContextHolder.getCurrentUser();
         if (to.getMethod().equals(CaptchaMethodEnum.CELLPHONE)) {
             ApiAssert.hasLength(user.getCellphone(), RebaccaCode.Message.USER_NO_CELLPHONE);

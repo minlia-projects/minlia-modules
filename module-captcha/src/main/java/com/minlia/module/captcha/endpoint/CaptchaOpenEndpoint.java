@@ -4,11 +4,11 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
-import com.minlia.module.captcha.bean.domain.Captcha;
-import com.minlia.module.captcha.bean.to.CaptchaTO;
-import com.minlia.module.captcha.bean.to.CaptchaVerifyTO;
 import com.minlia.module.captcha.constant.CaptchaCode;
+import com.minlia.module.captcha.entity.Captcha;
 import com.minlia.module.captcha.enumeration.CaptchaMethodEnum;
+import com.minlia.module.captcha.ro.CaptchaCRO;
+import com.minlia.module.captcha.ro.CaptchaVerifyRO;
 import com.minlia.module.captcha.service.CaptchaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,8 +49,8 @@ public class CaptchaOpenEndpoint {
 
     @ApiOperation(value = "发送", notes = "发送", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "send", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response send(@Valid @RequestBody CaptchaTO to) {
-        Captcha captcha = captchaService.send(to);
+    public Response send(@Valid @RequestBody CaptchaCRO cro) {
+        Captcha captcha = captchaService.send(cro);
         //DEV环境时放出来
         if(Environments.isDevelopment()){
             return Response.success(captcha);
@@ -61,13 +61,13 @@ public class CaptchaOpenEndpoint {
 
     @ApiOperation(value = "验证", notes = "验证", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "verify", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response verify(@Valid @RequestBody CaptchaVerifyTO to) {
-        if (to.getMethod().equals(CaptchaMethodEnum.CELLPHONE)) {
-            ApiAssert.hasLength(to.getCellphone(), CaptchaCode.Message.CELLPHONE_NOT_NULL);
-            captchaService.validityByCellphone(to.getCellphone(), to.getCode());
+    public Response verify(@Valid @RequestBody CaptchaVerifyRO verifyRO) {
+        if (verifyRO.getMethod().equals(CaptchaMethodEnum.CELLPHONE)) {
+            ApiAssert.hasLength(verifyRO.getCellphone(), CaptchaCode.Message.CELLPHONE_NOT_NULL);
+            captchaService.validityByCellphone(verifyRO.getCellphone(), verifyRO.getCode());
         } else {
-            ApiAssert.hasLength(to.getCellphone(), CaptchaCode.Message.EMAIL_NOT_NULL);
-            captchaService.validityByEmail(to.getEmail(), to.getCode());
+            ApiAssert.hasLength(verifyRO.getCellphone(), CaptchaCode.Message.EMAIL_NOT_NULL);
+            captchaService.validityByEmail(verifyRO.getEmail(), verifyRO.getCode());
         }
         return Response.success();
     }

@@ -63,9 +63,9 @@ public class PooulBankCardServiceImpl implements PooulBankCardService {
                     .cmbcBank(cto.getCmbc_bank())
                     .build();
             pooulBankcardMapper.create(bankCardDO);
-            return Response.is(dto.isSuccess(), dto.getCode(), dto.getMsg(), bankCardDO);
+            return Response.is(dto.isSuccess(), dto.getCode().toString(), dto.getMsg(), bankCardDO);
         } else {
-            return Response.failure(dto.getCode(), dto.getMsg());
+            return Response.failure(dto.getCode().toString(), dto.getMsg());
         }
     }
 
@@ -76,14 +76,14 @@ public class PooulBankCardServiceImpl implements PooulBankCardService {
         if (responseEntity.getBody().isSuccess()) {
             pooulBankcardMapper.delete(recordId);
         }
-        return Response.is(responseEntity.getBody().isSuccess(), responseEntity.getBody().getCode(), responseEntity.getBody().getMsg());
+        return Response.is(responseEntity.getBody().isSuccess(), responseEntity.getBody().getCode().toString(), responseEntity.getBody().getMsg());
     }
 
     @Override
     public Response setDefaultUrl(String merchantId, Long recordId) {
         HttpEntity httpEntity = new HttpEntity(pooulAuthService.getHeaders());
         ResponseEntity<PooulDTO> responseEntity = restTemplate.exchange(pooulProperties.getHost() + set_default_url, HttpMethod.PUT, httpEntity, PooulDTO.class, recordId, merchantId);
-        return Response.is(responseEntity.getBody().isSuccess(), responseEntity.getBody().getCode(), responseEntity.getBody().getMsg());
+        return Response.is(responseEntity.getBody().isSuccess(), responseEntity.getBody().getCode().toString(), responseEntity.getBody().getMsg());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.minlia.module.wechat.mp.handler;
 
-import com.minlia.module.wechat.ma.service.WechatOpenAccountService;
+import com.minlia.module.wechat.login.service.WechatUserService;
 import com.minlia.module.wechat.mp.builder.TextBuilder;
 import com.minlia.module.wechat.mp.event.WechatScanEvent;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -19,13 +19,13 @@ import java.util.Map;
 public class ScanHandler extends AbstractHandler {
 
     @Autowired
-    private WechatOpenAccountService wechatOpenAccountService;
+    private WechatUserService wechatUserService;
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
         //获取微信用户基本信息
         WxMpUser wxMpUser = wxMpService.getUserService().userInfo(wxMessage.getFromUser());
-        wechatOpenAccountService.save(wxMpUser);
+        wechatUserService.save(wxMpUser);
 
         if (StringUtils.isEmpty(wxMessage.getEventKey())){
             new TextBuilder().build("感谢关注", wxMessage,wxMpService);

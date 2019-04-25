@@ -1,9 +1,9 @@
 package com.minlia.module.article.mapper;
 
-import com.minlia.module.article.bean.domain.Article;
-import com.minlia.module.article.bean.qo.ArticleQO;
-import com.minlia.module.article.bean.to.ArticleSetLabelTO;
-import com.minlia.module.article.bean.vo.ArticleVO;
+import com.minlia.module.article.entity.Article;
+import com.minlia.module.article.ro.ArticleQRO;
+import com.minlia.module.article.ro.ArticleSetLabelRO;
+import com.minlia.module.article.vo.ArticleVO;
 
 import java.util.List;
 
@@ -18,19 +18,19 @@ public interface ArticleMapper {
 
     long delete(Long id);
 
-    void setLabels(ArticleSetLabelTO to);
+    void setLabels(ArticleSetLabelRO to);
 
     Article queryById(Long id);
 
-    long count(ArticleQO qo);
+    long count(ArticleQRO qro);
 
-    Article one(ArticleQO qo);
+    Article one(ArticleQRO qro);
 
-    List<Article> list(ArticleQO qo);
+    List<Article> list(ArticleQRO qro);
 
-    ArticleVO oneVO(ArticleQO qo);
+    ArticleVO oneVO(ArticleQRO qro);
 
-    List<ArticleVO> listVO(ArticleQO qo);
+    List<ArticleVO> listVO(ArticleQRO qro);
 
     long plusReadCount(Long id, Integer increment);
 

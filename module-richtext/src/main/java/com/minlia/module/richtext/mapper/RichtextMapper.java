@@ -21,10 +21,10 @@ public interface RichtextMapper {
 
     Richtext queryByCode(String code);
 
-    long count(RichtextQO qo);
+    long count(RichtextQO qro);
 
-    Richtext queryOne(RichtextQO qo);
+    Richtext queryOne(RichtextQO qro);
 
-    List<Richtext> queryList(RichtextQO qo);
+    List<Richtext> queryList(RichtextQO qro);
 
 }

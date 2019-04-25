@@ -2,17 +2,19 @@ package com.minlia.modules.security.body;
 
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;
 
+@Data
 public class AuthenticationErrorResponseBody {
 
     // HTTP Response Status Code
     private final HttpStatus status;
 
     // Error code
-    private final Integer code;
+    private final String code;
 
     // General Error message
     private final String message;
@@ -47,30 +49,6 @@ public class AuthenticationErrorResponseBody {
         this.message = Lang.get(code.i18nKey(), new Object[]{failureTimes});
         this.failureTimes = failureTimes;
         this.timestamp = new java.util.Date();
-    }
-
-    public Integer getStatus() {
-        return status.value();
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public Long getLockTime() {
-        return lockTime;
-    }
-
-    public Integer getFailureTimes() {
-        return failureTimes;
-    }
-
-    public Date getTimestamp() {
-        return timestamp;
     }
 
 }

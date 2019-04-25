@@ -58,15 +58,15 @@ public class RichtextEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.SEARCH + "')")
     @ApiOperation(value = "list", notes = "list", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody RichtextQO qo) {
-        return Response.success(richtextService.queryList(qo));
+    public Response list(@RequestBody RichtextQO qro) {
+        return Response.success(richtextService.queryList(qro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.SEARCH + "')")
     @ApiOperation(value = "page", notes = "page", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response page(@PageableDefault Pageable pageable, @RequestBody RichtextQO qo) {
-        return Response.success(richtextService.queryPage(qo, pageable));
+    public Response page(@PageableDefault Pageable pageable, @RequestBody RichtextQO qro) {
+        return Response.success(richtextService.queryPage(qro, pageable));
     }
 
 }

@@ -2,8 +2,8 @@ package com.minlia.module.article.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.article.bean.qo.ArticleCommentQO;
-import com.minlia.module.article.bean.to.ArticleCommentCTO;
+import com.minlia.module.article.ro.ArticleCommentQRO;
+import com.minlia.module.article.ro.ArticleCommentCRO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.service.ArticleCommentService;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
@@ -29,7 +29,7 @@ public class ArticleCommentEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.READ + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response create(@Valid @RequestBody ArticleCommentCTO cto) {
+	public Response create(@Valid @RequestBody ArticleCommentCRO cto) {
 		return Response.success(articleCommentService.create(cto));
 	}
 
@@ -44,7 +44,7 @@ public class ArticleCommentEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.READ + "')")
 	@ApiOperation(value = "我的", notes = "我的", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "me", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response me(@PageableDefault Pageable pageable, @RequestBody ArticleCommentQO qo) {
+	public Response me(@PageableDefault Pageable pageable, @RequestBody ArticleCommentQRO qo) {
 		qo.setCreateBy(SecurityContextHolder.getCurrentGuid());
 		return Response.success(articleCommentService.queryMyPage(qo, pageable));
 	}
@@ -59,21 +59,21 @@ public class ArticleCommentEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response count(@RequestBody ArticleCommentQO qo) {
+	public Response count(@RequestBody ArticleCommentQRO qo) {
 		return Response.success(articleCommentService.count(qo));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response list(@RequestBody ArticleCommentQO qo) {
+	public Response list(@RequestBody ArticleCommentQRO qo) {
 		return Response.success(articleCommentService.queryDetailsList(qo));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
 	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleCommentQO qo) {
+	public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleCommentQRO qo) {
 		return Response.success(articleCommentService.queryDetailsPage(qo, pageable));
 	}
 

@@ -3,9 +3,9 @@ package com.minlia.modules.attachment.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.modules.attachment.bean.AttachmentCTO;
-import com.minlia.modules.attachment.bean.AttachmentQO;
-import com.minlia.modules.attachment.bean.AttachmentUTO;
+import com.minlia.modules.attachment.ro.AttachmentCRO;
+import com.minlia.modules.attachment.ro.AttachmentQRO;
+import com.minlia.modules.attachment.ro.AttachmentURO;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.service.AttachmentService;
 import io.swagger.annotations.Api;
@@ -37,14 +37,14 @@ public class AttachmentEndpoint {
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response create(@Valid @RequestBody AttachmentCTO cto) {
+    public Response create(@Valid @RequestBody AttachmentCRO cto) {
         return Response.success(attachmentService.create(cto));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response update(@Valid @RequestBody AttachmentUTO uto) {
+    public Response update(@Valid @RequestBody AttachmentURO uto) {
         Attachment attachment = mapper.map(uto, Attachment.class);
         return Response.success(attachmentService.update(attachment));
     }
@@ -67,20 +67,20 @@ public class AttachmentEndpoint {
     @ApiOperation(value = "业务查询", notes = "业务查询", httpMethod = "GET", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "fbb/{relationId}/{belongsTo}", method = RequestMethod.GET, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response queryAllByRelationIdAndBelongsTo(@PathVariable String relationId, @PathVariable String belongsTo) {
-        return Response.success(attachmentService.queryList(AttachmentQO.builder().relationId(relationId).belongsTo(belongsTo).build()));
+        return Response.success(attachmentService.queryList(AttachmentQRO.builder().relationId(relationId).belongsTo(belongsTo).build()));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody AttachmentQO qo) {
+    public Response list(@RequestBody AttachmentQRO qo) {
         return Response.success(attachmentService.queryList(qo));
     }
 
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response page(@PageableDefault Pageable pageable, @RequestBody AttachmentQO qo) {
+    public Response page(@PageableDefault Pageable pageable, @RequestBody AttachmentQRO qo) {
         return Response.success(attachmentService.queryPage(qo, pageable));
     }
 

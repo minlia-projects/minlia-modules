@@ -4,8 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.bank.constant.BankConstants;
-import com.minlia.module.bankbranch.bean.domain.BankBranchDO;
-import com.minlia.module.bankbranch.bean.qo.BankBranchQO;
+import com.minlia.module.bankbranch.entity.BankBranch;
+import com.minlia.module.bankbranch.ro.BankBranchQRO;
 import com.minlia.module.bankbranch.service.BankBranchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,25 +30,25 @@ public class BankBranchEndpoint {
 	@ApiOperation(value = "初始化", notes = "初始化", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "init", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response init() {
-//		BankBranchDO bankBranchDo = new BankBranchDO();
+//		BankBranch bankBranchDo = new BankBranch();
 //		bankBranchDo.setProvince("asdfdsa");
 //		bankBranchService.create(bankBranchDo);
-		bankBranchService.init();
+//		bankBranchService.init();
 		return Response.success();
 	}
 
     @PreAuthorize(value = "hasAnyAuthority('" + BankConstants.CREATE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response create(@Valid @RequestBody BankBranchDO bankBranchDo) {
-		return Response.success(bankBranchService.create(bankBranchDo));
+	public Response create(@Valid @RequestBody BankBranch bankBranch) {
+		return Response.success(bankBranchService.create(bankBranch));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + BankConstants.UPDATE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response update(@Valid @RequestBody BankBranchDO bankBranchDo) {
-		return Response.success(bankBranchService.update(bankBranchDo));
+	public Response update(@Valid @RequestBody BankBranch bankBranch) {
+		return Response.success(bankBranchService.update(bankBranch));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + BankConstants.DELETE + "')")
@@ -63,22 +63,22 @@ public class BankBranchEndpoint {
 	@ApiOperation(value = "编号查询", notes = "编号查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
 	@GetMapping(value = "{numbet}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response findOne(@PathVariable String number) {
-		BankBranchDO bankCard = bankBranchService.queryByNumber(number);
+		BankBranch bankCard = bankBranchService.queryByNumber(number);
 		return Response.success(bankCard);
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + BankConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response list(@RequestBody BankBranchQO qo) {
-		List<BankBranchDO> bankCards = bankBranchService.queryList(qo);
+	public Response list(@RequestBody BankBranchQRO qo) {
+		List<BankBranch> bankCards = bankBranchService.queryList(qo);
 		return Response.success(bankCards);
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + BankConstants.SEARCH + "')")
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response paginated(@PageableDefault Pageable pageable, @RequestBody BankBranchQO qo) {
+	public Response paginated(@PageableDefault Pageable pageable, @RequestBody BankBranchQRO qo) {
 		PageInfo pageInfo = bankBranchService.queryPage(qo, pageable);
 		return Response.success(pageInfo);
 	}

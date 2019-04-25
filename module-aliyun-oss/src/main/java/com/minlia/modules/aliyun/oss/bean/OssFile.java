@@ -1,5 +1,7 @@
 package com.minlia.modules.aliyun.oss.bean;
 
+import lombok.Data;
+
 /**
  * @author Jun
  *

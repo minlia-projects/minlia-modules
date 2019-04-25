@@ -108,15 +108,15 @@ public class NavigationEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "list", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryList(@RequestBody NavigationQO qo) {
-        return Response.success(navigationService.queryList(qo));
+    public Response queryList(@RequestBody NavigationQO qro) {
+        return Response.success(navigationService.queryList(qro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "查询分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQO qo) {
-        return Response.success(navigationService.queryPage(qo, pageable));
+    public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody NavigationQO qro) {
+        return Response.success(navigationService.queryPage(qro, pageable));
     }
 
 }

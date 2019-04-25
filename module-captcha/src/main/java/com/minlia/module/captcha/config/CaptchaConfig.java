@@ -15,7 +15,7 @@ public class CaptchaConfig {
     /**
      * 每天发送次数
      */
-    private Integer dayTimes;
+    private Integer dayTimes = 0;
 
     private Map<String,String> templates;
 

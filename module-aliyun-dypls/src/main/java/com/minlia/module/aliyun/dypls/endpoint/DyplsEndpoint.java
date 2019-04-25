@@ -5,7 +5,7 @@ import com.aliyuncs.dyplsapi.model.v20170525.BindAxnExtensionRequest;
 import com.aliyuncs.dyplsapi.model.v20170525.UpdateSubscriptionRequest;
 import com.aliyuncs.exceptions.ClientException;
 import com.minlia.cloud.body.Response;
-import com.minlia.module.aliyun.dypls.bean.BindAxnTO;
+import com.minlia.module.aliyun.dypls.ro.BindAxnRO;
 import com.minlia.module.aliyun.dypls.service.DyplsBindService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +30,7 @@ public class DyplsEndpoint {
 
     @ApiOperation(value = "Bind Axn", notes = "Bind Axn", httpMethod = "POST")
     @PostMapping(value = "bindaxn", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response bindAxn(@RequestBody BindAxnTO to) throws ClientException {
+    public Response bindAxn(@RequestBody BindAxnRO to) throws ClientException {
         return dyplsBindService.bindAxn(to);
     }
 

@@ -39,50 +39,50 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User create(UserCTO cto) {
+    public User create(UserCTO cro) {
         User user = new User();
 
         //校验凭证是否有效
-        switch (cto.getMethod()) {
+        switch (cro.getMethod()) {
             case USERNAME:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cto.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
-                user.setUsername(cto.getUsername());
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
+                user.setUsername(cro.getUsername());
                 break;
             case CELLPHONE:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cto.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
-                user.setCellphone(cto.getCellphone());
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cro.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
+                user.setCellphone(cro.getCellphone());
                 break;
             case EMAIL:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cto.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
-                user.setEmail(cto.getEmail());
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
+                user.setEmail(cro.getEmail());
                 break;
         }
 
         //校验推荐人是否存在
-        if (StringUtils.isNotEmpty(cto.getReferral())) {
-            ApiAssert.state(userQueryService.exists(UserQO.builder().username(cto.getReferral()).build()), RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
-            user.setReferral(cto.getReferral());
+        if (StringUtils.isNotEmpty(cro.getReferral())) {
+            ApiAssert.state(userQueryService.exists(UserQO.builder().username(cro.getReferral()).build()), RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
+            user.setReferral(cro.getReferral());
         }
 
         //校验角色是否存在
-        for (Long roleId : cto.getRoles()) {
+        for (Long roleId : cro.getRoles()) {
             ApiAssert.state(roleService.exists(roleId), RebaccaCode.Message.ROLE_NOT_EXISTED);
         }
 
         //校验并查询默认角色
-        Role role = roleService.queryById(cto.getDefaultRole());
+        Role role = roleService.queryById(cro.getDefaultRole());
         ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
 
         user.setGuid(SequenceUtils.nextval("guid").toString());
-        user.setPassword(bCryptPasswordEncoder.encode(cto.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
         user.setDefaultRole(role.getCode());
-        user.setNickname(cto.getNickname());
+        user.setNickname(cro.getNickname());
         userMapper.create(user);
 
         //给用户授予角色
-        cto.getRoles().add(cto.getDefaultRole());
-        if (CollectionUtils.isNotEmpty(cto.getRoles())) {
-            userMapper.grant(user.getId(), cto.getRoles());
+        cro.getRoles().add(cro.getDefaultRole());
+        if (CollectionUtils.isNotEmpty(cro.getRoles())) {
+            userMapper.grant(user.getId(), cro.getRoles());
         }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
@@ -91,13 +91,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(UserUTO uto) {
-        User user = userQueryService.queryByGuidAndNotNull(uto.getGuid());
-        if (StringUtils.isNotBlank(uto.getPassword())) {
-            user.setPassword(bCryptPasswordEncoder.encode(uto.getPassword()));
+    public User update(UserUTO uro) {
+        User user = userQueryService.queryByGuidAndNotNull(uro.getGuid());
+        if (StringUtils.isNotBlank(uro.getPassword())) {
+            user.setPassword(bCryptPasswordEncoder.encode(uro.getPassword()));
         }
-        if (null !=uto.getDefaultRole()) {
-            Role role = roleService.queryById(uto.getDefaultRole());
+        if (null !=uro.getDefaultRole()) {
+            Role role = roleService.queryById(uro.getDefaultRole());
             ApiAssert.notNull(role, RebaccaCode.Message.USER_DOES_NOT_HAD_ROLE);
 
             List<Long> roleIds = roleService.queryIdByUserId(user.getId());
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
         }
 //        if (StringUtils.isNotBlank(body.getDefaultRole())) {
 //            Role role = roleService.queryByCode(body.getDefaultRole());
-//            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
+//            ApiAssert.notNull(role,CommonCode.Message.ROLE_NOT_EXISTED);
 //            user.setDefaultRole(body.getDefaultRole());
 //        }
         userMapper.update(user);
@@ -122,11 +122,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String guid) {
+    public int delete(String guid) {
         User user = userQueryService.queryByGuidAndNotNull(guid);
-        userMapper.delete(user.getId());
         //TODO 发布删除用户事件
         UserDeleteEvent.onDelete(user);
+        return userMapper.delete(user.getId());
     }
 
     @Override

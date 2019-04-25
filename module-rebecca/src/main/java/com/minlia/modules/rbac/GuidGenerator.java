@@ -55,7 +55,7 @@ public class GuidGenerator {
     public synchronized long nextId() {
         long currStmp = getNewstmp();
         if (currStmp < lastStmp) {
-            throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
+            throw new RuntimeException("Clock moved backwards.  Refusing ro generate id");
         }
 
         if (currStmp == lastStmp) {

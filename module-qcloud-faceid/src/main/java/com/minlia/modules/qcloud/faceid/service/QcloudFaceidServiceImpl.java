@@ -115,10 +115,10 @@ public class QcloudFaceidServiceImpl implements QcloudFaceidService {
 //                }
                 return Response.success(result);
             } else {
-                return Response.failure(Integer.valueOf(responseEntity.getBody().getCode()), responseEntity.getBody().getMsg());
+                return Response.failure(responseEntity.getBody().getCode(), responseEntity.getBody().getMsg());
             }
         } else {
-            return Response.failure(responseEntity.getStatusCode().value(), responseEntity.getBody().getMsg());
+            return Response.failure(responseEntity.getStatusCode().name(), responseEntity.getBody().getMsg());
         }
     }
 

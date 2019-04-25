@@ -3,7 +3,7 @@ package com.minlia.modules.http;
 /**
  * Created by will on 8/18/17.
  * <p>
- * TODO: HTTP Exceptions to HttpApiCode
+ * TODO: HTTP Exceptions ro HttpApiCode
  */
 public class HttpApiCode {
 

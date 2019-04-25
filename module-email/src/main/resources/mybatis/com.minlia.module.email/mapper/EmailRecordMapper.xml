@@ -71,12 +71,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.email.bean.domain.EmailRecord">
+    <select id="one" resultType="com.minlia.module.email.entity.EmailRecord">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.email.bean.domain.EmailRecord">
+    <select id="list" resultType="com.minlia.module.email.entity.EmailRecord">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

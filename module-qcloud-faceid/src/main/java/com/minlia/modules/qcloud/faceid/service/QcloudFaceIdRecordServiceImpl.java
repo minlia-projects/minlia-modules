@@ -38,8 +38,8 @@ public class QcloudFaceIdRecordServiceImpl implements QcloudFaceIdRecordService 
     }
 
     @Override
-    public long count(QcloudFaceIdRecordQQ qo) {
-        return faceIdRecordMapper.count(qo);
+    public long count(QcloudFaceIdRecordQQ qro) {
+        return faceIdRecordMapper.count(qro);
     }
 
     @Override
@@ -48,18 +48,18 @@ public class QcloudFaceIdRecordServiceImpl implements QcloudFaceIdRecordService 
     }
 
     @Override
-    public QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQQ qo) {
-        return faceIdRecordMapper.queryOne(qo);
+    public QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQQ qro) {
+        return faceIdRecordMapper.queryOne(qro);
     }
 
     @Override
-    public List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQQ qo) {
-        return faceIdRecordMapper.queryList(qo);
+    public List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQQ qro) {
+        return faceIdRecordMapper.queryList(qro);
     }
 
     @Override
-    public PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQQ qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(qo));
+    public PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQQ qro, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(qro));
     }
 
 }

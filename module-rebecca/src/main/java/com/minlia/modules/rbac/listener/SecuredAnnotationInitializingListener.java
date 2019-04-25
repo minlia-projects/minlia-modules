@@ -4,7 +4,7 @@
 //import com.minlia.cloud.utils.Environments;
 //import com.minlia.module.language.v1.service.LanguageInitializeService;
 //import com.minlia.modules.rbac.context.PermissionContextHolder;
-//import com.minlia.modules.rbac.domain.Permission;
+//import com.minlia.modules.rbac.entity.Permission;
 //import com.minlia.modules.rbac.config.RebeccaProperties;
 //import com.minlia.modules.rbac.service.PermissionCreationService;
 //import java.util.Set;

@@ -1,8 +1,12 @@
 package com.minlia.module.unified.payment;
 
+import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
 import com.minlia.module.unified.payment.alipay.v1.AlipayConfig;
 import com.minlia.module.unified.payment.wechat.v1.WechatConfig;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,6 +15,23 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({WechatConfig.class, AlipayConfig.class})
 @Configuration
 public class CreatePreOrderAutoConfiguration {
+
+    @Bean
+    public WxPayService wxPayService(WechatConfig wechatConfig) {
+        if (null != wechatConfig.getAppId() && null != wechatConfig.getMchId() && null != wechatConfig.getKey()) {
+            WxPayService wxPayService = new WxPayServiceImpl();
+            WxPayConfig config = new WxPayConfig();
+            config.setAppId(wechatConfig.getAppId());
+            config.setMchId(wechatConfig.getMchId());
+            config.setMchKey(wechatConfig.getKey());
+            config.setNotifyUrl(wechatConfig.getCallback());
+            config.setKeyPath(wechatConfig.getKeyPath());
+            wxPayService.setConfig(config);
+            return wxPayService;
+        } else {
+            return null;
+        }
+    }
 
 //
 //    // 注意

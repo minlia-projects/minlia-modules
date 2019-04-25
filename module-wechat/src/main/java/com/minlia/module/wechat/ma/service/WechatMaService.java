@@ -3,8 +3,10 @@ package com.minlia.module.wechat.ma.service;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
-import com.minlia.module.wechat.ma.bean.to.MiniappQrcodeTO;
-import com.minlia.module.wechat.ma.bean.to.PhoneNumberTO;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.minlia.module.wechat.ma.bean.ro.WechatMaEncryptedDataRO;
+import com.minlia.module.wechat.ma.bean.ro.WechatMaQrcodeRO;
+import com.minlia.module.wechat.ma.bean.ro.WechatMaUserDetailRO;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 
 /**
@@ -47,7 +49,12 @@ public interface WechatMaService {
      * @param body
      * @return
      */
-    WxMaPhoneNumberInfo getBoundPhoneNumber(PhoneNumberTO body);
+    WxMaPhoneNumberInfo getBoundPhoneNumber(WechatMaEncryptedDataRO body);
+
+
+    WxMaUserInfo decrypt(WechatMaUserDetailRO to);
+
+    WxMaUserInfo decrypt(WxMaService wxMaService, String sessionKey, String EncryptedData, String iv);
 
     /**
      * 创建二维码
@@ -55,6 +62,6 @@ public interface WechatMaService {
      * @return
      * @throws Exception
      */
-    OssFile createWxCodeLimit(MiniappQrcodeTO body);
+    OssFile createWxCodeLimit(WechatMaQrcodeRO body);
 
 }

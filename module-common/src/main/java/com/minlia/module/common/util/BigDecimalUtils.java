@@ -3,9 +3,9 @@ package com.minlia.module.common.util;
 import java.math.BigDecimal;
 
 /**
- * Utility to help comparison of {@link BigDecimal}.
+ * Utility ro help comparison of {@link BigDecimal}.
  *
- * The only way to compare {@link BigDecimal} is to get result of compare
+ * The only way ro compare {@link BigDecimal} is ro get result of compare
  * function of {@link BigDecimal} and compare the result with -1, 0 and 1.
  *
  * Although it is straight forward however it lacks expressiveness and decreases
@@ -17,8 +17,8 @@ import java.math.BigDecimal;
  * </code>
  * </pre>
  *
- * the code above try to check condition "balance &lt; maxAmount". You
- * definitely spotted the problem. now imagine how hard it can be if you have to
+ * the code above try ro check condition "balance &lt; maxAmount". You
+ * definitely spotted the problem. now imagine how hard it can be if you have ro
  * read some code with a lot of {@link BigDecimal} comparison!! </b>
  * {@link BigDecimalUtils} makes comparison of {@link BigDecimal}s more easier
  * and more readable than the comparator method. look how above code are written

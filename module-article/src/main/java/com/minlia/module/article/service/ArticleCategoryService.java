@@ -1,28 +1,28 @@
 package com.minlia.module.article.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.article.bean.domain.ArticleCategory;
-import com.minlia.module.article.bean.qo.ArticleCategoryQO;
-import com.minlia.module.article.bean.to.ArticleCategoryCTO;
-import com.minlia.module.article.bean.to.ArticleCategoryUTO;
+import com.minlia.module.article.entity.ArticleCategory;
+import com.minlia.module.article.ro.ArticleCategoryQRO;
+import com.minlia.module.article.ro.ArticleCategoryCRO;
+import com.minlia.module.article.ro.ArticleCategoryURO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ArticleCategoryService {
 
-    ArticleCategory create(ArticleCategoryCTO cto);
+    ArticleCategory create(ArticleCategoryCRO cto);
 
-    ArticleCategory update(ArticleCategoryUTO uto);
+    ArticleCategory update(ArticleCategoryURO uto);
 
     void delete(Long id);
 
-    long count(ArticleCategoryQO qo);
+    long count(ArticleCategoryQRO qo);
 
-    ArticleCategory one(ArticleCategoryQO qo);
+    ArticleCategory one(ArticleCategoryQRO qo);
 
-    List<ArticleCategory> list(ArticleCategoryQO qo);
+    List<ArticleCategory> list(ArticleCategoryQRO qo);
 
-    PageInfo<ArticleCategory> page(ArticleCategoryQO qo, Pageable pageable);
+    PageInfo<ArticleCategory> page(ArticleCategoryQRO qo, Pageable pageable);
 
 }

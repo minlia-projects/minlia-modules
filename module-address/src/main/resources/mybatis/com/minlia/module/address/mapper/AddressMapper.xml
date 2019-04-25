@@ -115,18 +115,18 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryOne" resultType="com.minlia.module.address.bean.domain.AddressDO">
+    <select id="queryOne" resultType="com.minlia.module.address.entity.Address">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="queryList" resultType="com.minlia.module.address.bean.domain.AddressDO">
+    <select id="queryList" resultType="com.minlia.module.address.entity.Address">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>
     </select>
 
-    <select id="queryAll" resultType="com.minlia.module.address.bean.domain.AddressDO">
+    <select id="queryAll" resultType="com.minlia.module.address.entity.Address">
         <include refid="QUERY_CONTENT"/>
     </select>
 

@@ -7,7 +7,10 @@ import com.minlia.module.common.validation.Username;
 import com.minlia.modules.rbac.enumeration.RegistrationMethodEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -20,6 +23,9 @@ import javax.validation.constraints.Size;
  */
 @ApiModel(value = "注册")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRegistrationTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "注册类型")
@@ -51,5 +57,9 @@ public class UserRegistrationTO implements ApiRequestBody {
     @ApiModelProperty("推荐人")
     @Size(max = 15)
     private String referral;
+
+    @ApiModelProperty("昵称")
+    @Size(min = 1, max = 11)
+    private String nickname;
 
 }

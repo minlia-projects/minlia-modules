@@ -20,12 +20,12 @@ public interface QcloudFaceIdRecordService {
 
     QcloudFaceIdRecord queryLastByUserId(String userId);
 
-    long count(QcloudFaceIdRecordQQ qo);
+    long count(QcloudFaceIdRecordQQ qro);
 
-    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQQ qo);
+    QcloudFaceIdRecord queryOne(QcloudFaceIdRecordQQ qro);
 
-    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQQ qo);
+    List<QcloudFaceIdRecord> queryList(QcloudFaceIdRecordQQ qro);
 
-    PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQQ qo, Pageable pageable);
+    PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQQ qro, Pageable pageable);
 
 }

@@ -11,7 +11,7 @@
 
     <groupId>com.minlia.modules</groupId>
     <artifactId>module-wechat-material</artifactId>
-    <version>1.0.0.RELEASE</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Module Wechat Material</name>
 

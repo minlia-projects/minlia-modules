@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by will on 6/20/17.
- * TODO: save to registry
+ * TODO: save ro registry
  */
 @Component
 public class SmsTemplateProperties implements EnvironmentAware {

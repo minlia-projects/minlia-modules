@@ -80,7 +80,7 @@
 //				financeRecordService.insertSelective(finance);
 //				order.setOrderStatus(3);
 //				order.setPayTime(new Date());
-//				order.setPayType(3);
+//				order.setPayTypeEnum(3);
 //				orderService.updateByPrimaryKeySelective(order);
 //
 //				return returnXMLPay(result_code);
@@ -145,7 +145,7 @@
 //				finance.setOrderUuid(order.getOrderUuid());
 //				finance.setRecordType(3);//记录类型；1：充值；2：提现；3：订单
 //				finance.setUserUuid(order.getUserUuid());
-//				finance.setPayType(3);//支付方式：1：余额；2：支付宝；3：微信；4：银行卡
+//				finance.setPayTypeEnum(3);//支付方式：1：余额；2：支付宝；3：微信；4：银行卡
 //
 //				financeRecordService.insertSelective(finance);
 //
@@ -164,13 +164,13 @@
 //				finance1.setOrderUuid(order.getOrderUuid());
 //				finance1.setRecordType(3);//记录类型；1：充值；2：提现；3：订单
 //				finance1.setUserUuid(order.getCarOwnerUuid());
-//				finance1.setPayType(3);//支付方式：1：余额；2：支付宝；3：微信；4：银行卡
+//				finance1.setPayTypeEnum(3);//支付方式：1：余额；2：支付宝；3：微信；4：银行卡
 //				financeRecordService.insertSelective(finance1);
 //
 //
 //				order.setOrderStatus(5);
 //				order.setPayTime(new Date());
-//				order.setPayType(3);
+//				order.setPayTypeEnum(3);
 //				orderService.updateByPrimaryKeySelective(order);
 //
 //				return returnXMLPay(result_code);

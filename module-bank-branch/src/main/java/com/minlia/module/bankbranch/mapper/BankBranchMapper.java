@@ -1,24 +1,24 @@
 package com.minlia.module.bankbranch.mapper;
 
-import com.minlia.module.bankbranch.bean.domain.BankBranchDO;
-import com.minlia.module.bankbranch.bean.qo.BankBranchQO;
+import com.minlia.module.bankbranch.entity.BankBranch;
+import com.minlia.module.bankbranch.ro.BankBranchQRO;
 
 import java.util.List;
 
 public interface BankBranchMapper {
 
-    void create(BankBranchDO bankCard);
+    void create(BankBranch bankCard);
 
-    void update(BankBranchDO bankCard);
+    void update(BankBranch bankCard);
 
     void delete(String number);
 
-    BankBranchDO queryByNumber(String number);
+    BankBranch queryByNumber(String number);
 
-    long count(BankBranchQO qo);
+    long count(BankBranchQRO qo);
 
-    BankBranchDO queryOne(BankBranchQO qo);
+    BankBranch queryOne(BankBranchQRO qo);
 
-    List<BankBranchDO> queryList(BankBranchQO qo);
+    List<BankBranch> queryList(BankBranchQRO qo);
 
 }

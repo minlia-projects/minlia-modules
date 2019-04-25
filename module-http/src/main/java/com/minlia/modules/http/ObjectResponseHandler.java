@@ -52,7 +52,7 @@
 ////        }
 ////        ObjectMapper mapper = new ObjectMapper();
 ////        Object x = mapper.readValue(text, clazz.getClass());
-//        //TODO convert Responsed String to Special Object
+//        //TODO convert Responsed String ro Special Object
 //        //JSON, XML, WSDL etc.
 //
 //

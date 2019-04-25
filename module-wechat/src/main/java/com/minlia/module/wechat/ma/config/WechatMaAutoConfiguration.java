@@ -15,21 +15,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 
 @Configuration
 @ConditionalOnClass(WxMaService.class)
-@EnableConfigurationProperties(value = {WechatMiniappProperties.class})
+@EnableConfigurationProperties(value = {WechatMaProperties.class})
 public class WechatMaAutoConfiguration {
 
     @Autowired
     private BibleItemService bibleItemService;
 
-    /**
-     * 小程序配置
-     */
     @Bean
     @ConditionalOnMissingBean
     public WxMaConfig wxMaConfig() {
@@ -38,18 +32,6 @@ public class WechatMaAutoConfiguration {
         wxMaConfig.setSecret(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_SECRET));
         wxMaConfig.setExpiresTime(System.currentTimeMillis());
         return wxMaConfig;
-    }
-
-    /**
-     * 小程序配置
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public WechatMiniAppConfig miniAppConfig() {
-        WechatMiniAppConfig miniAppConfig = new WechatMiniAppConfig();
-        miniAppConfig.setAppId(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_APPID));
-        miniAppConfig.setSecret(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_SECRET));
-        return miniAppConfig;
     }
 
     @Bean

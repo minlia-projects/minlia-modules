@@ -1,7 +1,7 @@
 package com.minlia.module.article.mapper;
 
-import com.minlia.module.article.bean.domain.ArticleLabel;
-import com.minlia.module.article.bean.qo.ArticleLabelQO;
+import com.minlia.module.article.entity.ArticleLabel;
+import com.minlia.module.article.ro.ArticleLabelQRO;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ public interface ArticleLabelMapper {
 
     long delete(Long id);
 
-    long count(ArticleLabelQO qo);
+    long count(ArticleLabelQRO qo);
 
-    ArticleLabel one(ArticleLabelQO qo);
+    ArticleLabel one(ArticleLabelQRO qo);
 
-    List<ArticleLabel> list(ArticleLabelQO qo);
+    List<ArticleLabel> list(ArticleLabelQRO qo);
 
 }

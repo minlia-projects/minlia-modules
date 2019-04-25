@@ -1,10 +1,10 @@
 //package com.minlia.module.registry.v1.endpoint;
 //
-//import com.minlia.cloud.bean.StatefulBody;
-//import com.minlia.cloud.bean.impl.SuccessResponseBody;
+//import com.minlia.cloud.ro.StatefulBody;
+//import com.minlia.cloud.ro.impl.SuccessResponseBody;
 //import com.minlia.cloud.constant.ApiPrefix;
 //import com.minlia.cloud.endpoint.ApiWriteOnlyEndpoint;
-//import com.minlia.module.registry.v1.domain.Registry;
+//import com.minlia.module.registry.v1.entity.Registry;
 //import com.minlia.module.registry.v1.service.RegistryWriteOnlyService;
 //import io.swagger.annotations.Api;
 //import io.swagger.annotations.ApiOperation;

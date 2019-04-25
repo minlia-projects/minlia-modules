@@ -1,12 +1,12 @@
 //package com.minlia.module.unified.payment.pooul;
 //
-//import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
+//import com.github.binarywang.wxpay.ro.notify.WxPayOrderNotifyResult;
 //import com.github.binarywang.wxpay.config.WxPayConfig;
 //import com.github.binarywang.wxpay.exception.WxPayException;
 //import com.github.binarywang.wxpay.service.WxPayService;
 //import com.github.binarywang.wxpay.service.impl.WxPayServiceApacheHttpImpl;
-//import com.minlia.module.unified.payment.bean.OrderPaidNotificationBody;
-//import com.minlia.module.unified.payment.bean.PayType;
+//import com.minlia.module.unified.payment.ro.OrderPaidNotificationResponse;
+//import com.minlia.module.unified.payment.ro.PayTypeEnum;
 //import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
 //import com.minlia.module.unified.payment.util.XmlUtils;
 //import io.swagger.annotations.Api;
@@ -38,35 +38,35 @@
 //        log.info("wechat callback here");
 //        if (verifySign(requestedXmlString)) {
 //            log.info("wechat sign here");
-//            OrderPaidNotificationBody bean = new OrderPaidNotificationBody();
-//            bean = mapToBody(requestedXmlString,bean);
-//            log.info("返回所有参数了" + bean.toString());
-//            OrderPaidEventProducer.onOrderPaid(bean);
+//            OrderPaidNotificationResponse ro = new OrderPaidNotificationResponse();
+//            ro = mapToBody(requestedXmlString,ro);
+//            log.info("返回所有参数了" + ro.toString());
+//            OrderPaidEventProducer.onOrderPaid(ro);
 //            return "SUCCESS";
 //        } else {
 //            return "FAIL";
 //        }
 //    }
 //
-//    private OrderPaidNotificationBody mapToBody(String requestedXmlString,OrderPaidNotificationBody bean) {
+//    private OrderPaidNotificationResponse mapToBody(String requestedXmlString,OrderPaidNotificationResponse ro) {
 //        log.info(requestedXmlString);
 //        try {
 //            //这里面已经做了验证签名
 //            WxPayOrderNotifyResult requestBody = getWxPayService()
 //                    .parseOrderNotifyResult(requestedXmlString);
-//            bean.setPaidBy(requestBody.getOpenid());
-//            bean.setAmount(Integer.valueOf(requestBody.getTotalFee().toString()));
-//            bean.setBody(requestBody.getAttach());
-//            bean.setSubject(requestBody.getAttach());
-//            bean.setGatewayTradeNo(requestBody.getTransactionId());
-//            bean.setMerchantTradeNo(requestBody.getOutTradeNo());
-//            bean.setPaidBy(requestBody.getOpenid());
-//            bean.setSign(requestBody.getSign());
-//            bean.setPayType(PayType.WECHAT);
+//            ro.setPaidBy(requestBody.getOpenid());
+//            ro.setAmount(Integer.valueOf(requestBody.getTotalFee().toString()));
+//            ro.setBody(requestBody.getAttach());
+//            ro.setSubject(requestBody.getAttach());
+//            ro.setGatewayTradeNo(requestBody.getTransactionId());
+//            ro.setMerchantTradeNo(requestBody.getOutTradeNo());
+//            ro.setPaidBy(requestBody.getOpenid());
+//            ro.setSign(requestBody.getSign());
+//            ro.setPayTypeEnum(PayTypeEnum.WECHAT);
 //        } catch (WxPayException e) {
 //            log.info("解析異常" + e.toString());
 //        }
-//        return bean;
+//        return ro;
 //    }
 //
 //    /**

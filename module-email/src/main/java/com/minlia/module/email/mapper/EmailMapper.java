@@ -1,6 +1,6 @@
 package com.minlia.module.email.mapper;
 
-import com.minlia.module.email.bean.domain.EmailRecord;
+import com.minlia.module.email.entity.EmailRecord;
 
 import java.util.List;
 

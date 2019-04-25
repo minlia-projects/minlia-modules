@@ -43,7 +43,7 @@
         </if>
     </sql>
 
-    <insert id="create" parameterType="com.minlia.module.article.bean.domain.ArticleCategory">
+    <insert id="create" parameterType="com.minlia.module.article.entity.ArticleCategory">
         INSERT INTO mdl_article_category(
             name ,
             code ,
@@ -59,7 +59,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.article.bean.domain.ArticleCategory">
+    <update id="update" parameterType="com.minlia.module.article.entity.ArticleCategory">
         UPDATE mdl_article_category
         <set>
             <if test="name != null">
@@ -85,13 +85,13 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <resultMap id="categoryMap" type="com.minlia.module.article.bean.domain.ArticleCategory">
+    <resultMap id="categoryMap" type="com.minlia.module.article.entity.ArticleCategory">
         <id column="id" property="id" />
-        <collection property="articles" column="id" javaType="list" ofType="com.minlia.module.article.bean.vo.ArticleSimpleVO"
+        <collection property="articles" column="id" javaType="list" ofType="com.minlia.module.article.vo.ArticleSimpleVO"
                     select="queryArticleByCategoryId" />
     </resultMap>
 
-    <select id="queryArticleByCategoryId" resultType="com.minlia.module.article.bean.vo.ArticleSimpleVO">
+    <select id="queryArticleByCategoryId" resultType="com.minlia.module.article.vo.ArticleSimpleVO">
         SELECT id,title FROM mdl_article where category_id = #{id} ORDER BY create_date DESC
     </select>
 

@@ -1,7 +1,7 @@
 package com.minlia.module.bank.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.bank.bean.domain.BankDO;
+import com.minlia.module.bank.entity.Bank;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -11,16 +11,16 @@ import java.util.List;
  */
 public interface BankService {
 
-    BankDO create(BankDO bankDo);
+    Bank create(Bank bank);
 
-    BankDO update(BankDO bankDo);
+    Bank update(Bank bank);
 
     void delete(String number);
 
-    BankDO one(BankDO bankDO);
+    Bank one(Bank bank);
 
-    List<BankDO> list(BankDO bankDO);
+    List<Bank> list(Bank bank);
 
-    PageInfo<BankDO> page(BankDO bankDO, Pageable pageable);
+    PageInfo<Bank> page(Bank bank, Pageable pageable);
 
 }

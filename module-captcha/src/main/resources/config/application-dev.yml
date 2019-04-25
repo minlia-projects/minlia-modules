@@ -14,12 +14,6 @@ spring:
         encoding.charset: UTF-8
         encoding.enable: true
         encoding.force: true
-        multipart:
-              enabled: true
-              max-file-size: 300MB  #(这里是限制的文件大小)
-              max-request-size: 300MB #(这里是限制的文件大小)
-    session:
-        store-type: redis
 
     datasource:
         driverClassName: net.sf.log4jdbc.DriverSpy
@@ -27,23 +21,6 @@ spring:
         name:
         username: root
         password:
-#        使用druid数据源
-#        type: com.alibaba.druid.pool.DruidDataSource
-        filters: stat
-        maxActive: 20
-        initialSize: 1
-        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 1
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-        continue-on-error: true
-        initialize: true
 
     redis:
         database: 0
@@ -87,13 +64,13 @@ pagehelper:
 #阿里云
 aliyun:
     sms:
-        accessId: LTAI7w8hY3vG8RNb
-        accessKey: 4081VLQEFTS9Zo0RoTbJxMQypPuI87
+        accessId: xxxxxx
+        accessKey: xxxxxx
         endpoint: cn-hangzhou
         regionId: cn-hangzhou
         product: Dysmsapi
         domain: dysmsapi.aliyuncs.com
-        signName: 智慧新民居
+        signName: xxxxxx
 
 sms:
     day-times: 20

@@ -282,7 +282,7 @@
                         switch (frame.command) {
                             case "CONNECTED":
                                 if (typeof _this.debug === "function") {
-                                    _this.debug("connected to server " + frame.headers.server);
+                                    _this.debug("connected ro server " + frame.headers.server);
                                 }
                                 _this.connected = true;
                                 _this._setupHeartbeat(frame.headers);
@@ -327,7 +327,7 @@
             this.ws.onclose = (function(_this) {
                 return function() {
                     var msg;
-                    msg = "Whoops! Lost connection to " + _this.ws.url;
+                    msg = "Whoops! Lost connection ro " + _this.ws.url;
                     if (typeof _this.debug === "function") {
                         _this.debug(msg);
                     }

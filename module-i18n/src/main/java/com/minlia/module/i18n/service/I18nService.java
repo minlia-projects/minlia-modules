@@ -1,10 +1,10 @@
 package com.minlia.module.i18n.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.i18n.bean.I18nCTO;
-import com.minlia.module.i18n.bean.I18nDO;
-import com.minlia.module.i18n.bean.I18nQO;
-import com.minlia.module.i18n.bean.I18nUTO;
+import com.minlia.module.i18n.ro.I18nCRO;
+import com.minlia.module.i18n.entity.I18n;
+import com.minlia.module.i18n.ro.I18nQRO;
+import com.minlia.module.i18n.ro.I18nURO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -15,18 +15,18 @@ import java.util.Map;
  */
 public interface I18nService {
 
-    I18nDO create(I18nCTO cto);
+    I18n create(I18nCRO cto);
 
-    I18nDO update(I18nUTO uto);
+    I18n update(I18nURO uto);
 
     void delete(Long id);
 
-    I18nDO queryOne(Long id);
+    I18n queryOne(Long id);
 
-    List<I18nDO> queryList(I18nQO qo);
+    List<I18n> queryList(I18nQRO qro);
 
-    Map<String,String> queryMap(I18nQO qo);
+    Map<String,String> queryMap(I18nQRO qro);
 
-    PageInfo queryPage(I18nQO qo, Pageable pageable);
+    PageInfo queryPage(I18nQRO qro, Pageable pageable);
 
 }

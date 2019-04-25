@@ -1,7 +1,11 @@
 package com.minlia.modules.aliyun.oss.api.constant;
 
+import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
+import com.minlia.module.common.constant.SymbolConstants;
+
+import java.util.StringJoiner;
 
 /**
  * Created by will on 4/16/17.
@@ -9,59 +13,51 @@ import com.minlia.cloud.i18n.Lang;
  */
 public class AliyunOssCode {
 
-    public AliyunOssCode(){
-        throw new AssertionError();
-    }
+    final static String CODE_PREFIX = "aliyun.oss";
 
     public enum Message implements Code {
 
         /**
          * 阿里云OSS上传失败-{0}
          */
-        UPLOAD_FAILURE(101100, "aliyun.oss.message.101100"),
+        UPLOAD_FAILURE,
 
         /**
          * 阿里云OSS访问ID未配置
          */
-        ACCESSKEYID_NOT_CONFIG(101101, "aliyun.oss.message.101101"),
+        ACCESSKEYID_NOT_CONFIG,
 
         /**
          * 阿里云OSS访问密钥未配置
          */
-        SECRETACCESSKEY_NOT_CONFIG(101102, "aliyun.oss.message.101102"),
+        SECRETACCESSKEY_NOT_CONFIG,
 
         /**
          * 阿里云OSS存储桶未配置
          */
-        BUCKET_NOT_CONFIG(101103, "aliyun.oss.message.101103"),
+        BUCKET_NOT_CONFIG,
 
         /**
          * 阿里云OSS端点未配置
          */
-        ENDPOINT_NOT_CONFIG(101104, "aliyun.oss.message.101104");
-
-        private int code;
-
-        private String i18nKey;
-
-        Message(int code, String i18nKey) {
-            this.code = code;
-            this.i18nKey = i18nKey;
-        }
+        ENDPOINT_NOT_CONFIG;
 
         @Override
-        public int code() {
-            return code;
+        public String code() {
+            return this.name();
         }
 
         @Override
         public String i18nKey() {
-            return i18nKey;
+            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
+                    .add(CODE_PREFIX)
+                    .add(this.getClass().getSimpleName())
+                    .add(this.name()).toString());
         }
 
         @Override
-        public String message() {
-            return Lang.get(this.i18nKey);
+        public String message(){
+            return Lang.get(this.i18nKey());
         }
 
     }

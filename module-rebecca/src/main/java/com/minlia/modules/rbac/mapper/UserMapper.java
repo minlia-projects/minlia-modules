@@ -9,19 +9,19 @@ import java.util.Set;
 
 public interface UserMapper  {
 
-    void create(User user);
+    int create(User user);
 
-    void update(User user);
+    int update(User user);
 
-    void delete(Long id);
+    int delete(Long id);
 
     void grant(Long id, Set<Long> roles);
 
-    long count(UserQO qo);
+    long count(UserQO qro);
 
-    User queryOne(UserQO qo);
+    User queryOne(UserQO qro);
 
-    List<User> queryList(UserQO qo);
+    List<User> queryList(UserQO qro);
 
     User queryByUsernameOrCellphoneOrEmail(String arg);
 

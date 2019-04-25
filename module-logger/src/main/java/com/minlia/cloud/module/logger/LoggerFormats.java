@@ -7,7 +7,7 @@
  *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
+ * Unless required by applicable law or agreed ro in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
@@ -27,7 +27,7 @@ import lombok.*;
  * <li>${method.args} - method arguments</li>
  * <li>${method.result} - method results</li>
  * <li>${method.duration} - method runtime duration</li>
- * <li>${method.warn.duration} - method runtime warning duration to be displayed</li>
+ * <li>${method.warn.duration} - method runtime warning duration ro be displayed</li>
  * <li>${error.class.name} - exception class name</li>
  * <li>${error.message} - exception message</li>
  * <li>${error.source.class.name} - exception source class name</li>

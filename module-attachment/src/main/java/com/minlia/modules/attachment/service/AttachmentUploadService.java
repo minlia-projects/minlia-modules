@@ -2,7 +2,7 @@ package com.minlia.modules.attachment.service;
 
 
 import com.minlia.cloud.body.Response;
-import com.minlia.modules.attachment.bean.AttachmentUploadTO;
+import com.minlia.modules.attachment.ro.AttachmentUploadRO;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -14,6 +14,6 @@ public interface AttachmentUploadService {
 
     Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception;
 
-    Response upload(AttachmentUploadTO to);
+    Response upload(AttachmentUploadRO to);
 
 }

@@ -39,7 +39,7 @@
         </if>
     </sql>
 
-    <insert id="create" parameterType="com.minlia.module.article.bean.domain.ArticleLabel">
+    <insert id="create" parameterType="com.minlia.module.article.entity.ArticleLabel">
         INSERT INTO mdl_article_label_t(
             name ,
             notes ,
@@ -53,7 +53,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.article.bean.domain.ArticleLabel">
+    <update id="update" parameterType="com.minlia.module.article.entity.ArticleLabel">
         UPDATE mdl_article_label_t
         <set>
             <if test="name != null">
@@ -80,12 +80,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.article.bean.domain.ArticleLabel">
+    <select id="one" resultType="com.minlia.module.article.entity.ArticleLabel">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.article.bean.domain.ArticleLabel">
+    <select id="list" resultType="com.minlia.module.article.entity.ArticleLabel">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.wechat.StarterWechatMiniappAutoConfiguration
+com.minlia.module.wechat.WechatAutoConfiguration

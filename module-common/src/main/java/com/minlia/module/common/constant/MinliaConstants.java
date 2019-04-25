@@ -7,4 +7,5 @@ public final class MinliaConstants {
 
     public final static String APP_NAME = "minlia";
 
+
 }

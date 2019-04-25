@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.unified.payment.mapper.UnifiedOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.minlia.module.unified.payment.entity.UnifiedOrder">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="trade_no" jdbcType="VARCHAR" property="tradeNo"/>
+        <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo"/>
+        <result column="channel" jdbcType="VARCHAR" property="channel"/>
+        <result column="operation" jdbcType="VARCHAR" property="operation"/>
+        <result column="amount" jdbcType="VARCHAR" property="amount"/>
+        <result column="body" jdbcType="VARCHAR" property="body"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+
+    <sql id="QUERY_CONTENT">
+        select id, `trade_no`, out_trade_no, channel, operation, amount, `body`, create_by, create_date, last_modified_by, last_modified_date from mdl_unified_order muot
+    </sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="id != null">
+                AND muot.id = #{id}
+            </if>
+            <if test="tradeNo != null">
+                AND muot.trade_no = #{tradeNo}
+            </if>
+            <if test="outTradeNo != null">
+                AND muot.out_trade_no = #{outTradeNo}
+            </if>
+            <if test="channel != null">
+                AND `channel` = #{channel}
+            </if>
+            <if test="operation != null">
+                AND `operation` = #{operation}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="ORDER_BY">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                muot.${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="queryCount" resultType="long">
+        select count(1) from mdl_unified_order muot
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryOne" resultMap="BaseResultMap">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
+    <select id="queryList" resultMap="BaseResultMap">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
+        <include refid="ORDER_BY"/>
+    </select>
+
+    <insert id="insert">
+        insert into mdl_unified_order (
+            `trade_no`,
+            out_trade_no,
+            channel,
+            operation,
+            amount,
+            body,
+            create_by
+        )
+        values (
+            #{tradeNo},
+            #{outTradeNo},
+            #{channel},
+            #{operation},
+            #{amount},
+            #{body},
+            #{createBy}
+        )
+    </insert>
+
+    <update id="update">
+        update mdl_unified_order
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="leader != null">
+                leader = #{leader},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=TINYINT},
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by = #{lastModifiedBy}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from mdl_unified_order where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+</mapper>

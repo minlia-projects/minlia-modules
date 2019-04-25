@@ -1,6 +1,6 @@
 //package com.minlia.module.article.aop;
 //
-//import com.minlia.module.article.bean.qo.ArticleCommentQO;
+//import com.minlia.module.article.ro.ro.ArticleCommentQRO;
 //import com.minlia.modules.rbac.context.SecurityContextHolder;
 //import com.minlia.modules.security.model.UserContext;
 //import org.apache.commons.lang3.StringUtils;
@@ -22,13 +22,13 @@
 //
 //    @Before(value = "commentDataDimension()")
 //    public void beforeMethod(JoinPoint joinPoint) {
-//        if (joinPoint.getArgs().length > 0 && joinPoint.getArgs()[0] instanceof ArticleCommentQO) {
-//            ArticleCommentQO qo = (ArticleCommentQO) joinPoint.getArgs()[0];
+//        if (joinPoint.getArgs().length > 0 && joinPoint.getArgs()[0] instanceof ArticleCommentQRO) {
+//            ArticleCommentQRO ro = (ArticleCommentQRO) joinPoint.getArgs()[0];
 //            UserContext userContext = SecurityContextHolder.getUserContext();
 //            if (null != userContext && StringUtils.isNotEmpty(userContext.getCurrrole())) {
 //                if (!userContext.getCurrrole().equals("Admin")) {
 //                    //查询自己
-//                    qo.setCreateBy(userContext.getGuid());
+//                    ro.setCreateBy(userContext.getGuid());
 //                }
 //            }
 //        }
