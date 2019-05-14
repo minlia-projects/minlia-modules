@@ -54,6 +54,8 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Autowired
     private LoginService loginService;
     @Autowired
+    private CaptchaService captchaService;
+    @Autowired
     private BCryptPasswordEncoder encoder;
 
     @Override
@@ -84,21 +86,25 @@ public class RbacAuthenticationService implements AuthenticationService {
         if (null == user) {
             throw new UsernameNotFoundException("User not exists:");
         }
-
-        if (StringUtils.isNotBlank(password)) {
-            if (!encoder.matches(password, user.getPassword()))
+        if (StringUtils.isNotBlank(password) && !encoder.matches(password, user.getPassword())) {
             //密码错误 锁定次数+1
-            user.setLockLimit(user.getLockLimit()+ NumberUtils.INTEGER_ONE);
+            user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);
             //如果超过3次 直接锁定
             if (user.getLockLimit() > 2) {
                 user.setLocked(true);
                 //1、按错误次数累加时间   2、错误3次锁定一天
-                user.setLockTime(DateUtils.addMinutes(new Date(), (int) Math.pow(user.getLockLimit()-3,3)));
+                user.setLockTime(DateUtils.addMinutes(new Date(), (int) Math.pow(user.getLockLimit() - 3, 3)));
             }
             userService.update(user);
-            throw new AjaxBadCredentialsException("Password error",user.getLockLimit());
+            throw new AjaxBadCredentialsException("Password error", user.getLockLimit());
         }
-
+        if (StringUtils.isNotBlank(captcha)) {
+            if (LoginMethodEnum.CELLPHONE.equals(loginCredentials.getMethod())) {
+                captchaService.validityByCellphone(user.getCellphone(), captcha);
+            } else {
+                captchaService.validityByCellphone(user.getEmail(), captcha);
+            }
+        }
 
         if (null != user.getExpireDate() && user.getExpireDate().before(new Date())) {
             throw new AccountExpiredException("账号已过期");
@@ -128,24 +134,5 @@ public class RbacAuthenticationService implements AuthenticationService {
             return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         }
     }
-
-//    @Autowired
-//    private CaptchaService captchaService;
-//
-//    private boolean matchesPasswordOrCaptcha(User user, LoginMethodEnum method, String password, String captcha) {
-//        if (StringUtils.isNotBlank(password)) {
-//            return encoder.matches(password, user.getPassword());
-//        } else {
-//            switch (method) {
-//                case CELLPHONE:
-//                    captchaService.validityByCellphone(user.getCellphone(), captcha);
-//                    break;
-//                case EMAIL:
-//                    captchaService.validityByCellphone(user.getEmail(), captcha);
-//                    break;
-//            }
-//        }
-//        return true;
-//    }
 
 }

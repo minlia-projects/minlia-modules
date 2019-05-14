@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
@@ -68,6 +70,9 @@ public class CaptchaServiceImpl implements CaptchaService {
 //        ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
 
         String code = RandomStringUtils.randomNumeric(4);
+        if(!Environments.isDevelopment()){
+            code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        }
         Date currentDate = new Date();
         Date effectiveDate = DateUtils.addMinutes(currentDate,5);
 
@@ -102,6 +107,9 @@ public class CaptchaServiceImpl implements CaptchaService {
 //        ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
 
         String code = RandomStringUtils.randomNumeric(4);
+        if(!Environments.isDevelopment()){
+            code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        }
         Date currentDate = new Date();
         Date effectiveDate = DateUtils.addMinutes(currentDate,5);
 
