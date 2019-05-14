@@ -88,11 +88,6 @@ public class SecurityCode {
         JWT_TOKEN_NOT_NULL,
 
         /**
-         * 访问令牌有误 Invalid authorization header size.
-         */
-        JWT_BAD_TOKEN,
-
-        /**
          * 坏的凭证：密码错误，已连续错误{0}次
          */
         AJAX_BAD_CREDENTIALS,
@@ -105,17 +100,7 @@ public class SecurityCode {
         /**
          * 认证服务异常
          */
-        AUTH_SERVICE,
-
-        /**
-         * 登陆方式不能为空
-         */
-        LOGIN_METHOD_NOT_NULL,
-
-        /**
-         * 非法账号格式
-         */
-        DAD_ACCOUNT_PATTERN;
+        AUTH_SERVICE;
 
         @Override
         public String code() {

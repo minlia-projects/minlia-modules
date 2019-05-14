@@ -1,4 +1,4 @@
-package com.minlia.module.ad.ro;
+package com.minlia.module.ad.bean.ro;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.ad.enumeration.PlatformEnum;
@@ -10,17 +10,19 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@ApiModel(value = "Ad-cto")
+@ApiModel(value = "AdsURO")
 @Data
-public class AdsCRO implements ApiRequestBody {
+public class AdsURO implements ApiRequestBody {
+
+    @ApiModelProperty(value = "ID", example = "1")
+    @NotNull(message = "ID不能为空")
+    private Long id;
 
     @ApiModelProperty(value = "名称", example = "首页")
-    @NotBlank(message = "名称不能为空")
     @Size(max = 50)
     private String name;
 
     @ApiModelProperty(value = "平台", example = "LANDLORD")
-    @NotNull(message = "平台不能为空")
     private PlatformEnum platform;
 
     @ApiModelProperty(value = "投放位置", example = "0")
@@ -35,7 +37,6 @@ public class AdsCRO implements ApiRequestBody {
     private String notes;
 
     @ApiModelProperty(value = "是否启用", example = "true")
-    @NotNull(message = "是否启用不能为空")
     private Boolean enabled;
 
 }

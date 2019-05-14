@@ -35,12 +35,7 @@ public class PooulCode {
         /**
          * Pooul关闭订单失败{0}
          */
-        ORDER_CLOSE_FAILURE,
-
-        /**
-         * 商户不存在
-         */
-        MERCHANT_NOT_EXISTS;
+        ORDER_CLOSE_FAILURE;
 
         @Override
         public String code() {

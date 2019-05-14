@@ -11,7 +11,8 @@ import com.minlia.modules.rbac.bean.to.NavigationCTO;
 import com.minlia.modules.rbac.bean.to.NavigationGrantTO;
 import com.minlia.modules.rbac.bean.to.NavigationUTO;
 import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.NavigationCode;
+import com.minlia.modules.rbac.constant.RoleCode;
 import com.minlia.modules.rbac.enumeration.NavigationType;
 import com.minlia.modules.rbac.mapper.NavigationMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -48,14 +49,14 @@ public class NavigationServiceImpl implements NavigationService {
             navigationMapper.create(navigation);
             return Response.success(SystemCode.Message.SUCCESS,navigation);
         } else {
-            return Response.failure(RebaccaCode.Message.NAVIGATION_ALREADY_EXISTS);
+            return Response.failure(NavigationCode.Message.ALREADY_EXISTS);
         }
     }
 
     @Override
     public Navigation update(NavigationUTO uro) {
         Navigation navigation = navigationMapper.queryById(uro.getId());
-        ApiAssert.notNull(navigation, RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
+        ApiAssert.notNull(navigation, NavigationCode.Message.NOT_EXISTS);
 
         updateTypeByChildren(uro.getParentId());
 
@@ -71,7 +72,7 @@ public class NavigationServiceImpl implements NavigationService {
     private void updateTypeByChildren(Long parentId) {
         if (null != parentId) {
             Navigation parent = navigationMapper.queryById(parentId);
-            ApiAssert.notNull(parent, RebaccaCode.Message.NAVIGATION_PARENT_NOT_EXISTS);
+            ApiAssert.notNull(parent, NavigationCode.Message.PARENT_NOT_EXISTS);
 
             //当创建子项时设置父类为FOLDER
             if (NavigationType.LEAF.equals(parent.getType())) {
@@ -83,10 +84,10 @@ public class NavigationServiceImpl implements NavigationService {
     @Override
     public void delete(Long id) {
         Navigation navigation = navigationMapper.queryById(id);
-        ApiAssert.notNull(navigation, RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
+        ApiAssert.notNull(navigation, NavigationCode.Message.NOT_EXISTS);
 
         //当有子节点时报出异常
-        ApiAssert.state(NavigationType.LEAF.equals(navigation.getType()), RebaccaCode.Message.NAVIGATION_CAN_NOT_DELETE_HAS_CHILDREN);
+        ApiAssert.state(NavigationType.LEAF.equals(navigation.getType()), NavigationCode.Message.CAN_NOT_DELETE_HAS_CHILDREN);
 
         //检查父节点是否还有子节点, 如果无子节点时更新父节点为LEAF类型
         if (null != navigation.getParentId()) {
@@ -102,12 +103,12 @@ public class NavigationServiceImpl implements NavigationService {
     @Override
     public void grant(NavigationGrantTO grantTO) {
         boolean existsRole = roleService.exists(grantTO.getRoleId());
-        ApiAssert.state(existsRole,RebaccaCode.Message.ROLE_NOT_EXISTED);
+        ApiAssert.state(existsRole, RoleCode.Message.NOT_EXISTS);
 
         if (CollectionUtils.isNotEmpty(grantTO.getIds())) {
             for (Long id: grantTO.getIds()) {
                 boolean exists = navigationMapper.count(NavigationQO.builder().id(id).display(true).build()) > 0;
-                ApiAssert.state(exists,RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
+                ApiAssert.state(exists, NavigationCode.Message.NOT_EXISTS);
             }
             navigationMapper.grant(grantTO.getRoleId(),grantTO.getIds());
         } else {
@@ -118,7 +119,7 @@ public class NavigationServiceImpl implements NavigationService {
     @Override
     public Boolean display(Long id) {
         Navigation navigation = navigationMapper.queryById(id);
-        ApiAssert.notNull(navigation, RebaccaCode.Message.NAVIGATION_NOT_EXISTS);
+        ApiAssert.notNull(navigation, NavigationCode.Message.NOT_EXISTS);
         navigationMapper.display(id,!navigation.getDisplay());
         return !navigation.getDisplay();
     }

@@ -20,7 +20,7 @@ public class JwtHeaderTokenExtractor implements TokenExtractor {
 
 //        ApiAssert.state(!(header.length() < HEADER_PREFIX.length()), SecurityCode.Exception.JWT_BAD_TOKEN);
         if (header.length() < HEADER_PREFIX.length()) {
-            throw new JwtAcceptableException(SecurityCode.Exception.JWT_BAD_TOKEN.message());
+            throw new JwtAcceptableException(SecurityCode.Exception.JWT_TOKEN_INVALID.message());
         }
         return header.substring(HEADER_PREFIX.length(), header.length());
     }

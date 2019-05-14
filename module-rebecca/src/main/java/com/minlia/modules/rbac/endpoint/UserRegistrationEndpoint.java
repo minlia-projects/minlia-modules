@@ -2,7 +2,7 @@ package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.service.UserQueryService;
 import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.domain.User;
@@ -51,7 +51,7 @@ public class UserRegistrationEndpoint {
             return Response.success();
         }
         else {
-            return Response.failure(RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
+            return Response.failure(UserCode.Message.REFERRAL_NOT_EXISTS);
         }
     }
 

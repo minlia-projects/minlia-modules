@@ -7,7 +7,7 @@ import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.to.PasswordByCaptchaChangeTO;
 import com.minlia.modules.rbac.bean.to.PasswordByRawPasswordChangeTO;
 import com.minlia.modules.rbac.bean.to.PasswordResetTO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.rbac.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +35,12 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         switch (to.getMethod()) {
             case CELLPHONE:
                 user = userMapper.queryOne(UserQO.builder().cellphone(to.getCellphone()).build());
-                ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
+                ApiAssert.notNull(user, UserCode.Message.NOT_EXISTS);
                 captchaService.validityByCellphone(to.getCellphone(), to.getCode());
                 break;
             case EMAIL:
                 user = userMapper.queryOne(UserQO.builder().email(to.getEmail()).build());
-                ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
+                ApiAssert.notNull(user, UserCode.Message.NOT_EXISTS);
                 captchaService.validityByEmail(to.getEmail(), to.getCode());
                 break;
         }
@@ -62,7 +62,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         User user= SecurityContextHolder.getCurrentUser();
 
         Boolean bool = bCryptPasswordEncoder.matches(to.getRawPassword(),user.getPassword());
-        ApiAssert.state(bool, RebaccaCode.Message.USER_RAW_PASSWORD_ERROR);
+        ApiAssert.state(bool, UserCode.Message.RAW_PASSWORD_ERROR);
         return change(user,to.getNewPassword());
     }
 

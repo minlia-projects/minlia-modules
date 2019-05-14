@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 微信创建预订单服务
@@ -123,7 +122,8 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
                     .body(request.getBody())
                     .build();
             unifiedOrderService.create(unifiedOrder);
-            return Response.success(Optional.ofNullable(result));
+//            return Response.success(Optional.ofNullable(result));
+            return Response.success(result);
         } catch (WxPayException e) {
             e.printStackTrace();
             return Response.failure(e.getResultCode(), StringUtils.isEmpty(e.getReturnMsg()) ? e.getCustomErrorMsg() : e.getReturnMsg());

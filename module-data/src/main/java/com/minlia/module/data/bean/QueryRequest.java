@@ -38,13 +38,21 @@ public class QueryRequest implements Body {
     @JsonProperty("sorts")
     private String sortsStr;
 
+    @JsonIgnore
     private Set<Sort> sorts;
 
-    private Set<Sort> getSorts(){
+    public Set<Sort> getSorts(){
         if (null == sorts) {
             sorts = splitSortsStr(sortsStr);
         }
         return sorts;
+    }
+
+    public void addSort(String filed, Sort.Direction direction){
+        if (null == sorts) {
+            sorts = Sets.newHashSet();
+        }
+        sorts.add(new Sort(filed, direction));
     }
 
     private static Set<Sort> splitSortsStr(String sortsStr) {

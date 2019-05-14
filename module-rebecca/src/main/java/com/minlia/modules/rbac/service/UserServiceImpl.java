@@ -8,7 +8,8 @@ import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.to.UserCTO;
 import com.minlia.modules.rbac.bean.to.UserUTO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.RoleCode;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.event.RegistrationEvent;
 import com.minlia.modules.rbac.event.UserDeleteEvent;
 import com.minlia.modules.rbac.mapper.UserMapper;
@@ -45,33 +46,39 @@ public class UserServiceImpl implements UserService {
         //校验凭证是否有效
         switch (cro.getMethod()) {
             case USERNAME:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
                 user.setUsername(cro.getUsername());
                 break;
             case CELLPHONE:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cro.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cro.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
                 user.setCellphone(cro.getCellphone());
                 break;
             case EMAIL:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
                 user.setEmail(cro.getEmail());
                 break;
         }
 
         //校验推荐人是否存在
         if (StringUtils.isNotEmpty(cro.getReferral())) {
-            ApiAssert.state(userQueryService.exists(UserQO.builder().username(cro.getReferral()).build()), RebaccaCode.Message.USER_REFERRAL_NOT_EXISTED);
+            ApiAssert.state(userQueryService.exists(UserQO.builder().username(cro.getReferral()).build()), UserCode.Message.REFERRAL_NOT_EXISTS);
             user.setReferral(cro.getReferral());
         }
 
         //校验角色是否存在
-        for (Long roleId : cro.getRoles()) {
-            ApiAssert.state(roleService.exists(roleId), RebaccaCode.Message.ROLE_NOT_EXISTED);
+        Set<Long> roles = cro.getRoles();
+        if (CollectionUtils.isEmpty(roles)) {
+            roles = Sets.newHashSet(cro.getDefaultRole());
+        } else {
+            roles.add(cro.getDefaultRole());
+        }
+        for (Long roleId : roles) {
+            ApiAssert.state(roleService.exists(roleId), RoleCode.Message.NOT_EXISTS);
         }
 
         //校验并查询默认角色
         Role role = roleService.queryById(cro.getDefaultRole());
-        ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
+        ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
 
         user.setGuid(SequenceUtils.nextval("guid").toString());
         user.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
@@ -80,10 +87,7 @@ public class UserServiceImpl implements UserService {
         userMapper.create(user);
 
         //给用户授予角色
-        cro.getRoles().add(cro.getDefaultRole());
-        if (CollectionUtils.isNotEmpty(cro.getRoles())) {
-            userMapper.grant(user.getId(), cro.getRoles());
-        }
+        userMapper.grant(user.getId(), roles);
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
         RegistrationEvent.onCompleted(user);
@@ -98,7 +102,7 @@ public class UserServiceImpl implements UserService {
         }
         if (null !=uro.getDefaultRole()) {
             Role role = roleService.queryById(uro.getDefaultRole());
-            ApiAssert.notNull(role, RebaccaCode.Message.USER_DOES_NOT_HAD_ROLE);
+            ApiAssert.notNull(role, UserCode.Message.DOES_NOT_HAD_ROLE);
 
             List<Long> roleIds = roleService.queryIdByUserId(user.getId());
             roleIds.add(role.getId());
@@ -159,11 +163,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void grant(String guid, Set<Long> roles) {
         User user = userMapper.queryOne(UserQO.builder().guid(guid).build());
-        ApiAssert.notNull(user,RebaccaCode.Message.USER_NOT_EXISTED);
+        ApiAssert.notNull(user,UserCode.Message.NOT_EXISTS);
 
         for (Long roleId : roles) {
             Role role = roleService.queryById(roleId);
-            ApiAssert.notNull(role,RebaccaCode.Message.ROLE_NOT_EXISTED);
+            ApiAssert.notNull(role,RoleCode.Message.NOT_EXISTS);
         }
         userMapper.grant(user.getId(),roles);
     }

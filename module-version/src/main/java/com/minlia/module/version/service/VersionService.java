@@ -1,30 +1,30 @@
 package com.minlia.module.version.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.version.bean.domain.Version;
-import com.minlia.module.version.bean.qo.VersionQO;
-import com.minlia.module.version.bean.to.VersionCTO;
-import com.minlia.module.version.bean.to.VersionUTO;
+import com.minlia.module.version.bean.entity.Version;
+import com.minlia.module.version.bean.ro.VersionQRO;
+import com.minlia.module.version.bean.ro.VersionCRO;
+import com.minlia.module.version.bean.ro.VersionURO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface VersionService {
 
-    Version create(VersionCTO cto);
+    Version create(VersionCRO cto);
 
-    Version update(VersionUTO uto);
+    Version update(VersionURO uto);
 
     void delete(Long id);
 
     Version queryById(Long id);
 
-    long count(VersionQO qo);
+    long count(VersionQRO qo);
 
-    Version one(VersionQO qo);
+    Version one(VersionQRO qo);
 
-    List<Version> list(VersionQO qo);
+    List<Version> list(VersionQRO qo);
 
-    PageInfo<Version> page(VersionQO qo, Pageable pageable);
+    PageInfo<Version> page(VersionQRO qo, Pageable pageable);
 
 }

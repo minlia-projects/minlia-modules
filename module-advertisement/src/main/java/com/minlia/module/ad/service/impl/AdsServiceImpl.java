@@ -4,11 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.ad.entity.Advertisements;
-import com.minlia.module.ad.ro.AdQRO;
-import com.minlia.module.ad.ro.AdsQRO;
-import com.minlia.module.ad.ro.AdsCRO;
-import com.minlia.module.ad.ro.AdsURO;
+import com.minlia.module.ad.bean.entity.Advertisements;
+import com.minlia.module.ad.bean.ro.AdQRO;
+import com.minlia.module.ad.bean.ro.AdsQRO;
+import com.minlia.module.ad.bean.ro.AdsCRO;
+import com.minlia.module.ad.bean.ro.AdsURO;
 import com.minlia.module.ad.mapper.AdsMapper;
 import com.minlia.module.ad.service.AdService;
 import com.minlia.module.ad.service.AdsService;
@@ -35,17 +35,17 @@ public class AdsServiceImpl implements AdsService {
     private AdsMapper adsMapper;
 
     @Override
-    public Advertisements create(AdsCRO cto) {
-        Advertisements advertisements = mapper.map(cto,Advertisements.class);
+    public Advertisements create(AdsCRO cro) {
+        Advertisements advertisements = mapper.map(cro,Advertisements.class);
         adsMapper.create(advertisements);
         return advertisements;
     }
 
     @Override
-    public Advertisements update(AdsURO uto) {
-        Advertisements advertisements = adsMapper.queryById(uto.getId());
+    public Advertisements update(AdsURO uro) {
+        Advertisements advertisements = adsMapper.queryById(uro.getId());
         ApiAssert.notNull(advertisements, SystemCode.Message.DATA_NOT_EXISTS);
-        mapper.map(uto, advertisements);
+        mapper.map(uro, advertisements);
         adsMapper.update(advertisements);
         return advertisements;
     }
@@ -71,23 +71,23 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public long count(AdsQRO qo) {
-        return adsMapper.count(qo);
+    public long count(AdsQRO qro) {
+        return adsMapper.count(qro);
     }
 
     @Override
-    public Advertisements one(AdsQRO qo) {
-        return adsMapper.one(qo);
+    public Advertisements one(AdsQRO qro) {
+        return adsMapper.one(qro);
     }
 
     @Override
-    public List<Advertisements> list(AdsQRO qo) {
-        return adsMapper.list(qo);
+    public List<Advertisements> list(AdsQRO qro) {
+        return adsMapper.list(qro);
     }
 
     @Override
-    public PageInfo<Advertisements> page(AdsQRO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> adsMapper.list(qo));
+    public PageInfo<Advertisements> page(AdsQRO qro, Pageable pageable) {
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> adsMapper.list(qro));
     }
 
 }

@@ -4,37 +4,60 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
-            id ,
-            name ,
-            platform ,
-            position ,
-            aspect_ratio ,
-            notes ,
-            enabled ,
-            create_by ,
-            create_date ,
-            last_modified_by ,
-            last_modified_date
+            mast.id,
+            mast.`name`,
+            mast.platform,
+            mast.position,
+            mast.aspect_ratio,
+            mast.notes,
+            mast.enabled,
+            mast.create_by,
+            mast.create_date,
+            mast.last_modified_by,
+            mast.last_modified_date
         FROM
-            mdl_advertisements
+            mdl_advertisements mast
 	</sql>
 
     <sql id="QUERY_CONDITION">
         <where>
             <if test="id != null">
-                AND id = #{id}
+                AND mast.id = #{id}
             </if>
             <if test="name != null">
-                AND name = #{name}
+                AND mast.name = #{name}
             </if>
             <if test="platform != null">
-                AND platform = #{platform}
+                AND mast.platform = #{platform}
             </if>
             <if test="position != null">
-                AND position = #{position}
+                AND mast.position = #{position}
             </if>
             <if test="enabled != null">
-                AND enabled = #{enabled}
+                AND mast.enabled = #{enabled}
+            </if>
+            <if test="attribute1 != null or attribute2 != null or attribute3 != null or attribute4 != null or attribute5 != null">
+                AND EXISTS (
+                    SELECT 1
+                    FROM mdl_advertisement mat
+                    WHERE
+                        mat.parent_id = mast.id
+                    AND (
+                        mat.attribute1 = #{attribute1}
+                        <if test="attribute2 != null">
+                            ${attribute2Logic} mat.attribute2 = #{attribute2}
+                        </if>
+                        <if test="attribute3 != null">
+                            ${attribute3Logic} mat.attribute3 = #{attribute3}
+                        </if>
+                        <if test="attribute4 != null">
+                            ${attribute4Logic} mat.attribute4 = #{attribute4}
+                        </if>
+                        <if test="attribute5 != null">
+                            ${attribute5Logic} mat.attribute5 = #{attribute5}
+                        </if>
+                    )
+                )
             </if>
         </where>
     </sql>
@@ -43,12 +66,12 @@
         <if test="sorts != null">
             ORDER BY
             <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
+                mast.${item.filed} ${item.direction}
             </foreach>
         </if>
     </sql>
 
-    <insert id="create" parameterType="com.minlia.module.ad.entity.Advertisements">
+    <insert id="create" parameterType="com.minlia.module.ad.bean.entity.Advertisements">
         INSERT INTO mdl_advertisements(
             name ,
             platform ,
@@ -68,7 +91,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.ad.entity.Advertisements">
+    <update id="update" parameterType="com.minlia.module.ad.bean.entity.Advertisements">
         UPDATE mdl_advertisements
         <set>
             <if test="name != null">
@@ -98,22 +121,22 @@
         DELETE FROM mdl_advertisements WHERE id = #{id}
     </delete>
 
-    <select id="queryById" resultType="com.minlia.module.ad.entity.Advertisements">
+    <select id="queryById" resultType="com.minlia.module.ad.bean.entity.Advertisements">
         <include refid="QUERY_CONTENT"/>
-        WHERE id = #{id}
+        WHERE mast.id = #{id}
     </select>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM mdl_advertisements
+        SELECT COUNT(1) FROM mdl_advertisements mast
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.ad.entity.Advertisements">
+    <select id="one" resultType="com.minlia.module.ad.bean.entity.Advertisements">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.ad.entity.Advertisements">
+    <select id="list" resultType="com.minlia.module.ad.bean.entity.Advertisements">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

@@ -1,7 +1,7 @@
 package com.minlia.module.ad.mapper;
 
-import com.minlia.module.ad.entity.Advertisement;
-import com.minlia.module.ad.ro.AdQRO;
+import com.minlia.module.ad.bean.entity.Advertisement;
+import com.minlia.module.ad.bean.ro.AdQRO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,10 +22,10 @@ public interface AdMapper {
 
     Advertisement queryById(Long id);
 
-    long count(AdQRO qo);
+    long count(AdQRO qro);
 
-    Advertisement one(AdQRO qo);
+    Advertisement one(AdQRO qro);
 
-    List<Advertisement> list(AdQRO qo);
+    List<Advertisement> list(AdQRO qro);
 
 }

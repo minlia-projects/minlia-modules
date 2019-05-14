@@ -42,7 +42,7 @@ public class WalletEndpoint {
 	@PostMapping(value = "history/page", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response historyPage(@RequestBody QueryRequest qro) {
         Wallet wallet = walletService.queryByGuid(SecurityContextHolder.getCurrentGuid());
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageSize(),qro.getPageNumber()).doSelectPageInfo(() -> walletHistoryService.queryByWalletId(wallet.getId()));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> walletHistoryService.queryByWalletId(wallet.getId()));
         return Response.success(pageInfo);
 	}
 

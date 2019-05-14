@@ -4,14 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.ad.ro.AdQRO;
-import com.minlia.module.ad.ro.AdURO;
-import com.minlia.module.ad.entity.Advertisement;
-import com.minlia.module.ad.ro.AdsQRO;
-import com.minlia.module.ad.ro.AdCRO;
+import com.minlia.module.ad.bean.entity.Advertisement;
+import com.minlia.module.ad.bean.ro.AdCRO;
+import com.minlia.module.ad.bean.ro.AdQRO;
+import com.minlia.module.ad.bean.ro.AdURO;
+import com.minlia.module.ad.bean.ro.AdsQRO;
 import com.minlia.module.ad.mapper.AdMapper;
 import com.minlia.module.ad.service.AdService;
 import com.minlia.module.ad.service.AdsService;
+import com.minlia.modules.attachment.ro.AttachmentQRO;
 import com.minlia.modules.attachment.service.AttachmentService;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
@@ -40,31 +41,31 @@ public class AdServiceImpl implements AdService {
     private AdsService adsService;
 
     @Override
-    public Advertisement create(AdCRO cto) {
-        long count = adsService.count(AdsQRO.builder().id(cto.getParentId()).build());
+    public Advertisement create(AdCRO cro) {
+        long count = adsService.count(AdsQRO.builder().id(cro.getParentId()).build());
         ApiAssert.state(count == 1, SystemCode.Message.DATA_NOT_EXISTS);
 
-        Advertisement advertisement = mapper.map(cto,Advertisement.class);
+        Advertisement advertisement = mapper.map(cro,Advertisement.class);
         adMapper.create(advertisement);
 
         //绑定附件
-        if (null != cto.getCoverETag()) {
-            attachmentService.bindByAccessKey(cto.getCoverETag(), advertisement.getId().toString(), "AD_COVER");
+        if (null != cro.getCoverETag()) {
+            attachmentService.bindByAccessKey(cro.getCoverETag(), advertisement.getId().toString(), "AD_COVER");
         }
         return advertisement;
     }
 
     @Override
-    public Advertisement update(AdURO uto) {
-        Advertisement advertisement = adMapper.queryById(uto.getId());
+    public Advertisement update(AdURO uro) {
+        Advertisement advertisement = adMapper.queryById(uro.getId());
         ApiAssert.notNull(advertisement, SystemCode.Message.DATA_NOT_EXISTS);
 
         //绑定附件
-        if (StringUtils.isNotBlank(uto.getCoverETag())) {
-            attachmentService.bindByAccessKey(uto.getCoverETag(), advertisement.getId().toString(), "AD_COVER");
+        if (StringUtils.isNotBlank(uro.getCoverETag())) {
+            attachmentService.bindByAccessKey(uro.getCoverETag(), advertisement.getId().toString(), "AD_COVER");
         }
 
-        mapper.map(uto, advertisement);
+        mapper.map(uro, advertisement);
         adMapper.update(advertisement);
         return advertisement;
     }
@@ -76,29 +77,46 @@ public class AdServiceImpl implements AdService {
         adMapper.delete(id);
     }
 
+
+    @Override
+    public long count(AdQRO qro) {
+        return adMapper.count(qro);
+    }
+
     @Override
     public Advertisement queryById(Long id) {
-        return adMapper.queryById(id);
+        return adMapper.one(AdQRO.builder().parentId(id).build());
     }
 
     @Override
-    public long count(AdQRO qo) {
-        return adMapper.count(qo);
+    public Advertisement one(AdQRO qro) {
+        Advertisement advertisement = adMapper.one(qro);
+        bindDetailsParameter(advertisement);
+        return advertisement;
     }
 
     @Override
-    public Advertisement one(AdQRO qo) {
-        return adMapper.one(qo);
+    public List<Advertisement> list(AdQRO qro) {
+        List<Advertisement> list = adMapper.list(qro);
+        for (Advertisement advertisement : list) {
+            bindDetailsParameter(advertisement);
+        }
+        return list;
     }
 
     @Override
-    public List<Advertisement> list(AdQRO qo) {
-        return adMapper.list(qo);
+    public PageInfo<Advertisement> page(AdQRO qro, Pageable pageable) {
+        PageInfo<Advertisement> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> adMapper.list(qro));
+        for (Advertisement advertisement : pageInfo.getList()) {
+            bindDetailsParameter(advertisement);
+        }
+        return pageInfo;
     }
 
-    @Override
-    public PageInfo<Advertisement> page(AdQRO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> adMapper.list(qo));
+    private void bindDetailsParameter(Advertisement advertisement) {
+        if (null != advertisement) {
+            advertisement.setCover(attachmentService.queryOne(AttachmentQRO.builder().belongsTo("AD_COVER").relationId(advertisement.getId().toString()).build()));
+        }
     }
 
 }

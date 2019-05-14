@@ -24,7 +24,7 @@ public class Sort {
         return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this.filed);
     }
 
-    public static enum Direction {
+    public enum Direction {
         ASC,
         DESC
     }

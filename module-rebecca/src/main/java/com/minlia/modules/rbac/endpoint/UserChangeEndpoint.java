@@ -8,7 +8,7 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.constant.CommonCode;
 import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.bean.qo.UserQO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.rbac.service.UserQueryService;
 import com.minlia.modules.rbac.service.UserService;
@@ -45,7 +45,7 @@ public class UserChangeEndpoint {
         ApiAssert.state(Pattern.matches("^1[0-9]{10}$", cellphone), CommonCode.Message.CELLPHONE_FORMAT_ERROR);
 
         //检查手机号码是否存在
-        ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cellphone).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
+        ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cellphone).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
 
         //校验验证码
         captchaService.validityByCellphone(cellphone, captcha);
@@ -64,7 +64,7 @@ public class UserChangeEndpoint {
         ApiAssert.state(Pattern.matches("^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$", email), CommonCode.Message.EMAIL_FORMAT_ERROR);
 
         //检查邮箱是否存在
-        ApiAssert.state(!userQueryService.exists(UserQO.builder().email(email).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
+        ApiAssert.state(!userQueryService.exists(UserQO.builder().email(email).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
 
         //校验验证码
         captchaService.validityByEmail(email, captcha);

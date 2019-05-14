@@ -48,7 +48,6 @@ import java.util.List;
 
 @Slf4j
 @Service
-@Transactional
 public class WechatLoginServiceImpl implements WechatLoginService {
 
     @Autowired
@@ -75,7 +74,6 @@ public class WechatLoginServiceImpl implements WechatLoginService {
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(ro.getCode());
         ApiAssert.hasLength(wxMpOAuth2AccessToken.getUnionId(), WechatMpCode.Message.UNION_ID_NOT_NULL);
         ApiAssert.hasLength(wxMpOAuth2AccessToken.getOpenId(), WechatMpCode.Message.OPEN_ID_NOT_NULL);
-//        WxMpUser wxMpUser = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
         return this.login(WechatOpenidType.PUBLIC, wxMpOAuth2AccessToken.getUnionId(), wxMpOAuth2AccessToken.getOpenId(), ro.getType(), ro.getCode());
     }
 
@@ -88,6 +86,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
         try {
             wxMaUserInfo = wechatMaService.decrypt(wxMaService, sessionResult.getSessionKey(), ro.getEncryptedData(), ro.getIv());
         } catch (Exception e) {
+            log.error("小程序用户信息解密失败-------------------------------------------------");
             wxMaUserInfo = new WxMaUserInfo();
             wxMaUserInfo.setUnionId(sessionResult.getUnionid());
             wxMaUserInfo.setOpenId(sessionResult.getOpenid());
@@ -98,9 +97,12 @@ public class WechatLoginServiceImpl implements WechatLoginService {
     }
 
     private Response login(WechatOpenidType wechatOpenidType, String unionId, String openId, String openidSubitem, String wxCode){
-        WechatUser wechatUser = wechatUserService.queryOne(WechatUserQO.builder().type(wechatOpenidType).openId(openId).build());
+        log.error("小程序login-------------------------------------------------");
 
+        WechatUser wechatUser = wechatUserService.queryOne(WechatUserQO.builder().type(wechatOpenidType).openId(openId).build());
         if (null == wechatUser) {
+            log.error("小程序login wechatUser is null-------------------------------------------------");
+
             //创建openId信息
             wechatUser = new WechatUser();
             wechatUser.setUnionId(unionId);
@@ -132,15 +134,19 @@ public class WechatLoginServiceImpl implements WechatLoginService {
                         return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
                     }
                 } else {
+                    log.error("小程序login unionId is null-------------------------------------------------");
                     wechatUserService.create(wechatUser);
                     return Response.success(RebaccaCode.Message.UNREGISTERED);
                 }
             }
         } else {
+            log.error("小程序login update-------------------------------------------------");
             wechatUser.setWxCode(wxCode);
             wechatUserService.update(wechatUser);
+            log.error("小程序login update end-------------------------------------------------");
 
             if (null != wechatUser.getGuid()) {
+                log.error("小程序login guid-------------------------------------------------");
                 User user = userQueryService.queryOne(UserQO.builder().guid(wechatUser.getGuid()).build());
                 return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             } else {
@@ -150,6 +156,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
     }
 
     @Override
+    @Transactional
     public Response bindByWxma(WechatBindRO ro) {
         //绑定前会先调登陆保存
         //查询CODE是否存在

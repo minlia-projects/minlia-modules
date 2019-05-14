@@ -1,7 +1,7 @@
 package com.minlia.module.version.mapper;
 
-import com.minlia.module.version.bean.domain.Version;
-import com.minlia.module.version.bean.qo.VersionQO;
+import com.minlia.module.version.bean.entity.Version;
+import com.minlia.module.version.bean.ro.VersionQRO;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ public interface VersionMapper {
 
     long delete(Long id);
 
+    long count(VersionQRO qo);
+
     Version queryById(Long id);
 
-    long count(VersionQO qo);
+    Version one(VersionQRO qo);
 
-    Version one(VersionQO qo);
-
-    List<Version> list(VersionQO qo);
+    List<Version> list(VersionQRO qo);
 
 }

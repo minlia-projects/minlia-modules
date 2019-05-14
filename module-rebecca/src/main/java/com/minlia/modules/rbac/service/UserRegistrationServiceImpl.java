@@ -9,7 +9,7 @@ import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.to.UserAvailablitityTO;
 import com.minlia.modules.rbac.bean.to.UserCTO;
 import com.minlia.modules.rbac.bean.to.UserRegistrationTO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.security.constant.SecurityConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public User registration(UserRegistrationTO to) {
         switch (to.getType()) {
             case USERNAME:
-                ApiAssert.state(false, RebaccaCode.Message.USER_UNSUPPORTED_USERNAME_REGISTERED);
+                ApiAssert.state(false, UserCode.Message.UNSUPPORTED_USERNAME_REGISTERED);
                 break;
             case CELLPHONE:
                 captchaService.validityByCellphone(to.getCellphone(), to.getCode());
@@ -60,16 +60,16 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public Response availablitity(UserAvailablitityTO body) {
         switch (body.getMethod()) {
             case USERNAME:
-                ApiAssert.hasLength(body.getUsername(), RebaccaCode.Message.USERNAME_NOT_NULL);
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(body.getUsername()).build()), RebaccaCode.Message.USERNAME_ALREADY_EXISTED);
+                ApiAssert.hasLength(body.getUsername(), UserCode.Message.USERNAME_NOT_NULL);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(body.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
                 break;
             case CELLPHONE:
-                ApiAssert.hasLength(body.getCellphone(), RebaccaCode.Message.USERNAME_NOT_NULL);
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(body.getCellphone()).build()), RebaccaCode.Message.USER_CELLPHONE_ALREADY_EXISTED);
+                ApiAssert.hasLength(body.getCellphone(), UserCode.Message.USERNAME_NOT_NULL);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(body.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
                 break;
             case EMAIL:
-                ApiAssert.hasLength(body.getEmail(), RebaccaCode.Message.USERNAME_NOT_NULL);
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(body.getEmail()).build()), RebaccaCode.Message.USER_EMAIL_ALREADY_EXISTED);
+                ApiAssert.hasLength(body.getEmail(), UserCode.Message.USERNAME_NOT_NULL);
+                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(body.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
                 break;
         }
         return Response.success("Available");

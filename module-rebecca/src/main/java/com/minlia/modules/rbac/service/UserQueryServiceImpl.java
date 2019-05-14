@@ -3,9 +3,9 @@ package com.minlia.modules.rbac.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.modules.rbac.constant.RebaccaCode;
-import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.domain.User;
+import com.minlia.modules.rbac.bean.qo.UserQO;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +23,7 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public User queryByGuidAndNotNull(String guid) {
         User user = userMapper.queryOne(UserQO.builder().guid(guid).build());
-        ApiAssert.notNull(user, RebaccaCode.Message.USER_NOT_EXISTED);
+        ApiAssert.notNull(user, UserCode.Message.NOT_EXISTS);
         return user;
     }
 

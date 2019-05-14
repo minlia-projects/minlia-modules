@@ -12,6 +12,11 @@
             notes,
             forced_download,
             enabled,
+            attribute1,
+            attribute2,
+            attribute3,
+            attribute4,
+            attribute5,
             create_by,
             create_date,
             last_modified_by,
@@ -33,6 +38,21 @@
             </if>
             <if test="enabled != null">
                 AND enabled = #{enabled}
+            </if>
+            <if test="attribute1 != null">
+                AND attribute1 = #{attribute1}
+            </if>
+            <if test="attribute2 != null">
+                AND attribute2 = #{attribute2}
+            </if>
+            <if test="attribute3 != null">
+                AND attribute3 = #{attribute3}
+            </if>
+            <if test="attribute4 != null">
+                AND attribute4 = #{attribute4}
+            </if>
+            <if test="attribute5 != null">
+                AND attribute5 = #{attribute5}
             </if>
             <if test="newest">
                 AND id = (SELECT id FROM mdl_version WHERE TYPE = #{type} AND enabled = 1 ORDER BY number DESC LIMIT 1)
@@ -58,6 +78,11 @@
             notes,
             forced_download,
             enabled,
+            attribute1,
+            attribute2,
+            attribute3,
+            attribute4,
+            attribute5,
             create_by
         ) VALUES (
             #{number},
@@ -67,11 +92,16 @@
             #{notes} ,
             #{forcedDownload} ,
             #{enabled} ,
+            #{attribute1} ,
+            #{attribute2} ,
+            #{attribute3} ,
+            #{attribute4} ,
+            #{attribute5} ,
             #{createBy}
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.version.bean.domain.Version">
+    <update id="update" parameterType="com.minlia.module.version.bean.entity.Version">
         UPDATE mdl_version
         <set>
             <if test="number != null">
@@ -95,6 +125,21 @@
             <if test="enabled != null">
                 enabled = #{enabled} ,
             </if>
+            <if test="attribute1 != null">
+                attribute1 = #{attribute1} ,
+            </if>
+            <if test="attribute2 != null">
+                attribute2 = #{attribute2} ,
+            </if>
+            <if test="attribute3 != null">
+                attribute3 = #{attribute3} ,
+            </if>
+            <if test="attribute4 != null">
+                attribute4 = #{attribute4} ,
+            </if>
+            <if test="attribute5 != null">
+                attribute5 = #{attribute5} ,
+            </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
@@ -104,7 +149,7 @@
         DELETE FROM mdl_version WHERE id = #{id}
     </delete>
 
-    <select id="queryById" resultType="com.minlia.module.version.bean.domain.Version">
+    <select id="queryById" resultType="com.minlia.module.version.bean.entity.Version">
         <include refid="QUERY_CONTENT"/>
         WHERE id = #{id}
     </select>
@@ -114,12 +159,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.version.bean.domain.Version">
+    <select id="one" resultType="com.minlia.module.version.bean.entity.Version">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.version.bean.domain.Version">
+    <select id="list" resultType="com.minlia.module.version.bean.entity.Version">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

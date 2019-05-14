@@ -2,9 +2,9 @@ package com.minlia.module.ad.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.ad.ro.AdQRO;
-import com.minlia.module.ad.ro.AdCRO;
-import com.minlia.module.ad.ro.AdURO;
+import com.minlia.module.ad.bean.ro.AdQRO;
+import com.minlia.module.ad.bean.ro.AdCRO;
+import com.minlia.module.ad.bean.ro.AdURO;
 import com.minlia.module.ad.constant.AdConstants;
 import com.minlia.module.ad.service.AdService;
 import io.swagger.annotations.Api;
@@ -29,15 +29,15 @@ public class AdEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.CREATE + "')")
 	@ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response create(@Valid @RequestBody AdCRO cto) {
-		return Response.success(adService.create(cto));
+	public Response create(@Valid @RequestBody AdCRO cro) {
+		return Response.success(adService.create(cro));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.UPDATE + "')")
 	@ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response update(@Valid @RequestBody AdURO uto) {
-		return Response.success(adService.update(uto));
+	public Response update(@Valid @RequestBody AdURO uro) {
+		return Response.success(adService.update(uro));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.DELETE + "')")
@@ -58,29 +58,29 @@ public class AdEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.SEARCH + "')")
 	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response count(@RequestBody AdQRO qo) {
-		return Response.success(adService.count(qo));
+	public Response count(@RequestBody AdQRO qro) {
+		return Response.success(adService.count(qro));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.SEARCH + "')")
 	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response one(@RequestBody AdQRO qo) {
-		return Response.success(adService.one(qo));
+	public Response one(@RequestBody AdQRO qro) {
+		return Response.success(adService.one(qro));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response list(@RequestBody AdQRO qo) {
-		return Response.success(adService.list(qo));
+	public Response list(@RequestBody AdQRO qro) {
+		return Response.success(adService.list(qro));
 	}
 
 	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.SEARCH + "')")
 	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response page(@PageableDefault Pageable pageable, @RequestBody AdQRO qo) {
-		return Response.success(adService.page(qo, pageable));
+	public Response page(@PageableDefault Pageable pageable, @RequestBody AdQRO qro) {
+		return Response.success(adService.page(qro, pageable));
 	}
 
 }

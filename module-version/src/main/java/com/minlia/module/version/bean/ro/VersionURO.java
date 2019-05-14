@@ -1,4 +1,4 @@
-package com.minlia.module.version.bean.to;
+package com.minlia.module.version.bean.ro;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.version.enumeration.PlatformTypeEnum;
@@ -9,9 +9,9 @@ import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotNull;
 
-@ApiModel(value = "VersionUTO")
+@ApiModel(value = "VersionURO")
 @Data
-public class VersionUTO implements ApiRequestBody {
+public class VersionURO implements ApiRequestBody {
 
     @ApiModelProperty(value = "ID", example = "1")
     @NotNull(message = "ID不能为空")
@@ -38,5 +38,15 @@ public class VersionUTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "强制下载", example = "true")
     private Boolean forcedDownload;
+
+    private String attribute1;
+
+    private String attribute2;
+
+    private String attribute3;
+
+    private String attribute4;
+
+    private String attribute5;
 
 }

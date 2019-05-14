@@ -1,4 +1,4 @@
-package com.minlia.module.ad.ro;
+package com.minlia.module.ad.bean.ro;
 
 import com.minlia.module.ad.enumeration.AdTypeEnum;
 import com.minlia.module.data.bean.QueryRequest;
@@ -32,5 +32,15 @@ public class AdQRO extends QueryRequest {
      * 是否启用
      */
     private Boolean enabled;
+
+    private String attribute1;
+
+    private String attribute2;
+
+    private String attribute3;
+
+    private String attribute4;
+
+    private String attribute5;
 
 }

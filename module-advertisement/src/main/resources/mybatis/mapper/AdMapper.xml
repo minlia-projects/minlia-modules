@@ -12,6 +12,11 @@
             madt.path ,
             madt.notes ,
             madt.enabled ,
+            attribute1,
+            attribute2,
+            attribute3,
+            attribute4,
+            attribute5,
             madt.create_by ,
             madt.create_date ,
             madt.last_modified_by ,
@@ -35,6 +40,21 @@
             <if test="enabled != null">
                 AND madt.enabled = #{enabled}
             </if>
+            <if test="attribute1 != null">
+                AND attribute1 = #{attribute1}
+            </if>
+            <if test="attribute2 != null">
+                AND attribute2 = #{attribute2}
+            </if>
+            <if test="attribute3 != null">
+                AND attribute3 = #{attribute3}
+            </if>
+            <if test="attribute4 != null">
+                AND attribute4 = #{attribute4}
+            </if>
+            <if test="attribute5 != null">
+                AND attribute5 = #{attribute5}
+            </if>
         </where>
     </sql>
 
@@ -56,6 +76,11 @@
             path,
             notes,
             enabled,
+            attribute1,
+            attribute2,
+            attribute3,
+            attribute4,
+            attribute5,
             create_by
         ) VALUES (
             #{parentId},
@@ -65,11 +90,16 @@
             #{path} ,
             #{notes} ,
             #{enabled} ,
+            #{attribute1} ,
+            #{attribute2} ,
+            #{attribute3} ,
+            #{attribute4} ,
+            #{attribute5} ,
             #{createBy}
         )
     </insert>
 
-    <update id="update" parameterType="com.minlia.module.ad.entity.Advertisement">
+    <update id="update" parameterType="com.minlia.module.ad.bean.entity.Advertisement">
         UPDATE mdl_advertisement
         <set>
             <if test="name != null">
@@ -90,6 +120,21 @@
             <if test="enabled != null">
                 enabled = #{enabled} ,
             </if>
+            <if test="attribute1 != null">
+                attribute1 = #{attribute1} ,
+            </if>
+            <if test="attribute2 != null">
+                attribute2 = #{attribute2} ,
+            </if>
+            <if test="attribute3 != null">
+                attribute3 = #{attribute3} ,
+            </if>
+            <if test="attribute4 != null">
+                attribute4 = #{attribute4} ,
+            </if>
+            <if test="attribute5 != null">
+                attribute5 = #{attribute5} ,
+            </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
@@ -99,7 +144,7 @@
         DELETE FROM mdl_advertisement WHERE id = #{id}
     </delete>
 
-    <select id="queryById" resultType="com.minlia.module.ad.entity.Advertisement">
+    <select id="queryById" resultType="com.minlia.module.ad.bean.entity.Advertisement">
         <include refid="QUERY_CONTENT"/>
         WHERE madt.id = #{id}
     </select>
@@ -109,12 +154,12 @@
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="one" resultType="com.minlia.module.ad.entity.Advertisement">
+    <select id="one" resultType="com.minlia.module.ad.bean.entity.Advertisement">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
     </select>
 
-    <select id="list" resultType="com.minlia.module.ad.entity.Advertisement">
+    <select id="list" resultType="com.minlia.module.ad.bean.entity.Advertisement">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>

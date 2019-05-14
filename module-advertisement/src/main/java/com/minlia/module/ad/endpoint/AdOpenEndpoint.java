@@ -2,9 +2,9 @@ package com.minlia.module.ad.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.ad.entity.Advertisements;
-import com.minlia.module.ad.ro.AdQRO;
-import com.minlia.module.ad.ro.AdsQRO;
+import com.minlia.module.ad.bean.entity.Advertisements;
+import com.minlia.module.ad.bean.ro.AdQRO;
+import com.minlia.module.ad.bean.ro.AdsQRO;
 import com.minlia.module.ad.service.AdService;
 import com.minlia.module.ad.service.AdsService;
 import io.swagger.annotations.Api;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Api(tags = "System Advertisement Open", description = "广告")
 @RestController
-@RequestMapping(value = ApiPrefix.API + "light")
+@RequestMapping(value = ApiPrefix.OPEN + "light")
 public class AdOpenEndpoint {
 
 	@Autowired
@@ -52,8 +52,8 @@ public class AdOpenEndpoint {
 
 	@ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response queryList(@RequestBody AdsQRO qo) {
-		List<Advertisements> advertisementsList = adsService.list(qo);
+	public Response queryList(@RequestBody AdsQRO qro) {
+		List<Advertisements> advertisementsList = adsService.list(qro);
 		for (Advertisements advertisements : advertisementsList) {
 			advertisements.setAdvertisements(adService.list(AdQRO.builder().parentId(advertisements.getId()).build()));
 		}

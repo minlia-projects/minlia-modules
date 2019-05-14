@@ -3,10 +3,10 @@ package com.minlia.modules.rbac.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.bean.domain.Role;
 import com.minlia.modules.rbac.bean.to.RoleCTO;
 import com.minlia.modules.rbac.bean.to.RoleUTO;
-import com.minlia.modules.rbac.bean.domain.Role;
+import com.minlia.modules.rbac.constant.RoleCode;
 import com.minlia.modules.rbac.mapper.RoleMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -38,7 +38,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Role create(RoleCTO body) {
-        ApiAssert.state(!this.exists(body.getCode()), RebaccaCode.Message.ROLE_ALREADY_EXISTED);
+        ApiAssert.state(!this.exists(body.getCode()), RoleCode.Message.ALREADY_EXISTS);
 
         Role role = mapper.map(body,Role.class);
         roleMapper.create(role);
@@ -51,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Role update(RoleUTO body) {
-        ApiAssert.state(this.exists(body.getCode()), RebaccaCode.Message.ROLE_NOT_EXISTED);
+        ApiAssert.state(this.exists(body.getCode()), RoleCode.Message.NOT_EXISTS);
         Role role = mapper.map(body,Role.class);
         roleMapper.update(role);
         return role;
@@ -61,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void delete(String code) {
         Role role = roleMapper.queryByCode(code);
-        ApiAssert.notNull(role, RebaccaCode.Message.ROLE_NOT_EXISTED);
+        ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
         //删除role、map_roles_permissions、map_users_roles
         roleMapper.delete(role.getId());
     }
@@ -70,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void grantPermission(String code,List<Long> permissions) {
         Role role = roleMapper.queryByCode(code);
-        ApiAssert.notNull(role, RebaccaCode.Message.ROLE_NOT_EXISTED);
+        ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
         roleMapper.grant(role.getId(),permissions);
     }
 

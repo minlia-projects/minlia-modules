@@ -36,15 +36,15 @@ public class UserEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response create(@Valid @RequestBody UserCTO body) {
-        return Response.success(userService.create(body));
+    public Response create(@Valid @RequestBody UserCTO cto) {
+        return Response.success(userService.create(cto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response update(@Valid @RequestBody UserUTO body) {
-        return Response.success(userService.update(body));
+    public Response update(@Valid @RequestBody UserUTO uto) {
+        return Response.success(userService.update(uto));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_DELETE + "')")
@@ -72,8 +72,8 @@ public class UserEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_GRANT + "')")
     @ApiOperation(value = "授予角色", notes = "授予角色", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "grant", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response grant(@Valid @RequestBody UserGrantTO requestBody) {
-        userService.grant(requestBody.getGuid(),requestBody.getRoles());
+    public Response grant(@Valid @RequestBody UserGrantTO to) {
+        userService.grant(to.getGuid(),to.getRoles());
         return Response.success();
     }
 

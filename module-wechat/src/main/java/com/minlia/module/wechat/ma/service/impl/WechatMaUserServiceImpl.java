@@ -58,6 +58,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     @Override
     @Transactional
     public WechatMaUser update(WxMaUserInfo wxMaUserInfo, String code, String guid) {
+        log.error("更新小程序用户信息-------------------------------------------------");
         if (null != guid && null != wxMaUserInfo.getUnionId()) {
             wechatUserService.updateGuidByUnionId(guid, wxMaUserInfo.getUnionId());
         }

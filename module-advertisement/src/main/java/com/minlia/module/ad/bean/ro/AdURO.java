@@ -1,4 +1,4 @@
-package com.minlia.module.ad.ro;
+package com.minlia.module.ad.bean.ro;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.ad.enumeration.AdTypeEnum;
@@ -39,5 +39,15 @@ public class AdURO implements ApiRequestBody {
 
     @ApiModelProperty(value = "是否启用", example = "true")
     private Boolean enabled;
+
+    private String attribute1;
+
+    private String attribute2;
+
+    private String attribute3;
+
+    private String attribute4;
+
+    private String attribute5;
 
 }

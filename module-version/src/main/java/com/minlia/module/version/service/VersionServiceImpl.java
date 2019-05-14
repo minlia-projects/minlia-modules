@@ -4,10 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.version.bean.domain.Version;
-import com.minlia.module.version.bean.qo.VersionQO;
-import com.minlia.module.version.bean.to.VersionCTO;
-import com.minlia.module.version.bean.to.VersionUTO;
+import com.minlia.module.version.bean.entity.Version;
+import com.minlia.module.version.bean.ro.VersionQRO;
+import com.minlia.module.version.bean.ro.VersionCRO;
+import com.minlia.module.version.bean.ro.VersionURO;
 import com.minlia.module.version.mapper.VersionMapper;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class VersionServiceImpl implements VersionService {
     private VersionMapper versionMapper;
 
     @Override
-    public Version create(VersionCTO cto) {
+    public Version create(VersionCRO cto) {
         Version version = mapper.map(cto, Version.class);
         if (null == cto.getTest()) {
             version.setTest(false);
@@ -39,7 +39,7 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public Version update(VersionUTO uto) {
+    public Version update(VersionURO uto) {
         Version version = versionMapper.queryById(uto.getId());
         ApiAssert.notNull(version, SystemCode.Message.DATA_NOT_EXISTS);
 
@@ -61,22 +61,22 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public long count(VersionQO qo) {
+    public long count(VersionQRO qo) {
         return versionMapper.count(qo);
     }
 
     @Override
-    public Version one(VersionQO qo) {
+    public Version one(VersionQRO qo) {
         return versionMapper.one(qo);
     }
 
     @Override
-    public List<Version> list(VersionQO qo) {
+    public List<Version> list(VersionQRO qo) {
         return versionMapper.list(qo);
     }
 
     @Override
-    public PageInfo<Version> page(VersionQO qo, Pageable pageable) {
+    public PageInfo<Version> page(VersionQRO qo, Pageable pageable) {
         return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> versionMapper.list(qo));
     }
 

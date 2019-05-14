@@ -36,26 +36,26 @@ public class WechatCallbackReceiveEndpoint {
     @RequestMapping
     @ApiOperation(value = "微信回调", notes = "微信回调", httpMethod = "POST")
     public String process(HttpServletRequest request) {
+        log.info("微信回调开始-----------------------------");
         String requestedXmlString = XmlUtils.parseRequst(request);
         if (isOfficialNotificationRequest(requestedXmlString)) {
-            log.info("wechat sign here");
             OrderPaidNotificationResponse body = new OrderPaidNotificationResponse();
             body = mapToBody(requestedXmlString, body);
-            log.info("返回所有参数了" + body.toString());
             OrderPaidEventProducer.onOrderPaid(body);
+            log.info("微信回调成功-----------------------------");
             return "SUCCESS";
         } else {
+            log.info("微信回调失败-----------------------------");
             return "FAIL";
         }
     }
 
     private OrderPaidNotificationResponse mapToBody(String requestedXmlString, OrderPaidNotificationResponse body) {
-        log.info(requestedXmlString);
+        log.info("微信回调参数解析：{}", requestedXmlString);
         try {
             //这里面已经做了验证签名
             WxPayOrderNotifyResult result = wxPayService.parseOrderNotifyResult(requestedXmlString);
-            log.info("微信第三方回调参数：{}", result);
-
+            log.info("微信原始回调参数：{}", result);
             body.setPaidBy(result.getOpenid());
             body.setAmount(Integer.valueOf(result.getTotalFee().toString()));
             body.setBody(result.getAttach());
@@ -65,8 +65,9 @@ public class WechatCallbackReceiveEndpoint {
             body.setPaidBy(result.getOpenid());
             body.setSign(result.getSign());
             body.setChannel(PayChannelEnum.wechat);
+            log.info("微信解析回调参数：{}", body);
         } catch (WxPayException e) {
-            log.info("解析異常" + e.toString());
+            log.info("微信回调参数解析異常：" + e.toString());
         }
         return body;
     }
@@ -75,6 +76,7 @@ public class WechatCallbackReceiveEndpoint {
      * 通过验证签名来校验是否为官方请求过来的回调
      */
     private boolean isOfficialNotificationRequest(String requestedXmlString) {
+        log.info("微信回调验签-----------------------------");
         if (StringUtils.isNotEmpty(requestedXmlString)) {
             try {
                 WxPayOrderNotifyResult result = wxPayService.parseOrderNotifyResult(requestedXmlString);

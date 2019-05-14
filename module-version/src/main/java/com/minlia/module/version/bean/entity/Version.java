@@ -1,4 +1,4 @@
-package com.minlia.module.version.bean.domain;
+package com.minlia.module.version.bean.entity;
 
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.version.enumeration.PlatformTypeEnum;
@@ -50,5 +50,15 @@ public class Version extends AbstractEntity {
      * 强制下载
      */
     private Boolean forcedDownload;
+
+    private String attribute1;
+
+    private String attribute2;
+
+    private String attribute3;
+
+    private String attribute4;
+
+    private String attribute5;
 
 }

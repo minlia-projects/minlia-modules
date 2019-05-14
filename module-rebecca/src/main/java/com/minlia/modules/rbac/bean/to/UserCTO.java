@@ -47,7 +47,6 @@ public class UserCTO implements ApiRequestBody {
     @NotNull
     private Long defaultRole;
 
-    @NotNull
     private Set<Long> roles;
 
     @JsonIgnore

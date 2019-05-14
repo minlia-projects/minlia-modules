@@ -1,6 +1,7 @@
 package com.minlia.module.ad.enumeration;
 
-public enum PlatformEnum {
+public enum LogicOperatorEnum {
 
+    and, or
 
 }

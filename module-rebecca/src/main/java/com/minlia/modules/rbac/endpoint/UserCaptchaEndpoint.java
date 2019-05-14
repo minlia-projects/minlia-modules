@@ -9,7 +9,7 @@ import com.minlia.module.captcha.ro.CaptchaCRO;
 import com.minlia.module.captcha.enumeration.CaptchaMethodEnum;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.bean.domain.User;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,10 +38,10 @@ public class UserCaptchaEndpoint {
     public Response send(@Valid @RequestBody CaptchaCRO to) {
         User user = SecurityContextHolder.getCurrentUser();
         if (to.getMethod().equals(CaptchaMethodEnum.CELLPHONE)) {
-            ApiAssert.hasLength(user.getCellphone(), RebaccaCode.Message.USER_NO_CELLPHONE);
+            ApiAssert.hasLength(user.getCellphone(), UserCode.Message.NOT_SET_CELLPHONE);
             to.setCellphone(user.getCellphone());
         } else {
-            ApiAssert.hasLength(user.getEmail(), RebaccaCode.Message.USER_NO_EMAIL);
+            ApiAssert.hasLength(user.getEmail(), UserCode.Message.NOT_SET_EMAIL);
             to.setEmail(user.getEmail());
         }
 

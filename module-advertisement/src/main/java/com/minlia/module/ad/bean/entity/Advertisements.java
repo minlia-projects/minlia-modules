@@ -1,4 +1,4 @@
-package com.minlia.module.ad.entity;
+package com.minlia.module.ad.bean.entity;
 
 import com.minlia.module.ad.enumeration.PlatformEnum;
 import com.minlia.module.data.entity.AbstractEntity;
