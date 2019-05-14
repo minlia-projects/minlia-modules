@@ -57,6 +57,10 @@ public class LoginCredentials implements WithUsernameCredential, WithEmailCreden
     @Password
     private String password;
 
+    @ApiModelProperty(value = "验证码", example = "8888")
+    @Size(min = 4, max = 8)
+    private String captcha;
+
     @ApiModelProperty(value = "当前角色", example = "User")
     private String currrole;
 

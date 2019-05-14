@@ -149,6 +149,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void validityByEmail(String email, String code) {
         Captcha captcha = captchaMapper.queryOne(CaptchaQRO.builder().email(email).build());
         validity(captcha, code);

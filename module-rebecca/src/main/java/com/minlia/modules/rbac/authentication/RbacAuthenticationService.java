@@ -1,6 +1,7 @@
 package com.minlia.modules.rbac.authentication;
 
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.http.NetworkUtil;
 import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.bean.qo.UserQO;
@@ -11,9 +12,11 @@ import com.minlia.modules.rbac.service.LoginService;
 import com.minlia.modules.rbac.service.UserService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.authentication.service.AuthenticationService;
+import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.model.UserContext;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +60,10 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Authentication authentication(Authentication authentication) {
         Assert.notNull(authentication, "No authentication data provided");
-//        String username = (String) authentication.getPrincipal();
         LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
+        String captcha = loginCredentials.getCurrrole();
 
         User user = null;
         switch (loginCredentials.getMethod()) {
@@ -80,15 +83,10 @@ public class RbacAuthenticationService implements AuthenticationService {
 
         if (null == user) {
             throw new UsernameNotFoundException("User not exists:");
-        } else if (null != user.getExpireDate() && user.getExpireDate().before(new Date())) {
-            throw new AccountExpiredException("账号已过期");
-        } else if (!user.getEnabled()) {
-            throw new DisabledException("账号已禁用");
-        } else if (user.getCredentialsExpired()) {
-            throw new CredentialsExpiredException("凭证已过期");
-        } else if (user.getLocked() && new Date().before(user.getLockTime())) {
-            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(new Date().toInstant(),user.getLockTime().toInstant()));
-        } else if (!encoder.matches(password,user.getPassword())) {
+        }
+
+        if (StringUtils.isNotBlank(password)) {
+            if (!encoder.matches(password, user.getPassword()))
             //密码错误 锁定次数+1
             user.setLockLimit(user.getLockLimit()+ NumberUtils.INTEGER_ONE);
             //如果超过3次 直接锁定
@@ -99,6 +97,17 @@ public class RbacAuthenticationService implements AuthenticationService {
             }
             userService.update(user);
             throw new AjaxBadCredentialsException("Password error",user.getLockLimit());
+        }
+
+
+        if (null != user.getExpireDate() && user.getExpireDate().before(new Date())) {
+            throw new AccountExpiredException("账号已过期");
+        } else if (!user.getEnabled()) {
+            throw new DisabledException("账号已禁用");
+        } else if (user.getCredentialsExpired()) {
+            throw new CredentialsExpiredException("凭证已过期");
+        } else if (user.getLocked() && new Date().before(user.getLockTime())) {
+            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(new Date().toInstant(),user.getLockTime().toInstant()));
         } else {
             //获取请求IP地址
             HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
@@ -119,5 +128,24 @@ public class RbacAuthenticationService implements AuthenticationService {
             return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         }
     }
+
+//    @Autowired
+//    private CaptchaService captchaService;
+//
+//    private boolean matchesPasswordOrCaptcha(User user, LoginMethodEnum method, String password, String captcha) {
+//        if (StringUtils.isNotBlank(password)) {
+//            return encoder.matches(password, user.getPassword());
+//        } else {
+//            switch (method) {
+//                case CELLPHONE:
+//                    captchaService.validityByCellphone(user.getCellphone(), captcha);
+//                    break;
+//                case EMAIL:
+//                    captchaService.validityByCellphone(user.getEmail(), captcha);
+//                    break;
+//            }
+//        }
+//        return true;
+//    }
 
 }
