@@ -64,4 +64,6 @@ public interface WechatMaService {
      */
     OssFile createWxCodeLimit(WechatMaQrcodeRO body);
 
+    OssFile createWxaCodeUnlimit(String scene, String path, String businessType, String businessId);
+
 }

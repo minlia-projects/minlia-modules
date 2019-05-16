@@ -6,7 +6,6 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
-import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.ro.BibleItemQRO;
@@ -19,13 +18,11 @@ import com.minlia.module.wechat.ma.bean.ro.WechatMaUserDetailRO;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.constant.WechatMaCode;
 import com.minlia.module.wechat.ma.service.WechatMaService;
-import com.minlia.module.wechat.utils.HttpClientUtil;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.ro.AttachmentUploadRO;
 import com.minlia.modules.attachment.service.AttachmentUploadService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
-import net.sf.json.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,54 +128,87 @@ public class WechatMaServiceImpl implements WechatMaService {
         return null;
     }
 
+
+
+//    public OssFile createWxCodeLimit(WechatMaQrcodeRO body){
+//        BibleItem qrConfig = bibleItemService.queryOne(BibleItemQRO.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
+//        ApiAssert.notNull(qrConfig, WechatMaCode.Message.PARAMETER_NOT_CONFIG, body.getType());
+//
+//        String accessToken = null;
+//        try {
+//            accessToken = wxMaService.getAccessToken();
+//        } catch (WxErrorException e) {
+//            e.printStackTrace();
+//            ApiAssert.state(false, "获取Access Token异常："+e.getMessage());
+//        }
+//        ApiAssert.notNull(accessToken,"accessToken不能为空");
+//        String reqUrl = String.format("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s", accessToken);
+//
+//        String page = String.format(qrConfig.getValue(), body.getScene());
+//        ApiAssert.state(page.length()<=32,  "路径长度不能超过32个字符");
+//
+//        JSONObject data = new JSONObject();
+//        data.element("scene", body.getScene());
+//        data.element("page",qrConfig.getValue());
+//        data.element("is_hyaline", null == body.getIsHyaline() ? true : body.getIsHyaline());
+//        if (null != body.getWidth()) {
+//            data.element("width", body.getWidth());
+//        }
+//        if (null != body.getAutoColor()) {
+//            data.element("auto_color", body.getAutoColor());
+//        }
+//        if (null != body.getLineColor()) {
+//            data.element("line_color", body.getLineColor());
+//        }
+//        String reqData = JSON.toJSONString(data);
+//
+//
+//        File file = null;
+//        try {
+//            file = HttpClientUtil.sendPostByJsonToFile(reqUrl, reqData);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            ApiAssert.state(false,"生成小程序二维码异常："+e.getMessage());
+//        }
+//
+//        try {
+//            //上传附件
+//            String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
+//            AttachmentUploadRO to = AttachmentUploadRO.builder()
+//                    .relationId(body.getNumber())
+//                    .belongsTo(body.getType())
+//                    .file(file)
+//                    .key(path + file.getName())
+//                    .build();
+//            return (OssFile) attachmentUploadService.upload(to).getPayload();
+//        } catch (Exception e) {
+//            ApiAssert.state(false,"OSS上传异常：" + e.getMessage());
+//        } finally {
+//            //删除文件
+//            FileUtils.deleteQuietly(file);
+//        }
+//        return null;
+//    }
+
     @Override
-    public OssFile createWxCodeLimit(WechatMaQrcodeRO body){
-        BibleItem qrConfig = bibleItemService.queryOne(BibleItemQRO.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
-        ApiAssert.notNull(qrConfig, WechatMaCode.Message.PARAMETER_NOT_CONFIG, body.getType());
-
-        String accessToken = null;
-        try {
-            accessToken = wxMaService.getAccessToken();
-        } catch (WxErrorException e) {
-            e.printStackTrace();
-            ApiAssert.state(false, "获取Access Token异常："+e.getMessage());
-        }
-        ApiAssert.notNull(accessToken,"accessToken不能为空");
-        String reqUrl = String.format("https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=%s", accessToken);
-
-        String page = String.format(qrConfig.getValue(), body.getScene());
-        ApiAssert.state(page.length()<=32,  "路径长度不能超过32个字符");
-
-        JSONObject data = new JSONObject();
-        data.element("scene", body.getScene());
-        data.element("page",qrConfig.getValue());
-        data.element("is_hyaline", null == body.getIsHyaline() ? true : body.getIsHyaline());
-        if (null != body.getWidth()) {
-            data.element("width", body.getWidth());
-        }
-        if (null != body.getAutoColor()) {
-            data.element("auto_color", body.getAutoColor());
-        }
-        if (null != body.getLineColor()) {
-            data.element("line_color", body.getLineColor());
-        }
-        String reqData = JSON.toJSONString(data);
-
-
+    public OssFile createWxCodeLimit(WechatMaQrcodeRO ro){
         File file = null;
         try {
-            file = HttpClientUtil.sendPostByJsonToFile(reqUrl, reqData);
-        } catch (Exception e) {
+            if (null == ro.getWidth()) {
+                ro.setWidth(430);
+            }
+            file = wxMaService.getQrcodeService().createWxaCodeUnlimit(ro.getScene(), ro.getPath(), ro.getWidth(), ro.isAutoColor(), ro.getLineColor(), ro.isHyaline());
+        } catch (WxErrorException e) {
             e.printStackTrace();
             ApiAssert.state(false,"生成小程序二维码异常："+e.getMessage());
         }
 
         try {
             //上传附件
-            String path = null == body.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, body.getPath());
+            String path = null == ro.getPath() ? String.format("%s/", DEFAULT_QRCODE_PATH) : String.format("%s/%s/", DEFAULT_QRCODE_PATH, ro.getPath());
             AttachmentUploadRO to = AttachmentUploadRO.builder()
-                    .relationId(body.getNumber())
-                    .belongsTo(body.getType())
+                    .relationId(ro.getBusinessId())
+                    .belongsTo(ro.getBusinessType())
                     .file(file)
                     .key(path + file.getName())
                     .build();
@@ -187,6 +217,31 @@ public class WechatMaServiceImpl implements WechatMaService {
             ApiAssert.state(false,"OSS上传异常：" + e.getMessage());
         } finally {
             //删除文件
+            FileUtils.deleteQuietly(file);
+        }
+        return null;
+    }
+
+    @Override
+    public OssFile createWxaCodeUnlimit(String scene, String path, String businessType, String businessId){
+        File file = null;
+        try {
+            file = wxMaService.getQrcodeService().createWxaCodeUnlimit(scene, path);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+            ApiAssert.state(false,"生成小程序二维码异常："+e.getMessage());
+        }
+        try {
+            AttachmentUploadRO to = AttachmentUploadRO.builder()
+                    .relationId(businessId)
+                    .belongsTo(businessType)
+                    .file(file)
+                    .key(DEFAULT_QRCODE_PATH + "/" + file.getName())
+                    .build();
+            return (OssFile) attachmentUploadService.upload(to).getPayload();
+        } catch (Exception e) {
+            ApiAssert.state(false,"OSS上传异常：" + e.getMessage());
+        } finally {
             FileUtils.deleteQuietly(file);
         }
         return null;

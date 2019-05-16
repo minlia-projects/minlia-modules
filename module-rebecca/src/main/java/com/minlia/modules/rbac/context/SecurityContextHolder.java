@@ -62,7 +62,7 @@ public final class SecurityContextHolder {
     }
 
     public static String getCurrentGuid() {
-        return getUserContext().getGuid();
+        return null != getUserContext() ? getUserContext().getGuid() : null;
     }
 
     public static User getCurrentUser() {
@@ -91,6 +91,12 @@ public final class SecurityContextHolder {
             }
         }
         return true;
+    }
+
+    public static boolean isAnonymousUser() {
+        SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        return authentication.getPrincipal().equals("anonymousUser");
     }
 
     public static Boolean hasRole(String roleCode) {

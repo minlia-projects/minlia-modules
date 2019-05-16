@@ -57,25 +57,25 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public Captcha sendByCellphone(String cellphone) {
-        //获取信息样板类型属性
-        String smsTemplateId=smsTemplateProperties.get(CaptchaType.SECURITY_CODE.name());
-
-        //检查获取了类型
-        ApiAssert.notNull(smsTemplateId, CaptchaCode.Message.TEMPLATE_NOT_FOUND);
-
         log.debug("Sending security code for cellphone: {}", cellphone);
+
+        String smsTemplateId = null;
+        String code;
+        if(Environments.isDevelopment()){
+            code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        } else {
+            code = RandomStringUtils.randomNumeric(4);
+            //检查获取了类型
+            smsTemplateId=smsTemplateProperties.get(CaptchaType.SECURITY_CODE.name());
+            ApiAssert.notNull(smsTemplateId, CaptchaCode.Message.TEMPLATE_NOT_FOUND);
+        }
 
         //查询并判断是否存在
         Captcha captcha = captchaMapper.queryOne(CaptchaQRO.builder().cellphone(cellphone).build());
 //        ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
 
-        String code = RandomStringUtils.randomNumeric(4);
-        if(!Environments.isDevelopment()){
-            code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        }
         Date currentDate = new Date();
         Date effectiveDate = DateUtils.addMinutes(currentDate,5);
-
         if (null == captcha) {
             captcha = Captcha.builder()
                     .cellphone(cellphone)
@@ -106,9 +106,11 @@ public class CaptchaServiceImpl implements CaptchaService {
         Captcha captcha = captchaMapper.queryOne(CaptchaQRO.builder().email(email).build());
 //        ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
 
-        String code = RandomStringUtils.randomNumeric(4);
-        if(!Environments.isDevelopment()){
+        String code;
+        if(Environments.isDevelopment()){
             code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        } else {
+            code = RandomStringUtils.randomNumeric(4);
         }
         Date currentDate = new Date();
         Date effectiveDate = DateUtils.addMinutes(currentDate,5);

@@ -25,7 +25,7 @@ import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.to.UserCTO;
 import com.minlia.modules.rbac.bean.to.UserRegistrationTO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
+import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.enumeration.RegistrationMethodEnum;
 import com.minlia.modules.rbac.service.LoginService;
 import com.minlia.modules.rbac.service.UserQueryService;
@@ -126,7 +126,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
                     List<WechatUser> wechatUsers = wechatUserService.queryByUnionIdAndGuidNotNull(unionId);
                     if (CollectionUtils.isEmpty(wechatUsers)) {
                         wechatUserService.create(wechatUser);
-                        return Response.success(RebaccaCode.Message.UNREGISTERED);
+                        return Response.success(UserCode.Message.UNREGISTERED);
                     } else {
                         wechatUser.setGuid(wechatUsers.get(0).getGuid());
                         wechatUserService.create(wechatUser);
@@ -136,7 +136,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
                 } else {
                     log.error("小程序login unionId is null-------------------------------------------------");
                     wechatUserService.create(wechatUser);
-                    return Response.success(RebaccaCode.Message.UNREGISTERED);
+                    return Response.success(UserCode.Message.UNREGISTERED);
                 }
             }
         } else {
@@ -150,7 +150,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
                 User user = userQueryService.queryOne(UserQO.builder().guid(wechatUser.getGuid()).build());
                 return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             } else {
-                return Response.success(RebaccaCode.Message.UNREGISTERED);
+                return Response.success(UserCode.Message.UNREGISTERED);
             }
         }
     }

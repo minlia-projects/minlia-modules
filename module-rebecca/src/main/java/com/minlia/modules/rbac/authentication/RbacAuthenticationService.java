@@ -65,7 +65,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
-        String captcha = loginCredentials.getCurrrole();
+        String captcha = loginCredentials.getCaptcha();
 
         User user = null;
         switch (loginCredentials.getMethod()) {
