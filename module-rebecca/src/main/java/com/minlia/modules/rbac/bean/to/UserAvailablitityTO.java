@@ -2,7 +2,10 @@ package com.minlia.modules.rbac.bean.to;
 
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Username;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 
 /**
@@ -10,6 +13,9 @@ import org.hibernate.validator.constraints.Email;
  * 用户有效性验证请求体
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAvailablitityTO {
 
 //    @ApiModelProperty(value = "注册方式")
