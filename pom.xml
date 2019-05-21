@@ -28,7 +28,7 @@
         <module>module-websocket</module>
         <module>module-security</module>
         <module>module-data</module>
-        <module>module-dict</module>
+        <!--<module>module-dict</module>-->
         <module>module-i18n</module>
         <module>module-redis</module>
         <module>module-district</module>
@@ -94,5 +94,18 @@
         <developerConnection>scm:git:https://github.com/minlia-projects/minlia-modules.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
+
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-releases/</url>
+        </repository>
+    </distributionManagement>
 
 </project>

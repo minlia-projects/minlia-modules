@@ -29,12 +29,16 @@ public class LovValueOpenEndpoint {
     @ApiOperation(value = "集合查询", httpMethod = "POST")
     @PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response list(@RequestBody LovValueQRO qro) {
+        qro.setDisFlag(false);
+        qro.setDelFlag(false);
         return Response.success(lovValueService.selectByAll(qro));
     }
 
     @ApiOperation(value = "分页查询", httpMethod = "POST")
     @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response paginated(@RequestBody LovValueQRO qro) {
+        qro.setDisFlag(false);
+        qro.setDelFlag(false);
         PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
         return Response.success(pageInfo);
     }

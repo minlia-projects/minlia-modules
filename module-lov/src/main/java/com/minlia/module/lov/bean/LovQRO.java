@@ -28,11 +28,6 @@ public class LovQRO extends QueryRequest {
     private String name;
 
     /**
-     * 排序（升序）
-     */
-    private Byte sort;
-
-    /**
      * 描述信息
      */
     @Size(max = 255)

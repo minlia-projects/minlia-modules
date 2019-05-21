@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class LovValueServiceImpl implements LovValueService{
@@ -29,6 +28,7 @@ public class LovValueServiceImpl implements LovValueService{
         //判断lov_id是否存在
         Lov lov = lovService.selectByPrimaryKey(record.getLovId());
         ApiAssert.notNull(lov, SystemCode.Message.DATA_NOT_EXISTS);
+        ApiAssert.state(record.getParentId() != null && lovValueMapper.countById(record.getParentId()) == 1, SystemCode.Message.DATA_NOT_EXISTS);
         return lovValueMapper.insertSelective(record);
     }
 
