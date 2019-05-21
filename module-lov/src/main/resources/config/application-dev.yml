@@ -1,0 +1,41 @@
+server:
+  port: 10000
+
+system:
+    appId: countryapp
+    token: bWlubGlhCg==
+
+# SPRING PROFILES
+spring:
+    profile: dev
+    application:
+        name: country
+    http:
+        encoding.charset: UTF-8
+        encoding.enable: true
+        encoding.force: true
+
+    datasource:
+        driverClassName: net.sf.log4jdbc.DriverSpy
+        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_mdl?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false
+        username: root
+        password: Root.2018
+
+system.security.jwt:
+    tokenExpirationTime: 10086 # Number of minutes
+    refreshTokenExpTime: 10086 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+
+swagger:
+    title: ${spring.application.name}接口
+    description: ${spring.application.name}接口
+    version: 1.0
+    contact: cloud@minlia.com
+    path: /api/.*
+    redirect: true
+
+mybatis:
+    mapper-locations: classpath*:mybatis/**/mapper/*.xml
+    config-location:
+        classpath: mybatis/mybatis-config.xml

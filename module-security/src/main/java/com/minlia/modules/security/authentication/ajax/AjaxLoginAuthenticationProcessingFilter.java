@@ -1,7 +1,9 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.code.SecurityCode;
 import com.minlia.modules.security.enumeration.LoginMethodEnum;
@@ -75,7 +77,8 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         if (StringUtils.isBlank(credentials.getAccount())) {
             throw new AuthenticationCredentialsNotFoundException("Username or Password not provided");
         } else {
-            if (Pattern.matches("^1[0-9]{10}$", credentials.getAccount())) {
+            MinliaValidProperties validProperties = ContextHolder.getContext().getBean(MinliaValidProperties.class);
+            if (Pattern.matches(validProperties.getCellphone(), credentials.getAccount())) {
                 credentials.setCellphone(credentials.getAccount());
                 credentials.setMethod(LoginMethodEnum.CELLPHONE);
             } else if (Pattern.matches("^[a-zA-z][a-zA-Z0-9_]{2,9}$", credentials.getAccount())) {

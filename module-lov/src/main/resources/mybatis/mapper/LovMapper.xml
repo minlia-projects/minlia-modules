@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.lov.mapper.LovMapper">
+    <resultMap id="BaseResultMap" type="com.minlia.module.lov.enntity.Lov">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sort" jdbcType="TINYINT" property="sort"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="dis_flag" jdbcType="BOOLEAN" property="disFlag"/>
+        <result column="del_flag" jdbcType="BOOLEAN" property="delFlag"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, code, `name`, sort, description, dis_flag, del_flag, tenant_id, create_by, create_date,
+        last_modified_by, last_modified_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_lov
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from mdl_lov
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minlia.module.lov.enntity.Lov"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mdl_lov (code, `name`, sort,
+        description, dis_flag, del_flag,
+        tenant_id, create_by, create_date,
+        last_modified_by, last_modified_date)
+        values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sort,jdbcType=TINYINT},
+        #{description,jdbcType=VARCHAR}, #{disFlag,jdbcType=BOOLEAN}, #{delFlag,jdbcType=BOOLEAN},
+        #{tenantId,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+        #{lastModifiedBy,jdbcType=VARCHAR}, #{lastModifiedDate,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minlia.module.lov.enntity.Lov"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mdl_lov
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                code,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="disFlag != null">
+                dis_flag,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="tenantId != null">
+                tenant_id,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by,
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=TINYINT},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="disFlag != null">
+                #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="tenantId != null">
+                #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null">
+                #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedDate != null">
+                #{lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.lov.enntity.Lov">
+        <!--@mbg.generated-->
+        update mdl_lov
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=TINYINT},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="disFlag != null">
+                dis_flag = #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId,jdbcType=INTEGER},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.minlia.module.lov.enntity.Lov">
+        <!--@mbg.generated-->
+        update mdl_lov
+        set code = #{code,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
+        sort = #{sort,jdbcType=TINYINT},
+        description = #{description,jdbcType=VARCHAR},
+        dis_flag = #{disFlag,jdbcType=BOOLEAN},
+        del_flag = #{delFlag,jdbcType=BOOLEAN},
+        tenant_id = #{tenantId,jdbcType=INTEGER},
+        create_by = #{createBy,jdbcType=VARCHAR},
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+        last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+        last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+<!--auto generated by MybatisCodeHelper on 2019-05-20-->
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_lov
+        where 1=1
+        <if test="code != null">
+            and code=#{code,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null">
+            and `name`=#{name,jdbcType=VARCHAR}
+        </if>
+        <if test="sort != null">
+            and sort=#{sort,jdbcType=TINYINT}
+        </if>
+        <if test="description != null">
+            and description=#{description,jdbcType=VARCHAR}
+        </if>
+        <if test="disFlag != null">
+            and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="delFlag != null">
+            and del_flag=#{delFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="tenantId != null">
+            and tenant_id=#{tenantId,jdbcType=INTEGER}
+        </if>
+        <if test="createBy != null">
+            and create_by=#{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="lastModifiedBy != null">
+            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate != null">
+            and create_date=#{createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastModifiedDate != null">
+            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="id != null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
+    </select>
+</mapper>

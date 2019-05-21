@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
             user.setEnabled(true);
         }
         userMapper.update(user);
-        return !user.getLocked();
+        return user.getEnabled();
     }
 
     @Override

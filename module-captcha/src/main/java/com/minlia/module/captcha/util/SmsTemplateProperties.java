@@ -2,6 +2,7 @@ package com.minlia.module.captcha.util;
 
 import com.google.common.base.CaseFormat;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
