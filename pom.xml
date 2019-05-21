@@ -81,6 +81,9 @@
         <module>module-unified-payment</module>
 
 
+        <module>module-lov</module>
+
+
         <!--<module>module-registry</module>-->
         <!--<module>module-nestedset</module>-->
         <!--<module>module-registry</module>-->
