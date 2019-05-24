@@ -15,7 +15,7 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.captcha.util.SmsTemplateProperties;
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.service.EmailService;
-import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
+import com.minlia.modules.otp.sms.OtpSmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -94,8 +94,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         //当生产环境时发送验证码, 否则不需要
         //TODO: SMS模板建好后需要修改此处的jsonArguments中的内容
         if(!Environments.isDevelopment()){
-            boolean bool = ContextHolder.getContext().getBean(AliyunSmsSendService.class).send(cellphone, smsTemplateId, "{\"code\":\"" + captcha.getCode() + "\"}");
-            ApiAssert.state(bool,CaptchaCode.Message.SEND_FAILURE);
+            ContextHolder.getContext().getBean(OtpSmsService.class).send(null, cellphone, "{\"code\":\"" + captcha.getCode() + "\"}");
         }
         return captcha;
     }

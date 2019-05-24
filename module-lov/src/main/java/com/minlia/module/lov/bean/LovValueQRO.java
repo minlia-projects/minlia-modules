@@ -20,6 +20,8 @@ public class LovValueQRO extends QueryRequest {
      */
     private Long lovId;
 
+    private String lovCode;
+
     private Long parentId;
 
     /**

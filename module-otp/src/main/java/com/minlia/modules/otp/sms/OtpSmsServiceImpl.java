@@ -38,7 +38,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
     private OtpSmsProperties otpSmsProperties;
 
     @Override
-    public String sendSms(String icc,String destAddr,String message){
+    public String send(String icc, String destAddr, String message){
 
         SMSRequestBody smsRequestBody = new SMSRequestBody();
         smsRequestBody.setIcc(icc);
@@ -92,7 +92,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
             }
             httpclient.close();
         }catch (Exception e){
-            log.error("sendSms error", e);
+            log.error("send error", e);
             result = null;
         }
         return result;

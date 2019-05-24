@@ -59,31 +59,15 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Override
     public Response availablitity(UserAvailablitityTO body) {
-        if (StringUtils.isNotBlank(body.getUsername())) {
-            ApiAssert.state(!userQueryService.exists(UserQO.builder().username(body.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
+        if (StringUtils.isNotBlank(body.getUsername()) && userQueryService.exists(UserQO.builder().username(body.getUsername()).build())) {
+            Response.failure(UserCode.Message.USERNAME_ALREADY_EXISTS);
         }
-
-        if (StringUtils.isNotBlank(body.getCellphone())) {
-            ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(body.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
+        if (StringUtils.isNotBlank(body.getCellphone()) && userQueryService.exists(UserQO.builder().cellphone(body.getCellphone()).build())) {
+            Response.failure(UserCode.Message.CELLPHONE_ALREADY_EXISTS);
         }
-
-        if (StringUtils.isNotBlank(body.getEmail())) {
-            ApiAssert.state(!userQueryService.exists(UserQO.builder().email(body.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
+        if (StringUtils.isNotBlank(body.getEmail()) && userQueryService.exists(UserQO.builder().email(body.getEmail()).build())) {
+            Response.failure(UserCode.Message.EMAIL_ALREADY_EXISTS);
         }
-//        switch (body.getMethod()) {
-//            case USERNAME:
-//                ApiAssert.hasLength(body.getUsername(), UserCode.Message.USERNAME_NOT_NULL);
-//                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(body.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
-//                break;
-//            case CELLPHONE:
-//                ApiAssert.hasLength(body.getCellphone(), UserCode.Message.USERNAME_NOT_NULL);
-//                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(body.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
-//                break;
-//            case EMAIL:
-//                ApiAssert.hasLength(body.getEmail(), UserCode.Message.USERNAME_NOT_NULL);
-//                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(body.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
-//                break;
-//        }
         return Response.success("Available");
     }
 
