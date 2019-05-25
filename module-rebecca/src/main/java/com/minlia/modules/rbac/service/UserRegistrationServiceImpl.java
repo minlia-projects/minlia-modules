@@ -60,13 +60,13 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     public Response availablitity(UserAvailablitityTO body) {
         if (StringUtils.isNotBlank(body.getUsername()) && userQueryService.exists(UserQO.builder().username(body.getUsername()).build())) {
-            Response.failure(UserCode.Message.USERNAME_ALREADY_EXISTS);
+            return Response.failure(UserCode.Message.USERNAME_ALREADY_EXISTS);
         }
         if (StringUtils.isNotBlank(body.getCellphone()) && userQueryService.exists(UserQO.builder().cellphone(body.getCellphone()).build())) {
-            Response.failure(UserCode.Message.CELLPHONE_ALREADY_EXISTS);
+            return Response.failure(UserCode.Message.CELLPHONE_ALREADY_EXISTS);
         }
         if (StringUtils.isNotBlank(body.getEmail()) && userQueryService.exists(UserQO.builder().email(body.getEmail()).build())) {
-            Response.failure(UserCode.Message.EMAIL_ALREADY_EXISTS);
+            return Response.failure(UserCode.Message.EMAIL_ALREADY_EXISTS);
         }
         return Response.success("Available");
     }
