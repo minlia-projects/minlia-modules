@@ -22,7 +22,7 @@ public class CaptchaVerifyRO {
     private String cellphone;
 
     @NotBlank
-    @Size(min = 4, max = 6)
+    @Size(min = 4, max = 8)
     private String code;
 
 }

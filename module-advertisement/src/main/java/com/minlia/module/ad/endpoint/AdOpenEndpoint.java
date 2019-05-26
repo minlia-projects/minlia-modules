@@ -9,6 +9,7 @@ import com.minlia.module.ad.service.AdService;
 import com.minlia.module.ad.service.AdsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,9 @@ public class AdOpenEndpoint {
 
 	@Autowired
 	private AdsService adsService;
+
+	@Autowired
+	private Mapper mapper;
 
 //	@PreAuthorize(value = "hasAnyAuthority('" + AdConstants.SEARCH + "')")
 //	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,7 +59,9 @@ public class AdOpenEndpoint {
 	public Response queryList(@RequestBody AdsQRO qro) {
 		List<Advertisements> advertisementsList = adsService.list(qro);
 		for (Advertisements advertisements : advertisementsList) {
-			advertisements.setAdvertisements(adService.list(AdQRO.builder().parentId(advertisements.getId()).build()));
+			AdQRO adQRO = mapper.map(qro, AdQRO.class);
+			adQRO.setParentId(advertisements.getId());
+			advertisements.setAdvertisements(adService.list(adQRO));
 		}
 		return Response.success(advertisementsList);
 	}
