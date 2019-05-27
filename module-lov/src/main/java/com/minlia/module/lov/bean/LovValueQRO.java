@@ -1,7 +1,10 @@
 package com.minlia.module.lov.bean;
 
 import com.minlia.module.data.bean.QueryRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -13,6 +16,9 @@ import java.util.Date;
  * @date 2019/5/20 4:09 PM
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LovValueQRO extends QueryRequest {
 
     /**

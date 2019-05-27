@@ -19,4 +19,5 @@ public interface LovValueService{
 
     List<LovValue> selectByAll(LovValueQRO qro);
 
+    LovValue selectOneByAll(LovValueQRO qro);
 }

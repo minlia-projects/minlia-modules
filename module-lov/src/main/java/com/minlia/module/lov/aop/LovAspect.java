@@ -1,6 +1,7 @@
 package com.minlia.module.lov.aop;
 
 import com.minlia.module.lov.bean.LovValueQRO;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -19,6 +20,10 @@ public class LovAspect {
     public void beforeMethod(JoinPoint joinPoint) {
         LovValueQRO qro = (LovValueQRO) joinPoint.getArgs()[0];
         qro.setLocale(LocaleContextHolder.getLocale().toString());
+
+        if (StringUtils.isBlank(qro.getSortsStr())) {
+            qro.setSortsStr("sort.ASC");
+        }
     }
 
 }

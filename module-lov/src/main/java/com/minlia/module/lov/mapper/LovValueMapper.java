@@ -1,12 +1,13 @@
 package com.minlia.module.lov.mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.minlia.module.lov.bean.LovValueQRO;
 import com.minlia.module.lov.enntity.LovValue;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface LovValueMapper {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(LovValue record);
@@ -23,6 +24,6 @@ public interface LovValueMapper {
 
     Long countById(@Param("id")Long id);
 
-
+    LovValue selectOneByAll(LovValueQRO qro);
 
 }

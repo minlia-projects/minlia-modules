@@ -60,4 +60,9 @@ public class LovValueServiceImpl implements LovValueService{
         return lovValueMapper.selectByAll(qro);
     }
 
+    @Override
+    public LovValue selectOneByAll(LovValueQRO qro) {
+        return lovValueMapper.selectOneByAll(qro);
+    }
+
 }
