@@ -61,6 +61,7 @@ public class AdOpenEndpoint {
 		for (Advertisements advertisements : advertisementsList) {
 			AdQRO adQRO = mapper.map(qro, AdQRO.class);
 			adQRO.setParentId(advertisements.getId());
+			adQRO.setName(null);
 			advertisements.setAdvertisements(adService.list(adQRO));
 		}
 		return Response.success(advertisementsList);
