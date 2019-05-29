@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LovAspect {
 
-    @Pointcut("execution(* com.minlia.module.lov.servcie.LovValueService.selectByAll(..)))")
+    @Pointcut("execution(* com.minlia.module.lov.servcie.LovValueService.select*ByAll(..)))")
     public void selectPointcut() { }
 
     @Before(value = "selectPointcut()")

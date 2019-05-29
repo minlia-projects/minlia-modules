@@ -18,7 +18,9 @@ public interface I18nMapper {
 
     void delete(Long id);
 
-    I18n queryOne(Long id);
+    I18n queryById(Long id);
+
+    I18n queryOne(I18nQRO qro);
 
     List<I18n> queryList(I18nQRO qro);
 

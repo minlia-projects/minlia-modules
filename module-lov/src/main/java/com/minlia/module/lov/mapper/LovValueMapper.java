@@ -26,4 +26,6 @@ public interface LovValueMapper {
 
     LovValue selectOneByAll(LovValueQRO qro);
 
+    LovValue selectOneByCodeAndLovCode(@Param("lovCode")String lovCode, @Param("code")String code, @Param("locale")String locale);
+
 }

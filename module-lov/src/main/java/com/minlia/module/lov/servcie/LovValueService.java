@@ -20,4 +20,8 @@ public interface LovValueService{
     List<LovValue> selectByAll(LovValueQRO qro);
 
     LovValue selectOneByAll(LovValueQRO qro);
+
+    LovValue selectOneByCodeAndLovCode(String lovCode, String code);
+
+    String selectNameByCodeAndLovCode(String lovCode, String code);
 }

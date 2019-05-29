@@ -9,6 +9,7 @@ import com.minlia.module.lov.mapper.LovValueMapper;
 import com.minlia.module.lov.servcie.LovService;
 import com.minlia.module.lov.servcie.LovValueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -63,6 +64,17 @@ public class LovValueServiceImpl implements LovValueService{
     @Override
     public LovValue selectOneByAll(LovValueQRO qro) {
         return lovValueMapper.selectOneByAll(qro);
+    }
+
+    @Override
+    public LovValue selectOneByCodeAndLovCode(String lovCode, String code) {
+        return lovValueMapper.selectOneByCodeAndLovCode(lovCode, code, LocaleContextHolder.getLocale().toString());
+    }
+
+    @Override
+    public String selectNameByCodeAndLovCode(String lovCode, String code) {
+        LovValue lovValue = this.selectOneByCodeAndLovCode(lovCode, code);
+        return null != lovValue ? lovValue.getName() : null;
     }
 
 }

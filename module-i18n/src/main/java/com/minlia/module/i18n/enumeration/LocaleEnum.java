@@ -7,6 +7,8 @@ public enum LocaleEnum {
 
     zh_CN,
 
+    zh_TW,
+
     en_US
 
 }

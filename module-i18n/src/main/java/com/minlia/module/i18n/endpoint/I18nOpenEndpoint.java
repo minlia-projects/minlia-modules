@@ -3,14 +3,12 @@ package com.minlia.module.i18n.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
-import com.minlia.module.i18n.ro.I18nQRO;
+import com.minlia.module.i18n.resource.MessageSource;
 import com.minlia.module.i18n.service.I18nService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,16 +22,19 @@ public class I18nOpenEndpoint {
     @Autowired
     private I18nService i18nService;
 
-    @ApiOperation(value = "切换语言")
-    @PostMapping(value = "locale")
-    public Response change(@RequestParam LocaleEnum lang) {
-        return Response.success();
-    }
+    @Autowired
+    private MessageSource messageSource;
 
     @ApiOperation(value = "切换语言")
     @GetMapping(value = "locale")
-    public Response change1(@RequestParam LocaleEnum lang) {
+    public Response locale(@RequestParam LocaleEnum lang) {
         return Response.success();
+    }
+
+    @ApiOperation(value = "GET")
+    @PostMapping(value = "all")
+    public Response all() {
+        return Response.success(messageSource.getLocalCache(LocaleContextHolder.getLocale()));
     }
 
 //    @ApiOperation(value = "测试")
@@ -42,22 +43,22 @@ public class I18nOpenEndpoint {
 //        return Response.success(Lang.get(i18nkey));
 //    }
 
-    @ApiOperation(value = "ID查询")
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response queryOne(@PathVariable Long id) {
-        return Response.success(i18nService.queryOne(id));
-    }
-
-    @ApiOperation(value = "集合查询")
-    @PostMapping(value = "list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response queryList(@RequestBody I18nQRO qro) {
-        return Response.success(i18nService.queryList(qro));
-    }
-
-    @ApiOperation(value = "分页查询")
-    @PostMapping(value = "page", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody I18nQRO qro) {
-        return Response.success(i18nService.queryPage(qro, pageable));
-    }
+//    @ApiOperation(value = "ID查询")
+//    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Response queryOne(@PathVariable Long id) {
+//        return Response.success(i18nService.queryById(id));
+//    }
+//
+//    @ApiOperation(value = "集合查询")
+//    @PostMapping(value = "list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Response queryList(@RequestBody I18nQRO qro) {
+//        return Response.success(i18nService.queryList(qro));
+//    }
+//
+//    @ApiOperation(value = "分页查询")
+//    @PostMapping(value = "page", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Response queryPage(@PageableDefault Pageable pageable, @RequestBody I18nQRO qro) {
+//        return Response.success(i18nService.queryPage(qro, pageable));
+//    }
 
 }

@@ -21,12 +21,14 @@ public interface I18nService {
 
     void delete(Long id);
 
-    I18n queryOne(Long id);
+    I18n queryById(Long id);
 
     List<I18n> queryList(I18nQRO qro);
 
     Map<String,String> queryMap(I18nQRO qro);
 
     PageInfo queryPage(I18nQRO qro, Pageable pageable);
+
+    String getValueByCode(String code);
 
 }

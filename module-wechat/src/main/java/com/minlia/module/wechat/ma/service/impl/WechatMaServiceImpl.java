@@ -131,7 +131,7 @@ public class WechatMaServiceImpl implements WechatMaService {
 
 
 //    public OssFile createWxCodeLimit(WechatMaQrcodeRO body){
-//        BibleItem qrConfig = bibleItemService.queryOne(BibleItemQRO.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
+//        BibleItem qrConfig = bibleItemService.queryById(BibleItemQRO.builder().parentCode(WechatMaBibleConstants.WECHAT_MA_QR_TYPE).code(body.getType()).build());
 //        ApiAssert.notNull(qrConfig, WechatMaCode.Message.PARAMETER_NOT_CONFIG, body.getType());
 //
 //        String accessToken = null;

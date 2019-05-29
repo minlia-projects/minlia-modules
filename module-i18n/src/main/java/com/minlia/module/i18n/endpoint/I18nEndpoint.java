@@ -75,7 +75,7 @@ public class I18nEndpoint {
     @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response queryOne(@PathVariable Long id) {
-        return Response.success(i18nService.queryOne(id));
+        return Response.success(i18nService.queryById(id));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
