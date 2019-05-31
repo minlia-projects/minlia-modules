@@ -1,6 +1,6 @@
 package com.minlia.module.data.annotation;
 
-import com.minlia.module.data.enumetation.SensitiveTypeEnum;
+import com.minlia.module.data.enumeration.SensitiveTypeEnum;
 
 import java.lang.annotation.*;
 

@@ -1,6 +1,6 @@
 package com.minlia.module.data.crypt;
 
-import com.minlia.module.data.enumetation.CryptTypeEnum;
+import com.minlia.module.data.enumeration.CryptTypeEnum;
 import com.minlia.module.data.impl.AESCryptImpl;
 
 /**

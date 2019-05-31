@@ -1,4 +1,4 @@
-package com.minlia.module.data.enumetation;
+package com.minlia.module.data.enumeration;
 
 /**
  * 验证类型枚举

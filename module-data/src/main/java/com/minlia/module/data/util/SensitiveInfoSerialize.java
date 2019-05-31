@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
 import com.minlia.module.data.annotation.SensitiveInfo;
-import com.minlia.module.data.enumetation.SensitiveTypeEnum;
+import com.minlia.module.data.enumeration.SensitiveTypeEnum;
 
 import java.io.IOException;
 import java.util.Objects;

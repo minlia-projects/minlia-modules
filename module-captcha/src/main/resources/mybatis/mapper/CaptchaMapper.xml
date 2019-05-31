@@ -45,6 +45,9 @@
             <if test="createBy != null">
                 AND create_by = #{createBy}
             </if>
+            <if test="lastModifiedBy != null">
+                AND last_modified_by = #{lastModifiedBy}
+            </if>
         </where>
     </sql>
 

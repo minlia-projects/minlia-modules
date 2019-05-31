@@ -54,7 +54,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     @Override
     public User change(PasswordByCaptchaChangeTO to) {
         User user = SecurityContextHolder.getCurrentUser();
-        Captcha captcha = captchaService.queryOne(CaptchaQRO.builder().createBy(user.getGuid()).code(to.getCode()).build());
+        Captcha captcha = captchaService.queryOne(CaptchaQRO.builder().lastModifiedBy(user.getGuid()).code(to.getCode()).build());
         ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
 
         //验证验证码是否正确

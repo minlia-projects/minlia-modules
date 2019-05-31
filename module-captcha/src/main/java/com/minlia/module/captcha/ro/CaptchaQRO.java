@@ -48,4 +48,6 @@ public class CaptchaQRO extends QueryRequest {
 
     private String createBy;
 
+    private String lastModifiedBy;
+
 }

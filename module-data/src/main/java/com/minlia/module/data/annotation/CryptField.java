@@ -1,6 +1,6 @@
 package com.minlia.module.data.annotation;
 
-import com.minlia.module.data.enumetation.CryptTypeEnum;
+import com.minlia.module.data.enumeration.CryptTypeEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
