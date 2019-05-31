@@ -67,6 +67,10 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 		return LOCAL_CACHE.get(locale.toString());
 	}
 
+	public Map<String, String> getLocalCache(String locale) {
+		return LOCAL_CACHE.get(locale);
+	}
+
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader != null?resourceLoader : new DefaultResourceLoader();

@@ -37,6 +37,12 @@ public class I18nOpenEndpoint {
         return Response.success(messageSource.getLocalCache(LocaleContextHolder.getLocale()));
     }
 
+    @ApiOperation(value = "GET")
+    @PostMapping(value = "{locale}")
+    public Response all(@PathVariable String locale) {
+        return Response.success(messageSource.getLocalCache(locale));
+    }
+
 //    @ApiOperation(value = "测试")
 //    @PostMapping(value = "test/{i18nkey:.+}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 //    public Response test(@PathVariable String i18nkey) {
