@@ -38,9 +38,9 @@ public class I18nServiceImpl implements I18nService {
 
     @Override
     public I18n update(I18nURO uto) {
-        I18n i18N = mapper.map(uto, I18n.class);
-        i18nMapper.update(i18N);
-        return i18N;
+        I18n i18n = mapper.map(uto, I18n.class);
+        i18nMapper.update(i18n);
+        return i18n;
     }
 
     @Override

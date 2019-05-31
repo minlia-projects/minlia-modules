@@ -66,19 +66,20 @@
                 appid = #{appid},
             </if>
             <if test="code != null">
-                code = #{code},
+                `code` = #{code},
             </if>
             <if test="value != null">
-                value = #{value},
+                `value` = #{value},
             </if>
             <if test="language != null">
-                language = #{language},
+                `language` = #{language},
             </if>
             <if test="locale != null">
                 locale = #{locale},
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
+        where id = #{id}
     </update>
 
     <delete id="delete">
