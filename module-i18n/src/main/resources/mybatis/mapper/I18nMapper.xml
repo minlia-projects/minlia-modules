@@ -96,7 +96,7 @@
         <include refid="ORDER_BY"/>
     </select>
 
-    <select id="queryMap" resultMap="java.util.Map">
+    <select id="queryMap" resultType="java.util.Map">
         SELECT code, value FROM mdl_i18n
         <include refid="QUERY_CONDITION"/>
     </select>
