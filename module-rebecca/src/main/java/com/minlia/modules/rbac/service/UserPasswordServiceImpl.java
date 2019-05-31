@@ -1,6 +1,9 @@
 package com.minlia.modules.rbac.service;
 
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.captcha.constant.CaptchaCode;
+import com.minlia.module.captcha.entity.Captcha;
+import com.minlia.module.captcha.ro.CaptchaQRO;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.bean.qo.UserQO;
@@ -10,6 +13,7 @@ import com.minlia.modules.rbac.bean.to.PasswordResetTO;
 import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.rbac.mapper.UserMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,9 +54,15 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     @Override
     public User change(PasswordByCaptchaChangeTO to) {
         User user = SecurityContextHolder.getCurrentUser();
+        Captcha captcha = captchaService.queryOne(CaptchaQRO.builder().createBy(user.getGuid()).code(to.getCode()).build());
+        ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
 
         //验证验证码是否正确
-        captchaService.validityByCellphone(user.getUsername(), to.getCode());
+        if (StringUtils.isNotBlank(captcha.getCellphone())) {
+            captchaService.validityByCellphone(captcha.getCellphone(), to.getCode());
+        } else {
+            captchaService.validityByEmail(captcha.getEmail(), to.getCode());
+        }
 
         return change(user,to.getNewPassword());
     }

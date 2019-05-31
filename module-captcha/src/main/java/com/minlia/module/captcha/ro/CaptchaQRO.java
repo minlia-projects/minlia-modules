@@ -46,4 +46,6 @@ public class CaptchaQRO extends QueryRequest {
 
     private Boolean enabled;
 
+    private String createBy;
+
 }

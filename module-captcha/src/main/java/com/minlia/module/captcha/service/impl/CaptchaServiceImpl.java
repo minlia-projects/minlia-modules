@@ -139,6 +139,11 @@ public class CaptchaServiceImpl implements CaptchaService {
         return captcha;
     }
 
+    @Override
+    public Captcha queryOne(CaptchaQRO qro) {
+        return captchaMapper.queryOne(qro);
+    }
+
     private void updateByResend(Captcha captcha, String code, Date currentDate, Date effectiveDate) {
         ApiAssert.state(currentDate.after(DateUtils.addMinutes(captcha.getSendTime(),1)) , CaptchaCode.Message.ONCE_PER_MINUTE);
         captcha.setCode(code);

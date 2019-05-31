@@ -1,6 +1,6 @@
 package com.minlia.module.captcha.entity;
 
-import com.minlia.module.data.entity.WithIdEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Captcha extends WithIdEntity {
+public class Captcha extends AbstractEntity {
 
     /**
      * 手机号码

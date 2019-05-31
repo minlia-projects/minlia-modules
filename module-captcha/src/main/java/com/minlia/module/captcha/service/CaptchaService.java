@@ -3,6 +3,7 @@ package com.minlia.module.captcha.service;
 
 import com.minlia.module.captcha.entity.Captcha;
 import com.minlia.module.captcha.ro.CaptchaCRO;
+import com.minlia.module.captcha.ro.CaptchaQRO;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,5 +45,7 @@ public interface CaptchaService {
      * @return
      */
     Captcha sendByEmail(String email);
+
+    Captcha queryOne(CaptchaQRO qro);
 
 }

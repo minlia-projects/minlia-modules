@@ -13,7 +13,11 @@
 			failure_count ,
 			effective_time ,
 			send_time ,
-			enabled
+			enabled,
+            create_by ,
+            create_date ,
+            last_modified_by ,
+            last_modified_date
 		FROM
 			mdl_captcha
 	</sql>
@@ -38,6 +42,9 @@
             <if test="enabled != null">
                 AND enabled = #{enabled}
             </if>
+            <if test="createBy != null">
+                AND create_by = #{createBy}
+            </if>
         </where>
     </sql>
 
@@ -59,7 +66,8 @@
 			locked ,
 			failure_count ,
 			effective_time ,
-			send_time
+			send_time,
+			create_by
 		)
 		VALUES (
             #{cellphone,jdbcType=VARCHAR} ,
@@ -69,7 +77,8 @@
             #{locked,jdbcType=TINYINT} ,
             #{failureCount,jdbcType=TINYINT} ,
             #{effectiveTime,jdbcType=TIMESTAMP},
-            #{sendTime,jdbcType=TIMESTAMP}
+            #{sendTime,jdbcType=TIMESTAMP},
+            #{createBy,jdbcType=VARCHAR}
         )
 	</insert>
 
@@ -94,6 +103,7 @@
             <if test="sendTime != null">
                 send_time = #{sendTime,jdbcType=TIMESTAMP} ,
             </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
