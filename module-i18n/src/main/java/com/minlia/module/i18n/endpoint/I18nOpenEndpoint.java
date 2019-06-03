@@ -31,14 +31,14 @@ public class I18nOpenEndpoint {
         return Response.success();
     }
 
-    @ApiOperation(value = "GET")
-    @PostMapping(value = "all")
+    @ApiOperation(value = "获取所有")
+    @GetMapping(value = "all")
     public Response all() {
         return Response.success(messageSource.getLocalCache(LocaleContextHolder.getLocale()));
     }
 
-    @ApiOperation(value = "GET")
-    @PostMapping(value = "{locale}")
+    @ApiOperation(value = "获取所有")
+    @GetMapping(value = "{locale}")
     public Response all(@PathVariable String locale) {
         return Response.success(messageSource.getLocalCache(locale));
     }
