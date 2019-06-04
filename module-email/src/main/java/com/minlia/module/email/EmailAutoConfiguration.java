@@ -1,6 +1,7 @@
 package com.minlia.module.email;
 
 import com.minlia.module.email.property.AliyunEmailProperties;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -8,12 +9,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.Properties;
 
 /**
  * Created by garen on 6/21/17.
  */
+@EnableAsync
 @Configuration
 @EnableConfigurationProperties(value = {AliyunEmailProperties.class, MailProperties.class})
 public class EmailAutoConfiguration {
@@ -26,12 +29,13 @@ public class EmailAutoConfiguration {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(null != mailProperties.getHost() ? mailProperties.getHost() : "smtp.gmail.com");
         mailSender.setPort(null != mailProperties.getPort() ? mailProperties.getPort() : 587);
-        mailSender.setUsername(null != mailProperties.getUsername() ? mailProperties.getUsername() : "my.gmail@gmail.com");
-        mailSender.setPassword(null != mailProperties.getPassword() ? mailProperties.getPassword() : "password");
+        mailSender.setUsername(mailProperties.getUsername());
+        mailSender.setPassword(mailProperties.getPassword());
+//        mailSender.setUsername(null != mailProperties.getUsername() ? mailProperties.getUsername() : null);
+//        mailSender.setPassword(null != mailProperties.getPassword() ? mailProperties.getPassword() : null);
 
         Properties props = mailSender.getJavaMailProperties();
-
-        if (props.size() == 0) {
+        if (MapUtils.isEmpty( mailProperties.getProperties())) {
             props.put("mail.debug", "true");
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.ssl.enable", "true");

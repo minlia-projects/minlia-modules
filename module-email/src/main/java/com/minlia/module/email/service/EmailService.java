@@ -3,6 +3,7 @@ package com.minlia.module.email.service;
 import com.github.pagehelper.PageInfo;
 import com.minlia.module.email.entity.EmailRecord;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,16 @@ import java.util.Map;
  * Created by garen on 2018/8/10.
  */
 public interface EmailService {
+
+    /**
+     * 发送文本邮件
+     * @param to
+     * @param richtextCode
+     * @param variables
+     * @return
+     */
+    @Async
+    EmailRecord sendRichtextMail(String[] to, String richtextCode, Map<String, ?> variables);
 
     /**
      * 发送文本邮件
@@ -28,7 +39,7 @@ public interface EmailService {
      * @param content
      * @return
      */
-    EmailRecord sendHtmlMail(String[] to, String subject, String content);
+    EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables);
 
     /**
      * 发送模版邮件

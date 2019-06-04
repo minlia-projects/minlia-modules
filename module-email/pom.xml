@@ -83,9 +83,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>3.0.0</version>
+            <groupId>com.minlia.cloud.module</groupId>
+            <artifactId>module-richtext</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

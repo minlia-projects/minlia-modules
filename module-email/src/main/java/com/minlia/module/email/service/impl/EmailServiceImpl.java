@@ -2,10 +2,15 @@ package com.minlia.module.email.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.common.base.Charsets;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.mapper.EmailMapper;
 import com.minlia.module.email.service.EmailService;
+import com.minlia.module.email.util.TextReplaceUtils;
+import com.minlia.module.richtext.constant.RichtextCode;
+import com.minlia.module.richtext.entity.Richtext;
+import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
+import com.minlia.module.richtext.service.RichtextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
@@ -21,7 +26,6 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +51,16 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
+    @Autowired
+    private RichtextService richtextService;
+
+    @Override
+    public EmailRecord sendRichtextMail(String[] to, String richtextCode, Map<String, ?> variables) {
+        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), richtextCode);
+        ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, richtextCode);
+        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables);
+    }
+
     @Override
     public EmailRecord sendSimpleMail(String[] to, String subject, String content) {
 //        JavaMailSender javaMailSender = new JavaMailSenderImpl();
@@ -67,7 +81,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailRecord sendHtmlMail(String[] to, String subject, String content) {
+    public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables) {
         if (null == content) {
             content = "<html>\n" +
                     "<ro>\n" +
@@ -83,7 +97,7 @@ public class EmailServiceImpl implements EmailService {
             message.setFrom(mailProperties.getUsername());
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(content, true);
+            helper.setText(TextReplaceUtils.replace(content, variables), true);
             mailSender.send(message);
             log.info("html邮件发送成功");
         } catch (MessagingException e) {
@@ -97,7 +111,7 @@ public class EmailServiceImpl implements EmailService {
         Context context = new Context();
         context.setVariables(variables);
         String emailContent = templateEngine.process(templateName, context);
-        return  sendHtmlMail(to, subject, emailContent);
+        return sendHtmlMail(to, subject, emailContent, null);
     }
 
     @Override
