@@ -7,24 +7,34 @@
             id ,
             type ,
             code ,
+            locale ,
             title ,
             content ,
-            note ,
+            dis_flag,
+            remark ,
             create_by ,
             create_date ,
             last_modified_by ,
             last_modified_date
-            enabled
-        FROM minlia_richtext
+        FROM mdl_richtext
     </sql>
 
     <sql id="QUERY_CONDITION">
         <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
             <if test="type != null">
                 AND type = #{type}
             </if>
             <if test="code != null">
                 AND code = #{code}
+            </if>
+            <if test="locale != null">
+                AND locale = #{locale}
+            </if>
+            <if test="disFlag != null">
+                AND dis_flag = #{disFlag}
             </if>
             <if test="title != null">
                 AND instr(title,#{title}) > 0
@@ -42,37 +52,51 @@
     </sql>
 
     <insert id="create">
-        INSERT INTO minlia_richtext(
+        INSERT INTO mdl_richtext(
             type ,
             code ,
+            locale ,
             title ,
             content ,
-            note ,
-            enabled ,
+            remark ,
+            dis_flag ,
             create_by
         )
         VALUES (
             #{type} ,
             #{code} ,
+            #{locale} ,
             #{title} ,
             #{content} ,
-            #{note} ,
-            #{enabled} ,
+            #{remark} ,
+            #{disFlag} ,
             #{createBy}
         )
     </insert>
 
     <update id="update" parameterType="com.minlia.module.richtext.entity.Richtext">
-        UPDATE minlia_richtext
+        UPDATE mdl_richtext
         <set>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="locale != null">
+                locale = #{locale},
+            </if>
             <if test="title != null">
                 title = #{title},
             </if>
             <if test="content != null">
                 content = #{content},
             </if>
-            <if test="note != null">
-                note = #{note},
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="disFlag != null">
+                dis_flag = #{disFlag},
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
@@ -80,11 +104,11 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM minlia_richtext WHERE id = #{id}
+        DELETE FROM mdl_richtext WHERE id = #{id}
     </delete>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM minlia_richtext
+        SELECT COUNT(1) FROM mdl_richtext
         <include refid="QUERY_CONDITION"/>
     </select>
 
