@@ -35,10 +35,10 @@ public class RichtextQRO extends QueryRequest {
     private String code;
 
     /**
-     * 标题
+     * 主题
      */
     @Size(max = 200)
-    private String title;
+    private String subject;
 
     /**
      * 内容

@@ -29,11 +29,11 @@ public class RichtextCRO implements ApiRequestBody {
     private String code;
 
     /**
-     * 标题
+     * 主题
      */
     @NotBlank
     @Size(max = 200)
-    private String title;
+    private String subject;
 
     /**
      * 内容

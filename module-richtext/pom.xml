@@ -9,7 +9,7 @@
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.minlia.cloud.modules</groupId>
+    <groupId>com.minlia.cloud.module</groupId>
     <artifactId>module-richtext</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
