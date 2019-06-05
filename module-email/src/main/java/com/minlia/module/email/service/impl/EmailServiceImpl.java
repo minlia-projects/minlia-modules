@@ -63,20 +63,12 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public EmailRecord sendSimpleMail(String[] to, String subject, String content) {
-//        JavaMailSender javaMailSender = new JavaMailSenderImpl();
-//        javaMailSender.set
-
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mailProperties.getUsername());
         message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
         mailSender.send(message);
-
-//        message.setTo("191285052@qq.com");
-//        message.setSubject("蜂鸟注册验证码");
-//        message.setText("尊敬的用户，您好！您本次操作的验证码为：8888，为了保证您的帐户安全，请勿向任何人提供此验证码。");
-
         return new EmailRecord();
     }
 

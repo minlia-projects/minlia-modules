@@ -83,7 +83,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.minlia.cloud.module</groupId>
+            <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-richtext</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>

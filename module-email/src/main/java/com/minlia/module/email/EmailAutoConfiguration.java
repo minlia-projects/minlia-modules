@@ -29,13 +29,9 @@ public class EmailAutoConfiguration {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(null != mailProperties.getHost() ? mailProperties.getHost() : "smtp.gmail.com");
         mailSender.setPort(null != mailProperties.getPort() ? mailProperties.getPort() : 587);
-        mailSender.setUsername(mailProperties.getUsername());
-        mailSender.setPassword(mailProperties.getPassword());
-//        mailSender.setUsername(null != mailProperties.getUsername() ? mailProperties.getUsername() : null);
-//        mailSender.setPassword(null != mailProperties.getPassword() ? mailProperties.getPassword() : null);
 
         Properties props = mailSender.getJavaMailProperties();
-        if (MapUtils.isEmpty( mailProperties.getProperties())) {
+        if (MapUtils.isEmpty(mailProperties.getProperties())) {
             props.put("mail.debug", "true");
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.ssl.enable", "true");
@@ -43,6 +39,11 @@ public class EmailAutoConfiguration {
             props.put("mail.smtp.starttls.required", "true");
         } else {
             props.putAll(mailProperties.getProperties());
+        }
+
+        if (props.getProperty("mail.smtp.auth", "false").equals("true")) {
+            mailSender.setUsername(mailProperties.getUsername());
+            mailSender.setPassword(mailProperties.getPassword());
         }
         return mailSender;
     }

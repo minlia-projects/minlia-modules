@@ -3,6 +3,7 @@ package com.minlia.modules.otp.sms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -41,7 +42,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
     public String send(String icc, String destAddr, String message){
 
         SMSRequestBody smsRequestBody = new SMSRequestBody();
-        smsRequestBody.setIcc(icc);
+        smsRequestBody.setIcc(StringUtils.isNotBlank(icc) ? icc : otpSmsProperties.getDefaultIcc());
         smsRequestBody.setDestAddr(destAddr);
         smsRequestBody.setMessage(message);
 

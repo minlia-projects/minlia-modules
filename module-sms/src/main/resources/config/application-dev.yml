@@ -1,0 +1,53 @@
+server:
+  port: 10012
+
+system:
+  appId: minlia-sms
+  token: bWlubGlhCg==
+  sms:
+    type: opt
+    opt:
+      url: https://10.15.102.13:8443/api/v1/sms
+      x-jetco-client-id: efebe93a53cfe4f3b560b68fea87c6bb
+      x-jetco-client-secret: 8b76a43e2369e1db8c93589360529443
+      default-icc: 00852
+
+# SPRING PROFILES
+spring:
+  profile: dev
+  application:
+    name: Minlia Sms
+
+  datasource:
+    driverClassName: net.sf.log4jdbc.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/minlia_mdl?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+    name:
+    username: root
+    password:
+
+system.security.jwt:
+  tokenExpirationTime: 10080 # Number of minutes
+  refreshTokenExpTime: 10080 # Minutes
+  tokenIssuer: http://minlia.com
+  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+
+swagger:
+  title: ${spring.application.name}接口
+  description: ${spring.application.name}接口
+  version: 1.0
+  contact: cloud@minlia.com
+  path: /api/.*
+  redirect: true
+
+mybatis:
+  #    config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath*:mybatis/**/mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

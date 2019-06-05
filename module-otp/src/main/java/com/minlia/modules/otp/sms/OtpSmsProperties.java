@@ -7,10 +7,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @author chen junhan 569551869@qq.com
  */
-@ConfigurationProperties(prefix = "sms.otp")
+@ConfigurationProperties(prefix = "system.sms.otp")
 @Getter
 @Setter
 public class OtpSmsProperties {
+
+    private String defaultIcc;
 
     /**
      * 协议及域名
