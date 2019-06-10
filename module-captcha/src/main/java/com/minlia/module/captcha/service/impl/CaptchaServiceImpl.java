@@ -73,7 +73,8 @@ public class CaptchaServiceImpl implements CaptchaService {
         if(Environments.isDevelopment()){
             code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         } else {
-            code = RandomStringUtils.randomNumeric(8);
+            code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+//            code = RandomStringUtils.randomNumeric(8);
         }
 
         //查询并判断是否存在
