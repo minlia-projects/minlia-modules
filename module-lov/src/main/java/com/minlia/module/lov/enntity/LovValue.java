@@ -16,6 +16,8 @@ public class LovValue extends AbstractEntity {
     @NotNull
     private Long lovId;
 
+    private String lovCode;
+
     /**
      * 父ID
      */

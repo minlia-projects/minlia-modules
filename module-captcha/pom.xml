@@ -51,7 +51,13 @@
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-otp</artifactId>
+            <artifactId>module-sms</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-richtext</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
 

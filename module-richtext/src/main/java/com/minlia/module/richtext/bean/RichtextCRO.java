@@ -2,7 +2,10 @@ package com.minlia.module.richtext.bean;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
@@ -12,6 +15,9 @@ import javax.validation.constraints.Size;
  * Created by garen on 2017/6/30.
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RichtextCRO implements ApiRequestBody {
 
     /**
@@ -58,5 +64,7 @@ public class RichtextCRO implements ApiRequestBody {
      * 禁用标识
      */
     private Boolean disFlag;
+
+    private boolean allLocale;
 
 }

@@ -17,9 +17,9 @@ import java.util.List;
  */
 public interface RichtextService {
 
-    Richtext create(RichtextCRO cto);
+    Richtext create(RichtextCRO cro);
 
-    Richtext update(RichtextURO uto);
+    Richtext update(RichtextURO uro);
 
     void delete(Long id);
 

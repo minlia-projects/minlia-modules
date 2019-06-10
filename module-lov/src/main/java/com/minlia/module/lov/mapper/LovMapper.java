@@ -20,6 +20,7 @@ public interface LovMapper {
 
     int updateByPrimaryKey(Lov record);
 
+    Lov selectOneByCode(@Param("code")String code);
 
     List<Lov> selectByAll(LovQRO qro);
 

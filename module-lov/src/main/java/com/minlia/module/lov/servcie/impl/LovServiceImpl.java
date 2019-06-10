@@ -48,5 +48,9 @@ public class LovServiceImpl implements LovService {
         return lovMapper.selectByAll(qro);
     }
 
+    @Override
+    public Lov selectOneByCode(String code) {
+        return lovMapper.selectOneByCode(code);
+    }
 }
 

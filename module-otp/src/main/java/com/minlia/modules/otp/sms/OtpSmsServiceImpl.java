@@ -3,12 +3,12 @@ package com.minlia.modules.otp.sms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.net.ssl.SSLContext;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
 
@@ -39,10 +40,10 @@ public class OtpSmsServiceImpl implements OtpSmsService {
     private OtpSmsProperties otpSmsProperties;
 
     @Override
-    public String send(String icc, String destAddr, String message){
+    public String send(String icc,String destAddr,String message){
 
         SMSRequestBody smsRequestBody = new SMSRequestBody();
-        smsRequestBody.setIcc(StringUtils.isNotBlank(icc) ? icc : otpSmsProperties.getDefaultIcc());
+        smsRequestBody.setIcc(icc);
         smsRequestBody.setDestAddr(destAddr);
         smsRequestBody.setMessage(message);
 
@@ -55,11 +56,18 @@ public class OtpSmsServiceImpl implements OtpSmsService {
                     .setConnectionRequestTimeout(timeout * 1000)
                     .setSocketTimeout(timeout * 1000)
                     .build();
-            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
+            SSLContext sslContext = null;
+            if(otpSmsProperties.getSslCertificateVerification()){
+                File certFile = new File( otpSmsProperties.getCertPath() );
+                sslContext = new SSLContextBuilder().loadTrustMaterial(certFile, otpSmsProperties.getStorePasswrod().toCharArray()).build();
+            }else{
+                sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
+            }
             CloseableHttpClient httpclient =
                     HttpClientBuilder.create()
                             .setDefaultRequestConfig(config)
                             .setSSLContext(sslContext)
+                            .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                             .build();
 
             HttpPost post = new HttpPost(otpSmsProperties.getUrl());
@@ -93,7 +101,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
             }
             httpclient.close();
         }catch (Exception e){
-            log.error("send error", e);
+            log.error("sendSms error", e);
             result = null;
         }
         return result;

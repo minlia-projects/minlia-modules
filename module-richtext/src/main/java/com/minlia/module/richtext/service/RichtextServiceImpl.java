@@ -31,18 +31,25 @@ public class RichtextServiceImpl implements RichtextService {
 
     @Override
     @Transactional
-    public Richtext create(RichtextCRO cto) {
-        Richtext richtext = mapper.map(cto,Richtext.class);
-        richtextMapper.create(richtext);
+    public Richtext create(RichtextCRO cro) {
+        Richtext richtext = mapper.map(cro,Richtext.class);
+        if (cro.isAllLocale()) {
+            for (LocaleEnum value : LocaleEnum.values()) {
+                richtext.setLocale(value.name());
+                richtextMapper.create(richtext);
+            }
+        } else {
+            richtextMapper.create(richtext);
+        }
         return richtext;
     }
 
     @Override
     @Transactional
-    public Richtext update(RichtextURO uto) {
-        Richtext richtext = richtextMapper.queryById(uto.getId());
+    public Richtext update(RichtextURO uro) {
+        Richtext richtext = richtextMapper.queryById(uro.getId());
         ApiAssert.notNull(richtext, SystemCode.Message.DATA_NOT_EXISTS);
-        mapper.map(uto,richtext);
+        mapper.map(uro,richtext);
         richtextMapper.update(richtext);
         return richtext;
     }

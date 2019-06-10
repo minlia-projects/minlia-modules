@@ -59,7 +59,9 @@
             subject ,
             content ,
             remark ,
-            dis_flag ,
+            <if test="disFlag != null">
+                dis_flag ,
+            </if>
             create_by
         )
         VALUES (
@@ -69,7 +71,9 @@
             #{subject} ,
             #{content} ,
             #{remark} ,
-            #{disFlag} ,
+            <if test="disFlag != null">
+                #{disFlag} ,
+            </if>
             #{createBy}
         )
     </insert>

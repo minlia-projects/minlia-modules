@@ -15,6 +15,10 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.captcha.util.SmsTemplateProperties;
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.service.EmailService;
+import com.minlia.module.richtext.entity.Richtext;
+import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
+import com.minlia.module.richtext.service.RichtextService;
+import com.minlia.module.sms.service.SmsService;
 import com.minlia.modules.otp.sms.OtpSmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -34,10 +38,16 @@ import java.util.Map;
 public class CaptchaServiceImpl implements CaptchaService {
 
     @Autowired
+    private SmsService smsService;
+
+    @Autowired
     private EmailService emailService;
 
     @Autowired
     private CaptchaMapper captchaMapper;
+
+    @Autowired
+    private RichtextService richtextService;
 
     @Autowired
     private SmsTemplateProperties smsTemplateProperties;
@@ -59,15 +69,11 @@ public class CaptchaServiceImpl implements CaptchaService {
     public Captcha sendByCellphone(String cellphone) {
         log.debug("Sending security code for cellphone: {}", cellphone);
 
-        String smsTemplateId = null;
         String code;
         if(Environments.isDevelopment()){
             code = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         } else {
-            code = RandomStringUtils.randomNumeric(4);
-            //检查获取了类型
-            smsTemplateId=smsTemplateProperties.get(CaptchaType.SECURITY_CODE.name());
-            ApiAssert.notNull(smsTemplateId, CaptchaCode.Message.TEMPLATE_NOT_FOUND);
+            code = RandomStringUtils.randomNumeric(8);
         }
 
         //查询并判断是否存在
@@ -94,7 +100,9 @@ public class CaptchaServiceImpl implements CaptchaService {
         //当生产环境时发送验证码, 否则不需要
         //TODO: SMS模板建好后需要修改此处的jsonArguments中的内容
         if(!Environments.isDevelopment()){
-            ContextHolder.getContext().getBean(OtpSmsService.class).send(null, cellphone, "{\"code\":\"" + captcha.getCode() + "\"}");
+            Map map = Maps.newHashMap();
+            map.put("code", code);
+            smsService.sendRichtextSms(new String[]{cellphone}, "CAPTCHA_DEFAULT", Maps.newHashMap());
         }
         return captcha;
     }

@@ -18,5 +18,7 @@ public interface LovService {
     Lov selectByPrimaryKey(Long id);
 
     List<Lov> selectByAll(LovQRO qro);
+
+    Lov selectOneByCode(String code);
 }
 

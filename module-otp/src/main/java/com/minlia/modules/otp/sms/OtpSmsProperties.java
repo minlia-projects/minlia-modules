@@ -29,4 +29,19 @@ public class OtpSmsProperties {
      */
     private String xJetcoClientSecret;
 
+    /**
+     * 是否启用ssl证书验证
+     */
+    private Boolean sslCertificateVerification;
+
+    /**
+     * 证书位置
+     */
+    private String certPath;
+
+    /**
+     * 证书密码
+     */
+    private String storePasswrod;
+
 }

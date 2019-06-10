@@ -26,15 +26,15 @@ public class RichtextEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.CREATE+"')")
     @ApiOperation(value = "create")
     @PostMapping(value = "create")
-    public Response create(@Valid @RequestBody RichtextCRO cto) {
-        return Response.success(richtextService.create(cto));
+    public Response create(@Valid @RequestBody RichtextCRO cro) {
+        return Response.success(richtextService.create(cro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.UPDATE+"')")
     @ApiOperation(value = "update")
     @PutMapping(value = "update")
-    public Response update(@Valid @RequestBody RichtextURO uto) {
-        return Response.success(richtextService.update(uto));
+    public Response update(@Valid @RequestBody RichtextURO uro) {
+        return Response.success(richtextService.update(uro));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.DELETE+"')")

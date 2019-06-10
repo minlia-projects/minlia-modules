@@ -8,6 +8,7 @@ import com.minlia.module.lov.enntity.LovValue;
 import com.minlia.module.lov.mapper.LovValueMapper;
 import com.minlia.module.lov.servcie.LovService;
 import com.minlia.module.lov.servcie.LovValueService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class LovValueServiceImpl implements LovValueService{
         Lov lov = lovService.selectByPrimaryKey(record.getLovId());
         ApiAssert.notNull(lov, SystemCode.Message.DATA_NOT_EXISTS);
         ApiAssert.state(record.getParentId() != null && lovValueMapper.countById(record.getParentId()) == 1, SystemCode.Message.DATA_NOT_EXISTS);
+        record.setLovCode(lov.getCode());
         return lovValueMapper.insertSelective(record);
     }
 
@@ -58,17 +60,26 @@ public class LovValueServiceImpl implements LovValueService{
 
     @Override
     public List<LovValue> selectByAll(LovValueQRO qro) {
+        if (StringUtils.isNotBlank(qro.getLovCode())) {
+            Lov lov = lovService.selectOneByCode(qro.getLovCode());
+            qro.setLovId(null != lov ? lov.getId() : -1);
+        }
         return lovValueMapper.selectByAll(qro);
     }
 
     @Override
     public LovValue selectOneByAll(LovValueQRO qro) {
+        if (StringUtils.isNotBlank(qro.getLovCode())) {
+            Lov lov = lovService.selectOneByCode(qro.getLovCode());
+            qro.setLovId(null != lov ? lov.getId() : -1);
+        }
         return lovValueMapper.selectOneByAll(qro);
     }
 
     @Override
     public LovValue selectOneByCodeAndLovCode(String lovCode, String code) {
-        return lovValueMapper.selectOneByCodeAndLovCode(lovCode, code, LocaleContextHolder.getLocale().toString());
+        Lov lov = lovService.selectOneByCode(lovCode);
+        return null != lov ? lovValueMapper.selectOneByCodeAndLovId(lov.getId(), code, LocaleContextHolder.getLocale().toString()) : null;
     }
 
     @Override
