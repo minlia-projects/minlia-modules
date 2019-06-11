@@ -5,7 +5,7 @@
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>minlia-modules</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Modules Parent</name>
 
@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <project.version>1.0.1-SNAPSHOT</project.version>
+        <project.version>2.0.0-SNAPSHOT</project.version>
     </properties>
 
     <modules>
@@ -65,7 +65,7 @@
         <!--阿里云-->
         <!--<module>module-aliyun-dypls</module>-->
         <!--<module>module-aliyun-sesame</module>-->
-        <!--<module>module-aliyun-sms</module>-->
+        <module>module-aliyun-sms</module>
         <!--<module>module-aliyun-oss</module>-->
         <!--<module>module-aliyun-market</module>-->
 
@@ -100,8 +100,6 @@
         <developerConnection>scm:git:https://github.com/minlia-projects/minlia-modules.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-
-
 
     <distributionManagement>
         <snapshotRepository>

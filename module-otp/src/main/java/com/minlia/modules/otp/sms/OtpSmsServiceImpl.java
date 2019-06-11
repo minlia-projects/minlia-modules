@@ -3,6 +3,7 @@ package com.minlia.modules.otp.sms;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -44,7 +45,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
         log.info("SMSServiceImpl-----start sand sms");
         log.info("SMSServiceImpl-----url="+otpSmsProperties.getUrl());
         SMSRequestBody smsRequestBody = new SMSRequestBody();
-        smsRequestBody.setIcc(icc);
+        smsRequestBody.setIcc(StringUtils.isNotBlank(icc) ? icc : otpSmsProperties.getDefaultIcc());
         smsRequestBody.setDestAddr(destAddr);
         smsRequestBody.setMessage(message);
 
@@ -72,14 +73,18 @@ public class OtpSmsServiceImpl implements OtpSmsService {
                             .build();
 
             HttpPost post = new HttpPost(otpSmsProperties.getUrl());
-            HttpEntity entity = new StringEntity(
-                    URLEncoder.encode(objectMapper.writeValueAsString(smsRequestBody), UTF_8.name()),
+            String str1 = URLEncoder.encode(objectMapper.writeValueAsString(smsRequestBody), UTF_8.name());
+            String str2 = objectMapper.writeValueAsString(smsRequestBody);
+            StringEntity entity = new StringEntity(
+                    str2,
                     ContentType.APPLICATION_JSON
             );
             post.setEntity(entity);
             post.setHeader(new BasicHeader("X-JETCO-CLIENT-ID", otpSmsProperties.getXJetcoClientId()));
             post.setHeader(new BasicHeader("X-JETCO-CLIENT-SECRET", otpSmsProperties.getXJetcoClientSecret()));
             post.setHeader(new BasicHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType()));
+            log.info("SMSServiceImpl-----str1="+str1);
+            log.info("SMSServiceImpl-----str2="+str2);
             log.info("SMSServiceImpl-----entity="+entity.toString());
             HttpResponse response;
 
@@ -95,11 +100,10 @@ public class OtpSmsServiceImpl implements OtpSmsService {
                     SMSResponseBody smsResponseBody = objectMapper.readValue(line, SMSResponseBody.class);
                     result = smsResponseBody.getId();
                 } catch (Exception e) {
-                    log.error("Nova response mapping exception", e);
+                    log.error("SMS response mapping exception", e);
                 }
             } else {
-                log.info("SMSServiceImpl-----http error");
-                log.error(String.valueOf(response.getStatusLine().getStatusCode())
+                log.error("SMSServiceImpl-----http error"+String.valueOf(response.getStatusLine().getStatusCode())
                         + ": "
                         + response.getStatusLine().getReasonPhrase());
             }

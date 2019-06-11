@@ -103,7 +103,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         if(!Environments.isDevelopment()){
             Map map = Maps.newHashMap();
             map.put("code", code);
-            smsService.sendRichtextSms(new String[]{cellphone}, "CAPTCHA_DEFAULT", Maps.newHashMap());
+            smsService.sendRichtextSms(new String[]{cellphone}, "CAPTCHA_DEFAULT", map);
         }
         return captcha;
     }

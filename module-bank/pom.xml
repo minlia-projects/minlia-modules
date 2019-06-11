@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
         <artifactId>minlia-modules</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-bank</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Module Bank</name>
 
@@ -29,19 +29,19 @@
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-bible</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-rebecca</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-common</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>2.0.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
