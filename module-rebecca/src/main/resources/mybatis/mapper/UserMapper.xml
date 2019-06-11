@@ -132,9 +132,11 @@
         DELETE FROM mdl_user WHERE id = #{id};
     </delete>
 
-    <update id="grant">
-        DELETE FROM mdl_user_role where user_id = #{arg0};
+    <delete id="deleteRole">
+        DELETE FROM mdl_user_role where user_id = #{arg0}
+    </delete>
 
+    <update id="grant">
         INSERT INTO mdl_user_role(
             user_id ,
             role_id

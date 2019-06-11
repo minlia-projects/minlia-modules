@@ -15,7 +15,9 @@ public interface UserMapper  {
 
     int delete(Long id);
 
-    void grant(Long id, Set<Long> roles);
+    int deleteRole(Long id);
+
+    int grant(Long id, Set<Long> roles);
 
     long count(UserQO qro);
 

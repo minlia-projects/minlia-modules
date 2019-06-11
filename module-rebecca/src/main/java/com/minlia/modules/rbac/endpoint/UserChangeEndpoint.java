@@ -57,17 +57,33 @@ public class UserChangeEndpoint {
     }
 
 //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
+//    @ApiOperation(value = "邮箱", notes = "邮箱", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @RequestMapping(value = "email/{email}/{captcha}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public Response email(@PathVariable String email, @PathVariable String captcha) {
+//        //正则校验
+//        ApiAssert.state(Pattern.matches("^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$", email), CommonCode.Message.EMAIL_FORMAT_ERROR);
+//
+//        //检查邮箱是否存在
+//        ApiAssert.state(!userQueryService.exists(UserQO.builder().email(email).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
+//
+//        //校验验证码
+//        captchaService.validityByEmail(email, captcha);
+//
+//        User user = SecurityContextHolder.getCurrentUser();
+//        user.setEmail(email);
+//        userService.update(user);
+//        return Response.success();
+//    }
+
+    //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "邮箱", notes = "邮箱", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "email/{email}/{captcha}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response email(@PathVariable String email, @PathVariable String captcha) {
+    @RequestMapping(value = "email/{email}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response email(@PathVariable String email) {
         //正则校验
         ApiAssert.state(Pattern.matches("^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$", email), CommonCode.Message.EMAIL_FORMAT_ERROR);
 
         //检查邮箱是否存在
         ApiAssert.state(!userQueryService.exists(UserQO.builder().email(email).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
-
-        //校验验证码
-        captchaService.validityByEmail(email, captcha);
 
         User user = SecurityContextHolder.getCurrentUser();
         user.setEmail(email);

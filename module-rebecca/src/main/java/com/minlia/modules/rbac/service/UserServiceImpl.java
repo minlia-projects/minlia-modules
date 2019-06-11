@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    @Transactional
     public User create(UserCTO cro) {
         User user = new User();
 
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
         userMapper.create(user);
 
         //给用户授予角色
-        userMapper.grant(user.getId(), roles);
+        this.grant(user.getId(), roles);
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
         RegistrationEvent.onCompleted(user);
@@ -169,7 +170,13 @@ public class UserServiceImpl implements UserService {
             Role role = roleService.queryById(roleId);
             ApiAssert.notNull(role,RoleCode.Message.NOT_EXISTS);
         }
+        userMapper.deleteRole(user.getId());
         userMapper.grant(user.getId(),roles);
+    }
+
+    private void grant(Long userId, Set<Long> roles) {
+        userMapper.deleteRole(userId);
+        userMapper.grant(userId,roles);
     }
 
 }
