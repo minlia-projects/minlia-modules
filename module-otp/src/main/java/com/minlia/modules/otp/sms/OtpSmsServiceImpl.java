@@ -41,7 +41,8 @@ public class OtpSmsServiceImpl implements OtpSmsService {
 
     @Override
     public String send(String icc,String destAddr,String message){
-
+        log.info("SMSServiceImpl-----start sand sms");
+        log.info("SMSServiceImpl-----url="+otpSmsProperties.getUrl());
         SMSRequestBody smsRequestBody = new SMSRequestBody();
         smsRequestBody.setIcc(icc);
         smsRequestBody.setDestAddr(destAddr);
@@ -79,14 +80,16 @@ public class OtpSmsServiceImpl implements OtpSmsService {
             post.setHeader(new BasicHeader("X-JETCO-CLIENT-ID", otpSmsProperties.getXJetcoClientId()));
             post.setHeader(new BasicHeader("X-JETCO-CLIENT-SECRET", otpSmsProperties.getXJetcoClientSecret()));
             post.setHeader(new BasicHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType()));
-
+            log.info("SMSServiceImpl-----entity="+entity.toString());
             HttpResponse response;
 
             response = httpclient.execute(post);
             if (response.getStatusLine().getStatusCode() == org.apache.http.HttpStatus.SC_OK) {
+                log.info("SMSServiceImpl-----http success");
                 HttpEntity responseEntity = response.getEntity();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(responseEntity.getContent(), UTF_8));
                 String line = reader.readLine();
+                log.info("SMSServiceImpl-----line = "+line);
                 EntityUtils.consume(responseEntity);
                 try {
                     SMSResponseBody smsResponseBody = objectMapper.readValue(line, SMSResponseBody.class);
@@ -95,6 +98,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
                     log.error("Nova response mapping exception", e);
                 }
             } else {
+                log.info("SMSServiceImpl-----http error");
                 log.error(String.valueOf(response.getStatusLine().getStatusCode())
                         + ": "
                         + response.getStatusLine().getReasonPhrase());
@@ -104,6 +108,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
             log.error("sendSms error", e);
             result = null;
         }
+        log.info("SMSServiceImpl-----end sand sms---result="+result);
         return result;
     }
 
