@@ -29,6 +29,11 @@
     </sql>
 
     <sql id="QUERY_CONDITION">
+        <if test="roleCodes != null and roleCodes.size != 0">
+            INNER JOIN mdl_user_role murt ON murt.user_id = mut.id
+            INNER JOIN mdl_role mrt ON mrt.id = murt.role_id
+        </if>
+
         <where>
             <if test="id != null">
                 AND mut.id = #{id,jdbcType=BIGINT}
@@ -53,6 +58,12 @@
             </if>
             <if test="enabled != null">
                 AND mut.enabled = #{enabled,jdbcType=TINYINT}
+            </if>
+            <if test="roleCodes != null and roleCodes.size != 0">
+                AND mrt.`code` IN
+                <foreach collection="roleCodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
             </if>
         </where>
     </sql>
@@ -138,8 +149,8 @@
 
     <update id="grant">
         INSERT INTO mdl_user_role(
-            user_id ,
-            role_id
+        user_id ,
+        role_id
         )
         VALUES
         <foreach collection="arg1" item="item" index="index" separator=",">
