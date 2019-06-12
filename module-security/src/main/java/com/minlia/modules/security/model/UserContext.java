@@ -25,6 +25,10 @@ public final class UserContext implements Body {
      */
     private String username;
 
+    private String cellphone;
+
+    private String email;
+
     /**
      * 用户唯一编号
      */

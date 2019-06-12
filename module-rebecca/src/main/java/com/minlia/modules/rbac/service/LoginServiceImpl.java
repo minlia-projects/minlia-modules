@@ -1,10 +1,7 @@
 package com.minlia.modules.rbac.service;
 
 import com.google.common.collect.Lists;
-import com.minlia.modules.rbac.bean.domain.Role;
 import com.minlia.modules.rbac.bean.domain.User;
-import com.minlia.modules.rbac.bean.qo.NavigationQO;
-import com.minlia.modules.rbac.bean.vo.MyNavigationVO;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
@@ -60,6 +57,8 @@ public class LoginServiceImpl implements LoginService {
 
         UserContext userContext = UserContext.builder()
                 .username(user.getUsername())
+                .cellphone(user.getCellphone())
+                .email(user.getEmail())
                 .guid(user.getGuid())
                 .currrole(currrole)
                 .roles(roles)
