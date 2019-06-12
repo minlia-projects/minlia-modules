@@ -97,6 +97,7 @@ public class NavigationServiceImpl implements NavigationService {
                 navigationMapper.updateType(navigation.getParentId(),NavigationType.LEAF);
             }
         }
+        navigationMapper.deleteMappingById(id);
         navigationMapper.delete(id);
     }
 

@@ -16,6 +16,8 @@ public interface NavigationMapper {
 
     int delete(Long id);
 
+    int deleteMappingById(Long id);
+
     int updateType(Long id, NavigationType type);
 
     int grant(Long roleId, List<Long> ids);

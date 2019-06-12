@@ -125,7 +125,6 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM mdl_role_navigation where navigation_id = #{id};
         DELETE FROM mdl_navigation where id = #{id};
     </delete>
 
@@ -168,6 +167,10 @@
 
     <delete id="clear">
         DELETE FROM mdl_role_navigation WHERE role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteMappingById">
+        DELETE FROM mdl_role_navigation where navigation_id = #{id};
     </delete>
 
 </mapper>
