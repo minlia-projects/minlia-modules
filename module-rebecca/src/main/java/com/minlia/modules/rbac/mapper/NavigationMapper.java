@@ -10,15 +10,15 @@ import java.util.List;
 
 public interface NavigationMapper {
 
-    void create(Navigation navigation);
+    int create(Navigation navigation);
 
-    void update(Navigation navigation);
+    int update(Navigation navigation);
 
-    void delete(Long id);
+    int delete(Long id);
 
-    void updateType(Long id, NavigationType type);
+    int updateType(Long id, NavigationType type);
 
-    void grant(Long roleId, List<Long> ids);
+    int grant(Long roleId, List<Long> ids);
 
     void display(Long id, boolean display);
 
@@ -30,5 +30,6 @@ public interface NavigationMapper {
 
     List<MyNavigationVO> queryMyNavigationList(NavigationQO qro);
 
-    void clear(Long roleId);
+    int clear(Long roleId);
+
 }

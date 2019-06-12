@@ -130,8 +130,6 @@
     </delete>
 
     <insert id="grant">
-        DELETE FROM mdl_role_navigation where role_id = #{arg0};
-
         INSERT INTO mdl_role_navigation(
             role_id ,
             navigation_id

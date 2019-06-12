@@ -105,14 +105,14 @@ public class NavigationServiceImpl implements NavigationService {
         boolean existsRole = roleService.exists(grantTO.getRoleId());
         ApiAssert.state(existsRole, RoleCode.Message.NOT_EXISTS);
 
+        navigationMapper.clear(grantTO.getRoleId());
+
         if (CollectionUtils.isNotEmpty(grantTO.getIds())) {
             for (Long id: grantTO.getIds()) {
                 boolean exists = navigationMapper.count(NavigationQO.builder().id(id).display(true).build()) > 0;
                 ApiAssert.state(exists, NavigationCode.Message.NOT_EXISTS);
             }
             navigationMapper.grant(grantTO.getRoleId(),grantTO.getIds());
-        } else {
-            navigationMapper.clear(grantTO.getRoleId());
         }
     }
 
