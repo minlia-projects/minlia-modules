@@ -20,7 +20,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, appid, channel, code, `to`, `locale`, subject, content, remark, dis_flag, create_by,
+        id, appid, channel, code, `to`, `locale`, `subject`, content, remark, dis_flag, create_by,
         create_date, last_modified_by, last_modified_date
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -39,7 +39,7 @@
             useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into mdl_sms_record (appid, channel, code,
-        `to`, `locale`, subject,
+        `to`, `locale`, `subject`,
         content, remark, dis_flag,
         create_by, create_date, last_modified_by,
         last_modified_date)
@@ -61,7 +61,7 @@
                 channel,
             </if>
             <if test="code != null">
-                code,
+                `code`,
             </if>
             <if test="to != null">
                 `to`,
@@ -70,7 +70,7 @@
                 `locale`,
             </if>
             <if test="subject != null">
-                subject,
+                `subject`,
             </if>
             <if test="content != null">
                 content,
@@ -147,7 +147,7 @@
                 channel = #{channel,jdbcType=VARCHAR},
             </if>
             <if test="code != null">
-                code = #{code,jdbcType=VARCHAR},
+                `code` = #{code,jdbcType=VARCHAR},
             </if>
             <if test="to != null">
                 `to` = #{to,jdbcType=VARCHAR},
@@ -156,7 +156,7 @@
                 `locale` = #{locale,jdbcType=VARCHAR},
             </if>
             <if test="subject != null">
-                subject = #{subject,jdbcType=VARCHAR},
+                `subject` = #{subject,jdbcType=VARCHAR},
             </if>
             <if test="content != null">
                 content = #{content,jdbcType=VARCHAR},
@@ -190,7 +190,7 @@
         code = #{code,jdbcType=VARCHAR},
         `to` = #{to,jdbcType=VARCHAR},
         `locale` = #{locale,jdbcType=VARCHAR},
-        subject = #{subject,jdbcType=VARCHAR},
+        `subject` = #{subject,jdbcType=VARCHAR},
         content = #{content,jdbcType=VARCHAR},
         remark = #{remark,jdbcType=VARCHAR},
         dis_flag = #{disFlag,jdbcType=BOOLEAN},
