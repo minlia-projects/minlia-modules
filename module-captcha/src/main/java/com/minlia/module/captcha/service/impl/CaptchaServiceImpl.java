@@ -1,25 +1,18 @@
 package com.minlia.module.captcha.service.impl;
 
 import com.google.common.collect.Maps;
-import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.Captcha;
 import com.minlia.module.captcha.enumeration.CaptchaMethodEnum;
-import com.minlia.module.captcha.enumeration.CaptchaType;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
 import com.minlia.module.captcha.ro.CaptchaCRO;
 import com.minlia.module.captcha.ro.CaptchaQRO;
 import com.minlia.module.captcha.service.CaptchaService;
-import com.minlia.module.captcha.util.SmsTemplateProperties;
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.service.EmailService;
-import com.minlia.module.richtext.entity.Richtext;
-import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
-import com.minlia.module.richtext.service.RichtextService;
 import com.minlia.module.sms.service.SmsService;
-import com.minlia.modules.otp.sms.OtpSmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -45,12 +38,6 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Autowired
     private CaptchaMapper captchaMapper;
-
-    @Autowired
-    private RichtextService richtextService;
-
-    @Autowired
-    private SmsTemplateProperties smsTemplateProperties;
 
     @Override
     public Captcha send(CaptchaCRO cro) {
