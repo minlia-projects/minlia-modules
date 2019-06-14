@@ -7,11 +7,12 @@
         <result column="appid" jdbcType="VARCHAR" property="appid"/>
         <result column="channel" jdbcType="VARCHAR" property="channel"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
-        <result column="to" jdbcType="VARCHAR" property="to"/>
+        <result column="send_to" jdbcType="VARCHAR" property="sendTo"/>
         <result column="locale" jdbcType="VARCHAR" property="locale"/>
         <result column="subject" jdbcType="VARCHAR" property="subject"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="success_flag" jdbcType="BOOLEAN" property="successFlag"/>
         <result column="dis_flag" jdbcType="BOOLEAN" property="disFlag"/>
         <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
@@ -20,8 +21,8 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, appid, channel, code, `to`, `locale`, `subject`, content, remark, dis_flag, create_by,
-        create_date, last_modified_by, last_modified_date
+        id, appid, channel, code, send_to, `locale`, subject, content, remark, success_flag,
+        dis_flag, create_by, create_date, last_modified_by, last_modified_date
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--@mbg.generated-->
@@ -39,15 +40,15 @@
             useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into mdl_sms_record (appid, channel, code,
-        `to`, `locale`, `subject`,
-        content, remark, dis_flag,
-        create_by, create_date, last_modified_by,
-        last_modified_date)
+        send_to, `locale`, subject,
+        content, remark, success_flag,
+        dis_flag, create_by, create_date,
+        last_modified_by, last_modified_date)
         values (#{appid,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
-        #{to,jdbcType=VARCHAR}, #{locale,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR},
-        #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{disFlag,jdbcType=BOOLEAN},
-        #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=VARCHAR},
-        #{lastModifiedDate,jdbcType=TIMESTAMP})
+        #{sendTo,jdbcType=VARCHAR}, #{locale,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR},
+        #{content,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{successFlag,jdbcType=BOOLEAN},
+        #{disFlag,jdbcType=BOOLEAN}, #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+        #{lastModifiedBy,jdbcType=VARCHAR}, #{lastModifiedDate,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minlia.module.sms.entity.SmsRecord"
             useGeneratedKeys="true">
@@ -61,22 +62,25 @@
                 channel,
             </if>
             <if test="code != null">
-                `code`,
+                code,
             </if>
-            <if test="to != null">
-                `to`,
+            <if test="sendTo != null">
+                send_to,
             </if>
             <if test="locale != null">
                 `locale`,
             </if>
             <if test="subject != null">
-                `subject`,
+                subject,
             </if>
             <if test="content != null">
                 content,
             </if>
             <if test="remark != null">
                 remark,
+            </if>
+            <if test="successFlag != null">
+                success_flag,
             </if>
             <if test="disFlag != null">
                 dis_flag,
@@ -104,8 +108,8 @@
             <if test="code != null">
                 #{code,jdbcType=VARCHAR},
             </if>
-            <if test="to != null">
-                #{to,jdbcType=VARCHAR},
+            <if test="sendTo != null">
+                #{sendTo,jdbcType=VARCHAR},
             </if>
             <if test="locale != null">
                 #{locale,jdbcType=VARCHAR},
@@ -118,6 +122,9 @@
             </if>
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="successFlag != null">
+                #{successFlag,jdbcType=BOOLEAN},
             </if>
             <if test="disFlag != null">
                 #{disFlag,jdbcType=BOOLEAN},
@@ -147,22 +154,25 @@
                 channel = #{channel,jdbcType=VARCHAR},
             </if>
             <if test="code != null">
-                `code` = #{code,jdbcType=VARCHAR},
+                code = #{code,jdbcType=VARCHAR},
             </if>
-            <if test="to != null">
-                `to` = #{to,jdbcType=VARCHAR},
+            <if test="sendTo != null">
+                send_to = #{sendTo,jdbcType=VARCHAR},
             </if>
             <if test="locale != null">
                 `locale` = #{locale,jdbcType=VARCHAR},
             </if>
             <if test="subject != null">
-                `subject` = #{subject,jdbcType=VARCHAR},
+                subject = #{subject,jdbcType=VARCHAR},
             </if>
             <if test="content != null">
                 content = #{content,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="successFlag != null">
+                success_flag = #{successFlag,jdbcType=BOOLEAN},
             </if>
             <if test="disFlag != null">
                 dis_flag = #{disFlag,jdbcType=BOOLEAN},
@@ -188,11 +198,12 @@
         set appid = #{appid,jdbcType=VARCHAR},
         channel = #{channel,jdbcType=VARCHAR},
         code = #{code,jdbcType=VARCHAR},
-        `to` = #{to,jdbcType=VARCHAR},
+        send_to = #{sendTo,jdbcType=VARCHAR},
         `locale` = #{locale,jdbcType=VARCHAR},
-        `subject` = #{subject,jdbcType=VARCHAR},
+        subject = #{subject,jdbcType=VARCHAR},
         content = #{content,jdbcType=VARCHAR},
         remark = #{remark,jdbcType=VARCHAR},
+        success_flag = #{successFlag,jdbcType=BOOLEAN},
         dis_flag = #{disFlag,jdbcType=BOOLEAN},
         create_by = #{createBy,jdbcType=VARCHAR},
         create_date = #{createDate,jdbcType=TIMESTAMP},

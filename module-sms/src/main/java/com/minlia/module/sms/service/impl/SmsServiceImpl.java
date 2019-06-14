@@ -2,6 +2,7 @@ package com.minlia.module.sms.service.impl;
 
 import com.google.common.collect.Lists;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.module.richtext.constant.RichtextCode;
 import com.minlia.module.richtext.entity.Richtext;
 import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
@@ -29,21 +30,28 @@ public class SmsServiceImpl implements SmsService {
     private SmsProperties smsProperties;
 
     @Autowired
+    private OtpSmsService otpSmsService;
+
+    @Autowired
     private RichtextService richtextService;
 
     @Autowired
     private SmsRecordService smsRecordService;
-
-    @Autowired
-    private OtpSmsService otpSmsService;
 
     @Override
     public SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables) {
         Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.SMS_TEMPLATE.name(), richtextCode);
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, richtextCode);
         String content = TextReplaceUtils.replace(richtext.getContent(), variables);
-        String result = otpSmsService.send(null, String.join(",", Lists.newArrayList(to)), content);
-        SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).to(String.join(",", Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).remark(result).build();
+        SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).sendTo(String.join(",", Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
+        try {
+            String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
+            smsRecord.setRemark(result);
+            smsRecord.setSuccessFlag(true);
+        } catch (Exception e) {
+            smsRecord.setRemark(e.getMessage());
+            smsRecord.setSuccessFlag(false);
+        }
         smsRecordService.insertSelective(smsRecord);
         return smsRecord;
     }

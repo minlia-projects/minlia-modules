@@ -30,7 +30,7 @@ public class SmsRecord extends AbstractEntity {
     /**
      * 接收人
      */
-    private String to;
+    private String sendTo;
 
     /**
      * 语言
@@ -51,6 +51,11 @@ public class SmsRecord extends AbstractEntity {
      * 备注
      */
     private String remark;
+
+    /**
+     * 发送成功
+     */
+    private Boolean successFlag;
 
     /**
      * 禁用标识
