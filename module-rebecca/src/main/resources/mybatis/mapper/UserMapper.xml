@@ -11,7 +11,7 @@
             mut.password ,
             mut.cellphone ,
             mut.email ,
-            mut.nickname ,
+            mut.`nickname` ,
             mut.default_role ,
             mut.credentials_expired ,
             mut.locked ,

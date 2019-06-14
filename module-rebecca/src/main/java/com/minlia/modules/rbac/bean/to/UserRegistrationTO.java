@@ -51,7 +51,7 @@ public class UserRegistrationTO implements ApiRequestBody {
 
     @ApiModelProperty(value = "验证码", example = "8888")
     @NotBlank(message = "验证码不能为空")
-    @Size(min = 4, max = 6)
+    @Size(min = 4, max = 8)
     private String code;
 
     @ApiModelProperty("推荐人")
