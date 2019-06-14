@@ -4,6 +4,7 @@
 
     <sql id="QUERY_CONTENT">
         SELECT
+            DISTINCT
             mut.id ,
             mut.guid ,
             mut.username ,
