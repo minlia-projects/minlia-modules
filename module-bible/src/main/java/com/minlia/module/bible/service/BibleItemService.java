@@ -9,6 +9,7 @@ import com.minlia.module.bible.ro.BibleItemURO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by will on 6/17/17.
@@ -33,4 +34,5 @@ public interface BibleItemService {
 
     PageInfo<BibleItem> queryPage(BibleItemQRO qro, Pageable pageable);
 
+    Map<String, String> queryValueMap(String bibleCode);
 }

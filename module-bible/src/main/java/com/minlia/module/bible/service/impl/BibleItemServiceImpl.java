@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BibleItemServiceImpl implements BibleItemService {
@@ -127,6 +128,11 @@ public class BibleItemServiceImpl implements BibleItemService {
     public String get(String parentCode,String code){
         BibleItem bibleItem = bibleItemMapper.queryOne(BibleItemQRO.builder().parentCode(parentCode).code(code).build());
         return null == bibleItem ? null : bibleItem.getValue();
+    }
+
+    @Override
+    public Map<String, String> queryValueMap(String bibleCode) {
+        return bibleItemMapper.queryValueMap(bibleCode);
     }
 
 }

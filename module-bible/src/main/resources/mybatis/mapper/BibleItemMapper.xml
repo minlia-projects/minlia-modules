@@ -127,4 +127,8 @@
         <include refid="ORDER_BY"/>
     </select>
 
+    <select id="queryValueMap" resultType="java.util.Map">
+        SELECT `code`, `value` from mdl_bible_item WHERE parent_code = #{bibleCode};
+    </select>
+
 </mapper>
