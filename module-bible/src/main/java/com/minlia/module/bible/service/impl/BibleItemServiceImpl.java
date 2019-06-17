@@ -2,6 +2,7 @@ package com.minlia.module.bible.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.ro.BibleItemQRO;
@@ -13,6 +14,7 @@ import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.mapper.BibleItemMapper;
 import com.minlia.module.bible.mapper.BibleMapper;
 import com.minlia.module.bible.service.BibleItemService;
+import org.apache.commons.collections.MapUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -132,7 +134,15 @@ public class BibleItemServiceImpl implements BibleItemService {
 
     @Override
     public Map<String, String> queryValueMap(String bibleCode) {
-        return bibleItemMapper.queryValueMap(bibleCode);
+        Map<String, Map<String, String>> source = bibleItemMapper.queryValueMap(bibleCode);
+        Map<String, String> result = Maps.newHashMap();
+        if (MapUtils.isNotEmpty(source)) {
+            source.entrySet().stream().forEach(entry ->{
+                result.put(entry.getKey(), entry.getValue().get("value"));
+            });
+            return result;
+        }
+        return result;
     }
 
 }

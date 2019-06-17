@@ -27,6 +27,6 @@ public interface BibleItemMapper {
     List<BibleItem> queryList(BibleItemQRO qro);
 
     @MapKey("code")
-    Map<String,String> queryValueMap(String bibleCode);
+    Map<String, Map<String, String>> queryValueMap(String bibleCode);
 
 }
