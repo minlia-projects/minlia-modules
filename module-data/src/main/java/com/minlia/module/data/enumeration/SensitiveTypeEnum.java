@@ -45,6 +45,10 @@ public enum SensitiveTypeEnum {
     /**
      * 密码
      */
-    PASSWORD;
+    PASSWORD,
+
+    HK_ID_CARD,
+
+    HK_PHONE,
 
 }

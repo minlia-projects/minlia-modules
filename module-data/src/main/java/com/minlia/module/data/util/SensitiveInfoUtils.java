@@ -1,5 +1,6 @@
 package com.minlia.module.data.util;
 
+import com.minlia.module.common.constant.SymbolConstants;
 import org.apache.commons.lang3.StringUtils;
 
 public class SensitiveInfoUtils {
@@ -32,7 +33,6 @@ public class SensitiveInfoUtils {
         if (StringUtils.isBlank(id)) {
             return "";
         }
-
         return StringUtils.left(id, 3).concat(StringUtils
                 .removeStart(StringUtils.leftPad(StringUtils.right(id, 3), StringUtils.length(id), "*"),
                         "***"));
@@ -55,10 +55,10 @@ public class SensitiveInfoUtils {
         if (StringUtils.isBlank(num)) {
             return "";
         }
-        return StringUtils.left(num, 2).concat(StringUtils
-                .removeStart(StringUtils.leftPad(StringUtils.right(num, 2), StringUtils.length(num), "*"),
-                        "***"));
-
+        return aroundPad(num, 3, 4, SymbolConstants.STAR);
+//        return StringUtils.left(num, 3).concat(StringUtils
+//                .removeStart(StringUtils.leftPad(StringUtils.right(num, 3), StringUtils.length(num), "*"),
+//                        "***"));
     }
 
     /**
@@ -85,8 +85,7 @@ public class SensitiveInfoUtils {
         if (index <= 1) {
             return email;
         } else {
-            return StringUtils.rightPad(StringUtils.left(email, 1), index, "*")
-                    .concat(StringUtils.mid(email, index, StringUtils.length(email)));
+            return aroundPad(email, 1, index, SymbolConstants.STAR);
         }
     }
 
@@ -94,12 +93,7 @@ public class SensitiveInfoUtils {
      * [银行卡号] 前六位，后四位，其他用星号隐藏每位1个星号<例子:6222600**********1234>
      */
     public static String bankCard(final String cardNum) {
-        if (StringUtils.isBlank(cardNum)) {
-            return "";
-        }
-        return StringUtils.left(cardNum, 6).concat(StringUtils.removeStart(
-                StringUtils.leftPad(StringUtils.right(cardNum, 4), StringUtils.length(cardNum), "*"),
-                "******"));
+        return aroundPad(cardNum, 6, 4, SymbolConstants.STAR);
     }
 
     /**
@@ -122,8 +116,47 @@ public class SensitiveInfoUtils {
         if (StringUtils.isBlank(password)) {
             return "";
         }
-        String pwd = StringUtils.left(password, 0);
-        return StringUtils.rightPad(pwd, StringUtils.length(password), "*");
+        return StringUtils.rightPad(SymbolConstants.EMPTY, StringUtils.length(password), SymbolConstants.STAR);
+    }
+
+    /**
+     * 环绕填充。例：13845678125->138*****125
+     * @param num
+     * @param beginSize
+     * @param endSize
+     * @param padStr
+     * @return
+     */
+    public static String aroundPad(final String num, final int beginSize, final int endSize, String padStr) {
+        if (StringUtils.isBlank(num)) {
+            return num;
+        }
+        return StringUtils.left(num, beginSize).concat(StringUtils.substring(StringUtils.leftPad(StringUtils.right(num, endSize), StringUtils.length(num), padStr), beginSize, StringUtils.length(num)));
+    }
+
+
+
+
+    /**
+     * [香港身份证号] 显示最后四位，其他隐藏。共计18位或者15位。<例子：*************5762>
+     */
+    public static String hkIdCardNum(final String num) {
+        return aroundPad(num, 1, 1, SymbolConstants.STAR);
+    }
+
+    /**
+     * [香港手机号码] 前三位，后四位，其他隐藏<例子:138******1234>
+     */
+    public static String hkMobilePhone(final String num) {
+        return aroundPad(num, 1, 1, SymbolConstants.STAR);
+    }
+
+    public static void main(String[] args) {
+        String num = "13845678125";
+//        String num = "430721199101136419";
+        System.out.println(StringUtils.leftPad(StringUtils.right(num, 4), StringUtils.length(num), "*"));
+        System.out.println(aroundPad(num, 4,4, "*"));
+        System.out.println(StringUtils.rightPad(SymbolConstants.EMPTY, StringUtils.length(num), SymbolConstants.STAR));
     }
 
 }
