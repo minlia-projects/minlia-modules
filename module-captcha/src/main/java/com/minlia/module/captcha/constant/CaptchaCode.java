@@ -43,6 +43,11 @@ public class CaptchaCode {
         ALREADY_USED,
 
         /**
+         * 验证码已禁用，30分钟后解锁
+         */
+        ALREADY_LOCKED,
+
+        /**
          * 短信模板没找到, 请先配置
          */
         TEMPLATE_NOT_FOUND,

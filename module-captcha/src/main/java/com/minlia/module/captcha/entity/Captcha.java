@@ -38,9 +38,9 @@ public class Captcha extends AbstractEntity {
     private Boolean used = false;
 
     /**
-     * 是否锁定(用于风控) TODO
+     * 发送时间
      */
-    private Boolean locked;
+    private Date sendTime;
 
     /**
      * 验证有效时间
@@ -53,9 +53,18 @@ public class Captcha extends AbstractEntity {
     private Integer failureCount;
 
     /**
-     * 发送时间
+     * 是否锁定(用于风控) TODO
      */
-    private Date sendTime;
+    private Boolean locked;
+
+    /**
+     * 锁定时间
+     */
+    private Date lockTime;
+
+
+
+
 
     /**
      * 每天发送次数 TODO

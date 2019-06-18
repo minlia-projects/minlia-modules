@@ -10,6 +10,7 @@
 			code ,
 			used ,
 			locked ,
+			lock_time ,
 			failure_count ,
 			effective_time ,
 			send_time ,
@@ -96,6 +97,9 @@
             </if>
             <if test="locked != null">
                 locked = #{locked,jdbcType=TINYINT} ,
+            </if>
+            <if test="lockTime != null">
+                lock_time = #{lockTime,jdbcType=TIMESTAMP} ,
             </if>
             <if test="failureCount != null">
                 failure_count = #{failureCount,jdbcType=TINYINT} ,
