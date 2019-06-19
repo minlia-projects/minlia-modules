@@ -110,6 +110,12 @@
             <if test="username != null">
                 username = #{username,jdbcType=VARCHAR} ,
             </if>
+            <if test="cellphone != null">
+                cellphone = #{cellphone,jdbcType=VARCHAR} ,
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR} ,
+            </if>
             <if test="nickname != null">
                 nickname = #{nickname,jdbcType=VARCHAR} ,
             </if>
