@@ -1,6 +1,28 @@
 package com.minlia.module.data.enumeration;
 
+/**
+ * 敏感信息类型枚举
+ */
 public enum SensitiveTypeEnum {
+
+    /**
+     * 屏蔽所有
+     */
+    ALL,
+
+    /**
+     * 环绕屏蔽
+     */
+    AROUND,
+
+    LEFT,
+
+    RIGHT,
+
+    LEFT_PAD,
+
+    RIGHT_PAD,
+
 
     /**
      * 中文名
@@ -49,6 +71,6 @@ public enum SensitiveTypeEnum {
 
     HK_ID_CARD,
 
-    HK_PHONE,
+    HK_CELLPHONE,
 
 }
