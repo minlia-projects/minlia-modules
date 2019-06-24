@@ -129,6 +129,12 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
                     .key(methodParameter.getMethodAnnotation(AESEncryptBody.class).otherKey())
                     .build();
         }
+        if(methodParameter.getMethod().isAnnotationPresent(RSAEncryptBody.class)){
+            return EncryptAnnotationInfoBean.builder()
+                    .encryptBodyMethod(EncryptBodyMethod.RSA)
+                    .key(methodParameter.getMethodAnnotation(RSAEncryptBody.class).otherKey())
+                    .build();
+        }
         return null;
     }
 
@@ -172,6 +178,12 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
                             .key(((AESEncryptBody) annotation).otherKey())
                             .build();
                 }
+                if(annotation instanceof RSAEncryptBody){
+                    return EncryptAnnotationInfoBean.builder()
+                            .encryptBodyMethod(EncryptBodyMethod.RSA)
+                            .key(((RSAEncryptBody) annotation).otherKey())
+                            .build();
+                }
             }
         }
         return null;
@@ -205,6 +217,10 @@ public class EncryptResponseBodyAdvice implements ResponseBodyAdvice {
         if(method == EncryptBodyMethod.AES){
             key = CheckUtils.checkAndGetKey(config.getAesKey(),key,"AES-KEY");
             return AESEncryptUtil.encrypt(formatStringBody,key);
+        }
+        if(method == EncryptBodyMethod.RSA){
+            key = CheckUtils.checkAndGetKey(config.getRsaPrivateKey(),key,"RSA-PRIVATE-KEY");
+            return RSAEncryptUtil.encrypt(formatStringBody, key);
         }
         throw new EncryptBodyFailException();
     }

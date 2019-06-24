@@ -183,6 +183,12 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
                             .key(((AESDecryptBody) annotation).otherKey())
                             .build();
                 }
+                if (annotation instanceof RSADecryptBody) {
+                    return DecryptAnnotationInfoBean.builder()
+                            .decryptBodyMethod(DecryptBodyMethod.RSA)
+                            .key(((RSADecryptBody) annotation).otherKey())
+                            .build();
+                }
             }
         }
         return null;
