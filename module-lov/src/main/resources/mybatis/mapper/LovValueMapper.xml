@@ -72,6 +72,15 @@
             <if test="lastModifiedDate != null">
                 and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
             </if>
+
+
+            <if test="lovCodes != null and lovCodes.size != 0">
+                and code in
+                <foreach collection="lovCodes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
             <if test="id != null">
                 and id=#{id,jdbcType=BIGINT}
             </if>

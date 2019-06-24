@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author garen
@@ -27,6 +28,8 @@ public class LovValueQRO extends QueryRequest {
     private Long lovId;
 
     private String lovCode;
+
+    private List<String> lovCodes;
 
     private Long parentId;
 
