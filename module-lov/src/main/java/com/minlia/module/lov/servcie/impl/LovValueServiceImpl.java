@@ -88,4 +88,8 @@ public class LovValueServiceImpl implements LovValueService{
         return null != lovValue ? lovValue.getName() : null;
     }
 
+    @Override
+    public List<String> selectNameByAll(LovValueQRO qro) {
+        return lovValueMapper.selectNameByAll(qro);
+    }
 }

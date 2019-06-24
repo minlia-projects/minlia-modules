@@ -28,4 +28,6 @@ public interface LovValueMapper {
 
     LovValue selectOneByCodeAndLovId(@Param("lovId")Long lovId, @Param("code")String code, @Param("locale")String locale);
 
+    List<String> selectNameByAll(LovValueQRO qro);
+
 }

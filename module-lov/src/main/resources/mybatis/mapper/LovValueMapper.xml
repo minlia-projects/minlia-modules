@@ -316,4 +316,12 @@
         AND lov_id = #{lovId}
     </select>
 
+    <select id="selectNameByAll" resultType="java.lang.String">
+        select
+          `name`
+        from mdl_lov_value
+        <include refid="Base_Condition_List"/>
+        <include refid="Base_Order_By"/>
+    </select>
+
 </mapper>
