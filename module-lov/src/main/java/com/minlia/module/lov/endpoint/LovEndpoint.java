@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.lov.bean.LovQRO;
 import com.minlia.module.lov.enntity.Lov;
 import com.minlia.module.lov.servcie.LovService;
@@ -24,6 +25,7 @@ public class LovEndpoint {
     @Autowired
     private LovService lovService;
 
+    @AuditLog(value = "create a lov")
 //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.create')")
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -31,6 +33,7 @@ public class LovEndpoint {
         return Response.success(lovService.insertSelective(lov));
     }
 
+    @AuditLog(value = "update a lov")
 //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.update')")
     @ApiOperation(value = "更新", httpMethod = "PUT")
     @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -38,6 +41,7 @@ public class LovEndpoint {
         return Response.success(lovService.updateByPrimaryKeySelective(lov));
     }
 
+    @AuditLog(value = "toggle a lov status by id")
 //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.delete')")
     @ApiOperation(value = "启用/禁用", httpMethod = "DELETE")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})

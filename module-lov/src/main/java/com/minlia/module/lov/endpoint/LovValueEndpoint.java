@@ -2,6 +2,7 @@ package com.minlia.module.lov.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.lov.enntity.LovValue;
 import com.minlia.module.lov.servcie.LovValueService;
 import io.swagger.annotations.Api;
@@ -20,6 +21,7 @@ public class LovValueEndpoint {
     @Autowired
     private LovValueService lovValueService;
 
+    @AuditLog(value = "create a lov value")
 //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.create')")
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -27,6 +29,7 @@ public class LovValueEndpoint {
         return Response.success(lovValueService.insertSelective(lovValue));
     }
 
+    @AuditLog(value = "update a lov value")
 //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.update')")
     @ApiOperation(value = "更新", httpMethod = "PUT")
     @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -34,6 +37,7 @@ public class LovValueEndpoint {
         return Response.success(lovValueService.updateByPrimaryKeySelective(lovValue));
     }
 
+    @AuditLog(value = "toggle a lov status by id")
 //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.delete')")
     @ApiOperation(value = "启用/禁用", httpMethod = "DELETE")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
