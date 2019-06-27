@@ -29,6 +29,7 @@ import com.minlia.modules.security.context.SecurityContextHolder1;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -45,6 +46,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * 操作日志使用spring event异步入库
@@ -66,7 +68,43 @@ public class AuditLogAspect {
 
     @SneakyThrows
     @Around("auditLog()")
-    public Object around(ProceedingJoinPoint point) {
+    public Object around(ProceedingJoinPoint joinPoint) {
+        AuditLogInfo auditLogInfo = this.builderInfo(joinPoint);
+        Long startTime = System.currentTimeMillis();
+
+        Object obj = joinPoint.proceed();
+
+        // 发送异步日志事件
+        this.saveAuditLogInfo(auditLogInfo, startTime);
+        return obj;
+    }
+
+    @SneakyThrows
+    @AfterThrowing(pointcut = "auditLog()", throwing = "ex")
+    public void afterThrowing(JoinPoint joinPoint, Throwable ex) {
+        AuditLogInfo auditLogInfo = this.builderInfo(joinPoint);
+        Long startTime = System.currentTimeMillis();
+
+        StringJoiner sj = new StringJoiner("--");
+        sj.add(ex.toString());
+        if (null != ex.getMessage()) {
+            sj.add(ex.getMessage());
+        }
+        if (null != ex.getCause()) {
+            sj.add(ex.getCause().getMessage());
+        }
+
+        auditLogInfo.setException(sj.toString());
+        // 发送异步日志事件
+        this.saveAuditLogInfo(auditLogInfo, startTime);
+    }
+
+    private void saveAuditLogInfo(AuditLogInfo auditLogInfo, Long startTime) {
+        auditLogInfo.setTime(System.currentTimeMillis() - startTime);
+        auditLogInfoService.insertSelective(auditLogInfo);
+    }
+
+    private AuditLogInfo builderInfo(JoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
         AuditLog auditLog = signature.getMethod().getAnnotation(AuditLog.class);
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
@@ -84,54 +122,8 @@ public class AuditLogAspect {
         auditLogInfo.setRemoteAddr(ServletUtil.getClientIP(request));
         auditLogInfo.setOperationType(auditLog.operationType());
         auditLogInfo.setParams(JSON.toJSONString(point.getArgs()));
-
-        // 发送异步日志事件
-        Long startTime = System.currentTimeMillis();
-        Object obj = point.proceed();
-        Long endTime = System.currentTimeMillis();
-        auditLogInfo.setTime(endTime - startTime);
-        auditLogInfoService.insertSelective(auditLogInfo);
-        return obj;
+        return auditLogInfo;
     }
-
-    @SneakyThrows
-    @AfterThrowing(pointcut = "auditLog()", throwing = "ex")
-    public void afterThrowing(Throwable ex) {
-        System.out.println(ex.getMessage());
-        System.out.println(ex.toString());
-    }
-
-//    @SneakyThrows
-//    @AfterThrowing(pointcut = "auditLog()", throwing = "ex")
-//    public void afterThrowing(ProceedingJoinPoint point, Throwable ex) {
-//        MethodSignature signature = (MethodSignature) point.getSignature();
-//        AuditLog auditLog = signature.getMethod().getAnnotation(AuditLog.class);
-//        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-//
-//        AuditLogInfo auditLogInfo = new AuditLogInfo();
-//        auditLogInfo.setCreateBy(getGuid());
-//        auditLogInfo.setLastModifiedBy(getGuid());
-//        Date date = new Date();
-//        auditLogInfo.setCreateDate(date);
-//        auditLogInfo.setLastModifiedDate(date);
-//        auditLogInfo.setTitle(auditLog.value());
-//        auditLogInfo.setMethod(request.getMethod());
-//        auditLogInfo.setUserAgent(request.getHeader("user-agent"));
-//        auditLogInfo.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-//        auditLogInfo.setRemoteAddr(ServletUtil.getClientIP(request));
-//        auditLogInfo.setOperationType(auditLog.operationType());
-//        auditLogInfo.setParams(JSON.toJSONString(point.getArgs()));
-//
-//        System.out.println(ex.getMessage());
-//        System.out.println(ex.toString());
-//        auditLogInfo.setException(ex.getMessage());
-//
-//        // 发送异步日志事件
-//        Long startTime = System.currentTimeMillis();
-//        Long endTime = System.currentTimeMillis();
-//        auditLogInfo.setTime(endTime - startTime);
-//        auditLogInfoService.insertSelective(auditLogInfo);
-//    }
 
     /**
      * 获取用户id
