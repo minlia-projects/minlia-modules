@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.modules.rbac.constant.UserCode;
 import com.minlia.modules.rbac.service.UserQueryService;
 import com.minlia.modules.rbac.bean.qo.UserQO;
@@ -31,6 +32,7 @@ public class UserRegistrationEndpoint {
     @Autowired
     private UserRegistrationService userRegistrationService;
 
+    @AuditLog(value = "user registration")
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response registration(@Valid @RequestBody UserRegistrationTO to ) {
@@ -38,12 +40,14 @@ public class UserRegistrationEndpoint {
         return Response.success(userRegistered);
     }
 
+    @AuditLog(value = "user availability check")
     @ApiOperation(value = "用户名有效性验证", notes = "用户名有效性验证", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "availablitity", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response availablitity(@Valid @RequestBody UserAvailablitityTO body ) {
+    @RequestMapping(value = "availabilitity", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response availability(@Valid @RequestBody UserAvailablitityTO body ) {
         return userRegistrationService.availablitity(body);
     }
 
+    @AuditLog(value = "user referral existence check")
     @ApiOperation(value = "推荐人是否存在", notes = "推荐人是否有效", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "verifyReferral", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response invitationCode(@RequestParam String referral) {

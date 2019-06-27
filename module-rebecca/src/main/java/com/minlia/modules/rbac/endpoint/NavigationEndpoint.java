@@ -3,6 +3,7 @@ package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.modules.rbac.bean.qo.NavigationQO;
 import com.minlia.modules.rbac.bean.to.NavigationCTO;
 import com.minlia.modules.rbac.bean.to.NavigationGrantTO;
@@ -37,6 +38,7 @@ public class NavigationEndpoint {
     @Autowired
     private NavigationService navigationService;
 
+    @AuditLog(value = "create a navigation")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -44,6 +46,7 @@ public class NavigationEndpoint {
         return navigationService.create(body);
     }
 
+    @AuditLog(value = "update a navigation")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_UPDATE + "')")
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -51,6 +54,7 @@ public class NavigationEndpoint {
         return Response.success(navigationService.update(body));
     }
 
+    @AuditLog(value = "delete a navigation by id")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_DELETE + "')")
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -59,6 +63,7 @@ public class NavigationEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "grant navigation to role")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_GRANT + "')")
     @ApiOperation(value = "授权", notes = "给角色分配菜单", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "grant", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -67,6 +72,7 @@ public class NavigationEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "toggle navigation status")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_DISPLAY + "')")
     @ApiOperation(value = "显示/隐藏", notes = "显示", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "display", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -75,6 +81,7 @@ public class NavigationEndpoint {
     }
 
 
+    @AuditLog(value = "my navigations")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "我的", notes = "我的", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "me", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -84,6 +91,7 @@ public class NavigationEndpoint {
         return Response.success(navigationService.queryList(NavigationQO.builder().roleId(roleId).display(true).build()));
     }
 
+    @AuditLog(value = "query navigation by id")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "根据ID查询", notes = "根据ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryById", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -91,6 +99,7 @@ public class NavigationEndpoint {
         return Response.success(navigationService.queryById(id));
     }
 
+    @AuditLog(value = "query navigation by parent id")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "根据父ID查询", notes = "根据父ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryByParentId", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -98,6 +107,7 @@ public class NavigationEndpoint {
         return Response.success(navigationService.queryList(NavigationQO.builder().parentId(id).build()));
     }
 
+    @AuditLog(value = "query navigation by role id")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "根据角色ID查询", notes = "根据角色ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "queryByRoleId", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -105,6 +115,7 @@ public class NavigationEndpoint {
         return Response.success(navigationService.queryMyNavigationList(NavigationQO.builder().isOneLevel(true).roleId(id).build()));
     }
 
+    @AuditLog(value = "query navigations by query request body as list")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "list", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -112,6 +123,7 @@ public class NavigationEndpoint {
         return Response.success(navigationService.queryList(qro));
     }
 
+    @AuditLog(value = "query navigations by query request body as paginated result")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "查询分页", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})

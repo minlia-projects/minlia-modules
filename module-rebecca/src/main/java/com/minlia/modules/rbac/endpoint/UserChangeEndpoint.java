@@ -4,6 +4,7 @@ package com.minlia.modules.rbac.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.constant.CommonCode;
 import com.minlia.modules.rbac.bean.domain.User;
@@ -37,6 +38,7 @@ public class UserChangeEndpoint {
     @Autowired
     private UserQueryService userQueryService;
 
+    @AuditLog(value = "change cellphone")
 //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "手机号码", notes = "手机号码", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "cellphone/{cellphone}/{captcha}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -75,6 +77,7 @@ public class UserChangeEndpoint {
 //        return Response.success();
 //    }
 
+    @AuditLog(value = "change email address")
     //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "邮箱", notes = "邮箱", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "email/{email:.+}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -91,6 +94,7 @@ public class UserChangeEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "change nickname")
     //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "nickname", notes = "昵称", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "nickname/{nickname}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})

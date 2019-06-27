@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.modules.rbac.bean.to.PasswordByCaptchaChangeTO;
 import com.minlia.modules.rbac.bean.to.PasswordByRawPasswordChangeTO;
 import com.minlia.modules.rbac.service.UserPasswordService;
@@ -24,6 +25,7 @@ public class ChangePasswordEndpoint {
     @Autowired
     private UserPasswordService userPasswordService;
 
+    @AuditLog(value = "update password by raw password")
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据原密码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "raw", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -32,6 +34,7 @@ public class ChangePasswordEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "update password by otp")
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据验证码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "captcha", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})

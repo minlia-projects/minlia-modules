@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.modules.rbac.bean.to.PasswordResetTO;
 import com.minlia.modules.rbac.service.UserPasswordService;
 import com.minlia.modules.rbac.bean.domain.User;
@@ -27,6 +28,7 @@ public class ForgetPasswordEndpoint {
     @Autowired
     UserPasswordService userPasswordService;
 
+    @AuditLog(value = "change password")
     @ApiOperation(value = "忘记密码", notes = "忘记密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "forget", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response resetPassword(@Valid @RequestBody PasswordResetTO to) {
