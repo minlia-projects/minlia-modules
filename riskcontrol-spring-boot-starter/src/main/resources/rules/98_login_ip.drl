@@ -1,0 +1,26 @@
+//package rules;
+//
+//import com.minlia.module.riskcontrol.event.LoginEvent
+//import com.minlia.module.riskcontrol.service.DimensionService
+//import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+//
+//global DimensionService dimensionService
+//
+//rule "98_login_ip"
+//    salience 98
+//    lock-on-active true
+//    when
+//        event:LoginEvent()
+//    then
+//        int count  = dimensionService.distinctCount(event,new String[]{LoginEvent.OPERATEIP},TimePeriodEnum.LAST_HOUR,LoginEvent.MOBILE);
+//        if(event.addScore(count,20,10,1)){
+//            dimensionService.insertRiskEvent(event,"近1小时内同ip出现多个mobile,count="+count);
+//        }
+//
+//
+//        count = dimensionService.count(event,new String[]{LoginEvent.OPERATEIP},TimePeriodEnum.LAST_MIN);
+//        if(event.addScore(count,20,10,1)){
+//             dimensionService.insertRiskEvent(event,"近1分钟同ip登陆频次,count="+count);
+//        }
+//
+//end
