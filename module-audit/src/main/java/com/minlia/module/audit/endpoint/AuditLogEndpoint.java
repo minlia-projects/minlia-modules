@@ -2,6 +2,7 @@ package com.minlia.module.audit.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.bean.AuditLogInfoQRO;
 import com.minlia.module.audit.service.AuditLogInfoService;
 import io.swagger.annotations.Api;
@@ -22,6 +23,7 @@ public class AuditLogEndpoint {
     @Autowired
     private AuditLogInfoService auditLogInfoService;
 
+    @AuditLog(value = "query audit log as paginated result")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@RequestBody AuditLogInfoQRO qro) {
