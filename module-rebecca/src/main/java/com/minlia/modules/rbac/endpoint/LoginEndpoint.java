@@ -2,6 +2,7 @@ package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,8 @@ import javax.validation.Valid;
 @RequestMapping(value = ApiPrefix.API + "auth/login")
 public class LoginEndpoint {
 
+
+    @AuditLog(value = "login")
     @ApiOperation(value = "登录", notes = "登录")
     @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
     public Response login(@Valid @RequestBody LoginCredentials credential) {

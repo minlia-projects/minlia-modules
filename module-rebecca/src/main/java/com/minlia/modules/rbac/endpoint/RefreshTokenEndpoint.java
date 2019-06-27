@@ -1,6 +1,7 @@
 package com.minlia.modules.rbac.endpoint;
 
 import com.minlia.cloud.body.Response;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.modules.rbac.bean.qo.UserQO;
 import com.minlia.modules.rbac.bean.domain.User;
 import com.minlia.modules.rbac.service.UserQueryService;
@@ -57,6 +58,7 @@ public class RefreshTokenEndpoint {
     @Autowired
     private UserQueryService userQueryService;
 
+    @AuditLog(value = "refresh authentication token")
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌, 正常情况下TOKEN值在请求时以Header参数 X-Auth-Token: Bearer xxxxxx传入", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/api/v1/auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})//,headers = "X-Authorization"
     public @ResponseBody Response refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.modules.rbac.constant.RebeccaSecurityConstant;
 import com.minlia.modules.rbac.context.SecurityContextHolder;
 import com.minlia.modules.rbac.menu.bean.MenuGrantRO;
@@ -37,6 +38,7 @@ public class MenuEndpoint {
     @Autowired
     private MenuService menuService;
 
+    @AuditLog(value = "create menu")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_CREATE + "')")
     @ApiOperation(value = "创建")
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -44,6 +46,7 @@ public class MenuEndpoint {
         return Response.success(menuService.insertSelective(menu));
     }
 
+    @AuditLog(value = "update menu")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_UPDATE + "')")
     @ApiOperation(value = "更新")
     @RequestMapping(value = "", method = RequestMethod.PUT)
@@ -51,6 +54,7 @@ public class MenuEndpoint {
         return Response.success(menuService.updateByPrimaryKeySelective(menu));
     }
 
+    @AuditLog(value = "toggle menu status")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_DELETE + "')")
     @ApiOperation(value = "禁用/启用")
     @RequestMapping(value = "disable/{id}", method = RequestMethod.PUT)
@@ -58,13 +62,15 @@ public class MenuEndpoint {
         return Response.success(menuService.disable(id));
     }
 
+    @AuditLog(value = "toggle menu display status")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_DISPLAY + "')")
     @ApiOperation(value = "显示/隐藏")
     @RequestMapping(value = "display", method = RequestMethod.PUT)
     public Response display(@RequestParam Long id) {
         return Response.success(menuService.display(id));
     }
-    
+
+    @AuditLog(value = "delete menu by id")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_DELETE + "')")
     @ApiOperation(value = "删除")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
@@ -72,6 +78,7 @@ public class MenuEndpoint {
         return Response.success(menuService.delete(id));
     }
 
+    @AuditLog(value = "grant menu to role")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_GRANT + "')")
     @ApiOperation(value = "授权")
     @RequestMapping(value = "grant", method = RequestMethod.PUT)
@@ -79,6 +86,7 @@ public class MenuEndpoint {
         return Response.success(menuService.grant(grantRO));
     }
 
+    @AuditLog(value = "get my menus")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "我的")
     @GetMapping(value = "me")
@@ -88,6 +96,7 @@ public class MenuEndpoint {
         return Response.success(menuService.selectByAll(MenuQRO.builder().roleId(roleId).isOneLevel(true).hideFlag(false).disFlag(false).build()));
     }
 
+    @AuditLog(value = "query menu by id")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(value = "{id}")
@@ -95,6 +104,7 @@ public class MenuEndpoint {
         return Response.success(menuService.selectByPrimaryKey(id));
     }
 
+    @AuditLog(value = "query menus by query request body as list")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
@@ -102,6 +112,7 @@ public class MenuEndpoint {
         return Response.success(menuService.selectByAll(qro));
     }
 
+    @AuditLog(value = "query menus by query request body as paginated result")
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")

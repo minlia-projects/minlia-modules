@@ -3,6 +3,7 @@ package com.minlia.module.email.endpoint;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.service.EmailService;
 import io.swagger.annotations.Api;
@@ -54,6 +55,7 @@ public class EmailEndpoint {
 //		return SuccessResponseBody.builder().build();
 //	}
 
+	@AuditLog(value = "query one email sent record")
 	@PreAuthorize(value = "isAuthenticated()")
 	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "one", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -62,6 +64,7 @@ public class EmailEndpoint {
 		return Response.success(x);
 	}
 
+	@AuditLog(value = "query email sent records as list")
 	@PreAuthorize(value = "isAuthenticated()")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -70,6 +73,7 @@ public class EmailEndpoint {
 		return Response.success(bankDos);
 	}
 
+	@AuditLog(value = "query email sent records as paginated result")
 	@PreAuthorize(value = "isAuthenticated()")
 	@ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
