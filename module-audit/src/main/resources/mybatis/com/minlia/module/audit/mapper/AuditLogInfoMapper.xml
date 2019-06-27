@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minlia.module.audit.mapper.AuditLogInfoMapper">
+    <!--auto generated Code-->
+    <resultMap id="BaseResultMap" type="com.minlia.module.audit.entity.AuditLogInfo">
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="last_modified_by" property="lastModifiedBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="last_modified_date" property="lastModifiedDate" jdbcType="TIMESTAMP"/>
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="operation_type" property="operationType" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="service_id" property="serviceId" jdbcType="VARCHAR"/>
+        <result column="remote_addr" property="remoteAddr" jdbcType="VARCHAR"/>
+        <result column="user_agent" property="userAgent" jdbcType="VARCHAR"/>
+        <result column="request_uri" property="requestUri" jdbcType="VARCHAR"/>
+        <result column="method" property="method" jdbcType="VARCHAR"/>
+        <result column="params" property="params" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER"/>
+        <result column="exception" property="exception" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="Base_Column_List">
+        create_by,
+        last_modified_by,
+        create_date,
+        last_modified_date,
+        id,
+        `operation_type`,
+        title,
+        service_id,
+        remote_addr,
+        user_agent,
+        request_uri,
+        method,
+        params,
+        `time`,
+        del_flag,
+        `exception`
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="auditLogInfo.id">
+        INSERT INTO mdl_audit_log (
+            create_by,
+            last_modified_by,
+            create_date,
+            last_modified_date,
+            id,
+            `operation_type`,
+            title,
+            service_id,
+            remote_addr,
+            user_agent,
+            request_uri,
+            method,
+            params,
+            `time`,
+            del_flag,
+            `exception`
+        ) VALUES (
+            #{auditLogInfo.createBy,jdbcType=VARCHAR},
+            #{auditLogInfo.lastModifiedBy,jdbcType=VARCHAR},
+            #{auditLogInfo.createDate,jdbcType=TIMESTAMP},
+            #{auditLogInfo.lastModifiedDate,jdbcType=TIMESTAMP},
+            #{auditLogInfo.id,jdbcType=BIGINT},
+            #{auditLogInfo.operationType,jdbcType=VARCHAR},
+            #{auditLogInfo.title,jdbcType=VARCHAR},
+            #{auditLogInfo.serviceId,jdbcType=VARCHAR},
+            #{auditLogInfo.remoteAddr,jdbcType=VARCHAR},
+            #{auditLogInfo.userAgent,jdbcType=VARCHAR},
+            #{auditLogInfo.requestUri,jdbcType=VARCHAR},
+            #{auditLogInfo.method,jdbcType=VARCHAR},
+            #{auditLogInfo.params,jdbcType=VARCHAR},
+            #{auditLogInfo.time,jdbcType=VARCHAR},
+            #{auditLogInfo.delFlag,jdbcType=INTEGER},
+            #{auditLogInfo.exception,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--auto generated Code-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="auditLogInfo.id">
+        INSERT INTO mdl_audit_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="auditLogInfo.createBy!=null">create_by,</if>
+            <if test="auditLogInfo.lastModifiedBy!=null">last_modified_by,</if>
+            <if test="auditLogInfo.createDate!=null">create_date,</if>
+            <if test="auditLogInfo.lastModifiedDate!=null">last_modified_date,</if>
+            <if test="auditLogInfo.id!=null">id,</if>
+            <if test="auditLogInfo.operationType!=null">operation_type,</if>
+            <if test="auditLogInfo.title!=null">title,</if>
+            <if test="auditLogInfo.serviceId!=null">service_id,</if>
+            <if test="auditLogInfo.remoteAddr!=null">remote_addr,</if>
+            <if test="auditLogInfo.userAgent!=null">user_agent,</if>
+            <if test="auditLogInfo.requestUri!=null">request_uri,</if>
+            <if test="auditLogInfo.method!=null">method,</if>
+            <if test="auditLogInfo.params!=null">params,</if>
+            <if test="auditLogInfo.time!=null">time,</if>
+            <if test="auditLogInfo.delFlag!=null">del_flag,</if>
+            <if test="auditLogInfo.exception!=null">exception,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="auditLogInfo.createBy!=null">#{auditLogInfo.createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.lastModifiedBy!=null">#{auditLogInfo.lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.createDate!=null">#{auditLogInfo.createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditLogInfo.lastModifiedDate!=null">#{auditLogInfo.lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditLogInfo.id!=null">#{auditLogInfo.id,jdbcType=BIGINT},
+            </if>
+            <if test="auditLogInfo.operationType!=null">#{auditLogInfo.operationType,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.title!=null">#{auditLogInfo.title,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.serviceId!=null">#{auditLogInfo.serviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.remoteAddr!=null">#{auditLogInfo.remoteAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.userAgent!=null">#{auditLogInfo.userAgent,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.requestUri!=null">#{auditLogInfo.requestUri,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.method!=null">#{auditLogInfo.method,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.params!=null">#{auditLogInfo.params,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.time!=null">#{auditLogInfo.time,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.delFlag!=null">#{auditLogInfo.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="auditLogInfo.exception!=null">#{auditLogInfo.exception,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--auto generated Code-->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE mdl_audit_log
+        <set>
+            <if test="auditLogInfo.createBy != null">create_by= #{auditLogInfo.createBy,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.lastModifiedBy != null">last_modified_by=
+                #{auditLogInfo.lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.createDate != null">create_date= #{auditLogInfo.createDate,jdbcType=TIMESTAMP},</if>
+            <if test="auditLogInfo.lastModifiedDate != null">last_modified_date=
+                #{auditLogInfo.lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="auditLogInfo.operationType != null">operation_type=
+                #{auditLogInfo.operationType,jdbcType=VARCHAR},
+            </if>
+            <if test="auditLogInfo.title != null">title= #{auditLogInfo.title,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.serviceId != null">service_id= #{auditLogInfo.serviceId,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.remoteAddr != null">remote_addr= #{auditLogInfo.remoteAddr,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.userAgent != null">user_agent= #{auditLogInfo.userAgent,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.requestUri != null">request_uri= #{auditLogInfo.requestUri,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.method != null">method= #{auditLogInfo.method,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.params != null">params= #{auditLogInfo.params,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.time != null">time= #{auditLogInfo.time,jdbcType=VARCHAR},</if>
+            <if test="auditLogInfo.delFlag != null">del_flag= #{auditLogInfo.delFlag,jdbcType=INTEGER},</if>
+            <if test="auditLogInfo.exception != null">exception= #{auditLogInfo.exception,jdbcType=VARCHAR}</if>
+        </set>
+        WHERE id = #{auditLogInfo.id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_audit_log
+        where 1=1
+        <if test="operationType!=null">
+            and operation_type=#{operationType,jdbcType=VARCHAR}
+        </if>
+        <if test="title!=null">
+            and title=#{title,jdbcType=VARCHAR}
+        </if>
+        <if test="serviceId!=null">
+            and service_id=#{serviceId,jdbcType=VARCHAR}
+        </if>
+        <if test="remoteAddr!=null">
+            and remote_addr=#{remoteAddr,jdbcType=VARCHAR}
+        </if>
+        <if test="userAgent!=null">
+            and user_agent=#{userAgent,jdbcType=VARCHAR}
+        </if>
+        <if test="requestUri!=null">
+            and request_uri=#{requestUri,jdbcType=VARCHAR}
+        </if>
+        <if test="method!=null">
+            and `method`=#{method,jdbcType=VARCHAR}
+        </if>
+        <if test="params!=null">
+            and params=#{params,jdbcType=VARCHAR}
+        </if>
+        <if test="time!=null">
+            and `time`=#{time,jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag!=null">
+            and del_flag=#{delFlag,jdbcType=INTEGER}
+        </if>
+        <if test="exception!=null">
+            and `exception`=#{exception,jdbcType=VARCHAR}
+        </if>
+        <if test="createBy!=null">
+            and create_by=#{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="lastModifiedBy!=null">
+            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date=#{createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastModifiedDate!=null">
+            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="id!=null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
+    </select>
+
+</mapper>
+
