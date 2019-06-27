@@ -60,12 +60,12 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
             Role role = roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_ADMIN_CODE).label(SecurityConstant.ROLE_ADMIN_DESC).build());
             permissionService.grantAll(role.getId());
         }
-        if (!roleService.exists(SecurityConstant.ROLE_USER_CODE)) {
-            roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_USER_CODE).label(SecurityConstant.ROLE_USER_DESC).build());
-        }
-        if (!roleService.exists(SecurityConstant.ROLE_GUEST_CODE)) {
-            roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_GUEST_CODE).label(SecurityConstant.ROLE_GUEST_DESC).build());
-        }
+//        if (!roleService.exists(SecurityConstant.ROLE_USER_CODE)) {
+//            roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_USER_CODE).label(SecurityConstant.ROLE_USER_DESC).build());
+//        }
+//        if (!roleService.exists(SecurityConstant.ROLE_GUEST_CODE)) {
+//            roleService.create(RoleCTO.builder().code(SecurityConstant.ROLE_GUEST_CODE).label(SecurityConstant.ROLE_GUEST_DESC).build());
+//        }
     }
 
     /**

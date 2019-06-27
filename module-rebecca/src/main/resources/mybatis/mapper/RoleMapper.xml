@@ -73,9 +73,11 @@
 			rt.id = #{id,jdbcType=BIGINT}
 	</delete>
 
-	<delete id="grant">
+	<delete id="deleteRolePermission">
 		DELETE FROM mdl_role_permission where role_id = #{arg0};
+	</delete>
 
+	<delete id="grant">
 		INSERT INTO mdl_role_permission(
 			role_id ,
 			permission_id

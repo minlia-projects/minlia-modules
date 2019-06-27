@@ -2,6 +2,7 @@ package com.minlia.module.email.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.module.email.entity.EmailRecord;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 
@@ -22,6 +23,16 @@ public interface EmailService {
      */
     @Async
     EmailRecord sendRichtextMail(String[] to, String richtextCode, Map<String, ?> variables);
+
+    /**
+     * 发送文本邮件
+     * @param to
+     * @param richtextCode
+     * @param variables
+     * @return
+     */
+    @Async
+    EmailRecord sendRichtextMail(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale);
 
     /**
      * 发送文本邮件

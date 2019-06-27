@@ -31,6 +31,7 @@
         <module>module-data</module>
         <!--<module>module-dict</module>-->
         <module>module-i18n</module>
+        <module>module-audit</module>
         <!--<module>module-redis</module>-->
         <!--<module>module-district</module>-->
         <!--<module>module-country</module>-->

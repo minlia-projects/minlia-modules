@@ -19,6 +19,8 @@ public interface RoleMapper {
 
     void grant(Long id, List<Long> permissions);
 
+    int deleteRolePermission(Long id);
+
     Role queryById(Long id);
 
     Role queryByCode(String code);

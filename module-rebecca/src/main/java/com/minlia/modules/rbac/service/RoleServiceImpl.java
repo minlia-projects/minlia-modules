@@ -71,6 +71,7 @@ public class RoleServiceImpl implements RoleService {
     public void grantPermission(String code,List<Long> permissions) {
         Role role = roleMapper.queryByCode(code);
         ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
+        roleMapper.deleteRolePermission(role.getId());
         roleMapper.grant(role.getId(),permissions);
     }
 

@@ -7,6 +7,7 @@ import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.mapper.EmailMapper;
 import com.minlia.module.email.service.EmailService;
 import com.minlia.module.email.util.TextReplaceUtils;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.richtext.constant.RichtextCode;
 import com.minlia.module.richtext.entity.Richtext;
 import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
@@ -57,6 +58,13 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public EmailRecord sendRichtextMail(String[] to, String richtextCode, Map<String, ?> variables) {
         Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), richtextCode);
+        ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, richtextCode);
+        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables);
+    }
+
+    @Override
+    public EmailRecord sendRichtextMail(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale) {
+        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), richtextCode, locale);
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, richtextCode);
         return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables);
     }

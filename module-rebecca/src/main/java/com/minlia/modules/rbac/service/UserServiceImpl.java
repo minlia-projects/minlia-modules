@@ -108,7 +108,6 @@ public class UserServiceImpl implements UserService {
             List<Long> roleIds = roleService.queryIdByUserId(user.getId());
             roleIds.add(role.getId());
             userMapper.grant(user.getId(), Sets.newHashSet(roleIds));
-
             user.setDefaultRole(role.getCode());
         }
 //        if (StringUtils.isNotBlank(body.getDefaultRole())) {
@@ -166,12 +165,28 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.queryOne(UserQO.builder().guid(guid).build());
         ApiAssert.notNull(user,UserCode.Message.NOT_EXISTS);
 
+        boolean existRoleCode = false;
+        String defaultRole = "GUEST";
+
         for (Long roleId : roles) {
             Role role = roleService.queryById(roleId);
             ApiAssert.notNull(role,RoleCode.Message.NOT_EXISTS);
+
+            //判断是否存在默认角色
+            if (!existRoleCode) {
+                defaultRole = role.getCode();
+                if (role.getCode().equals(user.getDefaultRole())) {
+                    existRoleCode = true;
+                }
+            }
         }
-        userMapper.deleteRole(user.getId());
-        userMapper.grant(user.getId(),roles);
+
+        if (!existRoleCode) {
+            user.setDefaultRole(defaultRole);
+            userMapper.update(user);
+        }
+
+        this.grant(user.getId(), roles);
     }
 
     private void grant(Long userId, Set<Long> roles) {
