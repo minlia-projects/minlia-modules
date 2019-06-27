@@ -63,6 +63,11 @@
             <version>1.1.17</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-audit</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
