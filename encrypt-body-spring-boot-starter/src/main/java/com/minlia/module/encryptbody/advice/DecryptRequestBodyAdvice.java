@@ -1,5 +1,6 @@
 package com.minlia.module.encryptbody.advice;
 
+import com.alibaba.fastjson.JSONObject;
 import com.minlia.module.encryptbody.annotation.decrypt.AESDecryptBody;
 import com.minlia.module.encryptbody.annotation.decrypt.DESDecryptBody;
 import com.minlia.module.encryptbody.annotation.decrypt.DecryptBody;
@@ -14,7 +15,6 @@ import com.minlia.module.encryptbody.util.AESEncryptUtil;
 import com.minlia.module.encryptbody.util.CheckUtils;
 import com.minlia.module.encryptbody.util.DESEncryptUtil;
 import com.minlia.module.encryptbody.util.RSAEncryptUtil;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,7 +210,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
             key = CheckUtils.checkAndGetKey(config.getRsaPrivateKey(), key, "RSA-PRIVATE-KEY");
             JSONObject jsonObject = JSONObject.parseObject(formatStringBody);
             formatStringBody = jsonObject.getString("data");
-            return RSAEncryptUtil.decrypt(formatStringBody, key);
+            return RSAEncryptUtil.decryptSegment(formatStringBody, key);
         }
         if (method == DecryptBodyMethod.DES) {
             key = CheckUtils.checkAndGetKey(config.getDesKey(), key, "DES-KEY");
