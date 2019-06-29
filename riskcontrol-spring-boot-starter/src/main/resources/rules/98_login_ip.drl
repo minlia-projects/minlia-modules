@@ -1,26 +1,27 @@
-//package rules;
-//
-//import com.minlia.module.riskcontrol.event.LoginEvent
-//import com.minlia.module.riskcontrol.service.DimensionService
-//import com.minlia.module.riskcontrol.enums.TimePeriodEnum
-//
-//global DimensionService dimensionService
-//
-//rule "98_login_ip"
-//    salience 98
-//    lock-on-active true
-//    when
-//        event:LoginEvent()
-//    then
-//        int count  = dimensionService.distinctCount(event,new String[]{LoginEvent.OPERATEIP},TimePeriodEnum.LAST_HOUR,LoginEvent.MOBILE);
+package rules;
+
+import com.minlia.module.riskcontrol.event.LoginEvent
+import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+import com.minlia.module.riskcontrol.service.DimensionService
+import com.minlia.module.riskcontrol.service.RiskEventListService
+
+global DimensionService dimensionService
+global RiskEventListService riskEventListService
+
+rule "98_login_ip"
+    salience 98
+    lock-on-active true
+    when
+        event:LoginEvent()
+    then
+        int count  = dimensionService.distinctCountWithRedis(event, new String[]{LoginEvent.IP}, TimePeriodEnum.LAST_QUARTER, LoginEvent.MOBILE);
 //        if(event.addScore(count,20,10,1)){
 //            dimensionService.insertRiskEvent(event,"近1小时内同ip出现多个mobile,count="+count);
 //        }
 //
-//
-//        count = dimensionService.count(event,new String[]{LoginEvent.OPERATEIP},TimePeriodEnum.LAST_MIN);
+//        count = dimensionService.count(event, new String[]{LoginEvent.IP}, TimePeriodEnum.LAST_MIN);
 //        if(event.addScore(count,20,10,1)){
 //             dimensionService.insertRiskEvent(event,"近1分钟同ip登陆频次,count="+count);
 //        }
-//
-//end
+
+end

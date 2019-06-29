@@ -1,10 +1,10 @@
 package com.minlia.module.riskcontrol.util;
 
 import com.alibaba.fastjson.JSON;
+import com.minlia.module.riskcontrol.entity.RCRuntimeException;
 import com.minlia.module.riskcontrol.enums.SceneEnum;
 import com.minlia.module.riskcontrol.event.Event;
 import com.minlia.module.riskcontrol.event.LoginEvent;
-import com.minlia.module.riskcontrol.entity.RCRuntimeException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,8 +52,8 @@ public class EventFactory {
         if (event.getOperateTime() == null) {
             event.setOperateTime(new Date());
         }
-        if (StringUtils.isEmpty(event.getId())) {
-            event.setId(UUID.randomUUID().toString());
+        if (StringUtils.isEmpty(event.getEventId())) {
+            event.setEventId(UUID.randomUUID().toString());
         }
 
         // TODO  扩展维度信息

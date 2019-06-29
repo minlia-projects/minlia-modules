@@ -1,5 +1,6 @@
 package com.minlia.module.riskcontrol.event;
 
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +28,17 @@ public abstract class Event {
     /**
      * 事件id
      */
-    private String id;
+    private String eventId;
 
     /**
      * 场景
      */
     private String scene;
+
+    /**
+     * 风险等级
+     */
+    private RiskLevelEnum level;
 
     /**
      * 事件评分

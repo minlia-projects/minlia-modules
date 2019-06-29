@@ -1,0 +1,18 @@
+//package rules;
+//
+//import com.minlia.module.riskcontrol.event.Event
+//import com.minlia.module.riskcontrol.service.RiskEventListService
+//
+//global RiskEventListService riskEventListService
+//
+//rule "1_all_publish"
+//    salience 1
+//    lock-on-active true
+//    when
+//        event:Event()
+//    then
+//        if(event.getScore()>=100){
+////            riskEventListService.createEvent(event,"预警");
+//        }
+//end
+//

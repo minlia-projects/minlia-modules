@@ -1,9 +1,9 @@
 package rules;
 
 import com.minlia.module.riskcontrol.event.Event
-import com.example.riskcontrol.service.DimensionService
+import com.minlia.module.riskcontrol.service.RiskEventListService
 
-global DimensionService dimensionService
+global RiskEventListService riskEventListService
 
 rule "0_all_addevent"
     salience 0
@@ -11,7 +11,5 @@ rule "0_all_addevent"
     when
         event:Event()
     then
-        dimensionService.insertEvent(event);
-
+        riskEventListService.createEvent(event);
 end
-

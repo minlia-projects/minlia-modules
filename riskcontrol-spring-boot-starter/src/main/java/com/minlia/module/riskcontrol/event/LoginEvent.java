@@ -8,9 +8,13 @@ import lombok.Data;
 @Data
 public class LoginEvent extends Event {
 
+    public final static String USERNAME = "username";
+
     public final static String MOBILE = "mobile";
 
-    public final static String OPERATEIP = "operateIp";
+    public final static String EMAIL = "email";
+
+    public final static String IP = "ip";
 
     private String mobile;
 

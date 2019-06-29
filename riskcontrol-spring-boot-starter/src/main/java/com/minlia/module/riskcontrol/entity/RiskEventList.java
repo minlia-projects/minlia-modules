@@ -1,5 +1,6 @@
 package com.minlia.module.riskcontrol.entity;
 
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "mdl_black_list")
-@Table(name = "mdl_black_list", uniqueConstraints = {@UniqueConstraint(columnNames={"dimension","value"})})
+@Entity(name = "mdl_risk_event_list")
+//@Table(name = "mdl_black_list", uniqueConstraints = {@UniqueConstraint(columnNames={"dimension","value"})})
 public class RiskEventList {
 
     @Id
@@ -33,19 +34,26 @@ public class RiskEventList {
     /**
      * 场景
      */
-    @Column(nullable = false, length = 50)
+//    @Column(nullable = false, length = 50)
     private String scene;
+
+    /**
+     * 风险等级
+     */
+    @Enumerated
+    @Column(nullable = false)
+    private RiskLevelEnum level;
 
     /**
      * 规则
      */
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String rule;
 
     /**
      * 值
      */
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String value;
 
     /**

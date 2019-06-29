@@ -5,8 +5,7 @@
 //import com.example.riskcontrol.model.BlackList
 //import com.example.riskcontrol.service.DimensionService
 //
-//global BlackListService blackListService
-//global DimensionService dimensionService
+//global RiskEventListService riskEventListService
 //
 //rule "997_all_blackip"
 //    salience 997
