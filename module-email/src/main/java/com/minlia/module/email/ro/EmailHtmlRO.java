@@ -12,6 +12,11 @@ import lombok.NoArgsConstructor;
 public class EmailHtmlRO extends EmailBaseRO {
 
     /**
+     * 邮件主题
+     */
+    private String subject;
+
+    /**
      * 邮件正文
      */
     private String content;
