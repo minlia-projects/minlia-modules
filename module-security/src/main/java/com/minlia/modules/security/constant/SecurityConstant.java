@@ -43,6 +43,10 @@ public class SecurityConstant {
     public static final String OPERATION_DELETE_DESC_CN = "删除";
     public static final String OPERATION_DELETE_DESC_EN = "Delete";
 
+    public static final String OPERATION_DISABLE_CODE = ".disable";
+    public static final String OPERATION_DISABLE_DESC_CN = "禁用";
+    public static final String OPERATION_DISABLE_DESC_EN = "Disable";
+
     public static final String OPERATION_READ_CODE = ".read";
     public static final String OPERATION_READ_DESC_CN = "读取";
     public static final String OPERATION_READ_DESC_EN = "Read";
