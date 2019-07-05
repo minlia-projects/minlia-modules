@@ -30,31 +30,31 @@
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-bible</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>${minlia.module.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-rebecca</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>${minlia.module.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-websocket</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>${minlia.module.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-aliyun-oss</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>${minlia.module.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-attachment</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>${minlia.module.version}</version>
         </dependency>
 
 

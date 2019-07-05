@@ -123,6 +123,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         } else {
             updateByResend(captcha, code, currentDate, effectiveDate);
         }
+        captcha.setCountdown(captchaConfig.getEffectiveSeconds());
         return captcha;
     }
 
@@ -131,6 +132,8 @@ public class CaptchaServiceImpl implements CaptchaService {
 //        ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
 
         ApiAssert.state(!captcha.getLocked() || captcha.getLockTime().before(new Date()) , CaptchaCode.Message.ALREADY_LOCKED);
+
+
         ApiAssert.state(currentDate.after(DateUtils.addSeconds(captcha.getSendTime(), captchaConfig.getIntervalSeconds())) , CaptchaCode.Message.ONCE_PER_MINUTE);
         captcha.setCode(code);
         captcha.setUsed(false);

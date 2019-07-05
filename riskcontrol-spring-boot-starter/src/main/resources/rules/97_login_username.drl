@@ -1,0 +1,32 @@
+package rules;
+
+import com.minlia.module.riskcontrol.event.LoginEvent
+import com.minlia.module.riskcontrol.entity.BlackList
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+import com.minlia.module.riskcontrol.service.DimensionService
+import com.minlia.module.riskcontrol.service.BlackListService
+import com.minlia.module.riskcontrol.service.RiskRecordService
+import com.minlia.cloud.utils.ApiAssert
+
+global BlackListService blackListService
+global DimensionService dimensionService
+global RiskRecordService riskRecordService
+
+rule "97_login_username"
+    salience 97
+    lock-on-active true
+    when
+        event:LoginEvent()
+    then
+        long count  = dimensionService.distinctCountWithRedis(event, new String[]{LoginEvent.USERNAME}, TimePeriodEnum.LAST_QUARTER.getTimeDiff() / 1000, LoginEvent.IP);
+        RiskLevelEnum riskLevel = event.addScore(count, 1, 1, 50, 10);
+
+        String details = "同一个帐户15分钟内使用不同的IP登录系统,count=" + count;
+        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
+            riskRecordService.createEvent(event, details);
+        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+            riskRecordService.createEvent(event, details);
+//            ApiAssert.state(false, "10000", "同一个帐户15分钟内使用不同的IP登录系统");
+        }
+end

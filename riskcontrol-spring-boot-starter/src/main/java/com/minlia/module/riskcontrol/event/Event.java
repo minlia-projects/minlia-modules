@@ -1,11 +1,13 @@
 package com.minlia.module.riskcontrol.event;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Created by sunpeak on 2016/8/6.
@@ -28,16 +30,19 @@ public abstract class Event {
     /**
      * 事件id
      */
+    @JsonIgnore
     private String eventId;
 
     /**
      * 场景
      */
+    @JsonIgnore
     private String scene;
 
     /**
      * 风险等级
      */
+    @JsonIgnore
     private RiskLevelEnum level;
 
     /**
@@ -48,7 +53,7 @@ public abstract class Event {
     /**
      * 操作时间
      */
-    private Date operateTime;
+    private LocalDateTime operateTime;
 
     /****** TODO 以下扩展维度*****/
     /**
@@ -66,24 +71,37 @@ public abstract class Event {
      */
     private String operateIpArea;
 
+    public Event() {
+        operateTime = LocalDateTime.now();
+        eventId = UUID.randomUUID().toString();
+    }
+
     /**
      * 计算事件评分
      *
-     * @param count      当前值
-     * @param level      阀值
-     * @param levelScore 阀值评分
-     * @param perScore   超过阀值以上，每个评分
+     * @param count            当前值
+     * @param dangerThreshold  危险阀值
+     * @param warningThreshold 警告阀值
+     * @param thresholdScore   阀值评分
+     * @param perScore         超过阀值以上，每个评分
      * @return 是否达到阈值
      */
-    public boolean addScore(int count, int level, int levelScore, int perScore) {
-        if (level <= 0 || levelScore <= 0 || perScore < 0) {
-            return false;
+    public RiskLevelEnum addScore(long count, int dangerThreshold, int warningThreshold, int thresholdScore, int perScore) {
+        if (dangerThreshold <= 0 || warningThreshold <= 0 || thresholdScore <= 0 || perScore < 0) {
+            level = RiskLevelEnum.NORMAL;
+        } else {
+            if (count >= warningThreshold) {
+                this.score += thresholdScore + (count - warningThreshold) * perScore;
+                if (count >= dangerThreshold) {
+                    level = RiskLevelEnum.DANGER;
+                } else {
+                    level = RiskLevelEnum.WARNING;
+                }
+            } else {
+                level = RiskLevelEnum.NORMAL;
+            }
         }
-        if (count >= level) {
-            this.score += levelScore + (count - level) * perScore;
-            return true;
-        }
-        return false;
+        return level;
     }
 
 }

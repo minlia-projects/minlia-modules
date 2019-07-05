@@ -1,23 +1,32 @@
 package com.minlia.module.riskcontrol.event;
 
-import lombok.Data;
+import lombok.Setter;
 
-/**
- * Created by sunpeak on 2016/8/6.
- */
-@Data
+@Setter
 public class LoginEvent extends Event {
 
     public final static String USERNAME = "username";
 
-    public final static String MOBILE = "mobile";
-
-    public final static String EMAIL = "email";
-
     public final static String IP = "ip";
 
-    private String mobile;
+    public final static String PASSWORD = "password";
 
-    private String operateIp;
+    private String username;
+
+    private String password;
+
+    private String ip;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public String getPassword() {
+        return System.currentTimeMillis() + "";
+    }
 
 }

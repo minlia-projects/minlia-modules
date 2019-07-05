@@ -5,9 +5,9 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.module.i18n.constant.I18nConstants;
 import com.minlia.module.i18n.resource.MessageSource;
-import com.minlia.module.i18n.ro.I18nCRO;
-import com.minlia.module.i18n.ro.I18nQRO;
-import com.minlia.module.i18n.ro.I18nURO;
+import com.minlia.module.i18n.bean.I18nCRO;
+import com.minlia.module.i18n.bean.I18nQRO;
+import com.minlia.module.i18n.bean.I18nURO;
 import com.minlia.module.i18n.service.I18nService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,8 +49,8 @@ public class I18nEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_DELETE + "')")
-    @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @DeleteMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "删除")
+    @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
         i18nService.delete(id);
         return Response.success();

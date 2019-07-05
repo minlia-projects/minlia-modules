@@ -1,5 +1,6 @@
 package com.minlia.module.encryptbody.config;
 
+import cn.hutool.core.util.CharsetUtil;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -31,6 +32,6 @@ public class EncryptBodyConfig {
 
     private String rsaPrivateKey;
 
-    private String encoding = "UTF-8";
+    private String encoding = CharsetUtil.CHARSET_UTF_8.name();
 
 }

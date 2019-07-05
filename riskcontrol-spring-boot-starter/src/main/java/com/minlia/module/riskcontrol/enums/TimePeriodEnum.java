@@ -50,6 +50,9 @@ public enum TimePeriodEnum {
             case LAST_MIN:
                 timeDiff = 60 * 1000L;
                 break;
+            case LAST_QUARTER:
+                timeDiff = 15 * 60 * 1000L;
+                break;
             case LAST_HOUR:
                 timeDiff = 3600 * 1000L;
                 break;
@@ -62,4 +65,5 @@ public enum TimePeriodEnum {
         }
         return timeDiff;
     }
+
 }

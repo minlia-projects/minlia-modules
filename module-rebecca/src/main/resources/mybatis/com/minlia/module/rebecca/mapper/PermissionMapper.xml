@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.modules.rebecca.mapper.PermissionMapper">
+
+    <sql id="QUERY_CONTENT">
+		SELECT
+			mpt.id ,
+			mpt.code ,
+			mpt.label ,
+			mpt.enabled ,
+			mpt.create_by ,
+			mpt.create_date ,
+			mpt.last_modified_by ,
+			mpt.last_modified_date
+		FROM
+			mdl_permission mpt
+	</sql>
+
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="code != null">
+                AND mpt.code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="enabled != null">
+                AND mpt.enabled = #{enabled,jdbcType=TINYINT}
+            </if>
+        </where>
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mdl_permission(code, label)VALUES(#{code,jdbcType=VARCHAR} , #{label,jdbcType=VARCHAR})
+	</insert>
+
+    <update id="update" parameterType="com.minlia.modules.rebecca.bean.domain.Permission">
+        UPDATE mdl_permission
+        SET
+        <if test="label != null">
+            label = #{label,jdbcType=VARCHAR} ,
+        </if>
+        <if test="enabled != null">
+            enabled = #{enabled,jdbcType=TINYINT} ,
+        </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="grantAll">
+        INSERT INTO mdl_role_permission(role_id , permission_id) SELECT
+            #{roleId} AS role_id ,
+            id AS permission_id
+        FROM
+            mdl_permission
+    </insert>
+
+    <delete id="clear">
+		DELETE mpt FROM mdl_permission mpt WHERE NOT EXISTS( SELECT 1 FROM mdl_role_permission mt WHERE mt.permission_id = 1)
+	</delete>
+
+    <select id="countById" resultType="java.lang.Long">
+		SELECT COUNT(1) FROM mdl_permission where id = #{id}
+	</select>
+
+    <select id="countByCode" resultType="java.lang.Long">
+		SELECT COUNT(1) FROM mdl_permission where code = #{code}
+	</select>
+
+    <select id="queryById" resultType="com.minlia.modules.rebecca.bean.domain.Permission">
+        <include refid="QUERY_CONTENT"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="queryCodesByRoleCodes" resultType="java.lang.String">
+        SELECT mpt.code
+        FROM mdl_permission mpt
+        INNER JOIN mdl_role_permission mp ON mp.permission_id = mpt.id
+        INNER JOIN mdl_role rt ON rt.id = mp.role_id
+        WHERE rt.code IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="queryAll" resultType="com.minlia.modules.rebecca.bean.domain.Permission">
+        <include refid="QUERY_CONTENT"/>
+        ORDER BY mpt.code DESC
+    </select>
+
+    <select id="queryListByGuid" resultType="com.minlia.modules.rebecca.bean.domain.Permission">
+        <include refid="QUERY_CONTENT"/>
+        INNER JOIN mdl_role_permission pm ON pm.permission_id = mpt.id
+        INNER JOIN mdl_role rt ON rt.id = pm.role_id
+        INNER JOIN mdl_user_role rm ON rm.role_id = rt.id
+        INNER JOIN mdl_user ut ON ut.id = rm.user_id
+        WHERE ut.guid = #{guid,jdbcType=VARCHAR}
+    </select>
+
+    <select id="queryListByRoleCodes" resultType="com.minlia.modules.rebecca.bean.domain.Permission">
+        <include refid="QUERY_CONTENT"/>
+        INNER JOIN mdl_role_permission mp ON mp.permission_id = mpt.id
+        INNER JOIN mdl_role rt ON rt.id = mp.role_id
+        WHERE rt.code IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <select id="tree" resultType="java.util.Map">
+        SELECT
+            id ,
+            SUBSTRING_INDEX(CODE , '.' , 1) AS one,
+            SUBSTRING_INDEX(
+                SUBSTRING_INDEX(CODE , '.' , 2) ,
+                '.' ,- 1
+            ) AS two,
+            SUBSTRING_INDEX(CODE , '.' , - 1) AS three
+        FROM
+            mdl_permission t
+    </select>
+
+    <select id="oneLevel" resultType="java.lang.String">
+        SELECT DISTINCT SUBSTRING_INDEX(CODE , '.' , 1) FROM mdl_permission
+    </select>
+
+    <select id="twoLevel" resultType="java.lang.String">
+        SELECT DISTINCT
+            SUBSTRING_INDEX(
+                SUBSTRING_INDEX(CODE , '.' , 2) ,
+                '.' ,- 1
+            )
+        FROM
+            mdl_permission t
+        WHERE
+            INSTR(CODE , #{prefix}) = 1;
+    </select>
+
+    <select id="threeLevel" resultType="java.util.Map">
+        SELECT
+            id ,
+            SUBSTRING_INDEX(CODE , '.' , - 1) AS code
+        FROM
+            mdl_permission t
+        WHERE
+            INSTR(CODE , #{prefix}) = 1;
+    </select>
+
+</mapper>

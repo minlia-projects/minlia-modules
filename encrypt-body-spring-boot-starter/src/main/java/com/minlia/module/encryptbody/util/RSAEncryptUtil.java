@@ -1,7 +1,10 @@
 package com.minlia.module.encryptbody.util;
 
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
@@ -20,27 +23,18 @@ import java.util.Map;
 @Slf4j
 public class RSAEncryptUtil {
 
-    private static final String CHAR_SET = "UTF-8";
-
     public static final String KEY_ALGORITHM = "RSA";
 
     /**
      * RSA密钥长度必须是64的倍数，在512~65536之间。默认是1024
      */
-    public static final int KEY_SIZE = 2048;
+    public static final int KEY_SIZE = 1024;
 
-    /**
-     * RSA最大加密明文大小
-     */
-    private static final int MAX_ENCRYPT_BLOCK = 117;
+    public static String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDKfxQMr/QZekhZur/SWXN32Bd4bnnj5AcQtXxMY3IpNdLz1sySaEzO+YsFWhWWvualApTP2MhhjsA3hGexc4g1XhEvKCXmSbtAu/tsYe+iBulufX+I2K5QN/A5yH8Dt5Cf+pxMMP+E6WHwTptuHEL7ywb9J0EPcbiArW5fciLXsQIDAQAB";
+    public static String PRIVATE_KEY = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMp/FAyv9Bl6SFm6v9JZc3fYF3hueePkBxC1fExjcik10vPWzJJoTM75iwVaFZa+5qUClM/YyGGOwDeEZ7FziDVeES8oJeZJu0C7+2xh76IG6W59f4jYrlA38DnIfwO3kJ/6nEww/4TpYfBOm24cQvvLBv0nQQ9xuICtbl9yItexAgMBAAECgYA/FAzr0tfII/ZrtSfR37l/aJoPEuL3YW3t/4rDxOqn+bNH7+5z4PekNcnfletJtRfl6QLwKAhrk2s/IAipF2MjJtsPY5ptFDa10pJR/DQ5SEAiZ83hzvsgyuLFjm+rAAmveAcr/XIBGWg7TQXK59Q8MpVMfXar2xx5WWqLxf+ZnQJBAOUtl/w4vDLWuTn8S+GkrJVhTzKg+8mdv6/2TIcXqqlxE6kQzqmjvms8hHUwnDb3fSMLObyhhPpE8mgTrwpVkt8CQQDiMhL0x1kuTqDMCtUHseeH6Piu5U1iKrAUxBzqqcDQKwQDtwDTQxCsTRAxVSbrlo7CcuDDOjceBqROAg4vDfdvAkBs3OKUWfL0B1GHPNRixBGDB+1R9GyGUhvLHyktBs33nRIkviodJP3//IhDDqs15QwZSGzNsL/1DilDzQ3Zz9prAkEAnCKgfyKT5qkTyYS4pAUjoucnseJKVjbNMKhmpXzjwU3QCZhrE2k5uxW+1a7HnNtiU8rkZx5qKWnARLCahdSINQJBAOBiIvDlIbcLvFxHc+1Nct7N/jtrrA02ITQzREKGAOZ9KEGv7cDtZxXA1TlQlt4VvN1REEX0cZH37NWuTRM9wYg=";
 
-    /**
-     * RSA最大解密密文大小
-     */
-    private static final int MAX_DECRYPT_BLOCK = 128;
+    public static String TEST_CONTENT = "{\"number\":\"A2019070413504418067\",\"cellphone\":\"41111111\",\"surname\":\"asdasdds\",\"givenName\":\"********\",\"gender\":\"MALE\",\"hkid\":\"********\",\"birthDate\":959788800000,\"mobilePhoneNumber\":41223232,\"residentialAddress\":\"2121\",\"residentialDistrict\":[\"2000\",\"2002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"2121\",\"correspondentDistrict\":[\"2000\",\"2002\"]}";
 
-    public static String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs02q0YdzYndJXqvr+DiFwfeQ+VSXSz3yj6vlCmvcorkKs0qIchDNd20/xY12a8hh2p8HkAt8lTL0qpC+dDahMJk8OIoeSltAHPwneUMu6EdeG5F5HNBQfuzFcFDEjZFI2mdUMsSFZqyw5HlNGF12YPNbOrR5FTiRcTRUgzlvcXM1gDDwbxpZY3rNZpoXvIwpsKMrlB+DTkn9802Qwrs07u+UCaCCqxnAQGmCiGwKbha/jQTa/1Y5aTtC9Zn+RPjvjZ+M03GZfin3u0rhLRGNJfcRsDd5zcdsZwsf8fId+TpcuHOOUvvkcLT/WEL5I5TQV0o2AR41BNW2cGOxFL+0xwIDAQAB";
-    public static String PRIVATE_KEY = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCzTarRh3Nid0leq+v4OIXB95D5VJdLPfKPq+UKa9yiuQqzSohyEM13bT/FjXZryGHanweQC3yVMvSqkL50NqEwmTw4ih5KW0Ac/Cd5Qy7oR14bkXkc0FB+7MVwUMSNkUjaZ1QyxIVmrLDkeU0YXXZg81s6tHkVOJFxNFSDOW9xczWAMPBvGlljes1mmhe8jCmwoyuUH4NOSf3zTZDCuzTu75QJoIKrGcBAaYKIbApuFr+NBNr/VjlpO0L1mf5E+O+Nn4zTcZl+Kfe7SuEtEY0l9xGwN3nNx2xnCx/x8h35Oly4c45S++RwtP9YQvkjlNBXSjYBHjUE1bZwY7EUv7THAgMBAAECggEAQHjD3DV1Ism7owP0hDtmtRkcktp80DxFFK39XGLuYcBhfZhmOYWbK78nuBQmqZjSvraCFKRctpUs7ou/P7BJA12GDtpzC8+F3SY511t16WWIDCehwd+RoiHm2HziP/kmlgmjd+G8CfA8ZtrLAuDQaQn4GsK76wp9GZR0cv7a+JKW0LyaTDidTx8fYGsKHV4odps/erR08SBBs5rUETRXcJpGktOUe7k7YlNHCJf+Y1W5yKKehWvTh71veayhjBzxv9RqR0fVgnJDUMVEPATaTj1pVKyZgA/9oia9m8yXAnCVR6GutH0P1FisFijnAN1CpVbHeKhUy1KLZeemGG0zgQKBgQDqQRg9HBwfAHbzWE2NLRcCPIl5UOimYFeRRSBY+7DfDZFCu/jfmgh4mhrlJzDkny7dAJGtfSSM+ozppahuDB6uZjWHrbKZu2WG0qQwWojDAKsfY/TbsWlFm+TLhfALsFnSlVbTpUWqcG6/B/Jdd07ieccGFwTfLNCFdH6b64vDBwKBgQDD8rMHKQcvTEXdQTZGqJ1crTwqXuU3XMOau4h27VR7snDe4xpwl1rsP5W5SiraP5/9EtPwGKwjnEPUSWRHvj2wtBs/SB4A1VBdzKY+yM98eFzSf9HJZRra42SlU/Fw/jHKkRAUkp7gluc5DwZi7JfuxXS1RVgfMWbsTLKT8udQQQKBgQDlPUqBEu8aD5RYU0OhMkzf7WoDBICHwKQxD1q2eaf+wAI1Mko8VzqO+w/yzEV2laiAsbvd8SdBpzcatvh6qPWlaXRdEEhFVTPnml7+yronSpIrp9/I1nbUndhqquncJnngMDDF8WiZgGmAHEC74rOZwd5YQVKNLAfrcbMs1nbxJQKBgQC3SfOq8/bTiF4lq5VQnPKtuSH5ZFC265/QwjDRRgjruCuaYgbeYMXdDVFJRBY3lqJaAN2czgdfPBG6pngWH97mxmJiXFwsXVzSkNbFDeP/wzrYcFXVNCzdqS0A9Td4gV4j5HONOuVAogdhuSs5J6Sq5arY0Sev7e8fhFLaz7ENwQKBgQDjRRfpDUqxeZNjjx0Huu5EFe776ATLxhXHJT7xT7+NXKQK+SwzGMnYPK6fHlkoCOACIX0yqm2CqFNv/XT2rYJ2mFsXs4uDYV7QSDfqJ4fMyUQxsYzqQH/qBi2gP630+il7UmIA7Uddsfl6Wx8ugICX2frUTLNu6/B0a0hFiO++bw==";
 
     /**
      * 随机生成公钥和私钥
@@ -118,11 +112,6 @@ public class RSAEncryptUtil {
         return null;
     }
 
-    public static String encrypt(String content, String publicKey) {
-        return Base64.encodeBase64String(encrypt(content.getBytes(), getPublicKey(publicKey)));
-    }
-
-
     /**
      * 解密
      *
@@ -141,20 +130,16 @@ public class RSAEncryptUtil {
         return null;
     }
 
+    public static String encrypt(String content, String publicKey) {
+        RSA rsa = new RSA(null, publicKey);
+        return rsa.encryptBase64(content, KeyType.PublicKey);
+    }
+
     public static String decrypt(String content, String privateKey) {
-        return decrypt(content, getPrivateKey(privateKey));
+        RSA rsa = new RSA(privateKey, null);
+        byte[] decrypt = rsa.decryptFromBase64(content, KeyType.PrivateKey);
+        return StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8);
     }
-
-    public static String decrypt(String content, PrivateKey privateKey) {
-        return new String(decrypt(Base64Utils.decodeFromString(content), privateKey));
-    }
-
-    public static String decryptSegment(String content, String privateKey) {
-        return RSAUtils.encipher(content, privateKey, KEY_SIZE / 8 - 11);
-    }
-
-    //    public static String content = "{\"receiveTime\":\"1552988611860\",\"smsContent\":\"1411\",\"smsNumber\":\"13048989908\",\"deviceId\":\"c9a8d891add871b0\"}";
-    public static String content = "{\"method\":\"CELLPHONE\",\"cellphone\":\"41111111\"}";
 
     public static void main(String[] args) throws Exception {
         //随机生成公钥和私钥
@@ -166,23 +151,22 @@ public class RSAEncryptUtil {
 //        String jsonSorted = jsonSortToString(content, "&", "sign");
 //        System.out.println("排序后：" + jsonSorted);
 
-//        String encryptedBase64 = encryptBase64(content);
-//        System.out.println("加密后：" + encryptedBase64);
-//
-//        String decrypted = decrypt(encryptedBase64);
-//        System.out.println("解密后：" + decrypted);
 
-        String encryptedBase64 = RSAUtils.encipher(content, PUBLIC_KEY);
-        System.out.println("加密后：" + encryptedBase64);
+        String s = decrypt("h9pwaeCf/WvN1ohCK1fRvwoSD7tc0W5jiOToVwFT21iGaTSy4jMtNojTMUlyrKQDF6YY8PdZSya69XQwLoN37SR8oMrwpxdguuqL/HKXBc/aFbOasMFv9/Ju7kHFKisylc5m7r25INOyiXY4W+XyXF2B/Y9lHnCAnmObCwp8LxgF6oN3JawBZ/ccl68fFqYQW/1SiRIQDLKr9nlMmbokGSb84YugGhYXGygTeqk5oUzqN+pGhbHwVF+wE0fiiiKBLaY6DumEEyuQV/WO8pJCQG51uJIMcWdx2H8P2prrj06X6ABZWaXLFcw24dEaBCPijOXCXPaCYD4oLF9zZXJ7X1mKyKIHF2c5ACeZVNTADMLxYYftnu8QEaES7LnQYw/aVGyB6QEc8uMvD/jJkqMRMuLzd1cbQcfE+J+5f2GRz9yXtpZSco3vMoxr9MZVB2Sv0n9BcIlbvzG2PXoDmYF4ZzITnkbibNxjK55mJwX+0K77Jv+PO0KncifD0JS9Al1D",
+                PRIVATE_KEY);
+        System.out.println(s);
 
-        String decrypted = RSAUtils.decipher(encryptedBase64, PRIVATE_KEY);
-        System.out.println("解密后：" + decrypted);
 
-        encryptedBase64 = "Hee5qd2SHdOqSRte1jAiQE2ktLXCfLRKwgXRowbUGoHamPFeHz7PvrSbW6c8hScb/5nPRhVNRPbCyCCyP4RSzvHxu+SUOr/MHsWWVH6BBPd8DvZWT78sbFeUqlvBbX15hho2xDLWUQTbNJ3qOAexRapNNnc4JeMcv+9EIOlAish91wHhDqTm/c63c1dxSDByu4VfKXOWcBnZbYJt9FB3RgCFQWkcxxEdAZndnx69aXY+jA+KIN6EIaVJZHh4dyrxiRb2Ke5DQ2C0VVGdilFqv8PpqOHpdpZrXBZk0ZLSochNDSFNZXLO8ILO9hHXiEoxBxfeNnTiVbwhCUfejlij2YBCVYa6AZFvYvXivnfw6kZz6btmEW9LbH0s0mf6nXbMrmFEKRU3FAU7qyMZouMdxwp1pQqa+bTbZP4He/5VxnrvxDYVu4PKFydRwtCfJWZs/nVQjzZkQoyRYqkLrFj2G8FNGLAPCgYOHWaChMcKnKWS5B1bTQ3gAzBA4aITLaoE4WItGI8TS7mZxtD0D+v2Q3i24SU2JEK3ZTX+jw/Jqj2XWRNKFPTTiYKN3a8HRbGvv8LfTe0cmMJrufxPmTVDAAq+Xv2bOIxNL83fZfpb9WJJ+VpUdMrkYpWyeqsBC2Maae/df2/Xv3mrzTJgfQLZ8MWtYnwwBGjkLeBR6OKYjf0nChp7/lL2gbS/3mAnVs2FWUn8ZU50qT4c0uYLt3uZ97YBFDvZ1GBrwEfJV3ocydnGtHy740sVqP/0E2zd/Cf/noX9jN+Fg6+mJ+HRNafsDJajTDFkFL6MFxIsmXx7XNvI4N/DaV4+JguOPjKDPexUo1+4+3dbr/tCmoqWOlYg3Y3dAelf9vi+BnMusnJ8KZa23Zm99Tskc5SHvx2xgk/aCkFF94QhjQYMf5T0CnOrObCJXV1Y0jF/Nfl/d7Kwn/kVMk0Ao9rIrxi4o2YhwFf3WKYvn645i+CMLGVci8F8pLnsKVyOJgD05/lkeHwyDH2dZT2A3wgy+n/eBPv5Yu8p";
-        System.out.println("加密后：" + encryptedBase64);
+        RSA rsa = new RSA(PRIVATE_KEY, PUBLIC_KEY);
+        //公钥加密，私钥解密
+        byte[] encrypt = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PublicKey);
+        byte[] decrypt = rsa.decrypt(encrypt, KeyType.PrivateKey);
+        System.out.println(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
 
-        decrypted = RSAUtils.decipher(encryptedBase64, PRIVATE_KEY);
-        System.out.println("解密后：" + decrypted);
+        //私钥加密，公钥解密
+        byte[] encrypt2 = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PrivateKey);
+        byte[] decrypt2 = rsa.decrypt(encrypt2, KeyType.PublicKey);
+        System.out.println(StrUtil.str(decrypt2, CharsetUtil.CHARSET_UTF_8));
     }
 
 //    public static String jsonSortToString(String jsonStr, String joiner, String... ignores) {

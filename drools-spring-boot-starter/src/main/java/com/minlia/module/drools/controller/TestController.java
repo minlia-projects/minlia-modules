@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.kie.api.runtime.KieSession;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(tags = "Modules Drools", description = "规则引擎")
 @RequestMapping("/drools/rules/test")
 @Controller
+@Profile("dev")
 public class TestController {
 
     @ApiOperation(value = "test")

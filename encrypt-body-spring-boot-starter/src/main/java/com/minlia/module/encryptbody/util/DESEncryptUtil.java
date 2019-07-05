@@ -1,5 +1,7 @@
 package com.minlia.module.encryptbody.util;
 
+import cn.hutool.core.util.CharsetUtil;
+
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
@@ -47,7 +49,7 @@ public class DESEncryptUtil {
             cipher.init(type, keyFactory.generateSecret(desKey), random);
 
             if (type == Cipher.ENCRYPT_MODE) {
-                byte[] byteContent = content.getBytes("utf-8");
+                byte[] byteContent = content.getBytes(CharsetUtil.CHARSET_UTF_8);
                 return Hex2Util.parseByte2HexStr(cipher.doFinal(byteContent));
             } else {
                 byte[] byteContent = Hex2Util.parseHexStr2Byte(content);

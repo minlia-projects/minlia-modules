@@ -13,4 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlackListRepository extends JpaRepository<BlackList, Long> {
 
+    long countAllByDimensionAndValue(BlackList.EnumDimension dimension, String value);
+
+    boolean existsAllByDimensionAndValue(BlackList.EnumDimension dimension, String value);
+
 }

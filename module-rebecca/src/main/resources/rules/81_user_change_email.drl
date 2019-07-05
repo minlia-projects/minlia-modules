@@ -1,0 +1,36 @@
+package rules;
+
+import com.minlia.modules.rebecca.risk.event.ChangeEmailEvent
+import com.minlia.modules.rebecca.service.UserHistoryService
+
+import com.minlia.module.riskcontrol.entity.BlackList
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+import com.minlia.module.riskcontrol.service.DimensionService
+import com.minlia.module.riskcontrol.service.BlackListService
+import com.minlia.module.riskcontrol.service.RiskRecordService
+import com.minlia.cloud.utils.ApiAssert
+import com.minlia.modules.rebecca.bean.domain.UserHistory
+import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum
+import org.apache.commons.lang3.time.DateUtils
+import java.util.Date
+
+global UserHistoryService userHistoryService;
+global RiskRecordService riskEventListService
+
+rule "80_user_change_email"
+    salience 81
+    lock-on-active true
+    when
+        event:ChangeEmailEvent()
+    then
+        long count  = userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_EMAIL, event.getGuid(), DateUtils.addMonths(new Date(), -6));
+        RiskLevelEnum riskLevel = event.addScore(count, 5, 3, 50, 1);
+        String details = "过去6个月内更改电子邮件地址的次数超过5次，拒绝下一次操作。,count=" + count;
+        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
+            riskEventListService.createEvent(event, details);
+        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+            riskEventListService.createEvent(event, details);
+            ApiAssert.state(false, "10000", details);
+        }
+end

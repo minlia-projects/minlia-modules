@@ -210,7 +210,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
             key = CheckUtils.checkAndGetKey(config.getRsaPrivateKey(), key, "RSA-PRIVATE-KEY");
             JSONObject jsonObject = JSONObject.parseObject(formatStringBody);
             formatStringBody = jsonObject.getString("data");
-            return RSAEncryptUtil.decryptSegment(formatStringBody, key);
+            return RSAEncryptUtil.decrypt(formatStringBody, key);
         }
         if (method == DecryptBodyMethod.DES) {
             key = CheckUtils.checkAndGetKey(config.getDesKey(), key, "DES-KEY");

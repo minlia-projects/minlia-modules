@@ -120,7 +120,7 @@ public class EmailServiceImpl implements EmailService {
             message.setFrom(mailProperties.getUsername());
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text);
+            helper.setText(text, true);
             mailSender.send(message);
             emailRecord.setSuccessFlag(true);
         } catch (Exception e) {

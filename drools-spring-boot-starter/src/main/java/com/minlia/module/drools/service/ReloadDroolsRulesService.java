@@ -91,9 +91,9 @@ public class ReloadDroolsRulesService {
     public Address getRulesWrite(Long id, Address t) {
         Optional<Rule> rule = ruleRepository.findById(id);
         KieSession kieSession = this.getKieSession(rule.get().getContent());
-
         kieSession.insert(t);
         kieSession.fireAllRules();
+        kieSession.dispose();
         return t;
     }
 

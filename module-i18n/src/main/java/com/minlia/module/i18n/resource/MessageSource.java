@@ -3,7 +3,7 @@ package com.minlia.module.i18n.resource;
 import com.google.common.collect.Maps;
 import com.minlia.module.i18n.entity.I18n;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
-import com.minlia.module.i18n.ro.I18nQRO;
+import com.minlia.module.i18n.bean.I18nQRO;
 import com.minlia.module.i18n.service.I18nService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;

@@ -1,0 +1,31 @@
+package rules;
+
+import com.minlia.module.riskcontrol.event.RiskRegistrationEvent
+import com.minlia.module.riskcontrol.entity.BlackList
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+import com.minlia.module.riskcontrol.service.DimensionService
+import com.minlia.module.riskcontrol.service.BlackListService
+import com.minlia.module.riskcontrol.service.RiskRecordService
+
+global BlackListService blackListService
+global DimensionService dimensionService
+global RiskRecordService riskRecordService
+
+rule "99_registration_ip"
+    salience 99
+    lock-on-active true
+    when
+        event:RiskRegistrationEvent()
+    then
+        long count  = dimensionService.distinctCountWithRedis(event, new String[]{RiskRegistrationEvent.IP}, TimePeriodEnum.LAST_QUARTER.getTimeDiff() / 1000, RiskRegistrationEvent.TIME);
+        RiskLevelEnum riskLevel = event.addScore(count, 10, 5, 10, 1);
+
+        String details = "近15分钟内同ip出现多次注册,count=" + count;
+        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
+            riskRecordService.createEvent(event, details);
+        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+            riskRecordService.createEvent(event, details);
+            blackListService.pub(BlackList.builder().type(BlackList.EnumType.BLACK).dimension(BlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
+        }
+end

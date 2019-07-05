@@ -1,0 +1,30 @@
+//package rules;
+//
+//import com.minlia.module.riskcontrol.event.LoginEvent
+//import com.minlia.module.riskcontrol.entity.BlackList
+//import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+//import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+//import com.minlia.module.riskcontrol.service.DimensionService
+//import com.minlia.module.riskcontrol.service.BlackListService
+//import com.minlia.module.riskcontrol.service.RiskRecordService
+//
+//global BlackListService blackListService
+//global DimensionService dimensionService
+//global RiskRecordService riskEventListService
+//
+//rule "96_login_failure"
+//    salience 96
+//    lock-on-active true
+//    when
+//        event:LoginEvent()
+//    then
+//        long count  = dimensionService.distinctCountWithRedis(event, new String[]{LoginEvent.IP}, TimePeriodEnum.LAST_QUARTER.getTimeDiff() / 1000, LoginEvent.PASSWORD);
+//        RiskLevelEnum riskLevel = event.addScore(count, 5, 3, 10, 1);
+//        String details = "近15分钟内同ip出现多次登陆失败,count=" + count;
+//        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
+//            riskEventListService.createEvent(event, details);
+//        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+//            riskEventListService.createEvent(event, details);
+//            blackListService.pub(BlackList.builder().type(BlackList.EnumType.BLACK).dimension(BlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
+//        }
+//end

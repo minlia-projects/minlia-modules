@@ -1,7 +1,7 @@
 package com.minlia.module.i18n.mapper;
 
 import com.minlia.module.i18n.entity.I18n;
-import com.minlia.module.i18n.ro.I18nQRO;
+import com.minlia.module.i18n.bean.I18nQRO;
 import org.apache.ibatis.annotations.MapKey;
 
 import java.util.List;

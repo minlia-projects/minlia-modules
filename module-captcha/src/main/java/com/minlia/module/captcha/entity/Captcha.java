@@ -48,6 +48,11 @@ public class Captcha extends AbstractEntity {
     private Date effectiveTime;
 
     /**
+     * 倒计时
+     */
+    private Integer countdown;
+
+    /**
      * 连续验证失败次数
      */
     private Integer failureCount;

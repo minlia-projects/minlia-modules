@@ -29,6 +29,9 @@
             <if test="locale != null">
                 AND locale = #{locale}
             </if>
+            <if test="value != null">
+                AND instr(`value`, #{value}) > 0
+            </if>
         </where>
     </sql>
 

@@ -1,12 +1,16 @@
 package rules;
 
 import com.minlia.module.riskcontrol.event.LoginEvent
+import com.minlia.module.riskcontrol.entity.BlackList
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.enums.TimePeriodEnum
 import com.minlia.module.riskcontrol.service.DimensionService
-import com.minlia.module.riskcontrol.service.RiskEventListService
+import com.minlia.module.riskcontrol.service.BlackListService
+import com.minlia.module.riskcontrol.service.RiskRecordService
 
+global BlackListService blackListService
 global DimensionService dimensionService
-global RiskEventListService riskEventListService
+global RiskRecordService riskRecordService
 
 rule "98_login_ip"
     salience 98
@@ -14,14 +18,12 @@ rule "98_login_ip"
     when
         event:LoginEvent()
     then
-        int count  = dimensionService.distinctCountWithRedis(event, new String[]{LoginEvent.IP}, TimePeriodEnum.LAST_QUARTER, LoginEvent.MOBILE);
-//        if(event.addScore(count,20,10,1)){
-//            dimensionService.insertRiskEvent(event,"近1小时内同ip出现多个mobile,count="+count);
-//        }
-//
-//        count = dimensionService.count(event, new String[]{LoginEvent.IP}, TimePeriodEnum.LAST_MIN);
-//        if(event.addScore(count,20,10,1)){
-//             dimensionService.insertRiskEvent(event,"近1分钟同ip登陆频次,count="+count);
-//        }
-
+        long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{LoginEvent.IP}, LoginEvent.USERNAME);
+        String details = "近15分钟内同ip出现多个mobile,count=" + count;
+        if(event.getLevel().equals(RiskLevelEnum.WARNING)) {
+            riskRecordService.createEvent(event, details);
+        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
+            riskRecordService.createEvent(event, details);
+            blackListService.pub(BlackList.builder().type(BlackList.EnumType.BLACK).dimension(BlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
+        }
 end

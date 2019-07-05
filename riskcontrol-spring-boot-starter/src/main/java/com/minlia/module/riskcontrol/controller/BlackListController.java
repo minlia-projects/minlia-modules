@@ -19,24 +19,26 @@ public class BlackListController {
     @Autowired
     private BlackListService blackListService;
 
-    @ApiOperation(value = "all")
+    @ApiOperation(value = "查询所有")
     @GetMapping(path = "all")
     public Response all() {
-        return Response.success(blackListService.queryAll());
+        return Response.success(blackListService.getAll());
     }
 
-    @ApiOperation(value = "id")
+    @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
     public Response queryById(@PathVariable Long id) {
         return Response.success(blackListService.queryById(id));
     }
 
+    @ApiOperation(value = "保存")
     @PostMapping(value = "")
     public Response save(@Valid @RequestBody BlackList blackList) {
-        blackListService.save(blackList);
+        blackListService.pub(blackList);
         return Response.success();
     }
 
+    @ApiOperation(value = "ID删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
         blackListService.delete(id);

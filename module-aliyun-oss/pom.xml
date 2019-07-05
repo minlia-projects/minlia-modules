@@ -81,10 +81,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.31</version>
         </dependency>
+
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-common</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>${minlia.module.version}</version>
             <scope>compile</scope>
         </dependency>
 

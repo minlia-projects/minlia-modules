@@ -1,10 +1,10 @@
 package com.minlia.module.i18n.service;
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.i18n.ro.I18nCRO;
+import com.minlia.module.i18n.bean.I18nCRO;
 import com.minlia.module.i18n.entity.I18n;
-import com.minlia.module.i18n.ro.I18nQRO;
-import com.minlia.module.i18n.ro.I18nURO;
+import com.minlia.module.i18n.bean.I18nQRO;
+import com.minlia.module.i18n.bean.I18nURO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

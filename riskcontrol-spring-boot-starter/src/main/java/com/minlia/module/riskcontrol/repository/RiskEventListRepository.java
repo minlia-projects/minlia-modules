@@ -1,6 +1,6 @@
 package com.minlia.module.riskcontrol.repository;
 
-import com.minlia.module.riskcontrol.entity.RiskEventList;
+import com.minlia.module.riskcontrol.entity.RiskRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019/6/26 5:07 PM
  */
 @Repository
-public interface RiskEventListRepository extends JpaRepository<RiskEventList, Long> {
+public interface RiskEventListRepository extends JpaRepository<RiskRecord, Long> {
 
 }

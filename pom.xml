@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <project.version>2.0.0-SNAPSHOT</project.version>
+        <minlia.module.version>2.0.0-SNAPSHOT</minlia.module.version>
     </properties>
 
     <modules>
@@ -32,7 +32,7 @@
         <!--<module>module-dict</module>-->
         <module>module-i18n</module>
         <module>module-audit</module>
-        <!--<module>module-redis</module>-->
+        <module>module-redis</module>
         <!--<module>module-district</module>-->
         <!--<module>module-country</module>-->
         <!--<module>module-address</module>-->
@@ -41,6 +41,9 @@
         <module>module-captcha</module>
         <!--<module>module-richtext</module>-->
         <!--<module>module-todo</module>-->
+
+        <module>drools-spring-boot-starter</module>
+        <module>riskcontrol-spring-boot-starter</module>
 
         <!--<module>module-bank</module>-->
         <!--<module>module-bank-branch</module>-->

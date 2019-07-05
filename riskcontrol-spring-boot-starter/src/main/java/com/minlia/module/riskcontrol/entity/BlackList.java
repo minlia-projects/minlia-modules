@@ -27,12 +27,14 @@ public class BlackList {
     /**
      * 类型
      */
+    @Enumerated(value = javax.persistence.EnumType.STRING)
     @Column(nullable = false)
     private EnumType type;
 
     /**
      * 维度
      */
+    @Enumerated(value = javax.persistence.EnumType.STRING)
     @Column(nullable = false)
     private EnumDimension dimension;
 
@@ -59,6 +61,7 @@ public class BlackList {
      */
     public static enum EnumDimension {
         MOBILE,
+        EMAIIL,
         IP,
         DEVICEID;
     }

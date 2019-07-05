@@ -13,4 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RiskConfigRepository extends JpaRepository<RiskConfig, Long> {
 
+    boolean existsAllByKey(String key);
+
+    RiskConfig findOneByKey(String key);
+
 }
