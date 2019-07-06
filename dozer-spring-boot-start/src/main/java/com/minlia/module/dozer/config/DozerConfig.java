@@ -1,6 +1,7 @@
 package com.minlia.module.dozer.config;
 
 import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +17,7 @@ import java.util.List;
 public class DozerConfig {
 
     @Bean(name = "org.dozer.Mapper")
-    public DozerBeanMapper dozerBean() {
+    public Mapper dozerBean() {
         List<String> mappingFiles = Arrays.asList("dozer/dozer-configration-mapping.xml");
 
         DozerBeanMapper dozerBean = new DozerBeanMapper();
