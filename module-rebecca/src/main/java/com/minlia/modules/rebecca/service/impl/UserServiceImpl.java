@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
         ChangeCellphoneEvent changeCellphoneEvent = new ChangeCellphoneEvent();
         changeCellphoneEvent.setEventId("asdfsd");
         changeCellphoneEvent.setScene("change_cellphone");
-        changeCellphoneEvent.setGuid(SecurityContextHolder.getCurrentGuid());
+        changeCellphoneEvent.setGuid(user.getGuid());
         changeCellphoneEvent.setCellphone(newCellphone);
         changeCellphoneEvent.setOperateTime(LocalDateTime.now());
         kieSession.execute(changeCellphoneEvent);
@@ -190,7 +190,7 @@ public class UserServiceImpl implements UserService {
         ChangeEmailEvent changeEmailEvent = new ChangeEmailEvent();
         changeEmailEvent.setEventId("asdfsd");
         changeEmailEvent.setScene("change_email");
-        changeEmailEvent.setGuid(SecurityContextHolder.getCurrentGuid());
+        changeEmailEvent.setGuid(user.getGuid());
         changeEmailEvent.setEmail(newEmail);
         changeEmailEvent.setOperateTime(LocalDateTime.now());
         kieSession.execute(changeEmailEvent);

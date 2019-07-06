@@ -32,4 +32,9 @@ public class UserQO extends QueryRequest {
 
     private List<String> roleCodes;
 
+    /**
+     * //未登录月数
+     */
+    private Integer notLoggedMonth;
+
 }

@@ -23,6 +23,7 @@
     <modules>
         <module>module-common</module>
         <module>encrypt-body-spring-boot-starter</module>
+        <module>dozer-spring-boot-start</module>
         <module>module-http</module>
         <module>module-logger</module>
         <module>module-swagger</module>
