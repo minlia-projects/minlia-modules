@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Data
 @Builder
@@ -18,6 +19,6 @@ public class ArticleCollectionQRO extends QueryRequest {
 
     private String collector;
 
-    private Date collectionDate;
+    private LocalDateTime collectionDate;
 
 }

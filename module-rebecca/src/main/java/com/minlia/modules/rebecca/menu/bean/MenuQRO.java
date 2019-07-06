@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -23,9 +23,9 @@ public class MenuQRO extends QueryRequest {
 
     private String lastModifiedBy;
 
-    private Date createDate;
+    private LocalDateTime createDate;
 
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     private boolean isOneLevel;
 

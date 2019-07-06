@@ -22,8 +22,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Map;
 
 @Slf4j
@@ -61,7 +62,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         Captcha captcha = this.save(cellphone, CaptchaMethodEnum.CELLPHONE);
 
         //当生产环境时发送验证码, 否则不需要
-        if(!Environments.isDevelopment()){
+        if (!Environments.isDevelopment()) {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
             smsService.sendRichtextSms(new String[]{cellphone}, "CAPTCHA_DEFAULT", variables);
@@ -75,10 +76,10 @@ public class CaptchaServiceImpl implements CaptchaService {
         Captcha captcha = this.save(email, CaptchaMethodEnum.EMAIL);
 
         //当生产环境时发送验证码, 否则不需要
-        if(!Environments.isDevelopment()){
+        if (!Environments.isDevelopment()) {
             Map variables = Maps.newHashMap();
-            variables.put("code",captcha.getCode());
-            emailService.sendTemplateMail(new String[]{email}, "验证码", "captcha", variables);
+            variables.put("code", captcha.getCode());
+            emailService.sendRichtextMail(new String[]{email}, "CAPTCHA_DEFAULT", variables);
         }
         return captcha;
     }
@@ -98,9 +99,9 @@ public class CaptchaServiceImpl implements CaptchaService {
         //验证码CODE
         String code = Environments.isDevelopment() ? LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) : RandomStringUtils.randomNumeric(captchaConfig.getSize());
         //发送时间
-        Date currentDate = new Date();
+        LocalDateTime currentDate = LocalDateTime.now();
         //有效时间
-        Date effectiveDate = DateUtils.addSeconds(currentDate, captchaConfig.getEffectiveSeconds());
+        LocalDateTime effectiveDate = currentDate.plusSeconds(captchaConfig.getEffectiveSeconds());
 
         if (null == captcha) {
             captcha = Captcha.builder()
@@ -127,14 +128,14 @@ public class CaptchaServiceImpl implements CaptchaService {
         return captcha;
     }
 
-    private void updateByResend(Captcha captcha, String code, Date currentDate, Date effectiveDate) {
+    private void updateByResend(Captcha captcha, String code, LocalDateTime currentDate, LocalDateTime effectiveDate) {
         //校验 TODO 最大获取频率分钟：30分钟
 //        ApiPreconditions.is(captcha.getLocked(), 1,"验证码已超出当日发送上线"); TODO
 
-        ApiAssert.state(!captcha.getLocked() || captcha.getLockTime().before(new Date()) , CaptchaCode.Message.ALREADY_LOCKED);
+        ApiAssert.state(!captcha.getLocked() || captcha.getLockTime().isBefore(LocalDateTime.now()), CaptchaCode.Message.ALREADY_LOCKED);
 
 
-        ApiAssert.state(currentDate.after(DateUtils.addSeconds(captcha.getSendTime(), captchaConfig.getIntervalSeconds())) , CaptchaCode.Message.ONCE_PER_MINUTE);
+        ApiAssert.state(currentDate.isAfter(captcha.getSendTime().plusSeconds(captchaConfig.getIntervalSeconds())), CaptchaCode.Message.ONCE_PER_MINUTE);
         captcha.setCode(code);
         captcha.setUsed(false);
         captcha.setLocked(Boolean.FALSE);
@@ -164,11 +165,11 @@ public class CaptchaServiceImpl implements CaptchaService {
         validity(captcha, code);
     }
 
-    private void validity(Captcha captcha, String code){
+    private void validity(Captcha captcha, String code) {
         ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
         ApiAssert.state(!captcha.getUsed(), CaptchaCode.Message.ALREADY_USED);
         ApiAssert.state(!captcha.getLocked(), CaptchaCode.Message.ALREADY_LOCKED);
-        ApiAssert.state(captcha.getEffectiveTime().getTime() > System.currentTimeMillis(), CaptchaCode.Message.CAPTCHA_EXPIRED);
+        ApiAssert.state(captcha.getEffectiveTime().toInstant(ZoneOffset.ofHours(8)).toEpochMilli() > System.currentTimeMillis(), CaptchaCode.Message.CAPTCHA_EXPIRED);
 
 //        ApiAssert.state(captcha.getFailureCount() != captchaConfig.getMaxValidationFailureTimes(), CaptchaCode.Message.CAPTCHA_REPETITIOUS_ERROR);
         if (code.equals(captcha.getCode())) {
@@ -176,11 +177,11 @@ public class CaptchaServiceImpl implements CaptchaService {
             captchaMapper.update(captcha);
         } else {
             //错误次数+1
-            captcha.setFailureCount(captcha.getFailureCount()+ 1);
+            captcha.setFailureCount(captcha.getFailureCount() + 1);
             //超过最大错误次数
             if (captcha.getFailureCount() > captchaConfig.getMaxValidationFailureTimes()) {
                 captcha.setLocked(true);    //锁定
-                captcha.setLockTime(DateUtils.addMinutes(new Date(), captchaConfig.getLockMinutes()));      //锁定时间
+                captcha.setLockTime(LocalDateTime.now().plusMinutes(captchaConfig.getLockMinutes()));      //锁定时间
             }
             captchaMapper.update(captcha);
             ApiAssert.state(code.equals(captcha.getCode()), CaptchaCode.Message.CAPTCHA_ERROR);

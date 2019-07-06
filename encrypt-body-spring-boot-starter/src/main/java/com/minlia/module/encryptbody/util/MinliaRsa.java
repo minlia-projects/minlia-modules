@@ -21,8 +21,7 @@ public class MinliaRsa {
     private RSAPublicKey publicKey;
     private RSAPrivateKey privateKey;
 
-    public MinliaRsa(String publicKey, String privateKey)
-    {
+    public MinliaRsa(String publicKey, String privateKey) {
         try {
             KeyFactory keyFactory = KeyFactory.getInstance(RSA_ALGORITHM);
 
@@ -37,12 +36,12 @@ public class MinliaRsa {
         }
     }
 
-    public static Map<String, String> createKeys(int keySize){
+    public static Map<String, String> createKeys(int keySize) {
         //为RSA算法创建一个KeyPairGenerator对象
         KeyPairGenerator kpg;
-        try{
+        try {
             kpg = KeyPairGenerator.getInstance(RSA_ALGORITHM);
-        }catch(NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException("No such algorithm-->[" + RSA_ALGORITHM + "]");
         }
 
@@ -63,96 +62,100 @@ public class MinliaRsa {
         return keyPairMap;
     }
 
-    public String publicEncrypt(String data){
-        try{
-            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+    public String publicEncrypt(String data) {
+        try {
+            Cipher cipher = Cipher.getInstance("RSA_ECB_PKCS1_PADDING");
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Base64.encodeBase64URLSafeString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, data.getBytes(CHARSET), publicKey.getModulus().bitLength()));
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("加密字符串[" + data + "]时遇到异常", e);
         }
     }
 
-    public String privateDecrypt(String data){
-        try{
-            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+    public String privateDecrypt(String data) {
+        try {
+            Cipher cipher = Cipher.getInstance("RSA_ECB_PKCS1_PADDING");
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
             return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), publicKey.getModulus().bitLength()), CHARSET);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("解密字符串[" + data + "]时遇到异常", e);
         }
     }
 
-    public String privateEncrypt(String data){
-        try{
-            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+    public String privateEncrypt(String data) {
+        try {
+            Cipher cipher = Cipher.getInstance("RSA_ECB_PKCS1_PADDING");
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);
             return Base64.encodeBase64URLSafeString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, data.getBytes(CHARSET), publicKey.getModulus().bitLength()));
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("加密字符串[" + data + "]时遇到异常", e);
         }
     }
 
-    public String publicDecrypt(String data){
-        try{
-            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+    public String publicDecrypt(String data) {
+        try {
+            Cipher cipher = Cipher.getInstance("RSA_ECB_PKCS1_PADDING");
             cipher.init(Cipher.DECRYPT_MODE, publicKey);
             return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), publicKey.getModulus().bitLength()), CHARSET);
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("解密字符串[" + data + "]时遇到异常", e);
         }
     }
 
-    public String sign(String data){
-        try{
+    public String sign(String data) {
+        try {
             //sign
             Signature signature = Signature.getInstance(RSA_ALGORITHM_SIGN);
             signature.initSign(privateKey);
             signature.update(data.getBytes(CHARSET));
             return Base64.encodeBase64URLSafeString(signature.sign());
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("签名字符串[" + data + "]时遇到异常", e);
         }
     }
 
-    public boolean verify(String data, String sign){
-        try{
+    public boolean verify(String data, String sign) {
+        try {
             Signature signature = Signature.getInstance(RSA_ALGORITHM_SIGN);
             signature.initVerify(publicKey);
             signature.update(data.getBytes(CHARSET));
             return signature.verify(Base64.decodeBase64(sign));
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("验签字符串[" + data + "]时遇到异常", e);
         }
     }
 
-    private static byte[] rsaSplitCodec(Cipher cipher, int opmode, byte[] datas, int keySize){
+    private static byte[] rsaSplitCodec(Cipher cipher, int opmode, byte[] datas, int keySize) {
         int maxBlock = 0;
-        if(opmode == Cipher.DECRYPT_MODE){
-            maxBlock = keySize / 8;
-        }else{
+        if (opmode == Cipher.DECRYPT_MODE) {
+            maxBlock = 256;
+//            maxBlock = keySize / 8;
+        } else {
             maxBlock = keySize / 8 - 11;
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         int offSet = 0;
         byte[] buff;
         int i = 0;
-        try{
-            while(datas.length > offSet){
-                if(datas.length-offSet > maxBlock){
+        try {
+            while (datas.length > offSet) {
+                if (datas.length - offSet > maxBlock) {
                     buff = cipher.doFinal(datas, offSet, maxBlock);
-                }else{
-                    buff = cipher.doFinal(datas, offSet, datas.length-offSet);
+                } else {
+                    buff = cipher.doFinal(datas, offSet, datas.length - offSet);
                 }
                 out.write(buff, 0, buff.length);
                 i++;
                 offSet = i * maxBlock;
             }
-        }catch(Exception e){
-            throw new RuntimeException("加解密阀值为["+maxBlock+"]的数据时发生异常", e);
+        } catch (Exception e) {
+            throw new RuntimeException("加解密阀值为[" + maxBlock + "]的数据时发生异常", e);
         }
         byte[] resultDatas = out.toByteArray();
         IOUtils.closeQuietly(out);
         return resultDatas;
     }
+
+
+
 }

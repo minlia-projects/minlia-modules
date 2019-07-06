@@ -13,7 +13,7 @@ import com.minlia.cloud.utils.ApiAssert
 import com.minlia.modules.rebecca.bean.domain.UserHistory
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum
 import org.apache.commons.lang3.time.DateUtils
-import java.util.Date
+import java.time.LocalDateTime
 
 global UserHistoryService userHistoryService;
 global RiskRecordService riskEventListService
@@ -24,7 +24,7 @@ rule "80_user_change_cellphone"
     when
         event:ChangeCellphoneEvent()
     then
-        long count  = userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_CELLPHONE, event.getGuid(), DateUtils.addMonths(new Date(), -6));
+        long count  = userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_CELLPHONE, event.getGuid(), LocalDateTime.now().minusMonths(6));
         RiskLevelEnum riskLevel = event.addScore(count, 5, 3, 50, 1);
         String details = "过去6个月内更改电子邮件地址的次数超过5次，拒绝下一次操作。,count=" + count;
         if(riskLevel.equals(RiskLevelEnum.WARNING)) {

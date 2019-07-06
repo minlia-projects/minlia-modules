@@ -44,7 +44,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -112,7 +112,7 @@ public class AuditLogAspect {
         AuditLogInfo auditLogInfo = new AuditLogInfo();
         auditLogInfo.setCreateBy(getGuid());
         auditLogInfo.setLastModifiedBy(getGuid());
-        Date date = new Date();
+        LocalDateTime date = LocalDateTime.now();
         auditLogInfo.setCreateDate(date);
         auditLogInfo.setLastModifiedDate(date);
         auditLogInfo.setTitle(auditLog.value());

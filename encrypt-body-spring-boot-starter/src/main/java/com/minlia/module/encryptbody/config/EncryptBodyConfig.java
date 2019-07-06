@@ -32,6 +32,8 @@ public class EncryptBodyConfig {
 
     private String rsaPrivateKey;
 
+    private String xorKey;
+
     private String encoding = CharsetUtil.CHARSET_UTF_8.name();
 
 }

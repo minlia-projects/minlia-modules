@@ -1,10 +1,10 @@
 package com.minlia.module.lov.mapper;
-import com.minlia.module.lov.bean.LovQRO;
-import org.apache.ibatis.annotations.Param;
-import java.util.List;
-import java.util.Date;
 
+import com.minlia.module.lov.bean.LovQRO;
 import com.minlia.module.lov.enntity.Lov;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface LovMapper {
 

@@ -6,7 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * Created by garen on 2018/5/18.
@@ -37,7 +38,7 @@ public class BindAxnQRO extends QueryRequest {
     /**
      * 绑定关系对应的失效时间-不能早于当前系统时间
      */
-    private Date expireTime;
+    private LocalDateTime expireTime;
 
     /**
      * 外部业务自定义ID属性

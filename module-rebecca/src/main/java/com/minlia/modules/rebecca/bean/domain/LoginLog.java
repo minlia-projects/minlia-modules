@@ -8,7 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * Created by garen on 2018/05/27.
@@ -27,7 +28,7 @@ public class LoginLog {
 
     private String ipAddress;
 
-    private Date time;
+    private LocalDateTime time;
 
     private LoginStatusEnum status;
 

@@ -19,7 +19,6 @@ import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.model.UserContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -37,8 +36,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 /**
  * Created by will on 8/14/17.
@@ -94,7 +93,7 @@ public class RbacAuthenticationService implements AuthenticationService {
             if (user.getLockLimit() > 2) {
                 user.setLocked(true);
                 //1、按错误次数累加时间   2、错误3次锁定一天
-                user.setLockTime(DateUtils.addMinutes(new Date(), (int) Math.pow(user.getLockLimit() - 3, 3)));
+                user.setLockTime(LocalDateTime.now().plusMinutes((int) Math.pow(user.getLockLimit() - 3, 3)));
             }
             userService.update(user, UserUpdateTypeEcnum.PASSWORD_ERROR);
             throw new AjaxBadCredentialsException("Password error", user.getLockLimit());
@@ -107,23 +106,23 @@ public class RbacAuthenticationService implements AuthenticationService {
             }
         }
 
-        if (null != user.getAccountEffectiveDate() && user.getAccountEffectiveDate().before(new Date())) {
+        if (null != user.getAccountEffectiveDate() && user.getAccountEffectiveDate().isBefore(LocalDateTime.now())) {
             throw new AccountExpiredException("账号已过期");
         } else if (!user.getEnabled()) {
             throw new DisabledException("账号已禁用");
         } else if (user.getCredentialsExpired()) {
             throw new CredentialsExpiredException("凭证已过期");
-        } else if (user.getLocked() && new Date().before(user.getLockTime())) {
-            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(new Date().toInstant(),user.getLockTime().toInstant()));
+        } else if (user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())) {
+            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getLockTime()));
         } else {
             //获取请求IP地址
-            HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String ipAddress = NetworkUtil.getIpAddress(request);
 
             //更新用户信息
             user.setLocked(Boolean.FALSE);
             user.setLockLimit(NumberUtils.INTEGER_ZERO);
-            user.setLastLoginTime(new Date());
+            user.setLastLoginTime(LocalDateTime.now());
             user.setLastLoginIp(ipAddress);
             userMapper.update(user);
 

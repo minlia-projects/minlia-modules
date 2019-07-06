@@ -1,6 +1,6 @@
 package com.minlia.module.riskcontrol.enums;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 时间区间枚举
@@ -29,15 +29,15 @@ public enum TimePeriodEnum {
      */
     LAST_DAY;
 
-    public Date getMinTime(Date now) {
+    public LocalDateTime getMinTime(LocalDateTime now) {
         if (this.equals(ALL)) {
-            return new Date(0);
+            return LocalDateTime.MIN;
         } else {
-            return new Date(now.getTime() - getTimeDiff());
+            return now.minusSeconds(getTimeDiff());
         }
     }
 
-    public Date getMaxTime(Date now) {
+    public LocalDateTime getMaxTime(LocalDateTime now) {
         return now;
     }
 
@@ -48,19 +48,19 @@ public enum TimePeriodEnum {
                 timeDiff = Long.MAX_VALUE;
                 break;
             case LAST_MIN:
-                timeDiff = 60 * 1000L;
+                timeDiff = 60;
                 break;
             case LAST_QUARTER:
-                timeDiff = 15 * 60 * 1000L;
+                timeDiff = 15 * 60;
                 break;
             case LAST_HOUR:
-                timeDiff = 3600 * 1000L;
+                timeDiff = 3600;
                 break;
             case LAST_DAY:
-                timeDiff = 24 * 3600 * 1000L;
+                timeDiff = 24 * 3600;
                 break;
             default:
-                timeDiff = 60 * 1000L;
+                timeDiff = 60;
                 break;
         }
         return timeDiff;

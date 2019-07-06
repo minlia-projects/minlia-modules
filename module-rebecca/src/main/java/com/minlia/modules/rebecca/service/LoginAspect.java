@@ -14,7 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by garen on 2018/5/27.
@@ -27,20 +27,21 @@ public class LoginAspect {
     private LoginLogService loginLogService;
 
     @Pointcut("execution (* com.minlia.modules.rebecca.authentication.RbacAuthenticationService.authentication(..))")
-    public void login(){};
+    public void login() {
+    }
 
 //    @Pointcut("execution(@java.lang.Deprecated * *(..))")
 //    public void login1(){};
 
     @Before("login()")
-    public void beforeLogin(JoinPoint joinPoint){
+    public void beforeLogin(JoinPoint joinPoint) {
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) joinPoint.getArgs()[0];
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         LoginCredentials credentials = (LoginCredentials) authenticationToken.getPrincipal();
         String username = credentials.getUsername();
         String password = credentials.getPassword();
         String ipAddress = NetworkUtil.getIpAddress(request);
-        loginLogService.create(LoginLog.builder().username(username).password(password).ipAddress(ipAddress).time(new Date()).build());
+        loginLogService.create(LoginLog.builder().username(username).password(password).ipAddress(ipAddress).time(LocalDateTime.now()).build());
     }
 
 }

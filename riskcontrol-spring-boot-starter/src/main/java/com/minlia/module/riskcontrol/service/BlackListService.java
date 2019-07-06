@@ -17,9 +17,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-/**
- * Created by sunpeak on 2016/8/6.
- */
 @Slf4j
 @Service
 public class BlackListService {
@@ -36,20 +33,17 @@ public class BlackListService {
 
     @PostConstruct
     public void init() {
-        new Thread() {
-            @Override
-            public void run() {
-                redisDao.subscribe(new JedisPubSub() {
-                    @Override
-                    public void onMessage(String pchannel, String message) {
-                        log.info("redis通知，channel={},message={}", pchannel, message);
-                        if (channel.equals(pchannel)) {
-                            updateCache();
-                        }
+        new Thread(() -> {
+            redisDao.subscribe(new JedisPubSub() {
+                @Override
+                public void onMessage(String pchannel, String message) {
+                    log.info("redis通知，channel={},message={}", pchannel, message);
+                    if (channel.equals(pchannel)) {
+                        updateCache();
                     }
-                }, channel);
-            }
-        }.start();
+                }
+            }, channel);
+        }).start();
         updateCache();
     }
 
@@ -83,6 +77,7 @@ public class BlackListService {
 
     /**
      * 删除
+     *
      * @param id
      */
     public void delete(Long id) {
@@ -100,6 +95,7 @@ public class BlackListService {
 
     /**
      * 是否存在
+     *
      * @param dimension
      * @param type
      * @param value

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -19,9 +19,8 @@ public class TodoUTO {
     @NotBlank
     private String content;
 
-    private Date time;
+    private LocalDateTime time;
 
-    private Date expiryTime;
-
+    private LocalDateTime expiryTime;
 
 }

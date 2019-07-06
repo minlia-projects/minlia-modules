@@ -14,7 +14,6 @@ import com.minlia.module.captcha.ro.CaptchaVerifyRO;
 import com.minlia.module.captcha.service.CaptchaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by garen on 2018/10/24.
@@ -60,10 +56,10 @@ public class CaptchaOpenEndpoint {
         Captcha captcha = captchaService.send(cro);
 
         //DEV环境时放出来
-        if(Environments.isDevelopment()){
+        if (Environments.isDevelopment()) {
 //            return Response.success(captcha);
             return Response.success(CaptchaSendResult.builder().code(captcha.getCode()).countdown(captcha.getCountdown()).build());
-        }else{
+        } else {
             return Response.success(CaptchaSendResult.builder().countdown(captcha.getCountdown()).build());
         }
     }

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by will on 8/14/17.
@@ -19,7 +19,7 @@ import java.util.Date;
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
-@EqualsAndHashCode(of = {"guid","username"})
+@EqualsAndHashCode(of = {"guid", "username"})
 public class User extends AbstractEntity {
 
     /**
@@ -66,12 +66,12 @@ public class User extends AbstractEntity {
     /**
      * 账号有效时间
      */
-    private Date accountEffectiveDate;
+    private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    private Date credentialsEffectiveDate;
+    private LocalDateTime credentialsEffectiveDate;
 
     private Boolean expired;
 
@@ -93,12 +93,12 @@ public class User extends AbstractEntity {
     /**
      * 锁定时间，多少分钟内不能登录
      */
-    private Date lockTime;
+    private LocalDateTime lockTime;
 
     /**
      * 最后登录时间
      */
-    private Date lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     /**
      * 最后登录IP

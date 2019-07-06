@@ -4,20 +4,20 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
-public class AlipayNotification implements Serializable{
-	private static final long serialVersionUID = -8638199167144867399L;
+public class AlipayNotification implements Serializable {
+    private static final long serialVersionUID = -8638199167144867399L;
 
     private Integer alipayNoticeId;
 
-	private String notifyId;
+    private String notifyId;
 
     private String notifyType;
 
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
-    private Date notifyTime;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime notifyTime;
 
     private String signType;
 
@@ -49,11 +49,11 @@ public class AlipayNotification implements Serializable{
 
     private String body;
 
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
-    private Date gmtCreate;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime gmtCreate;
 
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
-    private Date gmtPayment;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime gmtPayment;
 
     private String isTotalFeeAdjust;
 
@@ -63,8 +63,8 @@ public class AlipayNotification implements Serializable{
 
     private String refundStatus;
 
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
-    private Date gmtRefund;
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime gmtRefund;
 
     private Boolean verifyResult;
 

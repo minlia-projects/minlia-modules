@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by garen on 2018/5/18.
@@ -38,7 +38,7 @@ public class BindAxnRO {
      * 绑定关系对应的失效时间-不能早于当前系统时间
      */
     @NotNull
-    private Date expireTime;
+    private LocalDateTime expireTime;
 
     /**
      * 是否需要录制音频-默认是false

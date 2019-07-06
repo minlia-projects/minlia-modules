@@ -9,10 +9,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.StringJoiner;
 
 /**
@@ -128,13 +126,9 @@ public class DimensionService {
     /**
      * 计算sortedset的score
      *
-     * @param date
+     * @param localDateTime
      * @return
      */
-    private String dateScore(Date date) {
-        return new SimpleDateFormat("yyyyMMddHHmmss").format(date);
-    }
-
     private String dateTimeScore(LocalDateTime localDateTime) {
         return localDateTime.format(DATE_TIME_FORMATTER);
     }

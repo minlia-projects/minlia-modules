@@ -1,17 +1,20 @@
 package com.minlia.modules.qcloud.oss.builder;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
-
-import static org.apache.commons.lang3.time.DateFormatUtils.ISO_DATE_FORMAT;
 
 /**
  * Created by garen on 2017/12/22.
  */
 public class PathBuilder {
 
+    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
+
     public static String dateBuild() {
-        return ISO_DATE_FORMAT.format(new Date()) + Constant.SLASH;
+        return LocalDateTime.now().format(DATE_TIME_FORMATTER) + Constant.SLASH;
     }
 
     public static String uuidNameBuild(String fileName) {

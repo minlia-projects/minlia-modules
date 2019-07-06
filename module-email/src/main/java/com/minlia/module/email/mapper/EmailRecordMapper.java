@@ -1,9 +1,9 @@
 package com.minlia.module.email.mapper;
-import org.apache.ibatis.annotations.Param;
-import java.util.List;
-import java.util.Date;
 
 import com.minlia.module.email.entity.EmailRecord;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface EmailRecordMapper {
 
@@ -17,6 +17,6 @@ public interface EmailRecordMapper {
 
     List<EmailRecord> selectByAll(EmailRecord emailRecord);
 
-    EmailRecord selectOneByNumber(@Param("number")String number);
+    EmailRecord selectOneByNumber(@Param("number") String number);
 
 }

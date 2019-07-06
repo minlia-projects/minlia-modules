@@ -3,9 +3,9 @@ package com.minlia.module.common.util;
 import com.minlia.module.common.constant.SymbolConstants;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.StringJoiner;
 import java.util.UUID;
 
@@ -20,15 +20,19 @@ public class NumberGenerator {
     }
 
     public static String generatorByHMSS(String prefix,Integer stuffLength){
-        return prefix + RandomStringUtils.randomNumeric(stuffLength) + DateFormatUtils.format(new Date(),"ddHHmmssSSS");
+        return prefix + RandomStringUtils.randomNumeric(stuffLength) +  LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddHHmmssSSS"));
     }
 
     public static String generatorByYMDHMS(String prefix,Integer stuffLength){
-        return prefix + DateFormatUtils.format(new Date(),"yyyyMMddHHmmss") + RandomStringUtils.randomNumeric(stuffLength);
+        return prefix + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + RandomStringUtils.randomNumeric(stuffLength);
     }
 
     public static String generatorByYMDHMSS(String prefix,Integer stuffLength){
-        return prefix + DateFormatUtils.format(new Date(),"yyyyMMddHHmmssSSS") + RandomStringUtils.randomNumeric(stuffLength);
+        return prefix + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")) + RandomStringUtils.randomNumeric(stuffLength);
+    }
+
+    public static void main (String[] args) {
+        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
     }
 
     public static String generatorByTimestamp(String prefix,Integer stuffLength) {

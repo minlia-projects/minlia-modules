@@ -1,6 +1,7 @@
 package com.minlia.modules.security.authentication.jwt;
 
 import com.google.common.collect.Lists;
+import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
@@ -56,7 +57,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .roles(roles)
 //                .navigations(navigations)
                 .permissions(permissions)
-                .expireDate(expirDate)
+                .expireDate(LocalDateUtils.dateToLocalDateTime(expirDate))
                 .build();
         return new JwtAuthenticationToken(userContext, authorities);
     }

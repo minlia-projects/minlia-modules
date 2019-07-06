@@ -1,20 +1,14 @@
 package com.minlia.module.encryptbody.advice;
 
 import com.alibaba.fastjson.JSONObject;
-import com.minlia.module.encryptbody.annotation.decrypt.AESDecryptBody;
-import com.minlia.module.encryptbody.annotation.decrypt.DESDecryptBody;
-import com.minlia.module.encryptbody.annotation.decrypt.DecryptBody;
-import com.minlia.module.encryptbody.annotation.decrypt.RSADecryptBody;
+import com.minlia.module.encryptbody.annotation.decrypt.*;
 import com.minlia.module.encryptbody.bean.DecryptAnnotationInfoBean;
 import com.minlia.module.encryptbody.bean.DecryptHttpInputMessage;
 import com.minlia.module.encryptbody.config.EncryptBodyConfig;
 import com.minlia.module.encryptbody.enums.DecryptBodyMethod;
 import com.minlia.module.encryptbody.exception.DecryptBodyFailException;
 import com.minlia.module.encryptbody.exception.DecryptMethodNotFoundException;
-import com.minlia.module.encryptbody.util.AESEncryptUtil;
-import com.minlia.module.encryptbody.util.CheckUtils;
-import com.minlia.module.encryptbody.util.DESEncryptUtil;
-import com.minlia.module.encryptbody.util.RSAEncryptUtil;
+import com.minlia.module.encryptbody.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +50,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
                 if (annotation instanceof DecryptBody ||
                         annotation instanceof AESDecryptBody ||
                         annotation instanceof DESDecryptBody ||
+                        annotation instanceof XORDecryptBody ||
                         annotation instanceof RSADecryptBody) {
                     return true;
                 }
@@ -64,6 +59,7 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         return methodParameter.getMethod().isAnnotationPresent(DecryptBody.class) ||
                 methodParameter.getMethod().isAnnotationPresent(AESDecryptBody.class) ||
                 methodParameter.getMethod().isAnnotationPresent(DESDecryptBody.class) ||
+                methodParameter.getMethod().isAnnotationPresent(XORDecryptBody.class) ||
                 methodParameter.getMethod().isAnnotationPresent(RSADecryptBody.class);
     }
 
@@ -151,6 +147,12 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
                     .key(methodParameter.getMethodAnnotation(AESDecryptBody.class).otherKey())
                     .build();
         }
+        if (methodParameter.getMethod().isAnnotationPresent(XORDecryptBody.class)) {
+            return DecryptAnnotationInfoBean.builder()
+                    .decryptBodyMethod(DecryptBodyMethod.XOR)
+                    .key(methodParameter.getMethodAnnotation(XORDecryptBody.class).otherKey())
+                    .build();
+        }
         return null;
     }
 
@@ -189,6 +191,12 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
                             .key(((RSADecryptBody) annotation).otherKey())
                             .build();
                 }
+                if (annotation instanceof XORDecryptBody) {
+                    return DecryptAnnotationInfoBean.builder()
+                            .decryptBodyMethod(DecryptBodyMethod.XOR)
+                            .key(((XORDecryptBody) annotation).otherKey())
+                            .build();
+                }
             }
         }
         return null;
@@ -219,6 +227,12 @@ public class DecryptRequestBodyAdvice implements RequestBodyAdvice {
         if (method == DecryptBodyMethod.AES) {
             key = CheckUtils.checkAndGetKey(config.getAesKey(), key, "AES-KEY");
             return AESEncryptUtil.decrypt(formatStringBody, key);
+        }
+        if (method == DecryptBodyMethod.XOR) {
+            key = CheckUtils.checkAndGetKey(config.getXorKey(), key, "XOR-KEY");
+            JSONObject jsonObject = JSONObject.parseObject(formatStringBody);
+            formatStringBody = jsonObject.getString("data");
+            return XORCryptUtil.decrypt(formatStringBody, Integer.parseInt(key));
         }
         throw new DecryptBodyFailException();
     }

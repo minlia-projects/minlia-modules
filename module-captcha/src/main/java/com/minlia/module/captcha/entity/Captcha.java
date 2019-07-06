@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 系统验证码实体
@@ -40,12 +40,12 @@ public class Captcha extends AbstractEntity {
     /**
      * 发送时间
      */
-    private Date sendTime;
+    private LocalDateTime sendTime;
 
     /**
      * 验证有效时间
      */
-    private Date effectiveTime;
+    private LocalDateTime effectiveTime;
 
     /**
      * 倒计时
@@ -65,10 +65,7 @@ public class Captcha extends AbstractEntity {
     /**
      * 锁定时间
      */
-    private Date lockTime;
-
-
-
+    private LocalDateTime lockTime;
 
 
     /**

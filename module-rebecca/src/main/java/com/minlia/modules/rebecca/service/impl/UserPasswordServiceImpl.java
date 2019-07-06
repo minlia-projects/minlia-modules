@@ -19,7 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Service
 public class UserPasswordServiceImpl implements UserPasswordService {
@@ -49,7 +50,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
                 captchaService.validityByEmail(to.getEmail(), to.getCode());
                 break;
         }
-        return change(user,to.getNewPassword());
+        return change(user, to.getNewPassword());
     }
 
     @Override
@@ -65,27 +66,27 @@ public class UserPasswordServiceImpl implements UserPasswordService {
             captchaService.validityByEmail(captcha.getEmail(), to.getCode());
         }
 
-        return change(user,to.getNewPassword());
+        return change(user, to.getNewPassword());
     }
 
     @Override
     public User change(PasswordByRawPasswordChangeTO to) {
-        User user= SecurityContextHolder.getCurrentUser();
+        User user = SecurityContextHolder.getCurrentUser();
 
-        Boolean bool = bCryptPasswordEncoder.matches(to.getRawPassword(),user.getPassword());
+        Boolean bool = bCryptPasswordEncoder.matches(to.getRawPassword(), user.getPassword());
         ApiAssert.state(bool, UserCode.Message.RAW_PASSWORD_ERROR);
-        return change(user,to.getNewPassword());
+        return change(user, to.getNewPassword());
     }
 
     @Override
-    public User change(User user,String newPassword) {
+    public User change(User user, String newPassword) {
         //设置新密码
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
         user.setEnabled(Boolean.TRUE);
         user.setCredentialsExpired(Boolean.FALSE);
         user.setLocked(Boolean.FALSE);
         user.setLockLimit(0);
-        user.setLockTime(new Date());
+        user.setLockTime(LocalDateTime.now());
         userMapper.update(user);
         return user;
     }

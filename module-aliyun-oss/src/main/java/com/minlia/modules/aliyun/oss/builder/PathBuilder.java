@@ -1,8 +1,7 @@
 package com.minlia.modules.aliyun.oss.builder;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -10,10 +9,15 @@ import java.util.UUID;
  */
 public class PathBuilder {
 
-    private static final String DEFAULT_PATTERN = "yyyy-MM-dd";
+    /**
+     * 默认日期时间格式
+     */
+    public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT);
 
     public static String dateBuild() {
-        return DateFormatUtils.format(new Date(),DEFAULT_PATTERN) + Constant.SLASH;
+        return LocalDateTime.now().format(DATE_TIME_FORMATTER) + Constant.SLASH;
     }
 
     public static String uuidNameBuild(String fileName) {

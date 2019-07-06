@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -56,12 +56,12 @@ public class UserHistory {
     /**
      * 账号有效时间
      */
-    private Date accountEffectiveDate;
+    private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    private Date credentialsEffectiveDate;
+    private LocalDateTime credentialsEffectiveDate;
 
     /**
      * 凭证是否过期
@@ -86,12 +86,12 @@ public class UserHistory {
     /**
      * 锁定时间
      */
-    private Date lockTime;
+    private LocalDateTime lockTime;
 
     /**
      * 最后登录时间
      */
-    private Date lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     /**
      * 最后登录IP
@@ -116,7 +116,7 @@ public class UserHistory {
     /**
      * 创建时间
      */
-    private Date createDate;
+    private LocalDateTime createDate;
 
     /**
      * GUID
@@ -126,5 +126,6 @@ public class UserHistory {
     /**
      * 最后修改时间
      */
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
+
 }

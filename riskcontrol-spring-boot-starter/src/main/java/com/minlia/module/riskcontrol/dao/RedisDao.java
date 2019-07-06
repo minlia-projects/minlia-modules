@@ -27,6 +27,7 @@ public class RedisDao {
      */
     public void publish(final String channel, final String message) {
         redisTemplate.execute(new RedisCallback<Object>() {
+            @Override
             public Object doInRedis(final RedisConnection connection) throws DataAccessException {
                 ((Jedis) connection.getNativeConnection()).publish(channel, message);
                 return null;

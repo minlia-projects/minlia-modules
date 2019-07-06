@@ -5,7 +5,7 @@ import com.minlia.cloud.i18n.Lang;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class AuthenticationErrorResponseBody {
@@ -23,13 +23,13 @@ public class AuthenticationErrorResponseBody {
 
     private int failureTimes;
 
-    private final Date timestamp;
+    private final LocalDateTime timestamp;
 
     public AuthenticationErrorResponseBody(HttpStatus status, final Code code) {
         this.status = status;
         this.code = code.code();
         this.message = Lang.get(code.i18nKey());
-        this.timestamp = new java.util.Date();
+        this.timestamp = LocalDateTime.now();
     }
 
     public AuthenticationErrorResponseBody(HttpStatus status, final Code code, final Long lockTime) {
@@ -40,7 +40,7 @@ public class AuthenticationErrorResponseBody {
         this.code = code.code();
         this.message = Lang.get(code.i18nKey(), new Object[]{lockTime});
         this.lockTime = lockTime;
-        this.timestamp = new java.util.Date();
+        this.timestamp = LocalDateTime.now();
     }
 
     public AuthenticationErrorResponseBody(HttpStatus status, final Code code, final Integer failureTimes) {
@@ -48,7 +48,7 @@ public class AuthenticationErrorResponseBody {
         this.code = code.code();
         this.message = Lang.get(code.i18nKey(), new Object[]{failureTimes});
         this.failureTimes = failureTimes;
-        this.timestamp = new java.util.Date();
+        this.timestamp = LocalDateTime.now();
     }
 
 }

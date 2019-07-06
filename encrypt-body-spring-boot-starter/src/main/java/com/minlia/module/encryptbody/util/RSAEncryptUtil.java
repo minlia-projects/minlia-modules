@@ -5,9 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
+import java.io.IOException;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -151,22 +154,30 @@ public class RSAEncryptUtil {
 //        String jsonSorted = jsonSortToString(content, "&", "sign");
 //        System.out.println("排序后：" + jsonSorted);
 
+        String data = "hello world";
+        try {
+            data = FileUtils.readFileToString(new ClassPathResource("rsa/test-data/img_base64.txt").getFile(), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        String s = decrypt("h9pwaeCf/WvN1ohCK1fRvwoSD7tc0W5jiOToVwFT21iGaTSy4jMtNojTMUlyrKQDF6YY8PdZSya69XQwLoN37SR8oMrwpxdguuqL/HKXBc/aFbOasMFv9/Ju7kHFKisylc5m7r25INOyiXY4W+XyXF2B/Y9lHnCAnmObCwp8LxgF6oN3JawBZ/ccl68fFqYQW/1SiRIQDLKr9nlMmbokGSb84YugGhYXGygTeqk5oUzqN+pGhbHwVF+wE0fiiiKBLaY6DumEEyuQV/WO8pJCQG51uJIMcWdx2H8P2prrj06X6ABZWaXLFcw24dEaBCPijOXCXPaCYD4oLF9zZXJ7X1mKyKIHF2c5ACeZVNTADMLxYYftnu8QEaES7LnQYw/aVGyB6QEc8uMvD/jJkqMRMuLzd1cbQcfE+J+5f2GRz9yXtpZSco3vMoxr9MZVB2Sv0n9BcIlbvzG2PXoDmYF4ZzITnkbibNxjK55mJwX+0K77Jv+PO0KncifD0JS9Al1D",
-                PRIVATE_KEY);
-        System.out.println(s);
+        RSAUtils.decipher(data, PRIVATE_KEY);
 
-
-        RSA rsa = new RSA(PRIVATE_KEY, PUBLIC_KEY);
-        //公钥加密，私钥解密
-        byte[] encrypt = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PublicKey);
-        byte[] decrypt = rsa.decrypt(encrypt, KeyType.PrivateKey);
-        System.out.println(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
-
-        //私钥加密，公钥解密
-        byte[] encrypt2 = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PrivateKey);
-        byte[] decrypt2 = rsa.decrypt(encrypt2, KeyType.PublicKey);
-        System.out.println(StrUtil.str(decrypt2, CharsetUtil.CHARSET_UTF_8));
+//        String s = decrypt(data,
+//                PRIVATE_KEY);
+//        System.out.println(s);
+//
+//
+//        RSA rsa = new RSA(PRIVATE_KEY, PUBLIC_KEY);
+//        //公钥加密，私钥解密
+//        byte[] encrypt = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PublicKey);
+//        byte[] decrypt = rsa.decrypt(encrypt, KeyType.PrivateKey);
+//        System.out.println(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
+//
+//        //私钥加密，公钥解密
+//        byte[] encrypt2 = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PrivateKey);
+//        byte[] decrypt2 = rsa.decrypt(encrypt2, KeyType.PublicKey);
+//        System.out.println(StrUtil.str(decrypt2, CharsetUtil.CHARSET_UTF_8));
     }
 
 //    public static String jsonSortToString(String jsonStr, String joiner, String... ignores) {

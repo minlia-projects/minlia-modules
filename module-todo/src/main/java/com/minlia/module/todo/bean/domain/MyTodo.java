@@ -6,7 +6,8 @@ import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.todo.enumeration.TodoStatus;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * Created by garen on 2018/4/27.
@@ -54,12 +55,12 @@ public class MyTodo extends AbstractEntity {
     /**
      * 时间：待办时间、待处理时间
      */
-    private Date time;
+    private LocalDateTime time;
 
     /**
      * 过期时间:到时间没处理定时任务自动修改为已过期
      */
-    private Date expiryTime;
+    private LocalDateTime expiryTime;
 
     /**
      * 备注

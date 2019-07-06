@@ -37,7 +37,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -220,10 +219,10 @@ public class UserServiceImpl implements UserService {
         if (user.getLocked()) {
             user.setLocked(false);
             user.setLockLimit(0);
-            user.setLockTime(new Date());
+            user.setLockTime(LocalDateTime.now());
         } else {
             user.setLocked(true);
-            user.setLockTime(DateUtils.addMonths(new Date(), 1));
+            user.setLockTime(LocalDateTime.now().plusMonths(1));
         }
         userMapper.update(user);
         return !user.getLocked();

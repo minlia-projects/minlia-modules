@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Service
-public class UserHistoryServiceImpl implements UserHistoryService{
+public class UserHistoryServiceImpl implements UserHistoryService {
 
     @Autowired
     private Mapper mapper;
@@ -49,7 +49,8 @@ public class UserHistoryServiceImpl implements UserHistoryService{
     }
 
     @Override
-    public long countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum updateType, String minGuid, Date lastModifiedDate) {
+    public long countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum updateType, String minGuid, LocalDateTime lastModifiedDate) {
         return userHistoryMapper.countByUpdateTypeAndGuidAndLastModifiedDateAfter(updateType, minGuid, lastModifiedDate);
     }
+
 }

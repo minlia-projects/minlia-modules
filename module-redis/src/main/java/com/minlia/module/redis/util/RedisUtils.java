@@ -467,6 +467,17 @@ public class RedisUtils {
     /**
      * 查看匹配数目
      * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    public static long zCount(String key, long start, long end){
+        return getZSetOperations().count(key, start, end);
+    }
+
+    /**
+     * 查看匹配数目
+     * @param key
      * @param expire:过期时间 单位是秒
      * @return
      */

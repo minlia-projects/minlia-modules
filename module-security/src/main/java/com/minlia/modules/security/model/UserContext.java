@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -37,7 +37,7 @@ public final class UserContext implements Body {
     /**
      * 过期时间
      */
-    private  Date expireDate;
+    private LocalDateTime expireDate;
 
     /**
      * JwtTokenFactory

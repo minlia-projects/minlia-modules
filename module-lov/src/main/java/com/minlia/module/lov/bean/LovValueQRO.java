@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -83,8 +83,8 @@ public class LovValueQRO extends QueryRequest {
 
     private String lastModifiedBy;
 
-    private Date createDate;
+    private LocalDateTime createDate;
 
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
 }

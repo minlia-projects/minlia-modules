@@ -7,6 +7,6 @@ package com.minlia.module.encryptbody.enums;
  */
 public enum DecryptBodyMethod {
 
-    DES,AES,RSA
+    DES,AES,RSA,XOR
 
 }
