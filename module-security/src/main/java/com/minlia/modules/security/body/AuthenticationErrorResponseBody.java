@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 public class AuthenticationErrorResponseBody {
 
     // HTTP Response Status Code
-    private final HttpStatus status;
+//    private final HttpStatus status;
+    private final Integer status;
 
     // Error code
     private final String code;
@@ -26,7 +27,7 @@ public class AuthenticationErrorResponseBody {
     private final LocalDateTime timestamp;
 
     public AuthenticationErrorResponseBody(HttpStatus status, final Code code) {
-        this.status = status;
+        this.status = status.value();
         this.code = code.code();
         this.message = Lang.get(code.i18nKey());
         this.timestamp = LocalDateTime.now();
@@ -36,7 +37,7 @@ public class AuthenticationErrorResponseBody {
 
         Object[] o = new Object[]{lockTime};
 
-        this.status = status;
+        this.status = status.value();
         this.code = code.code();
         this.message = Lang.get(code.i18nKey(), new Object[]{lockTime});
         this.lockTime = lockTime;
@@ -44,7 +45,7 @@ public class AuthenticationErrorResponseBody {
     }
 
     public AuthenticationErrorResponseBody(HttpStatus status, final Code code, final Integer failureTimes) {
-        this.status = status;
+        this.status = status.value();
         this.code = code.code();
         this.message = Lang.get(code.i18nKey(), new Object[]{failureTimes});
         this.failureTimes = failureTimes;

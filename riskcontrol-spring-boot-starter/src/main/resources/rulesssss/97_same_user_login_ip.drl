@@ -1,0 +1,32 @@
+//package rules;
+//
+//import com.minlia.module.riskcontrol.event.RiskLoginEvent
+//import com.minlia.module.riskcontrol.entity.RiskBlackList
+//import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+//import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+//import com.minlia.module.riskcontrol.service.DimensionService
+//import com.minlia.module.riskcontrol.service.RiskBlackListService
+//import com.minlia.module.riskcontrol.service.RiskRecordService
+//import com.minlia.cloud.utils.ApiAssert
+//import com.minlia.module.riskcontrol.event.RiskLoginEvent
+//
+//global RiskRecordService riskRecordService
+//global DimensionService dimensionService
+//
+//rule "97_same_user_login_ip"
+//    salience 97
+//    lock-on-active true
+//    when
+//        event:RiskLoginEvent()
+//    then
+//        long count  = dimensionService.distinctCountWithRedis(event, new String[]{RiskLoginEvent.USERNAME}, TimePeriodEnum.LAST_QUARTER.getTimeDiff() / 1000, RiskLoginEvent.IP);
+//        RiskLevelEnum riskLevel = event.addScore(count, 1, 1, 50, 10);
+//
+//        String details = "同一个帐户15分钟内使用不同的IP登录系统,count=" + count;
+//        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
+//            riskRecordService.createEvent(event, details);
+//        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+//            riskRecordService.createEvent(event, details);
+//            ApiAssert.state(false, "10000", "同一个帐户15分钟内使用不同的IP登录系统");
+//        }
+//end

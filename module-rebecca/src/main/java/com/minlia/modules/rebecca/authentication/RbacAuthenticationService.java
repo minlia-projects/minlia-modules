@@ -3,6 +3,7 @@ package com.minlia.modules.rebecca.authentication;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
+import com.minlia.module.riskcontrol.event.RiskLoginEvent;
 import com.minlia.module.riskcontrol.event.RiskLoginFailureEvent;
 import com.minlia.module.riskcontrol.service.DimensionService;
 import com.minlia.module.riskcontrol.service.RiskBlackListService;
@@ -74,16 +75,24 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Authentication authentication(Authentication authentication) {
+        Assert.notNull(authentication, "No authentication data provided");
+        LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
 
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
         kieSession.setGlobal("riskBlackListService", riskBlackListService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
         kieSession.setGlobal("dimensionService", dimensionService);
+
+        //登陆IP
+        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
+        riskLoginEvent.setScene("account_login_ip");
+        riskLoginEvent.setUsername(loginCredentials.getAccount());
+        kieSession.execute(riskLoginEvent);
+
+        //登陆失败
         RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
         kieSession.execute(riskLoginFailureEvent);
 
-        Assert.notNull(authentication, "No authentication data provided");
-        LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
         String captcha = loginCredentials.getCaptcha();
@@ -109,7 +118,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         }
         if (StringUtils.isNotBlank(password) && !encoder.matches(password, user.getPassword())) {
             //缓存登陆失败记录 TODO
-            dimensionService.distinctCountWithRedisAndConfig(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
+//            dimensionService.distinctCountWithRedisAndConfig(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
 
             //密码错误 锁定次数+1
             user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);

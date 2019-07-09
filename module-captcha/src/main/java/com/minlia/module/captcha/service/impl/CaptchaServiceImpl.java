@@ -15,11 +15,11 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.email.service.EmailService;
 import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.module.sms.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +54,9 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Autowired
     private RiskRecordService riskRecordService;
 
+    @Autowired
+    private RiskBlackListService riskBlackListService;
+
     @Override
     public Captcha send(CaptchaCRO cro) {
         Captcha captcha;
@@ -78,6 +81,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
         kieSession.setGlobal("dimensionService", dimensionService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.setGlobal("riskBlackListService", riskBlackListService);
         kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要

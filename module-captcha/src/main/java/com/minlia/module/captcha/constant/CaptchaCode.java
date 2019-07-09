@@ -15,12 +15,17 @@ public class CaptchaCode {
 
     final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".captcha";
 
-    public enum Message implements Code{
+    public enum Message implements Code {
 
         /**
          * 手机号码格式有误:请输入11位有效手机号码
          */
         CELLPHONE_WRONG_FORMAT,
+
+        /**
+         * 超过发送次数
+         */
+        OVER_SEND_TIMES,
 
         /**
          * 验证码已失效，请重新发送验证码
@@ -101,7 +106,7 @@ public class CaptchaCode {
         }
 
         @Override
-        public String message(){
+        public String message() {
             return Lang.get(this.i18nKey());
         }
 

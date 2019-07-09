@@ -9,24 +9,23 @@ import com.minlia.module.riskcontrol.service.RiskBlackListService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.cloud.utils.ApiAssert
 import com.minlia.module.riskcontrol.event.RiskLoginEvent
+import com.minlia.module.riskcontrol.constant.RiskCode
 
 global RiskRecordService riskRecordService
 global DimensionService dimensionService
 
-rule "97_same_user_login_ip"
+rule "97_account_login_ip"
     salience 97
     lock-on-active true
     when
         event:RiskLoginEvent()
     then
-        long count  = dimensionService.distinctCountWithRedis(event, new String[]{RiskLoginEvent.USERNAME}, TimePeriodEnum.LAST_QUARTER.getTimeDiff() / 1000, RiskLoginEvent.IP);
-        RiskLevelEnum riskLevel = event.addScore(count, 1, 1, 50, 10);
-
+        long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskLoginEvent.USERNAME}, RiskLoginEvent.IP);
         String details = "同一个帐户15分钟内使用不同的IP登录系统,count=" + count;
-        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
+        if(event.getLevel().equals(RiskLevelEnum.WARNING)) {
             riskRecordService.createEvent(event, details);
-        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
             riskRecordService.createEvent(event, details);
-            ApiAssert.state(false, "10000", "同一个帐户15分钟内使用不同的IP登录系统");
+            ApiAssert.state(false, RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP);
         }
 end

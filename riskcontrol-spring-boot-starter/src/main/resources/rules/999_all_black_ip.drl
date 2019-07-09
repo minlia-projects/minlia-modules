@@ -5,6 +5,8 @@ import com.minlia.module.riskcontrol.entity.RiskBlackList
 import com.minlia.module.riskcontrol.service.RiskBlackListService
 import com.minlia.cloud.utils.ApiAssert
 import com.minlia.module.riskcontrol.entity.RiskBlackList
+import org.apache.commons.lang3.StringUtils
+import com.minlia.module.riskcontrol.constant.RiskCode
 
 global RiskBlackListService riskBlackListService
 
@@ -17,10 +19,10 @@ rule "999_all_black_ip"
     when
         event:Event()
     then
-        if (null != event.getIp()) {
+        if (StringUtils.isNotBlank(event.getIp())) {
             boolean exists = riskBlackListService.contain(RiskBlackList.EnumDimension.IP, RiskBlackList.EnumType.BLACK, event.getIp());
             if(exists) {
-                ApiAssert.state(!exists, "10000", "黑名单");
+                ApiAssert.state(!exists, RiskCode.Message.BLACK_IP);
             }
         }
 end

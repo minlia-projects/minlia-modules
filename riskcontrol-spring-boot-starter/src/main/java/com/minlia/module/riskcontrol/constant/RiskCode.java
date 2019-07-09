@@ -1,4 +1,4 @@
-package com.minlia.modules.rebecca.constant;
+package com.minlia.module.riskcontrol.constant;
 
 import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
@@ -11,16 +11,21 @@ import java.util.StringJoiner;
 /**
  * Created by garen on 2018/9/14.
  */
-public class UserCode {
+public class RiskCode {
 
-    final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".user";
+    final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".risk";
 
-    public enum Message implements Code{
+    public enum Message implements Code {
 
         /**
-         * 用户未注册
+         * 黑名单，禁止访问
          */
-        UNREGISTERED,
+        BLACK_IP,
+
+        /**
+         * 同一个帐户15分钟内使用不同的IP登录系统
+         */
+        SAME_ACCOUNT_DIFFERENT_LOGIN_IP,
 
         /**
          * 用户不存在
@@ -95,18 +100,7 @@ public class UserCode {
         /**
          * 用户没有当前角色
          */
-        DOES_NOT_HAD_ROLE,
-
-        /**
-         * 过去6个月内更改手机号码地址的次数超过5次
-         */
-        CHANGE_CELLPHONE_OVER_TIMES,
-
-        /**
-         * 过去6个月内更改电子邮件地址的次数超过5次
-         */
-        CHANGE_EMAIL_OVER_TIMES;
-
+        DOES_NOT_HAD_ROLE;
 
         @Override
         public String code() {
@@ -119,7 +113,7 @@ public class UserCode {
         }
 
         @Override
-        public String message(){
+        public String message() {
             return Lang.get(this.i18nKey());
         }
 

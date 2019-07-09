@@ -83,6 +83,23 @@ public class DimensionService {
     }
 
     /**
+     * 根据配置计算风控等级
+     *
+     * @param event
+     * @param count
+     * @return
+     */
+    public RiskLevelEnum calculationLevelWithConfig(Event event, long count) {
+        RiskDroolsConfig riskDroolsConfig = riskDroolsConfigService.get(event.getScene());
+        if (null == riskDroolsConfig) {
+            event.setLevel(RiskLevelEnum.NORMAL);
+        } else {
+            event.addScore(count, riskDroolsConfig.getDangerThreshold(), riskDroolsConfig.getWarningThreshold(), riskDroolsConfig.getThresholdScore(), riskDroolsConfig.getPerScore());
+        }
+        return event.getLevel();
+    }
+
+    /**
      * 清除频数
      *
      * @param event

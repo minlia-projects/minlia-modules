@@ -159,7 +159,6 @@ public class UserServiceImpl implements UserService {
         kieSession.setGlobal("userHistoryService", userHistoryService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
         ChangeCellphoneEvent changeCellphoneEvent = new ChangeCellphoneEvent();
-        changeCellphoneEvent.setEventId("asdfsd");
         changeCellphoneEvent.setScene("change_cellphone");
         changeCellphoneEvent.setGuid(user.getGuid());
         changeCellphoneEvent.setCellphone(newCellphone);
@@ -186,7 +185,6 @@ public class UserServiceImpl implements UserService {
         kieSession.setGlobal("userHistoryService", userHistoryService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
         ChangeEmailEvent changeEmailEvent = new ChangeEmailEvent();
-        changeEmailEvent.setEventId("asdfsd");
         changeEmailEvent.setScene("change_email");
         changeEmailEvent.setGuid(user.getGuid());
         changeEmailEvent.setEmail(newEmail);
