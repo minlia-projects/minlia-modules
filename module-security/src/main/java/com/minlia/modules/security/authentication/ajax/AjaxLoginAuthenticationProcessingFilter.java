@@ -4,12 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.property.MinliaValidProperties;
+import com.minlia.module.drools.service.ReloadDroolsRulesService;
+import com.minlia.module.riskcontrol.constant.RiskCode;
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.code.SecurityCode;
 import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AuthMethodNotSupportedException;
+import com.minlia.modules.security.risk.event.RiskLoginEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -59,6 +64,17 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         //获取登录凭证：用户名、邮箱、手机号码、密码
         LoginCredentials loginCredentials = objectMapper.readValue(request.getReader(), LoginCredentials.class);
         this.preConditions(loginCredentials);
+
+
+//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+//        //登陆IP
+//        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
+//        riskLoginEvent.setScene("account_login_ip");
+//        riskLoginEvent.setUsername(loginCredentials.getAccount());
+//        kieSession.execute(riskLoginEvent);
+//        ApiAssert.state(!riskLoginEvent.isBlack(), RiskCode.Message.BLACK_IP);
+//        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.code(), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.i18nKey());
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginCredentials, loginCredentials.getPassword());
         return this.getAuthenticationManager().authenticate(token);
     }

@@ -59,6 +59,8 @@ public abstract class Event {
      */
     private LocalDateTime operateTime;
 
+    private boolean isBlack;
+
 
     /****** TODO 以下扩展维度*****/
 

@@ -15,8 +15,6 @@ import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.event.LoginSuccessEvent;
 import com.minlia.modules.rebecca.mapper.UserMapper;
-import com.minlia.modules.rebecca.risk.event.RiskLoginEvent;
-import com.minlia.modules.rebecca.risk.event.RiskLoginFailureEvent;
 import com.minlia.modules.rebecca.service.LoginService;
 import com.minlia.modules.rebecca.service.UserService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
@@ -25,6 +23,8 @@ import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.model.UserContext;
+import com.minlia.modules.security.risk.event.RiskLoginEvent;
+import com.minlia.modules.security.risk.event.RiskLoginFailureEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kie.api.runtime.StatelessKieSession;
@@ -87,6 +87,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         riskLoginEvent.setScene("account_login_ip");
         riskLoginEvent.setUsername(loginCredentials.getAccount());
         kieSession.execute(riskLoginEvent);
+        ApiAssert.state(!riskLoginEvent.isBlack(), RiskCode.Message.BLACK_IP);
         ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.code(), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.i18nKey());
 
         //登陆失败
