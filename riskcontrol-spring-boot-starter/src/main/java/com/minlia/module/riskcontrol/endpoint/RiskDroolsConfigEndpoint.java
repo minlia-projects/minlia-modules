@@ -49,6 +49,13 @@ public class RiskDroolsConfigEndpoint {
         return Response.success();
     }
 
+    @ApiOperation(value = "重置")
+    @PostMapping(value = "reset")
+    public Response reset() {
+        riskDroolsConfigService.updateCache();
+        return Response.success();
+    }
+
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskDroolsConfigQRO qro) {

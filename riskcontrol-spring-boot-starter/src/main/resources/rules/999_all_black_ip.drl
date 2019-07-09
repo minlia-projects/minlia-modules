@@ -21,8 +21,6 @@ rule "999_all_black_ip"
     then
         if (StringUtils.isNotBlank(event.getIp())) {
             boolean exists = riskBlackListService.contain(RiskBlackList.EnumDimension.IP, RiskBlackList.EnumType.BLACK, event.getIp());
-            if(exists) {
-                ApiAssert.state(!exists, RiskCode.Message.BLACK_IP);
-            }
+            ApiAssert.state(!exists, RiskCode.Message.BLACK_IP);
         }
 end

@@ -2,19 +2,21 @@ package com.minlia.modules.rebecca.authentication;
 
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
-import com.minlia.module.riskcontrol.event.RiskLoginEvent;
-import com.minlia.module.riskcontrol.event.RiskLoginFailureEvent;
+import com.minlia.module.riskcontrol.constant.RiskCode;
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import com.minlia.module.riskcontrol.service.DimensionService;
 import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
-import com.minlia.modules.http.NetworkUtil;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.event.LoginSuccessEvent;
 import com.minlia.modules.rebecca.mapper.UserMapper;
+import com.minlia.modules.rebecca.risk.event.RiskLoginEvent;
+import com.minlia.modules.rebecca.risk.event.RiskLoginFailureEvent;
 import com.minlia.modules.rebecca.service.LoginService;
 import com.minlia.modules.rebecca.service.UserService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
@@ -39,10 +41,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -88,10 +87,12 @@ public class RbacAuthenticationService implements AuthenticationService {
         riskLoginEvent.setScene("account_login_ip");
         riskLoginEvent.setUsername(loginCredentials.getAccount());
         kieSession.execute(riskLoginEvent);
+        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP);
 
         //登陆失败
         RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
         kieSession.execute(riskLoginFailureEvent);
+        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP);
 
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
@@ -101,15 +102,15 @@ public class RbacAuthenticationService implements AuthenticationService {
         switch (loginCredentials.getMethod()) {
             case USERNAME:
                 ApiAssert.hasLength(loginCredentials.getUsername(), UserCode.Message.USERNAME_NOT_NULL);
-                user = userMapper.queryOne(UserQO.builder().username(loginCredentials.getUsername()).build());
+                user = userMapper.queryOne(UserQO.builder().username(loginCredentials.getUsername()).roleCode(currrole).build());
                 break;
             case CELLPHONE:
                 ApiAssert.hasLength(loginCredentials.getCellphone(), UserCode.Message.CELLPHONE_NOT_NULL);
-                user = userMapper.queryOne(UserQO.builder().cellphone(loginCredentials.getCellphone()).build());
+                user = userMapper.queryOne(UserQO.builder().cellphone(loginCredentials.getCellphone()).roleCode(currrole).build());
                 break;
             case EMAIL:
                 ApiAssert.hasLength(loginCredentials.getEmail(), UserCode.Message.EMAIL_NOT_NULL);
-                user = userMapper.queryOne(UserQO.builder().email(loginCredentials.getEmail()).build());
+                user = userMapper.queryOne(UserQO.builder().email(loginCredentials.getEmail()).roleCode(currrole).build());
                 break;
         }
 
@@ -152,8 +153,7 @@ public class RbacAuthenticationService implements AuthenticationService {
             dimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
 
             //获取请求IP地址
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            String ipAddress = NetworkUtil.getIpAddress(request);
+            String ipAddress = RequestIpUtils.getClientIP();
 
             //更新用户信息
             user.setLocked(Boolean.FALSE);

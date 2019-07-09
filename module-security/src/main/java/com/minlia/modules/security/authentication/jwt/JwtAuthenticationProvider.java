@@ -37,6 +37,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         Jws<Claims> jwsClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
         String username = jwsClaims.getBody().getSubject();
         String guid = jwsClaims.getBody().get("guid", String.class);
+        String cellphone = jwsClaims.getBody().get("cellphone", String.class);
+        String email = jwsClaims.getBody().get("email", String.class);
         String currrole = jwsClaims.getBody().get("currrole", String.class);
         List<String> roles = jwsClaims.getBody().get("roles", List.class);
 //        List navigations = jwsClaims.getBody().get("navigations", List.class);
@@ -51,10 +53,12 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         }
 
         UserContext userContext = UserContext.builder()
-                .username(username)
                 .guid(guid)
-                .currrole(currrole)
+                .username(username)
+                .cellphone(cellphone)
+                .email(email)
                 .roles(roles)
+                .currrole(currrole)
 //                .navigations(navigations)
                 .permissions(permissions)
                 .expireDate(LocalDateUtils.dateToLocalDateTime(expirDate))

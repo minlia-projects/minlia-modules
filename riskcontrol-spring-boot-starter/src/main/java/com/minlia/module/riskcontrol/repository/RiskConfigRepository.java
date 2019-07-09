@@ -4,6 +4,8 @@ import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author garen
  * @version 1.0
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Repository;
 public interface RiskConfigRepository extends JpaRepository<RiskDroolsConfig, Long> {
 
     boolean existsAllByRuleKey(String ruleKey);
+
+    List<RiskDroolsConfig> findAllByDisFlag(boolean disFlag);
 
     RiskDroolsConfig findOneByRuleKey(String ruleKey);
 

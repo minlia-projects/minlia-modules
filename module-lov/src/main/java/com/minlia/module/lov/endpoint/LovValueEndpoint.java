@@ -9,20 +9,21 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Api(tags = "System Lov Value", description = "LOV值")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "lov/value")
+@RequestMapping(value = ApiPrefix.V1 + "lov/value")
 public class LovValueEndpoint {
 
     @Autowired
     private LovValueService lovValueService;
 
     @AuditLog(value = "create a lov value")
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.create')")
+    @PreAuthorize(value = "hasAnyAuthority('system.lov_value.create')")
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response create(@Valid @RequestBody LovValue lovValue) {
@@ -30,7 +31,7 @@ public class LovValueEndpoint {
     }
 
     @AuditLog(value = "update a lov value")
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.update')")
+    @PreAuthorize(value = "hasAnyAuthority('system.lov_value.update')")
     @ApiOperation(value = "更新", httpMethod = "PUT")
     @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response update(@Valid @RequestBody LovValue lovValue) {
@@ -38,7 +39,7 @@ public class LovValueEndpoint {
     }
 
     @AuditLog(value = "toggle a lov status by id")
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.delete')")
+    @PreAuthorize(value = "hasAnyAuthority('system.lov_value.delete')")
     @ApiOperation(value = "启用/禁用", httpMethod = "DELETE")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response delete(@PathVariable Long id) {

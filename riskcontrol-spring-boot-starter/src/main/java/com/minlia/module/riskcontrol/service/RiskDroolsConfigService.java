@@ -47,7 +47,7 @@ public class RiskDroolsConfigService {
     }
 
     public void updateCache() {
-        List<RiskDroolsConfig> configs = riskConfigRepository.findAll();
+        List<RiskDroolsConfig> configs = riskConfigRepository.findAllByDisFlag(false);
         Map<String, RiskDroolsConfig> tempMap = new ConcurrentHashMap<>();
         for (RiskDroolsConfig config : configs) {
             tempMap.put(config.getRuleKey(), config);

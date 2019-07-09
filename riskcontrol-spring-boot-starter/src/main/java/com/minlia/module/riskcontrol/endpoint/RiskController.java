@@ -4,9 +4,8 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.drools.entity.Address;
 import com.minlia.module.drools.entity.fact.AddressCheckResult;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
-import com.minlia.module.riskcontrol.event.RiskLoginEvent;
-import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskDroolsConfigService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import io.swagger.annotations.Api;
@@ -17,8 +16,6 @@ import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -68,15 +65,15 @@ public class RiskController {
         address.setPostcode(RandomStringUtils.randomNumeric(num));
         AddressCheckResult result = new AddressCheckResult();
 
-        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
-        riskLoginEvent.setOperateTime(LocalDateTime.now());
-        riskLoginEvent.setUsername("123456789");
-        riskLoginEvent.setIp("127.0.0.1");
-
-        kieSession.insert(address);
-        kieSession.insert(result);
-
-        kieSession.insert(riskLoginEvent);
+//        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
+//        riskLoginEvent.setOperateTime(LocalDateTime.now());
+//        riskLoginEvent.setUsername("123456789");
+//        riskLoginEvent.setIp("127.0.0.1");
+//
+//        kieSession.insert(address);
+//        kieSession.insert(result);
+//
+//        kieSession.insert(riskLoginEvent);
 
         int ruleFiredCount = kieSession.fireAllRules();
         kieSession.destroy();
@@ -97,14 +94,14 @@ public class RiskController {
         kieSession.setGlobal("riskRecordService", riskRecordService);
         kieSession.setGlobal("dimensionService", dimensionService);
 
-        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
-        riskLoginEvent.setScene("login_ip");
-        riskLoginEvent.setIp("127.0.0.1");
-        riskLoginEvent.setUsername(mobile);
-        riskLoginEvent.setOperateTime(LocalDateTime.now());
-
-        kieSession.execute(riskLoginEvent);
-        System.out.println(riskLoginEvent.getIp());
+//        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
+//        riskLoginEvent.setScene("login_ip");
+//        riskLoginEvent.setIp("127.0.0.1");
+//        riskLoginEvent.setUsername(mobile);
+//        riskLoginEvent.setOperateTime(LocalDateTime.now());
+//
+//        kieSession.execute(riskLoginEvent);
+//        System.out.println(riskLoginEvent.getIp());
     }
 
 }

@@ -37,6 +37,13 @@ public class RiskBlackListEndpoint {
         return Response.success();
     }
 
+    @ApiOperation(value = "重置")
+    @PostMapping(value = "reset")
+    public Response reset() {
+        riskBlackListService.updateCache();
+        return Response.success();
+    }
+
     @ApiOperation(value = "ID删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {

@@ -63,17 +63,11 @@
             <version>${minlia.module.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.minlia.cloud.modules</groupId>-->
-            <!--<artifactId>drools-spring-boot-starter</artifactId>-->
-            <!--<version>${minlia.module.version}</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>com.minlia.cloud.modules</groupId>-->
-            <!--<artifactId>riskcontrol-spring-boot-starter</artifactId>-->
-            <!--<version>${minlia.module.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>riskcontrol-spring-boot-starter</artifactId>
+            <version>${minlia.module.version}</version>
+        </dependency>
 
     </dependencies>
 

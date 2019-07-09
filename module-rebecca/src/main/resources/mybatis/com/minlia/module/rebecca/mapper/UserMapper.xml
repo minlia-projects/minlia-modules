@@ -30,7 +30,7 @@
     </sql>
 
     <sql id="QUERY_CONDITION">
-        <if test="roleCodes != null and roleCodes.size != 0">
+        <if test="null != roleCode or (roleCodes != null and roleCodes.size != 0)">
             INNER JOIN mdl_user_role murt ON murt.user_id = mut.id
             INNER JOIN mdl_role mrt ON mrt.id = murt.role_id
         </if>
@@ -59,6 +59,9 @@
             </if>
             <if test="enabled != null">
                 AND mut.enabled = #{enabled,jdbcType=TINYINT}
+            </if>
+            <if test="roleCode != null">
+                AND mrt.`code` = #{roleCode}
             </if>
             <if test="roleCodes != null and roleCodes.size != 0">
                 AND mrt.`code` IN

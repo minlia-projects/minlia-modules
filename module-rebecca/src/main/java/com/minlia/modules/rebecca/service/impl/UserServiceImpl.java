@@ -7,6 +7,8 @@ import com.minlia.module.common.constant.CommonCode;
 import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.module.data.util.SequenceUtils;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
+import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.modules.rebecca.bean.domain.Role;
 import com.minlia.modules.rebecca.bean.domain.User;
@@ -57,7 +59,11 @@ public class UserServiceImpl implements UserService {
     private UserQueryService userQueryService;
 
     @Autowired
+    private DimensionService dimensionService;
+    @Autowired
     private RiskRecordService riskRecordService;
+    @Autowired
+    private RiskBlackListService riskBlackListService;
 
     @Autowired
     private UserHistoryService userHistoryService;
@@ -156,8 +162,10 @@ public class UserServiceImpl implements UserService {
         ApiAssert.state(Pattern.matches(minliaValidProperties.getCellphone(), newCellphone), CommonCode.Message.CELLPHONE_FORMAT_ERROR);
 
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-        kieSession.setGlobal("userHistoryService", userHistoryService);
+        kieSession.setGlobal("riskBlackListService", riskBlackListService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.setGlobal("dimensionService", dimensionService);
+        kieSession.setGlobal("userHistoryService", userHistoryService);
         ChangeCellphoneEvent changeCellphoneEvent = new ChangeCellphoneEvent();
         changeCellphoneEvent.setScene("change_cellphone");
         changeCellphoneEvent.setGuid(user.getGuid());
@@ -182,8 +190,10 @@ public class UserServiceImpl implements UserService {
         ApiAssert.state(Pattern.matches(minliaValidProperties.getEmail(), newEmail), CommonCode.Message.EMAIL_FORMAT_ERROR);
 
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-        kieSession.setGlobal("userHistoryService", userHistoryService);
+        kieSession.setGlobal("riskBlackListService", riskBlackListService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.setGlobal("dimensionService", dimensionService);
+        kieSession.setGlobal("userHistoryService", userHistoryService);
         ChangeEmailEvent changeEmailEvent = new ChangeEmailEvent();
         changeEmailEvent.setScene("change_email");
         changeEmailEvent.setGuid(user.getGuid());

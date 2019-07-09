@@ -3,6 +3,7 @@ package rules;
 import com.minlia.module.riskcontrol.event.Event
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.RiskRecordService
+import org.apache.commons.lang3.StringUtils
 
 global RiskRecordService riskRecordService
 
@@ -12,7 +13,7 @@ rule "0_all_addevent"
     when
         event:Event()
     then
-        if(event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+        if(null != event.getLevel() && event.getLevel().equals(RiskLevelEnum.NORMAL)) {
             riskRecordService.createEvent(event);
         }
 //        update(event);

@@ -19,14 +19,14 @@ import javax.validation.Valid;
 
 @Api(tags = "System Lov", description = "LOV值集")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "lov")
+@RequestMapping(value = ApiPrefix.V1 + "lov")
 public class LovEndpoint {
 
     @Autowired
     private LovService lovService;
 
     @AuditLog(value = "create a lov")
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.create')")
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.create')")
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response create(@Valid @RequestBody Lov lov) {
@@ -34,7 +34,7 @@ public class LovEndpoint {
     }
 
     @AuditLog(value = "update a lov")
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.update')")
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.update')")
     @ApiOperation(value = "更新", httpMethod = "PUT")
     @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response update(@Valid @RequestBody Lov lov) {
@@ -42,7 +42,7 @@ public class LovEndpoint {
     }
 
     @AuditLog(value = "toggle a lov status by id")
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.delete')")
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.delete')")
     @ApiOperation(value = "启用/禁用", httpMethod = "DELETE")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response delete(@PathVariable Long id) {

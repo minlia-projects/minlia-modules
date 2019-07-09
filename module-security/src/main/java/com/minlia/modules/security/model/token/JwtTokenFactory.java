@@ -40,6 +40,8 @@ public class JwtTokenFactory {
         }
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("guid", userContext.getGuid());
+        claims.put("cellphone", userContext.getCellphone());
+        claims.put("email", userContext.getEmail());
         claims.put("currrole", userContext.getCurrrole());
         claims.put("roles", userContext.getRoles());
 //        claims.put("navigations", userContext.getNavigations());
@@ -67,6 +69,8 @@ public class JwtTokenFactory {
 
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("guid", userContext.getGuid());
+        claims.put("cellphone", userContext.getCellphone());
+        claims.put("email", userContext.getEmail());
         claims.put("currrole", userContext.getCurrrole());
         claims.put("roles", userContext.getRoles());
 //        claims.put("navigations", userContext.getNavigations());

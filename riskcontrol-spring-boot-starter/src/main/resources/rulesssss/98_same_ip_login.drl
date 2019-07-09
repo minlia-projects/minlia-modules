@@ -1,32 +1,31 @@
 //package rules;
 //
 //import com.minlia.module.riskcontrol.event.RiskLoginEvent
-//import com.minlia.module.riskcontrol.entity.RiskBlackList
+//import com.minlia.module.riskcontrol.entity.RiskBlackListList
 //import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 //import com.minlia.module.riskcontrol.enums.TimePeriodEnum
 //import com.minlia.module.riskcontrol.service.DimensionService
-//import com.minlia.module.riskcontrol.service.RiskBlackListService
+//import com.minlia.module.riskcontrol.service.BlackListService
 //import com.minlia.module.riskcontrol.service.RiskRecordService
-//import com.minlia.cloud.utils.ApiAssert
 //import com.minlia.module.riskcontrol.event.RiskLoginEvent
 //
-//global RiskRecordService riskRecordService
+//global BlackListService blackListService
 //global DimensionService dimensionService
+//global RiskRecordService riskRecordService
 //
-//rule "97_same_user_login_ip"
-//    salience 97
+//rule "98_same_ip_login"
+//    salience 98
 //    lock-on-active true
 //    when
 //        event:RiskLoginEvent()
 //    then
-//        long count  = dimensionService.distinctCountWithRedis(event, new String[]{RiskLoginEvent.USERNAME}, TimePeriodEnum.LAST_QUARTER.getTimeDiff() / 1000, RiskLoginEvent.IP);
+//        long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskLoginEvent.IP}, RiskLoginEvent.USERNAME);
 //        RiskLevelEnum riskLevel = event.addScore(count, 1, 1, 50, 10);
-//
 //        String details = "同一个帐户15分钟内使用不同的IP登录系统,count=" + count;
-//        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
+//        if(event.getLevel().equals(RiskLevelEnum.WARNING)) {
 //            riskRecordService.createEvent(event, details);
-//        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+//        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
 //            riskRecordService.createEvent(event, details);
-//            ApiAssert.state(false, "10000", "同一个帐户15分钟内使用不同的IP登录系统");
+//            blackListService.pub(RiskBlackList.builder().type(RiskBlackList.EnumType.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
 //        }
 //end
