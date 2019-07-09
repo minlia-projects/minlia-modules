@@ -87,7 +87,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         riskLoginEvent.setScene("account_login_ip");
         riskLoginEvent.setUsername(loginCredentials.getAccount());
         kieSession.execute(riskLoginEvent);
-        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP);
+        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.code(), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.i18nKey());
 
         //登陆失败
         RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();

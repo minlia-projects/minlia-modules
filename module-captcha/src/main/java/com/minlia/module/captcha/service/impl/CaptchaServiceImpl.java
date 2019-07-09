@@ -104,6 +104,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
         kieSession.setGlobal("dimensionService", dimensionService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.setGlobal("riskBlackListService", riskBlackListService);
         kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
