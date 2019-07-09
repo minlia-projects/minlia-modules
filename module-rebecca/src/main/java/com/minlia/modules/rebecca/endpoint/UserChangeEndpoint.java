@@ -3,36 +3,23 @@ package com.minlia.modules.rebecca.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.captcha.service.CaptchaService;
-import com.minlia.module.common.constant.CommonCode;
 import com.minlia.module.common.property.MinliaValidProperties;
-import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.modules.rebecca.bean.domain.User;
-import com.minlia.modules.rebecca.bean.qo.UserQO;
-import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.context.SecurityContextHolder;
-import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
-import com.minlia.modules.rebecca.event.CellphoneChangeEvent;
-import com.minlia.modules.rebecca.risk.event.ChangeCellphoneEvent;
-import com.minlia.modules.rebecca.risk.event.ChangeEmailEvent;
 import com.minlia.modules.rebecca.service.UserHistoryService;
 import com.minlia.modules.rebecca.service.UserQueryService;
 import com.minlia.modules.rebecca.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
-import java.util.regex.Pattern;
 
 @Api(tags = "System User Change", description = "用户信息变更")
 @RestController

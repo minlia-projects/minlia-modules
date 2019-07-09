@@ -7,6 +7,7 @@ import com.minlia.module.riskcontrol.repository.RiskEventListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class RiskRecordService {
 
     /**
      * 创建
+     *
      * @param event
      */
     public void createEvent(Event event) {
@@ -36,6 +38,7 @@ public class RiskRecordService {
 
     /**
      * 创建
+     *
      * @param event
      */
     public void createEvent(Event event, String details) {
@@ -51,6 +54,10 @@ public class RiskRecordService {
 
     public List<RiskRecord> queryAll() {
         return riskEventListRepository.findAll();
+    }
+
+    public List<RiskRecord> queryAll(RiskRecord riskRecord) {
+        return riskEventListRepository.findAll(Example.of(riskRecord));
     }
 
 }

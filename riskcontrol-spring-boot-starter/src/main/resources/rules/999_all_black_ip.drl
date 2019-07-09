@@ -1,20 +1,26 @@
 package rules;
 
-import com.minlia.module.riskcontrol.event.LoginEvent
-import com.minlia.module.riskcontrol.entity.BlackList
-import com.minlia.module.riskcontrol.service.BlackListService
+import com.minlia.module.riskcontrol.event.Event
+import com.minlia.module.riskcontrol.entity.RiskBlackList
+import com.minlia.module.riskcontrol.service.RiskBlackListService
 import com.minlia.cloud.utils.ApiAssert
+import com.minlia.module.riskcontrol.entity.RiskBlackList
 
-global BlackListService blackListService
+global RiskBlackListService riskBlackListService
 
+/**
+ * 黑名单-IP
+ */
 rule "999_all_black_ip"
     salience 999
     lock-on-active true
     when
-        event:LoginEvent()
+        event:Event()
     then
-        boolean exists = blackListService.contain(BlackList.EnumDimension.IP, BlackList.EnumType.BLACK, event.getIp());
-        if(exists) {
-            ApiAssert.state(!exists, "10000", "黑名单");
+        if (null != event.getIp()) {
+            boolean exists = riskBlackListService.contain(RiskBlackList.EnumDimension.IP, RiskBlackList.EnumType.BLACK, event.getIp());
+            if(exists) {
+                ApiAssert.state(!exists, "10000", "黑名单");
+            }
         }
 end

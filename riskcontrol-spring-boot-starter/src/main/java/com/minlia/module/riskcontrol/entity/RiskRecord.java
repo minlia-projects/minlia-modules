@@ -25,47 +25,26 @@ public class RiskRecord {
     @GeneratedValue
     private Long id;
 
-    /**
-     * 事件id
-     */
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, columnDefinition = "VARCHAR(50) COMMENT '事件id'")
     private String eventId;
 
-
-    /**
-     * 规则
-     */
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(500) COMMENT '规则'")
     private String eventDetails;
 
-    /**
-     * 场景
-     */
-//    @Column(nullable = false, length = 50)
+    @Column(nullable = false, columnDefinition = "VARCHAR(50) COMMENT '场景'")
     private String scene;
 
-    /**
-     * 风险等级
-     */
-    @Enumerated
-    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "VARCHAR(20) COMMENT '风险等级'")
     private RiskLevelEnum level;
 
-    /**
-     * 事件评分
-     */
+    @Column(nullable = false, columnDefinition = "INT COMMENT '事件评分'")
     private int score;
 
-    /**
-     * 时间
-     */
     @Column(insertable = false, updatable = false, columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间'")
-    private LocalDateTime time;
+    private LocalDateTime dateTime;
 
-    /**
-     * 详情
-     */
-    @Column
+    @Column(columnDefinition = "VARCHAR(500) COMMENT '详情'")
     private String details;
 
 }

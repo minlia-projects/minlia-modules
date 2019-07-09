@@ -15,7 +15,6 @@ import com.minlia.modules.rebecca.bean.to.UserCTO;
 import com.minlia.modules.rebecca.bean.to.UserUTO;
 import com.minlia.modules.rebecca.constant.RoleCode;
 import com.minlia.modules.rebecca.constant.UserCode;
-import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.event.CellphoneChangeEvent;
 import com.minlia.modules.rebecca.event.RegistrationEvent;
@@ -29,7 +28,6 @@ import com.minlia.modules.rebecca.service.UserQueryService;
 import com.minlia.modules.rebecca.service.UserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -159,7 +157,7 @@ public class UserServiceImpl implements UserService {
 
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
         kieSession.setGlobal("userHistoryService", userHistoryService);
-        kieSession.setGlobal("riskEventListService", riskRecordService);
+        kieSession.setGlobal("riskRecordService", riskRecordService);
         ChangeCellphoneEvent changeCellphoneEvent = new ChangeCellphoneEvent();
         changeCellphoneEvent.setEventId("asdfsd");
         changeCellphoneEvent.setScene("change_cellphone");
@@ -186,7 +184,7 @@ public class UserServiceImpl implements UserService {
 
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
         kieSession.setGlobal("userHistoryService", userHistoryService);
-        kieSession.setGlobal("riskEventListService", riskRecordService);
+        kieSession.setGlobal("riskRecordService", riskRecordService);
         ChangeEmailEvent changeEmailEvent = new ChangeEmailEvent();
         changeEmailEvent.setEventId("asdfsd");
         changeEmailEvent.setScene("change_email");

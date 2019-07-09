@@ -1,27 +1,25 @@
-package com.minlia.module.drools.controller;
+package com.minlia.module.drools.endpoint;
 
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Api(tags = "Modules Drools Rules", description = "引擎规则")
-@RequestMapping("/drools/rules")
+@Api(tags = "System Drools Rules", description = "引擎规则")
+@RequestMapping("api/drools/rules")
 @Controller
-public class DroolsRulesController {
+public class DroolsRulesEndpoint {
 
     @Autowired
     private ReloadDroolsRulesService reloadDroolsRulesService;
 
     @ApiOperation(value = "重新加载")
     @ResponseBody
-    @RequestMapping("/reload")
+    @PostMapping("/reload")
     public String reload() {
         reloadDroolsRulesService.reload();
         return "ok";

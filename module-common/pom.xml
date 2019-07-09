@@ -16,6 +16,7 @@
     </parent>
 
     <properties>
+        <hutool.all.version>4.1.19</hutool.all.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,12 @@
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>dozer-spring-boot-start</artifactId>
             <version>${minlia.module.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.all.version}</version>
         </dependency>
 
     </dependencies>

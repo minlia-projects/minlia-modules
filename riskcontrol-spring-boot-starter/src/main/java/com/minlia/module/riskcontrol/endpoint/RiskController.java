@@ -1,13 +1,13 @@
-package com.minlia.module.riskcontrol.controller;
+package com.minlia.module.riskcontrol.endpoint;
 
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.drools.entity.Address;
 import com.minlia.module.drools.entity.fact.AddressCheckResult;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
-import com.minlia.module.riskcontrol.event.LoginEvent;
-import com.minlia.module.riskcontrol.service.BlackListService;
+import com.minlia.module.riskcontrol.event.RiskLoginEvent;
+import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.DimensionService;
-import com.minlia.module.riskcontrol.service.RiskConfigService;
+import com.minlia.module.riskcontrol.service.RiskDroolsConfigService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,10 +34,10 @@ public class RiskController {
 //    private KieService kieService;
 
     @Autowired
-    private RiskConfigService riskConfigService;
+    private RiskDroolsConfigService riskDroolsConfigService;
 
     @Autowired
-    private BlackListService blackListService;
+    private RiskBlackListService riskBlackListService;
 
     @Autowired
     private DimensionService dimensionService;
@@ -62,21 +62,21 @@ public class RiskController {
         KieSession kieSession = ReloadDroolsRulesService.kieContainer.newKieSession();
 
 //        kieSession.setGlobal("blackListService", blackListService);
-//        kieSession.setGlobal("riskEventListService", riskRecordService);
+//        kieSession.setGlobal("riskRecordService", riskRecordService);
 
         Address address = new Address();
         address.setPostcode(RandomStringUtils.randomNumeric(num));
         AddressCheckResult result = new AddressCheckResult();
 
-        LoginEvent loginEvent = new LoginEvent();
-        loginEvent.setOperateTime(LocalDateTime.now());
-        loginEvent.setUsername("123456789");
-        loginEvent.setIp("127.0.0.1");
+        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
+        riskLoginEvent.setOperateTime(LocalDateTime.now());
+        riskLoginEvent.setUsername("123456789");
+        riskLoginEvent.setIp("127.0.0.1");
 
         kieSession.insert(address);
         kieSession.insert(result);
 
-        kieSession.insert(loginEvent);
+        kieSession.insert(riskLoginEvent);
 
         int ruleFiredCount = kieSession.fireAllRules();
         kieSession.destroy();
@@ -93,18 +93,18 @@ public class RiskController {
     public void test1(@RequestParam String mobile){
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
 
-        kieSession.setGlobal("blackListService", blackListService);
-        kieSession.setGlobal("dimensionService", dimensionService);
+        kieSession.setGlobal("riskBlackListService", riskBlackListService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.setGlobal("dimensionService", dimensionService);
 
-        LoginEvent loginEvent = new LoginEvent();
-        loginEvent.setScene("login_ip");
-        loginEvent.setIp("127.0.0.1");
-        loginEvent.setUsername(mobile);
-        loginEvent.setOperateTime(LocalDateTime.now());
+        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
+        riskLoginEvent.setScene("login_ip");
+        riskLoginEvent.setIp("127.0.0.1");
+        riskLoginEvent.setUsername(mobile);
+        riskLoginEvent.setOperateTime(LocalDateTime.now());
 
-        kieSession.execute(loginEvent);
-        System.out.println(loginEvent.getIp());
+        kieSession.execute(riskLoginEvent);
+        System.out.println(riskLoginEvent.getIp());
     }
 
 }

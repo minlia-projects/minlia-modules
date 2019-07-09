@@ -1,6 +1,6 @@
 package com.minlia.module.riskcontrol.repository;
 
-import com.minlia.module.riskcontrol.entity.RiskConfig;
+import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
  * @date 2019/6/26 5:07 PM
  */
 @Repository
-public interface RiskConfigRepository extends JpaRepository<RiskConfig, Long> {
+public interface RiskConfigRepository extends JpaRepository<RiskDroolsConfig, Long> {
 
-    boolean existsAllByKey(String key);
+    boolean existsAllByRuleKey(String ruleKey);
 
-    RiskConfig findOneByKey(String key);
+    RiskDroolsConfig findOneByRuleKey(String ruleKey);
 
 }

@@ -3,11 +3,11 @@ package rules;
 import com.minlia.modules.rebecca.risk.event.ChangeCellphoneEvent
 import com.minlia.modules.rebecca.service.UserHistoryService
 
-import com.minlia.module.riskcontrol.entity.BlackList
+import com.minlia.module.riskcontrol.entity.RiskBlackList
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.enums.TimePeriodEnum
 import com.minlia.module.riskcontrol.service.DimensionService
-import com.minlia.module.riskcontrol.service.BlackListService
+import com.minlia.module.riskcontrol.service.RiskBlackListService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.cloud.utils.ApiAssert
 import com.minlia.modules.rebecca.bean.domain.UserHistory
@@ -16,7 +16,7 @@ import org.apache.commons.lang3.time.DateUtils
 import java.time.LocalDateTime
 
 global UserHistoryService userHistoryService;
-global RiskRecordService riskEventListService
+global RiskRecordService riskRecordService
 
 rule "80_user_change_cellphone"
     salience 80
@@ -28,9 +28,9 @@ rule "80_user_change_cellphone"
         RiskLevelEnum riskLevel = event.addScore(count, 5, 3, 50, 1);
         String details = "过去6个月内更改电子邮件地址的次数超过5次，拒绝下一次操作。,count=" + count;
         if(riskLevel.equals(RiskLevelEnum.WARNING)) {
-            riskEventListService.createEvent(event, details);
+            riskRecordService.createEvent(event, details);
         } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
-            riskEventListService.createEvent(event, details);
+            riskRecordService.createEvent(event, details);
             ApiAssert.state(false, "10000", details);
         }
 end

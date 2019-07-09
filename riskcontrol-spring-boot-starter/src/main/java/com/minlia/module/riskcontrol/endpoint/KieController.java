@@ -1,4 +1,4 @@
-//package com.minlia.module.riskcontrol.controller;
+//package com.minlia.module.riskcontrol.endpoint;
 //
 //import com.minlia.module.riskcontrol.entity.CodeMap;
 //import com.minlia.module.riskcontrol.entity.RCRuntimeException;

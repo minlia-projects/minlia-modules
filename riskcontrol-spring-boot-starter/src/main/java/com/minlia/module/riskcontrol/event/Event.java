@@ -1,10 +1,12 @@
 package com.minlia.module.riskcontrol.event;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.net.util.IPAddressUtil;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,6 +20,8 @@ public abstract class Event {
     private static Logger logger = LoggerFactory.getLogger(Event.class);
 
     public final static String ID = "id";
+
+    public final static String IP = "ip";
 
     public final static String OPERATETIME = "operateTime";
 
@@ -55,7 +59,14 @@ public abstract class Event {
      */
     private LocalDateTime operateTime;
 
+
     /****** TODO 以下扩展维度*****/
+
+    /**
+     * IP
+     */
+    private String ip;
+
     /**
      * 手机号段
      */
@@ -74,6 +85,7 @@ public abstract class Event {
     public Event() {
         operateTime = LocalDateTime.now();
         eventId = UUID.randomUUID().toString();
+        ip = RequestIpUtils.getClientIP();
     }
 
     /**

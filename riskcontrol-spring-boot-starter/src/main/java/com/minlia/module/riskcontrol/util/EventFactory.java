@@ -3,7 +3,7 @@
 //import com.alibaba.fastjson.JSON;
 //import com.minlia.module.riskcontrol.enums.SceneEnum;
 //import com.minlia.module.riskcontrol.event.Event;
-//import com.minlia.module.riskcontrol.event.LoginEvent;
+//import com.minlia.module.riskcontrol.event.RiskLoginEvent;
 //import org.apache.commons.lang.StringUtils;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@
 //
 //        Event event = null;
 //        if (SceneEnum.LOGIN.equals(sceneEnum)) {
-//            event = JSON.parseObject(json, LoginEvent.class);
+//            event = JSON.parseObject(json, RiskLoginEvent.class);
 //        }
 //
 //        check(event);

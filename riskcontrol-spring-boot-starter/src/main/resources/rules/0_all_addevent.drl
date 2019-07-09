@@ -4,7 +4,7 @@ import com.minlia.module.riskcontrol.event.Event
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.RiskRecordService
 
-global RiskRecordService riskEventListService
+global RiskRecordService riskRecordService
 
 rule "0_all_addevent"
     salience 0
@@ -13,6 +13,7 @@ rule "0_all_addevent"
         event:Event()
     then
         if(event.getLevel().equals(RiskLevelEnum.NORMAL)) {
-            riskEventListService.createEvent(event);
+            riskRecordService.createEvent(event);
         }
+//        update(event);
 end

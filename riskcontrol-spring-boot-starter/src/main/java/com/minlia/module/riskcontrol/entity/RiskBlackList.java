@@ -16,44 +16,29 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "mdl_black_list")
-@Table(name = "mdl_black_list", uniqueConstraints = {@UniqueConstraint(columnNames={"dimension","value"})})
-public class BlackList {
+@Entity(name = "mdl_risk_black_list")
+@Table(name = "mdl_risk_black_list", uniqueConstraints = {@UniqueConstraint(columnNames = {"dimension", "value"})})
+public class RiskBlackList {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    /**
-     * 类型
-     */
     @Enumerated(value = javax.persistence.EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(20) COMMENT '类型'")
     private EnumType type;
 
-    /**
-     * 维度
-     */
     @Enumerated(value = javax.persistence.EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(20) COMMENT '维度'")
     private EnumDimension dimension;
 
-    /**
-     * 值
-     */
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(100) COMMENT '值'")
     private String value;
 
-    /**
-     * 时间
-     */
-    @Column(insertable = false, updatable = false, columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间'")
+    @Column(nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间'")
     private LocalDateTime time;
 
-    /**
-     * 详情
-     */
-    @Column
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '详情'")
     private String detail;
 
     /**

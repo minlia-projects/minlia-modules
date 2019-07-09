@@ -46,7 +46,7 @@ spring:
     maxOpenPreparedStatements: 20
     continue-on-error: true
     initialize: true
-#    data: classpath*:sql/minlia_init.sql
+  #    data: classpath*:sql/minlia_init.sql
 
   redis:
     database: 0

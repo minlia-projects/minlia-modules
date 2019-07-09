@@ -1,7 +1,8 @@
 package com.minlia.module.riskcontrol.service;
 
+import com.minlia.module.redis.util.RedisUtils;
 import com.minlia.module.riskcontrol.dao.RedisDao;
-import com.minlia.module.riskcontrol.entity.RiskConfig;
+import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import com.minlia.module.riskcontrol.event.Event;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class DimensionService {
     private RedisDao redisDao;
 
     @Autowired
-    private RiskConfigService riskConfigService;
+    private RiskDroolsConfigService riskDroolsConfigService;
 
     /**
      * SortedSet
@@ -70,15 +71,28 @@ public class DimensionService {
     }
 
     public long distinctCountWithRedisAndConfig(Event event, String[] condDimensions, String argsDimension) {
-        RiskConfig riskConfig = riskConfigService.get(event.getScene());
-        if (null == riskConfig) {
+        RiskDroolsConfig riskDroolsConfig = riskDroolsConfigService.get(event.getScene());
+        if (null == riskDroolsConfig) {
             event.setLevel(RiskLevelEnum.NORMAL);
             return 0;
         } else {
-            long count = this.distinctCountWithRedis(event, condDimensions, riskConfig.getPeriodSeconds(), argsDimension);
-            event.addScore(count, riskConfig.getDangerThreshold(), riskConfig.getWarningThreshold(), riskConfig.getThresholdScore(), riskConfig.getPerScore());
+            long count = this.distinctCountWithRedis(event, condDimensions, riskDroolsConfig.getPeriodSeconds(), argsDimension);
+            event.addScore(count, riskDroolsConfig.getDangerThreshold(), riskDroolsConfig.getWarningThreshold(), riskDroolsConfig.getThresholdScore(), riskDroolsConfig.getPerScore());
             return count;
         }
+    }
+
+    /**
+     * 清除频数
+     *
+     * @param event
+     * @param condDimensions
+     * @param argsDimension
+     * @return
+     */
+    public void cleanCountWithRedis(Event event, String[] condDimensions, String argsDimension) {
+        String key = getRedisKey(event, condDimensions, argsDimension);
+        RedisUtils.zremoveRangeByScore(key, -1, Long.valueOf(dateTimeScore(event.getOperateTime())));
     }
 
     /**
@@ -121,6 +135,26 @@ public class DimensionService {
 
         Long ret = runSha(key, minScope, String.valueOf(periodSeconds), scope, argsDimensionValue.toString(), minScope, maxScope);
         return ret == null ? 0 : ret.intValue();
+    }
+
+    public String getRedisKey(Event event, String[] condDimensions, String argsDimension) {
+        //获取条件维度拼接值
+        StringJoiner condDimensionsValue = new StringJoiner("_");
+        for (String condDimension : condDimensions) {
+            Object value = getProperty(event, condDimension);
+            if (value == null || "".equals(value)) {
+            }
+            condDimensionsValue.add(value.toString());
+        }
+
+        //获取聚合维度值
+        Object argsDimensionValue = getProperty(event, argsDimension);
+        if (argsDimensionValue == null || "".equals(argsDimensionValue)) {
+        }
+
+        //生成Redis键值
+        String key = String.format(RISK_KEY_FORMAT, event.getScene(), String.join("_", condDimensions), argsDimension, condDimensionsValue.toString());
+        return key;
     }
 
     /**

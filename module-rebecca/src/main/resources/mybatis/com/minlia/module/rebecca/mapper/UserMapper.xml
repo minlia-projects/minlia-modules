@@ -68,7 +68,7 @@
             </if>
 
             <if test="notLoggedMonth != null">
-                and TIMESTAMPDIFF(YEAR,DATE_ADD('2012-01-01 1:00:00', INTERVAL #{notLoggedMonth,jdbcType=INTEGER} MONTH),now()) >= 0
+                and TIMESTAMPDIFF(YEAR,DATE_ADD(last_login_time, INTERVAL #{notLoggedMonth,jdbcType=INTEGER} MONTH),now()) >= 0
             </if>
 
         </where>

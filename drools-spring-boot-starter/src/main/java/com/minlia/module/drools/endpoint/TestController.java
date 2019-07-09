@@ -1,4 +1,4 @@
-package com.minlia.module.drools.controller;
+package com.minlia.module.drools.endpoint;
 
 import com.minlia.module.drools.entity.Address;
 import com.minlia.module.drools.entity.fact.AddressCheckResult;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Api(tags = "Modules Drools", description = "规则引擎")
-@RequestMapping("/drools/rules/test")
+@RequestMapping("api/drools/rules/test")
 @Controller
 @Profile("dev")
 public class TestController {
@@ -21,7 +21,7 @@ public class TestController {
     @ApiOperation(value = "test")
     @ResponseBody
     @RequestMapping("/address")
-    public void test(int num){
+    public void test(int num) {
         Address address = new Address();
         address.setPostcode(RandomStringUtils.randomNumeric(num));
         KieSession kieSession = ReloadDroolsRulesService.kieContainer.newKieSession();
@@ -33,7 +33,7 @@ public class TestController {
         kieSession.destroy();
         System.out.println("触发了" + ruleFiredCount + "条规则");
 
-        if(result.isPostCodeResult()){
+        if (result.isPostCodeResult()) {
             System.out.println("规则校验通过");
         }
     }

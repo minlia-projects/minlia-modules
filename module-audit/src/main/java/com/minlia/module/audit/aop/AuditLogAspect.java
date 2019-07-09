@@ -29,6 +29,7 @@ import com.minlia.modules.security.context.SecurityContextHolder1;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -120,8 +121,11 @@ public class AuditLogAspect {
         auditLogInfo.setUserAgent(request.getHeader("user-agent"));
         auditLogInfo.setRequestUri(URLUtil.getPath(request.getRequestURI()));
         auditLogInfo.setRemoteAddr(ServletUtil.getClientIP(request));
-        auditLogInfo.setOperationType(auditLog.operationType());
-        auditLogInfo.setParams(JSON.toJSONString(point.getArgs()));
+
+        if (ArrayUtils.isNotEmpty(point.getArgs())) {
+            auditLogInfo.setParams(JSON.toJSONString(point.getArgs()));
+        }
+
         return auditLogInfo;
     }
 

@@ -1,0 +1,30 @@
+//package rules;
+//
+//import com.minlia.module.riskcontrol.event.RiskLoginEvent
+//import com.minlia.module.riskcontrol.entity.RiskBlackListList
+//import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+//import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+//import com.minlia.module.riskcontrol.service.DimensionService
+//import com.minlia.module.riskcontrol.service.BlackListService
+//import com.minlia.module.riskcontrol.service.RiskRecordService
+//import com.minlia.module.riskcontrol.event.RiskLoginEvent
+//
+//global BlackListService blackListService
+//global DimensionService dimensionService
+//global RiskRecordService riskRecordService
+//
+//rule "98_same_ip_login"
+//    salience 98
+//    lock-on-active true
+//    when
+//        event:RiskLoginEvent()
+//    then
+//        long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskLoginEvent.IP}, RiskLoginEvent.USERNAME);
+//        String details = "同一个帐户15分钟内使用不同的IP登录系统,count=" + count;
+//        if(event.getLevel().equals(RiskLevelEnum.WARNING)) {
+//            riskRecordService.createEvent(event, details);
+//        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
+//            riskRecordService.createEvent(event, details);
+//            blackListService.pub(RiskBlackList.builder().type(RiskBlackList.EnumType.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
+//        }
+//end

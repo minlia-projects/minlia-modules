@@ -1,29 +1,28 @@
 package com.minlia.module.riskcontrol.service;
 
 import com.minlia.module.riskcontrol.dao.RedisDao;
-import com.minlia.module.riskcontrol.entity.RiskConfig;
+import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import com.minlia.module.riskcontrol.repository.RiskConfigRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.JedisPubSub;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-/**
- * Created by sunpeak on 2016/8/6.
- */
 @Slf4j
 @Service
-public class RiskConfigService {
+public class RiskDroolsConfigService {
 
     private String channel = this.getClass().getName();
 
-    private Map<String, RiskConfig> configMap;
+    private Map<String, RiskDroolsConfig> configMap;
 
     @Autowired
     private RiskConfigRepository riskConfigRepository;
@@ -48,26 +47,32 @@ public class RiskConfigService {
     }
 
     public void updateCache() {
-        List<RiskConfig> configs = riskConfigRepository.findAll();
-        Map<String, RiskConfig> tempMap = new ConcurrentHashMap<>();
-        for (RiskConfig config : configs) {
-            tempMap.put(config.getKey(), config);
+        List<RiskDroolsConfig> configs = riskConfigRepository.findAll();
+        Map<String, RiskDroolsConfig> tempMap = new ConcurrentHashMap<>();
+        for (RiskDroolsConfig config : configs) {
+            tempMap.put(config.getRuleKey(), config);
         }
         configMap = tempMap;
         log.info("配置缓存更新成功");
     }
 
-    public void save(RiskConfig riskConfig) {
-        riskConfigRepository.save(riskConfig);
+    public void pub(RiskDroolsConfig riskDroolsConfig) {
+        riskDroolsConfig.setTime(LocalDateTime.now());
+        riskConfigRepository.save(riskDroolsConfig);
         redisDao.publish(this.channel, "");
     }
 
-    public List<RiskConfig> queryAll() {
+    public List<RiskDroolsConfig> getAll() {
         return configMap.values().stream().collect(Collectors.toList());
     }
 
-    public RiskConfig get(String key) {
+    public RiskDroolsConfig get(String key) {
         return configMap.get(key);
+    }
+
+    public List<RiskDroolsConfig> queryAll(RiskDroolsConfig riskDroolsConfig) {
+        List<RiskDroolsConfig> list = riskConfigRepository.findAll(Example.of(riskDroolsConfig));
+        return list;
     }
 
 }

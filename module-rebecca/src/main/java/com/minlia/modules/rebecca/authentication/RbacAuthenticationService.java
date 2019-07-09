@@ -2,6 +2,11 @@ package com.minlia.modules.rebecca.authentication;
 
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.module.drools.service.ReloadDroolsRulesService;
+import com.minlia.module.riskcontrol.event.RiskLoginFailureEvent;
+import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.RiskBlackListService;
+import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.modules.http.NetworkUtil;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
@@ -19,6 +24,7 @@ import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.model.UserContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -58,9 +64,24 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
+    @Autowired
+    private DimensionService dimensionService;
+    @Autowired
+    private RiskRecordService riskRecordService;
+    @Autowired
+    private RiskBlackListService riskBlackListService;
+
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Authentication authentication(Authentication authentication) {
+
+        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+        kieSession.setGlobal("riskBlackListService", riskBlackListService);
+        kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.setGlobal("dimensionService", dimensionService);
+        RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
+        kieSession.execute(riskLoginFailureEvent);
+
         Assert.notNull(authentication, "No authentication data provided");
         LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
@@ -87,6 +108,9 @@ public class RbacAuthenticationService implements AuthenticationService {
             throw new UsernameNotFoundException("User not exists:");
         }
         if (StringUtils.isNotBlank(password) && !encoder.matches(password, user.getPassword())) {
+            //缓存登陆失败记录 TODO
+            dimensionService.distinctCountWithRedisAndConfig(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
+
             //密码错误 锁定次数+1
             user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);
             //如果超过3次 直接锁定
@@ -115,6 +139,9 @@ public class RbacAuthenticationService implements AuthenticationService {
         } else if (user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())) {
             throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getLockTime()));
         } else {
+            //清除缓存登陆失败记录 TODO
+            dimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
+
             //获取请求IP地址
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String ipAddress = NetworkUtil.getIpAddress(request);

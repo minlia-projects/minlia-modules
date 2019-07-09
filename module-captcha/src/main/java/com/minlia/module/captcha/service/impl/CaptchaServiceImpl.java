@@ -8,14 +8,19 @@ import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.Captcha;
 import com.minlia.module.captcha.enumeration.CaptchaMethodEnum;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
+import com.minlia.module.captcha.risk.event.RiskCaptchaEvent;
 import com.minlia.module.captcha.ro.CaptchaCRO;
 import com.minlia.module.captcha.ro.CaptchaQRO;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.email.service.EmailService;
+import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.module.sms.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.time.DateUtils;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,6 +48,12 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Autowired
     private CaptchaConfig captchaConfig;
 
+    @Autowired
+    private DimensionService dimensionService;
+
+    @Autowired
+    private RiskRecordService riskRecordService;
+
     @Override
     public Captcha send(CaptchaCRO cro) {
         Captcha captcha;
@@ -61,6 +72,14 @@ public class CaptchaServiceImpl implements CaptchaService {
         log.debug("Sending security code for cellphone: {}", cellphone);
         Captcha captcha = this.save(cellphone, CaptchaMethodEnum.CELLPHONE);
 
+        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
+        riskCaptchaEvent.setAccount(cellphone);
+
+        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+        kieSession.setGlobal("dimensionService", dimensionService);
+        kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.execute(riskCaptchaEvent);
+
         //当生产环境时发送验证码, 否则不需要
         if (!Environments.isDevelopment()) {
             Map variables = Maps.newHashMap();
@@ -74,6 +93,14 @@ public class CaptchaServiceImpl implements CaptchaService {
     public Captcha sendByEmail(String email) {
         log.debug("Sending security code for email: {}", email);
         Captcha captcha = this.save(email, CaptchaMethodEnum.EMAIL);
+
+        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
+        riskCaptchaEvent.setAccount(email);
+
+        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+        kieSession.setGlobal("dimensionService", dimensionService);
+        kieSession.setGlobal("riskRecordService", riskRecordService);
+        kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
         if (!Environments.isDevelopment()) {
