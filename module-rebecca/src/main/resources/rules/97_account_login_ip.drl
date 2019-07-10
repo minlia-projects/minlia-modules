@@ -4,7 +4,7 @@ import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.cloud.utils.ApiAssert
-import com.minlia.modules.security.risk.event.RiskLoginEvent
+import com.minlia.modules.rebecca.risk.event.RiskLoginEvent
 import com.minlia.modules.rebecca.constant.UserCode
 
 global RiskRecordService riskRecordService

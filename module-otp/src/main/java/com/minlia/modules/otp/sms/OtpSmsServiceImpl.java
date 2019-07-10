@@ -58,13 +58,7 @@ public class OtpSmsServiceImpl implements OtpSmsService {
                     .setConnectionRequestTimeout(timeout * 1000)
                     .setSocketTimeout(timeout * 1000)
                     .build();
-            SSLContext sslContext = null;
-            if(otpSmsProperties.getSslCertificateVerification()){
-                File certFile = new File( otpSmsProperties.getCertPath() );
-                sslContext = new SSLContextBuilder().loadTrustMaterial(certFile, otpSmsProperties.getStorePasswrod().toCharArray()).build();
-            }else{
-                sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
-            }
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
             CloseableHttpClient httpclient =
                     HttpClientBuilder.create()
                             .setDefaultRequestConfig(config)

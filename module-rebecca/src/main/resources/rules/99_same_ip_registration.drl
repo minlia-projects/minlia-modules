@@ -1,6 +1,6 @@
 package rules;
 
-import com.minlia.modules.security.risk.event.RiskRegistrationEvent
+import com.minlia.modules.rebecca.risk.event.RiskRegistrationEvent
 import com.minlia.module.riskcontrol.entity.RiskBlackList
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.enums.TimePeriodEnum

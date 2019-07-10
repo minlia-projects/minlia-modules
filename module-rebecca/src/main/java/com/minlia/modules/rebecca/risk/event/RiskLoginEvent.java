@@ -1,4 +1,4 @@
-package com.minlia.modules.security.risk.event;
+package com.minlia.modules.rebecca.risk.event;
 
 import com.minlia.module.riskcontrol.event.Event;
 import lombok.Setter;
