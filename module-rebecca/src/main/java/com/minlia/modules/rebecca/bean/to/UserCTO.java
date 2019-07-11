@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -57,5 +58,7 @@ public class UserCTO implements ApiRequestBody {
      */
     @Size(min = 1, max = 11)
     private String nickname;
+
+    private LocalDateTime credentialsEffectiveDate;
 
 }

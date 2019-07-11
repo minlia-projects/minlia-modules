@@ -17,6 +17,8 @@ import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.event.LoginSuccessEvent;
 import com.minlia.modules.rebecca.mapper.UserMapper;
+import com.minlia.modules.rebecca.risk.event.RiskLoginEvent;
+import com.minlia.modules.rebecca.risk.event.RiskLoginFailureEvent;
 import com.minlia.modules.rebecca.service.LoginService;
 import com.minlia.modules.rebecca.service.UserService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
@@ -26,8 +28,6 @@ import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.exception.DefaultAuthenticationException;
 import com.minlia.modules.security.model.UserContext;
-import com.minlia.modules.rebecca.risk.event.RiskLoginEvent;
-import com.minlia.modules.rebecca.risk.event.RiskLoginFailureEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.kie.api.runtime.StatelessKieSession;
@@ -66,7 +66,6 @@ public class RbacAuthenticationService implements AuthenticationService {
     private CaptchaService captchaService;
     @Autowired
     private BCryptPasswordEncoder encoder;
-
     @Autowired
     private DimensionService dimensionService;
     @Autowired
@@ -77,9 +76,6 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Authentication authentication(Authentication authentication) {
-//        if (true)
-//            throw new DefaultAuthenticationException(CaptchaCode.Message.ONCE_PER_MINUTE);
-
         Assert.notNull(authentication, "No authentication data provided");
         LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
 
@@ -159,7 +155,7 @@ public class RbacAuthenticationService implements AuthenticationService {
             throw new AccountExpiredException("账号已过期");
         } else if (!user.getEnabled()) {
             throw new DisabledException("账号已禁用");
-        } else if (user.getCredentialsExpired()) {
+        } else if (null != user.getCredentialsEffectiveDate() && user.getCredentialsEffectiveDate().isBefore(LocalDateTime.now())) {
             throw new CredentialsExpiredException("凭证已过期");
         } else if (user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())) {
             throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getLockTime()));

@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
         user.setDefaultRole(role.getCode());
         user.setNickname(cro.getNickname());
-        user.setCredentialsEffectiveDate(LocalDateTime.now().plusYears(1));
+        user.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusYears(1) : cro.getCredentialsEffectiveDate());
         userMapper.create(user);
 
         //给用户授予角色

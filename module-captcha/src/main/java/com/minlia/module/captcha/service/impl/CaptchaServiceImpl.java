@@ -240,7 +240,7 @@ public class CaptchaServiceImpl implements CaptchaService {
             if (captcha.getLocked()) {
                 return CaptchaCode.Message.ALREADY_LOCKED;
             }
-            if (LocalDateUtils.localDateTimeToTimestamp(captcha.getEffectiveTime()) > System.currentTimeMillis()) {
+            if (LocalDateUtils.localDateTimeToTimestamp(captcha.getEffectiveTime()) < System.currentTimeMillis()) {
                 return CaptchaCode.Message.CAPTCHA_EXPIRED;
             }
         }
