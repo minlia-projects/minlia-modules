@@ -96,9 +96,9 @@
         nickname ,
         password ,
         default_role ,
-        referral,
+        referral
         <if test="credentialsEffectiveDate != null">
-            credentials_effective_date
+            ,credentials_effective_date
         </if>
         )
         VALUES(
@@ -109,9 +109,9 @@
         #{nickname,jdbcType=VARCHAR},
         #{password,jdbcType=VARCHAR},
         #{defaultRole,jdbcType=VARCHAR},
-        #{referral,jdbcType=VARCHAR},
+        #{referral,jdbcType=VARCHAR}
         <if test="credentialsEffectiveDate != null">
-            #{credentialsEffectiveDate,jdbcType=TIMESTAMP}
+            ,#{credentialsEffectiveDate,jdbcType=TIMESTAMP}
         </if>
         )
     </insert>
