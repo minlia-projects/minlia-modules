@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Api(tags = "System Password", description = "密码")
 @RestController
-@RequestMapping(value = ApiPrefix.V1+"user/password")
+@RequestMapping(value = ApiPrefix.V1 + "user/password")
 public class ChangePasswordEndpoint {
 
     @Autowired
@@ -29,7 +31,7 @@ public class ChangePasswordEndpoint {
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据原密码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "raw", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response changePasswordMode1(@RequestBody PasswordByRawPasswordChangeTO body) {
+    public Response changePasswordMode1(@Valid @RequestBody PasswordByRawPasswordChangeTO body) {
         User entity = userPasswordService.change(body);
         return Response.success();
     }
@@ -38,8 +40,8 @@ public class ChangePasswordEndpoint {
     @PreAuthorize(value = "isAuthenticated()")
     @ApiOperation(value = "根据验证码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "captcha", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response changePasswordMode2(@RequestBody PasswordByCaptchaChangeTO body) {
-        User entity=userPasswordService.change(body);
+    public Response changePasswordMode2(@Valid @RequestBody PasswordByCaptchaChangeTO body) {
+        User entity = userPasswordService.change(body);
         return Response.success();
     }
 

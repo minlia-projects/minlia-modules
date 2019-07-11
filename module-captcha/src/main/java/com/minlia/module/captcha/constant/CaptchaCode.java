@@ -15,6 +15,8 @@ public class CaptchaCode {
 
     final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".captcha";
 
+    public final static String CAPTCHA_DEFAULT_TEMPLATE = "CAPTCHA_DEFAULT";
+
     public enum Message implements Code {
 
         /**
@@ -90,7 +92,9 @@ public class CaptchaCode {
         /**
          * 邮箱不能为空
          */
-        EMAIL_NOT_NULL;
+        EMAIL_NOT_NULL,
+
+        VERIFY_SUCCESS;
 
         @Override
         public String code() {
@@ -106,8 +110,8 @@ public class CaptchaCode {
         }
 
         @Override
-        public String message() {
-            return Lang.get(this.i18nKey());
+        public String message(String... args) {
+            return Lang.get(this.i18nKey(), args);
         }
 
     }

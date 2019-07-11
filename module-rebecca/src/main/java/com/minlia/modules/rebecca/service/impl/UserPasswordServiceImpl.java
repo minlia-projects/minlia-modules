@@ -83,8 +83,9 @@ public class UserPasswordServiceImpl implements UserPasswordService {
     public User change(User user, String newPassword) {
         //设置新密码
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-        user.setEnabled(Boolean.TRUE);
-        user.setCredentialsExpired(Boolean.FALSE);
+//        user.setEnabled(Boolean.TRUE);
+//        user.setCredentialsExpired(Boolean.FALSE);
+        user.setCredentialsEffectiveDate(LocalDateTime.now().plusYears(1));
         user.setLocked(Boolean.FALSE);
         user.setLockLimit(0);
         user.setLockTime(LocalDateTime.now());

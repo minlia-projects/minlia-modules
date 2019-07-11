@@ -119,8 +119,8 @@ public class UserCode {
         }
 
         @Override
-        public String message(){
-            return Lang.get(this.i18nKey());
+        public String message(String... args) {
+            return Lang.get(this.i18nKey(), args);
         }
 
     }

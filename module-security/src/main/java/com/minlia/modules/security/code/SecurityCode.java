@@ -116,8 +116,8 @@ public class SecurityCode {
         }
 
         @Override
-        public String message() {
-            return Lang.get(this.i18nKey());
+        public String message(String... args) {
+            return Lang.get(this.i18nKey(), args);
         }
 
     }
@@ -143,8 +143,8 @@ public class SecurityCode {
         }
 
         @Override
-        public String message() {
-            return Lang.get(this.i18nKey());
+        public String message(String... args) {
+            return Lang.get(this.i18nKey(), args);
         }
 
     }

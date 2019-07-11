@@ -34,7 +34,9 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
 		//TODO 非自定义异常直接抛出，
-		if (e instanceof AuthMethodNotSupportedException) {
+		if (e instanceof DefaultAuthenticationException) {
+			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, ((DefaultAuthenticationException) e).getCode()));
+		} else if (e instanceof AuthMethodNotSupportedException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_METHOD_NOT_SUPPORTED));
 		} else if (e instanceof AuthenticationCredentialsNotFoundException) {
 			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND));

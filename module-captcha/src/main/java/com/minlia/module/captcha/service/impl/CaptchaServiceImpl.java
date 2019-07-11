@@ -1,8 +1,10 @@
 package com.minlia.module.captcha.service.impl;
 
 import com.google.common.collect.Maps;
+import com.minlia.cloud.code.Code;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
+import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.module.captcha.config.CaptchaConfig;
 import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.Captcha;
@@ -32,6 +34,8 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import static com.minlia.module.captcha.constant.CaptchaCode.CAPTCHA_DEFAULT_TEMPLATE;
+
 @Slf4j
 @Service
 public class CaptchaServiceImpl implements CaptchaService {
@@ -57,6 +61,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Autowired
     private RiskBlackListService riskBlackListService;
 
+
     @Override
     public Captcha send(CaptchaCRO cro) {
         Captcha captcha;
@@ -72,6 +77,11 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public Captcha sendByCellphone(String cellphone) {
+        return this.sendByCellphone(cellphone, CAPTCHA_DEFAULT_TEMPLATE);
+    }
+
+    @Override
+    public Captcha sendByCellphone(String cellphone, String templateCode) {
         log.debug("Sending security code for cellphone: {}", cellphone);
         Captcha captcha = this.save(cellphone, CaptchaMethodEnum.CELLPHONE);
 
@@ -88,13 +98,19 @@ public class CaptchaServiceImpl implements CaptchaService {
         if (!Environments.isDevelopment()) {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
-            smsService.sendRichtextSms(new String[]{cellphone}, "CAPTCHA_DEFAULT", variables);
+            variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
+            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables);
         }
         return captcha;
     }
 
     @Override
     public Captcha sendByEmail(String email) {
+        return this.sendByEmail(email, CAPTCHA_DEFAULT_TEMPLATE);
+    }
+
+    @Override
+    public Captcha sendByEmail(String email, String templateCode) {
         log.debug("Sending security code for email: {}", email);
         Captcha captcha = this.save(email, CaptchaMethodEnum.EMAIL);
 
@@ -111,7 +127,8 @@ public class CaptchaServiceImpl implements CaptchaService {
         if (!Environments.isDevelopment()) {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
-            emailService.sendRichtextMail(new String[]{email}, "CAPTCHA_DEFAULT", variables);
+            variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
+            emailService.sendRichtextMail(new String[]{email}, templateCode, variables);
         }
         return captcha;
     }
@@ -184,24 +201,49 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public void validityByCellphone(String cellphone, String code) {
-        Captcha captcha = captchaMapper.queryOne(CaptchaQRO.builder().cellphone(cellphone).build());
-        validity(captcha, code);
+    public Code validityByCellphone(String cellphone, String code) {
+        return validityByCellphone(cellphone, code, true);
+    }
+
+    @Override
+    public Code validityByEmail(String email, String code) {
+        return validityByEmail(email, code, true);
     }
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public void validityByEmail(String email, String code) {
-        Captcha captcha = captchaMapper.queryOne(CaptchaQRO.builder().email(email).build());
-        validity(captcha, code);
+    public Code validityByCellphone(String cellphone, String code, boolean throwsException) {
+        Captcha captcha = captchaMapper.queryOne(CaptchaQRO.builder().cellphone(cellphone).build());
+        return validity(captcha, code, throwsException);
     }
 
-    private void validity(Captcha captcha, String code) {
-        ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
-        ApiAssert.state(!captcha.getUsed(), CaptchaCode.Message.ALREADY_USED);
-        ApiAssert.state(!captcha.getLocked(), CaptchaCode.Message.ALREADY_LOCKED);
-        ApiAssert.state(captcha.getEffectiveTime().toInstant(ZoneOffset.ofHours(8)).toEpochMilli() > System.currentTimeMillis(), CaptchaCode.Message.CAPTCHA_EXPIRED);
+    @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public Code validityByEmail(String email, String code, boolean throwsException) {
+        Captcha captcha = captchaMapper.queryOne(CaptchaQRO.builder().email(email).build());
+        return validity(captcha, code, throwsException);
+    }
+
+    private Code validity(Captcha captcha, String code, boolean throwsException) {
+        if (throwsException) {
+            ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
+            ApiAssert.state(!captcha.getUsed(), CaptchaCode.Message.ALREADY_USED);
+            ApiAssert.state(!captcha.getLocked(), CaptchaCode.Message.ALREADY_LOCKED);
+            ApiAssert.state(LocalDateUtils.localDateTimeToTimestamp(captcha.getEffectiveTime()) > System.currentTimeMillis(), CaptchaCode.Message.CAPTCHA_EXPIRED);
+        } else {
+            if (null == captcha) {
+                return CaptchaCode.Message.NOT_FOUND;
+            }
+            if (captcha.getUsed()) {
+                return CaptchaCode.Message.ALREADY_USED;
+            }
+            if (captcha.getLocked()) {
+                return CaptchaCode.Message.ALREADY_LOCKED;
+            }
+            if (LocalDateUtils.localDateTimeToTimestamp(captcha.getEffectiveTime()) > System.currentTimeMillis()) {
+                return CaptchaCode.Message.CAPTCHA_EXPIRED;
+            }
+        }
 
 //        ApiAssert.state(captcha.getFailureCount() != captchaConfig.getMaxValidationFailureTimes(), CaptchaCode.Message.CAPTCHA_REPETITIOUS_ERROR);
         if (code.equals(captcha.getCode())) {
@@ -216,8 +258,13 @@ public class CaptchaServiceImpl implements CaptchaService {
                 captcha.setLockTime(LocalDateTime.now().plusMinutes(captchaConfig.getLockMinutes()));      //锁定时间
             }
             captchaMapper.update(captcha);
-            ApiAssert.state(code.equals(captcha.getCode()), CaptchaCode.Message.CAPTCHA_ERROR);
+            if (throwsException) {
+                ApiAssert.state(code.equals(captcha.getCode()), CaptchaCode.Message.CAPTCHA_ERROR);
+            } else {
+                return CaptchaCode.Message.CAPTCHA_ERROR;
+            }
         }
+        return CaptchaCode.Message.VERIFY_SUCCESS;
     }
 
 }

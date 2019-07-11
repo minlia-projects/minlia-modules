@@ -12,12 +12,14 @@ public interface UserPasswordService {
 
     /**
      * 忘记密码
+     *
      * @return
      */
     User forget(PasswordResetTO body);
 
     /**
      * 根据验证码修改密码
+     *
      * @param body
      * @return
      */
@@ -25,10 +27,18 @@ public interface UserPasswordService {
 
     /**
      * 根据原密码修改密码
+     *
      * @param body
      * @return
      */
     User change(PasswordByRawPasswordChangeTO body);
 
+    /**
+     * 修改用户密码
+     *
+     * @param user
+     * @param newPassword
+     * @return
+     */
     User change(User user, String newPassword);
 }

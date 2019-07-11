@@ -7,6 +7,7 @@ import com.minlia.modules.rebecca.mapper.UserHistoryMapper;
 import com.minlia.modules.rebecca.service.UserHistoryService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,11 +27,12 @@ public class UserHistoryServiceImpl implements UserHistoryService {
         return userHistoryMapper.deleteByPrimaryKey(id);
     }
 
+    @Async
     @Override
-    public int insertSelective(User user, UserUpdateTypeEcnum updateType) {
+    public void insertSelective(User user, UserUpdateTypeEcnum updateType) {
         UserHistory userHistory = mapper.map(user, UserHistory.class);
         userHistory.setUpdateType(updateType);
-        return userHistoryMapper.insertSelective(userHistory);
+        userHistoryMapper.insertSelective(userHistory);
     }
 
     @Override

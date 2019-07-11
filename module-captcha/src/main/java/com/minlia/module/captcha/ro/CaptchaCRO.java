@@ -19,4 +19,6 @@ public class CaptchaCRO {
     @Cellphone
     private String cellphone;
 
+    private String templateCode;
+
 }

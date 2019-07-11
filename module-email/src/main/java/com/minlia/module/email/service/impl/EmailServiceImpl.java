@@ -102,6 +102,7 @@ public class EmailServiceImpl implements EmailService {
         }
 
         MimeMessage message = mailSender.createMimeMessage();
+        subject = TextReplaceUtils.replace(subject, variables);
         String text = TextReplaceUtils.replace(content, variables);
 
         EmailRecord emailRecord = EmailRecord.builder()

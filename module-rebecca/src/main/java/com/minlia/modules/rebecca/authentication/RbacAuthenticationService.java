@@ -1,6 +1,8 @@
 package com.minlia.modules.rebecca.authentication;
 
+import com.minlia.cloud.code.Code;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
@@ -22,6 +24,7 @@ import com.minlia.modules.security.authentication.service.AuthenticationService;
 import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
+import com.minlia.modules.security.exception.DefaultAuthenticationException;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.rebecca.risk.event.RiskLoginEvent;
 import com.minlia.modules.rebecca.risk.event.RiskLoginFailureEvent;
@@ -74,6 +77,9 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Authentication authentication(Authentication authentication) {
+//        if (true)
+//            throw new DefaultAuthenticationException(CaptchaCode.Message.ONCE_PER_MINUTE);
+
         Assert.notNull(authentication, "No authentication data provided");
         LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
 
@@ -87,7 +93,6 @@ public class RbacAuthenticationService implements AuthenticationService {
         riskLoginEvent.setScene("account_login_ip");
         riskLoginEvent.setUsername(loginCredentials.getAccount());
         kieSession.execute(riskLoginEvent);
-        ApiAssert.state(!riskLoginEvent.isBlack(), RiskCode.Message.BLACK_IP);
         ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.code(), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.i18nKey());
 
         //登陆失败
@@ -119,6 +124,11 @@ public class RbacAuthenticationService implements AuthenticationService {
             throw new UsernameNotFoundException("User not exists:");
         }
         if (StringUtils.isNotBlank(password) && !encoder.matches(password, user.getPassword())) {
+            //凭证有效期
+            if (null != user.getCredentialsEffectiveDate() && user.getCredentialsEffectiveDate().isBefore(LocalDateTime.now())) {
+                throw new CredentialsExpiredException("登陆凭证已过期");
+            }
+
             //缓存登陆失败记录 TODO
 //            dimensionService.distinctCountWithRedisAndConfig(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
 
@@ -134,10 +144,14 @@ public class RbacAuthenticationService implements AuthenticationService {
             throw new AjaxBadCredentialsException("Password error", user.getLockLimit());
         }
         if (StringUtils.isNotBlank(captcha)) {
+            Code code;
             if (LoginMethodEnum.CELLPHONE.equals(loginCredentials.getMethod())) {
-                captchaService.validityByCellphone(user.getCellphone(), captcha);
+                code = captchaService.validityByCellphone(user.getCellphone(), captcha, false);
             } else {
-                captchaService.validityByCellphone(user.getEmail(), captcha);
+                code = captchaService.validityByEmail(user.getEmail(), captcha, false);
+            }
+            if (!CaptchaCode.Message.VERIFY_SUCCESS.name().equals(code.code())) {
+                throw new DefaultAuthenticationException(code);
             }
         }
 

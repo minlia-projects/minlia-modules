@@ -14,6 +14,7 @@
             mut.`nickname` ,
             mut.default_role ,
             mut.credentials_expired ,
+            mut.credentials_effective_date ,
             mut.locked ,
             mut.lock_limit ,
             mut.lock_time ,
@@ -88,24 +89,30 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mdl_user(
-            guid ,
-            username ,
-            cellphone ,
-            email ,
-            nickname ,
-            password ,
-            default_role ,
-            referral
+        guid ,
+        username ,
+        cellphone ,
+        email ,
+        nickname ,
+        password ,
+        default_role ,
+        referral,
+        <if test="credentialsEffectiveDate != null">
+            credentials_effective_date
+        </if>
         )
         VALUES(
-            #{guid,jdbcType=VARCHAR},
-            #{username,jdbcType=VARCHAR},
-            #{cellphone,jdbcType=VARCHAR},
-            #{email,jdbcType=VARCHAR},
-            #{nickname,jdbcType=VARCHAR},
-            #{password,jdbcType=VARCHAR},
-            #{defaultRole,jdbcType=VARCHAR},
-            #{referral,jdbcType=VARCHAR}
+        #{guid,jdbcType=VARCHAR},
+        #{username,jdbcType=VARCHAR},
+        #{cellphone,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{nickname,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{defaultRole,jdbcType=VARCHAR},
+        #{referral,jdbcType=VARCHAR},
+        <if test="credentialsEffectiveDate != null">
+            #{credentialsEffectiveDate,jdbcType=TIMESTAMP}
+        </if>
         )
     </insert>
 
@@ -148,6 +155,11 @@
             <if test="lastLoginIp != null">
                 last_login_ip = #{lastLoginIp,jdbcType=VARCHAR} ,
             </if>
+
+            <if test="credentialsEffectiveDate != null">
+                credentials_effective_date = #{credentialsEffectiveDate,jdbcType=TIMESTAMP} ,
+            </if>
+
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE guid = #{guid,jdbcType=VARCHAR}
