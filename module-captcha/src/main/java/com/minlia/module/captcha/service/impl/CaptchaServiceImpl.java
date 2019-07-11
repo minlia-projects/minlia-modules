@@ -85,11 +85,11 @@ public class CaptchaServiceImpl implements CaptchaService {
         kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
-//        if (!Environments.isDevelopment()) {
+        if (!Environments.isDevelopment()) {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
             smsService.sendRichtextSms(new String[]{cellphone}, "CAPTCHA_DEFAULT", variables);
-//        }
+        }
         return captcha;
     }
 

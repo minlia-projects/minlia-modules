@@ -7,6 +7,7 @@ import com.minlia.module.i18n.resource.MessageSource;
 import com.minlia.module.i18n.service.I18nService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class I18nOpenEndpoint {
     @ApiOperation(value = "切换语言")
     @GetMapping(value = "locale")
     public Response locale(@RequestParam LocaleEnum lang) {
+        LocaleContextHolder.setDefaultLocale(LocaleUtils.toLocale(lang.name()));
         return Response.success();
     }
 

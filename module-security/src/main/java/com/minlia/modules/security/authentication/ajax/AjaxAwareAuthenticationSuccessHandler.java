@@ -1,11 +1,13 @@
 package com.minlia.modules.security.authentication.ajax;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Maps;
 import com.minlia.cloud.body.Response;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtToken;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -41,8 +42,9 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
         JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext);
         JwtToken refreshToken = tokenFactory.createRefreshToken(userContext);
+        JwtToken rawToken = tokenFactory.createRawJwtToken(userContext);
 
-        Map<String, Object> tokenMap = new HashMap<String, Object>();
+        Map<String, Object> tokenMap = Maps.newHashMap();
         tokenMap.put("token", accessToken.getToken());
         tokenMap.put("expireDate", ((AccessJwtToken) accessToken).getClaims().getExpiration());
         tokenMap.put("refreshToken", refreshToken.getToken());
@@ -54,9 +56,11 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
         clearAuthenticationAttributes(request);
 
-        //保存信息到redisi：因为存在多端登录所以用Set
-//        redisService.sSetAndTime(TokenRedisConstants.token + userContext.getUsername(),tokenFactory.getSettings().getTokenExpirationTime(),accessToken.getToken());
-//        redisService.sSetAndTime(TokenRedisConstants.r_token + userContext.getUsername(),tokenFactory.getSettings().getRefreshTokenExpTime(),refreshToken.getToken());
+        //缓存token TODO
+        TokenCacheUtils.cache(userContext.getGuid(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
+        //保存信息到redis：因为存在多端登录所以用Set
+//        RedisUtils.sSetAndTime(TokenRedisConstants.token + userContext.getUsername(), tokenFactory.getSettings().getTokenExpirationTime(), accessToken.getToken());
+//        RedisUtils.sSetAndTime(TokenRedisConstants.r_token + userContext.getUsername(), tokenFactory.getSettings().getRefreshTokenExpTime(), refreshToken.getToken());
     }
 
     /**

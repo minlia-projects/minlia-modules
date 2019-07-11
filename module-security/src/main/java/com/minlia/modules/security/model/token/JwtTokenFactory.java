@@ -1,23 +1,20 @@
 package com.minlia.modules.security.model.token;
 
+import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
-import com.minlia.modules.security.model.Scopes;
 import com.minlia.modules.security.model.UserContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.UUID;
 
 @Component
 public class JwtTokenFactory {
+
     private final JwtProperty settings;
 
     public JwtProperty getSettings() {
@@ -35,9 +32,17 @@ public class JwtTokenFactory {
      * @return
      */
     public AccessJwtToken createAccessJwtToken(UserContext userContext) {
-        if (StringUtils.isBlank(userContext.getUsername())) {
-//            throw new IllegalArgumentException("Cannot create JWT Token without username");
-        }
+        Claims claims = Jwts.claims().setSubject(userContext.getUsername());
+        claims.put("guid", userContext.getGuid());
+        return getJwtToken(claims, settings.getTokenExpirationTime());
+    }
+
+    /**
+     * Factory method for issuing new JWT Tokens.
+     *
+     * @return
+     */
+    public AccessJwtToken createRawJwtToken(UserContext userContext) {
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("guid", userContext.getGuid());
         claims.put("cellphone", userContext.getCellphone());
@@ -47,44 +52,27 @@ public class JwtTokenFactory {
 //        claims.put("navigations", userContext.getNavigations());
         claims.put("permissions", userContext.getPermissions());
 
-        LocalDateTime currentTime = LocalDateTime.now();
-
-        String token = Jwts.builder()
-                .setClaims(claims)
-                .setIssuer(settings.getTokenIssuer())
-                .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
-                .setExpiration(Date.from(currentTime.plusMinutes(settings.getTokenExpirationTime()).atZone(ZoneId.systemDefault()).toInstant()))
-                .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
-                .compact();
-
-        return new AccessJwtToken(token, claims);
+        return getJwtToken(claims, settings.getTokenExpirationTime());
     }
 
     public AccessJwtToken createRefreshToken(UserContext userContext) {
-        if (StringUtils.isBlank(userContext.getUsername())) {
-//            throw new IllegalArgumentException("Cannot create JWT Token without username");
-        }
-
-        LocalDateTime currentTime = LocalDateTime.now();
-
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("guid", userContext.getGuid());
-        claims.put("cellphone", userContext.getCellphone());
-        claims.put("email", userContext.getEmail());
-        claims.put("currrole", userContext.getCurrrole());
-        claims.put("roles", userContext.getRoles());
-//        claims.put("navigations", userContext.getNavigations());
-        claims.put("permissions", Arrays.asList(Scopes.REFRESH_TOKEN.name()));
+        return getJwtToken(claims, settings.getRefreshTokenExpTime());
+    }
 
+    private AccessJwtToken getJwtToken(Claims claims, Integer tokenExpirationTime) {
+        LocalDateTime currentTime = LocalDateTime.now();
         String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuer(settings.getTokenIssuer())
                 .setId(UUID.randomUUID().toString())
-                .setIssuedAt(Date.from(currentTime.atZone(ZoneId.systemDefault()).toInstant()))
-                .setExpiration(Date.from(currentTime.plusMinutes(settings.getRefreshTokenExpTime()).atZone(ZoneId.systemDefault()).toInstant()))
+                .setIssuedAt(LocalDateUtils.localDateTimeToDate(currentTime))
+//                .setExpiration(LocalDateUtils.localDateTimeToDate(currentTime.plusMinutes(tokenExpirationTime)))
+                .setExpiration(LocalDateUtils.localDateTimeToDate(LocalDateTime.MAX.withYear(9999)))       //设置永不过期 TODO
                 .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
                 .compact();
-
         return new AccessJwtToken(token, claims);
     }
+
 }

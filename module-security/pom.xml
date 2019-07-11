@@ -40,11 +40,11 @@
             <version>0.7.0</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.minlia.cloud.modules</groupId>-->
-            <!--<artifactId>module-redis</artifactId>-->
-            <!--<version>${minlia.module.version}</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-redis</artifactId>
+            <version>${minlia.module.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>

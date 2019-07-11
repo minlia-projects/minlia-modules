@@ -5,6 +5,7 @@ import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         RawAccessJwtToken rawAccessToken = (RawAccessJwtToken) authentication.getCredentials();
-        Jws<Claims> jwsClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
+//        Jws<Claims> jwsClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
+//        String guid = jwsClaims.getBody().get("guid", String.class);
+        Jws<Claims> jwsClaims = rawAccessToken.parseClaimsWithCache(jwtProperty.getTokenSigningKey());
+
         String username = jwsClaims.getBody().getSubject();
         String guid = jwsClaims.getBody().get("guid", String.class);
         String cellphone = jwsClaims.getBody().get("cellphone", String.class);
@@ -63,6 +67,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .permissions(permissions)
                 .expireDate(LocalDateUtils.dateToLocalDateTime(expirDate))
                 .build();
+
+        //重置缓存时间
+        TokenCacheUtils.expire(userContext.getGuid(), jwtProperty.getTokenExpirationTime());
         return new JwtAuthenticationToken(userContext, authorities);
     }
 

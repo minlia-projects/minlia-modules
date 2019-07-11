@@ -14,6 +14,7 @@ import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import com.minlia.modules.rebecca.mapper.UserMapper;
 import com.minlia.modules.rebecca.service.UserPasswordService;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -88,6 +89,8 @@ public class UserPasswordServiceImpl implements UserPasswordService {
         user.setLockLimit(0);
         user.setLockTime(LocalDateTime.now());
         userMapper.update(user);
+        //注销token
+        TokenCacheUtils.kill(user.getGuid());
         return user;
     }
 

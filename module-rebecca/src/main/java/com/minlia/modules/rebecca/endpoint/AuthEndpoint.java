@@ -1,11 +1,12 @@
 package com.minlia.modules.rebecca.endpoint;
 
 import com.minlia.cloud.body.Response;
+import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.bean.domain.User;
-import com.minlia.modules.rebecca.service.UserQueryService;
+import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.service.LoginService;
+import com.minlia.modules.rebecca.service.UserQueryService;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.authentication.jwt.verifier.TokenVerifier;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
@@ -15,6 +16,7 @@ import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
 import com.minlia.modules.security.model.token.RefreshToken;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +36,7 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @Api(tags = "System Security", description = "系统安全")
-public class RefreshTokenEndpoint {
+public class AuthEndpoint {
 
     @Autowired
     private JwtProperty jwtProperty;
@@ -58,10 +57,22 @@ public class RefreshTokenEndpoint {
     @Autowired
     private UserQueryService userQueryService;
 
+    @AuditLog(value = "logout")
+    @ApiOperation(value = "注销")
+    @PostMapping(value = ApiPrefix.V1 + "auth/logout")
+    public @ResponseBody
+    Response logout() {
+        String guid = com.minlia.modules.rebecca.context.SecurityContextHolder.getCurrentGuid();
+        TokenCacheUtils.kill(guid);
+        return Response.success();
+    }
+
     @AuditLog(value = "refresh authentication token")
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌, 正常情况下TOKEN值在请求时以Header参数 X-Auth-Token: Bearer xxxxxx传入", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "/api/v1/auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})//,headers = "X-Authorization"
-    public @ResponseBody Response refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    @RequestMapping(value = ApiPrefix.V1 + "auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public @ResponseBody
+    Response refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        //,headers = "X-Authorization"
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
         RefreshToken refreshToken = RefreshToken.create(rawToken, jwtProperty.getTokenSigningKey()).orElseThrow(() -> new InvalidJwtTokenException());
