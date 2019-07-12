@@ -8,6 +8,7 @@ import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskBlackListService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.module.riskcontrol.entity.RiskBlackList
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum
 
 global RiskBlackListService riskBlackListService
 global RiskRecordService riskRecordService
@@ -27,6 +28,6 @@ rule "99_same_ip_registration"
             riskRecordService.createEvent(event, details);
         } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
             riskRecordService.createEvent(event, details);
-            riskBlackListService.pub(RiskBlackList.builder().type(RiskBlackList.EnumType.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
+            riskBlackListService.pub(RiskBlackList.builder().type(RiskTypeEnum.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
         }
 end

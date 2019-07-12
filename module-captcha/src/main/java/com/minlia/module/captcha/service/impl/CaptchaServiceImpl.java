@@ -21,6 +21,7 @@ import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.module.sms.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,11 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public Captcha sendByEmail(String email, String templateCode) {
+        return this.sendByEmail(email, templateCode, null);
+    }
+
+    @Override
+    public Captcha sendByEmail(String email, String templateCode, Map<String, Object> variables) {
         log.debug("Sending security code for email: {}", email);
         Captcha captcha = this.save(email, CaptchaMethodEnum.EMAIL);
 
@@ -125,12 +131,15 @@ public class CaptchaServiceImpl implements CaptchaService {
         kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
-        if (!Environments.isDevelopment()) {
-            Map variables = Maps.newHashMap();
-            variables.put("code", captcha.getCode());
-            variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
-            emailService.sendRichtextMail(new String[]{email}, templateCode, variables);
+//        if (!Environments.isDevelopment()) {
+
+        if (null == variables) {
+            variables = Maps.newHashMap();
         }
+        variables.put("code", captcha.getCode());
+        variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
+        emailService.sendRichtextMail(new String[]{email}, templateCode, variables);
+//        }
         return captcha;
     }
 

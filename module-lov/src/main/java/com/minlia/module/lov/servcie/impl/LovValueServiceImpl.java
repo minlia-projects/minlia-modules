@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class LovValueServiceImpl implements LovValueService{
+public class LovValueServiceImpl implements LovValueService {
 
     @Autowired
     private LovService lovService;
@@ -30,7 +30,9 @@ public class LovValueServiceImpl implements LovValueService{
         //判断lov_id是否存在
         Lov lov = lovService.selectByPrimaryKey(record.getLovId());
         ApiAssert.notNull(lov, SystemCode.Message.DATA_NOT_EXISTS);
-        ApiAssert.state(record.getParentId() != null && lovValueMapper.countByCode(record.getParentId()) == 1, SystemCode.Message.DATA_NOT_EXISTS);
+        if (record.getParentId() != null) {
+            ApiAssert.state(lovValueMapper.countByCode(record.getParentId()) == 1, SystemCode.Message.DATA_NOT_EXISTS);
+        }
         record.setLovCode(lov.getCode());
         return lovValueMapper.insertSelective(record);
     }

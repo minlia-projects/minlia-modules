@@ -3,15 +3,11 @@ package rules;
 import com.minlia.modules.rebecca.risk.event.ChangeCellphoneEvent
 import com.minlia.modules.rebecca.service.UserHistoryService
 
-import com.minlia.module.riskcontrol.entity.RiskBlackList
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
-import com.minlia.module.riskcontrol.enums.TimePeriodEnum
 import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.cloud.utils.ApiAssert
-import com.minlia.modules.rebecca.bean.domain.UserHistory
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum
-import org.apache.commons.lang3.time.DateUtils
 import java.time.LocalDateTime
 import com.minlia.modules.rebecca.constant.UserCode
 

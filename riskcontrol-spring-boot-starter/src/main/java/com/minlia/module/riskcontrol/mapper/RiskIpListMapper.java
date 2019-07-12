@@ -1,8 +1,6 @@
 package com.minlia.module.riskcontrol.mapper;
 
-import com.minlia.module.riskcontrol.entity.RiskIpList;
-
-import java.util.List;
+import com.minlia.module.riskcontrol.entity.RiskIpList;import java.util.List;
 
 public interface RiskIpListMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,5 +12,4 @@ public interface RiskIpListMapper {
     int updateByPrimaryKeySelective(RiskIpList record);
 
     List<RiskIpList> selectByAll(RiskIpList riskIpList);
-
 }

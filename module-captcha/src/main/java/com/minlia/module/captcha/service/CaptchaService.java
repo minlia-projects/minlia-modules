@@ -8,6 +8,8 @@ import com.minlia.module.captcha.ro.CaptchaCRO;
 import com.minlia.module.captcha.ro.CaptchaQRO;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 /**
  * 验证码服务
  * 持久化一个新的security Code
@@ -25,9 +27,9 @@ public interface CaptchaService {
      */
     Code validityByCellphone(String cellphone, String code);
 
-    Code validityByEmail(String email, String code);
-
     Code validityByCellphone(String cellphone, String code, boolean throwsException);
+
+    Code validityByEmail(String email, String code);
 
     Code validityByEmail(String email, String code, boolean throwsException);
 
@@ -57,6 +59,7 @@ public interface CaptchaService {
      */
     Captcha sendByEmail(String email);
     Captcha sendByEmail(String email, String templateCode);
+    Captcha sendByEmail(String email, String templateCode, Map<String, Object> variables);
 
     Captcha queryOne(CaptchaQRO qro);
 

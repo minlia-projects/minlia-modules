@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.riskcontrol.bean.RiskBlackListQRO;
+import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.entity.RiskBlackList;
 import com.minlia.module.riskcontrol.mapper.RiskBlackListMapper;
 import com.minlia.module.riskcontrol.service.RiskBlackListService;
@@ -12,13 +14,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Api(tags = "System Risk Black List", description = "风控-黑名单")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "risk/blacklist")
+@RequestMapping(value = ApiPrefix.V1 + "risk/blacklist")
 public class RiskBlackListEndpoint {
 
     @Autowired
@@ -30,6 +33,8 @@ public class RiskBlackListEndpoint {
     @Autowired
     private RiskBlackListMapper riskBlackListMapper;
 
+    @AuditLog(value = "save fraud black list")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SAVE + "')")
     @ApiOperation(value = "保存")
     @PostMapping(value = "")
     public Response save(@Valid @RequestBody RiskBlackList riskBlackList) {
@@ -37,6 +42,8 @@ public class RiskBlackListEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "reset fraud black list")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_RESET + "')")
     @ApiOperation(value = "重置")
     @PostMapping(value = "reset")
     public Response reset() {
@@ -44,6 +51,8 @@ public class RiskBlackListEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "delete fraud black list by id")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_DELETE + "')")
     @ApiOperation(value = "ID删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
@@ -51,18 +60,23 @@ public class RiskBlackListEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "query fraud black list by id")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
     public Response queryById(@PathVariable Long id) {
         return Response.success(riskBlackListService.queryById(id));
     }
 
+    @AuditLog(value = "query fraud black list ")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SEARCH + "')")
     @ApiOperation(value = "查询所有")
     @GetMapping(path = "all")
     public Response all() {
         return Response.success(riskBlackListService.getAll());
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskBlackListQRO qro) {

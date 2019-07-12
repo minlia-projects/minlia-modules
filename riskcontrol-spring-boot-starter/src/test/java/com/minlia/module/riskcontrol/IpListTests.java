@@ -13,6 +13,9 @@ public class IpListTests {
 
     @Test
     public void list() {
+
+        System.out.println(false && false);
+
         String ip = "127.255.255.255";
         String[] ips = ip.split(SymbolConstants.DOT_ZY);
         Long number = Long.valueOf(ips[0]) * (256 * 256 * 256) + Long.valueOf(ips[1]) * (256 * 256) + Long.valueOf(ips[2]) * (256) + Long.valueOf(ips[3]);
