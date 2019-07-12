@@ -60,19 +60,19 @@ public class LovValueServiceImpl implements LovValueService{
 
     @Override
     public List<LovValue> selectByAll(LovValueQRO qro) {
-        if (StringUtils.isNotBlank(qro.getLovCode())) {
-            Lov lov = lovService.selectOneByCode(qro.getLovCode());
-            qro.setLovId(null != lov ? lov.getId() : -1);
-        }
+//        if (StringUtils.isNotBlank(qro.getLovCode())) {
+//            Lov lov = lovService.selectOneByCode(qro.getLovCode());
+//            qro.setLovId(null != lov ? lov.getId() : -1);
+//        }
         return lovValueMapper.selectByAll(qro);
     }
 
     @Override
     public LovValue selectOneByAll(LovValueQRO qro) {
-        if (StringUtils.isNotBlank(qro.getLovCode())) {
-            Lov lov = lovService.selectOneByCode(qro.getLovCode());
-            qro.setLovId(null != lov ? lov.getId() : -1);
-        }
+//        if (StringUtils.isNotBlank(qro.getLovCode())) {
+//            Lov lov = lovService.selectOneByCode(qro.getLovCode());
+//            qro.setLovId(null != lov ? lov.getId() : -1);
+//        }
         return lovValueMapper.selectOneByAll(qro);
     }
 

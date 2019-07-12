@@ -36,6 +36,7 @@ public class BlackListOncePreFilter extends OncePerRequestFilter {
             RiskBlackListService riskBlackListService = ContextHolder.getContext().getBean(RiskBlackListService.class);
             kieSession.setGlobal("riskBlackListService", riskBlackListService);
             RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent();
+            riskBlackIpEvent.setScene(httpServletRequest.getRequestURI());
             kieSession.execute(riskBlackIpEvent);
             ApiAssert.state(!riskBlackIpEvent.isBlack(), RiskCode.Message.BLACK_IP.code(), RiskCode.Message.BLACK_IP.i18nKey());
         }

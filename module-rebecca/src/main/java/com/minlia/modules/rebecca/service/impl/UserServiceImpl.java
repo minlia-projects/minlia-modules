@@ -168,7 +168,8 @@ public class UserServiceImpl implements UserService {
         kieSession.setGlobal("dimensionService", dimensionService);
         kieSession.setGlobal("userHistoryService", userHistoryService);
         ChangeCellphoneEvent changeCellphoneEvent = new ChangeCellphoneEvent();
-        changeCellphoneEvent.setScene("change_cellphone");
+        changeCellphoneEvent.setScene("NUM_MOBILE_CHANGE_6MTHS");
+        changeCellphoneEvent.setSceneValue(newCellphone);
         changeCellphoneEvent.setGuid(user.getGuid());
         changeCellphoneEvent.setCellphone(newCellphone);
         changeCellphoneEvent.setOperateTime(LocalDateTime.now());
@@ -196,7 +197,8 @@ public class UserServiceImpl implements UserService {
         kieSession.setGlobal("dimensionService", dimensionService);
         kieSession.setGlobal("userHistoryService", userHistoryService);
         ChangeEmailEvent changeEmailEvent = new ChangeEmailEvent();
-        changeEmailEvent.setScene("change_email");
+        changeEmailEvent.setScene("NUM_EMAIL_CHANGE_6MTHS");
+        changeEmailEvent.setSceneValue(newEmail);
         changeEmailEvent.setGuid(user.getGuid());
         changeEmailEvent.setEmail(newEmail);
         changeEmailEvent.setOperateTime(LocalDateTime.now());

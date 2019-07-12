@@ -86,13 +86,16 @@ public class RbacAuthenticationService implements AuthenticationService {
 
         //登陆IP
         RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
-        riskLoginEvent.setScene("account_login_ip");
+        riskLoginEvent.setScene("NUM_DIFF_IP_LOGIN_15MINS");
+        riskLoginEvent.setSceneValue(loginCredentials.getAccount());
         riskLoginEvent.setUsername(loginCredentials.getAccount());
         kieSession.execute(riskLoginEvent);
         ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.code(), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.i18nKey());
 
         //登陆失败
         RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
+        riskLoginEvent.setScene("MAX_NUM_ACCESS_15MINS");
+        riskLoginFailureEvent.setSceneValue(loginCredentials.getAccount());
         kieSession.execute(riskLoginFailureEvent);
         ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP);
 
@@ -119,25 +122,28 @@ public class RbacAuthenticationService implements AuthenticationService {
         if (null == user) {
             throw new UsernameNotFoundException("User not exists:");
         }
-        if (StringUtils.isNotBlank(password) && !encoder.matches(password, user.getPassword())) {
+
+        if (StringUtils.isNotBlank(password)) {
             //凭证有效期
             if (null != user.getCredentialsEffectiveDate() && user.getCredentialsEffectiveDate().isBefore(LocalDateTime.now())) {
                 throw new CredentialsExpiredException("登陆凭证已过期");
             }
 
-            //缓存登陆失败记录 TODO
-//            dimensionService.distinctCountWithRedisAndConfig(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
+            if (!encoder.matches(password, user.getPassword())) {
+                //缓存登陆失败记录 TODO
+//                dimensionService.distinctCountWithRedisAndConfig(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
 
-            //密码错误 锁定次数+1
-            user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);
-            //如果超过3次 直接锁定
-            if (user.getLockLimit() > 2) {
-                user.setLocked(true);
-                //1、按错误次数累加时间   2、错误3次锁定一天
-                user.setLockTime(LocalDateTime.now().plusMinutes((int) Math.pow(user.getLockLimit() - 3, 3)));
+                //密码错误 锁定次数+1
+                user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);
+                //如果超过3次 直接锁定
+                if (user.getLockLimit() > 2) {
+                    user.setLocked(true);
+                    //1、按错误次数累加时间   2、错误3次锁定一天
+                    user.setLockTime(LocalDateTime.now().plusMinutes((int) Math.pow(user.getLockLimit() - 3, 3)));
+                }
+                userService.update(user, UserUpdateTypeEcnum.PASSWORD_ERROR);
+                throw new AjaxBadCredentialsException("Password error", user.getLockLimit());
             }
-            userService.update(user, UserUpdateTypeEcnum.PASSWORD_ERROR);
-            throw new AjaxBadCredentialsException("Password error", user.getLockLimit());
         }
         if (StringUtils.isNotBlank(captcha)) {
             Code code;

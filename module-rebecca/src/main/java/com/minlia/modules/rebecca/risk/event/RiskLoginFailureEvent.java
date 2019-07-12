@@ -11,7 +11,7 @@ public class RiskLoginFailureEvent extends Event {
 
     public RiskLoginFailureEvent() {
         super();
-        this.setScene("login_failure");
+        this.setScene("MAX_NUM_ACCESS_15MINS");
     }
 
     public final static String ACCOUNT = "account";

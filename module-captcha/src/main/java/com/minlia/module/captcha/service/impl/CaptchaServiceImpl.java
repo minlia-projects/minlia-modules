@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
@@ -86,6 +85,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         Captcha captcha = this.save(cellphone, CaptchaMethodEnum.CELLPHONE);
 
         RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
+        riskCaptchaEvent.setSceneValue(cellphone);
         riskCaptchaEvent.setAccount(cellphone);
 
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
@@ -115,6 +115,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         Captcha captcha = this.save(email, CaptchaMethodEnum.EMAIL);
 
         RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
+        riskCaptchaEvent.setSceneValue(email);
         riskCaptchaEvent.setAccount(email);
 
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();

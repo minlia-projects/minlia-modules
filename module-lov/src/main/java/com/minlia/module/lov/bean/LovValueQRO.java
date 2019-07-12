@@ -29,7 +29,6 @@ public class LovValueQRO extends QueryRequest {
 
     private String lovCode;
 
-    private List<String> lovCodes;
 
     private Long parentId;
 
@@ -38,6 +37,8 @@ public class LovValueQRO extends QueryRequest {
      */
     @Size(max = 100)
     private String code;
+
+    private List<String> codes;
 
     /**
      * 名称

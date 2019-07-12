@@ -139,7 +139,7 @@ public class DimensionService {
         }
 
         //生成Redis键值
-        String key = String.format(RISK_KEY_FORMAT, event.getScene(), String.join("_", condDimensions), argsDimension, condDimensionsValue.toString());
+        String key = getRedisKey(event.getScene(), condDimensions, argsDimension, condDimensionsValue.toString());
 
         //max scope 当前时间
         String maxScope = dateTimeScore(event.getOperateTime());
@@ -154,6 +154,14 @@ public class DimensionService {
         return ret == null ? 0 : ret.intValue();
     }
 
+    /**
+     * 生成redis键值
+     *
+     * @param event
+     * @param condDimensions
+     * @param argsDimension
+     * @return
+     */
     public String getRedisKey(Event event, String[] condDimensions, String argsDimension) {
         //获取条件维度拼接值
         StringJoiner condDimensionsValue = new StringJoiner("_");
@@ -169,9 +177,11 @@ public class DimensionService {
         if (argsDimensionValue == null || "".equals(argsDimensionValue)) {
         }
 
-        //生成Redis键值
-        String key = String.format(RISK_KEY_FORMAT, event.getScene(), String.join("_", condDimensions), argsDimension, condDimensionsValue.toString());
-        return key;
+        return getRedisKey(event.getScene(), condDimensions, argsDimension, condDimensionsValue.toString());
+    }
+
+    public String getRedisKey(String scene, String[] condDimensions, String argsDimension, String condDimensionsValue) {
+        return String.format(RISK_KEY_FORMAT, scene.toLowerCase(), String.join("_", condDimensions), argsDimension, condDimensionsValue);
     }
 
     /**

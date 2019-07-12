@@ -44,6 +44,12 @@ public abstract class Event {
     private String scene;
 
     /**
+     * 场景值
+     */
+    @JsonIgnore
+    private String sceneValue;
+
+    /**
      * 风险等级
      */
     @JsonIgnore

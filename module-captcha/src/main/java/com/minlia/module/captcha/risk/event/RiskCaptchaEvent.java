@@ -8,7 +8,7 @@ public class RiskCaptchaEvent extends Event {
 
     public RiskCaptchaEvent() {
         super();
-        this.setScene("captcha_send");
+        this.setScene("NUM_OTP_30MINS");
     }
 
     public final static String ACCOUNT = "account";

@@ -6,6 +6,7 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.lov.bean.LovValueQRO;
+import com.minlia.module.lov.enntity.LovValue;
 import com.minlia.module.lov.servcie.LovValueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +44,7 @@ public class LovValueOpenEndpoint {
     public Response paginated(@RequestBody LovValueQRO qro) {
         qro.setDisFlag(false);
         qro.setDelFlag(false);
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
+        PageInfo<LovValue> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
         return Response.success(pageInfo);
     }
 

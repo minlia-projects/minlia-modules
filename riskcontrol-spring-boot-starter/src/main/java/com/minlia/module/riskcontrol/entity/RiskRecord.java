@@ -28,11 +28,11 @@ public class RiskRecord {
     @Column(nullable = false, columnDefinition = "VARCHAR(50) COMMENT '事件id'")
     private String eventId;
 
-    @Column(nullable = false, columnDefinition = "VARCHAR(500) COMMENT '规则'")
-    private String eventDetails;
-
     @Column(nullable = false, columnDefinition = "VARCHAR(50) COMMENT '场景'")
     private String scene;
+
+    @Column(nullable = true, columnDefinition = "VARCHAR(50) COMMENT '场景值'")
+    private String sceneValue;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(20) COMMENT '风险等级'")
@@ -41,10 +41,19 @@ public class RiskRecord {
     @Column(nullable = false, columnDefinition = "INT COMMENT '事件评分'")
     private int score;
 
+    @Column(nullable = true, columnDefinition = "INT COMMENT 'IP地址'")
+    private String ip;
+
     @Column(insertable = false, updatable = false, columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间'")
     private LocalDateTime dateTime;
 
     @Column(columnDefinition = "VARCHAR(500) COMMENT '详情'")
     private String details;
+
+    @Column(nullable = true, columnDefinition = "INT COMMENT '用户编号'")
+    private String guid;
+
+    @Column(nullable = false, columnDefinition = "VARCHAR(500) COMMENT '规则'")
+    private String eventDetails;
 
 }
