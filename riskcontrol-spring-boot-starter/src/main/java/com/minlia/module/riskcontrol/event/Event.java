@@ -67,6 +67,8 @@ public abstract class Event {
 
     private boolean isBlack;
 
+    private boolean matched;
+
 
     /****** TODO 以下扩展维度*****/
 

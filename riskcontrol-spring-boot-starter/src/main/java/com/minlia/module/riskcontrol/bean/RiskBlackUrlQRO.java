@@ -2,6 +2,7 @@ package com.minlia.module.riskcontrol.bean;
 
 import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.riskcontrol.entity.RiskBlackList;
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class RiskBlackUrlQRO extends QueryRequest {
     /**
      * 类型
      */
-    private RiskBlackList.EnumType type;
+    private RiskTypeEnum type;
 
 //    /**
 //     * 维度

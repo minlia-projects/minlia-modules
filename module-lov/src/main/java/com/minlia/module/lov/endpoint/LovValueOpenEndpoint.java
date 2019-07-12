@@ -11,6 +11,7 @@ import com.minlia.module.lov.servcie.LovValueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class LovValueOpenEndpoint {
     public Response list(@RequestBody LovValueQRO qro) {
         qro.setDisFlag(false);
         qro.setDelFlag(false);
+        qro.setLocale(LocaleContextHolder.getLocale().toString());
         return Response.success(lovValueService.selectByAll(qro));
     }
 
@@ -44,6 +46,7 @@ public class LovValueOpenEndpoint {
     public Response paginated(@RequestBody LovValueQRO qro) {
         qro.setDisFlag(false);
         qro.setDelFlag(false);
+        qro.setLocale(LocaleContextHolder.getLocale().toString());
         PageInfo<LovValue> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
         return Response.success(pageInfo);
     }

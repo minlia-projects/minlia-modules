@@ -4,6 +4,7 @@ import com.minlia.module.data.entity.AbstractEntity;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,12 +17,13 @@ public class LovValue extends AbstractEntity {
     @NotNull
     private Long lovId;
 
+    @Transient
     private String lovCode;
 
     /**
      * 父ID
      */
-    private Long parentId;
+    private String parentId;
 
     /**
      * 编码

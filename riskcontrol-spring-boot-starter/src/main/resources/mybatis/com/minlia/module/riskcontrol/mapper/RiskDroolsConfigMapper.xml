@@ -5,7 +5,6 @@
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="rule_key" jdbcType="VARCHAR" property="ruleKey"/>
-        <result column="value" jdbcType="VARCHAR" property="value"/>
         <result column="time" jdbcType="TIMESTAMP" property="time"/>
         <result column="dis_flag" jdbcType="BOOLEAN" property="disFlag"/>
         <result column="period_seconds" jdbcType="BIGINT" property="periodSeconds"/>
@@ -17,7 +16,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, rule_key, `value`, `time`, dis_flag, period_seconds, danger_threshold, warning_threshold,
+        id, rule_key, `time`, dis_flag, period_seconds, danger_threshold, warning_threshold,
         threshold_score, per_score, detail
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -39,9 +38,6 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="ruleKey != null">
                 rule_key,
-            </if>
-            <if test="value != null">
-                `value`,
             </if>
             <if test="time != null">
                 `time`,
@@ -71,9 +67,6 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="ruleKey != null">
                 #{ruleKey,jdbcType=VARCHAR},
-            </if>
-            <if test="value != null">
-                #{value,jdbcType=VARCHAR},
             </if>
             <if test="time != null">
                 #{time,jdbcType=TIMESTAMP},
@@ -107,9 +100,6 @@
         <set>
             <if test="ruleKey != null">
                 rule_key = #{ruleKey,jdbcType=VARCHAR},
-            </if>
-            <if test="value != null">
-                `value` = #{value,jdbcType=VARCHAR},
             </if>
             <if test="time != null">
                 `time` = #{time,jdbcType=TIMESTAMP},
@@ -150,9 +140,6 @@
         </if>
         <if test="ruleKey != null">
             and rule_key=#{ruleKey,jdbcType=VARCHAR}
-        </if>
-        <if test="value != null">
-            and `value`=#{value,jdbcType=VARCHAR}
         </if>
         <if test="detail != null">
             and detail=#{detail,jdbcType=VARCHAR}

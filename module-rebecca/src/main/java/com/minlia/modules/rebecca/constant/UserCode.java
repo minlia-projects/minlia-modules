@@ -15,7 +15,7 @@ public class UserCode {
 
     final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".user";
 
-    public enum Message implements Code{
+    public enum Message implements Code {
 
         /**
          * 用户未注册
@@ -31,6 +31,11 @@ public class UserCode {
          * 用户已存在
          */
         ALREADY_EXISTS,
+
+        /**
+         * 已禁用
+         */
+        ALREADY_DISABLED,
 
         /**
          * 推荐人不存在

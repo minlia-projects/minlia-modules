@@ -2,9 +2,11 @@ package com.minlia.modules.rebecca.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.bean.to.PasswordByAccountAndRawPasswordChangeTO;
@@ -14,7 +16,9 @@ import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.service.UserPasswordService;
 import com.minlia.modules.rebecca.service.UserQueryService;
 import com.minlia.modules.rebecca.service.UserService;
+import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.code.SecurityCode;
+import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import io.swagger.annotations.Api;
@@ -24,6 +28,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.regex.Pattern;
 
 /**
  * Created by will on 6/19/17.
@@ -66,18 +73,10 @@ public class ForgetPasswordEndpoint {
     @ApiOperation(value = "根据原密码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "raw", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response changePassword(@Valid @RequestBody PasswordByAccountAndRawPasswordChangeTO to) {
-        User user = null;
-        if (StringUtils.isNotBlank(to.getUsername())) {
-            user = userQueryService.queryOne(UserQO.builder().username(to.getUsername()).enabled(true).build());
-        }
-        if (StringUtils.isNotBlank(to.getCellphone())) {
-            user = userQueryService.queryOne(UserQO.builder().username(to.getCellphone()).enabled(true).build());
-        }
-        if (StringUtils.isNotBlank(to.getEmail())) {
-            user = userQueryService.queryOne(UserQO.builder().username(to.getEmail()).enabled(true).build());
-        }
 
+        User user = userQueryService.queryByUsernameOrCellphoneOrEmail(to.getUsername());
         ApiAssert.notNull(user, UserCode.Message.NOT_EXISTS);
+        ApiAssert.state(user.getEnabled(), UserCode.Message.ALREADY_DISABLED);
         ApiAssert.state(!(user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())), SecurityCode.Exception.AJAX_LOCKED, user.getLockTime());
 
         if (!encoder.matches(to.getRawPassword(), user.getPassword())) {
@@ -91,7 +90,7 @@ public class ForgetPasswordEndpoint {
             }
             userService.update(user, UserUpdateTypeEcnum.PASSWORD_ERROR);
 
-            return Response.failure(SecurityCode.Exception.AJAX_BAD_CREDENTIALS,null, user.getLockLimit().toString());
+            return Response.failure(SecurityCode.Exception.AJAX_BAD_CREDENTIALS, null, user.getLockLimit().toString());
         }
         userPasswordService.change(user, to.getNewPassword());
 

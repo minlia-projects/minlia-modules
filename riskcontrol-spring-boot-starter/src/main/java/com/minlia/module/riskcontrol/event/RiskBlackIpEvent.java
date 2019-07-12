@@ -10,4 +10,6 @@ public class RiskBlackIpEvent extends Event {
         setScene("black_ip");
     }
 
+
+
 }

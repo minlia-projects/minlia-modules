@@ -25,6 +25,6 @@
 //            riskRecordService.createEvent(event, details);
 //        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
 //            riskRecordService.createEvent(event, details);
-//            riskBlackListService.pub(RiskBlackList.builder().type(RiskBlackList.EnumType.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
+//            riskBlackListService.pub(RiskBlackList.builder().type(RiskBlackList.RiskTypeEnum.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
 //        }
 //end

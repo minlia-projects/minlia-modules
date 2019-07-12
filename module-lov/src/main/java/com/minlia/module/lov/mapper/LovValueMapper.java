@@ -24,6 +24,10 @@ public interface LovValueMapper {
 
     Long countById(@Param("id")Long id);
 
+    Long countByCode(@Param("code")String code);
+
+
+
     LovValue selectOneByAll(LovValueQRO qro);
 
     LovValue selectOneByCodeAndLovId(@Param("lovId")Long lovId, @Param("code")String code, @Param("locale")String locale);

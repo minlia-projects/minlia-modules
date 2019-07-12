@@ -1,8 +1,11 @@
 package com.minlia.module.lov.endpoint;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.lov.bean.LovValueQRO;
 import com.minlia.module.lov.enntity.LovValue;
 import com.minlia.module.lov.servcie.LovValueService;
 import io.swagger.annotations.Api;
@@ -46,7 +49,7 @@ public class LovValueEndpoint {
         return Response.success(lovValueService.disable(id));
     }
 
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.search')")
+    //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.search')")
 //    @ApiOperation(value = "ID查询", httpMethod = "GET")
 //    @GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public Response one(@PathVariable Long id) {
@@ -60,12 +63,12 @@ public class LovValueEndpoint {
 //        return Response.success(lovValueService.selectByAll(qro));
 //    }
 //
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.search')")
-//    @ApiOperation(value = "分页查询", httpMethod = "POST")
-//    @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response paginated(@RequestBody LovValueQRO qro) {
-//        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
-//        return Response.success(pageInfo);
-//    }
+    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.search')")
+    @ApiOperation(value = "分页查询", httpMethod = "POST")
+    @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response paginated(@RequestBody LovValueQRO qro) {
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
+        return Response.success(pageInfo);
+    }
 
 }

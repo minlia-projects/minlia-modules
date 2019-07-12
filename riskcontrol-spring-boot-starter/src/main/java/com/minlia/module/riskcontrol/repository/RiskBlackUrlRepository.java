@@ -1,6 +1,7 @@
 package com.minlia.module.riskcontrol.repository;
 
 import com.minlia.module.riskcontrol.entity.RiskBlackUrl;
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RiskBlackUrlRepository extends JpaRepository<RiskBlackUrl, Long> {
 
-    long countAllByTypeAndValue(RiskBlackUrl.EnumType type, String value);
+    long countAllByTypeAndValue(RiskTypeEnum type, String value);
 
-    boolean existsAllByTypeAndValue(RiskBlackUrl.EnumType type, String value);
+    boolean existsAllByTypeAndValue(RiskTypeEnum type, String value);
 
 }

@@ -23,6 +23,11 @@ public class RiskCode {
         BLACK_IP,
 
         /**
+         * 不允许的IP范围
+         */
+        BLACK_IP_SCOPE,
+
+        /**
          * 同一个帐户15分钟内使用不同的IP登录系统
          */
         SAME_ACCOUNT_DIFFERENT_LOGIN_IP;

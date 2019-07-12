@@ -14,14 +14,17 @@ import org.hibernate.validator.constraints.NotBlank;
 @Data
 public class PasswordByAccountAndRawPasswordChangeTO extends PasswordChangeTO {
 
-    @Username
+//    @Username
+//    private String username;
+//
+//    @Cellphone
+//    private String cellphone;
+//
+//    @Email
+//    private String email;
+
+    @NotBlank
     private String username;
-
-    @Cellphone
-    private String cellphone;
-
-    @Email
-    private String email;
 
     /**
      * 原密码

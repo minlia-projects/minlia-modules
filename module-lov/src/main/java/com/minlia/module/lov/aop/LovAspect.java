@@ -19,7 +19,7 @@ public class LovAspect {
     @Before(value = "selectPointcut()")
     public void beforeMethod(JoinPoint joinPoint) {
         LovValueQRO qro = (LovValueQRO) joinPoint.getArgs()[0];
-        qro.setLocale(LocaleContextHolder.getLocale().toString());
+//        qro.setLocale(LocaleContextHolder.getLocale().toString());
 
         if (StringUtils.isBlank(qro.getSortsStr())) {
             qro.setSortsStr("sort.ASC");

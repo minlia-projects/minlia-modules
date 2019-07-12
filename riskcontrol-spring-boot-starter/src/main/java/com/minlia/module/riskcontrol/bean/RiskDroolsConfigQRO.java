@@ -24,8 +24,6 @@ public class RiskDroolsConfigQRO extends QueryRequest {
 
     private String ruleKey;
 
-    private String value;
-
     private String detail;
 
     private LocalDateTime time;

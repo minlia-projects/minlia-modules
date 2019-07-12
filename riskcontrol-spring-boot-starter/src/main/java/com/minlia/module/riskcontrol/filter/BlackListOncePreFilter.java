@@ -4,10 +4,12 @@ import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.riskcontrol.constant.RiskCode;
-import com.minlia.module.riskcontrol.entity.RiskBlackUrl;
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import com.minlia.module.riskcontrol.event.RiskBlackIpEvent;
+import com.minlia.module.riskcontrol.event.RiskIpScopeEvent;
 import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
+import com.minlia.module.riskcontrol.service.RiskIpListService;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -27,12 +29,19 @@ public class BlackListOncePreFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
 
-        System.out.println(httpServletRequest.getServletPath());
+        //IP范围
+        RiskIpListService riskIpListService = ContextHolder.getContext().getBean(RiskIpListService.class);
+        kieSession.setGlobal("riskIpListService", riskIpListService);
+        RiskIpScopeEvent riskIpScopeEvent = new RiskIpScopeEvent();
+        riskIpScopeEvent.setSceneValue(riskIpScopeEvent.getIp());
+        kieSession.execute(riskIpScopeEvent);
+        ApiAssert.state(riskIpScopeEvent.isMatched(), RiskCode.Message.BLACK_IP_SCOPE.code(), RiskCode.Message.BLACK_IP_SCOPE.i18nKey());
 
+        //黑名单
         RiskBlackUrlService riskBlackUrlService = ContextHolder.getContext().getBean(RiskBlackUrlService.class);
-        if (!riskBlackUrlService.contain(RiskBlackUrl.EnumType.WHITE, httpServletRequest.getRequestURI())) {
-            StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+        if (!riskBlackUrlService.contain(RiskTypeEnum.WHITE, httpServletRequest.getRequestURI())) {
             RiskBlackListService riskBlackListService = ContextHolder.getContext().getBean(RiskBlackListService.class);
             kieSession.setGlobal("riskBlackListService", riskBlackListService);
             RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent();

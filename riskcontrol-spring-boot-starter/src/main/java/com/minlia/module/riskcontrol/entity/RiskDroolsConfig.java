@@ -28,9 +28,6 @@ public class RiskDroolsConfig {
     @Column(unique = true, columnDefinition = "VARCHAR(200) NOT NULL COMMENT '规则键值'")
     private String ruleKey;
 
-    @Column(nullable = false)
-    private String value;
-
     @Column(columnDefinition = "VARCHAR(200) COMMENT '详情'")
     private String detail;
 

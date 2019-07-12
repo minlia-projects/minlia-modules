@@ -3,6 +3,7 @@ package com.minlia.module.riskcontrol.service;
 import com.alibaba.fastjson.JSON;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskBlackUrl;
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import com.minlia.module.riskcontrol.repository.RiskBlackUrlRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,11 +104,11 @@ public class RiskBlackUrlService {
      * @param value
      * @return
      */
-    public boolean exists(RiskBlackUrl.EnumType type, String value) {
+    public boolean exists(RiskTypeEnum type, String value) {
         return riskBlackUrlRepository.exists(Example.of(RiskBlackUrl.builder().type(type).type(type).value(value).build()));
     }
 
-    public boolean contain(RiskBlackUrl.EnumType enumType, String value) {
+    public boolean contain(RiskTypeEnum enumType, String value) {
         RiskBlackUrl riskBlackUrl = blackListMap.get(value);
         if (null != riskBlackUrl) {
             return riskBlackUrl.getType().equals(enumType);

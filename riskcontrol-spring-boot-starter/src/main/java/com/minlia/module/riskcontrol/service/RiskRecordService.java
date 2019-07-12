@@ -1,6 +1,8 @@
 package com.minlia.module.riskcontrol.service;
 
 import com.alibaba.fastjson.JSON;
+import com.minlia.cloud.code.Code;
+import com.minlia.cloud.i18n.Lang;
 import com.minlia.module.riskcontrol.entity.RiskRecord;
 import com.minlia.module.riskcontrol.event.Event;
 import com.minlia.module.riskcontrol.repository.RiskEventListRepository;
@@ -44,6 +46,18 @@ public class RiskRecordService {
     public void createEvent(Event event, String details) {
         RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
         riskRecord.setDetails(details);
+        riskRecord.setEventDetails(JSON.toJSONString(event));
+        riskEventListRepository.save(riskRecord);
+    }
+
+    /**
+     * 创建
+     *
+     * @param event
+     */
+    public void createEvent(Event event, Code code, String... args) {
+        RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
+        riskRecord.setDetails(code.message(args));
         riskRecord.setEventDetails(JSON.toJSONString(event));
         riskEventListRepository.save(riskRecord);
     }

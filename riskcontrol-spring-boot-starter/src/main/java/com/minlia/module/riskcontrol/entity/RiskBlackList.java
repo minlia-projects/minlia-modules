@@ -1,5 +1,6 @@
 package com.minlia.module.riskcontrol.entity;
 
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class RiskBlackList {
 
     @Enumerated(value = javax.persistence.EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(20) COMMENT '类型'")
-    private EnumType type;
+    private RiskTypeEnum type;
 
     @Enumerated(value = javax.persistence.EnumType.STRING)
     @Column(nullable = false, columnDefinition = "VARCHAR(20) COMMENT '维度'")
@@ -49,15 +50,6 @@ public class RiskBlackList {
         EMAIIL,
         IP,
         DEVICEID;
-    }
-
-    /**
-     * 类型枚举
-     */
-    public static enum EnumType {
-        BLACK,
-        WHITE,
-        GRAY;
     }
 
 }

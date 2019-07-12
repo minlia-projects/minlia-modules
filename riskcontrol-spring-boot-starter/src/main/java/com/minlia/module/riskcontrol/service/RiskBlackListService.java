@@ -3,6 +3,7 @@ package com.minlia.module.riskcontrol.service;
 import com.alibaba.fastjson.JSON;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskBlackList;
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import com.minlia.module.riskcontrol.repository.RiskBlackListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,11 +105,11 @@ public class RiskBlackListService {
      * @param value
      * @return
      */
-    public boolean exists(RiskBlackList.EnumDimension dimension, RiskBlackList.EnumType type, String value) {
+    public boolean exists(RiskBlackList.EnumDimension dimension, RiskTypeEnum type, String value) {
         return riskBlackListRepository.exists(Example.of(RiskBlackList.builder().dimension(dimension).type(type).value(value).build()));
     }
 
-    public boolean contain(RiskBlackList.EnumDimension enumDimension, RiskBlackList.EnumType enumType, String value) {
+    public boolean contain(RiskBlackList.EnumDimension enumDimension, RiskTypeEnum enumType, String value) {
         RiskBlackList riskBlackList1 = blackListMap.get(value);
         return riskBlackList1 == null ? false : (riskBlackList1.getDimension().equals(enumDimension) && riskBlackList1.getType().equals(enumType));
     }

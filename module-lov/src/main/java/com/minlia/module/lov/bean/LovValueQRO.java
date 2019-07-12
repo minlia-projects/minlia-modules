@@ -30,7 +30,7 @@ public class LovValueQRO extends QueryRequest {
     private String lovCode;
 
 
-    private Long parentId;
+    private String parentId;
 
     /**
      * 编码
