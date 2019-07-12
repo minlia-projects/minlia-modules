@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "System Risk Record", description = "风控-记录")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "risk/record")
+@RequestMapping(value = ApiPrefix.V1 + "risk/record")
 public class RiskRecordEndpoint {
-
-    @Autowired
-    private Mapper mapper;
 
     @Autowired
     private RiskRecordService riskRecordService;
@@ -43,7 +40,7 @@ public class RiskRecordEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskRecordQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(mapper.map(qro, RiskRecord.class)));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
         return Response.success(pageInfo);
     }
 

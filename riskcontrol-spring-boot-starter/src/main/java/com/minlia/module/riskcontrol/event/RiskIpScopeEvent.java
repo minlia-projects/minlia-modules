@@ -7,7 +7,7 @@ public class RiskIpScopeEvent extends Event {
 
     public RiskIpScopeEvent() {
         super();
-        setScene("IP_SCOPE");
+        setScene("APP_OUT_SET_IP");
     }
 
 }

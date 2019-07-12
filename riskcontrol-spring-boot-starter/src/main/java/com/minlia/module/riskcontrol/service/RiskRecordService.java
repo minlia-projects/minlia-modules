@@ -1,11 +1,14 @@
 package com.minlia.module.riskcontrol.service;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.Code;
-import com.minlia.cloud.i18n.Lang;
+import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
 import com.minlia.module.riskcontrol.entity.RiskRecord;
 import com.minlia.module.riskcontrol.event.Event;
-import com.minlia.module.riskcontrol.repository.RiskEventListRepository;
+import com.minlia.module.riskcontrol.mapper.RiskRecordMapper;
+import com.minlia.module.riskcontrol.repository.RiskRecordRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +30,10 @@ public class RiskRecordService {
     private Mapper mapper;
 
     @Autowired
-    private RiskEventListRepository riskEventListRepository;
+    private RiskRecordMapper riskRecordMapper;
+
+    @Autowired
+    private RiskRecordRepository riskRecordRepository;
 
     /**
      * 创建
@@ -47,7 +53,7 @@ public class RiskRecordService {
         RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
         riskRecord.setDetails(details);
         riskRecord.setEventDetails(JSON.toJSONString(event));
-        riskEventListRepository.save(riskRecord);
+        riskRecordRepository.save(riskRecord);
     }
 
     /**
@@ -59,19 +65,24 @@ public class RiskRecordService {
         RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
         riskRecord.setDetails(code.message(args));
         riskRecord.setEventDetails(JSON.toJSONString(event));
-        riskEventListRepository.save(riskRecord);
+        riskRecordRepository.save(riskRecord);
     }
 
     public RiskRecord queryById(Long id) {
-        return riskEventListRepository.findOne(id);
+        return riskRecordRepository.findOne(id);
     }
 
     public List<RiskRecord> queryAll() {
-        return riskEventListRepository.findAll();
+        return riskRecordRepository.findAll();
     }
 
     public List<RiskRecord> queryAll(RiskRecord riskRecord) {
-        return riskEventListRepository.findAll(Example.of(riskRecord));
+        return riskRecordRepository.findAll(Example.of(riskRecord));
+    }
+
+    public PageInfo<RiskRecord> queryPage(RiskRecordQRO qro) {
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
+        return pageInfo;
     }
 
 }

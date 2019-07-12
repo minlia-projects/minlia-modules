@@ -181,17 +181,22 @@ public class RSAEncryptUtil {
 //        System.out.println(s);
 
 
-//        RSA rsa = new RSA(PRIVATE_KEY, PUBLIC_KEY);
-//        //公钥加密，私钥解密
+        RSA rsa = new RSA(PRIVATE_KEY, PUBLIC_KEY);
+        //公钥加密，私钥解密
 //        byte[] encrypt = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PublicKey);
 //        byte[] decrypt = rsa.decrypt(encrypt, KeyType.PrivateKey);
 //        System.out.println(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
 //        System.out.println(TEST_CONTENT.length());
-//
-//        //私钥加密，公钥解密
+
+        //私钥加密，公钥解密
 //        byte[] encrypt2 = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PrivateKey);
 //        byte[] decrypt2 = rsa.decrypt(encrypt2, KeyType.PublicKey);
 //        System.out.println(StrUtil.str(decrypt2, CharsetUtil.CHARSET_UTF_8));
+
+
+        String encryptS = "TQ+/HLAHDbHHzSZBdmoqh1/tlXSgZm77HSCd8gtrjMG6vCLTyu0q7kff07YnHOnAAblKtoE/z1PWjYtvfv4RSlEcKUwbUp1U5HpdCYxdVvndYTR40elE1vzA6dTxKRCQCCuhNiAGrtQyUEWDQkElo7wcXMkiBTH/EpFs3/d4x8M=";
+        System.out.println(decrypt(encryptS, PRIVATE_KEY));
+
     }
 
 //    public static String jsonSortToString(String jsonStr, String joiner, String... ignores) {

@@ -65,6 +65,11 @@ public abstract class Event {
      */
     private LocalDateTime operateTime;
 
+    /**
+     * 详情
+     */
+    private String details;
+
     private boolean isBlack;
 
     private boolean matched;

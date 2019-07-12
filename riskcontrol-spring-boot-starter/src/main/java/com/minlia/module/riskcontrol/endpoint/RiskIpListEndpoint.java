@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Api(tags = "System Risk Ip List", description = "风控-IP List")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "risk/ip/list")
+@RequestMapping(value = ApiPrefix.V1 + "risk/ip/list")
 public class RiskIpListEndpoint {
 
     @Autowired

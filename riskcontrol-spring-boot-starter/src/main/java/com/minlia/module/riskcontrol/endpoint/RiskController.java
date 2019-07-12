@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "System Risk Test", description = "测试")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "riskcontrol")
+@RequestMapping(value = ApiPrefix.V1 + "riskcontrol")
 @Profile("dev")
 public class RiskController {
 

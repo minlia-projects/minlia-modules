@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Api(tags = "System Risk Black Url", description = "风控-黑名单-URL")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "risk/black/url")
+@RequestMapping(value = ApiPrefix.V1 + "risk/black/url")
 public class RiskBlackUrlEndpoint {
 
     @Autowired

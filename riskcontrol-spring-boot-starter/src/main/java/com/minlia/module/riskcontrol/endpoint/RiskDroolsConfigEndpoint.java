@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Api(tags = "System Risk Drools Config", description = "风控-引擎规则配置")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "risk/drools/config")
+@RequestMapping(value = ApiPrefix.V1 + "risk/drools/config")
 public class RiskDroolsConfigEndpoint {
 
     @Autowired

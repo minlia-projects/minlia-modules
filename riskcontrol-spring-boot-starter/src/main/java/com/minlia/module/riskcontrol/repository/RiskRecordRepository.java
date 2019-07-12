@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019/6/26 5:07 PM
  */
 @Repository
-public interface RiskEventListRepository extends JpaRepository<RiskRecord, Long> {
+public interface RiskRecordRepository extends JpaRepository<RiskRecord, Long> {
 
 }

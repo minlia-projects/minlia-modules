@@ -1,5 +1,6 @@
 package com.minlia.module.riskcontrol.service;
 
+import com.google.common.collect.Lists;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import com.minlia.module.riskcontrol.repository.RiskConfigRepository;
@@ -47,11 +48,11 @@ public class RiskDroolsConfigService {
     }
 
     public void updateCache() {
-        List<RiskDroolsConfig> configs = riskConfigRepository.findAllByDisFlag(false);
+//        List<RiskDroolsConfig> configs = riskConfigRepository.findAllByDisFlag(false);
         Map<String, RiskDroolsConfig> tempMap = new ConcurrentHashMap<>();
-        for (RiskDroolsConfig config : configs) {
-            tempMap.put(config.getRuleKey(), config);
-        }
+//        for (RiskDroolsConfig config : configs) {
+//            tempMap.put(config.getRuleKey(), config);
+//        }
         configMap = tempMap;
         log.info("配置缓存更新成功");
     }
