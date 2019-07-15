@@ -25,7 +25,7 @@ rule "999_all_black_ip"
     then
         if (StringUtils.isNotBlank(event.getIp())) {
             boolean exists = riskBlackListService.contain(RiskBlackList.EnumDimension.IP, RiskTypeEnum.BLACK, event.getIp());
-            event.setBlack(exists);
+            event.setMatched(exists);
             if (exists) {
                 event.setLevel(RiskLevelEnum.DANGER);
                 riskRecordService.createEvent(event, RiskCode.Message.BLACK_IP);

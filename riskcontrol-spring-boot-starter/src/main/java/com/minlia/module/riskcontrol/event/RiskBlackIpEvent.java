@@ -5,9 +5,10 @@ import lombok.Data;
 @Data
 public class RiskBlackIpEvent extends Event {
 
-    public RiskBlackIpEvent() {
+    public RiskBlackIpEvent(String sceneValue) {
         super();
-        setScene("black_ip");
+        setScene("BLACK_IP");
+        setSceneValue(sceneValue);
     }
 
 }

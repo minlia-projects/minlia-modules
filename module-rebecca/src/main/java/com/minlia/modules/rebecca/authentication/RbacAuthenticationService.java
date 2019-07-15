@@ -1,17 +1,19 @@
 package com.minlia.modules.rebecca.authentication;
 
 import com.minlia.cloud.code.Code;
+import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.util.RequestIpUtils;
-import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.riskcontrol.constant.RiskCode;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
+import com.minlia.module.riskcontrol.event.RiskBlackIpEvent;
+import com.minlia.module.riskcontrol.event.RiskIpScopeEvent;
 import com.minlia.module.riskcontrol.service.DimensionService;
 import com.minlia.module.riskcontrol.service.KieService;
-import com.minlia.module.riskcontrol.service.RiskBlackListService;
-import com.minlia.module.riskcontrol.service.RiskRecordService;
+import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.constant.UserCode;
@@ -29,9 +31,9 @@ import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.exception.DefaultAuthenticationException;
 import com.minlia.modules.security.model.UserContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AccountExpiredException;
@@ -45,6 +47,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -53,6 +57,7 @@ import java.time.temporal.ChronoUnit;
  * Created by will on 8/14/17.
  * 框架提供的抽象认证实现
  */
+@Slf4j
 @Component
 @Primary
 public class RbacAuthenticationService implements AuthenticationService {
@@ -69,10 +74,6 @@ public class RbacAuthenticationService implements AuthenticationService {
     private BCryptPasswordEncoder encoder;
     @Autowired
     private DimensionService dimensionService;
-    @Autowired
-    private RiskRecordService riskRecordService;
-    @Autowired
-    private RiskBlackListService riskBlackListService;
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -84,6 +85,23 @@ public class RbacAuthenticationService implements AuthenticationService {
 //        kieSession.setGlobal("riskBlackListService", riskBlackListService);
 //        kieSession.setGlobal("riskRecordService", riskRecordService);
 //        kieSession.setGlobal("dimensionService", dimensionService);
+
+        //IP范围
+        RiskIpScopeEvent riskIpScopeEvent = new RiskIpScopeEvent();
+        riskIpScopeEvent.setSceneValue(riskIpScopeEvent.getIp());
+        KieService.execute(riskIpScopeEvent);
+        ApiAssert.state(riskIpScopeEvent.isMatched(), RiskCode.Message.BLACK_IP_SCOPE.code(), RiskCode.Message.BLACK_IP_SCOPE.i18nKey());
+
+        //黑名单IP
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        log.info("请求地址：{}", requestAttributes.getRequest().getRequestURI());
+        RiskBlackUrlService riskBlackUrlService = ContextHolder.getContext().getBean(RiskBlackUrlService.class);
+        if (!riskBlackUrlService.contain(RiskTypeEnum.WHITE, requestAttributes.getRequest().getRequestURI())) {
+            RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent();
+            riskBlackIpEvent.setScene(requestAttributes.getRequest().getRequestURI());
+            KieService.execute(riskBlackIpEvent);
+            ApiAssert.state(!riskBlackIpEvent.isBlack(), RiskCode.Message.BLACK_IP.code(), RiskCode.Message.BLACK_IP.i18nKey());
+        }
 
         //登陆IP
         RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
@@ -169,14 +187,11 @@ public class RbacAuthenticationService implements AuthenticationService {
             //清除缓存登陆失败记录 TODO
             dimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
 
-            //获取请求IP地址
-            String ipAddress = RequestIpUtils.getClientIP();
-
             //更新用户信息
             user.setLocked(Boolean.FALSE);
             user.setLockLimit(NumberUtils.INTEGER_ZERO);
             user.setLastLoginTime(LocalDateTime.now());
-            user.setLastLoginIp(ipAddress);
+            user.setLastLoginIp(RequestIpUtils.getClientIP());
             userMapper.update(user);
 
             //获取用户上下文

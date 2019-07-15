@@ -36,7 +36,7 @@ public abstract class Event {
      * 事件id
      */
     @JsonIgnore
-    private String eventId;
+    private String eventId = UUID.randomUUID().toString();
 
     /**
      * 场景
@@ -70,14 +70,12 @@ public abstract class Event {
     /**
      * 操作时间
      */
-    private LocalDateTime operateTime;
+    private LocalDateTime operateTime = LocalDateTime.now();
 
     /**
      * 详情
      */
     private String details;
-
-    private boolean isBlack;
 
     private boolean matched;
 
@@ -87,7 +85,7 @@ public abstract class Event {
     /**
      * IP
      */
-    private String ip;
+    private String ip = RequestIpUtils.getClientIP();
 
     /**
      * 手机号段
@@ -104,10 +102,7 @@ public abstract class Event {
      */
     private String operateIpArea;
 
-    public Event() {
-        operateTime = LocalDateTime.now();
-        eventId = UUID.randomUUID().toString();
-        ip = RequestIpUtils.getClientIP();
+    Event() {
     }
 
     /**
