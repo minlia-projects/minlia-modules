@@ -8,6 +8,7 @@ import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.module.data.util.SequenceUtils;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.KieService;
 import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.modules.rebecca.bean.domain.Role;
@@ -162,18 +163,13 @@ public class UserServiceImpl implements UserService {
         //正则校验
         ApiAssert.state(Pattern.matches(minliaValidProperties.getCellphone(), newCellphone), CommonCode.Message.CELLPHONE_FORMAT_ERROR);
 
-        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-        kieSession.setGlobal("riskBlackListService", riskBlackListService);
-        kieSession.setGlobal("riskRecordService", riskRecordService);
-        kieSession.setGlobal("dimensionService", dimensionService);
-        kieSession.setGlobal("userHistoryService", userHistoryService);
         ChangeCellphoneEvent changeCellphoneEvent = new ChangeCellphoneEvent();
         changeCellphoneEvent.setScene("NUM_MOBILE_CHANGE_6MTHS");
         changeCellphoneEvent.setSceneValue(newCellphone);
         changeCellphoneEvent.setGuid(user.getGuid());
         changeCellphoneEvent.setCellphone(newCellphone);
-        changeCellphoneEvent.setOperateTime(LocalDateTime.now());
-        kieSession.execute(changeCellphoneEvent);
+        changeCellphoneEvent.setCount(userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_CELLPHONE, user.getGuid(), LocalDateTime.now().minusMonths(6)));
+        KieService.execute(changeCellphoneEvent);
 
         //检查手机号码是否存在
         ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(newCellphone).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
@@ -191,18 +187,13 @@ public class UserServiceImpl implements UserService {
         //正则校验
         ApiAssert.state(Pattern.matches(minliaValidProperties.getEmail(), newEmail), CommonCode.Message.EMAIL_FORMAT_ERROR);
 
-        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-        kieSession.setGlobal("riskBlackListService", riskBlackListService);
-        kieSession.setGlobal("riskRecordService", riskRecordService);
-        kieSession.setGlobal("dimensionService", dimensionService);
-        kieSession.setGlobal("userHistoryService", userHistoryService);
         ChangeEmailEvent changeEmailEvent = new ChangeEmailEvent();
         changeEmailEvent.setScene("NUM_EMAIL_CHANGE_6MTHS");
         changeEmailEvent.setSceneValue(newEmail);
         changeEmailEvent.setGuid(user.getGuid());
         changeEmailEvent.setEmail(newEmail);
-        changeEmailEvent.setOperateTime(LocalDateTime.now());
-        kieSession.execute(changeEmailEvent);
+        changeEmailEvent.setCount(userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_EMAIL, user.getGuid(), LocalDateTime.now().minusMonths(6)));
+        KieService.execute(changeEmailEvent);
 
         //检查邮箱是否存在
         ApiAssert.state(!userQueryService.exists(UserQO.builder().email(newEmail).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);

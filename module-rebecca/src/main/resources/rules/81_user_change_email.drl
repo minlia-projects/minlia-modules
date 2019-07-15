@@ -1,18 +1,14 @@
 package rules;
 
 import com.minlia.modules.rebecca.risk.event.ChangeEmailEvent
-import com.minlia.modules.rebecca.service.UserHistoryService
 
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.cloud.utils.ApiAssert
-import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum
-import java.time.LocalDateTime
 import com.minlia.modules.rebecca.constant.UserCode
 
 global DimensionService dimensionService
-global UserHistoryService userHistoryService;
 global RiskRecordService riskRecordService
 
 rule "80_user_change_email"
@@ -21,12 +17,11 @@ rule "80_user_change_email"
     when
         event:ChangeEmailEvent()
     then
-        long count  = userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_EMAIL, event.getGuid(), LocalDateTime.now().minusMonths(6));
-        RiskLevelEnum riskLevel = dimensionService.calculationLevelWithConfig(event, count);
+        RiskLevelEnum riskLevel = dimensionService.calculationLevelWithConfig(event, event.getCount());
         if(!riskLevel.equals(RiskLevelEnum.NORMAL)) {
-            riskRecordService.createEvent(event, UserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, count);
+            riskRecordService.createEvent(event, UserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, event.getCount());
             if (riskLevel.equals(RiskLevelEnum.DANGER)) {
-                ApiAssert.state(false, UserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, count);
+                ApiAssert.state(false, UserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, event.getCount());
             }
         }
 end
