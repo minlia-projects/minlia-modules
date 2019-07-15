@@ -15,7 +15,7 @@ import redis.clients.jedis.JedisPubSub;
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,7 +24,7 @@ public class RiskIpListService {
 
     private String channel = this.getClass().getName();
 
-    private Map<String, RiskIpList> blackListMap;
+    private Map<Long, RiskIpList> blackListMap;
 
     @Autowired
     private RedisDao redisDao;
@@ -59,11 +59,7 @@ public class RiskIpListService {
 
     public void updateCache() {
         List<RiskIpList> riskIpLists = riskIpListRepository.findAllByDisFlag(false);
-        Map<String, RiskIpList> tempMap = new ConcurrentHashMap<>();
-        for (RiskIpList riskIpList : riskIpLists) {
-            tempMap.put(riskIpList.getId().toString(), riskIpList);
-        }
-        blackListMap = tempMap;
+        blackListMap = riskIpLists.stream().collect(Collectors.toConcurrentMap(RiskIpList::getId, Function.identity()));
         log.info("黑名单缓存更新成功");
     }
 
@@ -107,7 +103,7 @@ public class RiskIpListService {
 
     public boolean contain(RiskTypeEnum enumType, String ip) {
         Long ipNumber = ipToNumber(ip);
-        for (Map.Entry<String, RiskIpList> entry : blackListMap.entrySet()) {
+        for (Map.Entry<Long, RiskIpList> entry : blackListMap.entrySet()) {
             if (entry.getValue().getType().equals(enumType) && ipNumber >= entry.getValue().getStart() && ipNumber <= entry.getValue().getEnd()) {
                 return true;
             }

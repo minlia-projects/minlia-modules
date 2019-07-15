@@ -24,8 +24,6 @@ import java.util.List;
 @Service
 public class RiskRecordService {
 
-    private String channel = this.getClass().getName();
-
     @Autowired
     private Mapper mapper;
 

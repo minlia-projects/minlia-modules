@@ -3,6 +3,7 @@ package com.minlia.module.riskcontrol.service;
 import com.alibaba.fastjson.JSON;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskBlackList;
+import com.minlia.module.riskcontrol.entity.RiskBlackUrl;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import com.minlia.module.riskcontrol.repository.RiskBlackListRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -58,11 +60,7 @@ public class RiskBlackListService {
 
     public void updateCache() {
         List<RiskBlackList> riskBlackLists = riskBlackListRepository.findAll();
-        Map<String, RiskBlackList> tempMap = new ConcurrentHashMap<>();
-        for (RiskBlackList riskBlackList : riskBlackLists) {
-            tempMap.put(riskBlackList.getValue(), riskBlackList);
-        }
-        blackListMap = tempMap;
+        blackListMap = riskBlackLists.stream().collect(Collectors.toConcurrentMap(RiskBlackList::getValue, Function.identity()));
         log.info("黑名单缓存更新成功");
     }
 

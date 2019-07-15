@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -48,12 +49,8 @@ public class RiskDroolsConfigService {
     }
 
     public void updateCache() {
-//        List<RiskDroolsConfig> configs = riskConfigRepository.findAllByDisFlag(false);
-        Map<String, RiskDroolsConfig> tempMap = new ConcurrentHashMap<>();
-//        for (RiskDroolsConfig config : configs) {
-//            tempMap.put(config.getRuleKey(), config);
-//        }
-        configMap = tempMap;
+        List<RiskDroolsConfig> configs = riskConfigRepository.findAllByDisFlag(false);
+        configMap = configs.stream().collect(Collectors.toConcurrentMap(RiskDroolsConfig::getRuleKey, Function.identity()));
         log.info("配置缓存更新成功");
     }
 

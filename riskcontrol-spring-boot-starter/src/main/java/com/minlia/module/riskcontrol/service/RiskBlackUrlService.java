@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.JedisPubSub;
 
 import javax.annotation.PostConstruct;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -58,11 +61,7 @@ public class RiskBlackUrlService {
 
     public void updateCache() {
         List<RiskBlackUrl> riskBlackUrls = riskBlackUrlRepository.findAll();
-        Map<String, RiskBlackUrl> tempMap = new ConcurrentHashMap<>();
-        for (RiskBlackUrl riskBlackUrl : riskBlackUrls) {
-            tempMap.put(riskBlackUrl.getValue(), riskBlackUrl);
-        }
-        blackListMap = tempMap;
+        blackListMap = riskBlackUrls.stream().collect(Collectors.toConcurrentMap(RiskBlackUrl::getValue, Function.identity()));
         log.info("黑名单缓存更新成功");
     }
 
