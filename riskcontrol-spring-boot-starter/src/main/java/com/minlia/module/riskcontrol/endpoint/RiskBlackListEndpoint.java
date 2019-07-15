@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @Api(tags = "System Risk Black List", description = "风控-黑名单")
 @RestController
-@RequestMapping(value = ApiPrefix.V1 + "risk/blacklist")
+@RequestMapping(value = ApiPrefix.V1 + "risk/black/list")
 public class RiskBlackListEndpoint {
 
     @Autowired
@@ -34,7 +34,7 @@ public class RiskBlackListEndpoint {
     private RiskBlackListMapper riskBlackListMapper;
 
     @AuditLog(value = "save fraud black list")
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SAVE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SAVE + "')")
     @ApiOperation(value = "保存")
     @PostMapping(value = "")
     public Response save(@Valid @RequestBody RiskBlackList riskBlackList) {
@@ -43,7 +43,7 @@ public class RiskBlackListEndpoint {
     }
 
     @AuditLog(value = "reset fraud black list")
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_RESET + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_RESET + "')")
     @ApiOperation(value = "重置")
     @PostMapping(value = "reset")
     public Response reset() {
@@ -52,7 +52,7 @@ public class RiskBlackListEndpoint {
     }
 
     @AuditLog(value = "delete fraud black list by id")
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_DELETE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_DELETE + "')")
     @ApiOperation(value = "ID删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
@@ -61,22 +61,23 @@ public class RiskBlackListEndpoint {
     }
 
     @AuditLog(value = "query fraud black list by id")
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
     public Response queryById(@PathVariable Long id) {
         return Response.success(riskBlackListService.queryById(id));
     }
 
-    @AuditLog(value = "query fraud black list ")
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SEARCH + "')")
+    @AuditLog(value = "query fraud black list by all")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SEARCH + "')")
     @ApiOperation(value = "查询所有")
     @GetMapping(path = "all")
     public Response all() {
         return Response.success(riskBlackListService.getAll());
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLANK_LIST_SEARCH + "')")
+    @AuditLog(value = "query fraud black list as paginated")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskBlackListQRO qro) {

@@ -4,14 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
-import com.minlia.module.riskcontrol.entity.RiskRecord;
+import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.mapper.RiskRecordMapper;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "System Risk Record", description = "风控-记录")
@@ -25,18 +26,22 @@ public class RiskRecordEndpoint {
     @Autowired
     private RiskRecordMapper riskRecordMapper;
 
-    @ApiOperation(value = "查询所有")
-    @GetMapping(path = "all")
-    public Response all() {
-        return Response.success(riskRecordService.queryAll());
-    }
+//    @ApiOperation(value = "查询所有")
+//    @GetMapping(path = "all")
+//    public Response all() {
+//        return Response.success(riskRecordService.queryAll());
+//    }
 
+    @AuditLog(value = "query fraud record by id")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.RECORD_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
     public Response queryById(@PathVariable Long id) {
         return Response.success(riskRecordService.queryById(id));
     }
 
+    @AuditLog(value = "query fraud record as paginated")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.RECORD_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskRecordQRO qro) {

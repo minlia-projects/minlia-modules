@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.riskcontrol.bean.RiskDroolsConfigQRO;
+import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import com.minlia.module.riskcontrol.mapper.RiskDroolsConfigMapper;
 import com.minlia.module.riskcontrol.service.RiskDroolsConfigService;
@@ -12,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,18 +33,8 @@ public class RiskDroolsConfigEndpoint {
     @Autowired
     private RiskDroolsConfigMapper riskDroolsConfigMapper;
 
-    @ApiOperation(value = "查询所有")
-    @GetMapping(path = "all")
-    public Response all() {
-        return Response.success(riskDroolsConfigService.getAll());
-    }
-
-    @ApiOperation(value = "ID查询")
-    @GetMapping(path = "{key}")
-    public Response queryById(@PathVariable String key) {
-        return Response.success(riskDroolsConfigService.get(key));
-    }
-
+    @AuditLog(value = "save fraud drools config")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.DROOLS_CONFIG_SAVE + "')")
     @ApiOperation(value = "保存")
     @PostMapping(value = "")
     public Response save(@Valid @RequestBody RiskDroolsConfig riskDroolsConfig) {
@@ -49,6 +42,8 @@ public class RiskDroolsConfigEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "reset drools config")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.DROOLS_CONFIG_RESET + "')")
     @ApiOperation(value = "重置")
     @PostMapping(value = "reset")
     public Response reset() {
@@ -56,6 +51,24 @@ public class RiskDroolsConfigEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "query fraud drools config by id")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.DROOLS_CONFIG_SEARCH + "')")
+    @ApiOperation(value = "ID查询")
+    @GetMapping(path = "{key}")
+    public Response queryById(@PathVariable String key) {
+        return Response.success(riskDroolsConfigService.get(key));
+    }
+
+    @AuditLog(value = "query fraud drools config as list")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.DROOLS_CONFIG_SEARCH + "')")
+    @ApiOperation(value = "查询所有")
+    @GetMapping(path = "all")
+    public Response all() {
+        return Response.success(riskDroolsConfigService.getAll());
+    }
+
+    @AuditLog(value = "query fraud drools config as paginated")
+    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.DROOLS_CONFIG_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskDroolsConfigQRO qro) {
