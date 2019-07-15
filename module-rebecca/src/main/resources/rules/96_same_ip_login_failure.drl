@@ -7,6 +7,9 @@ import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskBlackListService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum
+import com.minlia.module.riskcontrol.constant.RiskCode
+import com.minlia.cloud.i18n.Lang
+import java.util.Arrays
 
 global RiskBlackListService riskBlackListService
 global RiskRecordService riskRecordService
@@ -19,11 +22,12 @@ rule "96_same_ip_login_failure"
         event:RiskLoginFailureEvent()
     then
         long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
-        String details = "近15分钟内同ip出现多次登陆失败,count=" + count;
-        if(event.getLevel().equals(RiskLevelEnum.WARNING)) {
-            riskRecordService.createEvent(event, details);
-        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
-            riskRecordService.createEvent(event, details);
-            riskBlackListService.pub(RiskBlackList.builder().type(RiskTypeEnum.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime()).detail(details).build());
+        if(!event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+            riskRecordService.createEvent(event, RiskCode.Message.NUM_SAME_IP_LOGIN_FAILURE_MINS, 15, count);
+            if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
+                riskBlackListService.pub(RiskBlackList.builder().type(RiskTypeEnum.BLACK).dimension(RiskBlackList.EnumDimension.IP).value(event.getIp()).time(event.getOperateTime())
+                .detail(Lang.get(RiskCode.Message.NUM_SAME_IP_LOGIN_FAILURE_MINS.i18nKey(), new Object[]{15, count}))
+                .build());
+            }
         }
 end

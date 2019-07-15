@@ -5,13 +5,16 @@ import com.minlia.module.captcha.risk.event.RiskCaptchaEvent
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskRecordService
+import com.minlia.module.riskcontrol.service.RiskDroolsConfigService
 import com.minlia.cloud.utils.ApiAssert
 import org.apache.commons.lang3.time.DateUtils
 import java.time.LocalDateTime
 import com.minlia.module.captcha.constant.CaptchaCode
+import com.minlia.module.riskcontrol.entity.RiskDroolsConfig
 
 global DimensionService dimensionService
 global RiskRecordService riskRecordService
+global RiskDroolsConfigService riskDroolsConfigService
 
 rule "110_same_account_send_times"
     salience 110
@@ -21,11 +24,10 @@ rule "110_same_account_send_times"
     then
         long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{event.ACCOUNT}, event.TIME);
 
-        String details = "30分钟内用户获取验证码最大次数的时间限制,count=" + count;
-        if(event.getLevel().equals(RiskLevelEnum.WARNING)) {
-            riskRecordService.createEvent(event, details);
-        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
-            riskRecordService.createEvent(event, details);
-            ApiAssert.state(false, CaptchaCode.Message.OVER_SEND_TIMES);
+        if (!event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+            riskRecordService.createEvent(event, CaptchaCode.Message.NUM_OTP_MINS, 30, count);
+            if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
+                ApiAssert.state(false, CaptchaCode.Message.NUM_OTP_MINS, 30, count);
+            }
         }
 end

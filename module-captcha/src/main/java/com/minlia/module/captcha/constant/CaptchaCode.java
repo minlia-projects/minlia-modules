@@ -94,7 +94,10 @@ public class CaptchaCode {
          */
         EMAIL_NOT_NULL,
 
-        VERIFY_SUCCESS;
+        VERIFY_SUCCESS,
+
+
+        NUM_OTP_MINS;
 
         @Override
         public String code() {
@@ -110,7 +113,7 @@ public class CaptchaCode {
         }
 
         @Override
-        public String message(String... args) {
+        public String message(Object... args) {
             return Lang.get(this.i18nKey(), args);
         }
 

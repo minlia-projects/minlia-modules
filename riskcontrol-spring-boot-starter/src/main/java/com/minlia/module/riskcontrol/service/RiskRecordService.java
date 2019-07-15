@@ -61,7 +61,7 @@ public class RiskRecordService {
      *
      * @param event
      */
-    public void createEvent(Event event, Code code, String... args) {
+    public void createEvent(Event event, Code code, Object... args) {
         RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
         riskRecord.setDetails(code.message(args));
         riskRecord.setEventDetails(JSON.toJSONString(event));

@@ -47,7 +47,7 @@ public class GadCode {
         }
 
         @Override
-        public String message(String... args) {
+        public String message(Object... args) {
             return Lang.get(this.i18nKey(), args);
         }
 

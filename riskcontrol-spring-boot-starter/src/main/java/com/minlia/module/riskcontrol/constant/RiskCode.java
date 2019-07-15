@@ -28,9 +28,14 @@ public class RiskCode {
         BLACK_IP_SCOPE,
 
         /**
-         * 同一个帐户15分钟内使用不同的IP登录系统
+         * 同一个帐户{0}分钟内使用不同的IP登录系统,count={1}
          */
-        SAME_ACCOUNT_DIFFERENT_LOGIN_IP;
+        NUM_DIFF_IP_LOGIN_MINS,
+
+        /**
+         * 近15分钟内同ip出现多次登陆失败,count=
+         */
+        NUM_SAME_IP_LOGIN_FAILURE_MINS;
 
 
         @Override
@@ -44,7 +49,7 @@ public class RiskCode {
         }
 
         @Override
-        public String message(String... args) {
+        public String message(Object... args) {
             return Lang.get(this.i18nKey(), args);
         }
 

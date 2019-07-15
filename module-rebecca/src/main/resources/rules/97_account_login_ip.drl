@@ -4,6 +4,7 @@ import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.modules.rebecca.risk.event.RiskLoginEvent
+import com.minlia.module.riskcontrol.constant.RiskCode
 
 global RiskRecordService riskRecordService
 global DimensionService dimensionService
@@ -14,11 +15,10 @@ rule "97_account_login_ip"
     when
         event:RiskLoginEvent()
     then
-        long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskLoginEvent.USERNAME}, RiskLoginEvent.IP);
-        String details = "同一个帐户15分钟内使用不同的IP登录系统,count=" + count;
-        if(event.getLevel().equals(RiskLevelEnum.WARNING)) {
-            riskRecordService.createEvent(event, details);
-        } else if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
-            riskRecordService.createEvent(event, details);
+        if (event.getScene().equals("NUM_DIFF_IP_LOGIN_15MINS")) {
+            long count  = dimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskLoginEvent.USERNAME}, RiskLoginEvent.IP);
+            if(!event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+                riskRecordService.createEvent(event, RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS, 15, count);
+            }
         }
 end

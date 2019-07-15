@@ -23,11 +23,10 @@ rule "80_user_change_cellphone"
     then
         long count  = userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_CELLPHONE, event.getGuid(), LocalDateTime.now().minusMonths(6));
         RiskLevelEnum riskLevel = dimensionService.calculationLevelWithConfig(event, count);
-        String details = "过去6个月内更改手机号码的次数超过5次，拒绝下一次操作。,count=" + count;
-        if(riskLevel.equals(RiskLevelEnum.WARNING)) {
-            riskRecordService.createEvent(event, details);
-        } else if (riskLevel.equals(RiskLevelEnum.DANGER)) {
-            riskRecordService.createEvent(event, details);
-            ApiAssert.state(false, UserCode.Message.CHANGE_CELLPHONE_OVER_TIMES);
+        if(!riskLevel.equals(RiskLevelEnum.NORMAL)) {
+            riskRecordService.createEvent(event, UserCode.Message.CHANGE_CELLPHONE_OVER_TIMES, 6, count);
+            if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+                ApiAssert.state(false, UserCode.Message.CHANGE_CELLPHONE_OVER_TIMES, 6, count);
+            }
         }
 end

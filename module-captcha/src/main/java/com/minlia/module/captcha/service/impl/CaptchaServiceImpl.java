@@ -18,6 +18,7 @@ import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.email.service.EmailService;
 import com.minlia.module.riskcontrol.service.DimensionService;
 import com.minlia.module.riskcontrol.service.RiskBlackListService;
+import com.minlia.module.riskcontrol.service.RiskDroolsConfigService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.module.sms.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
@@ -59,8 +60,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     private RiskRecordService riskRecordService;
 
     @Autowired
-    private RiskBlackListService riskBlackListService;
-
+    private RiskDroolsConfigService riskDroolsConfigService;
 
     @Override
     public Captcha send(CaptchaCRO cro) {
@@ -92,7 +92,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
         kieSession.setGlobal("dimensionService", dimensionService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
-        kieSession.setGlobal("riskBlackListService", riskBlackListService);
+        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
         kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
@@ -127,7 +127,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
         kieSession.setGlobal("dimensionService", dimensionService);
         kieSession.setGlobal("riskRecordService", riskRecordService);
-        kieSession.setGlobal("riskBlackListService", riskBlackListService);
+        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
         kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要

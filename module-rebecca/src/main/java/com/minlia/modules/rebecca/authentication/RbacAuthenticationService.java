@@ -90,14 +90,13 @@ public class RbacAuthenticationService implements AuthenticationService {
         riskLoginEvent.setSceneValue(loginCredentials.getAccount());
         riskLoginEvent.setUsername(loginCredentials.getAccount());
         kieSession.execute(riskLoginEvent);
-        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.code(), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.i18nKey());
+        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.code(), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.i18nKey());
 
         //登陆失败
         RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
-        riskLoginEvent.setScene("MAX_NUM_ACCESS_15MINS");
         riskLoginFailureEvent.setSceneValue(loginCredentials.getAccount());
         kieSession.execute(riskLoginFailureEvent);
-        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP);
+        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_SAME_IP_LOGIN_FAILURE_MINS);
 
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
