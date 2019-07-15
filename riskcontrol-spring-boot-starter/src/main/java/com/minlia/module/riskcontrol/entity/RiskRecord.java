@@ -38,6 +38,9 @@ public class RiskRecord {
     @Column(nullable = false, columnDefinition = "VARCHAR(20) COMMENT '风险等级'")
     private RiskLevelEnum level;
 
+    @Column(nullable = true, columnDefinition = "BIGINT COMMENT '计数'")
+    private Long count;
+
     @Column(nullable = false, columnDefinition = "INT COMMENT '事件评分'")
     private int score;
 

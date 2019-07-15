@@ -1,41 +1,62 @@
-//package com.minlia.module.riskcontrol.service;
-//
-//import lombok.extern.slf4j.Slf4j;
-//import org.kie.api.io.ResourceType;
-//import org.kie.api.runtime.StatelessKieSession;
-//import org.kie.internal.builder.KnowledgeBuilder;
-//import org.kie.internal.builder.KnowledgeBuilderFactory;
-//import org.kie.internal.io.ResourceFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import javax.annotation.PostConstruct;
-//import java.io.File;
-//import java.net.URISyntaxException;
-//
-///**
-// * Created by sunpeak on 2016/8/6.
-// */
-//@Slf4j
-//@Service
-//public class KieService {
-//
-//    private StatelessKieSession kieSession;
-//
-//    @Autowired
-//    private BlackListService blackListService;
-//
-//    @Autowired
-//    private DimensionService dimensionService;
-//
-//    /**
-//     * drools全局服务变量
-//     */
-//    private void setGlobal() {
-//        kieSession.setGlobal("blackListService", blackListService);
-//        kieSession.setGlobal("dimensionService", dimensionService);
+package com.minlia.module.riskcontrol.service;
+
+import com.minlia.cloud.holder.ContextHolder;
+import com.minlia.module.drools.service.ReloadDroolsRulesService;
+import lombok.extern.slf4j.Slf4j;
+import org.kie.api.runtime.StatelessKieSession;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+
+/**
+ * Created by sunpeak on 2016/8/6.
+ */
+@Slf4j
+@Service
+@Order()
+public class KieService {
+
+    public static StatelessKieSession statelessKieSession;
+
+//    @PostConstruct
+//    public void init() {
+//        addPackage("rules");
 //    }
-//
+
+    /**
+     * 规则引擎执行
+     *
+     * @param object
+     */
+    public static void execute(Object object) {
+        KieServiceEnum.INSTANCE.instance().execute(object);
+    }
+
+    /**
+     * 单例
+     */
+    private enum KieServiceEnum {
+        INSTANCE;
+
+        public StatelessKieSession instance() {
+            if (null == statelessKieSession) {
+                statelessKieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+                setGlobal();
+            }
+            return statelessKieSession;
+        }
+    }
+
+    /**
+     * drools全局服务变量
+     */
+    private static void setGlobal() {
+        statelessKieSession.setGlobal("dimensionService", ContextHolder.getContext().getBean(DimensionService.class));
+        statelessKieSession.setGlobal("riskRecordService", ContextHolder.getContext().getBean(RiskRecordService.class));
+        statelessKieSession.setGlobal("riskIpListService", ContextHolder.getContext().getBean(RiskIpListService.class));
+        statelessKieSession.setGlobal("riskBlackUrlService", ContextHolder.getContext().getBean(RiskBlackUrlService.class));
+        statelessKieSession.setGlobal("riskBlackListService", ContextHolder.getContext().getBean(RiskBlackListService.class));
+    }
+
 //    /**
 //     * 规则集上线
 //     *
@@ -145,19 +166,5 @@
 //                        log.info("print rule: " + knowledgePackage.getName() + "." + rule.getName())));
 //        log.info("print rule: -----------------------");
 //    }
-//
-//    @PostConstruct
-//    public void init() {
-//        addPackage("rules");
-//    }
-//
-//    /**
-//     * 规则引擎执行
-//     *
-//     * @param object
-//     */
-//    public void execute(Object object) {
-//        this.kieSession.execute(object);
-//    }
-//
-//}
+
+}

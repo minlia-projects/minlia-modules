@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.net.util.IPAddressUtil;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -54,6 +55,12 @@ public abstract class Event {
      */
     @JsonIgnore
     private RiskLevelEnum level;
+
+    /**
+     * 计数
+     */
+    @JsonIgnore
+    private Long count;
 
     /**
      * 事件评分

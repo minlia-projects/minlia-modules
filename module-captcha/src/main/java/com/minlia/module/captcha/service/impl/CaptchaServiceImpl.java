@@ -16,10 +16,7 @@ import com.minlia.module.captcha.ro.CaptchaQRO;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.email.service.EmailService;
-import com.minlia.module.riskcontrol.service.DimensionService;
-import com.minlia.module.riskcontrol.service.RiskBlackListService;
-import com.minlia.module.riskcontrol.service.RiskDroolsConfigService;
-import com.minlia.module.riskcontrol.service.RiskRecordService;
+import com.minlia.module.riskcontrol.service.*;
 import com.minlia.module.sms.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
@@ -88,12 +85,13 @@ public class CaptchaServiceImpl implements CaptchaService {
         RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
         riskCaptchaEvent.setSceneValue(cellphone);
         riskCaptchaEvent.setAccount(cellphone);
+        KieService.execute(riskCaptchaEvent);
 
-        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-        kieSession.setGlobal("dimensionService", dimensionService);
-        kieSession.setGlobal("riskRecordService", riskRecordService);
-        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
-        kieSession.execute(riskCaptchaEvent);
+//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+//        kieSession.setGlobal("dimensionService", dimensionService);
+//        kieSession.setGlobal("riskRecordService", riskRecordService);
+//        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
+//        kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
         if (!Environments.isDevelopment()) {
@@ -123,12 +121,13 @@ public class CaptchaServiceImpl implements CaptchaService {
         RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
         riskCaptchaEvent.setSceneValue(email);
         riskCaptchaEvent.setAccount(email);
+        KieService.execute(riskCaptchaEvent);
 
-        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-        kieSession.setGlobal("dimensionService", dimensionService);
-        kieSession.setGlobal("riskRecordService", riskRecordService);
-        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
-        kieSession.execute(riskCaptchaEvent);
+//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+//        kieSession.setGlobal("dimensionService", dimensionService);
+//        kieSession.setGlobal("riskRecordService", riskRecordService);
+//        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
+//        kieSession.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
 //        if (!Environments.isDevelopment()) {

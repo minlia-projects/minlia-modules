@@ -96,6 +96,7 @@ public class DimensionService {
         } else {
             event.addScore(count, riskDroolsConfig.getDangerThreshold(), riskDroolsConfig.getWarningThreshold(), riskDroolsConfig.getThresholdScore(), riskDroolsConfig.getPerScore());
         }
+        event.setCount(count);
         return event.getLevel();
     }
 
@@ -151,7 +152,9 @@ public class DimensionService {
         String scope = dateTimeScore(event.getOperateTime());
 
         Long ret = runSha(key, minScope, String.valueOf(periodSeconds), scope, argsDimensionValue.toString(), minScope, maxScope);
-        return ret == null ? 0 : ret.intValue();
+        long count = ret == null ? 0 : ret.intValue();
+        event.setCount(count);
+        return count;
     }
 
     /**

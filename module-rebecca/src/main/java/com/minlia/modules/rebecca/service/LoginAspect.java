@@ -38,7 +38,7 @@ public class LoginAspect {
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) joinPoint.getArgs()[0];
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         LoginCredentials credentials = (LoginCredentials) authenticationToken.getPrincipal();
-        String username = credentials.getUsername();
+        String username = credentials.getAccount();
         String password = credentials.getPassword();
         String ipAddress = NetworkUtil.getIpAddress(request);
         loginLogService.create(LoginLog.builder().username(username).password(password).ipAddress(ipAddress).time(LocalDateTime.now()).build());

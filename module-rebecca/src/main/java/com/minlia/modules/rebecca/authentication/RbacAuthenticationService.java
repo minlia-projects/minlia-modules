@@ -9,6 +9,7 @@ import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.riskcontrol.constant.RiskCode;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.KieService;
 import com.minlia.module.riskcontrol.service.RiskBlackListService;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.modules.rebecca.bean.domain.User;
@@ -79,23 +80,25 @@ public class RbacAuthenticationService implements AuthenticationService {
         Assert.notNull(authentication, "No authentication data provided");
         LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
 
-        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-        kieSession.setGlobal("riskBlackListService", riskBlackListService);
-        kieSession.setGlobal("riskRecordService", riskRecordService);
-        kieSession.setGlobal("dimensionService", dimensionService);
+//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
+//        kieSession.setGlobal("riskBlackListService", riskBlackListService);
+//        kieSession.setGlobal("riskRecordService", riskRecordService);
+//        kieSession.setGlobal("dimensionService", dimensionService);
 
         //登陆IP
         RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
         riskLoginEvent.setScene("NUM_DIFF_IP_LOGIN_15MINS");
         riskLoginEvent.setSceneValue(loginCredentials.getAccount());
         riskLoginEvent.setUsername(loginCredentials.getAccount());
-        kieSession.execute(riskLoginEvent);
+//        kieSession.execute(riskLoginEvent);
+        KieService.execute(riskLoginEvent);
         ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.code(), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.i18nKey());
 
         //登陆失败
         RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
         riskLoginFailureEvent.setSceneValue(loginCredentials.getAccount());
-        kieSession.execute(riskLoginFailureEvent);
+//        kieSession.execute(riskLoginFailureEvent);
+        KieService.execute(riskLoginFailureEvent);
         ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_SAME_IP_LOGIN_FAILURE_MINS);
 
         String password = (String) authentication.getCredentials();
@@ -160,8 +163,6 @@ public class RbacAuthenticationService implements AuthenticationService {
             throw new AccountExpiredException("账号已过期");
         } else if (!user.getEnabled()) {
             throw new DisabledException("账号已禁用");
-        } else if (null != user.getCredentialsEffectiveDate() && user.getCredentialsEffectiveDate().isBefore(LocalDateTime.now())) {
-            throw new CredentialsExpiredException("凭证已过期");
         } else if (user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())) {
             throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getLockTime()));
         } else {
