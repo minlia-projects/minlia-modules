@@ -88,19 +88,16 @@ public class RbacAuthenticationService implements AuthenticationService {
 
         //IP范围
         RiskIpScopeEvent riskIpScopeEvent = new RiskIpScopeEvent();
-        riskIpScopeEvent.setSceneValue(riskIpScopeEvent.getIp());
         KieService.execute(riskIpScopeEvent);
         ApiAssert.state(riskIpScopeEvent.isMatched(), RiskCode.Message.BLACK_IP_SCOPE.code(), RiskCode.Message.BLACK_IP_SCOPE.i18nKey());
 
         //黑名单IP
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        log.info("请求地址：{}", requestAttributes.getRequest().getRequestURI());
         RiskBlackUrlService riskBlackUrlService = ContextHolder.getContext().getBean(RiskBlackUrlService.class);
         if (!riskBlackUrlService.contain(RiskTypeEnum.WHITE, requestAttributes.getRequest().getRequestURI())) {
-            RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent();
-            riskBlackIpEvent.setScene(requestAttributes.getRequest().getRequestURI());
+            RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent(requestAttributes.getRequest().getRequestURI());
             KieService.execute(riskBlackIpEvent);
-            ApiAssert.state(!riskBlackIpEvent.isBlack(), RiskCode.Message.BLACK_IP.code(), RiskCode.Message.BLACK_IP.i18nKey());
+            ApiAssert.state(!riskBlackIpEvent.isMatched(), RiskCode.Message.BLACK_IP.code(), RiskCode.Message.BLACK_IP.i18nKey());
         }
 
         //登陆IP

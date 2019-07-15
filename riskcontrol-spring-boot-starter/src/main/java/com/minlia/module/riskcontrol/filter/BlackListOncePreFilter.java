@@ -8,6 +8,7 @@ import com.minlia.module.riskcontrol.event.RiskBlackIpEvent;
 import com.minlia.module.riskcontrol.event.RiskIpScopeEvent;
 import com.minlia.module.riskcontrol.service.KieService;
 import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @Order(1)
 @Component
 @WebFilter(urlPatterns = "/*", filterName = "blackListOncePreFilter")
@@ -26,6 +28,7 @@ public class BlackListOncePreFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+        log.info("请求地址：{}", httpServletRequest.getRequestURI());
         //IP范围
         RiskIpScopeEvent riskIpScopeEvent = new RiskIpScopeEvent();
         KieService.execute(riskIpScopeEvent);
