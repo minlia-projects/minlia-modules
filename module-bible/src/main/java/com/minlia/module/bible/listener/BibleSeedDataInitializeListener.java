@@ -1,14 +1,16 @@
-//package com.minlia.module.bible.v1.listener;
+//package com.minlia.bmp.confiig;
 //
+//import cn.hutool.core.bean.BeanUtil;
+//import com.google.common.base.CaseFormat;
 //import com.google.common.collect.Maps;
-//import com.minlia.module.bible.v1.service.BibleService;
-//import com.minlia.module.security.constants.SecurityConstants;
-//import com.minlia.module.security.v1.repository.RoleRepository;
-//import com.minlia.module.security.v1.service.PermissionCreationService;
+//import com.minlia.cloud.holder.ContextHolder;
+//import com.minlia.module.bible.annotation.BibleAutowired;
+//import com.minlia.module.bible.service.BibleItemService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.ApplicationListener;
 //import org.springframework.context.event.ContextRefreshedEvent;
+//import org.springframework.core.annotation.AnnotationUtils;
 //import org.springframework.stereotype.Component;
 //import org.springframework.transaction.annotation.Transactional;
 //
@@ -21,12 +23,7 @@
 //    private boolean alreadySetup = false;
 //
 //    @Autowired
-//    private RoleRepository WSAFroleRepository;
-//
-//    @Autowired
-//    PermissionCreationService permissionCreationService;
-//
-//    // API
+//    private BibleItemService bibleItemService;
 //
 //    @Override
 //    @Transactional
@@ -36,21 +33,39 @@
 //            return;
 //        }
 //
-//        //定义一个MAP, 根据MAP插入初始化数据
-//        Map<String, String> initialAdminPermissions = Maps.newHashMap();
+//        //获取所有带有 BibleAutowired 注解的类
+//        Map<String, Object> beansWithAnnotationMap = ContextHolder.getContext().getBeansWithAnnotation(BibleAutowired.class);
+//        for (Map.Entry<String, Object> entry : beansWithAnnotationMap.entrySet()) {
 //
-//        String entityName = "数据字典";
-//        //菜单
-//        initialAdminPermissions.put(BibleService.ENTITY_CREATE, SecurityConstants.CREATE_OPERATION_DESCRIPTION_CN + entityName);
-//        initialAdminPermissions.put(BibleService.ENTITY_READ, SecurityConstants.READ_OPERATION_DESCRIPTION_CN + entityName);
-//        initialAdminPermissions.put(BibleService.ENTITY_UPDATE, SecurityConstants.UPDATE_OPERATION_DESCRIPTION_CN + entityName);
-//        initialAdminPermissions.put(BibleService.ENTITY_DELETE, SecurityConstants.DELETE_OPERATION_DESCRIPTION_CN + entityName);
-//        initialAdminPermissions.put(BibleService.ENTITY_SEARCH, SecurityConstants.SEARCH_OPERATION_DESCRIPTION_CN + entityName);
+//            String bibleCode;
 //
+//            //获取类注解
+//            BibleAutowired bibleAutowired = AnnotationUtils.findAnnotation(entry.getClass(), BibleAutowired.class);
+//            if (null != bibleAutowired.type()) {
+//                bibleCode = bibleAutowired.type();
+//            } else {
+//                bibleCode = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, entry.getKey());
+//            }
 //
-//        permissionCreationService.initialAdminPermissions(initialAdminPermissions);
+//            Map<String, String> map = bibleItemService.queryValueMap(bibleCode);
+//            entry.setValue(mapToBean(map, entry.getValue().getClass()));
+//        }
 //
 //        alreadySetup = true;
+//    }
+//
+//    public static <T> T mapToBean(Map<String, ?> map, Class<T> beanClass) {
+//        Map<String, Object> result = toLowerCamel(map);
+//        return BeanUtil.mapToBean(result, beanClass, false);
+//    }
+//
+//    public static Map<String, Object> toLowerCamel(Map<String, ?> map) {
+//        Map<String, Object> result = Maps.newHashMap();
+//        map.entrySet().stream().forEach(entry -> {
+//            String key = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, entry.getKey());
+//            result.put(key, entry.getValue());
+//        });
+//        return result;
 //    }
 //
 //

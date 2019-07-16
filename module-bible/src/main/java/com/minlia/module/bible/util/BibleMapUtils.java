@@ -21,7 +21,7 @@ public class BibleMapUtils {
 
     public static Map<String, Object> toLowerCamel(Map<String, ?> map) {
         Map<String, Object> result = Maps.newHashMap();
-        map.entrySet().stream().forEach(entry ->{
+        map.entrySet().stream().forEach(entry -> {
             String key = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, entry.getKey());
             result.put(key, entry.getValue());
         });

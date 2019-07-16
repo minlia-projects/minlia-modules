@@ -20,7 +20,7 @@ public @interface BibleAutowired {
      *
      * @return {String}
      */
-    String type();
+    String type() default "";
 
 //    /**
 //     * 操作类型

@@ -1,17 +1,25 @@
 package com.minlia.module.bible.endpoint;
 
+import com.google.common.base.CaseFormat;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.bible.annotation.BibleAutowired;
 import com.minlia.module.bible.ro.BibleQRO;
 import com.minlia.module.bible.ro.BibleCRO;
 import com.minlia.module.bible.ro.BibleURO;
 import com.minlia.module.bible.constant.BibleConstants;
+import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.bible.service.BibleService;
+import com.minlia.module.bible.util.BibleMapUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -19,6 +27,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 /**
  * Created by will on 6/21/17.
@@ -30,7 +39,32 @@ import javax.validation.Valid;
 public class BibleEndpoint {
 
     @Autowired
+    private Mapper mapper;
+
+    @Autowired
     private BibleService bibleService;
+
+    @Autowired
+    private BibleItemService bibleItemService;
+
+    @AuditLog(value = "refresh system bible config")
+    @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.CREATE + "')")
+    @ApiOperation(value = "刷新配置")
+    @PostMapping(value = "refresh/config")
+    public Response resetConfig() {
+        //获取所有带有 BibleAutowired 注解的类
+        Map<String, Object> beansWithAnnotationMap = ContextHolder.getContext().getBeansWithAnnotation(BibleAutowired.class);
+        for (Map.Entry<String, Object> entry : beansWithAnnotationMap.entrySet()) {
+            //获取类注解
+            BibleAutowired bibleAutowired = AnnotationUtils.findAnnotation(entry.getValue().getClass(), BibleAutowired.class);
+            String bibleCode = StringUtils.isNotBlank(bibleAutowired.type()) ? bibleAutowired.type() : CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, entry.getKey());
+
+            //重新赋值
+            Map<String, String> map = bibleItemService.queryValueMap(bibleCode);
+            mapper.map(BibleMapUtils.mapToBean(map, entry.getValue().getClass()), ContextHolder.getContext().getBean(entry.getValue().getClass()));
+        }
+        return Response.success();
+    }
 
     @AuditLog(value = "create system bible")
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.CREATE + "')")

@@ -102,7 +102,7 @@ public abstract class Event {
      */
     private String operateIpArea;
 
-    Event() {
+    public Event() {
     }
 
     /**
