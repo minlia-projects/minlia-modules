@@ -14,6 +14,8 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class RiskRecordService {
      *
      * @param event
      */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event) {
         this.createEvent(event, null);
     }
@@ -47,6 +50,7 @@ public class RiskRecordService {
      *
      * @param event
      */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event, String details) {
         RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
         riskRecord.setDetails(details);
@@ -59,6 +63,7 @@ public class RiskRecordService {
      *
      * @param event
      */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event, Code code, Object... args) {
         RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
         riskRecord.setDetails(code.message(args));
