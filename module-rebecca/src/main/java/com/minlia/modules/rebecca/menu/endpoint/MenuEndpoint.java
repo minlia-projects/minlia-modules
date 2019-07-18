@@ -117,7 +117,7 @@ public class MenuEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC,sort = "id")Pageable pageable,@RequestBody MenuQRO qro) {
-        PageInfo<Menu> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> menuService.selectByAll(qro));
+        PageInfo<Menu> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> menuService.selectByAll(qro));
         return Response.success(pageInfo);
     }
 

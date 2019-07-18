@@ -37,15 +37,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create">
 		INSERT INTO qcloud_faceid_record(
 			order_no ,
@@ -108,7 +99,6 @@
     <select id="queryList" resultType="com.minlia.modules.qcloud.faceid.bean.domain.QcloudFaceIdRecord">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

@@ -45,7 +45,7 @@ public class RiskRecordEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskRecordQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
         return Response.success(pageInfo);
     }
 

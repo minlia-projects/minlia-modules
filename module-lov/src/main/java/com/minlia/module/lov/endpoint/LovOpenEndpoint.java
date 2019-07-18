@@ -43,7 +43,7 @@ public class LovOpenEndpoint {
     public Response paginated(@RequestBody LovQRO qro) {
         qro.setDisFlag(false);
         qro.setDelFlag(false);
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovService.selectByAll(qro));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> lovService.selectByAll(qro));
         return Response.success(pageInfo);
     }
 

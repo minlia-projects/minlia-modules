@@ -47,13 +47,7 @@
     </sql>
 
     <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                mnt.${item.filed} ${item.direction}
-            </foreach>
-        </if>
-        <if test="sorts == null">
+        <if test="sortsStr == null">
             ORDER BY orders ASC
         </if>
     </sql>

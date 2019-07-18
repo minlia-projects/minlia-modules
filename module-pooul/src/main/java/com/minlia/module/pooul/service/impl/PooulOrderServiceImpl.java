@@ -47,7 +47,7 @@ public class PooulOrderServiceImpl implements PooulOrderService {
 
     @Override
     public PageInfo<PooulOrderDO> page(PooulOrderQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()->pooulOrderMapper.list(qo));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()->pooulOrderMapper.list(qo));
     }
 
 }

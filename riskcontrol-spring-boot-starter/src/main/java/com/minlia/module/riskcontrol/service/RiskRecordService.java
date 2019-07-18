@@ -84,7 +84,7 @@ public class RiskRecordService {
     }
 
     public PageInfo<RiskRecord> queryPage(RiskRecordQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
         return pageInfo;
     }
 

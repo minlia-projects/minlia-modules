@@ -60,7 +60,7 @@ public class DyplsServiceImpl implements DyplsService {
 
     @Override
     public PageInfo<DyplsBind> queryPage(BindAxnQRO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->dyplsbindMapper.queryList(qo));
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize(), qo.getOrderBy()).doSelectPageInfo(()->dyplsbindMapper.queryList(qo));
     }
 
 }

@@ -66,7 +66,7 @@ public class DistrictEndpoint {
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "page", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response paginated(@PageableDefault Pageable pageable, @RequestBody DistrictQO qo) {
-        PageInfo<District> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> service.queryList(qo));
+        PageInfo<District> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qo.getOrderBy()).doSelectPageInfo(()-> service.queryList(qo));
         return Response.success(pageInfo);
     }
 

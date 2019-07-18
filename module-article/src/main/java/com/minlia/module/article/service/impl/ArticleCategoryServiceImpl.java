@@ -81,7 +81,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public PageInfo<ArticleCategory> page(ArticleCategoryQRO qro, Pageable pageable) {
-        PageInfo<ArticleCategory> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> articleCategoryMapper.list(qro));
+        PageInfo<ArticleCategory> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleCategoryMapper.list(qro));
         return pageInfo;
     }
 

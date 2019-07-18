@@ -59,7 +59,7 @@ public class QcloudFaceIdRecordServiceImpl implements QcloudFaceIdRecordService 
 
     @Override
     public PageInfo<QcloudFaceIdRecord> queryPage(QcloudFaceIdRecordQQ qro, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->faceIdRecordMapper.queryList(qro));
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()->faceIdRecordMapper.queryList(qro));
     }
 
 }

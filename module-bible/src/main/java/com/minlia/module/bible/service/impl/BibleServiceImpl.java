@@ -105,7 +105,7 @@ public class BibleServiceImpl implements BibleService {
 
     @Override
     public PageInfo<Bible> queryPage(BibleQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> bibleMapper.queryList(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> bibleMapper.queryList(qro));
     }
 
 }

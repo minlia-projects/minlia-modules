@@ -141,7 +141,7 @@ public class NavigationServiceImpl implements NavigationService {
 
     @Override
     public PageInfo<Navigation> queryPage(NavigationQO qro, Pageable pageable) {
-        PageInfo<Navigation> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> navigationMapper.queryList(qro));
+        PageInfo<Navigation> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> navigationMapper.queryList(qro));
         bindChirdren(pageInfo.getList(), qro.getRoleId());
         return pageInfo;
     }

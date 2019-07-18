@@ -36,15 +36,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create">
 		INSERT INTO aliyun_dypls(
 			pool_key ,
@@ -104,7 +95,6 @@
     <select id="queryList" resultType="com.minlia.module.aliyun.dypls.entity.DyplsBind">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryAll" resultType="com.minlia.module.aliyun.dypls.entity.DyplsBind">

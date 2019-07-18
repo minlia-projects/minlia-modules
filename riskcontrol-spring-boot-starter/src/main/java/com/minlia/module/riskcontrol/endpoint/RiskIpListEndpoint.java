@@ -81,7 +81,7 @@ public class RiskIpListEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskIpListQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskIpListMapper.selectByAll(mapper.map(qro, RiskIpList.class)));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskIpListMapper.selectByAll(mapper.map(qro, RiskIpList.class)));
         return Response.success(pageInfo);
     }
 

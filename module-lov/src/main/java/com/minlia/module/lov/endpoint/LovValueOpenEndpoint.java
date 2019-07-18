@@ -47,7 +47,7 @@ public class LovValueOpenEndpoint {
         qro.setDisFlag(false);
         qro.setDelFlag(false);
         qro.setLocale(LocaleContextHolder.getLocale().toString());
-        PageInfo<LovValue> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
+        PageInfo<LovValue> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> lovValueService.selectByAll(qro));
         return Response.success(pageInfo);
     }
 

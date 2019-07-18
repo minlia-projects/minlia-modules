@@ -92,7 +92,7 @@ public class RichtextServiceImpl implements RichtextService {
 
     @Override
     public PageInfo<Richtext> queryPage(RichtextQRO qro) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> richtextMapper.queryList(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> richtextMapper.queryList(qro));
     }
 
 }

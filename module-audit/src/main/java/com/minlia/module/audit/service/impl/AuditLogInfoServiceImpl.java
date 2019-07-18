@@ -28,6 +28,6 @@ public class AuditLogInfoServiceImpl implements AuditLogInfoService {
 
     @Override
     public PageInfo<AuditLogInfo> queryPage(AuditLogInfoQRO qro) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> auditLogInfoMapper.selectByAll(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> auditLogInfoMapper.selectByAll(qro));
     }
 }

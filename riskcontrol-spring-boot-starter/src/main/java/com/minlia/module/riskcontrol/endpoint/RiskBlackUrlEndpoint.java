@@ -81,7 +81,7 @@ public class RiskBlackUrlEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskBlackUrlQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskBlackUrlMapper.selectByAll(mapper.map(qro, RiskBlackUrl.class)));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskBlackUrlMapper.selectByAll(mapper.map(qro, RiskBlackUrl.class)));
         return Response.success(pageInfo);
     }
 

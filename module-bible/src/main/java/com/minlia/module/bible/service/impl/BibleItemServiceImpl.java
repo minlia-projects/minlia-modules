@@ -123,7 +123,7 @@ public class BibleItemServiceImpl implements BibleItemService {
     @Cacheable(value = "bible_item:page", key = "'bible_item_page:'.concat(#p1.pageNumber.toString()).concat('_').concat(#p1.pageSize.toString()).concat(#p0.toString())")
 //    @Cacheable(value = "bible_item:page", key = "'bible_item_page:'.concat(#p1.pageNumber).concat(#p0).toString()")
     public PageInfo<BibleItem> queryPage(BibleItemQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> this.queryList(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> this.queryList(qro));
     }
 
     @Override

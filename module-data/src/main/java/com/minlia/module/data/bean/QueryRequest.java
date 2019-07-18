@@ -23,10 +23,10 @@ public class QueryRequest implements Body {
     @JsonIgnore
     private String query;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     private Integer page;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     private Integer size;
 
     public QueryRequest() {
@@ -41,14 +41,14 @@ public class QueryRequest implements Body {
     @JsonIgnore
     private Set<Sort> sorts;
 
-    public Set<Sort> getSorts(){
+    public Set<Sort> getSorts() {
         if (null == sorts) {
             sorts = splitSortsStr(sortsStr);
         }
         return sorts;
     }
 
-    public void addSort(String filed, Sort.Direction direction){
+    public void addSort(String filed, Sort.Direction direction) {
         if (null == sorts) {
             sorts = Sets.newHashSet();
         }
@@ -79,8 +79,6 @@ public class QueryRequest implements Body {
     }
 
 
-
-
     @JsonProperty("sort")
     public String getSort() {
         if (CollectionUtils.isNotEmpty(sorts)) {
@@ -94,6 +92,11 @@ public class QueryRequest implements Body {
         } else {
             return null;
         }
+    }
+
+    public String getOrderBy() {
+        //id.DESC-name.ASC to id DESC,name ASC
+        return StringUtils.isNotBlank(sortsStr) ? sortsStr.replace(SymbolConstants.DOT, SymbolConstants.SPACE).replace(SymbolConstants.ZHX, SymbolConstants.COMMA) : null;
     }
 
 }

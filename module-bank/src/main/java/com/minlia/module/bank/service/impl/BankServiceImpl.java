@@ -47,7 +47,7 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public PageInfo<Bank> page(Bank bank, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> bankMapper.list(bank));
+        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> bankMapper.list(bank));
     }
 
 }

@@ -81,7 +81,7 @@ public class RiskBlackListEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskBlackListQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskBlackListMapper.selectByAll(mapper.map(qro, RiskBlackList.class)));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskBlackListMapper.selectByAll(mapper.map(qro, RiskBlackList.class)));
         return Response.success(pageInfo);
     }
 

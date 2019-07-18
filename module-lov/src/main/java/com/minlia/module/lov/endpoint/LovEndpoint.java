@@ -67,7 +67,7 @@ public class LovEndpoint {
 //    @ApiOperation(value = "分页查询", httpMethod = "POST")
 //    @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public Response paginated(@RequestBody LovQRO qro) {
-//        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovService.selectByAll(qro));
+//        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> lovService.selectByAll(qro));
 //        return Response.success(pageInfo);
 //    }
 

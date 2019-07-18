@@ -29,15 +29,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                mact.${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create" parameterType="com.minlia.module.article.entity.ArticleComment">
         INSERT INTO mdl_article_comment(
             article_id ,
@@ -78,7 +69,6 @@
     <select id="list" resultType="com.minlia.module.article.entity.ArticleComment">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryDetailsList" resultType="com.minlia.module.article.vo.ArticleCommentVO">
@@ -97,7 +87,6 @@
         INNER JOIN mdl_article mat ON mat.id = mact.article_id
         LEFT JOIN mdl_user_info muit ON muit.guid = mact.create_by
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryMyList" resultType="com.minlia.module.article.vo.ArticleMyCommentVO">
@@ -114,7 +103,6 @@
         INNER JOIN mdl_article mat ON mat.id = mact.article_id
         LEFT JOIN mdl_attachment mat1 ON mat1.relation_id = mat.id AND mat1.belongs_to = 'ARTICLE_COVER'
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

@@ -72,7 +72,7 @@ public class RiskDroolsConfigEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")
     public Response page(@RequestBody RiskDroolsConfigQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> riskDroolsConfigMapper.queryByAll(mapper.map(qro, RiskDroolsConfig.class)));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskDroolsConfigMapper.queryByAll(mapper.map(qro, RiskDroolsConfig.class)));
         return Response.success(pageInfo);
     }
 

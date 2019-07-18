@@ -58,7 +58,7 @@ public class ArticleCollectionServiceImpl implements ArticleCollectionService {
 
     @Override
     public PageInfo<ArticleVO> queryPage(ArticleCollectionQRO qro, Pageable pageable) {
-        PageInfo<ArticleVO> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> articleCollectionMapper.queryList(qro));
+        PageInfo<ArticleVO> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleCollectionMapper.queryList(qro));
         return pageInfo;
     }
 
