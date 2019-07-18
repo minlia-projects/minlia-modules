@@ -17,8 +17,8 @@ import java.lang.reflect.Method;
 /**
  * Created by cqqianyi on 2017/8/14.
  */
-@Component
-@Order(value = Ordered.HIGHEST_PRECEDENCE)
+//@Component
+//@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class PermissionCollectorListener implements BeanPostProcessor {
 
     public static final String[] AUTHORITIES = new String[]{"hasAnyAuthority", "hasAuthority"};

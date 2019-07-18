@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -36,6 +37,7 @@ public class RiskRecordQRO extends QueryRequest {
      * 场景
      */
     private String scene;
+    private String sceneValue;
 
     /**
      * 风险等级
@@ -57,5 +59,18 @@ public class RiskRecordQRO extends QueryRequest {
      * 详情
      */
     private String details;
+
+    private String ip;
+
+    /**
+     * 计数
+     */
+    private Long count;
+
+    /**
+     * 用户编号
+     */
+    private String guid;
+
 
 }

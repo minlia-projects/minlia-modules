@@ -8,9 +8,7 @@
         <result column="event_details" jdbcType="VARCHAR" property="eventDetails"/>
         <result column="scene" jdbcType="VARCHAR" property="scene"/>
         <result column="level" jdbcType="INTEGER" property="level"/>
-        <result column="rule" jdbcType="VARCHAR" property="rule"/>
         <result column="score" jdbcType="INTEGER" property="score"/>
-        <result column="time" jdbcType="TIMESTAMP" property="time"/>
         <result column="details" jdbcType="VARCHAR" property="details"/>
         <result column="date_time" jdbcType="TIMESTAMP" property="dateTime"/>
         <result column="guid" jdbcType="INTEGER" property="guid"/>
@@ -19,7 +17,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, event_id, event_details, scene, `level`, `rule`, score, `time`, details, date_time,
+        id, event_id, event_details, scene, `level`, score, details, date_time,
         guid, ip, scene_value
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -51,14 +49,8 @@
             <if test="level != null">
                 `level`,
             </if>
-            <if test="rule != null">
-                `rule`,
-            </if>
             <if test="score != null">
                 score,
-            </if>
-            <if test="time != null">
-                `time`,
             </if>
             <if test="details != null">
                 details,
@@ -89,14 +81,8 @@
             <if test="level != null">
                 #{level,jdbcType=INTEGER},
             </if>
-            <if test="rule != null">
-                #{rule,jdbcType=VARCHAR},
-            </if>
             <if test="score != null">
                 #{score,jdbcType=INTEGER},
-            </if>
-            <if test="time != null">
-                #{time,jdbcType=TIMESTAMP},
             </if>
             <if test="details != null">
                 #{details,jdbcType=VARCHAR},
@@ -131,14 +117,8 @@
             <if test="level != null">
                 `level` = #{level,jdbcType=INTEGER},
             </if>
-            <if test="rule != null">
-                `rule` = #{rule,jdbcType=VARCHAR},
-            </if>
             <if test="score != null">
                 score = #{score,jdbcType=INTEGER},
-            </if>
-            <if test="time != null">
-                `time` = #{time,jdbcType=TIMESTAMP},
             </if>
             <if test="details != null">
                 details = #{details,jdbcType=VARCHAR},
@@ -178,13 +158,13 @@
             and scene_value=#{sceneValue,jdbcType=VARCHAR}
         </if>
         <if test="level != null">
-            and `level`=#{level,jdbcType=INTEGER}
+            and `level`=#{level,jdbcType=VARCHAR}
         </if>
         <if test="score != null">
             and score=#{score,jdbcType=INTEGER}
         </if>
         <if test="ip != null">
-            and ip=#{ip,jdbcType=INTEGER}
+            and ip=#{ip,jdbcType=VARCHAR}
         </if>
         <if test="dateTime != null">
             and date_time=#{dateTime,jdbcType=TIMESTAMP}

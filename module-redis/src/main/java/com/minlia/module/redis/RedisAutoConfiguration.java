@@ -26,7 +26,6 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * 86400秒 = 1天
@@ -34,7 +33,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @Configuration
 @EnableScheduling
 @EnableCaching
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400 * 30)
+//@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400 * 30)
 public class RedisAutoConfiguration extends CachingConfigurerSupport {
 
 //    @SuppressWarnings("SpringJavaAutowiringInspection")
@@ -91,7 +90,7 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
         return cacheManager;
     }
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @SuppressWarnings("ALL")
     @Bean
     @Primary
     public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {

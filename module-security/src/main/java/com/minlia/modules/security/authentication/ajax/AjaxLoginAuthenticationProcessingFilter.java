@@ -45,6 +45,11 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+
+        System.out.println(request.getRequestURI());
+        System.out.println(request.getRequestURL());
+        System.out.println(request.getServletPath());
+
         if (!HttpMethod.POST.name().equals(request.getMethod())) {
             if (log.isDebugEnabled()) {
                 log.debug("Authentication method not supported. Request method: {}, only ajax request is supported.", request.getMethod());

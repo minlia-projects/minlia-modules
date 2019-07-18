@@ -1,8 +1,10 @@
 package com.minlia.modules.security.autoconfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.minlia.modules.security.authentication.ajax.AjaxAuthenticationProvider;
 import com.minlia.modules.security.authentication.ajax.AjaxLoginAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.ajax.DefaultLogoutSuccessHandler;
+import com.minlia.modules.security.authentication.jwt.JwtAuthenticationProvider;
 import com.minlia.modules.security.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.SkipPathRequestMatcher;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
@@ -65,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private TokenExtractor tokenExtractor;
 
     @Autowired
+    @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -87,6 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -97,6 +101,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
+
+//        auth.inMemoryAuthentication()
+//                .withUser("memuser")
+//                .password(encoder().encode("pass"))
+//                .roles("USER")
+//                .authorities();
     }
 
     @Override

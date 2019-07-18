@@ -9,21 +9,26 @@ import java.io.IOException;
 
 public class RequestIpUtils {
 
+    public final static String LOCALHOST_IP_V6 = "0:0:0:0:0:0:0:1";
+
+    public final static String LOCALHOST_IP_V4 = "127.0.0.1";
+
     public static String getClientIP() {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (sra != null) {
             HttpServletRequest req = sra.getRequest();
             return getClientIP(req);
         } else {
-            return getClientIP((HttpServletRequest) null);
+            return getClientIP(null);
         }
     }
 
     public static String getClientIP(HttpServletRequest request, String... otherHeaderNames) {
         if (request == null) {
-            return "127.0.0.1";
+            return LOCALHOST_IP_V4;
         } else {
-            return ServletUtil.getClientIP(request, otherHeaderNames);
+            String ip = ServletUtil.getClientIP(request, otherHeaderNames);
+            return ip.equals(LOCALHOST_IP_V6) ? LOCALHOST_IP_V4 : ip;
         }
     }
 
