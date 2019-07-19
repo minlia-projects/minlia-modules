@@ -2,7 +2,10 @@ package com.minlia.module.riskcontrol.mapper;
 
 import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
 import com.minlia.module.riskcontrol.entity.RiskRecord;
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
+import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RiskRecordMapper {
@@ -16,5 +19,9 @@ public interface RiskRecordMapper {
     int updateByPrimaryKeySelective(RiskRecord record);
 
     List<RiskRecord> selectByAll(RiskRecordQRO qro);
+
+    List<RiskRecord> selectMaxCountBySceneAndLevelAndDateTimeAndGroupBySceneValue(@Param("scene")String scene, @Param("level") RiskLevelEnum level, @Param("dateTime") LocalDateTime dateTime);
+
+    List<RiskRecord> selectMaxCountBySceneAndLevelAndDateTimeAndGroupByGuid(@Param("scene")String scene, @Param("level") RiskLevelEnum level, @Param("dateTime") LocalDateTime dateTime);
 
 }

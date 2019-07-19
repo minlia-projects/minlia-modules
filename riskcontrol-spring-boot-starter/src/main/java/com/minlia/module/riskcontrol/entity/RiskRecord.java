@@ -1,10 +1,13 @@
 package com.minlia.module.riskcontrol.entity;
 
+import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
+import com.minlia.modules.security.context.SecurityContextHolder1;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

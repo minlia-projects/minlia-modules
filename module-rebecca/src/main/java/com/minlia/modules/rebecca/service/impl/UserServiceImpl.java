@@ -167,7 +167,6 @@ public class UserServiceImpl implements UserService {
         changeCellphoneEvent.setScene("NUM_MOBILE_CHANGE_MTHS");
         changeCellphoneEvent.setSceneValue(newCellphone);
         changeCellphoneEvent.setGuid(user.getGuid());
-        changeCellphoneEvent.setCellphone(newCellphone);
         changeCellphoneEvent.setCount(userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_CELLPHONE, user.getGuid(), LocalDateTime.now().minusMonths(6)));
         KieService.execute(changeCellphoneEvent);
 
@@ -191,7 +190,6 @@ public class UserServiceImpl implements UserService {
         changeEmailEvent.setScene("NUM_EMAIL_CHANGE_MTHS");
         changeEmailEvent.setSceneValue(newEmail);
         changeEmailEvent.setGuid(user.getGuid());
-        changeEmailEvent.setEmail(newEmail);
         changeEmailEvent.setCount(userHistoryService.countByUpdateTypeAndGuidAndLastModifiedDateAfter(UserUpdateTypeEcnum.CHANGE_EMAIL, user.getGuid(), LocalDateTime.now().minusMonths(6)));
         KieService.execute(changeEmailEvent);
 

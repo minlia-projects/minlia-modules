@@ -63,20 +63,20 @@ public class DimensionService {
      * @param event
      * @param condDimensions
      * @param periodSeconds
-     * @param argsDimension
+     * @param aggrDimension
      * @return
      */
-    public long distinctCountWithRedis(Event event, String[] condDimensions, long periodSeconds, String argsDimension) {
-        return addQueryHabit(event, condDimensions, periodSeconds, argsDimension);
+    public long distinctCountWithRedis(Event event, String[] condDimensions, long periodSeconds, String aggrDimension) {
+        return addQueryHabit(event, condDimensions, periodSeconds, aggrDimension);
     }
 
-    public long distinctCountWithRedisAndConfig(Event event, String[] condDimensions, String argsDimension) {
+    public long distinctCountWithRedisAndConfig(Event event, String[] condDimensions, String aggrDimension) {
         RiskDroolsConfig riskDroolsConfig = riskDroolsConfigService.get(event.getScene());
         if (null == riskDroolsConfig) {
             event.setLevel(RiskLevelEnum.NORMAL);
             return 0;
         } else {
-            long count = this.distinctCountWithRedis(event, condDimensions, riskDroolsConfig.getPeriodSeconds(), argsDimension);
+            long count = this.distinctCountWithRedis(event, condDimensions, riskDroolsConfig.getPeriodSeconds(), aggrDimension);
             event.addScore(count, riskDroolsConfig.getDangerThreshold(), riskDroolsConfig.getWarningThreshold(), riskDroolsConfig.getThresholdScore(), riskDroolsConfig.getPerScore());
             return count;
         }
@@ -105,11 +105,11 @@ public class DimensionService {
      *
      * @param event
      * @param condDimensions
-     * @param argsDimension
+     * @param aggrDimension
      * @return
      */
-    public void cleanCountWithRedis(Event event, String[] condDimensions, String argsDimension) {
-        String key = getRedisKey(event, condDimensions, argsDimension);
+    public void cleanCountWithRedis(Event event, String[] condDimensions, String aggrDimension) {
+        String key = getRedisKey(event, condDimensions, aggrDimension);
         RedisUtils.zremoveRangeByScore(key, -1, Long.valueOf(dateTimeScore(event.getOperateTime())));
     }
 
@@ -119,10 +119,10 @@ public class DimensionService {
      * @param event          事件
      * @param condDimensions 条件维度数组,注意顺序
      * @param periodSeconds  查询时间段、多少秒之内的
-     * @param argsDimension  聚合维度
+     * @param aggrDimension  聚合维度
      * @return
      */
-    private long addQueryHabit(Event event, String[] condDimensions, long periodSeconds, String argsDimension) {
+    private long addQueryHabit(Event event, String[] condDimensions, long periodSeconds, String aggrDimension) {
         //获取条件维度拼接值
         StringJoiner condDimensionsValue = new StringJoiner("_");
         for (String condDimension : condDimensions) {
@@ -134,13 +134,13 @@ public class DimensionService {
         }
 
         //获取聚合维度值
-        Object argsDimensionValue = getProperty(event, argsDimension);
-        if (argsDimensionValue == null || "".equals(argsDimensionValue)) {
+        Object aggrDimensionValue = getProperty(event, aggrDimension);
+        if (aggrDimensionValue == null || "".equals(aggrDimensionValue)) {
             return 0;
         }
 
         //生成Redis键值
-        String key = getRedisKey(event.getScene(), condDimensions, argsDimension, condDimensionsValue.toString());
+        String key = getRedisKey(event.getScene(), condDimensions, aggrDimension, condDimensionsValue.toString());
 
         //max scope 当前时间
         String maxScope = dateTimeScore(event.getOperateTime());
@@ -151,7 +151,7 @@ public class DimensionService {
         //scope 操作时间
         String scope = dateTimeScore(event.getOperateTime());
 
-        Long ret = runSha(key, minScope, String.valueOf(periodSeconds), scope, argsDimensionValue.toString(), minScope, maxScope);
+        Long ret = runSha(key, minScope, String.valueOf(periodSeconds), scope, aggrDimensionValue.toString(), minScope, maxScope);
         long count = ret == null ? 0 : ret.intValue();
         event.setCount(count);
         return count;
@@ -162,10 +162,10 @@ public class DimensionService {
      *
      * @param event
      * @param condDimensions
-     * @param argsDimension
+     * @param aggrDimension
      * @return
      */
-    public String getRedisKey(Event event, String[] condDimensions, String argsDimension) {
+    public String getRedisKey(Event event, String[] condDimensions, String aggrDimension) {
         //获取条件维度拼接值
         StringJoiner condDimensionsValue = new StringJoiner("_");
         for (String condDimension : condDimensions) {
@@ -176,15 +176,15 @@ public class DimensionService {
         }
 
         //获取聚合维度值
-        Object argsDimensionValue = getProperty(event, argsDimension);
-        if (argsDimensionValue == null || "".equals(argsDimensionValue)) {
+        Object aggrDimensionValue = getProperty(event, aggrDimension);
+        if (aggrDimensionValue == null || "".equals(aggrDimensionValue)) {
         }
 
-        return getRedisKey(event.getScene(), condDimensions, argsDimension, condDimensionsValue.toString());
+        return getRedisKey(event.getScene(), condDimensions, aggrDimension, condDimensionsValue.toString());
     }
 
-    public String getRedisKey(String scene, String[] condDimensions, String argsDimension, String condDimensionsValue) {
-        return String.format(RISK_KEY_FORMAT, scene.toLowerCase(), String.join("_", condDimensions), argsDimension, condDimensionsValue);
+    public String getRedisKey(String scene, String[] condDimensions, String aggrDimension, String condDimensionsValue) {
+        return String.format(RISK_KEY_FORMAT, scene.toLowerCase(), String.join("_", condDimensions), aggrDimension, condDimensionsValue);
     }
 
     /**

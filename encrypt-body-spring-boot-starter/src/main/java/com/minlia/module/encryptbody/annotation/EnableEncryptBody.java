@@ -203,7 +203,7 @@
  */
 package com.minlia.module.encryptbody.annotation;
 
-import com.minlia.module.encryptbody.advice.DecryptRequestBodyAdvice;
+import com.minlia.module.encryptbody.advice.CryptRequestBodyAdvice;
 import com.minlia.module.encryptbody.advice.EncryptResponseBodyAdvice;
 import com.minlia.module.encryptbody.config.EncryptBodyConfig;
 import com.minlia.module.encryptbody.config.HttpConverterConfig;
@@ -225,6 +225,6 @@ import java.lang.annotation.*;
 @Import({EncryptBodyConfig.class,
         HttpConverterConfig.class,
         EncryptResponseBodyAdvice.class,
-        DecryptRequestBodyAdvice.class})
+        CryptRequestBodyAdvice.class})
 public @interface EnableEncryptBody {
 }
