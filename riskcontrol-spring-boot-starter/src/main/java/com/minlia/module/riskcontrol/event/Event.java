@@ -119,9 +119,9 @@ public abstract class Event {
         if (dangerThreshold <= 0 || warningThreshold <= 0 || thresholdScore <= 0 || perScore < 0) {
             level = RiskLevelEnum.NORMAL;
         } else {
-            if (count > warningThreshold) {
+            if (count >= warningThreshold) {
                 this.score += thresholdScore + (count - warningThreshold) * perScore;
-                if (count > dangerThreshold) {
+                if (count >= dangerThreshold) {
                     level = RiskLevelEnum.DANGER;
                 } else {
                     level = RiskLevelEnum.WARNING;

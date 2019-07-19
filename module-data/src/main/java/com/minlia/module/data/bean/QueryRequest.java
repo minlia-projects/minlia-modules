@@ -3,6 +3,7 @@ package com.minlia.module.data.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Body;
 import com.minlia.module.common.constant.SymbolConstants;
@@ -94,9 +95,22 @@ public class QueryRequest implements Body {
         }
     }
 
+
+    private static final String DOT_ASC = ".ASC";
+    private static final String DOT_DESC = ".DESC";
+
+    private static final String SPACE_ASC = " asc";
+    private static final String SPACE_DESC = " desc";
+
     public String getOrderBy() {
         //id.DESC-name.ASC to id DESC,name ASC
-        return StringUtils.isNotBlank(sortsStr) ? sortsStr.replace(SymbolConstants.DOT, SymbolConstants.SPACE).replace(SymbolConstants.ZHX, SymbolConstants.COMMA) : null;
+        return StringUtils.isNotBlank(sortsStr) ? CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortsStr.replace(DOT_ASC, SPACE_ASC).replace(DOT_DESC, SPACE_DESC).replace(SymbolConstants.ZHX, SymbolConstants.COMMA)) : null;
     }
 
+
+    public static void main(String[] args) {
+        String sortsStr = "id.DESC-name.ASC";
+        System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortsStr.replace(DOT_ASC, SPACE_ASC).replace(DOT_DESC, SPACE_DESC).replace(SymbolConstants.ZHX, SymbolConstants.COMMA)));
+
+    }
 }
