@@ -110,7 +110,12 @@ public class UserCode {
         /**
          * 过去6个月内更改电子邮件地址的次数超过5次
          */
-        CHANGE_EMAIL_OVER_TIMES;
+        CHANGE_EMAIL_OVER_TIMES,
+
+        /**
+         * 新密码不能和旧密码一致
+         */
+        NEW_PASSWORD_EQUALS_OLD;
 
 
         @Override

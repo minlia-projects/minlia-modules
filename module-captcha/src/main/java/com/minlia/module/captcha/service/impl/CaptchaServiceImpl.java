@@ -23,6 +23,7 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,15 +51,6 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Autowired
     private CaptchaConfig captchaConfig;
 
-    @Autowired
-    private DimensionService dimensionService;
-
-    @Autowired
-    private RiskRecordService riskRecordService;
-
-    @Autowired
-    private RiskDroolsConfigService riskDroolsConfigService;
-
     @Override
     public Captcha send(CaptchaCRO cro) {
         Captcha captcha;
@@ -82,16 +74,10 @@ public class CaptchaServiceImpl implements CaptchaService {
         log.debug("Sending security code for cellphone: {}", cellphone);
         Captcha captcha = this.save(cellphone, CaptchaMethodEnum.CELLPHONE);
 
-        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
-        riskCaptchaEvent.setSceneValue(cellphone);
-        riskCaptchaEvent.setAccount(cellphone);
-        KieService.execute(riskCaptchaEvent);
-
-//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-//        kieSession.setGlobal("dimensionService", dimensionService);
-//        kieSession.setGlobal("riskRecordService", riskRecordService);
-//        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
-//        kieSession.execute(riskCaptchaEvent);
+//        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
+//        riskCaptchaEvent.setSceneValue(cellphone);
+//        riskCaptchaEvent.setAccount(cellphone);
+//        KieService.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
         if (!Environments.isDevelopment()) {
@@ -118,16 +104,10 @@ public class CaptchaServiceImpl implements CaptchaService {
         log.debug("Sending security code for email: {}", email);
         Captcha captcha = this.save(email, CaptchaMethodEnum.EMAIL);
 
-        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
-        riskCaptchaEvent.setSceneValue(email);
-        riskCaptchaEvent.setAccount(email);
-        KieService.execute(riskCaptchaEvent);
-
-//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-//        kieSession.setGlobal("dimensionService", dimensionService);
-//        kieSession.setGlobal("riskRecordService", riskRecordService);
-//        kieSession.setGlobal("riskDroolsConfigService", riskDroolsConfigService);
-//        kieSession.execute(riskCaptchaEvent);
+//        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
+//        riskCaptchaEvent.setSceneValue(email);
+//        riskCaptchaEvent.setAccount(email);
+//        KieService.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
 //        if (!Environments.isDevelopment()) {

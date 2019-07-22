@@ -81,41 +81,6 @@ public class RbacAuthenticationService implements AuthenticationService {
         Assert.notNull(authentication, "No authentication data provided");
         LoginCredentials loginCredentials = (LoginCredentials) authentication.getPrincipal();
 
-//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-//        kieSession.setGlobal("riskBlackListService", riskBlackListService);
-//        kieSession.setGlobal("riskRecordService", riskRecordService);
-//        kieSession.setGlobal("dimensionService", dimensionService);
-
-        //IP范围
-        RiskIpScopeEvent riskIpScopeEvent = new RiskIpScopeEvent();
-        KieService.execute(riskIpScopeEvent);
-        ApiAssert.state(riskIpScopeEvent.isMatched(), RiskCode.Message.BLACK_IP_SCOPE.code(), RiskCode.Message.BLACK_IP_SCOPE.i18nKey());
-
-        //黑名单IP
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        RiskBlackUrlService riskBlackUrlService = ContextHolder.getContext().getBean(RiskBlackUrlService.class);
-        if (!riskBlackUrlService.contain(RiskTypeEnum.WHITE, requestAttributes.getRequest().getRequestURI())) {
-            RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent(requestAttributes.getRequest().getRequestURI());
-            KieService.execute(riskBlackIpEvent);
-            ApiAssert.state(!riskBlackIpEvent.isMatched(), RiskCode.Message.BLACK_IP.code(), RiskCode.Message.BLACK_IP.i18nKey());
-        }
-
-        //登陆IP
-        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
-        riskLoginEvent.setScene("NUM_DIFF_IP_LOGIN_15MINS");
-        riskLoginEvent.setSceneValue(loginCredentials.getAccount());
-        riskLoginEvent.setUsername(loginCredentials.getAccount());
-//        kieSession.execute(riskLoginEvent);
-        KieService.execute(riskLoginEvent);
-        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.code(), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.i18nKey());
-
-        //登陆失败
-        RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
-        riskLoginFailureEvent.setSceneValue(loginCredentials.getAccount());
-//        kieSession.execute(riskLoginFailureEvent);
-        KieService.execute(riskLoginFailureEvent);
-        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_SAME_IP_LOGIN_FAILURE_MINS);
-
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
         String captcha = loginCredentials.getCaptcha();
@@ -138,6 +103,23 @@ public class RbacAuthenticationService implements AuthenticationService {
 
         if (null == user) {
             throw new UsernameNotFoundException("User not exists:");
+        }
+
+        //只正对BORROWER角色
+        if (currrole.equals("BORROWER")) {
+            //登陆IP
+            RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
+            riskLoginEvent.setScene("NUM_DIFF_IP_LOGIN_15MINS");
+            riskLoginEvent.setSceneValue(loginCredentials.getAccount());
+            riskLoginEvent.setUsername(loginCredentials.getAccount());
+            KieService.execute(riskLoginEvent);
+            ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.code(), RiskCode.Message.NUM_DIFF_IP_LOGIN_MINS.i18nKey());
+
+            //登陆失败
+            RiskLoginFailureEvent riskLoginFailureEvent = new RiskLoginFailureEvent();
+            riskLoginFailureEvent.setSceneValue(loginCredentials.getAccount());
+            KieService.execute(riskLoginFailureEvent);
+            ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.NUM_SAME_IP_LOGIN_FAILURE_MINS);
         }
 
         if (StringUtils.isNotBlank(password)) {

@@ -81,10 +81,10 @@ public class UserPasswordServiceImpl implements UserPasswordService {
 
     @Override
     public User change(User user, String newPassword) {
+        ApiAssert.state(bCryptPasswordEncoder.matches(newPassword, user.getPassword()), UserCode.Message.NEW_PASSWORD_EQUALS_OLD);
+
         //设置新密码
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-//        user.setEnabled(Boolean.TRUE);
-//        user.setCredentialsExpired(Boolean.FALSE);
         user.setCredentialsEffectiveDate(LocalDateTime.now().plusYears(1));
         user.setLocked(Boolean.FALSE);
         user.setLockLimit(0);

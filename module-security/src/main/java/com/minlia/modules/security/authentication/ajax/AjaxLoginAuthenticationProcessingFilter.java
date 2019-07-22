@@ -45,11 +45,6 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-
-        System.out.println(request.getRequestURI());
-        System.out.println(request.getRequestURL());
-        System.out.println(request.getServletPath());
-
         if (!HttpMethod.POST.name().equals(request.getMethod())) {
             if (log.isDebugEnabled()) {
                 log.debug("Authentication method not supported. Request method: {}, only ajax request is supported.", request.getMethod());
@@ -64,17 +59,6 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         //获取登录凭证：用户名、邮箱、手机号码、密码
         LoginCredentials loginCredentials = objectMapper.readValue(request.getReader(), LoginCredentials.class);
         this.preConditions(loginCredentials);
-
-
-//        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
-//        //登陆IP
-//        RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
-//        riskLoginEvent.setScene("account_login_ip");
-//        riskLoginEvent.setUsername(loginCredentials.getAccount());
-//        kieSession.execute(riskLoginEvent);
-//        ApiAssert.state(!riskLoginEvent.isBlack(), RiskCode.Message.BLACK_IP);
-//        ApiAssert.state(!riskLoginEvent.getLevel().equals(RiskLevelEnum.DANGER), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.code(), RiskCode.Message.SAME_ACCOUNT_DIFFERENT_LOGIN_IP.i18nKey());
-
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginCredentials, loginCredentials.getPassword());
         return this.getAuthenticationManager().authenticate(token);
     }

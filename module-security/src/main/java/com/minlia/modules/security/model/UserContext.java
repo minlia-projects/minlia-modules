@@ -25,19 +25,20 @@ public final class UserContext implements Body {
      */
     private String username;
 
+    /**
+     * 手机号码
+     */
     private String cellphone;
 
+    /**
+     * 邮箱
+     */
     private String email;
 
     /**
      * 用户唯一编号
      */
     private String guid;
-
-    /**
-     * 过期时间
-     */
-    private LocalDateTime expireDate;
 
     /**
      * JwtTokenFactory
@@ -65,5 +66,11 @@ public final class UserContext implements Body {
      */
     @JsonIgnore
     private List<GrantedAuthority> authorities;
+
+    /**
+     * 过期时间
+     */
+    private LocalDateTime expireDate;
+
 
 }

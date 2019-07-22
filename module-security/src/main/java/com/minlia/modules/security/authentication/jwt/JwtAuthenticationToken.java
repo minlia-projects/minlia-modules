@@ -12,6 +12,7 @@ import java.util.Collection;
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private RawAccessJwtToken rawAccessToken;
+
     private UserContext userContext;
 
     public JwtAuthenticationToken(RawAccessJwtToken unsafeToken) {
@@ -43,6 +44,11 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     @Override
     public Object getPrincipal() {
         return this.userContext;
+    }
+
+    @Override
+    public String getName() {
+        return this.userContext.getGuid();
     }
 
     @Override

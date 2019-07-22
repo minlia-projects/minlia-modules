@@ -15,6 +15,8 @@ public class RiskCaptchaEvent extends Event {
 
     public final static String TIME = "time";
 
+    private String guid;
+
     private String account;
 
     private String time;
@@ -25,6 +27,10 @@ public class RiskCaptchaEvent extends Event {
 
     public String getTime() {
         return System.currentTimeMillis() + "";
+    }
+
+    public String getGuid() {
+        return guid;
     }
 
 }

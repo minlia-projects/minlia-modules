@@ -19,4 +19,6 @@ public @interface CryptField {
 
     CryptTypeEnum value() default CryptTypeEnum.AES;
 
+    Class<? extends Enum> enumClass() default Enum.class;
+
 }

@@ -20,14 +20,12 @@ public class DefaultLogoutSuccessHandler implements LogoutSuccessHandler {
     ObjectMapper objectMapper;
 
     @Override
-    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         Map<String, String> result = new HashMap<>();
-        result.put( "result", "success" );
+        result.put("result", "success");
         response.setContentType("application/json");
-        response.getWriter().write( objectMapper.writeValueAsString( result ) );
+        response.getWriter().write(objectMapper.writeValueAsString(result));
         response.setStatus(HttpServletResponse.SC_OK);
-
     }
 
 }
