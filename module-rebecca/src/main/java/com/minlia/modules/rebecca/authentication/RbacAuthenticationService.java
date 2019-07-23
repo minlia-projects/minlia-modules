@@ -106,7 +106,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         }
 
         //只正对BORROWER角色
-        if (currrole.equals("BORROWER")) {
+        if ((StringUtils.isNotBlank(currrole) && currrole.equals("BORROWER")) || user.getDefaultRole().equals("BORROWER")) {
             //登陆IP
             RiskLoginEvent riskLoginEvent = new RiskLoginEvent();
             riskLoginEvent.setScene("NUM_DIFF_IP_LOGIN_15MINS");

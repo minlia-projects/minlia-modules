@@ -42,45 +42,6 @@
     </sql>
 
     <!--auto generated Code-->
-    <insert id="insert" useGeneratedKeys="true" keyProperty="auditLogInfo.id">
-        INSERT INTO mdl_audit_log (
-            create_by,
-            last_modified_by,
-            create_date,
-            last_modified_date,
-            id,
-            `operation_type`,
-            title,
-            service_id,
-            remote_addr,
-            user_agent,
-            request_uri,
-            method,
-            params,
-            `time`,
-            del_flag,
-            `exception`
-        ) VALUES (
-            #{auditLogInfo.createBy,jdbcType=VARCHAR},
-            #{auditLogInfo.lastModifiedBy,jdbcType=VARCHAR},
-            #{auditLogInfo.createDate,jdbcType=TIMESTAMP},
-            #{auditLogInfo.lastModifiedDate,jdbcType=TIMESTAMP},
-            #{auditLogInfo.id,jdbcType=BIGINT},
-            #{auditLogInfo.operationType,jdbcType=VARCHAR},
-            #{auditLogInfo.title,jdbcType=VARCHAR},
-            #{auditLogInfo.serviceId,jdbcType=VARCHAR},
-            #{auditLogInfo.remoteAddr,jdbcType=VARCHAR},
-            #{auditLogInfo.userAgent,jdbcType=VARCHAR},
-            #{auditLogInfo.requestUri,jdbcType=VARCHAR},
-            #{auditLogInfo.method,jdbcType=VARCHAR},
-            #{auditLogInfo.params,jdbcType=VARCHAR},
-            #{auditLogInfo.time,jdbcType=VARCHAR},
-            #{auditLogInfo.delFlag,jdbcType=INTEGER},
-            #{auditLogInfo.exception,jdbcType=VARCHAR}
-        )
-    </insert>
-
-    <!--auto generated Code-->
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="auditLogInfo.id">
         INSERT INTO mdl_audit_log
         <trim prefix="(" suffix=")" suffixOverrides=",">

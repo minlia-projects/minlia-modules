@@ -197,7 +197,7 @@
         <if test="level != null">
             AND `level` = #{level,jdbcType=VARCHAR}
         </if>
-        AND DATEDIFF( date_time, #{dateTime,jdbcType=TIMESTAMP} ) = 0
+        AND DATEDIFF( date_time, #{date,jdbcType=TIMESTAMP} ) = 0
         AND `count` = (
         SELECT
         MAX( count )
@@ -219,7 +219,7 @@
         <if test="level != null">
             AND `level` = #{level,jdbcType=VARCHAR}
         </if>
-        AND DATEDIFF( date_time, #{dateTime,jdbcType=TIMESTAMP} ) = 0
+        AND DATEDIFF( date_time, #{date,jdbcType=TIMESTAMP} ) = 0
         AND `count` = (
         SELECT
         MAX( count )

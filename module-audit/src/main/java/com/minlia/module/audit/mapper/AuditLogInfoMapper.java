@@ -10,8 +10,6 @@ import java.util.List;
 @Mapper
 public interface AuditLogInfoMapper {
 
-    int insert(@Param("auditLogInfo") AuditLogInfo auditLogInfo);
-
     int insertSelective(@Param("auditLogInfo") AuditLogInfo auditLogInfo);
 
     int updateByPrimaryKeySelective(@Param("auditLogInfo") AuditLogInfo auditLogInfo);
