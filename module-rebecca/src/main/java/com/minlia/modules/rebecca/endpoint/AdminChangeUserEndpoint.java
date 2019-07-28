@@ -4,6 +4,7 @@ package com.minlia.modules.rebecca.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.constant.RebeccaSecurityConstant;
 import com.minlia.modules.rebecca.service.UserQueryService;
@@ -29,7 +30,7 @@ public class AdminChangeUserEndpoint {
     @Autowired
     private UserQueryService userQueryService;
 
-    @AuditLog(value = "admin change user cellphone")
+    @AuditLog(value = "admin change user cellphone", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "手机号码", notes = "手机号码", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "cellphone/{guid}/{cellphone}/{captcha}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -39,7 +40,7 @@ public class AdminChangeUserEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "admin change user email")
+    @AuditLog(value = "admin change user email", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "邮箱", notes = "邮箱", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "email/{guid}/{email}/{captcha}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})

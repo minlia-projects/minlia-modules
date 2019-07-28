@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
 import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.mapper.RiskRecordMapper;
@@ -32,7 +33,7 @@ public class RiskRecordEndpoint {
 //        return Response.success(riskRecordService.queryAll());
 //    }
 
-    @AuditLog(value = "query fraud record by id")
+    @AuditLog(value = "query fraud record by id", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.RECORD_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
@@ -40,7 +41,7 @@ public class RiskRecordEndpoint {
         return Response.success(riskRecordService.queryById(id));
     }
 
-    @AuditLog(value = "query fraud record as paginated")
+    @AuditLog(value = "query fraud record as paginated", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.RECORD_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")

@@ -6,6 +6,7 @@ import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
@@ -61,7 +62,7 @@ public class ForgetPasswordEndpoint {
     @Autowired
     private UserPasswordService userPasswordService;
 
-    @AuditLog(value = "change password")
+    @AuditLog(value = "change password", type = OperationTypeEnum.MODIFY)
     @ApiOperation(value = "忘记密码", notes = "忘记密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "forget", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response resetPassword(@Valid @RequestBody PasswordResetTO to) {
@@ -69,7 +70,7 @@ public class ForgetPasswordEndpoint {
         return Response.success(entity);
     }
 
-    @AuditLog(value = "update password by account and raw password")
+    @AuditLog(value = "update password by account and raw password", type = OperationTypeEnum.MODIFY)
     @ApiOperation(value = "根据原密码修改", notes = "修改密码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "raw", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response changePassword(@Valid @RequestBody PasswordByAccountAndRawPasswordChangeTO to) {

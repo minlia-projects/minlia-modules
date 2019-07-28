@@ -5,6 +5,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.captcha.entity.Captcha;
 import com.minlia.module.captcha.ro.CaptchaCRO;
 import com.minlia.module.captcha.enumeration.CaptchaMethodEnum;
@@ -34,7 +35,7 @@ public class UserCaptchaEndpoint {
     @Autowired
     private CaptchaService captchaService;
 
-    @AuditLog(value = "send otp to curent user")
+    @AuditLog(value = "send otp to curent user", type = OperationTypeEnum.CREATE)
     @ApiOperation(value = "发送当前用户验证码", notes = "发送当前用户验证码", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "send", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response send(@Valid @RequestBody CaptchaCRO to) {
