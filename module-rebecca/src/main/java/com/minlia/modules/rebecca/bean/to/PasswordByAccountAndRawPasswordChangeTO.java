@@ -1,10 +1,7 @@
 package com.minlia.modules.rebecca.bean.to;
 
-import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
-import com.minlia.module.common.validation.Username;
 import lombok.Data;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**

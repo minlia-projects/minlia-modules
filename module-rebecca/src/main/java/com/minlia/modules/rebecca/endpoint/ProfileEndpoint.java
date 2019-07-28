@@ -2,6 +2,7 @@ package com.minlia.modules.rebecca.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.modules.rebecca.bean.domain.Role;
 import com.minlia.modules.rebecca.bean.qo.NavigationQO;
 import com.minlia.modules.rebecca.bean.vo.MyNavigationVO;
@@ -29,7 +30,7 @@ public class ProfileEndpoint {
     @Autowired
     private NavigationService navigationService;
 
-    @AuditLog(value = "get my authorities as list")
+    @AuditLog(value = "get my authorities as list", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "获取我的权限列表", notes = "获取我的权限列表", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "/api/v1/me", method = RequestMethod.GET)
     public Response get() {

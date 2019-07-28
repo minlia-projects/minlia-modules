@@ -34,29 +34,33 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Override
     public User registration(UserRegistrationTO to) {
-        switch (to.getType()) {
-            case USERNAME:
-                ApiAssert.state(false, UserCode.Message.UNSUPPORTED_USERNAME_REGISTERED);
-                break;
-            case CELLPHONE:
-                captchaService.validityByCellphone(to.getCellphone(), to.getCode());
-                break;
-            case EMAIL:
-                captchaService.validityByEmail(to.getEmail(),to.getCode());
-                break;
-        }
-
         User user = userService.create(UserCTO.builder()
-                .method(to.getType())
-                .username(to.getUsername())
-                .cellphone(to.getCellphone())
-                .email(to.getEmail())
+//                .method(to.getType())
+//                .username(to.getUsername())
+//                .cellphone(to.getCellphone())
+//                .email(to.getEmail())
                 .password(to.getPassword())
                 .defaultRole(SecurityConstant.ROLE_USER_ID)
                 .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_ID))
                 .referral(to.getReferral())
                 .nickname(to.getNickname())
                 .build());
+
+        switch (to.getType()) {
+            case USERNAME:
+                ApiAssert.state(false, UserCode.Message.UNSUPPORTED_USERNAME_REGISTERED);
+                user.setUsername(to.getUsername());
+                break;
+            case CELLPHONE:
+                captchaService.validityByCellphone(to.getCellphone(), to.getCode());
+                user.setCellphone(to.getCellphone());
+                break;
+            case EMAIL:
+                captchaService.validityByEmail(to.getEmail(), to.getCode());
+                user.setEmail(to.getEmail());
+                break;
+        }
+
         return user;
     }
 

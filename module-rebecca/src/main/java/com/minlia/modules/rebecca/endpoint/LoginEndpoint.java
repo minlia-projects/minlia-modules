@@ -3,6 +3,7 @@ package com.minlia.modules.rebecca.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 @RequestMapping(value = ApiPrefix.API + "auth/login")
 public class LoginEndpoint {
 
-    @AuditLog(value = "login")
+    @AuditLog(value = "login", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "登录", notes = "登录")
     @RequestMapping(value = "", method = RequestMethod.POST, produces = "application/json")
     public Response login(@Valid @RequestBody LoginCredentials credential) {

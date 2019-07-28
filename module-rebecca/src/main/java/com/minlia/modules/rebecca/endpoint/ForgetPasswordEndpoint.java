@@ -90,7 +90,9 @@ public class ForgetPasswordEndpoint {
             }
             userService.update(user, UserUpdateTypeEcnum.PASSWORD_ERROR);
 
-            return Response.failure(SecurityCode.Exception.AJAX_BAD_CREDENTIALS, null, user.getLockLimit().toString());
+            Response response = Response.failure(SecurityCode.Exception.AJAX_BAD_CREDENTIALS, null, user.getLockLimit().toString());
+            response.setStatus(Response.STATUS_FAILURE);
+            return response;
         }
         userPasswordService.change(user, to.getNewPassword());
 

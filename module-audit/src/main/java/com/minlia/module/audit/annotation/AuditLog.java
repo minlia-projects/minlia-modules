@@ -29,6 +29,6 @@ public @interface AuditLog {
      *
      * @return {String}
      */
-    OperationTypeEnum operationType() default OperationTypeEnum.UNKNOWN;
+    OperationTypeEnum type();
 
 }

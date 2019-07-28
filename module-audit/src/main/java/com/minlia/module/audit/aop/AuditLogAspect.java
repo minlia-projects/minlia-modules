@@ -26,6 +26,7 @@ import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.entity.AuditLogInfo;
 import com.minlia.module.audit.service.AuditLogInfoService;
 import com.minlia.modules.security.context.SecurityContextHolder1;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -107,6 +109,7 @@ public class AuditLogAspect {
 
     private AuditLogInfo builderInfo(JoinPoint point) {
         MethodSignature signature = (MethodSignature) point.getSignature();
+
         AuditLog auditLog = signature.getMethod().getAnnotation(AuditLog.class);
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 
@@ -117,10 +120,16 @@ public class AuditLogAspect {
         auditLogInfo.setCreateDate(date);
         auditLogInfo.setLastModifiedDate(date);
         auditLogInfo.setTitle(auditLog.value());
+        auditLogInfo.setOperationType(auditLog.type());
         auditLogInfo.setMethod(request.getMethod());
         auditLogInfo.setUserAgent(request.getHeader("user-agent"));
         auditLogInfo.setRequestUri(URLUtil.getPath(request.getRequestURI()));
         auditLogInfo.setRemoteAddr(ServletUtil.getClientIP(request));
+
+        Api api = point.getTarget().getClass().getAnnotation(Api.class);
+        if (null != api) {
+            auditLogInfo.setTags(api.tags()[0]);
+        }
 
         if (ArrayUtils.isNotEmpty(point.getArgs())) {
             auditLogInfo.setParams(JSON.toJSONString(point.getArgs()));

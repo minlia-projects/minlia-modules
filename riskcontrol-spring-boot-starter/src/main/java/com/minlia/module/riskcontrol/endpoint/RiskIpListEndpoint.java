@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.riskcontrol.bean.RiskIpListQRO;
 import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.entity.RiskIpList;
@@ -33,7 +34,7 @@ public class RiskIpListEndpoint {
     @Autowired
     private RiskIpListMapper riskIpListMapper;
 
-    @AuditLog(value = "save fraud ip list")
+    @AuditLog(value = "save fraud ip list", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.IP_LIST_SAVE + "')")
     @ApiOperation(value = "保存")
     @PostMapping(value = "")
@@ -42,7 +43,7 @@ public class RiskIpListEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "reset black ip list")
+    @AuditLog(value = "reset black ip list", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.IP_LIST_RESET + "')")
     @ApiOperation(value = "重置")
     @PostMapping(value = "reset")
@@ -51,7 +52,7 @@ public class RiskIpListEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "delete fraud ip list by id")
+    @AuditLog(value = "delete fraud ip list by id", type = OperationTypeEnum.DELETE)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.IP_LIST_DELETE + "')")
     @ApiOperation(value = "ID删除")
     @DeleteMapping(value = "{id}")
@@ -60,7 +61,7 @@ public class RiskIpListEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "query fraud ip list by id")
+    @AuditLog(value = "query fraud ip list by id", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.IP_LIST_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
@@ -68,7 +69,7 @@ public class RiskIpListEndpoint {
         return Response.success(riskIpListService.queryById(id));
     }
 
-    @AuditLog(value = "query fraud ip list by all")
+    @AuditLog(value = "query fraud ip list by all", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.IP_LIST_SEARCH + "')")
     @ApiOperation(value = "查询所有")
     @GetMapping(path = "all")
@@ -76,7 +77,7 @@ public class RiskIpListEndpoint {
         return Response.success(riskIpListService.getAll());
     }
 
-    @AuditLog(value = "query fraud ip list as paginated")
+    @AuditLog(value = "query fraud ip list as paginated", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.IP_LIST_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(path = "page")

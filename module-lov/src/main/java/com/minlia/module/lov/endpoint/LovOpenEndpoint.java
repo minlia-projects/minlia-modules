@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.lov.bean.LovQRO;
 import com.minlia.module.lov.servcie.LovService;
 import io.swagger.annotations.Api;
@@ -21,14 +22,14 @@ public class LovOpenEndpoint {
     @Autowired
     private LovService lovService;
 
-    @AuditLog(value = "query a lov by id")
+    @AuditLog(value = "query a lov by id", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "ID查询", httpMethod = "GET")
     @GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response one(@PathVariable Long id) {
         return Response.success(lovService.selectByPrimaryKey(id));
     }
 
-    @AuditLog(value = "query lovs by query request body as list")
+    @AuditLog(value = "query lovs by query request body as list", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "集合查询", httpMethod = "POST")
     @PostMapping(value = "list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response list(@RequestBody LovQRO qro) {
@@ -37,7 +38,7 @@ public class LovOpenEndpoint {
         return Response.success(lovService.selectByAll(qro));
     }
 
-    @AuditLog(value = "query lovs by query request body as paginated result")
+    @AuditLog(value = "query lovs by query request body as paginated result", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "分页查询", httpMethod = "POST")
     @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response paginated(@RequestBody LovQRO qro) {

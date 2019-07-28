@@ -5,6 +5,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.bean.AuditLogInfoQRO;
 import com.minlia.module.audit.constant.AuditConstants;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.audit.service.AuditLogInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,8 +26,8 @@ public class AuditLogEndpoint {
     @Autowired
     private AuditLogInfoService auditLogInfoService;
 
-    @PreAuthorize(value = "hasAnyAuthority('"+ AuditConstants.SEARCH +"')")
-    @AuditLog(value = "query audit log as paginated result")
+    @PreAuthorize(value = "hasAnyAuthority('" + AuditConstants.SEARCH + "')")
+    @AuditLog(value = "query audit log as paginated result", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@RequestBody AuditLogInfoQRO qro) {

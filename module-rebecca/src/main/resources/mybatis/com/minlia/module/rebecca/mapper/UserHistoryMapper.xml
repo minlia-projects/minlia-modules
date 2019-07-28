@@ -13,8 +13,6 @@
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="account_effective_date" jdbcType="TIMESTAMP" property="accountEffectiveDate"/>
         <result column="credentials_effective_date" jdbcType="TIMESTAMP" property="credentialsEffectiveDate"/>
-        <result column="credentials_expired" jdbcType="BOOLEAN" property="credentialsExpired"/>
-        <result column="expired" jdbcType="BOOLEAN" property="expired"/>
         <result column="locked" jdbcType="BOOLEAN" property="locked"/>
         <result column="lock_limit" jdbcType="TINYINT" property="lockLimit"/>
         <result column="lock_time" jdbcType="TIMESTAMP" property="lockTime"/>
@@ -30,7 +28,7 @@
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, update_type, guid, username, cellphone, email, default_role, `password`, account_effective_date,
-        credentials_effective_date, credentials_expired, expired, locked, lock_limit, lock_time,
+        credentials_effective_date, locked, lock_limit, lock_time,
         last_login_time, last_login_ip, referral, enabled, create_by, create_date, last_modified_by,
         last_modified_date
     </sql>
@@ -77,12 +75,6 @@
             </if>
             <if test="credentialsEffectiveDate != null">
                 credentials_effective_date,
-            </if>
-            <if test="credentialsExpired != null">
-                credentials_expired,
-            </if>
-            <if test="expired != null">
-                expired,
             </if>
             <if test="locked != null">
                 locked,
@@ -145,12 +137,6 @@
             </if>
             <if test="credentialsEffectiveDate != null">
                 #{credentialsEffectiveDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="credentialsExpired != null">
-                #{credentialsExpired,jdbcType=BOOLEAN},
-            </if>
-            <if test="expired != null">
-                #{expired,jdbcType=BOOLEAN},
             </if>
             <if test="locked != null">
                 #{locked,jdbcType=BOOLEAN},
@@ -217,12 +203,6 @@
             </if>
             <if test="credentialsEffectiveDate != null">
                 credentials_effective_date = #{credentialsEffectiveDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="credentialsExpired != null">
-                credentials_expired = #{credentialsExpired,jdbcType=BOOLEAN},
-            </if>
-            <if test="expired != null">
-                expired = #{expired,jdbcType=BOOLEAN},
             </if>
             <if test="locked != null">
                 locked = #{locked,jdbcType=BOOLEAN},
@@ -296,12 +276,6 @@
             <if test="credentialsEffectiveDate != null">
                 and credentials_effective_date=#{credentialsEffectiveDate,jdbcType=TIMESTAMP}
             </if>
-            <if test="credentialsExpired != null">
-                and credentials_expired=#{credentialsExpired,jdbcType=BOOLEAN}
-            </if>
-            <if test="expired != null">
-                and expired=#{expired,jdbcType=BOOLEAN}
-            </if>
             <if test="locked != null">
                 and locked=#{locked,jdbcType=BOOLEAN}
             </if>
@@ -373,12 +347,6 @@
         </if>
         <if test="credentialsEffectiveDate != null">
             and credentials_effective_date=#{credentialsEffectiveDate,jdbcType=TIMESTAMP}
-        </if>
-        <if test="credentialsExpired != null">
-            and credentials_expired=#{credentialsExpired,jdbcType=BOOLEAN}
-        </if>
-        <if test="expired != null">
-            and expired=#{expired,jdbcType=BOOLEAN}
         </if>
         <if test="locked != null">
             and locked=#{locked,jdbcType=BOOLEAN}

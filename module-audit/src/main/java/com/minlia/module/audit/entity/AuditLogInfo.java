@@ -8,9 +8,19 @@ import lombok.Data;
 public class AuditLogInfo extends AbstractEntity {
 
     /**
-     * 日志类型
+     * 操作方式
+     */
+    private String method;
+
+    /**
+     * 操作类型
      */
     private OperationTypeEnum operationType;
+
+    /**
+     * 事件标签
+     */
+    private String tags;
 
     /**
      * 日志标题
@@ -32,17 +42,10 @@ public class AuditLogInfo extends AbstractEntity {
      */
     private String userAgent;
 
-
-
     /**
      * 请求URI
      */
     private String requestUri;
-
-    /**
-     * 操作方式
-     */
-    private String method;
 
     /**
      * 操作提交的数据
@@ -57,7 +60,7 @@ public class AuditLogInfo extends AbstractEntity {
     /**
      * 删除标记
      */
-    private Integer delFlag = 0;
+    private Integer delFlag;
 
     /**
      * 异常信息

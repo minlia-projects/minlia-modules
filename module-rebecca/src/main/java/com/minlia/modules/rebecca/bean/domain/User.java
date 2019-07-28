@@ -59,11 +59,6 @@ public class User extends AbstractEntity {
     private String defaultRole;
 
     /**
-     * 凭证是否有效
-     */
-    private Boolean credentialsExpired;
-
-    /**
      * 账号有效时间
      */
     private LocalDateTime accountEffectiveDate;
@@ -73,17 +68,15 @@ public class User extends AbstractEntity {
      */
     private LocalDateTime credentialsEffectiveDate;
 
-    private Boolean expired;
+    /**
+     * 是否锁定
+     */
+    private Boolean locked;
 
     /**
      * 是否可用
      */
     private Boolean enabled;
-
-    /**
-     * 是否锁定
-     */
-    private Boolean locked;
 
     /**
      * 锁定次数

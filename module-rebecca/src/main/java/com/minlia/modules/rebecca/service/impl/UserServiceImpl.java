@@ -81,20 +81,34 @@ public class UserServiceImpl implements UserService {
         User user = new User();
 
         //校验凭证是否有效
-        switch (cro.getMethod()) {
-            case USERNAME:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
-                user.setUsername(cro.getUsername());
-                break;
-            case CELLPHONE:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cro.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
-                user.setCellphone(cro.getCellphone());
-                break;
-            case EMAIL:
-                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
-                user.setEmail(cro.getEmail());
-                break;
+
+        if (StringUtils.isNotBlank(cro.getUsername())) {
+            ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
+            user.setUsername(cro.getUsername());
         }
+        if (StringUtils.isNotBlank(cro.getCellphone())) {
+            ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cro.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
+            user.setCellphone(cro.getCellphone());
+        }
+        if (StringUtils.isNotBlank(cro.getEmail())) {
+            ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
+            user.setEmail(cro.getEmail());
+        }
+
+//        switch (cro.getMethod()) {
+//            case USERNAME:
+//                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
+//                user.setUsername(cro.getUsername());
+//                break;
+//            case CELLPHONE:
+//                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cro.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
+//                user.setCellphone(cro.getCellphone());
+//                break;
+//            case EMAIL:
+//                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
+//                user.setEmail(cro.getEmail());
+//                break;
+//        }
 
         //校验推荐人是否存在
         if (StringUtils.isNotEmpty(cro.getReferral())) {
@@ -121,6 +135,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
         user.setDefaultRole(role.getCode());
         user.setNickname(cro.getNickname());
+        user.setAccountEffectiveDate(null == cro.getAccountEffectiveDate() ? LocalDateTime.now().plusYears(1) : cro.getAccountEffectiveDate());
         user.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusYears(1) : cro.getCredentialsEffectiveDate());
         userMapper.create(user);
 

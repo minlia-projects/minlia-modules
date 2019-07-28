@@ -4,6 +4,7 @@ package com.minlia.modules.rebecca.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
@@ -45,7 +46,7 @@ public class UserChangeEndpoint {
     private MinliaValidProperties minliaValidProperties;
 
 
-    @AuditLog(value = "change cellphone")
+    @AuditLog(value = "change cellphone", type = OperationTypeEnum.MODIFY)
 //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "手机号码", notes = "手机号码", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "cellphone/{cellphone}/{captcha}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -55,7 +56,7 @@ public class UserChangeEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "change email address")
+    @AuditLog(value = "change email address", type = OperationTypeEnum.MODIFY)
 //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "邮箱", notes = "邮箱", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "email/{email}/{captcha}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -65,7 +66,7 @@ public class UserChangeEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "change nickname")
+    @AuditLog(value = "change nickname", type = OperationTypeEnum.MODIFY)
     //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
     @ApiOperation(value = "nickname", notes = "昵称", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "nickname/{nickname}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})

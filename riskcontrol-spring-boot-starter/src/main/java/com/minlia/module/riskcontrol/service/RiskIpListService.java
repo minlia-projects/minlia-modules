@@ -111,10 +111,18 @@ public class RiskIpListService {
         return false;
     }
 
-    private Long ipToNumber(String ip) {
+    private static Long ipToNumber(String ip) {
         String[] ips = ip.split(SymbolConstants.DOT_ZY);
         Long number = Long.valueOf(ips[0]) * (256 * 256 * 256) + Long.valueOf(ips[1]) * (256 * 256) + Long.valueOf(ips[2]) * (256) + Long.valueOf(ips[3]);
         return number;
+    }
+
+
+    public static void main(String[] args) {
+        Long l = ipToNumber("172.5.0.1");
+        System.out.println(l);
+        Long l1 = ipToNumber("172.5.255.255");
+        System.out.println(l1);
     }
 
 }

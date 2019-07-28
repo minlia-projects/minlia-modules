@@ -5,6 +5,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.captcha.bean.CaptchaSendResult;
 import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.Captcha;
@@ -49,7 +50,7 @@ public class CaptchaOpenEndpoint {
 //        }
 //    }
 
-    @AuditLog(value = "send otp")
+    @AuditLog(value = "send otp", type = OperationTypeEnum.CREATE)
     @ApiOperation(value = "发送", notes = "发送", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "send", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response send(@Valid @RequestBody CaptchaCRO cro) {
@@ -64,7 +65,7 @@ public class CaptchaOpenEndpoint {
         }
     }
 
-    @AuditLog(value = "verify otp")
+    @AuditLog(value = "verify otp", type = OperationTypeEnum.MODIFY)
     @ApiOperation(value = "验证", notes = "验证", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "verify", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response verify(@Valid @RequestBody CaptchaVerifyRO verifyRO) {

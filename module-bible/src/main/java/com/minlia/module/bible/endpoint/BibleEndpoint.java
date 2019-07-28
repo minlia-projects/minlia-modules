@@ -5,6 +5,7 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.bible.annotation.BibleAutowired;
 import com.minlia.module.bible.ro.BibleQRO;
 import com.minlia.module.bible.ro.BibleCRO;
@@ -47,7 +48,7 @@ public class BibleEndpoint {
     @Autowired
     private BibleItemService bibleItemService;
 
-    @AuditLog(value = "refresh system bible config")
+    @AuditLog(value = "refresh system bible config", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.CREATE + "')")
     @ApiOperation(value = "刷新配置")
     @PostMapping(value = "refresh/config")
@@ -66,7 +67,7 @@ public class BibleEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "create system bible")
+    @AuditLog(value = "create system bible", type = OperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -74,7 +75,7 @@ public class BibleEndpoint {
         return Response.success(bibleService.create(cto));
     }
 
-    @AuditLog(value = "update system bible")
+    @AuditLog(value = "update system bible", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.UPDATE + "')")
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -82,7 +83,7 @@ public class BibleEndpoint {
         return Response.success(bibleService.update(uto));
     }
 
-    @AuditLog(value = "delete system bible by id")
+    @AuditLog(value = "delete system bible by id", type = OperationTypeEnum.DELETE)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.DELETE + "')")
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -90,7 +91,7 @@ public class BibleEndpoint {
         return Response.success(bibleService.delete(id));
     }
 
-    @AuditLog(value = "query system bible by id")
+    @AuditLog(value = "query system bible by id", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "根据ID查询", notes = "根据ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -98,7 +99,7 @@ public class BibleEndpoint {
         return Response.success(bibleService.queryById(id));
     }
 
-    @AuditLog(value = "query system bible by code")
+    @AuditLog(value = "query system bible by code", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "根据CODE查询", notes = "根据CODE查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryByCode", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -106,7 +107,7 @@ public class BibleEndpoint {
         return Response.success(bibleService.queryByCode(code));
     }
 
-    @AuditLog(value = "query system bible by body as list")
+    @AuditLog(value = "query system bible by body as list", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "根据BODY查询集合", notes = "查询集合", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryList", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -114,7 +115,7 @@ public class BibleEndpoint {
         return Response.success(bibleService.queryList(qro));
     }
 
-    @AuditLog(value = "query system bible by body as paginated result")
+    @AuditLog(value = "query system bible by body as paginated result", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "根据BODY查询分页", notes = "查询分页", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "queryPage", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})

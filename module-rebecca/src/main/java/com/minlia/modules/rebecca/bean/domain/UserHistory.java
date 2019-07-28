@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserHistory {
+
     /**
      * 自增主键
      */
@@ -62,16 +63,6 @@ public class UserHistory {
      * 凭证/密码有效时间
      */
     private LocalDateTime credentialsEffectiveDate;
-
-    /**
-     * 凭证是否过期
-     */
-    private Boolean credentialsExpired;
-
-    /**
-     * 是否过期
-     */
-    private Boolean expired;
 
     /**
      * 是否锁定

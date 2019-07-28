@@ -3,6 +3,7 @@ package com.minlia.modules.rebecca.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.service.LoginService;
@@ -57,7 +58,7 @@ public class AuthEndpoint {
     @Autowired
     private UserQueryService userQueryService;
 
-    @AuditLog(value = "logout")
+    @AuditLog(value = "logout", type = OperationTypeEnum.MODIFY)
     @ApiOperation(value = "注销")
     @PostMapping(value = ApiPrefix.V1 + "auth/logout")
     public @ResponseBody
@@ -67,7 +68,7 @@ public class AuthEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "refresh authentication token")
+    @AuditLog(value = "refresh authentication token", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "刷新令牌", notes = "刷新令牌, 正常情况下TOKEN值在请求时以Header参数 X-Auth-Token: Bearer xxxxxx传入", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = ApiPrefix.V1 + "auth/refreshToken", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody

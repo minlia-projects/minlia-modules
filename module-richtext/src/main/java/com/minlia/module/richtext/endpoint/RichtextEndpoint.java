@@ -3,6 +3,7 @@ package com.minlia.module.richtext.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.richtext.bean.RichtextCRO;
 import com.minlia.module.richtext.bean.RichtextQRO;
 import com.minlia.module.richtext.bean.RichtextURO;
@@ -24,24 +25,24 @@ public class RichtextEndpoint {
     @Autowired
     private RichtextService richtextService;
 
-    @AuditLog(value = "create richtext")
-    @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.CREATE+"')")
+    @AuditLog(value = "create richtext", type = OperationTypeEnum.CREATE)
+    @PreAuthorize(value = "hasAnyAuthority('" + RichtextConstants.CREATE + "')")
     @ApiOperation(value = "create")
     @PostMapping(value = "create")
     public Response create(@Valid @RequestBody RichtextCRO cro) {
         return Response.success(richtextService.create(cro));
     }
 
-    @AuditLog(value = "update richtext")
-    @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.UPDATE+"')")
+    @AuditLog(value = "update richtext", type = OperationTypeEnum.MODIFY)
+    @PreAuthorize(value = "hasAnyAuthority('" + RichtextConstants.UPDATE + "')")
     @ApiOperation(value = "update")
     @PutMapping(value = "update")
     public Response update(@Valid @RequestBody RichtextURO uro) {
         return Response.success(richtextService.update(uro));
     }
 
-    @AuditLog(value = "delete richtext by id")
-    @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.DELETE+"')")
+    @AuditLog(value = "delete richtext by id", type = OperationTypeEnum.DELETE)
+    @PreAuthorize(value = "hasAnyAuthority('" + RichtextConstants.DELETE + "')")
     @ApiOperation(value = "delete")
     @DeleteMapping(value = "delete/{id}")
     public Response update(@PathVariable Long id) {
@@ -49,24 +50,24 @@ public class RichtextEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "query a richtext by id")
-    @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.SEARCH + "')")
+    @AuditLog(value = "query a richtext by id", type = OperationTypeEnum.INFO)
+    @PreAuthorize(value = "hasAnyAuthority('" + RichtextConstants.SEARCH + "')")
     @ApiOperation(value = "id")
     @GetMapping(value = "{id}")
     public Response findOne(@PathVariable Long id) {
         return Response.success(richtextService.queryById(id));
     }
 
-    @AuditLog(value = "query richtexts by query request body as list")
-    @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.SEARCH + "')")
+    @AuditLog(value = "query richtexts by query request body as list", type = OperationTypeEnum.INFO)
+    @PreAuthorize(value = "hasAnyAuthority('" + RichtextConstants.SEARCH + "')")
     @ApiOperation(value = "list")
     @PostMapping(value = "list")
     public Response list(@RequestBody RichtextQRO qro) {
         return Response.success(richtextService.queryList(qro));
     }
 
-    @AuditLog(value = "query richtexts by query request body as paginated result")
-    @PreAuthorize(value = "hasAnyAuthority('"+ RichtextConstants.SEARCH + "')")
+    @AuditLog(value = "query richtexts by query request body as paginated result", type = OperationTypeEnum.INFO)
+    @PreAuthorize(value = "hasAnyAuthority('" + RichtextConstants.SEARCH + "')")
     @ApiOperation(value = "page")
     @PostMapping(value = "page")
     public Response page(@RequestBody RichtextQRO qro) {

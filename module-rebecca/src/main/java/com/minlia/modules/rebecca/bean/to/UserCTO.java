@@ -28,9 +28,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserCTO implements ApiRequestBody {
 
-    @ApiModelProperty(value = "注册方式")
-    @NotNull(message = "注册方式不能为空")
-    private RegistrationMethodEnum method;
+//    @ApiModelProperty(value = "注册方式")
+//    @NotNull(message = "注册方式不能为空")
+//    private RegistrationMethodEnum method;
 
     @Username
     private String username;
@@ -59,6 +59,14 @@ public class UserCTO implements ApiRequestBody {
     @Size(min = 1, max = 11)
     private String nickname;
 
+    /**
+     * 账号有效时间
+     */
+    private LocalDateTime accountEffectiveDate;
+
+    /**
+     * 凭证/密码有效时间
+     */
     private LocalDateTime credentialsEffectiveDate;
 
 }
