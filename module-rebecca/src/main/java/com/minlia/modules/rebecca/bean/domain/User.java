@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -59,6 +61,11 @@ public class User extends AbstractEntity {
     private String defaultRole;
 
     /**
+     * 默认语言环境
+     */
+    private LocaleEnum defaultLocale;
+
+    /**
      * 账号有效时间
      */
     private LocalDateTime accountEffectiveDate;
@@ -69,14 +76,15 @@ public class User extends AbstractEntity {
     private LocalDateTime credentialsEffectiveDate;
 
     /**
+     * 状态
+     */
+    private UserStatusEnum status;
+
+
+    /**
      * 是否锁定
      */
     private Boolean locked;
-
-    /**
-     * 是否可用
-     */
-    private Boolean enabled;
 
     /**
      * 锁定次数

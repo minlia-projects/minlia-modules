@@ -13,6 +13,7 @@ import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.bean.to.PasswordByAccountAndRawPasswordChangeTO;
 import com.minlia.modules.rebecca.bean.to.PasswordResetTO;
 import com.minlia.modules.rebecca.constant.UserCode;
+import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.service.UserPasswordService;
 import com.minlia.modules.rebecca.service.UserQueryService;
@@ -77,7 +78,7 @@ public class ForgetPasswordEndpoint {
 
         User user = userQueryService.queryByUsernameOrCellphoneOrEmail(to.getUsername());
         ApiAssert.notNull(user, UserCode.Message.NOT_EXISTS);
-        ApiAssert.state(user.getEnabled(), UserCode.Message.ALREADY_DISABLED);
+        ApiAssert.state(UserStatusEnum.ACTIVE.equals(user.getStatus()), UserCode.Message.ALREADY_DISABLED);
         ApiAssert.state(!(user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())), SecurityCode.Exception.AJAX_LOCKED, user.getLockTime());
 
         if (!encoder.matches(to.getRawPassword(), user.getPassword())) {

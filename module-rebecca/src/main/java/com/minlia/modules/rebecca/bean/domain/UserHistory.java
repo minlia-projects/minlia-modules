@@ -1,17 +1,13 @@
 package com.minlia.modules.rebecca.bean.domain;
 
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserHistory {
 
     /**
@@ -27,7 +23,7 @@ public class UserHistory {
     /**
      * 唯一ID
      */
-    private String guid;
+    private Long guid;
 
     /**
      * 用户名
@@ -45,14 +41,24 @@ public class UserHistory {
     private String email;
 
     /**
-     * 默认角色
+     * 昵称
      */
-    private String defaultRole;
+    private String nickname;
 
     /**
      * 密码
      */
     private String password;
+
+    /**
+     * 默认角色
+     */
+    private String defaultRole;
+
+    /**
+     * 默认语言
+     */
+    private LocaleEnum defaultLocale;
 
     /**
      * 账号有效时间
@@ -63,6 +69,11 @@ public class UserHistory {
      * 凭证/密码有效时间
      */
     private LocalDateTime credentialsEffectiveDate;
+
+    /**
+     * 状态
+     */
+    private UserStatusEnum status;
 
     /**
      * 是否锁定
@@ -93,11 +104,6 @@ public class UserHistory {
      * 推荐人
      */
     private String referral;
-
-    /**
-     * 是否启用
-     */
-    private Boolean enabled;
 
     /**
      * GUID

@@ -51,7 +51,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        //将tokenMap 转换成状态化返回体再返回
+        //将tSecurityContextHolder1okenMap 转换成状态化返回体再返回
         mapper.writeValue(response.getWriter(), Response.success(tokenMap));
 
         clearAuthenticationAttributes(request);

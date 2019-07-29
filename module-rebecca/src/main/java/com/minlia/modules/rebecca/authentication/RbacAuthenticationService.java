@@ -17,6 +17,7 @@ import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.constant.UserCode;
+import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.event.LoginSuccessEvent;
 import com.minlia.modules.rebecca.mapper.UserMapper;
@@ -158,8 +159,10 @@ public class RbacAuthenticationService implements AuthenticationService {
 
         if (null != user.getAccountEffectiveDate() && user.getAccountEffectiveDate().isBefore(LocalDateTime.now())) {
             throw new AccountExpiredException("账号已过期");
-        } else if (!user.getEnabled()) {
+        } else if (UserStatusEnum.INACTIVE.equals(user.getStatus())) {
             throw new DisabledException("账号已禁用");
+        } else if (UserStatusEnum.TERMINATED.equals(user.getStatus())) {
+            throw new DefaultAuthenticationException(UserCode.Message.ALREADY_TERMINATED);
         } else if (user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())) {
             throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getLockTime()));
         } else {

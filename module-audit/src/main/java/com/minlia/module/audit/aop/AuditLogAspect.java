@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSON;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.entity.AuditLogInfo;
 import com.minlia.module.audit.service.AuditLogInfoService;
-import com.minlia.modules.security.context.SecurityContextHolder1;
+import com.minlia.modules.security.context.MinliaSecurityContextHolder;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -39,15 +39,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -114,11 +110,8 @@ public class AuditLogAspect {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 
         AuditLogInfo auditLogInfo = new AuditLogInfo();
-        auditLogInfo.setCreateBy(getGuid());
-        auditLogInfo.setLastModifiedBy(getGuid());
-        LocalDateTime date = LocalDateTime.now();
-        auditLogInfo.setCreateDate(date);
-        auditLogInfo.setLastModifiedDate(date);
+        auditLogInfo.setUsername(MinliaSecurityContextHolder.getUsernameOrCellphoneOrEmail());
+        auditLogInfo.setCreateBy(MinliaSecurityContextHolder.getCurrentGuid());
         auditLogInfo.setTitle(auditLog.value());
         auditLogInfo.setOperationType(auditLog.type());
         auditLogInfo.setMethod(request.getMethod());
@@ -136,25 +129,6 @@ public class AuditLogAspect {
         }
 
         return auditLogInfo;
-    }
-
-    /**
-     * 获取用户id
-     *
-     * @return Guid
-     */
-    private String getGuid() {
-        if (isAnonymousUser()) {
-            return null;
-        } else {
-            return SecurityContextHolder1.getCurrentGuid();
-        }
-    }
-
-    public static boolean isAnonymousUser() {
-        SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        return authentication.getPrincipal().equals("anonymousUser");
     }
 
 }

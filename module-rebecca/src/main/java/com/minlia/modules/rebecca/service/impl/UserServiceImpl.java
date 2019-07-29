@@ -6,11 +6,8 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.constant.CommonCode;
 import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.module.data.util.SequenceUtils;
-import com.minlia.module.drools.service.ReloadDroolsRulesService;
-import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.riskcontrol.service.KieService;
-import com.minlia.module.riskcontrol.service.RiskBlackListService;
-import com.minlia.module.riskcontrol.service.RiskRecordService;
 import com.minlia.modules.rebecca.bean.domain.Role;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
@@ -18,6 +15,7 @@ import com.minlia.modules.rebecca.bean.to.UserCTO;
 import com.minlia.modules.rebecca.bean.to.UserUTO;
 import com.minlia.modules.rebecca.constant.RoleCode;
 import com.minlia.modules.rebecca.constant.UserCode;
+import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
 import com.minlia.modules.rebecca.event.CellphoneChangeEvent;
 import com.minlia.modules.rebecca.event.RegistrationEvent;
@@ -31,7 +29,6 @@ import com.minlia.modules.rebecca.service.UserQueryService;
 import com.minlia.modules.rebecca.service.UserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,13 +57,6 @@ public class UserServiceImpl implements UserService {
     private UserQueryService userQueryService;
 
     @Autowired
-    private DimensionService dimensionService;
-    @Autowired
-    private RiskRecordService riskRecordService;
-    @Autowired
-    private RiskBlackListService riskBlackListService;
-
-    @Autowired
     private UserHistoryService userHistoryService;
 
     @Autowired
@@ -81,7 +71,6 @@ public class UserServiceImpl implements UserService {
         User user = new User();
 
         //校验凭证是否有效
-
         if (StringUtils.isNotBlank(cro.getUsername())) {
             ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
             user.setUsername(cro.getUsername());
@@ -94,21 +83,6 @@ public class UserServiceImpl implements UserService {
             ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
             user.setEmail(cro.getEmail());
         }
-
-//        switch (cro.getMethod()) {
-//            case USERNAME:
-//                ApiAssert.state(!userQueryService.exists(UserQO.builder().username(cro.getUsername()).build()), UserCode.Message.USERNAME_ALREADY_EXISTS);
-//                user.setUsername(cro.getUsername());
-//                break;
-//            case CELLPHONE:
-//                ApiAssert.state(!userQueryService.exists(UserQO.builder().cellphone(cro.getCellphone()).build()), UserCode.Message.CELLPHONE_ALREADY_EXISTS);
-//                user.setCellphone(cro.getCellphone());
-//                break;
-//            case EMAIL:
-//                ApiAssert.state(!userQueryService.exists(UserQO.builder().email(cro.getEmail()).build()), UserCode.Message.EMAIL_ALREADY_EXISTS);
-//                user.setEmail(cro.getEmail());
-//                break;
-//        }
 
         //校验推荐人是否存在
         if (StringUtils.isNotEmpty(cro.getReferral())) {
@@ -134,9 +108,11 @@ public class UserServiceImpl implements UserService {
         user.setGuid(SequenceUtils.nextval("guid").toString());
         user.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
         user.setDefaultRole(role.getCode());
+        user.setDefaultLocale(LocaleEnum.en_US);
         user.setNickname(cro.getNickname());
         user.setAccountEffectiveDate(null == cro.getAccountEffectiveDate() ? LocalDateTime.now().plusYears(1) : cro.getAccountEffectiveDate());
         user.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusYears(1) : cro.getCredentialsEffectiveDate());
+        user.setStatus(UserStatusEnum.ACTIVE);
         userMapper.create(user);
 
         //给用户授予角色
@@ -244,13 +220,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean disabled(String guid) {
         User user = userQueryService.queryByGuidAndNotNull(guid);
-        if (user.getEnabled()) {
-            user.setEnabled(false);
+        if (UserStatusEnum.INACTIVE.equals(user.getStatus())) {
+            user.setStatus(UserStatusEnum.ACTIVE);
+        } else if (UserStatusEnum.ACTIVE.equals(user.getStatus())) {
+            user.setStatus(UserStatusEnum.INACTIVE);
         } else {
-            user.setEnabled(true);
+            ApiAssert.state(false, UserCode.Message.ALREADY_TERMINATED);
         }
         userMapper.update(user);
-        return user.getEnabled();
+        return UserStatusEnum.ACTIVE.equals(user.getStatus());
+//        if (user.getEnabled()) {
+//            user.setEnabled(false);
+//        } else {
+//            user.setEnabled(true);
+//        }
+//        userMapper.update(user);
+//        return user.getEnabled();
     }
 
     @Override

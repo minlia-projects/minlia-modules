@@ -38,6 +38,11 @@ public class UserCode {
         ALREADY_DISABLED,
 
         /**
+         * 已注销
+         */
+        ALREADY_TERMINATED,
+
+        /**
          * 推荐人不存在
          */
         REFERRAL_NOT_EXISTS,

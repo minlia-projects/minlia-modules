@@ -8,6 +8,11 @@ import lombok.Data;
 public class AuditLogInfo extends AbstractEntity {
 
     /**
+     * 用户名
+     */
+    private String username;
+
+    /**
      * 操作方式
      */
     private String method;

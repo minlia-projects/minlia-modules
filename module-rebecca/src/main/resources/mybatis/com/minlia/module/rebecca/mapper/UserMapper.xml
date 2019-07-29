@@ -13,15 +13,16 @@
             mut.`nickname` ,
             mut.password ,
             mut.default_role ,
+            mut.default_locale ,
             mut.account_effective_date ,
             mut.credentials_effective_date ,
+            mut.`status` ,
             mut.locked ,
             mut.lock_limit ,
             mut.lock_time ,
             mut.last_login_time ,
             mut.last_login_ip ,
             mut.referral ,
-            mut.enabled,
             mut.create_by ,
             mut.create_date ,
             mut.last_modified_by ,
@@ -55,11 +56,11 @@
             <if test="referral != null">
                 AND mut.referral = #{referral,jdbcType=VARCHAR}
             </if>
+            <if test="status != null">
+                AND mut.status = #{status,jdbcType=VARCHAR}
+            </if>
             <if test="locked != null">
                 AND mut.locked = #{locked,jdbcType=TINYINT}
-            </if>
-            <if test="enabled != null">
-                AND mut.enabled = #{enabled,jdbcType=TINYINT}
             </if>
             <if test="roleCode != null">
                 AND mrt.`code` = #{roleCode}
@@ -79,39 +80,52 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO mdl_user(
-        guid ,
-        username ,
-        cellphone ,
-        email ,
-        nickname ,
-        password ,
-        default_role ,
-        referral
-        <if test="credentialsEffectiveDate != null">
-            ,credentials_effective_date
-        </if>
-        )
-        VALUES(
-        #{guid,jdbcType=VARCHAR},
-        #{username,jdbcType=VARCHAR},
-        #{cellphone,jdbcType=VARCHAR},
-        #{email,jdbcType=VARCHAR},
-        #{nickname,jdbcType=VARCHAR},
-        #{password,jdbcType=VARCHAR},
-        #{defaultRole,jdbcType=VARCHAR},
-        #{referral,jdbcType=VARCHAR}
-        <if test="credentialsEffectiveDate != null">
-            ,#{credentialsEffectiveDate,jdbcType=TIMESTAMP}
-        </if>
-        )
+        INSERT INTO mdl_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            guid ,
+            username ,
+            cellphone ,
+            email ,
+            nickname ,
+            password ,
+            default_role ,
+            <if test="defaultLocale != null">
+                default_locale ,
+            </if>
+            referral,
+            <if test="credentialsEffectiveDate != null">
+                credentials_effective_date,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{guid,jdbcType=VARCHAR},
+            #{username,jdbcType=VARCHAR},
+            #{cellphone,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{nickname,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            #{defaultRole,jdbcType=VARCHAR},
+            <if test="defaultLocale != null">
+                #{defaultLocale,jdbcType=VARCHAR},
+            </if>
+            #{referral,jdbcType=VARCHAR},
+            <if test="credentialsEffectiveDate != null">
+                #{credentialsEffectiveDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
     </insert>
 
     <update id="update" parameterType="com.minlia.modules.rebecca.bean.domain.User">
         UPDATE mdl_user
         <set>
-            <if test="enabled != null">
-                enabled = #{enabled,jdbcType=TINYINT} ,
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR} ,
             </if>
             <if test="username != null">
                 username = #{username,jdbcType=VARCHAR} ,
@@ -131,6 +145,9 @@
             <if test="defaultRole != null">
                 default_role = #{defaultRole,jdbcType=VARCHAR} ,
             </if>
+            <if test="defaultLocale != null">
+                default_locale = #{defaultLocale,jdbcType=VARCHAR},
+            </if>
             <if test="locked != null">
                 locked = #{locked,jdbcType=TINYINT} ,
             </if>
@@ -146,11 +163,9 @@
             <if test="lastLoginIp != null">
                 last_login_ip = #{lastLoginIp,jdbcType=VARCHAR} ,
             </if>
-
             <if test="credentialsEffectiveDate != null">
                 credentials_effective_date = #{credentialsEffectiveDate,jdbcType=TIMESTAMP} ,
             </if>
-
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE guid = #{guid,jdbcType=VARCHAR}

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public final class SecurityContextHolder1 {
+public class MinliaSecurityContextHolder {
 
     public static UserContext getUserContext() {
         SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
@@ -45,7 +45,25 @@ public final class SecurityContextHolder1 {
     }
 
     public static String getCurrentGuid() {
-        return getUserContext().getGuid();
+        if (isAnonymousUser()) {
+            return null;
+        } else {
+            return getUserContext().getGuid();
+        }
+    }
+
+    public static String getUsernameOrCellphoneOrEmail() {
+        UserContext userContext = getUserContext();
+        if (null != userContext) {
+            if (null != userContext.getUsername()) {
+                return userContext.getUsername();
+            } else if (null != userContext.getCellphone()) {
+                return userContext.getCellphone();
+            } else if (null != userContext.getEmail()) {
+                return userContext.getEmail();
+            }
+        }
+        return "anonymousUser";
     }
 
     public static boolean isAuthenticated() {
@@ -59,6 +77,12 @@ public final class SecurityContextHolder1 {
             }
         }
         return true;
+    }
+
+    public static boolean isAnonymousUser() {
+        SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        return authentication.getPrincipal().equals("anonymousUser");
     }
 
     public static boolean hasAuthority(String authority) {
