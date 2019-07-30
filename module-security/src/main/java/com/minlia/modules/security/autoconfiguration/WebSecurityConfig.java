@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minlia.modules.security.authentication.ajax.AjaxAuthenticationProvider;
 import com.minlia.modules.security.authentication.ajax.AjaxLoginAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.ajax.DefaultLogoutSuccessHandler;
+import com.minlia.modules.security.authentication.handler.DisableMultipleSecurityContextLogoutHandler;
 import com.minlia.modules.security.authentication.jwt.JwtAuthenticationProvider;
 import com.minlia.modules.security.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.SkipPathRequestMatcher;
@@ -129,6 +130,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_ENTRY_POINT))
+//                .addLogoutHandler(new DisableMultipleSecurityContextLogoutHandler())
                 .logoutSuccessHandler(logoutSuccess);
     }
 

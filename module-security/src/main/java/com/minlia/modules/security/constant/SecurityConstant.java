@@ -9,6 +9,9 @@ public class SecurityConstant {
         throw new AssertionError();
     }
 
+    public static final String SID = "sid";
+
+
     public static final String ROLE_ADMIN_CODE = "Admin";
     public static final String ROLE_ADMIN_DESC = "系统管理员";
     public static final Long ROLE_ADMIN_ID = 1L;

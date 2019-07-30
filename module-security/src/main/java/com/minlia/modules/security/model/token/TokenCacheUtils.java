@@ -1,6 +1,15 @@
 package com.minlia.modules.security.model.token;
 
+import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.module.redis.util.RedisUtils;
+import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
+import com.minlia.modules.security.constant.SecurityConstant;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author garen
@@ -11,11 +20,19 @@ import com.minlia.module.redis.util.RedisUtils;
 public class TokenCacheUtils {
 
     public static final String TOKEN = "token:";
+    public static final String TOKEN_GUID_SESSION = "token:%s_%s";
 
     public static final String TOKEN_R = "token.r:";
 
     private static String getKey(String guid) {
         return TOKEN + guid;
+    }
+
+    private static String getKeyWithSessionId(String guid) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
+        Object sid = servletRequest.getSession().getAttribute(SecurityConstant.SID);
+        return String.format(TOKEN_GUID_SESSION, guid, sid);
     }
 
     /**
@@ -26,7 +43,7 @@ public class TokenCacheUtils {
      * @param expirationTime
      */
     public static void cache(String guid, String token, int expirationTime) {
-        RedisUtils.set(getKey(guid), token, expirationTime);
+        RedisUtils.set(getKeyWithSessionId(guid), token, expirationTime);
     }
 
     /**
@@ -35,7 +52,7 @@ public class TokenCacheUtils {
      * @param guid
      */
     public static Object get(String guid) {
-        return RedisUtils.get(getKey(guid));
+        return RedisUtils.get(getKeyWithSessionId(guid));
     }
 
     /**
@@ -44,7 +61,8 @@ public class TokenCacheUtils {
      * @param guid
      */
     public static void kill(String guid) {
-        RedisUtils.del(getKey(guid));
+        RedisUtils.delByPrefix(getKey(guid));
+//        RedisUtils.del(getKey(guid));
     }
 
     /**
@@ -54,7 +72,7 @@ public class TokenCacheUtils {
      * @return
      */
     public static boolean exists(String guid) {
-        return RedisUtils.getRedisTemplate().hasKey(getKey(guid));
+        return RedisUtils.getRedisTemplate().hasKey(getKeyWithSessionId(guid));
     }
 
     /**
@@ -64,7 +82,7 @@ public class TokenCacheUtils {
      * @return
      */
     public static boolean expire(String guid, long time) {
-        return RedisUtils.expire(getKey(guid), time);
+        return RedisUtils.expire(getKeyWithSessionId(guid), time);
     }
 
 }

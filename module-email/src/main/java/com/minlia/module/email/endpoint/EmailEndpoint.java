@@ -10,6 +10,7 @@ import com.minlia.module.email.ro.EmailHtmlRO;
 import com.minlia.module.email.ro.EmailRichtextRO;
 import com.minlia.module.email.service.EmailRecordService;
 import com.minlia.module.email.service.EmailService;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class EmailEndpoint {
 	@ApiOperation(value = "HTML")
 	@PostMapping(value = "html")
 	public Response html(@Valid @RequestBody EmailHtmlRO ro) {
-		EmailRecord emailRecord = emailService.sendHtmlMail(ro.getTo(), ro.getSubject(), ro.getContent(), null, null, LocaleContextHolder.getLocale().toString());
+		EmailRecord emailRecord = emailService.sendHtmlMail(ro.getTo(), ro.getSubject(), ro.getContent(), null, null, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
 		return Response.success(emailRecord);
 	}
 

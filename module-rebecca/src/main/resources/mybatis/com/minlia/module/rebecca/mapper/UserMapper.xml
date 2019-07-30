@@ -116,7 +116,7 @@
                 #{credentialsEffectiveDate,jdbcType=TIMESTAMP},
             </if>
             <if test="status != null">
-                #{status,jdbcType=TIMESTAMP},
+                #{status,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>

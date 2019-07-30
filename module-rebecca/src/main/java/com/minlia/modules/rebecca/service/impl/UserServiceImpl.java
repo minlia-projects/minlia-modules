@@ -29,6 +29,7 @@ import com.minlia.modules.rebecca.service.UserQueryService;
 import com.minlia.modules.rebecca.service.UserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,9 @@ import java.util.regex.Pattern;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private Mapper mapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -126,6 +130,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(UserUTO uro, UserUpdateTypeEcnum userUpdateType) {
         User user = userQueryService.queryByGuidAndNotNull(uro.getGuid());
+
+        mapper.map(uro, user);
+
         if (StringUtils.isNotBlank(uro.getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(uro.getPassword()));
         }
@@ -138,6 +145,7 @@ public class UserServiceImpl implements UserService {
             userMapper.grant(user.getId(), Sets.newHashSet(roleIds));
             user.setDefaultRole(role.getCode());
         }
+
         this.update(user, userUpdateType);
         return user;
     }

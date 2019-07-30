@@ -1,10 +1,12 @@
 package com.minlia.modules.rebecca.bean.qo;
 
 import com.minlia.module.data.bean.QueryRequest;
+import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -29,6 +31,8 @@ public class UserQO extends QueryRequest {
     private Boolean enabled;
 
     private String roleCode;
+
+    private UserStatusEnum status;
 
     private List<String> roleCodes;
 

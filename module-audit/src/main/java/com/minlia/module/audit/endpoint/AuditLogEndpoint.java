@@ -7,6 +7,8 @@ import com.minlia.module.audit.bean.AuditLogInfoQRO;
 import com.minlia.module.audit.constant.AuditConstants;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.audit.service.AuditLogInfoService;
+import com.minlia.modules.security.context.MinliaSecurityContextHolder;
+import com.minlia.modules.security.model.UserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,15 @@ public class AuditLogEndpoint {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@RequestBody AuditLogInfoQRO qro) {
+        return Response.success(auditLogInfoService.queryPage(qro));
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + AuditConstants.READ + "')")
+    @AuditLog(value = "query audit log as paginated result", type = OperationTypeEnum.INFO)
+    @ApiOperation(value = "分页查询")
+    @PostMapping(value = "page/me")
+    public Response pageMe(@RequestBody AuditLogInfoQRO qro) {
+        qro.setCreateBy(MinliaSecurityContextHolder.getCurrentGuid());
         return Response.success(auditLogInfoService.queryPage(qro));
     }
 

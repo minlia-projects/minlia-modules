@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,14 +24,37 @@ public class AuditLogInfoQRO extends QueryRequest {
 
     private String lastModifiedBy;
 
-    private LocalDateTime createDate;
+    private LocalDate createDate;
 
-    private LocalDateTime lastModifiedDate;
+    private LocalDate lastModifiedDate;
+
+    private LocalDateTime createDateTime;
+
+    private LocalDateTime lastModifiedDateTime;
+
+    private LocalDateTime ltCreateDateTime;
+
+    private LocalDateTime gtLastModifiedDateTime;
 
     /**
-     * 日志类型
+     * 用户名
+     */
+    private String username;
+
+    /**
+     * 操作方式
+     */
+    private String method;
+
+    /**
+     * 操作类型
      */
     private OperationTypeEnum operationType;
+
+    /**
+     * 事件标签
+     */
+    private String tags;
 
     /**
      * 日志标题
@@ -52,17 +76,10 @@ public class AuditLogInfoQRO extends QueryRequest {
      */
     private String userAgent;
 
-
-
     /**
      * 请求URI
      */
     private String requestUri;
-
-    /**
-     * 操作方式
-     */
-    private String method;
 
     /**
      * 操作提交的数据
@@ -77,7 +94,7 @@ public class AuditLogInfoQRO extends QueryRequest {
     /**
      * 删除标记
      */
-    private Integer delFlag = 0;
+    private Integer delFlag;
 
     /**
      * 异常信息

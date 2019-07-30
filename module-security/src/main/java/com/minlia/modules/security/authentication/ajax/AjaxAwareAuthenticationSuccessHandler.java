@@ -57,6 +57,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         clearAuthenticationAttributes(request);
 
         //缓存token TODO
+        TokenCacheUtils.kill(userContext.getGuid());
         TokenCacheUtils.cache(userContext.getGuid(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
         //保存信息到redis：因为存在多端登录所以用Set
 //        RedisUtils.sSetAndTime(TokenRedisConstants.token + userContext.getUsername(), tokenFactory.getSettings().getTokenExpirationTime(), accessToken.getToken());

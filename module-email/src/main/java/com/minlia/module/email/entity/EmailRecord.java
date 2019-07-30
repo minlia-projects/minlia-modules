@@ -1,6 +1,7 @@
 package com.minlia.module.email.entity;
 
 import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,7 +46,7 @@ public class EmailRecord extends AbstractEntity {
     /**
      * 语言
      */
-    private String locale;
+    private LocaleEnum locale;
 
     /**
      * 通道：阿里云、腾讯云、MINLIA

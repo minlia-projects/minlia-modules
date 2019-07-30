@@ -4,9 +4,13 @@ import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -32,5 +36,22 @@ public class UserUTO implements ApiRequestBody {
     private String password;
 
     private Long defaultRole;
+
+    private LocaleEnum defaultLocale;
+
+    /**
+     * 账号有效时间
+     */
+    private LocalDateTime accountEffectiveDate;
+
+    /**
+     * 凭证/密码有效时间
+     */
+    private LocalDateTime credentialsEffectiveDate;
+
+    /**
+     * 状态
+     */
+    private UserStatusEnum status;
 
 }

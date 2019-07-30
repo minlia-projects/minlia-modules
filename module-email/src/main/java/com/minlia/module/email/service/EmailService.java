@@ -56,7 +56,7 @@ public interface EmailService {
     EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables);
 
     @Async
-    EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables, String templateCode, String locale);
+    EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables, String templateCode, LocaleEnum locale);
 
     /**
      * 发送模版邮件

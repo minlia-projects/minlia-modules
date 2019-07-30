@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
     public EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, ?> variables, LocaleEnum locale) {
         Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), templateCode, locale);
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
-        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables);
+        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables, templateCode, locale);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables, String templateCode, String locale) {
+    public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables, String templateCode, LocaleEnum locale) {
         if (null == content) {
             content = "<html>\n" +
                     "<ro>\n" +
@@ -135,11 +135,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
-
-
-
     @Override
-    public EmailRecord sendAttachmentsMail(String[] to, String subject, String content, String filePath){
+    public EmailRecord sendAttachmentsMail(String[] to, String subject, String content, String filePath) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -162,7 +159,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailRecord sendInlineResourceMail(String[] to, String subject, String content, String rscPath, String rscId){
+    public EmailRecord sendInlineResourceMail(String[] to, String subject, String content, String rscPath, String rscId) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
