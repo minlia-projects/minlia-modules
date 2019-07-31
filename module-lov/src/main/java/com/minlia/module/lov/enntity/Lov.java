@@ -1,12 +1,18 @@
 package com.minlia.module.lov.enntity;
 
 import com.minlia.module.data.entity.AbstractEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lov extends AbstractEntity {
 
     /**

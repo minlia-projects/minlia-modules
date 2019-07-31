@@ -1,5 +1,6 @@
 package com.minlia.module.lov.servcie;
 
+import com.minlia.cloud.code.Code;
 import com.minlia.module.lov.bean.LovQRO;
 import com.minlia.module.lov.enntity.Lov;
 
@@ -20,5 +21,7 @@ public interface LovService {
     List<Lov> selectByAll(LovQRO qro);
 
     Lov selectOneByCode(String code);
+
+    Code delete(Long id);
 }
 

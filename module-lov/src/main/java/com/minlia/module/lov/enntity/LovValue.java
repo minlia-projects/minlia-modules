@@ -28,14 +28,14 @@ public class LovValue extends AbstractEntity {
     /**
      * 编码
      */
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String code;
 
     /**
      * 名称
      */
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String name;
 

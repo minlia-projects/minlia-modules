@@ -51,6 +51,14 @@ public class LovValueServiceImpl implements LovValueService {
     }
 
     @Override
+    public Boolean delete(Long id) {
+        LovValue lovValue = lovValueMapper.selectByPrimaryKey(id);
+        lovValue.setDisFlag(true);
+        lovValueMapper.updateByPrimaryKeySelective(lovValue);
+        return lovValue.getDisFlag();
+    }
+
+    @Override
     public int updateByPrimaryKeySelective(LovValue record) {
         return lovValueMapper.updateByPrimaryKeySelective(record);
     }

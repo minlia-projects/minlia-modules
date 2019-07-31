@@ -1,5 +1,7 @@
 package com.minlia.module.lov.servcie.impl;
 
+import com.minlia.cloud.code.Code;
+import com.minlia.cloud.code.SystemCode;
 import com.minlia.module.lov.bean.LovQRO;
 import com.minlia.module.lov.enntity.Lov;
 import com.minlia.module.lov.mapper.LovMapper;
@@ -51,6 +53,14 @@ public class LovServiceImpl implements LovService {
     @Override
     public Lov selectOneByCode(String code) {
         return lovMapper.selectOneByCode(code);
+    }
+
+    @Override
+    public Code delete(Long id) {
+        Lov lov = lovMapper.selectByPrimaryKey(id);
+        lov.setDisFlag(true);
+        lovMapper.updateByPrimaryKey(lov);
+        return SystemCode.Message.DELETE_SUCCESS;
     }
 }
 

@@ -33,6 +33,8 @@ public class TokenCacheUtils {
         HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
         Object sid = servletRequest.getSession().getAttribute(SecurityConstant.SID);
         return String.format(TOKEN_GUID_SESSION, guid, sid);
+
+//        return TOKEN + guid;
     }
 
     /**

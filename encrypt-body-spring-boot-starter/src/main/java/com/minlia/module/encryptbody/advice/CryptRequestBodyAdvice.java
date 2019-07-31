@@ -219,7 +219,7 @@ public class CryptRequestBodyAdvice {
                 key = CheckUtils.checkAndGetKey(config.getRsaPrivateKey(), key, "RSA-PRIVATE-KEY");
                 JSONObject jsonObject = JSONObject.parseObject(formatStringBody);
                 formatStringBody = jsonObject.getString("data");
-                return RSAEncryptUtil.decrypt(formatStringBody, key);
+                return RSAEncryptUtil.decryptBase64(formatStringBody, key);
             }
             if (method == DecryptBodyMethod.DES) {
                 key = CheckUtils.checkAndGetKey(config.getDesKey(), key, "DES-KEY");

@@ -1,5 +1,7 @@
 package com.minlia.module.encryptbody.util;
 
+import cn.hutool.core.codec.Base64Decoder;
+import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
@@ -47,7 +49,7 @@ public class RSAEncryptUtil {
     public static String PRIVATE_KEY = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMp/FAyv9Bl6SFm6v9JZc3fYF3hueePkBxC1fExjcik10vPWzJJoTM75iwVaFZa+5qUClM/YyGGOwDeEZ7FziDVeES8oJeZJu0C7+2xh76IG6W59f4jYrlA38DnIfwO3kJ/6nEww/4TpYfBOm24cQvvLBv0nQQ9xuICtbl9yItexAgMBAAECgYA/FAzr0tfII/ZrtSfR37l/aJoPEuL3YW3t/4rDxOqn+bNH7+5z4PekNcnfletJtRfl6QLwKAhrk2s/IAipF2MjJtsPY5ptFDa10pJR/DQ5SEAiZ83hzvsgyuLFjm+rAAmveAcr/XIBGWg7TQXK59Q8MpVMfXar2xx5WWqLxf+ZnQJBAOUtl/w4vDLWuTn8S+GkrJVhTzKg+8mdv6/2TIcXqqlxE6kQzqmjvms8hHUwnDb3fSMLObyhhPpE8mgTrwpVkt8CQQDiMhL0x1kuTqDMCtUHseeH6Piu5U1iKrAUxBzqqcDQKwQDtwDTQxCsTRAxVSbrlo7CcuDDOjceBqROAg4vDfdvAkBs3OKUWfL0B1GHPNRixBGDB+1R9GyGUhvLHyktBs33nRIkviodJP3//IhDDqs15QwZSGzNsL/1DilDzQ3Zz9prAkEAnCKgfyKT5qkTyYS4pAUjoucnseJKVjbNMKhmpXzjwU3QCZhrE2k5uxW+1a7HnNtiU8rkZx5qKWnARLCahdSINQJBAOBiIvDlIbcLvFxHc+1Nct7N/jtrrA02ITQzREKGAOZ9KEGv7cDtZxXA1TlQlt4VvN1REEX0cZH37NWuTRM9wYg=";
 
 //    public static String TEST_CONTENT = "{\"number\":\"A2019071119042311927\",\"cellphone\":\"81111125\",\"surname\":\"测试\",\"givenName\":\"修改手机风控\",\"gender\":\"MALE\",\"hkid\":\"Z3667694\",\"birthDate\":679161600000,\"mobilePhoneNumber\":\"81111111\",\"residentialAddress\":\"是多少\",\"residentialDistrict\":[\"1000\",\"1001\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":2222,\"correspondentAddress\":\"是多少\",\"correspondentDistrict\":[\"1000\",\"1001\"]}";
-    public static String TEST_CONTENT = "{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}";
+    public static String TEST_CONTENT = "{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}{\"number\":\"A2019072210460850971\",\"cellphone\":\"65434233\",\"surname\":\"大 sad\",\"givenName\":\"撒撒撒\",\"gender\":\"MALE\",\"hkid\":\"X1111111\",\"birthDate\":318182400000,\"mobilePhoneNumber\":41111111,\"residentialAddress\":\"撒撒打算的\",\"residentialDistrict\":[\"1000\",\"1002\"],\"correspondentAddressFlag\":\"Y\",\"annualIncome\":111,\"correspondentAddress\":\"撒撒打算的\",\"correspondentDistrict\":[\"1000\",\"1002\"]}";
 
 
 
@@ -156,6 +158,20 @@ public class RSAEncryptUtil {
         return URLUtil.decode(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
     }
 
+
+
+
+    public static String encryptBase64(String content, String publicKey) {
+        RSA rsa = new RSA(null, publicKey);
+        return rsa.encryptBase64(Base64Encoder.encode(content), KeyType.PublicKey);
+    }
+
+    public static String decryptBase64(String content, String privateKey) {
+        RSA rsa = new RSA(privateKey, null);
+        byte[] decrypt = rsa.decryptFromBase64(content, KeyType.PrivateKey);
+        return Base64Decoder.decodeStr(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
+    }
+
     public static void main(String[] args) throws Exception {
         //随机生成公钥和私钥
 //        Map<String, Object> map = getKeyPair();
@@ -181,21 +197,27 @@ public class RSAEncryptUtil {
 //        System.out.println(s);
 
 
-        RSA rsa = new RSA(PRIVATE_KEY, PUBLIC_KEY);
-        //公钥加密，私钥解密
-        byte[] encrypt = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PublicKey);
-        byte[] decrypt = rsa.decrypt(encrypt, KeyType.PrivateKey);
-        System.out.println(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
+//        RSA rsa = new RSA(PRIVATE_KEY, PUBLIC_KEY);
+//        //公钥加密，私钥解密
+//        byte[] encrypt = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PublicKey);
+//        byte[] decrypt = rsa.decrypt(encrypt, KeyType.PrivateKey);
+//        System.out.println(StrUtil.str(decrypt, CharsetUtil.CHARSET_UTF_8));
+//
+//        //私钥加密，公钥解密
+//        byte[] encrypt2 = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PrivateKey);
+//        byte[] decrypt2 = rsa.decrypt(encrypt2, KeyType.PublicKey);
+//        System.out.println(StrUtil.str(decrypt2, CharsetUtil.CHARSET_UTF_8));
 
-        //私钥加密，公钥解密
-        byte[] encrypt2 = rsa.encrypt(StrUtil.bytes(TEST_CONTENT, CharsetUtil.CHARSET_UTF_8), KeyType.PrivateKey);
-        byte[] decrypt2 = rsa.decrypt(encrypt2, KeyType.PublicKey);
-        System.out.println(StrUtil.str(decrypt2, CharsetUtil.CHARSET_UTF_8));
+
+//        String encryptS = "FVKlvzcg99YrgDgE6Pe431roOq6OLiwuVhA6ByUylHUQ7iDjkznXLQvVMpTjI32g0AFlZAV3WchLyhgi/Z0t6kZHpSCcWPZ4/hjtWNXIV/5OV09EmnqQFKqsH1TtcJMcxe6VzmRG56zEq4SW9Fp2gdRSa8+AMq7b7m9QKh29WCw=";
+
+        String encrypt = encryptBase64(TEST_CONTENT, PUBLIC_KEY);
+        String decrypt = decryptBase64(encrypt, PRIVATE_KEY);
+        System.out.println(decrypt);
+        System.out.println(decrypt.length());
 
 
-        String encryptS = "c/8hpgGIBFlrLDvi1W/JAxkD2u29zEwu5sMyWmHLk0r6qhuLCpSWb1I7IdkgbZ/LcJ2S6yy41JAMrDgUtsDIrrZATn2XjTPXF2QrHVq0DUWnCj/Wq6pW2HSFZCZI7SYyESgbP2dTI6+RFUokwB89xrI4vE7VT+MyWKXvw8Yl3C0V5WuM2NYP7oWSA+e72xVaIh0LOhg+c6eGxOu0YaqYlVzvvG2sjLTv6+MSkGhW+0hE9Z12S+8LoyrU3rrzRN8kphW7OSuouvYpLCq6zT0w3j7SMNRciBlWEfOVuI8y7N3/oPDrrZGIBsk4zmc8GP8px8tYoByXOvMSlYpwXjpCn9SnyvoS1DsXsEQKswX0xV8NCy9/Y/LFBuP5CW7awVC3WF5i+vR+OS1xz0ekuA2L0aZNm0f5GUXCX0XU0dSvJ2btNHiEaBTIWhQc0VQss3p3SAQT3U+UByv5KCEShRByd5KJYQFR/aFvpJw8w0odHhjwTIQacYtogXWmo9arV4KqEtHg0mRU1GlV9SeOsr8Wuy7qNO7BzNUkBvePEWVnLy6y6mf9zLgVsJyv7m8ZU5OCbiY3w2fYWz6rFKqksvm6hCSOOTBRSyj3WRiCPdGCqRF2s4ixolc7lhMTZhOXUVe4/Dolz4+4cITtdryltEyOqlmzy1u++7OGPUxPnaHM0g==";
-//        String encryptS = "h/5w7BV1VuolI/db1SzlGbpCE15MEv59Y7IK7+8MYR/xHJlYnzLiOh0UCYcoIR4nSOJASL6DTmQsxXR+sJNPEakx8N5cUi5TJbCOXU01G3QnivT3ZOa9xLgudC3zxBDx++y/yVs4rcFroY0lc/RJMujtIp++FYzMSYyUibCHFjE=";
-        System.out.println(decrypt(encryptS, PRIVATE_KEY));
+//        System.out.println(decrypt(encryptS, PRIVATE_KEY));
     }
 
 //    public static String jsonSortToString(String jsonStr, String joiner, String... ignores) {

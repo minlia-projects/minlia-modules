@@ -6,7 +6,10 @@ import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -18,6 +21,9 @@ import java.time.LocalDateTime;
  * Created by garen on 2017/8/8.
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserUTO implements ApiRequestBody {
 
     @NotBlank

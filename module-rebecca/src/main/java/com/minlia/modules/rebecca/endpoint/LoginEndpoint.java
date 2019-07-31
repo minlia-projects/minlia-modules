@@ -4,18 +4,24 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
+import com.minlia.modules.rebecca.CookieUtils;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.constant.SecurityConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
 import javax.mail.Session;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.net.CookieManager;
 
 /**
  * Created by will on 7/21/17.

@@ -44,10 +44,18 @@ public class LovValueEndpoint {
 
     @AuditLog(value = "toggle a lov status by id", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('system.lov_value.delete')")
-    @ApiOperation(value = "启用/禁用", httpMethod = "DELETE")
+    @ApiOperation(value = "启用/禁用")
+    @RequestMapping(value = "disable/{id}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response disable(@PathVariable Long id) {
+        return Response.success(lovValueService.disable(id));
+    }
+
+    @AuditLog(value = "delete a lov value by id", type = OperationTypeEnum.DELETE)
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.delete')")
+    @ApiOperation(value = "删除", httpMethod = "DELETE")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response delete(@PathVariable Long id) {
-        return Response.success(lovValueService.disable(id));
+        return Response.success(lovValueService.delete(id));
     }
 
     //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov_value.search')")
