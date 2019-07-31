@@ -1,7 +1,9 @@
 package com.minlia.modules.rebecca.bean.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.modules.rebecca.enumeration.LoginStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +30,7 @@ public class LoginLog {
 
     private String ipAddress;
 
-    private LocalDateTime time;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime time;
 
     private LoginStatusEnum status;
 

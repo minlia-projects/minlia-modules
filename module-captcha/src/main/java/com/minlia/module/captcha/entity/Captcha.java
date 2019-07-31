@@ -1,5 +1,7 @@
 package com.minlia.module.captcha.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,12 +42,12 @@ public class Captcha extends AbstractEntity {
     /**
      * 发送时间
      */
-    private LocalDateTime sendTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime sendTime;
 
     /**
      * 验证有效时间
      */
-    private LocalDateTime effectiveTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime effectiveTime;
 
     /**
      * 倒计时
@@ -65,7 +67,7 @@ public class Captcha extends AbstractEntity {
     /**
      * 锁定时间
      */
-    private LocalDateTime lockTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lockTime;
 
 
     /**

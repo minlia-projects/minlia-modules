@@ -1,5 +1,7 @@
 package com.minlia.module.riskcontrol.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.riskcontrol.entity.RiskIpList;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
@@ -27,7 +29,7 @@ public class RiskIpListQRO extends QueryRequest {
 
     private Long end;
 
-    private LocalDateTime time;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime time;
 
     private Boolean disFlag;
 

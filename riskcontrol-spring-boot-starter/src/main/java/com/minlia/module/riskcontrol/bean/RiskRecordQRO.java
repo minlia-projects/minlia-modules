@@ -1,5 +1,7 @@
 package com.minlia.module.riskcontrol.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import lombok.AllArgsConstructor;
@@ -51,7 +53,7 @@ public class RiskRecordQRO extends QueryRequest {
     /**
      * 时间
      */
-    private LocalDateTime dateTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime dateTime;
     private LocalDate eqDate;
 
     /**

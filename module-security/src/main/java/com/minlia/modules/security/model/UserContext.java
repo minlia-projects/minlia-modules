@@ -1,7 +1,9 @@
 package com.minlia.modules.security.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.Body;
+import com.minlia.module.common.constant.LocalDateConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -70,7 +72,7 @@ public final class UserContext implements Body {
     /**
      * 过期时间
      */
-    private LocalDateTime expireDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime expireDate;
 
 
 }

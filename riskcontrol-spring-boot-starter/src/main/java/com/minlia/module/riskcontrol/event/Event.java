@@ -1,14 +1,14 @@
 package com.minlia.module.riskcontrol.event;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.net.util.IPAddressUtil;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -70,7 +70,7 @@ public abstract class Event {
     /**
      * 操作时间
      */
-    private LocalDateTime operateTime = LocalDateTime.now();
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime operateTime = LocalDateTime.now();
 
     /**
      * 详情

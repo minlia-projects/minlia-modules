@@ -58,7 +58,7 @@ public class LovServiceImpl implements LovService {
     @Override
     public Code delete(Long id) {
         Lov lov = lovMapper.selectByPrimaryKey(id);
-        lov.setDisFlag(true);
+        lov.setDelFlag(true);
         lovMapper.updateByPrimaryKey(lov);
         return SystemCode.Message.DELETE_SUCCESS;
     }

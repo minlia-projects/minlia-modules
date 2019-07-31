@@ -1,13 +1,9 @@
 package com.minlia.modules.security.model.token;
 
-import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.module.redis.util.RedisUtils;
-import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
 import com.minlia.modules.security.constant.SecurityConstant;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,5 +1,8 @@
 package com.minlia.module.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.cloud.utils.LocalDateUtils;
+import com.minlia.module.common.constant.LocalDateConstants;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -11,10 +14,10 @@ import java.time.LocalDateTime;
 public abstract class WithDateEntity extends WithIdEntity {
 
     @CreatedDate
-    private LocalDateTime createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
 
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
 
     public LocalDateTime getCreateDate() {
         return createDate;

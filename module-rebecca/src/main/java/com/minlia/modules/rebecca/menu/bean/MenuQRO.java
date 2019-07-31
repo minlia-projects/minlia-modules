@@ -1,5 +1,7 @@
 package com.minlia.modules.rebecca.menu.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.modules.rebecca.enumeration.NavigationType;
 import io.swagger.annotations.ApiModel;
@@ -23,9 +25,9 @@ public class MenuQRO extends QueryRequest {
 
     private String lastModifiedBy;
 
-    private LocalDateTime createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
 
-    private LocalDateTime lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
 
     private boolean isOneLevel;
 

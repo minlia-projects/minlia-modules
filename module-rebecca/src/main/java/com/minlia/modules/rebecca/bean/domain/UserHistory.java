@@ -1,5 +1,7 @@
 package com.minlia.modules.rebecca.bean.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
@@ -63,12 +65,12 @@ public class UserHistory {
     /**
      * 账号有效时间
      */
-    private LocalDateTime accountEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    private LocalDateTime credentialsEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime credentialsEffectiveDate;
 
     /**
      * 状态
@@ -88,12 +90,12 @@ public class UserHistory {
     /**
      * 锁定时间
      */
-    private LocalDateTime lockTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lockTime;
 
     /**
      * 最后登录时间
      */
-    private LocalDateTime lastLoginTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastLoginTime;
 
     /**
      * 最后登录IP
@@ -113,7 +115,7 @@ public class UserHistory {
     /**
      * 创建时间
      */
-    private LocalDateTime createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
 
     /**
      * GUID
@@ -123,6 +125,6 @@ public class UserHistory {
     /**
      * 最后修改时间
      */
-    private LocalDateTime lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
 
 }

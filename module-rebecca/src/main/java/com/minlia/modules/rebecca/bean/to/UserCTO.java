@@ -1,7 +1,9 @@
 package com.minlia.modules.rebecca.bean.to;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.ApiRequestBody;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
@@ -62,11 +64,11 @@ public class UserCTO implements ApiRequestBody {
     /**
      * 账号有效时间
      */
-    private LocalDateTime accountEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    private LocalDateTime credentialsEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime credentialsEffectiveDate;
 
 }

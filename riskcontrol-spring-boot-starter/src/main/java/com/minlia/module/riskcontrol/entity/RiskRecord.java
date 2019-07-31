@@ -1,5 +1,7 @@
 package com.minlia.module.riskcontrol.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,7 +50,7 @@ public class RiskRecord {
     private String ip;
 
     @Column(insertable = false, updatable = false, columnDefinition = "timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间'")
-    private LocalDateTime dateTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime dateTime;
 
     @Column(columnDefinition = "VARCHAR(500) COMMENT '详情'")
     private String details;

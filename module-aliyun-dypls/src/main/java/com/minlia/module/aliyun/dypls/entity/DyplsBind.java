@@ -1,5 +1,7 @@
 package com.minlia.module.aliyun.dypls.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +45,7 @@ public class DyplsBind extends AbstractEntity {
     /**
      * 绑定关系对应的失效时间-不能早于当前系统时间
      */
-    private LocalDateTime expireTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime expireTime;
 
     /**
      * 外部业务自定义ID属性

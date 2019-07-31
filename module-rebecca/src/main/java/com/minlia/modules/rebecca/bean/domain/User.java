@@ -1,9 +1,11 @@
 package com.minlia.modules.rebecca.bean.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
@@ -68,12 +70,12 @@ public class User extends AbstractEntity {
     /**
      * 账号有效时间
      */
-    private LocalDateTime accountEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    private LocalDateTime credentialsEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime credentialsEffectiveDate;
 
     /**
      * 状态
@@ -94,12 +96,12 @@ public class User extends AbstractEntity {
     /**
      * 锁定时间，多少分钟内不能登录
      */
-    private LocalDateTime lockTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lockTime;
 
     /**
      * 最后登录时间
      */
-    private LocalDateTime lastLoginTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastLoginTime;
 
     /**
      * 最后登录IP

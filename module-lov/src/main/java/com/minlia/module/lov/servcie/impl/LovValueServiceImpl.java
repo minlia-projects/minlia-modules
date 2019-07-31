@@ -53,7 +53,7 @@ public class LovValueServiceImpl implements LovValueService {
     @Override
     public Boolean delete(Long id) {
         LovValue lovValue = lovValueMapper.selectByPrimaryKey(id);
-        lovValue.setDisFlag(true);
+        lovValue.setDelFlag(true);
         lovValueMapper.updateByPrimaryKeySelective(lovValue);
         return lovValue.getDisFlag();
     }

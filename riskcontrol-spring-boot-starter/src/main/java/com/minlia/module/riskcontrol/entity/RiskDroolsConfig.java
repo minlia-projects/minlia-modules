@@ -1,5 +1,7 @@
 package com.minlia.module.riskcontrol.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +34,7 @@ public class RiskDroolsConfig {
     private String detail;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间'")
-    private LocalDateTime time;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime time;
 
     @Column(columnDefinition = "TINYINT(1) NOT NULL DEFAULT 0 COMMENT '禁用标识'")
     private Boolean disFlag;

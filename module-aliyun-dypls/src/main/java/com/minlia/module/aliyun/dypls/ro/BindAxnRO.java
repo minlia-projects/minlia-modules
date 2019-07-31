@@ -1,5 +1,7 @@
 package com.minlia.module.aliyun.dypls.ro;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.common.validation.Cellphone;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,7 +40,7 @@ public class BindAxnRO {
      * 绑定关系对应的失效时间-不能早于当前系统时间
      */
     @NotNull
-    private LocalDateTime expireTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime expireTime;
 
     /**
      * 是否需要录制音频-默认是false

@@ -1,6 +1,8 @@
 package com.minlia.module.audit.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.bean.QueryRequest;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -28,13 +30,13 @@ public class AuditLogInfoQRO extends QueryRequest {
 
     private LocalDate lastModifiedDate;
 
-    private LocalDateTime createDateTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDateTime;
 
-    private LocalDateTime lastModifiedDateTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDateTime;
 
-    private LocalDateTime ltCreateDateTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime ltCreateDateTime;
 
-    private LocalDateTime gtLastModifiedDateTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime gtLastModifiedDateTime;
 
     /**
      * 用户名
