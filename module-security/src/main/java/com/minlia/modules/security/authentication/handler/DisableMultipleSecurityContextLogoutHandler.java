@@ -5,23 +5,13 @@
 
 package com.minlia.modules.security.authentication.handler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import com.minlia.modules.security.authentication.jwt.extractor.JwtHeaderTokenExtractor;
-import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
-import com.minlia.modules.security.model.token.RawAccessJwtToken;
-import com.minlia.modules.security.model.token.TokenCacheUtils;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.util.Assert;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class DisableMultipleSecurityContextLogoutHandler implements LogoutHandler {
     protected final Log logger = LogFactory.getLog(this.getClass());

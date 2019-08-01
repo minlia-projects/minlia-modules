@@ -3,7 +3,6 @@ package com.minlia.modules.security.authentication.ajax;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.body.Response;
-import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtToken;
@@ -16,12 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -43,6 +38,8 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+
         UserContext userContext = (UserContext) authentication.getPrincipal();
 
         JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext);
@@ -53,6 +50,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         tokenMap.put("token", accessToken.getToken());
         tokenMap.put("expireDate", ((AccessJwtToken) accessToken).getClaims().getExpiration());
         tokenMap.put("refreshToken", refreshToken.getToken());
+        tokenMap.put("session_id", request.getSession().getId());
 
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

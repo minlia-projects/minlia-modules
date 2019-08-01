@@ -1,5 +1,5 @@
 server:
-  port: 7001
+  port: 8080
 
 system:
   appId: bibleapp
@@ -26,6 +26,15 @@ spring:
       min-idle: 0
     port: 6379
     timeout: 0
+
+  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    #    driverClassName: net.sf.log4jdbc.DriverSpy
+    name:
+    url: jdbc:log4jdbc:mysql://127.0.0.1:3306/bmp?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+    username: root
+    password: Root.2018
 
 system.security.jwt:
   #  tokenExpirationTime: 15 # Number of minutes
