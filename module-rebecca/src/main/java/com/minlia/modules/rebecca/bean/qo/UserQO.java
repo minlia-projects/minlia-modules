@@ -18,6 +18,8 @@ public class UserQO extends QueryRequest {
 
     private String guid;
 
+    private String parentGuid;
+
     private String username;
 
     private String cellphone;

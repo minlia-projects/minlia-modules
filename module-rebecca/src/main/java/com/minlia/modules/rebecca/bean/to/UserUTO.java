@@ -28,6 +28,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserUTO implements ApiRequestBody {
 
+    private String parentGuid;
+
     @NotBlank
     private String guid;
 
@@ -43,19 +45,21 @@ public class UserUTO implements ApiRequestBody {
     @Password
     private String password;
 
-    private Long defaultRole;
+    private String defaultRole;
 
     private LocaleEnum defaultLocale;
 
     /**
      * 账号有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime accountEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime credentialsEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime credentialsEffectiveDate;
 
     /**
      * 状态

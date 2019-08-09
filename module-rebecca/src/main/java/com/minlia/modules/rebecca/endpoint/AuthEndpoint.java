@@ -28,11 +28,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -62,9 +64,12 @@ public class AuthEndpoint {
     @ApiOperation(value = "注销")
     @PostMapping(value = ApiPrefix.V1 + "auth/logout")
     public @ResponseBody
-    Response logout() {
+    Response logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String guid = com.minlia.modules.rebecca.context.SecurityContextHolder.getCurrentGuid();
         TokenCacheUtils.kill(guid);
+        response.getWriter().flush();
+//        response.getWriter().close();
+//        WebUtils.setSessionAttribute(request, "SESSION", null);
         return Response.success();
     }
 
@@ -95,7 +100,7 @@ public class AuthEndpoint {
         UserContext userContext = loginService.getUserContext(user, currrole);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
-        return Response.success(tokenFactory.createAccessJwtToken(userContext));
+        return Response.success(tokenFactory.createAccessJwtToken(userContext, UUID.randomUUID().toString()));
     }
 
 }

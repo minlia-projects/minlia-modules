@@ -40,8 +40,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 //                .cellphone(to.getCellphone())
 //                .email(to.getEmail())
                 .password(to.getPassword())
-                .defaultRole(SecurityConstant.ROLE_USER_ID)
-                .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_ID))
+                .defaultRole(SecurityConstant.ROLE_USER_CODE)
+                .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_CODE))
                 .referral(to.getReferral())
                 .nickname(to.getNickname())
                 .build());

@@ -3,6 +3,7 @@ package com.minlia.modules.rebecca.bean.vo;
 import com.minlia.modules.rebecca.enumeration.NavigationType;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by garen on 6/17/17.
  */
 @Data
-public class MyNavigationVO {
+public class MyNavigationVO implements Serializable {
 
     private Long id;
 

@@ -25,4 +25,7 @@ public class RoleUTO {
 
     private Boolean enabled;
 
+    @Size(max = 100)
+    private String accessDomain;
+
 }

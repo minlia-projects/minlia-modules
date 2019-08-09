@@ -47,6 +47,15 @@ public class RawAccessJwtToken implements JwtToken {
         }
     }
 
+    public Jws<Claims> parseClaimsWithGuid(String guid, String signingKey) {
+        Object token = TokenCacheUtils.get(guid);
+        if (null == token) {
+            throw new JwtExpiredTokenException("JWT Token expired");
+        } else {
+            return this.parseClaims(token.toString(), signingKey);
+        }
+    }
+
     public void isSigned(String signingKey) {
         if (!Jwts.parser().setSigningKey(signingKey).isSigned(this.token)) {
             throw new JwtInvalidTokenException("Invalid JWT token");

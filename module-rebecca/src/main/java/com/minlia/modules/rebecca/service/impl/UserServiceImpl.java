@@ -94,19 +94,25 @@ public class UserServiceImpl implements UserService {
             user.setReferral(cro.getReferral());
         }
 
+        //校验parentGuid是否存在
+        if (StringUtils.isNotEmpty(cro.getParentGuid())) {
+            ApiAssert.state(userQueryService.exists(UserQO.builder().guid(cro.getParentGuid()).build()), UserCode.Message.NOT_EXISTS);
+            user.setParentGuid(cro.getParentGuid());
+        }
+
         //校验角色是否存在
-        Set<Long> roles = cro.getRoles();
+        Set<String> roles = cro.getRoles();
         if (CollectionUtils.isEmpty(roles)) {
             roles = Sets.newHashSet(cro.getDefaultRole());
         } else {
             roles.add(cro.getDefaultRole());
         }
-        for (Long roleId : roles) {
-            ApiAssert.state(roleService.exists(roleId), RoleCode.Message.NOT_EXISTS);
+        for (String roleCode : roles) {
+            ApiAssert.state(roleService.exists(roleCode), RoleCode.Message.NOT_EXISTS);
         }
 
         //校验并查询默认角色
-        Role role = roleService.queryById(cro.getDefaultRole());
+        Role role = roleService.queryByCode(cro.getDefaultRole());
         ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
 
         user.setGuid(SequenceUtils.nextval("guid").toString());
@@ -120,7 +126,7 @@ public class UserServiceImpl implements UserService {
         userMapper.create(user);
 
         //给用户授予角色
-        this.grant(user.getId(), roles);
+        this.grantWithUserWithRoleCodes(user, roles);
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
         RegistrationEvent.onCompleted(user);
@@ -136,14 +142,21 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isNotBlank(uro.getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(uro.getPassword()));
         }
+
         if (null != uro.getDefaultRole()) {
-            Role role = roleService.queryById(uro.getDefaultRole());
+            Role role = roleService.queryByCode(uro.getDefaultRole());
             ApiAssert.notNull(role, UserCode.Message.DOES_NOT_HAD_ROLE);
 
             List<Long> roleIds = roleService.queryIdByUserId(user.getId());
             roleIds.add(role.getId());
             userMapper.grant(user.getId(), Sets.newHashSet(roleIds));
             user.setDefaultRole(role.getCode());
+        }
+
+        //校验parentGuid是否存在
+        if (StringUtils.isNotEmpty(uro.getParentGuid())) {
+            ApiAssert.state(userQueryService.exists(UserQO.builder().guid(uro.getParentGuid()).build()), UserCode.Message.NOT_EXISTS);
+            user.setParentGuid(uro.getParentGuid());
         }
 
         this.update(user, userUpdateType);
@@ -273,6 +286,35 @@ public class UserServiceImpl implements UserService {
         }
 
         this.grant(user.getId(), roles);
+    }
+
+    public void grantWithUserWithRoleCodes(User user, Set<String> roles) {
+        boolean existRoleCode = false;
+        String defaultRole = "GUEST";
+
+        Set<Long> roleIds = Sets.newHashSet();
+
+        for (String roleCode : roles) {
+            Role role = roleService.queryByCode(roleCode);
+            ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
+
+            roleIds.add(role.getId());
+
+            //判断是否存在默认角色
+            if (!existRoleCode) {
+                defaultRole = role.getCode();
+                if (role.getCode().equals(user.getDefaultRole())) {
+                    existRoleCode = true;
+                }
+            }
+        }
+
+        if (!existRoleCode) {
+            user.setDefaultRole(defaultRole);
+            userMapper.update(user);
+        }
+
+        this.grant(user.getId(), roleIds);
     }
 
     private void grant(Long userId, Set<Long> roles) {

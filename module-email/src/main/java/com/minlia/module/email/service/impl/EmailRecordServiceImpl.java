@@ -2,6 +2,7 @@ package com.minlia.module.email.service.impl;
 
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.mapper.EmailRecordMapper;
+import com.minlia.module.email.ro.EmailRecordQRO;
 import com.minlia.module.email.service.EmailRecordService;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class EmailRecordServiceImpl implements EmailRecordService {
     }
 
     @Override
-    public List<EmailRecord> selectByAll(EmailRecord emailRecord) {
+    public List<EmailRecord> selectByAll(EmailRecordQRO emailRecord) {
         return emailRecordMapper.selectByAll(emailRecord);
     }
 

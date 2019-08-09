@@ -1,12 +1,15 @@
 package com.minlia.module.email.ro;
 
 import com.minlia.module.data.bean.QueryRequest;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -15,25 +18,75 @@ import lombok.NoArgsConstructor;
 @ApiModel("联行号-查询")
 public class EmailRecordQRO extends QueryRequest {
 
-    @ApiModelProperty(value = "省")
-    private String province;
+    private Long id;
 
-    @ApiModelProperty(value = "市")
-    private String city;
+    private String createBy;
 
-    @ApiModelProperty(value = "区")
-    private String district;
+    private String lastModifiedBy;
 
-    @ApiModelProperty(value = "街道")
-    private String street;
+    private LocalDateTime createDate;
 
-    @ApiModelProperty(value = "银行名称")
-    private String bankname;
+    private LocalDateTime lastModifiedDate;
 
-    @ApiModelProperty(value = "支行名称")
-    private String branchname;
 
-    @ApiModelProperty(value = "联行号")
+    /**
+     * 应用ID
+     */
+    private String appid;
+
+    /**
+     * 编号
+     */
     private String number;
+
+    /**
+     * 模版代码
+     */
+    private String templateCode;
+
+    /**
+     * 主送人
+     */
+    private String sendTo;
+
+    /**
+     * 抄送人
+     */
+    private String sendCc;
+
+    /**
+     * 秘送人
+     */
+    private String sendBcc;
+
+    /**
+     * 语言
+     */
+    private LocaleEnum locale;
+
+    /**
+     * 通道：阿里云、腾讯云、MINLIA
+     */
+    private String channel;
+
+    /**
+     * 主题
+     */
+    private String subject;
+
+    /**
+     * 内容
+     */
+    private String content;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 发送成功
+     */
+    private Boolean successFlag;
 
 }

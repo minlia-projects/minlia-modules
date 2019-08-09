@@ -27,10 +27,12 @@ import com.minlia.modules.rebecca.service.LoginService;
 import com.minlia.modules.rebecca.service.UserService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.authentication.service.AuthenticationService;
+import com.minlia.modules.security.code.SecurityCode;
 import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.exception.DefaultAuthenticationException;
+import com.minlia.modules.security.exception.JwtInvalidTokenException;
 import com.minlia.modules.security.model.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +53,9 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -104,6 +109,14 @@ public class RbacAuthenticationService implements AuthenticationService {
 
         if (null == user) {
             throw new UsernameNotFoundException("User not exists:");
+        } else if (null != user.getAccountEffectiveDate() && user.getAccountEffectiveDate().isBefore(LocalDateTime.now())) {
+            throw new AccountExpiredException("账号已过期");
+        } else if (UserStatusEnum.INACTIVE.equals(user.getStatus())) {
+            throw new DisabledException("账号已禁用");
+        } else if (UserStatusEnum.TERMINATED.equals(user.getStatus())) {
+            throw new DefaultAuthenticationException(UserCode.Message.ALREADY_TERMINATED);
+        } else if (user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())) {
+            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getLockTime()));
         }
 
         //只正对BORROWER角色
@@ -130,21 +143,20 @@ public class RbacAuthenticationService implements AuthenticationService {
             }
 
             if (!encoder.matches(password, user.getPassword())) {
-                //缓存登陆失败记录 TODO
-//                dimensionService.distinctCountWithRedisAndConfig(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
-
                 //密码错误 锁定次数+1
                 user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);
                 //如果超过3次 直接锁定
                 if (user.getLockLimit() > 2) {
                     user.setLocked(true);
                     //1、按错误次数累加时间   2、错误3次锁定一天
-                    user.setLockTime(LocalDateTime.now().plusMinutes((int) Math.pow(user.getLockLimit() - 3, 3)));
+//                    user.setLockTime(LocalDateTime.now().plusMinutes((int) Math.pow(user.getLockLimit() - 3, 3)));
+                    user.setLockTime(LocalDateTime.now().plusYears(2L));
                 }
                 userService.update(user, UserUpdateTypeEcnum.PASSWORD_ERROR);
                 throw new AjaxBadCredentialsException("Password error", user.getLockLimit());
             }
         }
+
         if (StringUtils.isNotBlank(captcha)) {
             Code code;
             if (LoginMethodEnum.CELLPHONE.equals(loginCredentials.getMethod())) {
@@ -157,31 +169,42 @@ public class RbacAuthenticationService implements AuthenticationService {
             }
         }
 
-        if (null != user.getAccountEffectiveDate() && user.getAccountEffectiveDate().isBefore(LocalDateTime.now())) {
-            throw new AccountExpiredException("账号已过期");
-        } else if (UserStatusEnum.INACTIVE.equals(user.getStatus())) {
-            throw new DisabledException("账号已禁用");
-        } else if (UserStatusEnum.TERMINATED.equals(user.getStatus())) {
-            throw new DefaultAuthenticationException(UserCode.Message.ALREADY_TERMINATED);
-        } else if (user.getLocked() && LocalDateTime.now().isBefore(user.getLockTime())) {
-            throw new AjaxLockedException("账号已锁定", ChronoUnit.SECONDS.between(LocalDateTime.now(), user.getLockTime()));
-        } else {
-            //清除缓存登陆失败记录 TODO
-            dimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
+        //清除缓存登陆失败记录 TODO
+        dimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
 
-            //更新用户信息
-            user.setLocked(Boolean.FALSE);
-            user.setLockLimit(NumberUtils.INTEGER_ZERO);
-            user.setLastLoginTime(LocalDateTime.now());
-            user.setLastLoginIp(RequestIpUtils.getClientIP());
-            userMapper.update(user);
+        //更新用户信息
+        user.setLocked(Boolean.FALSE);
+        user.setLockLimit(NumberUtils.INTEGER_ZERO);
+        user.setLastLoginTime(LocalDateTime.now());
+        user.setLastLoginIp(RequestIpUtils.getClientIP());
+        userMapper.update(user);
 
-            //获取用户上下文
-            UserContext userContext = loginService.getUserContext(user, currrole);
+        //获取用户上下文
+        UserContext userContext = loginService.getUserContext(user, currrole);
+        checkDomain(userContext.getCurrdomain());
 
-            //登录成功事件
-            LoginSuccessEvent.onSuccess(user);
-            return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
+        //登录成功事件
+        LoginSuccessEvent.onSuccess(user);
+        return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
+    }
+
+    /**
+     * 判断域名是否匹配
+     *
+     * @param currdomain
+     */
+    public void checkDomain(String currdomain) {
+        if (StringUtils.isNotBlank(currdomain)) {
+            ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
+            try {
+                URL url = new URL(servletRequest.getRequestURL().toString());
+                if (!url.getHost().equals(currdomain)) {
+                    throw new DefaultAuthenticationException(SecurityCode.Exception.AUTH_METHOD_NOT_SUPPORTED);
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -7,8 +7,8 @@
             id ,
             appid ,
             code ,
-            value,
-            language ,
+            `value`,
+            `language` ,
             locale ,
             create_by ,
             create_date ,
@@ -24,7 +24,7 @@
                 AND appid = #{appid}
             </if>
             <if test="code != null">
-                AND code = #{code}
+                AND instr(`code`, #{code}) > 0
             </if>
             <if test="locale != null">
                 AND locale = #{locale}
@@ -39,8 +39,8 @@
         INSERT INTO mdl_i18n(
             appid ,
             code ,
-            value,
-            language ,
+            `value`,
+            `language` ,
             locale ,
             create_by
         ) VALUES (
@@ -96,7 +96,7 @@
     </select>
 
     <select id="queryMap" resultType="java.util.Map">
-        SELECT code, value FROM mdl_i18n
+        SELECT code, `value` FROM mdl_i18n
         <include refid="QUERY_CONDITION"/>
     </select>
 

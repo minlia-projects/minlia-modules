@@ -26,6 +26,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = {"guid", "username"})
 public class User extends AbstractEntity {
 
+    private String parentGuid;
+
     /**
      * Global User Identification
      */
@@ -70,12 +72,14 @@ public class User extends AbstractEntity {
     /**
      * 账号有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime accountEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime credentialsEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime credentialsEffectiveDate;
 
     /**
      * 状态
@@ -96,12 +100,14 @@ public class User extends AbstractEntity {
     /**
      * 锁定时间，多少分钟内不能登录
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lockTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime lockTime;
 
     /**
      * 最后登录时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastLoginTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime lastLoginTime;
 
     /**
      * 最后登录IP

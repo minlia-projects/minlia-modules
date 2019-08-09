@@ -9,18 +9,35 @@ public class DefaultAuthenticationException extends AuthenticationException {
 
     private Code code;
 
+    private Object[] args;
+
     public DefaultAuthenticationException(Code code) {
         super(code.message());
         this.code = code;
     }
 
-    public DefaultAuthenticationException(Code code, Throwable t) {
+    public DefaultAuthenticationException(Code code, Object... args) {
+        super(code.message());
+        this.code = code;
+        this.args = args;
+    }
+
+    public DefaultAuthenticationException(Throwable t, Code code) {
         super(code.message(), t);
         this.code = code;
+    }
+
+    public DefaultAuthenticationException(Throwable t, Code code, Object... args) {
+        super(code.message(), t);
+        this.code = code;
+        this.args = args;
     }
 
     public Code getCode() {
         return code;
     }
 
+    public Object[] getArgs() {
+        return args;
+    }
 }

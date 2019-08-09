@@ -98,9 +98,19 @@ public class SecurityCode {
         AJAX_LOCKED,
 
         /**
+         * 身份认证服务未找到
+         */
+        PROVIDER_AUTHENTICATION_SERVICE_NOT_FOUND,
+
+        /**
          * 认证服务异常
          */
-        AUTH_SERVICE;
+        AUTH_SERVICE,
+
+        /**
+         * 已在其它地点登陆
+         */
+        LOGGED_AT_ANOTHER_LOCATION;
 
         @Override
         public String code() {

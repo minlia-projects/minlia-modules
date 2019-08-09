@@ -7,6 +7,7 @@ import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.email.constant.EmailConstants;
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.ro.EmailHtmlRO;
+import com.minlia.module.email.ro.EmailRecordQRO;
 import com.minlia.module.email.ro.EmailRichtextRO;
 import com.minlia.module.email.service.EmailRecordService;
 import com.minlia.module.email.service.EmailService;
@@ -73,7 +74,7 @@ public class EmailEndpoint {
 	@PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.SEARCH + "')")
 	@ApiOperation(value = "集合查询", notes = "集合查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@PostMapping(value = "record/list", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response list(@RequestBody EmailRecord emailRecord) {
+	public Response list(@RequestBody EmailRecordQRO emailRecord) {
 		List<EmailRecord> bankDos = emailRecordService.selectByAll(emailRecord);
 		return Response.success(bankDos);
 	}

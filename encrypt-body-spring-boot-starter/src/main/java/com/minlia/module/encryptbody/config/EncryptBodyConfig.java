@@ -24,6 +24,8 @@ public class EncryptBodyConfig {
 
     private String aesKey;
 
+    private String aesIv;
+
     private String desKey;
 
 //    private String md5Key;

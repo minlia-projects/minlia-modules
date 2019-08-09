@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -58,12 +59,16 @@ public class LoginServiceImpl implements LoginService {
             }
         }
 
+        String currrdomain = roleService.queryByCode(currrole).getAccessDomain();
+
         UserContext userContext = UserContext.builder()
                 .username(user.getUsername())
                 .cellphone(user.getCellphone())
                 .email(user.getEmail())
                 .guid(user.getGuid())
+                .parentGuid(user.getParentGuid())
                 .currrole(currrole)
+                .currdomain(currrdomain)
                 .roles(roles)
 //                .navigations(navigations)
                 .permissions(permissions)
@@ -80,8 +85,8 @@ public class LoginServiceImpl implements LoginService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
 
-        AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext);
-        AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext);
+        AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext, UUID.randomUUID().toString());
+        AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext, UUID.randomUUID().toString());
         HashMap tokenMap = new HashMap();
         tokenMap.put("token", accessToken.getToken());
         tokenMap.put("accountEffectiveDate", (accessToken).getClaims().getExpiration().getTime());

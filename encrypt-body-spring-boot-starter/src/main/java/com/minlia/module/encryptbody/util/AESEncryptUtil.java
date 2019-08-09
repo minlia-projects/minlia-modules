@@ -1,66 +1,124 @@
 package com.minlia.module.encryptbody.util;
 
-import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.codec.Base64Encoder;
+import cn.hutool.crypto.Mode;
+import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.symmetric.AES;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.SecureRandom;
 
-/**
- * <p>AES加密处理工具类</p>
- * @author licoy.cn
- * @version 2018/9/5
- */
 public class AESEncryptUtil {
 
     /**
-     * AES加密
-     * @param content  字符串内容
-     * @param password 密钥
+     * 生成密钥
+     *
+     * @return
      */
-    public static String encrypt(String content, String password){
-        return aes(content,password,Cipher.ENCRYPT_MODE);
+    public static String generateKey() {
+        System.out.println(RandomStringUtils.randomAlphanumeric(16));
+
+        //随机生成密钥
+        byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded();
+        return Base64Encoder.encode(key);
     }
 
+    /**
+     * AES加密
+     *
+     * @param data 字符串内容
+     * @param key  密钥
+     */
+    public static String encrypt(String data, String key) {
+        return aes(data, key, Cipher.ENCRYPT_MODE);
+    }
 
     /**
      * AES解密
-     * @param content  字符串内容
-     * @param password 密钥
+     *
+     * @param data 字符串内容
+     * @param key  密钥
      */
-    public static String decrypt(String content, String password){
-        return aes(content,password,Cipher.DECRYPT_MODE);
+    public static String decrypt(String data, String key) {
+        return aes(data, key, Cipher.DECRYPT_MODE);
     }
 
     /**
      * AES加密/解密 公共方法
-     * @param content  字符串
-     * @param password 密钥
-     * @param type     加密：{@link Cipher#ENCRYPT_MODE}，解密：{@link Cipher#DECRYPT_MODE}
+     *
+     * @param data 字符串
+     * @param key  密钥
+     * @param type 加密、解密
      */
-    private static String aes(String content, String password, int type) {
-        try {
-            KeyGenerator generator = KeyGenerator.getInstance("AES");
-            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
-            random.setSeed(password.getBytes());
-            generator.init(128, random);
-            SecretKey secretKey = generator.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(type, key);
-            if (type == Cipher.ENCRYPT_MODE) {
-                byte[] byteContent = content.getBytes(CharsetUtil.CHARSET_UTF_8);
-                return Hex2Util.parseByte2HexStr(cipher.doFinal(byteContent));
-            } else {
-                byte[] byteContent = Hex2Util.parseHexStr2Byte(content);
-                return new String(cipher.doFinal(byteContent));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static String aes(String data, String key, int type) {
+        AES aes = new AES(key.getBytes());
+        if (type == Cipher.ENCRYPT_MODE) {
+//            return aes.encryptHex(data);
+            return aes.encryptBase64(data);
+        } else {
+//            return aes.decryptStr(data);
+            return aes.decryptStrFromBase64(data);
         }
-        return null;
     }
+
+    /**
+     * AES加密
+     *
+     * @param data 字符串内容
+     * @param key  密钥
+     */
+    public static String encrypt(String data, String key, String iv) {
+        return aes(data, key, iv, Cipher.ENCRYPT_MODE);
+    }
+
+    /**
+     * AES解密
+     *
+     * @param data 字符串内容
+     * @param key  密钥
+     */
+    public static String decrypt(String data, String key, String iv) {
+        return aes(data, key, iv, Cipher.DECRYPT_MODE);
+    }
+
+
+    /**
+     * AES加密/解密 公共方法
+     *
+     * @param data 字符串
+     * @param key  密钥
+     * @param iv
+     * @param type 加密、解密
+     */
+    private static String aes(String data, String key, String iv, int type) {
+        AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
+        if (type == Cipher.ENCRYPT_MODE) {
+            return aes.encryptBase64(data);
+        } else {
+            return aes.decryptStrFromBase64(data);
+        }
+    }
+
+
+    public static void main(String[] args) {
+//        String key = generateKey();
+        String key = "zZyWl39ow6T0i4zIWJbfkA==";
+        String iv = "YSqr2v2jOsAZtQZi";
+
+
+        AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
+        String data = "撒范德萨反倒是割发代首割发代首撒范德萨反倒是割发代首割";
+
+        System.out.println(encrypt(data, key, iv));
+        System.out.println(decrypt(encrypt(data, key, iv), key, iv));
+
+        System.out.println(aes.encryptBase64(data));
+        System.out.println(aes.encryptHex(data));
+
+        System.out.println(aes.decryptStrFromBase64(aes.encryptBase64(data)));
+        System.out.println(aes.decryptStr(aes.encryptHex(data)));
+    }
+
 }

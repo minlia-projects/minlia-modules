@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.modules.rebecca.mapper.RoleMapper">
 
-	<sql id="QUERY_CONTENT">
+    <sql id="QUERY_CONTENT">
 		SELECT
 			rt.id ,
 			rt.code ,
 			rt.label ,
+			rt.access_domain ,
 			rt.notes ,
 			rt.enabled ,
 			rt.create_by ,
@@ -17,21 +18,22 @@
 			mdl_role rt
 	</sql>
 
-	<sql id="QUERY_CONDITION">
-		<where>
-		<if test="code != null">
-			AND rt.code = #{code,jdbcType=VARCHAR}
-		</if>
-		<if test="enabled != null">
-			AND rt.enabled = #{enabled,jdbcType=TINYINT}
-		</if>
-		</where>
-	</sql>
+    <sql id="QUERY_CONDITION">
+        <where>
+            <if test="code != null">
+                AND rt.code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="enabled != null">
+                AND rt.enabled = #{enabled,jdbcType=TINYINT}
+            </if>
+        </where>
+    </sql>
 
-	<insert id="create" useGeneratedKeys="true" keyProperty="id">
+    <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO mdl_role(
 			code ,
 			label ,
+			access_domain ,
 			notes ,
 			create_by
 		)
@@ -39,31 +41,35 @@
 			(
 				#{code,jdbcType=VARCHAR} ,
 				#{label,jdbcType=VARCHAR} ,
+				#{accessDomain,jdbcType=VARCHAR} ,
 				#{notes,jdbcType=VARCHAR} ,
 				#{createBy,jdbcType=VARCHAR}
 			)
 	</insert>
 
-	<update id="update" parameterType="com.minlia.modules.rebecca.bean.domain.Role">
-		UPDATE mdl_role
-		SET
-		<if test="code != null">
-			code = #{code,jdbcType=VARCHAR} ,
-		</if>
-		<if test="label != null">
-			label = #{label,jdbcType=VARCHAR} ,
-		</if>
-		<if test="notes != null">
-			notes = #{notes,jdbcType=VARCHAR} ,
-		</if>
-		<if test="enabled != null">
-			enabled = #{enabled,jdbcType=TINYINT} ,
-		</if>
-			last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
-		WHERE code = #{code,jdbcType=VARCHAR}
-	</update>
+    <update id="update" parameterType="com.minlia.modules.rebecca.bean.domain.Role">
+        UPDATE mdl_role
+        SET
+        <if test="code != null">
+            code = #{code,jdbcType=VARCHAR} ,
+        </if>
+        <if test="label != null">
+            label = #{label,jdbcType=VARCHAR} ,
+        </if>
+        <if test="accessDomain != null">
+            access_domain = #{accessDomain,jdbcType=VARCHAR} ,
+        </if>
+        <if test="notes != null">
+            notes = #{notes,jdbcType=VARCHAR} ,
+        </if>
+        <if test="enabled != null">
+            enabled = #{enabled,jdbcType=TINYINT} ,
+        </if>
+        last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+        WHERE code = #{code,jdbcType=VARCHAR}
+    </update>
 
-	<delete id="delete">
+    <delete id="delete">
 		DELETE rt.*, ur.*, rp.*
 		FROM
 			mdl_role rt
@@ -73,43 +79,43 @@
 			rt.id = #{id,jdbcType=BIGINT}
 	</delete>
 
-	<delete id="deleteRolePermission">
+    <delete id="deleteRolePermission">
 		DELETE FROM mdl_role_permission where role_id = #{arg0};
 	</delete>
 
-	<delete id="grant">
-		INSERT INTO mdl_role_permission(
-			role_id ,
-			permission_id
-		)
-		VALUES
-		<foreach collection="arg1" item="item" index="index" separator=",">
-		(
-			#{arg0,jdbcType=BIGINT} ,
-			#{item,jdbcType=SMALLINT}
-		)
-		</foreach>
-		;
-	</delete>
+    <delete id="grant">
+        INSERT INTO mdl_role_permission(
+        role_id ,
+        permission_id
+        )
+        VALUES
+        <foreach collection="arg1" item="item" index="index" separator=",">
+            (
+            #{arg0,jdbcType=BIGINT} ,
+            #{item,jdbcType=SMALLINT}
+            )
+        </foreach>
+        ;
+    </delete>
 
-	<select id="queryById" resultType="com.minlia.modules.rebecca.bean.domain.Role">
-		<include refid="QUERY_CONTENT" />
-		WHERE rt.id = #{id,jdbcType=VARCHAR}
-	</select>
+    <select id="queryById" resultType="com.minlia.modules.rebecca.bean.domain.Role">
+        <include refid="QUERY_CONTENT"/>
+        WHERE rt.id = #{id,jdbcType=VARCHAR}
+    </select>
 
-	<select id="queryByCode" resultType="com.minlia.modules.rebecca.bean.domain.Role">
-		<include refid="QUERY_CONTENT" />
-		WHERE rt.code = #{code,jdbcType=VARCHAR}
-	</select>
+    <select id="queryByCode" resultType="com.minlia.modules.rebecca.bean.domain.Role">
+        <include refid="QUERY_CONTENT"/>
+        WHERE rt.code = #{code,jdbcType=VARCHAR}
+    </select>
 
-	<select id="queryByGuid" resultType="com.minlia.modules.rebecca.bean.domain.Role">
-		<include refid="QUERY_CONTENT" />
-		INNER JOIN mdl_user_role mp ON mp.role_id = rt.id
-		INNER JOIN mdl_user ut ON ut.id = mp.user_id
-		WHERE ut.guid = #{guid,jdbcType=VARCHAR}
-	</select>
+    <select id="queryByGuid" resultType="com.minlia.modules.rebecca.bean.domain.Role">
+        <include refid="QUERY_CONTENT"/>
+        INNER JOIN mdl_user_role mp ON mp.role_id = rt.id
+        INNER JOIN mdl_user ut ON ut.id = mp.user_id
+        WHERE ut.guid = #{guid,jdbcType=VARCHAR}
+    </select>
 
-	<select id="queryCodeByUserId" resultType="java.lang.String">
+    <select id="queryCodeByUserId" resultType="java.lang.String">
 		SELECT
 			rt.code
 		FROM
@@ -120,7 +126,7 @@
 			ut.id = #{id,jdbcType=BIGINT}
 	</select>
 
-	<select id="queryIdByUserId" resultType="java.lang.Long">
+    <select id="queryIdByUserId" resultType="java.lang.Long">
 		SELECT
 			rt.id
 		FROM
@@ -131,13 +137,8 @@
 			ut.id = #{id,jdbcType=BIGINT}
 	</select>
 
-	<select id="queryOne" resultType="com.minlia.modules.rebecca.bean.domain.Role">
-		<include refid="QUERY_CONTENT" />
-		<include refid="QUERY_CONDITION" />
-	</select>
-
-	<select id="queryList" resultType="com.minlia.modules.rebecca.bean.domain.Role">
-		<include refid="QUERY_CONTENT" />
-	</select>
+    <select id="queryList" resultType="com.minlia.modules.rebecca.bean.domain.Role">
+        <include refid="QUERY_CONTENT"/>
+    </select>
 
 </mapper>

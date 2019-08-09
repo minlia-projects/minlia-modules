@@ -78,7 +78,7 @@ public class UserSeedDataInitializeListener implements ApplicationListener<Conte
             user = userService.create(UserCTO.builder()
                     .username(SecurityConstant.ROLE_ADMIN_CODE)
                     .password(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,SecurityConstant.ROLE_ADMIN_CODE))
-                    .roles(Sets.newHashSet(role.getId()))
+                    .roles(Sets.newHashSet(role.getCode()))
                     .build());
         }
         return user;

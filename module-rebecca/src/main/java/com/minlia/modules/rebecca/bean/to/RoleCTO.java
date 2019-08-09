@@ -26,4 +26,7 @@ public class RoleCTO {
 
     private List<Long> permissions;
 
+    @Size(max = 100)
+    private String accessDomain;
+
 }

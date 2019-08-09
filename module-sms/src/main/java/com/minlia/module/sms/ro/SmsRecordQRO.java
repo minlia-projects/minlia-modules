@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,25 +17,64 @@ import lombok.NoArgsConstructor;
 @ApiModel("联行号-查询")
 public class SmsRecordQRO extends QueryRequest {
 
-    @ApiModelProperty(value = "省")
-    private String province;
+    private Long id;
 
-    @ApiModelProperty(value = "市")
-    private String city;
+    private String createBy;
 
-    @ApiModelProperty(value = "区")
-    private String district;
+    private String lastModifiedBy;
 
-    @ApiModelProperty(value = "街道")
-    private String street;
+    private LocalDateTime createDate;
 
-    @ApiModelProperty(value = "银行名称")
-    private String bankname;
+    private LocalDateTime lastModifiedDate;
 
-    @ApiModelProperty(value = "支行名称")
-    private String branchname;
+    /**
+     * 应用ID
+     */
+    private String appid;
 
-    @ApiModelProperty(value = "联行号")
-    private String number;
+    /**
+     * 通道
+     */
+    private String channel;
+
+    /**
+     * 编码
+     */
+    private String code;
+
+    /**
+     * 接收人
+     */
+    private String sendTo;
+
+    /**
+     * 语言
+     */
+    private String locale;
+
+    /**
+     * 主题
+     */
+    private String subject;
+
+    /**
+     * 内容
+     */
+    private String content;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 发送成功
+     */
+    private Boolean successFlag;
+
+    /**
+     * 禁用标识
+     */
+    private Boolean disFlag;
 
 }

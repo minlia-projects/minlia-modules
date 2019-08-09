@@ -42,11 +42,15 @@ public final class UserContext implements Body {
      */
     private String guid;
 
+    private String parentGuid;
+
     /**
      * JwtTokenFactory
      * 当前角色
      */
     private String currrole;
+
+    private String currdomain;
 
     /**
      * 拥有角色
@@ -72,7 +76,7 @@ public final class UserContext implements Body {
     /**
      * 过期时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime expireDate;
-
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime expireDate;
 
 }

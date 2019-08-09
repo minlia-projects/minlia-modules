@@ -215,10 +215,11 @@ public class CryptRequestBodyAdvice {
             DecryptBodyMethod method = infoBean.getDecryptBodyMethod();
             if (method == null) throw new DecryptMethodNotFoundException();
             String key = infoBean.getKey();
+            String iv = infoBean.getIv();
             if (method == DecryptBodyMethod.RSA) {
-                key = CheckUtils.checkAndGetKey(config.getRsaPrivateKey(), key, "RSA-PRIVATE-KEY");
                 JSONObject jsonObject = JSONObject.parseObject(formatStringBody);
                 formatStringBody = jsonObject.getString("data");
+                key = CheckUtils.checkAndGetKey(config.getRsaPrivateKey(), key, "RSA-PRIVATE-KEY");
                 return RSAEncryptUtil.decryptBase64(formatStringBody, key);
             }
             if (method == DecryptBodyMethod.DES) {
@@ -226,8 +227,12 @@ public class CryptRequestBodyAdvice {
                 return DESEncryptUtil.decrypt(formatStringBody, key);
             }
             if (method == DecryptBodyMethod.AES) {
+                JSONObject jsonObject = JSONObject.parseObject(formatStringBody);
+                formatStringBody = jsonObject.getString("data");
+
                 key = CheckUtils.checkAndGetKey(config.getAesKey(), key, "AES-KEY");
-                return AESEncryptUtil.decrypt(formatStringBody, key);
+                iv = CheckUtils.checkAndGetKey(config.getAesIv(), iv, "AES-IV");
+                return AESEncryptUtil.decrypt(formatStringBody, key, iv);
             }
             if (method == DecryptBodyMethod.XOR) {
                 key = CheckUtils.checkAndGetKey(config.getXorKey(), key, "XOR-KEY");

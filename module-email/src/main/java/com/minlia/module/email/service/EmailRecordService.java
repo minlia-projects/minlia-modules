@@ -1,6 +1,7 @@
 package com.minlia.module.email.service;
 
 import com.minlia.module.email.entity.EmailRecord;
+import com.minlia.module.email.ro.EmailRecordQRO;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface EmailRecordService {
 
     EmailRecord selectByPrimaryKey(Long id);
 
-    List<EmailRecord> selectByAll(EmailRecord emailRecord);
+    List<EmailRecord> selectByAll(EmailRecordQRO emailRecord);
 
     EmailRecord selectOneByNumber(String number);
 }

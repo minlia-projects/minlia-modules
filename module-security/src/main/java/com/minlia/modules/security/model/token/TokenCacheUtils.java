@@ -29,8 +29,6 @@ public class TokenCacheUtils {
         HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
         Object sid = servletRequest.getSession().getAttribute(SecurityConstant.SID);
         return String.format(TOKEN_GUID_SESSION, guid, sid);
-
-//        return TOKEN + guid;
     }
 
     /**
@@ -41,7 +39,7 @@ public class TokenCacheUtils {
      * @param expirationTime
      */
     public static void cache(String guid, String token, int expirationTime) {
-        RedisUtils.set(getKeyWithSessionId(guid), token, expirationTime);
+        RedisUtils.set(getKey(guid), token, expirationTime);
     }
 
     /**
@@ -50,7 +48,7 @@ public class TokenCacheUtils {
      * @param guid
      */
     public static Object get(String guid) {
-        return RedisUtils.get(getKeyWithSessionId(guid));
+        return RedisUtils.get(getKey(guid));
     }
 
     /**
@@ -70,7 +68,7 @@ public class TokenCacheUtils {
      * @return
      */
     public static boolean exists(String guid) {
-        return RedisUtils.getRedisTemplate().hasKey(getKeyWithSessionId(guid));
+        return RedisUtils.getRedisTemplate().hasKey(getKey(guid));
     }
 
     /**
@@ -80,7 +78,7 @@ public class TokenCacheUtils {
      * @return
      */
     public static boolean expire(String guid, long time) {
-        return RedisUtils.expire(getKeyWithSessionId(guid), time);
+        return RedisUtils.expire(getKey(guid), time);
     }
 
 }

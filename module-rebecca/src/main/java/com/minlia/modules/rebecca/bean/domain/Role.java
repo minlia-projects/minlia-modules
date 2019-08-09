@@ -19,16 +19,14 @@ import lombok.*;
 @EqualsAndHashCode(of = {"code"})
 public class Role extends AbstractEntity {
 
-    @JsonProperty
     private String code;
 
-    @JsonProperty
     private String label;
 
-    @JsonProperty
     private String notes;
 
-    @JsonProperty
     private Boolean enabled;
+
+    private String accessDomain;
 
 }

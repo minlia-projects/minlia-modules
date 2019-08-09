@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>解密注解信息</p>
+ *
  * @author licoy.cn
  * @version 2018/9/6
  */
@@ -20,5 +21,7 @@ public class DecryptAnnotationInfoBean {
     private DecryptBodyMethod decryptBodyMethod;
 
     private String key;
+
+    private String iv;
 
 }

@@ -6,6 +6,7 @@
         SELECT
             DISTINCT
             mut.id ,
+            mut.parent_guid ,
             mut.guid ,
             mut.username ,
             mut.cellphone ,
@@ -40,6 +41,9 @@
         <where>
             <if test="id != null">
                 AND mut.id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="parentGuid != null">
+                AND mut.parent_guid = #{parentGuid}
             </if>
             <if test="guid != null">
                 AND mut.guid = #{guid}
@@ -82,6 +86,7 @@
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mdl_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            parent_guid ,
             guid ,
             username ,
             cellphone ,
@@ -101,6 +106,7 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{parentGuid,jdbcType=VARCHAR},
             #{guid,jdbcType=VARCHAR},
             #{username,jdbcType=VARCHAR},
             #{cellphone,jdbcType=VARCHAR},
@@ -124,6 +130,9 @@
     <update id="update" parameterType="com.minlia.modules.rebecca.bean.domain.User">
         UPDATE mdl_user
         <set>
+            <if test="parentGuid != null">
+                parent_guid = #{parentGuid,jdbcType=VARCHAR} ,
+            </if>
             <if test="status != null">
                 status = #{status,jdbcType=VARCHAR} ,
             </if>

@@ -1,6 +1,7 @@
 package com.minlia.module.email.mapper;
 
 import com.minlia.module.email.entity.EmailRecord;
+import com.minlia.module.email.ro.EmailRecordQRO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface EmailRecordMapper {
 
     EmailRecord selectByPrimaryKey(Long id);
 
-    List<EmailRecord> selectByAll(EmailRecord emailRecord);
+    List<EmailRecord> selectByAll(EmailRecordQRO emailRecord);
 
     EmailRecord selectOneByNumber(@Param("number") String number);
 

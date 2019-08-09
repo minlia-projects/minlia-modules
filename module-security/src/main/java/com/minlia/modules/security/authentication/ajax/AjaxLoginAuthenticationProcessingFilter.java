@@ -10,6 +10,7 @@ import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AuthMethodNotSupportedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,16 +32,11 @@ import java.util.regex.Pattern;
 @Slf4j
 public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final AuthenticationSuccessHandler successHandler;
-    private final AuthenticationFailureHandler failureHandler;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    private final ObjectMapper objectMapper;
-
-    public AjaxLoginAuthenticationProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler, ObjectMapper mapper) {
+    public AjaxLoginAuthenticationProcessingFilter(String defaultProcessUrl) {
         super(defaultProcessUrl);
-        this.successHandler = successHandler;
-        this.failureHandler = failureHandler;
-        this.objectMapper = mapper;
     }
 
     @Override
@@ -94,15 +90,15 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         }
     }
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        successHandler.onAuthenticationSuccess(request, response, authResult);
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        SecurityContextHolder.clearContext();
-        failureHandler.onAuthenticationFailure(request, response, failed);
-    }
+//    @Override
+//    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+//        successHandler.onAuthenticationSuccess(request, response, authResult);
+//    }
+//
+//    @Override
+//    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+//        SecurityContextHolder.clearContext();
+//        failureHandler.onAuthenticationFailure(request, response, failed);
+//    }
 
 }

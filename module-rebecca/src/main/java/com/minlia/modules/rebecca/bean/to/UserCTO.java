@@ -32,7 +32,9 @@ public class UserCTO implements ApiRequestBody {
 
 //    @ApiModelProperty(value = "注册方式")
 //    @NotNull(message = "注册方式不能为空")
-//    private RegistrationMethodEnum method;
+//
+
+    private String parentGuid;
 
     @Username
     private String username;
@@ -48,9 +50,9 @@ public class UserCTO implements ApiRequestBody {
     private String password;
 
     @NotNull
-    private Long defaultRole;
+    private String defaultRole;
 
-    private Set<Long> roles;
+    private Set<String> roles;
 
     @JsonIgnore
     private String referral;
@@ -64,11 +66,13 @@ public class UserCTO implements ApiRequestBody {
     /**
      * 账号有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime accountEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime credentialsEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime credentialsEffectiveDate;
 
 }
