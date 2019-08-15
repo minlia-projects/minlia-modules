@@ -83,7 +83,6 @@ public class AESEncryptUtil {
         return aes(data, key, iv, Cipher.DECRYPT_MODE);
     }
 
-
     /**
      * AES加密/解密 公共方法
      *
@@ -101,12 +100,9 @@ public class AESEncryptUtil {
         }
     }
 
-
     public static void main(String[] args) {
-//        String key = generateKey();
         String key = "zZyWl39ow6T0i4zIWJbfkA==";
         String iv = "YSqr2v2jOsAZtQZi";
-
 
         AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
         String data = "撒范德萨反倒是割发代首割发代首撒范德萨反倒是割发代首割";
@@ -115,9 +111,9 @@ public class AESEncryptUtil {
         System.out.println(decrypt(encrypt(data, key, iv), key, iv));
 
         System.out.println(aes.encryptBase64(data));
-        System.out.println(aes.encryptHex(data));
-
         System.out.println(aes.decryptStrFromBase64(aes.encryptBase64(data)));
+
+        System.out.println(aes.encryptHex(data));
         System.out.println(aes.decryptStr(aes.encryptHex(data)));
     }
 

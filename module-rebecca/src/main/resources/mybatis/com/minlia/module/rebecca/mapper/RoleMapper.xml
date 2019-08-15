@@ -5,8 +5,11 @@
     <sql id="QUERY_CONTENT">
 		SELECT
 			rt.id ,
+			rt.parent_id ,
 			rt.code ,
 			rt.label ,
+			rt.ds_type ,
+			rt.ds_scope ,
 			rt.access_domain ,
 			rt.notes ,
 			rt.enabled ,
@@ -31,16 +34,22 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO mdl_role(
+		    parent_id,
 			code ,
 			label ,
+			ds_type ,
+			ds_scope ,
 			access_domain ,
 			notes ,
 			create_by
 		)
 		VALUES
 			(
+				#{parentId,jdbcType=BIGINT} ,
 				#{code,jdbcType=VARCHAR} ,
 				#{label,jdbcType=VARCHAR} ,
+				#{dsType,jdbcType=INTEGER} ,
+				#{dsScope,jdbcType=INTEGER} ,
 				#{accessDomain,jdbcType=VARCHAR} ,
 				#{notes,jdbcType=VARCHAR} ,
 				#{createBy,jdbcType=VARCHAR}
@@ -55,6 +64,12 @@
         </if>
         <if test="label != null">
             label = #{label,jdbcType=VARCHAR} ,
+        </if>
+        <if test="dsType != null">
+            ds_type = #{dsType,jdbcType=INTEGER} ,
+        </if>
+        <if test="dsScope != null">
+            ds_scope = #{dsScope,jdbcType=INTEGER} ,
         </if>
         <if test="accessDomain != null">
             access_domain = #{accessDomain,jdbcType=VARCHAR} ,

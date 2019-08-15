@@ -94,11 +94,11 @@ public class UserServiceImpl implements UserService {
             user.setReferral(cro.getReferral());
         }
 
-        //校验parentGuid是否存在
-        if (StringUtils.isNotEmpty(cro.getParentGuid())) {
-            ApiAssert.state(userQueryService.exists(UserQO.builder().guid(cro.getParentGuid()).build()), UserCode.Message.NOT_EXISTS);
-            user.setParentGuid(cro.getParentGuid());
-        }
+//        //校验parentGuid是否存在
+//        if (StringUtils.isNotEmpty(cro.getParentGuid())) {
+//            ApiAssert.state(userQueryService.exists(UserQO.builder().guid(cro.getParentGuid()).build()), UserCode.Message.NOT_EXISTS);
+//            user.setParentGuid(cro.getParentGuid());
+//        }
 
         //校验角色是否存在
         Set<String> roles = cro.getRoles();
@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService {
         Role role = roleService.queryByCode(cro.getDefaultRole());
         ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
 
+        user.setOrgId(cro.getOrgId());
         user.setGuid(SequenceUtils.nextval("guid").toString());
         user.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
         user.setDefaultRole(role.getCode());
@@ -153,11 +154,11 @@ public class UserServiceImpl implements UserService {
             user.setDefaultRole(role.getCode());
         }
 
-        //校验parentGuid是否存在
-        if (StringUtils.isNotEmpty(uro.getParentGuid())) {
-            ApiAssert.state(userQueryService.exists(UserQO.builder().guid(uro.getParentGuid()).build()), UserCode.Message.NOT_EXISTS);
-            user.setParentGuid(uro.getParentGuid());
-        }
+//        //校验parentGuid是否存在
+//        if (StringUtils.isNotEmpty(uro.getParentGuid())) {
+//            ApiAssert.state(userQueryService.exists(UserQO.builder().guid(uro.getParentGuid()).build()), UserCode.Message.NOT_EXISTS);
+//            user.setParentGuid(uro.getParentGuid());
+//        }
 
         this.update(user, userUpdateType);
         return user;

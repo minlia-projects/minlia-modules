@@ -30,11 +30,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserCTO implements ApiRequestBody {
 
-//    @ApiModelProperty(value = "注册方式")
+    //    @ApiModelProperty(value = "注册方式")
 //    @NotNull(message = "注册方式不能为空")
 //
-
-    private String parentGuid;
+    private Long orgId;
 
     @Username
     private String username;

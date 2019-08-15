@@ -16,6 +16,7 @@ public interface RoleService {
 
     /**
      * 创建
+     *
      * @param body
      * @return
      */
@@ -23,6 +24,7 @@ public interface RoleService {
 
     /**
      * 修改
+     *
      * @param body
      * @return
      */
@@ -30,6 +32,7 @@ public interface RoleService {
 
     /**
      * 删除
+     *
      * @param code
      */
     void delete(String code);
@@ -38,6 +41,7 @@ public interface RoleService {
      * 授予权限点
      * 1、根据角色删除关系表
      * 2、插入新的记录
+     *
      * @param code
      * @param permissions
      * @return
@@ -61,4 +65,7 @@ public interface RoleService {
     List<Role> queryList();
 
     PageInfo<Role> queryPage(Pageable pageable);
+
+    boolean isParent(String parentCode, String childCode);
+
 }

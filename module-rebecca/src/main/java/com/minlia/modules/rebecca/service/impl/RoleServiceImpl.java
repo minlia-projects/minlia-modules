@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -42,7 +44,12 @@ public class RoleServiceImpl implements RoleService {
     public Role create(RoleCTO body) {
         ApiAssert.state(!this.exists(body.getCode()), RoleCode.Message.ALREADY_EXISTS);
 
-        Role role = mapper.map(body,Role.class);
+        if (body.getParentId() != 0) {
+            //判断角色是否存在
+            ApiAssert.state(this.exists(body.getParentId()), RoleCode.Message.NOT_EXISTS);
+        }
+
+        Role role = mapper.map(body, Role.class);
         roleMapper.create(role);
         if (CollectionUtils.isNotEmpty(body.getPermissions())) {
             roleMapper.grant(role.getId(), body.getPermissions());
@@ -54,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public Role update(RoleUTO body) {
         ApiAssert.state(this.exists(body.getCode()), RoleCode.Message.NOT_EXISTS);
-        Role role = mapper.map(body,Role.class);
+        Role role = mapper.map(body, Role.class);
         roleMapper.update(role);
         return role;
     }
@@ -70,11 +77,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void grantPermission(String code,List<Long> permissions) {
+    public void grantPermission(String code, List<Long> permissions) {
         Role role = roleMapper.queryByCode(code);
         ApiAssert.notNull(role, RoleCode.Message.NOT_EXISTS);
         roleMapper.deleteRolePermission(role.getId());
-        roleMapper.grant(role.getId(),permissions);
+        roleMapper.grant(role.getId(), permissions);
     }
 
     @Override
@@ -119,7 +126,17 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public PageInfo<Role> queryPage(Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> roleMapper.queryList());
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> roleMapper.queryList());
+    }
+
+    @Override
+    public boolean isParent(String parentCode, String childCode) {
+        if (parentCode.equals(childCode)) return true;
+        Role parentRole = queryByCode(parentCode);
+        if (null == parentRole) return false;
+        Role childRole = queryByCode(childCode);
+        if (null == childRole) return false;
+        return null == childRole.getParentId() ? false : parentRole.getId().equals(childRole.getParentId());
     }
 
 }

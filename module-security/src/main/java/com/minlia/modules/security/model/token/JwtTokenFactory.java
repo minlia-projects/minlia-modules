@@ -2,7 +2,6 @@ package com.minlia.modules.security.model.token;
 
 import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
-import com.minlia.modules.security.model.SysUser;
 import com.minlia.modules.security.model.UserContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Component
 public class JwtTokenFactory {
@@ -46,6 +44,7 @@ public class JwtTokenFactory {
     public AccessJwtToken createRawJwtToken(UserContext userContext, String id) {
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("guid", userContext.getGuid());
+        claims.put("orgId", userContext.getOrgId());
         claims.put("cellphone", userContext.getCellphone());
         claims.put("email", userContext.getEmail());
         claims.put("currrole", userContext.getCurrrole());
@@ -76,6 +75,7 @@ public class JwtTokenFactory {
 
     public AccessJwtToken createOriginalToken(UserContext userContext, String id) {
         Claims claims = Jwts.claims().setSubject(userContext.getGuid());
+        claims.put("orgId", userContext.getOrgId());
         claims.put("username", userContext.getUsername());
         claims.put("cellphone", userContext.getCellphone());
         claims.put("email", userContext.getEmail());

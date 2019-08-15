@@ -28,4 +28,14 @@ public class RoleUTO {
     @Size(max = 100)
     private String accessDomain;
 
+    /**
+     * 数据范围类型
+     */
+    private Integer dsType;
+
+    /**
+     * 数据范围自定义值
+     */
+    private Integer dsScope;
+
 }

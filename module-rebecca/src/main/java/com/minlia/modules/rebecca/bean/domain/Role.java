@@ -19,9 +19,21 @@ import lombok.*;
 @EqualsAndHashCode(of = {"code"})
 public class Role extends AbstractEntity {
 
+    private Long parentId;
+
     private String code;
 
     private String label;
+
+    /**
+     * 数据范围类型
+     */
+    private Integer dsType;
+
+    /**
+     * 数据范围自定义值
+     */
+    private Integer dsScope;
 
     private String notes;
 

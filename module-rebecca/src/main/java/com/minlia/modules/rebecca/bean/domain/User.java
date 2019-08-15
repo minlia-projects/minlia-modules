@@ -26,7 +26,10 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = {"guid", "username"})
 public class User extends AbstractEntity {
 
-    private String parentGuid;
+    /**
+     * 组织ID
+     */
+    private Long orgId;
 
     /**
      * Global User Identification

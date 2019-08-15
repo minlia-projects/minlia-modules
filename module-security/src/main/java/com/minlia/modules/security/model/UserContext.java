@@ -23,6 +23,11 @@ import java.util.List;
 public final class UserContext implements Body {
 
     /**
+     * 组织ID
+     */
+    private Long orgId;
+
+    /**
      * 用户名
      */
     private String username;

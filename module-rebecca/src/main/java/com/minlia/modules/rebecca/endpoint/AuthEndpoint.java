@@ -67,7 +67,7 @@ public class AuthEndpoint {
     Response logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String guid = com.minlia.modules.rebecca.context.SecurityContextHolder.getCurrentGuid();
         TokenCacheUtils.kill(guid);
-        response.getWriter().flush();
+//        response.getWriter().flush();
 //        response.getWriter().close();
 //        WebUtils.setSessionAttribute(request, "SESSION", null);
         return Response.success();

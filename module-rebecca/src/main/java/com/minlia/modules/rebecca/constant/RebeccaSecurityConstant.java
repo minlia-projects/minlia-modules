@@ -5,7 +5,7 @@ import com.minlia.modules.security.constant.SecurityConstant;
 
 public class RebeccaSecurityConstant {
 
-    public final static String USER = MinliaConstants.APP_NAME  + ".user";
+    public final static String USER = MinliaConstants.APP_NAME + ".user";
     public final static String USER_CREATE = USER + SecurityConstant.OPERATION_CREATE_CODE;
     public final static String USER_UPDATE = USER + SecurityConstant.OPERATION_UPDATE_CODE;
     public final static String USER_DELETE = USER + SecurityConstant.OPERATION_DELETE_CODE;
@@ -32,5 +32,11 @@ public class RebeccaSecurityConstant {
     public final static String NAVIGATION_SEARCH = NAVIGATION + SecurityConstant.OPERATION_SEARCH_CODE;
     public final static String NAVIGATION_GRANT = NAVIGATION + SecurityConstant.OPERATION_GRANT_CODE;
     public final static String NAVIGATION_DISPLAY = NAVIGATION + SecurityConstant.OPERATION_DISPLAY_CODE;
+
+    public final static String ORGANIZATION = MinliaConstants.APP_NAME + ".organization";
+    public final static String ORGANIZATION_CREATE = ORGANIZATION + SecurityConstant.OPERATION_CREATE_CODE;
+    public final static String ORGANIZATION_UPDATE = ORGANIZATION + SecurityConstant.OPERATION_UPDATE_CODE;
+    public final static String ORGANIZATION_DELETE = ORGANIZATION + SecurityConstant.OPERATION_DELETE_CODE;
+    public final static String ORGANIZATION_SEARCH = ORGANIZATION + SecurityConstant.OPERATION_SEARCH_CODE;
 
 }

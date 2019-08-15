@@ -58,6 +58,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         String username = jwsClaims.getBody().getSubject();
 
+        Object orgId = jwsClaims.getBody().get("orgId");
         String cellphone = jwsClaims.getBody().get("cellphone", String.class);
         String email = jwsClaims.getBody().get("email", String.class);
         String currrole = jwsClaims.getBody().get("currrole", String.class);
@@ -74,6 +75,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         UserContext userContext = UserContext.builder()
                 .guid(guid)
+                .orgId(null != orgId ? Long.valueOf(orgId.toString()) : null)
                 .username(username)
                 .cellphone(cellphone)
                 .email(email)

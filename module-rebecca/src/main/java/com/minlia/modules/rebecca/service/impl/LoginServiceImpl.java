@@ -62,11 +62,11 @@ public class LoginServiceImpl implements LoginService {
         String currrdomain = roleService.queryByCode(currrole).getAccessDomain();
 
         UserContext userContext = UserContext.builder()
+                .orgId(user.getOrgId())
                 .username(user.getUsername())
                 .cellphone(user.getCellphone())
                 .email(user.getEmail())
                 .guid(user.getGuid())
-                .parentGuid(user.getParentGuid())
                 .currrole(currrole)
                 .currdomain(currrdomain)
                 .roles(roles)

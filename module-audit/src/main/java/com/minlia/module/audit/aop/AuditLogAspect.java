@@ -125,7 +125,11 @@ public class AuditLogAspect {
         }
 
         if (ArrayUtils.isNotEmpty(point.getArgs())) {
-            auditLogInfo.setParams(JSON.toJSONString(point.getArgs()));
+            try {
+                auditLogInfo.setParams(JSON.toJSONString(point.getArgs()));
+            } catch (Exception e) {
+                auditLogInfo.setParams(e.getMessage());
+            }
         }
 
         return auditLogInfo;

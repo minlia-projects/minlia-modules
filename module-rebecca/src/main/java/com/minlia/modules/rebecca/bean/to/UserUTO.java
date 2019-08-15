@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserUTO implements ApiRequestBody {
 
-    private String parentGuid;
+    private Long orgId;
 
     @NotBlank
     private String guid;

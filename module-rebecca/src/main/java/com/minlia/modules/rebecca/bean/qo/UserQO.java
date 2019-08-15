@@ -16,9 +16,9 @@ public class UserQO extends QueryRequest {
 
     private Long id;
 
-    private String guid;
+    private Long orgId;
 
-    private String parentGuid;
+    private String guid;
 
     private String username;
 
