@@ -29,7 +29,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, update_type, guid, username, cellphone, email, nickname, `password`, default_role,
+        id, update_type, org_id, guid, username, cellphone, email, nickname, `password`, default_role,
         default_locale, account_effective_date, credentials_effective_date, `status`, locked,
         lock_limit, lock_time, last_login_time, last_login_ip, referral, create_by, create_date,
         last_modified_by, last_modified_date
@@ -53,6 +53,9 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="updateType != null">
                 update_type,
+            </if>
+            <if test="orgId != null">
+                org_id,
             </if>
             <if test="guid != null">
                 guid,
@@ -121,6 +124,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="updateType != null">
                 #{updateType,jdbcType=VARCHAR},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=BIGINT},
             </if>
             <if test="guid != null">
                 #{guid,jdbcType=BIGINT},

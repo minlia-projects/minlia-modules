@@ -3,7 +3,11 @@ package com.minlia.modules.rebecca.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.modules.rebecca.bean.domain.Organization;
 import com.minlia.modules.rebecca.bean.domain.Role;
+import com.minlia.modules.rebecca.bean.dto.OrganizationTree;
+import com.minlia.modules.rebecca.bean.dto.RoleTree;
+import com.minlia.modules.rebecca.bean.dto.TreeUtil;
 import com.minlia.modules.rebecca.bean.to.RoleCTO;
 import com.minlia.modules.rebecca.bean.to.RoleUTO;
 import com.minlia.modules.rebecca.constant.RoleCode;
@@ -21,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by will on 6/19/17.
@@ -137,6 +142,26 @@ public class RoleServiceImpl implements RoleService {
         Role childRole = queryByCode(childCode);
         if (null == childRole) return false;
         return null == childRole.getParentId() ? false : parentRole.getId().equals(childRole.getParentId());
+    }
+
+    @Override
+    public List<RoleTree> selectTree() {
+        return buildTree(this.roleMapper.queryList(), 0L);
+    }
+
+    private List<RoleTree> buildTree(List<Role> roles, long root) {
+        List<RoleTree> trees = roles.stream()
+                .filter(role -> !role.getId().equals(role.getParentId()))
+                .map(role -> {
+                    RoleTree tree = new RoleTree();
+                    tree.setId(role.getId());
+                    tree.setCode(role.getCode());
+                    tree.setName(role.getLabel());
+                    tree.setParentId(role.getParentId());
+//                    tree.setSort(role.getSort());
+                    return tree;
+                }).collect(Collectors.toList());
+        return TreeUtil.build(trees, root);
     }
 
 }

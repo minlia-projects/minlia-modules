@@ -7,7 +7,7 @@ import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.modules.rebecca.bean.domain.Organization;
 import com.minlia.modules.rebecca.constant.RebeccaSecurityConstant;
-import com.minlia.modules.rebecca.service.impl.OrganizationService;
+import com.minlia.modules.rebecca.service.OrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

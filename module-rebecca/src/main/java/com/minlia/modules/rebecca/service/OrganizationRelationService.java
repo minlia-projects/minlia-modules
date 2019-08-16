@@ -1,4 +1,4 @@
-package com.minlia.modules.rebecca.service.impl;
+package com.minlia.modules.rebecca.service;
 
 import com.minlia.modules.rebecca.bean.domain.Organization;
 import com.minlia.modules.rebecca.bean.domain.OrganizationRelation;

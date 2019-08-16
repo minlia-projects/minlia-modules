@@ -30,7 +30,9 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OrganizationTree extends TreeNode {
+public class RoleTree extends TreeNode {
+
+    private String code;
 
     private String name;
 
@@ -38,10 +40,5 @@ public class OrganizationTree extends TreeNode {
      * 顺序
      */
     private Integer sort;
-
-    /**
-     * 禁用标识
-     */
-    private Boolean disFlag;
 
 }

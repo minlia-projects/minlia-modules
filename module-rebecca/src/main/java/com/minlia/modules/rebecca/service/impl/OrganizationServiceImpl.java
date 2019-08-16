@@ -1,4 +1,4 @@
-package com.minlia.modules.rebecca.service;
+package com.minlia.modules.rebecca.service.impl;
 
 import com.google.common.collect.Lists;
 import com.minlia.modules.rebecca.bean.domain.Organization;
@@ -6,8 +6,8 @@ import com.minlia.modules.rebecca.bean.dto.OrganizationTree;
 import com.minlia.modules.rebecca.bean.dto.TreeUtil;
 import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import com.minlia.modules.rebecca.mapper.OrganizationMapper;
-import com.minlia.modules.rebecca.service.impl.OrganizationRelationService;
-import com.minlia.modules.rebecca.service.impl.OrganizationService;
+import com.minlia.modules.rebecca.service.OrganizationRelationService;
+import com.minlia.modules.rebecca.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +24,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationRelationService organizationRelationService;
 
     @Override
-    public Boolean insertSelective(Organization record) {
+    public Organization insertSelective(Organization record) {
         organizationMapper.insertSelective(record);
         organizationRelationService.insert(record);
-        return Boolean.TRUE;
+        return record;
     }
 
     @Override
@@ -86,6 +86,8 @@ public class OrganizationServiceImpl implements OrganizationService {
                     tree.setId(organization.getId());
                     tree.setName(organization.getName());
                     tree.setParentId(organization.getParentId());
+                    tree.setSort(organization.getSort());
+                    tree.setDisFlag(organization.getDisFlag());
                     return tree;
                 }).collect(Collectors.toList());
         return TreeUtil.build(trees, root);

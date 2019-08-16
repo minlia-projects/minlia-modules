@@ -15,6 +15,7 @@ import com.minlia.module.richtext.service.RichtextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -88,7 +89,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables) {
-        return this.sendHtmlMail(to, subject, content, variables, null, null);
+        return this.sendHtmlMail(to, subject, content, variables, null, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
     }
 
     @Override

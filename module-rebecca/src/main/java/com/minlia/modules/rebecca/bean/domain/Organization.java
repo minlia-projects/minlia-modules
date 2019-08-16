@@ -1,9 +1,15 @@
 package com.minlia.modules.rebecca.bean.domain;
 
 import com.minlia.module.data.entity.AbstractEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Organization extends AbstractEntity {
 
     /**

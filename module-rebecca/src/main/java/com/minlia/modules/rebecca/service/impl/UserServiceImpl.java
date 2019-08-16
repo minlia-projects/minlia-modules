@@ -289,6 +289,14 @@ public class UserServiceImpl implements UserService {
         this.grant(user.getId(), roles);
     }
 
+    @Override
+    public Boolean updateOrg(String guid, Long orgId) {
+        User user = userQueryService.queryByGuidAndNotNull(guid);
+        user.setOrgId(orgId);
+        this.update(user, UserUpdateTypeEcnum.SYSTEM_UPDATE);
+        return true;
+    }
+
     public void grantWithUserWithRoleCodes(User user, Set<String> roles) {
         boolean existRoleCode = false;
         String defaultRole = "GUEST";

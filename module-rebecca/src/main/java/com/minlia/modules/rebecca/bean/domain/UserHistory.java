@@ -22,6 +22,8 @@ public class UserHistory {
      */
     private UserUpdateTypeEcnum updateType;
 
+    private Long orgId;
+
     /**
      * 唯一ID
      */
@@ -65,12 +67,14 @@ public class UserHistory {
     /**
      * 账号有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime accountEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime credentialsEffectiveDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime credentialsEffectiveDate;
 
     /**
      * 状态
@@ -90,12 +94,14 @@ public class UserHistory {
     /**
      * 锁定时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lockTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime lockTime;
 
     /**
      * 最后登录时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastLoginTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime lastLoginTime;
 
     /**
      * 最后登录IP
@@ -115,7 +121,8 @@ public class UserHistory {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime createDate;
 
     /**
      * GUID
@@ -125,6 +132,7 @@ public class UserHistory {
     /**
      * 最后修改时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime lastModifiedDate;
 
 }

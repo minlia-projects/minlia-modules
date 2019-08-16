@@ -98,4 +98,12 @@ public class RoleEndpoint {
         return Response.success(roleService.queryPage(pageable));
     }
 
+    @AuditLog(value = "query role tree", type = OperationTypeEnum.INFO)
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.ROLE_SEARCH + "')")
+    @ApiOperation(value = "树形菜单")
+    @GetMapping(value = "tree")
+    public Response getTree() {
+        return Response.success(roleService.selectTree());
+    }
+
 }

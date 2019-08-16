@@ -28,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -129,7 +130,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // We don't need CSRF for JWT based authentication
+                .headers().httpStrictTransportSecurity().maxAgeInSeconds(Duration.ofDays(365L).getSeconds()).includeSubDomains(true).and()  //HTTP Strict Transport Security（通常简称为 HSTS）是一个安全功能，它告诉浏览器只能通过HTTPS访问当前资源，而不是HTTP
+                .frameOptions().sameOrigin()    //X-Frame-Options HTTP 响应头是用来给浏览器指示允许一个页面可否在 <frame>, <iframe>或者 <object> 中展现的标记。网站可以使用此功能，来确保自己网站的内容没有被嵌到别人的网站中去，也从而避免了点击劫持 (clickjacking) 的攻击。
+
+                .and().csrf().disable() // We don't need CSRF for JWT based authentication
                 .exceptionHandling()
                 .authenticationEntryPoint(this.authenticationEntryPoint)
                 .and()

@@ -1,4 +1,4 @@
-package com.minlia.modules.rebecca.service;
+package com.minlia.modules.rebecca.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.minlia.modules.rebecca.bean.domain.Organization;
@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 
 import com.minlia.modules.rebecca.mapper.OrganizationRelationMapper;
 import com.minlia.modules.rebecca.bean.domain.OrganizationRelation;
-import com.minlia.modules.rebecca.service.impl.OrganizationRelationService;
+import com.minlia.modules.rebecca.service.OrganizationRelationService;
 
 import java.util.List;
 import java.util.stream.Collectors;

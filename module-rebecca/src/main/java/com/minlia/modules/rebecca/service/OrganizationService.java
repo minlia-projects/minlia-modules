@@ -1,4 +1,4 @@
-package com.minlia.modules.rebecca.service.impl;
+package com.minlia.modules.rebecca.service;
 
 import com.minlia.modules.rebecca.bean.domain.Organization;
 import com.minlia.modules.rebecca.bean.dto.OrganizationTree;
@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrganizationService {
 
-    Boolean insertSelective(Organization record);
+    Organization insertSelective(Organization record);
 
     Boolean updateByPrimaryKeySelective(Organization record);
 

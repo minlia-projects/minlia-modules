@@ -1,6 +1,8 @@
 package com.minlia.modules.rebecca.service;
 
 import com.github.pagehelper.PageInfo;
+import com.minlia.modules.rebecca.bean.dto.OrganizationTree;
+import com.minlia.modules.rebecca.bean.dto.RoleTree;
 import com.minlia.modules.rebecca.bean.to.RoleCTO;
 import com.minlia.modules.rebecca.bean.to.RoleUTO;
 import com.minlia.modules.rebecca.bean.domain.Role;
@@ -67,5 +69,12 @@ public interface RoleService {
     PageInfo<Role> queryPage(Pageable pageable);
 
     boolean isParent(String parentCode, String childCode);
+
+    /**
+     * 查询组织树菜单
+     *
+     * @return
+     */
+    List<RoleTree> selectTree();
 
 }

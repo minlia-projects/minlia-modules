@@ -52,6 +52,14 @@ public class UserEndpoint {
         return Response.success(userService.update(uto, UserUpdateTypeEcnum.SYSTEM_UPDATE));
     }
 
+    @AuditLog(value = "update user organization by guid", type = OperationTypeEnum.MODIFY)
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
+    @ApiOperation(value = "更新组织")
+    @PutMapping(value = "organization/{guid}/{orgId}")
+    public Response updateOrg(@PathVariable String guid, @PathVariable Long orgId) {
+        return Response.success(userService.updateOrg(guid, orgId));
+    }
+
     @AuditLog(value = "delete user by guid", type = OperationTypeEnum.DELETE)
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_DELETE + "')")
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)

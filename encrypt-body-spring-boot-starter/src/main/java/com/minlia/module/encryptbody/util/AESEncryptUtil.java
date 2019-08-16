@@ -18,9 +18,6 @@ public class AESEncryptUtil {
      * @return
      */
     public static String generateKey() {
-        System.out.println(RandomStringUtils.randomAlphanumeric(16));
-
-        //随机生成密钥
         byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded();
         return Base64Encoder.encode(key);
     }
@@ -55,10 +52,8 @@ public class AESEncryptUtil {
     private static String aes(String data, String key, int type) {
         AES aes = new AES(key.getBytes());
         if (type == Cipher.ENCRYPT_MODE) {
-//            return aes.encryptHex(data);
             return aes.encryptBase64(data);
         } else {
-//            return aes.decryptStr(data);
             return aes.decryptStrFromBase64(data);
         }
     }
@@ -100,21 +95,38 @@ public class AESEncryptUtil {
         }
     }
 
+//    public static void main(String[] args) {
+//        String key = "zZyWl39ow6T0i4zIWJbfkA==";
+//        String iv = "YSqr2v2jOsAZtQZi";
+//
+//        String data = "{\"name\":\"sadf\", \"value\":\"111\"}";
+//
+//        //加密后
+//        String encryptStr = encrypt(data, key, iv);
+//
+//        //重新封装
+//        data = String.format("{\"data\":\"%s\"}", encryptStr);
+//        System.out.println("加密后的参数：" + data);
+//        System.out.println("解密后的参数：" + decrypt(encryptStr, key, iv));
+//    }
+
     public static void main(String[] args) {
         String key = "zZyWl39ow6T0i4zIWJbfkA==";
         String iv = "YSqr2v2jOsAZtQZi";
 
         AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
-        String data = "撒范德萨反倒是割发代首割发代首撒范德萨反倒是割发代首割";
+        String data = "{\"cellphone\":\"99990002\"}";
 
-        System.out.println(encrypt(data, key, iv));
-        System.out.println(decrypt(encrypt(data, key, iv), key, iv));
+        System.out.println(decrypt("wWmnOEGapFKur6DwOMIKWOjH4JfZ7MDWKSdqWqd5JUQ=", key, iv));
 
-        System.out.println(aes.encryptBase64(data));
-        System.out.println(aes.decryptStrFromBase64(aes.encryptBase64(data)));
-
-        System.out.println(aes.encryptHex(data));
-        System.out.println(aes.decryptStr(aes.encryptHex(data)));
+//        System.out.println(encrypt(data, key, iv));
+//        System.out.println(decrypt(encrypt(data, key, iv), key, iv));
+//
+//        System.out.println(aes.encryptBase64(data));
+//        System.out.println(aes.decryptStrFromBase64(aes.encryptBase64(data)));
+//
+//        System.out.println(aes.encryptHex(data));
+//        System.out.println(aes.decryptStr(aes.encryptHex(data)));
     }
 
 }
