@@ -254,8 +254,8 @@
         <if test="lastModifiedBy != null">
             and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
         </if>
-        <if test="createDate != null">
-            and create_date=#{createDate,jdbcType=TIMESTAMP}
+        <if test="createDateTime != null">
+            and create_date=#{createDateTime,jdbcType=TIMESTAMP}
         </if>
         <if test="lastModifiedDate != null">
             and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
@@ -263,5 +263,17 @@
         <if test="id != null">
             and id=#{id,jdbcType=INTEGER}
         </if>
+
+        <if test="createDate != null">
+            and DATEDIFF(create_date, #{createDate,jdbcType=TIMESTAMP}) = 0
+        </if>
+        <if test="ltCreateDateTime != null">
+            and create_date >= #{ltCreateDateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="gtCreateDateTime != null">
+            and create_date <![CDATA[ <= ]]> #{gtCreateDateTime,jdbcType=TIMESTAMP}
+        </if>
+
+
     </select>
 </mapper>

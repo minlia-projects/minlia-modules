@@ -39,6 +39,6 @@ public class RoleTree extends TreeNode {
     /**
      * 顺序
      */
-    private Integer sort;
+//    private Integer sort;
 
 }

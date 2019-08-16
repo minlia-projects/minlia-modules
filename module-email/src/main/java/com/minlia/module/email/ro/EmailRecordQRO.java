@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,10 +25,15 @@ public class EmailRecordQRO extends QueryRequest {
 
     private String lastModifiedBy;
 
-    private LocalDateTime createDate;
+    private LocalDateTime createDateTime;
 
     private LocalDateTime lastModifiedDate;
 
+    private LocalDate createDate;
+
+    private LocalDateTime ltCreateDateTime;
+
+    private LocalDateTime gtCreateDateTime;
 
     /**
      * 应用ID
