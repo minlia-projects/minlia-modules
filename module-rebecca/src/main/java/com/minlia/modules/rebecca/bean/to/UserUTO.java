@@ -52,13 +52,11 @@ public class UserUTO implements ApiRequestBody {
     /**
      * 账号有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime accountEffectiveDate;
 
     /**
      * 凭证/密码有效时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime credentialsEffectiveDate;
 
     /**
