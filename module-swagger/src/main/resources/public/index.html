@@ -114,11 +114,11 @@
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                $("#codeContent").val('Bearer ' + response.payload.token);
-                $('#openSwagger').on('click', function () {
-                    var swaggerUiUrl = "/swagger-ui.html";
-                    window.open(swaggerUiUrl, "_blank");
-                });
+                if (response.code == 'SUCCESS') {
+                    $("#codeContent").val('Bearer ' + response.payload.token);
+                } else {
+                    alert(response.message);
+                }
             },
             error: function (request, textStatus, errorThrown) {
                 $("#codeContent").val("" + textStatus + " " + errorThrown);
@@ -132,6 +132,11 @@
     $(function () {
         $('#refresh').on('click', function () {
             window.location.reload(true);
+        });
+
+        $('#openSwagger').on('click', function () {
+            var swaggerUiUrl = "/swagger-ui.html";
+            window.open(swaggerUiUrl, "_blank");
         });
 
         $('#login').on('click', function () {

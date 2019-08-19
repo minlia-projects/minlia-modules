@@ -30,9 +30,9 @@ public class SmsRecordQRO extends QueryRequest {
 
     private LocalDate createDate;
 
-    private LocalDateTime ltCreateDateTime;
+    private LocalDateTime startCreateDateTime;
 
-    private LocalDateTime gtCreateDateTime;
+    private LocalDateTime endCreateDateTime;
 
     /**
      * 应用ID
