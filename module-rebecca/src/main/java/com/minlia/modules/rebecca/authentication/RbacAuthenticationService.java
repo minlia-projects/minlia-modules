@@ -16,6 +16,7 @@ import com.minlia.module.riskcontrol.service.KieService;
 import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
+import com.minlia.modules.rebecca.config.PasswordConfig;
 import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
@@ -80,6 +81,9 @@ public class RbacAuthenticationService implements AuthenticationService {
     private BCryptPasswordEncoder encoder;
     @Autowired
     private DimensionService dimensionService;
+
+    @Autowired
+    private PasswordConfig passwordConfig;
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -146,7 +150,7 @@ public class RbacAuthenticationService implements AuthenticationService {
                 //密码错误 锁定次数+1
                 user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);
                 //如果超过3次 直接锁定
-                if (user.getLockLimit() > 2) {
+                if (user.getLockLimit() >= passwordConfig.getMaxValidationFailureTimes()) {
                     user.setLocked(true);
                     //1、按错误次数累加时间   2、错误3次锁定一天
 //                    user.setLockTime(LocalDateTime.now().plusMinutes((int) Math.pow(user.getLockLimit() - 3, 3)));

@@ -242,7 +242,7 @@ public class CaptchaServiceImpl implements CaptchaService {
             //错误次数+1
             captcha.setFailureCount(captcha.getFailureCount() + 1);
             //超过最大错误次数
-            if (captcha.getFailureCount() > captchaConfig.getMaxValidationFailureTimes()) {
+            if (captcha.getFailureCount() >= captchaConfig.getMaxValidationFailureTimes()) {
                 captcha.setLocked(true);    //锁定
                 captcha.setLockTime(LocalDateTime.now().plusMinutes(captchaConfig.getLockMinutes()));      //锁定时间
             }
