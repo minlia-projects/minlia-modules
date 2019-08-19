@@ -327,7 +327,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private void grant(Long userId, Set<Long> roles) {
-        userMapper.deleteRole(userId);
         userMapper.grant(userId, roles);
     }
 

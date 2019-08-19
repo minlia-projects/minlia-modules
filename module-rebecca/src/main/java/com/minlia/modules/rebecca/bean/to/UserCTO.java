@@ -1,14 +1,10 @@
 package com.minlia.modules.rebecca.bean.to;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.ApiRequestBody;
-import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
-import com.minlia.modules.rebecca.enumeration.RegistrationMethodEnum;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
