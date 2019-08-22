@@ -20,7 +20,7 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
         if (StringUtils.isNotEmpty(password)) {
-            return Pattern.matches("^(?![A-Z]+$)(?![a-z]+$)(?!\\d+$)(?![\\W_]+$)\\S{8,24}$",password);
+            return Pattern.matches("^(?![A-Z]+$)(?![a-z]+$)(?!\\d+$)(?![\\W_]+$)\\S{6,16}$",password);
         } else {
             return true;
         }
