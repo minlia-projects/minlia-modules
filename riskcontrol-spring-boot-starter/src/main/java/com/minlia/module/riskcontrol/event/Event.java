@@ -24,6 +24,8 @@ public abstract class Event {
 
     public final static String IP = "ip";
 
+    public final static String SCENE_VALUE = "sceneValue";
+
     public final static String OPERATETIME = "operateTime";
 
     public final static String MOBILESEG = "mobileSeg";
@@ -48,6 +50,7 @@ public abstract class Event {
      * 场景值
      */
     @JsonIgnore
+//    private String value;
     private String sceneValue;
 
     /**
@@ -70,7 +73,8 @@ public abstract class Event {
     /**
      * 操作时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime operateTime = LocalDateTime.now();
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime operateTime = LocalDateTime.now();
 
     /**
      * 详情

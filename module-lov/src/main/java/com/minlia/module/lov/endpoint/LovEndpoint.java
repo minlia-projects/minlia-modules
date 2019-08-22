@@ -72,7 +72,7 @@ public class LovEndpoint {
 //        return Response.success(lovService.selectByAll(qro));
 //    }
 //
-    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.search')")
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.search')")
     @ApiOperation(value = "分页查询", httpMethod = "POST")
     @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response paginated(@RequestBody LovQRO qro) {

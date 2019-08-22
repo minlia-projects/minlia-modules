@@ -11,19 +11,11 @@ public class RiskCaptchaEvent extends Event {
         this.setScene("NUM_OTP_30MINS");
     }
 
-    public final static String ACCOUNT = "account";
-
     public final static String TIME = "time";
 
     private String guid;
 
-    private String account;
-
     private String time;
-
-    public String getAccount() {
-        return account;
-    }
 
     public String getTime() {
         return System.currentTimeMillis() + "";

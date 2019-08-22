@@ -76,7 +76,6 @@ public class CaptchaServiceImpl implements CaptchaService {
 
 //        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
 //        riskCaptchaEvent.setSceneValue(cellphone);
-//        riskCaptchaEvent.setAccount(cellphone);
 //        KieService.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要
@@ -106,7 +105,6 @@ public class CaptchaServiceImpl implements CaptchaService {
 
 //        RiskCaptchaEvent riskCaptchaEvent = new RiskCaptchaEvent();
 //        riskCaptchaEvent.setSceneValue(email);
-//        riskCaptchaEvent.setAccount(email);
 //        KieService.execute(riskCaptchaEvent);
 
         //当生产环境时发送验证码, 否则不需要

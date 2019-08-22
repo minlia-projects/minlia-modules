@@ -184,7 +184,7 @@ public class DimensionService {
     }
 
     public String getRedisKey(String scene, String[] condDimensions, String aggrDimension, String condDimensionsValue) {
-        return String.format(RISK_KEY_FORMAT, scene.toLowerCase(), String.join("_", condDimensions), aggrDimension, condDimensionsValue);
+        return String.format(RISK_KEY_FORMAT, scene.toLowerCase(), String.join("_", condDimensions).toLowerCase(), aggrDimension, condDimensionsValue);
     }
 
     /**
