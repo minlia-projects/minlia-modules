@@ -1,6 +1,6 @@
 package com.minlia.module.sms.config;
 
-import com.minlia.module.bible.annotation.BibleAutowired;
+import com.minlia.module.common.annotation.ConfigAutowired;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@BibleAutowired
+@ConfigAutowired(type = "SYS_SMS_CONFIG")
 public class SmsConfig {
 
-    private boolean realSwitchFlag;
+    private Boolean realSwitchFlag = true;
 
 }

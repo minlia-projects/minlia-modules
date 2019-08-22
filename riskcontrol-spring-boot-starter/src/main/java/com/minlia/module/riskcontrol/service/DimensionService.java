@@ -71,7 +71,7 @@ public class DimensionService {
      * @return
      */
     public long distinctCountWithRedis(Event event, String[] condDimensions, long periodSeconds, String aggrDimension) {
-        if (!riskcontrolConfig.isRealSwitchFlag()) {
+        if (!riskcontrolConfig.getRealSwitchFlag()) {
             event.setLevel(RiskLevelEnum.NORMAL);
             return 0;
         }
@@ -80,7 +80,7 @@ public class DimensionService {
     }
 
     public long distinctCountWithRedisAndConfig(Event event, String[] condDimensions, String aggrDimension) {
-        if (!riskcontrolConfig.isRealSwitchFlag()) {
+        if (!riskcontrolConfig.getRealSwitchFlag()) {
             event.setLevel(RiskLevelEnum.NORMAL);
             return 0;
         }
@@ -104,7 +104,7 @@ public class DimensionService {
      * @return
      */
     public RiskLevelEnum calculationLevelWithConfig(Event event, long count) {
-        if (!riskcontrolConfig.isRealSwitchFlag()) {
+        if (!riskcontrolConfig.getRealSwitchFlag()) {
             event.setCount(0L);
             return RiskLevelEnum.NORMAL;
         }

@@ -1,6 +1,6 @@
-package com.minlia.modules.rebecca.config;
+package com.minlia.modules.security.config;
 
-import com.minlia.module.bible.annotation.BibleAutowired;
+import com.minlia.module.common.annotation.ConfigAutowired;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @description 安全配置
  * @date 2019/8/22 4:48 PM
  */
-@BibleAutowired(type = "SYSTEM_SECURITY_CONFIG")
+@ConfigAutowired(type = "SYS_USER_CONFIG")
 @Component
 @Data
 public class SysSecurityConfig {
@@ -34,5 +34,10 @@ public class SysSecurityConfig {
      * 锁定天数
      */
     private Integer lockedDays = 1;
+
+//    /**
+//     * 数据传输加密
+//     */
+//    private Boolean dataTransmissionEncryptFlag = true;
 
 }

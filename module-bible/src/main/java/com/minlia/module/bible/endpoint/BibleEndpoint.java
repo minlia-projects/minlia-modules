@@ -6,7 +6,6 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
-import com.minlia.module.bible.annotation.BibleAutowired;
 import com.minlia.module.bible.ro.BibleQRO;
 import com.minlia.module.bible.ro.BibleCRO;
 import com.minlia.module.bible.ro.BibleURO;
@@ -14,6 +13,7 @@ import com.minlia.module.bible.constant.BibleConstants;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.bible.service.BibleService;
 import com.minlia.module.bible.util.BibleMapUtils;
+import com.minlia.module.common.annotation.ConfigAutowired;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -54,10 +54,10 @@ public class BibleEndpoint {
     @PostMapping(value = "refresh/config")
     public Response resetConfig() {
         //获取所有带有 BibleAutowired 注解的类
-        Map<String, Object> beansWithAnnotationMap = ContextHolder.getContext().getBeansWithAnnotation(BibleAutowired.class);
+        Map<String, Object> beansWithAnnotationMap = ContextHolder.getContext().getBeansWithAnnotation(ConfigAutowired.class);
         for (Map.Entry<String, Object> entry : beansWithAnnotationMap.entrySet()) {
             //获取类注解
-            BibleAutowired bibleAutowired = AnnotationUtils.findAnnotation(entry.getValue().getClass(), BibleAutowired.class);
+            ConfigAutowired bibleAutowired = AnnotationUtils.findAnnotation(entry.getValue().getClass(), ConfigAutowired.class);
             String bibleCode = StringUtils.isNotBlank(bibleAutowired.type()) ? bibleAutowired.type() : CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, entry.getKey());
 
             //重新赋值

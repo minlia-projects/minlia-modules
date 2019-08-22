@@ -56,7 +56,7 @@ public class SmsServiceImpl implements SmsService {
         String content = TextReplaceUtils.replace(richtext.getContent(), variables);
         SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
         try {
-            if (smsConfig.isRealSwitchFlag()) {
+            if (smsConfig.getRealSwitchFlag()) {
                 String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
                 smsRecord.setRemark(result);
             } else {

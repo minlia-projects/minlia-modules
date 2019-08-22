@@ -56,7 +56,7 @@ public class RiskRecordService {
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event, String details) {
-        if (riskcontrolConfig.isRealSwitchFlag()) {
+        if (riskcontrolConfig.getRealSwitchFlag()) {
             RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
             riskRecord.setDetails(details);
             riskRecord.setEventDetails(JSON.toJSONString(event));
@@ -71,7 +71,7 @@ public class RiskRecordService {
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event, Code code, Object... args) {
-        if (riskcontrolConfig.isRealSwitchFlag()) {
+        if (riskcontrolConfig.getRealSwitchFlag()) {
             RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
             riskRecord.setDetails(code.message(args));
             riskRecord.setEventDetails(JSON.toJSONString(event));

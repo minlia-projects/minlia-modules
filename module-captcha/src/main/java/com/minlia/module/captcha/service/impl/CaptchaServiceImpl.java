@@ -78,7 +78,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 //        riskCaptchaEvent.setSceneValue(cellphone);
 //        KieService.execute(riskCaptchaEvent);
 
-        if (captchaConfig.isRealSwitchFlag()) {
+        if (captchaConfig.getRealSwitchFlag()) {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
@@ -106,7 +106,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 //        riskCaptchaEvent.setSceneValue(email);
 //        KieService.execute(riskCaptchaEvent);
 
-        if (captchaConfig.isRealSwitchFlag()) {
+        if (captchaConfig.getRealSwitchFlag()) {
             if (null == variables) {
                 variables = Maps.newHashMap();
             }
@@ -130,7 +130,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
 
         //验证码CODE
-        String code = captchaConfig.isRandomCodeFlag() ? RandomStringUtils.randomNumeric(captchaConfig.getSize()) : LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String code = captchaConfig.getRandomCodeFlag() ? RandomStringUtils.randomNumeric(captchaConfig.getSize()) : LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         //发送时间
         LocalDateTime currentDate = LocalDateTime.now();
         //有效时间

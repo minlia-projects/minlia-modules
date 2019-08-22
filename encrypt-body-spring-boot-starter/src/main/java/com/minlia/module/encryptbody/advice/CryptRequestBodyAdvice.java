@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.minlia.module.encryptbody.annotation.decrypt.*;
 import com.minlia.module.encryptbody.bean.DecryptAnnotationInfoBean;
 import com.minlia.module.encryptbody.bean.DecryptHttpInputMessage;
+import com.minlia.module.encryptbody.config.CryptBodyConfig;
 import com.minlia.module.encryptbody.config.EncryptBodyConfig;
 import com.minlia.module.encryptbody.enums.DecryptBodyMethod;
 import com.minlia.module.encryptbody.exception.DecryptBodyFailException;
@@ -43,8 +44,15 @@ public class CryptRequestBodyAdvice {
         @Autowired
         private EncryptBodyConfig config;
 
+        @Autowired
+        private CryptBodyConfig cryptBodyConfig;
+
         @Override
         public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
+            if (!cryptBodyConfig.getSwitchFlag()) {
+                return false;
+            }
+
             Annotation[] annotations = methodParameter.getDeclaringClass().getAnnotations();
             if (annotations != null && annotations.length > 0) {
                 for (Annotation annotation : annotations) {

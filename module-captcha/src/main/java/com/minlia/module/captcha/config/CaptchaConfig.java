@@ -1,13 +1,13 @@
 package com.minlia.module.captcha.config;
 
-import com.minlia.module.bible.annotation.BibleAutowired;
+import com.minlia.module.common.annotation.ConfigAutowired;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by garen on 2018/8/10.
  */
-@BibleAutowired(type = "CAPTCHA_CONFIG")
+@ConfigAutowired(type = "SYS_CAPTCHA_CONFIG")
 @Component
 @Data
 //@ConfigurationProperties(prefix = "sms", ignoreUnknownFields = false)
@@ -20,9 +20,9 @@ public class CaptchaConfig {
 //
 //    private Map<String,String> templates;
 
-    private boolean realSwitchFlag;
+    private Boolean realSwitchFlag = true;
 
-    private boolean randomCodeFlag;
+    private Boolean randomCodeFlag = true;
 
     /**
      * 大小

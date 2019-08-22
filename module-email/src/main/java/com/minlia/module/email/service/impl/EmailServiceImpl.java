@@ -122,7 +122,7 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             //true表示需要创建一个multipart message
-            if (emailConfig.isRealSwitchFlag()) {
+            if (emailConfig.getRealSwitchFlag()) {
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
                 message.setFrom(mailProperties.getUsername());
                 helper.setTo(to);

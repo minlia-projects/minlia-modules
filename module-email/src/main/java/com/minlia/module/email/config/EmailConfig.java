@@ -1,6 +1,6 @@
 package com.minlia.module.email.config;
 
-import com.minlia.module.bible.annotation.BibleAutowired;
+import com.minlia.module.common.annotation.ConfigAutowired;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@BibleAutowired
+@ConfigAutowired(type = "SYS_EMAIL_CONFIG")
 public class EmailConfig {
 
-    private boolean realSwitchFlag;
+    private Boolean realSwitchFlag = false;
 
 }

@@ -91,6 +91,11 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-common</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
     </dependencies>
 
