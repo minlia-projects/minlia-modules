@@ -13,6 +13,7 @@ import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
 import com.minlia.modules.rebecca.bean.to.UserCTO;
 import com.minlia.modules.rebecca.bean.to.UserUTO;
+import com.minlia.modules.rebecca.config.SysSecurityConfig;
 import com.minlia.modules.rebecca.constant.RoleCode;
 import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
@@ -69,6 +70,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private SysSecurityConfig sysSecurityConfig;
+
     @Override
     @Transactional
     public User create(UserCTO cro) {
@@ -121,8 +125,8 @@ public class UserServiceImpl implements UserService {
         user.setDefaultRole(role.getCode());
         user.setDefaultLocale(LocaleEnum.en_US);
         user.setNickname(cro.getNickname());
-        user.setAccountEffectiveDate(null == cro.getAccountEffectiveDate() ? LocalDateTime.now().plusYears(1) : cro.getAccountEffectiveDate());
-        user.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusYears(1) : cro.getCredentialsEffectiveDate());
+        user.setAccountEffectiveDate(null == cro.getAccountEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getAccountEffectiveDays()) : cro.getAccountEffectiveDate());
+        user.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getCredentialsEffectiveDays()) : cro.getCredentialsEffectiveDate());
         user.setStatus(UserStatusEnum.ACTIVE);
         userMapper.create(user);
 

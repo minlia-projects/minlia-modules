@@ -1,22 +1,17 @@
 package com.minlia.modules.rebecca.authentication;
 
 import com.minlia.cloud.code.Code;
-import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.riskcontrol.constant.RiskCode;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
-import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
-import com.minlia.module.riskcontrol.event.RiskBlackIpEvent;
-import com.minlia.module.riskcontrol.event.RiskIpScopeEvent;
 import com.minlia.module.riskcontrol.service.DimensionService;
 import com.minlia.module.riskcontrol.service.KieService;
-import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.qo.UserQO;
-import com.minlia.modules.rebecca.config.PasswordConfig;
+import com.minlia.modules.rebecca.config.SysSecurityConfig;
 import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import com.minlia.modules.rebecca.enumeration.UserUpdateTypeEcnum;
@@ -33,7 +28,6 @@ import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.exception.DefaultAuthenticationException;
-import com.minlia.modules.security.exception.JwtInvalidTokenException;
 import com.minlia.modules.security.model.UserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -83,7 +77,7 @@ public class RbacAuthenticationService implements AuthenticationService {
     private DimensionService dimensionService;
 
     @Autowired
-    private PasswordConfig passwordConfig;
+    private SysSecurityConfig sysSecurityConfig;
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -150,11 +144,11 @@ public class RbacAuthenticationService implements AuthenticationService {
                 //密码错误 锁定次数+1
                 user.setLockLimit(user.getLockLimit() + NumberUtils.INTEGER_ONE);
                 //如果超过3次 直接锁定
-                if (user.getLockLimit() >= passwordConfig.getMaxValidationFailureTimes()) {
+                if (user.getLockLimit() >= sysSecurityConfig.getMaxValidationFailureTimes()) {
                     user.setLocked(true);
                     //1、按错误次数累加时间   2、错误3次锁定一天
 //                    user.setLockTime(LocalDateTime.now().plusMinutes((int) Math.pow(user.getLockLimit() - 3, 3)));
-                    user.setLockTime(LocalDateTime.now().plusYears(2L));
+                    user.setLockTime(LocalDateTime.now().plusDays(sysSecurityConfig.getLockedDays()));
                 }
                 userService.update(user, UserUpdateTypeEcnum.PASSWORD_ERROR);
                 throw new AjaxBadCredentialsException("Password error", user.getLockLimit());
