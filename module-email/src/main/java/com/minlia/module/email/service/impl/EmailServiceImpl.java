@@ -3,6 +3,7 @@ package com.minlia.module.email.service.impl;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.constant.SymbolConstants;
+import com.minlia.module.email.config.EmailConfig;
 import com.minlia.module.email.entity.EmailRecord;
 import com.minlia.module.email.service.EmailRecordService;
 import com.minlia.module.email.service.EmailService;
@@ -35,6 +36,9 @@ import java.util.Map;
 @Slf4j
 @Service
 public class EmailServiceImpl implements EmailService {
+
+    @Autowired
+    private EmailConfig emailConfig;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -84,7 +88,7 @@ public class EmailServiceImpl implements EmailService {
         Context context = new Context();
         context.setVariables(variables);
         String emailContent = templateEngine.process(templateName, context);
-        return sendHtmlMail(to, subject, emailContent, null);
+        return this.sendHtmlMail(to, subject, emailContent, null);
     }
 
     @Override
@@ -118,12 +122,14 @@ public class EmailServiceImpl implements EmailService {
 
         try {
             //true表示需要创建一个multipart message
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-            message.setFrom(mailProperties.getUsername());
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(text, true);
-            mailSender.send(message);
+            if (emailConfig.isRealSwitchFlag()) {
+                MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+                message.setFrom(mailProperties.getUsername());
+                helper.setTo(to);
+                helper.setSubject(subject);
+                helper.setText(text, true);
+                mailSender.send(message);
+            }
             emailRecord.setSuccessFlag(true);
         } catch (Exception e) {
             log.error("发送html邮件时发生异常！", e);

@@ -20,6 +20,10 @@ public class CaptchaConfig {
 //
 //    private Map<String,String> templates;
 
+    private boolean realSwitchFlag;
+
+    private boolean randomCodeFlag;
+
     /**
      * 大小
      */

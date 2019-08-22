@@ -1,6 +1,7 @@
 package com.minlia.module.riskcontrol.service;
 
 import com.minlia.module.redis.util.RedisUtils;
+import com.minlia.module.riskcontrol.config.RiskcontrolConfig;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
@@ -27,6 +28,9 @@ public class DimensionService {
 
     @Autowired
     private RedisDao redisDao;
+
+    @Autowired
+    private RiskcontrolConfig riskcontrolConfig;
 
     @Autowired
     private RiskDroolsConfigService riskDroolsConfigService;
@@ -67,10 +71,20 @@ public class DimensionService {
      * @return
      */
     public long distinctCountWithRedis(Event event, String[] condDimensions, long periodSeconds, String aggrDimension) {
+        if (!riskcontrolConfig.isRealSwitchFlag()) {
+            event.setLevel(RiskLevelEnum.NORMAL);
+            return 0;
+        }
+
         return addQueryHabit(event, condDimensions, periodSeconds, aggrDimension);
     }
 
     public long distinctCountWithRedisAndConfig(Event event, String[] condDimensions, String aggrDimension) {
+        if (!riskcontrolConfig.isRealSwitchFlag()) {
+            event.setLevel(RiskLevelEnum.NORMAL);
+            return 0;
+        }
+
         RiskDroolsConfig riskDroolsConfig = riskDroolsConfigService.get(event.getScene());
         if (null == riskDroolsConfig) {
             event.setLevel(RiskLevelEnum.NORMAL);
@@ -90,6 +104,11 @@ public class DimensionService {
      * @return
      */
     public RiskLevelEnum calculationLevelWithConfig(Event event, long count) {
+        if (!riskcontrolConfig.isRealSwitchFlag()) {
+            event.setCount(0L);
+            return RiskLevelEnum.NORMAL;
+        }
+
         RiskDroolsConfig riskDroolsConfig = riskDroolsConfigService.get(event.getScene());
         if (null == riskDroolsConfig) {
             event.setLevel(RiskLevelEnum.NORMAL);

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.Code;
 import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
+import com.minlia.module.riskcontrol.config.RiskcontrolConfig;
 import com.minlia.module.riskcontrol.entity.RiskRecord;
 import com.minlia.module.riskcontrol.event.Event;
 import com.minlia.module.riskcontrol.mapper.RiskRecordMapper;
@@ -30,6 +31,9 @@ public class RiskRecordService {
     private Mapper mapper;
 
     @Autowired
+    private RiskcontrolConfig riskcontrolConfig;
+
+    @Autowired
     private RiskRecordMapper riskRecordMapper;
 
     @Autowired
@@ -52,10 +56,12 @@ public class RiskRecordService {
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event, String details) {
-        RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
-        riskRecord.setDetails(details);
-        riskRecord.setEventDetails(JSON.toJSONString(event));
-        riskRecordRepository.save(riskRecord);
+        if (riskcontrolConfig.isRealSwitchFlag()) {
+            RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
+            riskRecord.setDetails(details);
+            riskRecord.setEventDetails(JSON.toJSONString(event));
+            riskRecordRepository.save(riskRecord);
+        }
     }
 
     /**
@@ -65,10 +71,12 @@ public class RiskRecordService {
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event, Code code, Object... args) {
-        RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
-        riskRecord.setDetails(code.message(args));
-        riskRecord.setEventDetails(JSON.toJSONString(event));
-        riskRecordRepository.save(riskRecord);
+        if (riskcontrolConfig.isRealSwitchFlag()) {
+            RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
+            riskRecord.setDetails(code.message(args));
+            riskRecord.setEventDetails(JSON.toJSONString(event));
+            riskRecordRepository.save(riskRecord);
+        }
     }
 
     public RiskRecord queryById(Long id) {

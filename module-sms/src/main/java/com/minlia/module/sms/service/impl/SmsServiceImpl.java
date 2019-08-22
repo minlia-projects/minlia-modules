@@ -8,6 +8,7 @@ import com.minlia.module.richtext.constant.RichtextCode;
 import com.minlia.module.richtext.entity.Richtext;
 import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
 import com.minlia.module.richtext.service.RichtextService;
+import com.minlia.module.sms.config.SmsConfig;
 import com.minlia.module.sms.entity.SmsRecord;
 import com.minlia.module.sms.property.SmsProperties;
 import com.minlia.module.sms.service.SmsRecordService;
@@ -27,6 +28,9 @@ import java.util.Map;
 @Slf4j
 @Service
 public class SmsServiceImpl implements SmsService {
+
+    @Autowired
+    private SmsConfig smsConfig;
 
     @Autowired
     private SmsProperties smsProperties;
@@ -52,8 +56,12 @@ public class SmsServiceImpl implements SmsService {
         String content = TextReplaceUtils.replace(richtext.getContent(), variables);
         SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
         try {
-            String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
-            smsRecord.setRemark(result);
+            if (smsConfig.isRealSwitchFlag()) {
+                String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
+                smsRecord.setRemark(result);
+            } else {
+                smsRecord.setRemark("unreal");
+            }
             smsRecord.setSuccessFlag(true);
         } catch (Exception e) {
             smsRecord.setRemark(e.getMessage());
