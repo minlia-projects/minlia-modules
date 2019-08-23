@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.code.SecurityCode;
+import com.minlia.modules.security.config.SysSecurityConfig;
 import com.minlia.modules.security.exception.DefaultAuthenticationException;
 import com.minlia.modules.security.exception.JwtInvalidTokenException;
 import com.minlia.modules.security.model.UserContext;
@@ -37,6 +38,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtProperty jwtProperty;
 
     @Autowired
+    private SysSecurityConfig sysSecurityConfig;
+
+    @Autowired
     public JwtAuthenticationProvider(JwtProperty jwtProperty) {
         this.jwtProperty = jwtProperty;
     }
@@ -49,7 +53,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
         Jws<Claims> jwsClaims = rawAccessToken.parseClaimsWithGuid(guid, jwtProperty.getTokenSigningKey());
 
-        if (!rawClaims.getBody().getId().equals(jwsClaims.getBody().getId())) {
+        if (!sysSecurityConfig.getMultiClientLogin() && !rawClaims.getBody().getId().equals(jwsClaims.getBody().getId())) {
             throw new DefaultAuthenticationException(SecurityCode.Exception.LOGGED_AT_ANOTHER_LOCATION);
         }
 

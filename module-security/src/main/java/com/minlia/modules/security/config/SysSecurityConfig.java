@@ -35,6 +35,8 @@ public class SysSecurityConfig {
      */
     private Integer lockedDays = 1;
 
+    private Boolean multiClientLogin;
+
 //    /**
 //     * 数据传输加密
 //     */
