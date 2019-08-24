@@ -111,7 +111,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
             try {
                 URL url = new URL(servletRequest.getRequestURL().toString());
-                if (!url.getHost().equals(currdomain)) {
+//                if (!url.getHost().equals(currdomain)) {
+                if (!currdomain.contains(url.getHost())) {
                     throw new JwtInvalidTokenException("Invalid JWT token");
                 }
             } catch (MalformedURLException e) {

@@ -197,7 +197,7 @@ public class RbacAuthenticationService implements AuthenticationService {
             HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
             try {
                 URL url = new URL(servletRequest.getRequestURL().toString());
-                if (!url.getHost().equals(currdomain)) {
+                if (!currdomain.contains(url.getHost())) {
                     throw new DefaultAuthenticationException(SecurityCode.Exception.AUTH_METHOD_NOT_SUPPORTED);
                 }
             } catch (MalformedURLException e) {
