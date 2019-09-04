@@ -23,9 +23,11 @@ import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.alibaba.fastjson.JSON;
 import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.bean.AuditLogInfoQRO;
 import com.minlia.module.audit.entity.AuditLogInfo;
 import com.minlia.module.audit.service.AuditLogInfoService;
 import com.minlia.modules.security.context.MinliaSecurityContextHolder;
+import com.minlia.modules.security.model.UserContext;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -33,12 +35,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -134,5 +134,22 @@ public class AuditLogAspect {
 
         return auditLogInfo;
     }
+
+
+//    @Pointcut("execution(* com.minlia.module.audit.service.AuditLogInfoService.query*(..)))")
+//    public void queryPointcut() {
+//    }
+//
+//
+//    @SneakyThrows
+//    @Before("queryPointcut()")
+//        public void queryBefore(ProceedingJoinPoint joinPoint) {
+//        if (joinPoint.getArgs().length > 0 && joinPoint.getArgs()[0] instanceof AuditLogInfoQRO) {
+//            AuditLogInfoQRO cro = (AuditLogInfoQRO) joinPoint.getArgs()[0];
+//
+//            UserContext userContext = MinliaSecurityContextHolder.getUserContext();
+//        }
+//    }
+
 
 }

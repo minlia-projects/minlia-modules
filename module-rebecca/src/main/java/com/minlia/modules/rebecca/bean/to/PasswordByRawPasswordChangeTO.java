@@ -15,7 +15,7 @@ public class PasswordByRawPasswordChangeTO extends PasswordChangeTO {
      * 原密码
      */
     @NotBlank
-    @Password
+//    @Password
     private String rawPassword;
 
 }

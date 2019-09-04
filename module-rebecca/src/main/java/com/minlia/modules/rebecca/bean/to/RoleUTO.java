@@ -5,12 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 @Data
 @Builder
 @AllArgsConstructor
 public class RoleUTO {
+
+    @Min(0)
+    private long parentId;
 
     @NotBlank
     @Size(max = 30)

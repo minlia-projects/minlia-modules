@@ -119,9 +119,9 @@ public class RiskIpListService {
 
 
     public static void main(String[] args) {
-        Long l = ipToNumber("172.5.0.1");
+        Long l = ipToNumber("10.15.0.1");
         System.out.println(l);
-        Long l1 = ipToNumber("172.5.255.255");
+        Long l1 = ipToNumber("10.15.255.255");
         System.out.println(l1);
     }
 

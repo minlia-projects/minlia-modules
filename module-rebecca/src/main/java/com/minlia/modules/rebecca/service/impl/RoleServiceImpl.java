@@ -66,6 +66,12 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public Role update(RoleUTO body) {
         ApiAssert.state(this.exists(body.getCode()), RoleCode.Message.NOT_EXISTS);
+
+        if (body.getParentId() != 0) {
+            //判断角色是否存在
+            ApiAssert.state(this.exists(body.getParentId()), RoleCode.Message.NOT_EXISTS);
+        }
+
         Role role = mapper.map(body, Role.class);
         roleMapper.update(role);
         return role;
