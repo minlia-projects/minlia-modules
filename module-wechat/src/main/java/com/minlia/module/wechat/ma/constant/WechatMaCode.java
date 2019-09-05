@@ -43,8 +43,8 @@ public class WechatMaCode {
         }
 
         @Override
-        public String message(){
-            return Lang.get(this.i18nKey());
+        public String message(Object... var1){
+            return Lang.get(this.i18nKey(), var1);
         }
 
     }

@@ -1,11 +1,9 @@
 package com.minlia.modules.security.autoconfiguration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.minlia.modules.security.authentication.ajax.AjaxLoginAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.ajax.DefaultLogoutSuccessHandler;
 import com.minlia.modules.security.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.SkipPathRequestMatcher;
-import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.web.filter.SystemCorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -46,57 +46,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
-
     @Autowired
-    private AuthenticationSuccessHandler successHandler;
-
+    @Qualifier("ajaxAwareAuthenticationSuccessHandler")
+    private AuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
     @Autowired
-    private AuthenticationFailureHandler failureHandler;
-
+    @Qualifier("ajaxAwareAuthenticationFailureHandler")
+    private AuthenticationFailureHandler ajaxAuthenticationFailureHandler;
     @Autowired
-    @Qualifier(value = "ajaxAuthenticationProvider")
+    private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
+    @Autowired
     private AuthenticationProvider ajaxAuthenticationProvider;
-
     @Autowired
-    @Qualifier("jwtAuthenticationProvider")
     private AuthenticationProvider jwtAuthenticationProvider;
+//    @Autowired
+//    private AjaxLoginAuthenticationProcessingFilter ajaxLoginAuthenticationProcessingFilter;
+//    @Autowired
+//    private JwtTokenAuthenticationProcessingFilter jwtTokenAuthenticationProcessingFilter;
 
-    @Autowired
-    private TokenExtractor tokenExtractor;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private DefaultLogoutSuccessHandler logoutSuccess;
-
-    protected AjaxLoginAuthenticationProcessingFilter buildAjaxLoginProcessingFilter() throws Exception {
-        AjaxLoginAuthenticationProcessingFilter filter = new AjaxLoginAuthenticationProcessingFilter(LOGIN_ENTRY_POINT, successHandler, failureHandler, objectMapper);
-        filter.setAuthenticationManager(this.authenticationManager);
-        return filter;
-    }
-
-    protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter() throws Exception {
-        List<String> pathsToSkip = Arrays.asList(TOKEN_REFRESH_ENTRY_POINT, LOGIN_ENTRY_POINT);
-        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
-        JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(failureHandler, tokenExtractor, matcher);
-        filter.setAuthenticationManager(this.authenticationManager);
-        return filter;
-    }
 
     @Bean
-    @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(ajaxAuthenticationProvider);
-        auth.authenticationProvider(jwtAuthenticationProvider);
+        auth.authenticationProvider(this.ajaxAuthenticationProvider);
+        auth.authenticationProvider(this.jwtAuthenticationProvider);
     }
 
     @Override
@@ -115,11 +90,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(ajaxLoginAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_ENTRY_POINT))
-                .logoutSuccessHandler(logoutSuccess);
+                .logoutSuccessHandler(defaultLogoutSuccessHandler);
     }
+
+    @Bean
+    AjaxLoginAuthenticationProcessingFilter ajaxLoginAuthenticationProcessingFilter() {
+        AjaxLoginAuthenticationProcessingFilter filter = new AjaxLoginAuthenticationProcessingFilter(LOGIN_ENTRY_POINT);
+        ProviderManager providerManager = new ProviderManager(Collections.singletonList(this.ajaxAuthenticationProvider));
+        filter.setAuthenticationManager(providerManager);
+        filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
+        filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
+        return filter;
+    }
+
+    @Bean
+    JwtTokenAuthenticationProcessingFilter jwtTokenAuthenticationProcessingFilter() {
+        List<String> pathsToSkip = Arrays.asList(TOKEN_REFRESH_ENTRY_POINT, LOGIN_ENTRY_POINT);
+        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
+        JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(matcher);
+
+        ProviderManager providerManager = new ProviderManager(Collections.singletonList(this.jwtAuthenticationProvider));
+        filter.setAuthenticationManager(providerManager);
+        filter.setAuthenticationFailureHandler(this.ajaxAuthenticationFailureHandler);
+        return filter;
+    }
+
 
 }
