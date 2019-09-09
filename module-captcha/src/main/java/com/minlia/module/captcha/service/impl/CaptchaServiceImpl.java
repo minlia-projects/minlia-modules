@@ -16,6 +16,7 @@ import com.minlia.module.captcha.ro.CaptchaQRO;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import com.minlia.module.email.service.EmailService;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.riskcontrol.service.*;
 import com.minlia.module.sms.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -82,7 +84,8 @@ public class CaptchaServiceImpl implements CaptchaService {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
-            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables);
+//            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables);
+            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
         }
         return captcha;
     }
@@ -112,7 +115,8 @@ public class CaptchaServiceImpl implements CaptchaService {
             }
             variables.put("code", captcha.getCode());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
-            emailService.sendRichtextMail(new String[]{email}, templateCode, variables);
+//            emailService.sendRichtextMail(new String[]{email}, templateCode, variables);
+            emailService.sendRichtextMail(new String[]{email}, templateCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
         }
         return captcha;
     }
