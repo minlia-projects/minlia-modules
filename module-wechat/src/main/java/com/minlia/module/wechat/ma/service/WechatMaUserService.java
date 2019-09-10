@@ -26,4 +26,5 @@ public interface WechatMaUserService {
 
     List<WechatMaUser> queryList(WechatMaUserQO qo);
 
+    int deleteByCodeAndGuidIsNull(String code);
 }
