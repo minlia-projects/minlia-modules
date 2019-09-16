@@ -34,7 +34,9 @@ public interface AttachmentMapper {
 
     List<String> queryUrlList(AttachmentQRO qo);
 
-    Attachment queryFirstByUnusedKey(String key);
+    Attachment queryFirstByUnusedKey(String accessKey);
+
+    Attachment queryLastByAccessKey(String accessKey);
 
     String queryUrls(String relationId, String belongsTo);
 
