@@ -36,6 +36,8 @@ public interface AttachmentMapper {
 
     Attachment queryFirstByUnusedKey(String key);
 
+    Attachment queryLastByAccessKey(String accessKey);
+
     String queryUrls(String relationId, String belongsTo);
 
     String queryFirstUrl(String relationId, String belongsTo);
