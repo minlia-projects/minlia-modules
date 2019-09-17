@@ -24,7 +24,7 @@
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         id, appid, `number`, template_code, send_to, send_cc, send_bcc, `locale`, channel,
-        subject, content, remark, success_flag, create_by, create_date, last_modified_by,
+        `subject`, content, remark, success_flag, create_by, create_date, last_modified_by,
         last_modified_date
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
