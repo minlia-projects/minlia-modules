@@ -5,6 +5,7 @@ import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskIpList;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
+import com.minlia.module.riskcontrol.event.RiskIplistReloadEvent;
 import com.minlia.module.riskcontrol.repository.RiskIpListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,8 @@ public class RiskIpListService {
         List<RiskIpList> riskIpLists = riskIpListRepository.findAllByDisFlag(false);
         blackListMap = riskIpLists.stream().collect(Collectors.toConcurrentMap(RiskIpList::getId, Function.identity()));
         log.info("黑名单缓存更新成功");
+
+        RiskIplistReloadEvent.onReload();
     }
 
     public void add(RiskIpList riskIpList) {

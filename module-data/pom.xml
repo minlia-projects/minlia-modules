@@ -73,6 +73,13 @@
             <version>1.2.12</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+        <!--<dependency>-->
+            <!--<groupId>com.github.pagehelper</groupId>-->
+            <!--<artifactId>pagehelper</artifactId>-->
+            <!--<version>5.1.10</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-security</artifactId>

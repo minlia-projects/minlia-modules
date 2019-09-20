@@ -3,6 +3,7 @@ package com.minlia.module.riskcontrol.service;
 import com.google.common.collect.Lists;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
+import com.minlia.module.riskcontrol.event.RiskConfigReloadEvent;
 import com.minlia.module.riskcontrol.repository.RiskConfigRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,8 @@ public class RiskDroolsConfigService {
         List<RiskDroolsConfig> configs = riskConfigRepository.findAllByDisFlag(false);
         configMap = configs.stream().collect(Collectors.toConcurrentMap(RiskDroolsConfig::getRuleKey, Function.identity()));
         log.info("配置缓存更新成功");
+
+        RiskConfigReloadEvent.onReload();
     }
 
     public void pub(RiskDroolsConfig riskDroolsConfig) {

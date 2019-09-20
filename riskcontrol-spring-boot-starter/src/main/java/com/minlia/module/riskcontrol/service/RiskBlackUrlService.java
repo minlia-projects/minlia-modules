@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskBlackUrl;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
+import com.minlia.module.riskcontrol.event.RiskApilistReloadEvent;
 import com.minlia.module.riskcontrol.repository.RiskBlackUrlRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,8 @@ public class RiskBlackUrlService {
         List<RiskBlackUrl> riskBlackUrls = riskBlackUrlRepository.findAll();
         blackListMap = riskBlackUrls.stream().collect(Collectors.toConcurrentMap(RiskBlackUrl::getValue, Function.identity()));
         log.info("黑名单缓存更新成功");
+
+        RiskApilistReloadEvent.onReload();
     }
 
     public void add(RiskBlackUrl riskBlackUrl) {
