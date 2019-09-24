@@ -1,10 +1,6 @@
 package com.minlia.modules.rbac.authentication;
-
-import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.modules.http.NetworkUtil;
 import com.minlia.modules.rbac.bean.domain.User;
-import com.minlia.modules.rbac.bean.qo.UserQO;
-import com.minlia.modules.rbac.constant.RebaccaCode;
 import com.minlia.modules.rbac.event.LoginSuccessEvent;
 import com.minlia.modules.rbac.mapper.UserMapper;
 import com.minlia.modules.rbac.service.LoginService;
@@ -62,22 +58,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         String password = (String) authentication.getCredentials();
         String currrole = loginCredentials.getCurrrole();
 
-        User user = null;
-        switch (loginCredentials.getMethod()) {
-            case USERNAME:
-                ApiAssert.hasLength(loginCredentials.getUsername(), RebaccaCode.Message.USERNAME_NOT_NULL);
-                user = userMapper.queryOne(UserQO.builder().username(loginCredentials.getUsername()).build());
-                break;
-            case CELLPHONE:
-                ApiAssert.hasLength(loginCredentials.getCellphone(), RebaccaCode.Message.CELLPHONE_NOT_NULL);
-                user = userMapper.queryOne(UserQO.builder().cellphone(loginCredentials.getCellphone()).build());
-                break;
-            case EMAIL:
-                ApiAssert.hasLength(loginCredentials.getEmail(), RebaccaCode.Message.EMAIL_NOT_NULL);
-                user = userMapper.queryOne(UserQO.builder().email(loginCredentials.getEmail()).build());
-                break;
-        }
-
+        User user = userMapper.queryByUsernameOrCellphoneOrEmail(loginCredentials.getUsername());
         if (null == user) {
             throw new UsernameNotFoundException("User not exists:");
         } else if (null != user.getExpireDate() && user.getExpireDate().before(new Date())) {

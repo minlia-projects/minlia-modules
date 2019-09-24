@@ -5,19 +5,19 @@
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>minlia-modules</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Modules Parent</name>
 
     <parent>
         <groupId>com.minlia.cloud</groupId>
         <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
     <properties>
-        <project.version>1.0.1-SNAPSHOT</project.version>
+        <project.version>1.0.5-SNAPSHOT</project.version>
     </properties>
 
     <modules>

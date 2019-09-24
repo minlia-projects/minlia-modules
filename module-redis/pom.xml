@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
         <artifactId>minlia-modules</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-redis</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <name>Module Redis</name>
 
     <properties>
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
         <dependency>

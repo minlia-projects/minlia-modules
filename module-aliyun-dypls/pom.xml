@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
         <artifactId>minlia-modules</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-aliyun-dypls</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Module Aliyun Dypls</name>
 
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
         <!--<dependency>-->
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-bible</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

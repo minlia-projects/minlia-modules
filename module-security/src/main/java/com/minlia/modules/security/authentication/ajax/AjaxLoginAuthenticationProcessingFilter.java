@@ -60,12 +60,11 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
 
     /**
      * 前置校验, 是否只传入了一组登录对象
+     *
      * @param credentials
      */
-    private void preConditions(LoginCredentials credentials){
-        ApiAssert.notNull(credentials, SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND);
-        ApiAssert.notNull(credentials.getMethod(), SecurityCode.Exception.LOGIN_METHOD_NOT_NULL);
-
+    private void preConditions(LoginCredentials credentials) {
+//        ApiAssert.isNull(credentials, SecurityCode.Exception.AJAX_BAD_CREDENTIALS);
         if ((StringUtils.isNotBlank(credentials.getUsername()) || StringUtils.isNotBlank(credentials.getCellphone()) || StringUtils.isNotBlank(credentials.getEmail())) && StringUtils.isBlank(credentials.getPassword())) {
             throw new AuthenticationCredentialsNotFoundException("Username or Password not provided");
         }

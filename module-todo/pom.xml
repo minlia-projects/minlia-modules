@@ -7,12 +7,12 @@
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
         <artifactId>minlia-modules</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
     </parent>
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>module-todo</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <name>Module Todo</name>
 
     <properties>
@@ -27,37 +27,37 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-common</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-swagger</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-data</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-security</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-bible</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.5-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
