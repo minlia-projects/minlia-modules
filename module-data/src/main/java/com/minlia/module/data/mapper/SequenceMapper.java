@@ -9,10 +9,10 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface SequenceMapper {
 
-    @Select("select currval(#{code})")
+    @Select("select `currval`(#{code})")
     long currval(String code);
 
-    @Select("select nextval(#{code})")
+    @Select("select `nextval`(#{code})")
     long nextval(String code);
 
 }
