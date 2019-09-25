@@ -59,8 +59,10 @@ public class LovQRO extends QueryRequest {
 
     private Long id;
 
+    @Size(max = 15)
     private String createBy;
 
+    @Size(max = 15)
     private String lastModifiedBy;
 
     @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;

@@ -17,6 +17,7 @@ public class BibleItemCRO implements ApiRequestBody {
 
     @ApiModelProperty(value = "父编码", example = "GENDER")
     @NotNull
+    @Size(max = 50)
     private String parentCode;
 
     @ApiModelProperty(value = "编码", example = "male")

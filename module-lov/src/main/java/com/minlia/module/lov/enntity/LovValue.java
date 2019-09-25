@@ -18,11 +18,13 @@ public class LovValue extends AbstractEntity {
     private Long lovId;
 
     @Transient
+    @Size(max = 100)
     private String lovCode;
 
     /**
      * 父ID
      */
+    @Size(max = 100)
     private String parentId;
 
     /**
@@ -43,6 +45,7 @@ public class LovValue extends AbstractEntity {
      * 语言环境
      */
     @NotBlank
+    @Size(max = 10)
     private String locale;
 
     /**

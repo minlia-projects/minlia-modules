@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
 public class CaptchaCRO {
@@ -19,6 +20,7 @@ public class CaptchaCRO {
     @Cellphone
     private String cellphone;
 
+    @Size(max = 50)
     private String templateCode;
 
 }

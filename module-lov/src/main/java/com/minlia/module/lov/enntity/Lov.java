@@ -38,7 +38,7 @@ public class Lov extends AbstractEntity {
     /**
      * 排序（升序）
      */
-    private Byte sort;
+    private Integer sort;
 
     /**
      * 禁用标记

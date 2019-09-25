@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -21,8 +22,10 @@ public class EmailRecordQRO extends QueryRequest {
 
     private Long id;
 
+    @Size(max = 15)
     private String createBy;
 
+    @Size(max = 15)
     private String lastModifiedBy;
 
     private LocalDateTime createDateTime;
@@ -43,11 +46,13 @@ public class EmailRecordQRO extends QueryRequest {
     /**
      * 编号
      */
+    @Size(max = 32)
     private String number;
 
     /**
      * 模版代码
      */
+    @Size(max = 100)
     private String templateCode;
 
     /**
