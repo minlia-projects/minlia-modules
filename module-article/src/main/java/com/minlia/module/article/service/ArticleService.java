@@ -1,5 +1,4 @@
 package com.minlia.module.article.service;
-
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.module.article.bean.domain.Article;
@@ -35,5 +34,12 @@ public interface ArticleService {
     List<ArticleVO> listVO(ArticleQO qo);
 
     PageInfo<ArticleVO> pageVO(ArticleQO qo, Pageable pageable);
+
+    /**
+     * 增加阅读数
+     * @param id
+     * @param increment
+     */
+    void plusReadCount(Long id, Integer increment);
 
 }

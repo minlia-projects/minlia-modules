@@ -9,6 +9,7 @@
             mat.title,
             mat.content,
             mat.cover,
+            mat.read_count,
             mat.attribute1,
             mat.notes,
             mat.enabled,
@@ -49,6 +50,7 @@
             mat.create_date,
             mat.last_modified_by,
             mat.last_modified_date,
+            mat.read_count,
             (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=mat.id) AS commentCount,
             (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=mat.id AND choose=1) AS praiseCount,
             (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=mat.id) AS collectionCount,
@@ -142,8 +144,7 @@
             <if test="enabled != null">
                 enabled = #{enabled} ,
             </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR} ,
-            last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
@@ -155,14 +156,14 @@
     <insert id="setLabels">
         DELETE FROM mdl_article_label_m where article_id = #{articleId};
         INSERT INTO mdl_article_label_m (
-            article_id,
-            label_id
+        article_id,
+        label_id
         ) VALUES
         <foreach collection="labelIds" item="item" separator=",">
-        (
+            (
             #{articleId},
             #{item}
-        )
+            )
         </foreach>
     </insert>
 
@@ -197,5 +198,10 @@
         <include refid="QUERY_CONDITION"/>
         <include refid="ORDER_BY"/>
     </select>
+
+
+    <update id="plusReadCount">
+        UPDATE mdl_article set read_count = read_count + #{arg1} where id = #{arg0}
+    </update>
 
 </mapper>
