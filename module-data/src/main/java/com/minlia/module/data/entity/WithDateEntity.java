@@ -22,7 +22,7 @@ public abstract class WithDateEntity extends WithIdEntity {
     @NotNull
     private Date createDate;
 
-    @JsonIgnore
+//    @JsonIgnore
     @LastModifiedDate
     private Date lastModifiedDate;
 
