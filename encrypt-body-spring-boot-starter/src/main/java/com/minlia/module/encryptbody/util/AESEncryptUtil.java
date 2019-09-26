@@ -117,7 +117,8 @@ public class AESEncryptUtil {
         AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
         String data = "{\"cellphone\":\"99990002\"}";
 
-        System.out.println(decrypt("zvCXUnUYf1r8NYybR+ui+GjagBHPgLQvi1xpJoV/AKm1vot1mnj58eV9M/TJbX0sbr+iFuLxQ/TuoNJHtE3Dbn15y+ruSi9loENv6qEQiCUgen8W99EGJ0cFACtI//jk", key, iv));
+        System.out.println(decrypt("8puSah8dhVPCXHx8ppuaDEH36PQBq9aVDH1+SooIhqD3OSFKPqtNT9QfLhQcTdCfLXbqOQ6/1tpeENQyLh+rSoW7itfikZcqTkw8vHVW60FwOxLAD/PKromyCeOnn8Ow4wAMhdPQ0q0CTLj3WaxkF9iOju9heY/XAM5yuTF/iDE=", key, iv));
+        System.out.println(decrypt("WxzMYEZzYJ0UJqgZ6Ttew7ljn1ocNoY6pErviV0O9nZjAJ8a8rqX6C+lX4yFZQ8fPdLwfXRilcvv+Vdh8i4CIGo/09Op6IcidslW+mcM2evuArNAZSlBWD6Gu72V8kEoT8ss3/ZAgM9QHcSSilwl9w==", key, iv));
 
 //        System.out.println(encrypt(data, key, iv));
 //        System.out.println(decrypt(encrypt(data, key, iv), key, iv));
