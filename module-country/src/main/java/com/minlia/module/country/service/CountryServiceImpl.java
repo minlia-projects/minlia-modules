@@ -56,7 +56,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public PageInfo<Country> queryPage(CountryQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> countryMapper.queryPage(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(() -> countryMapper.queryPage(qo));
     }
 
 }

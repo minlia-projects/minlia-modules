@@ -177,7 +177,7 @@ public class BankBranchServiceImpl implements BankBranchService {
 
     @Override
     public PageInfo<BankBranchDO> queryPage(BankBranchQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> bankBranchMapper.queryList(qo));
+        return PageHelper.startPage(qo.getPageNumber(),qo.getPageSize()).doSelectPageInfo(()-> bankBranchMapper.queryList(qo));
     }
 
 }

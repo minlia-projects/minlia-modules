@@ -115,7 +115,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public PageInfo<MyTodo> queryPage(TodoQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(() -> todoMapper.queryList(qo));
     }
 
 }

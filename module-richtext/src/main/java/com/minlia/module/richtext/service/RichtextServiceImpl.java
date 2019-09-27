@@ -74,7 +74,7 @@ public class RichtextServiceImpl implements RichtextService {
 
     @Override
     public PageInfo<Richtext> queryPage(RichtextQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> richtextMapper.queryList(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> richtextMapper.queryList(qo));
     }
 
 }

@@ -30,15 +30,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create" parameterType="com.minlia.module.article.bean.domain.ArticleLabel">
         INSERT INTO mdl_article_label_t(
             name ,
@@ -89,7 +80,6 @@
     <select id="list" resultType="com.minlia.module.article.bean.domain.ArticleLabel">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

@@ -105,7 +105,7 @@ public class QueryRequest implements Body {
 
     public String getOrderBy() {
         //id.DESC-name.ASC to id DESC,name ASC
-        return StringUtils.isNotBlank(sortsStr) ? CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortsStr.replace(DOT_ASC, SPACE_ASC).replace(DOT_DESC, SPACE_DESC).replace(SymbolConstants.ZHX, SymbolConstants.COMMA)) : null;
+        return StringUtils.isNotBlank(getSortsStr()) ? CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, getSortsStr().replace(DOT_ASC, SPACE_ASC).replace(DOT_DESC, SPACE_DESC).replace(SymbolConstants.ZHX, SymbolConstants.COMMA)) : null;
     }
 
 }

@@ -71,7 +71,7 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 
     @Override
     public PageInfo<ArticleComment> page(ArticleCommentQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.list(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.list(qo));
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 
     @Override
     public PageInfo<ArticleCommentVO> queryDetailsPage(ArticleCommentQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.queryDetailsList(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.queryDetailsList(qo));
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 
     @Override
     public PageInfo<ArticleMyCommentVO> queryMyPage(ArticleCommentQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.queryMyList(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize(), qo.getOrderBy()).doSelectPageInfo(()-> articleCommentMapper.queryMyList(qo));
     }
 
 }

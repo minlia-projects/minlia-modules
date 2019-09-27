@@ -58,7 +58,7 @@ public class PooulMerchantInternalServiceImpl implements PooulMerchantInternalSe
 
     @Override
     public PageInfo<PooulMerchantDO> queryPage(PooulMerchatInternalQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> pooulMerchantMapper.queryList(qo));
+        return PageHelper.startPage(qo.getPageNumber(),qo.getPageSize()).doSelectPageInfo(()-> pooulMerchantMapper.queryList(qo));
     }
 
 }

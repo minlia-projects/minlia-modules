@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 @Data
 @Builder
@@ -12,6 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ArticleCategoryQO extends QueryRequest {
 
+    @Override
+    public String getSortsStr() {
+        return StringUtils.isBlank(super.getSortsStr()) ? "lastModifiedDate.DESC" : super.getSortsStr();
+    }
     private Long id;
 
     /**

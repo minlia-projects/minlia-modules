@@ -63,7 +63,7 @@ public class I18nServiceImpl implements I18nService {
 
     @Override
     public PageInfo queryPage(I18nQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()->i18nMapper.queryList(qo));
+        return PageHelper.startPage(qo.getPageNumber(),qo.getPageSize()).doSelectPageInfo(()->i18nMapper.queryList(qo));
     }
 
 }

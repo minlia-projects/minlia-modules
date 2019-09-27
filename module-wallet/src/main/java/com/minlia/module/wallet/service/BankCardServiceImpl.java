@@ -112,7 +112,7 @@ public class BankCardServiceImpl implements BankCardService {
 
     @Override
     public PageInfo<BankCardVo> queryPage(BankCardQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageSize(),pageable.getPageNumber()).doSelectPageInfo(()->bankCardMapper.queryList(qo));
+        return PageHelper.startPage(qo.getPageSize(),qo.getPageNumber()).doSelectPageInfo(()->bankCardMapper.queryList(qo));
     }
 
 }

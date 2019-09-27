@@ -85,7 +85,7 @@ public class AdvertisementsServiceImpl implements AdvertisementsService {
 
     @Override
     public PageInfo<Advertisements> page(AdvertisementsQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()->advertisementsMapper.list(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()->advertisementsMapper.list(qo));
     }
 
 }

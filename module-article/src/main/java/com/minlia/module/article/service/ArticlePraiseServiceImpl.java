@@ -119,7 +119,7 @@ public class ArticlePraiseServiceImpl implements ArticlePraiseService {
 
     @Override
     public PageInfo<ArticlePraise> page(ArticlePraiseQO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> articlePraiseMapper.list(qo));
+        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize(), qo.getOrderBy()).doSelectPageInfo(()-> articlePraiseMapper.list(qo));
     }
 
 }
