@@ -35,4 +35,9 @@ public interface AttachmentMapper {
 
     String queryFirstUrl(String relationId, String belongsTo);
 
+    int deleteByRelationIdAndBelongsToAndNotExistAccessKeys(String relationId, String belongsTo, List<String> accessKeys);
+
+    Attachment queryLastByAccessKey(String accessKey);
+
+    long queryCount(AttachmentQO build);
 }
