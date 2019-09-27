@@ -62,7 +62,7 @@ public interface AttachmentService {
      * @param relationId
      */
     String bindByAccessKey(String accessKey, String relationId, String belongsTo);
-    void bindByAccessKey(List<String> accessKey, String relationId, String belongsTo);
+    void bindByAccessKey(List<String> accessKey, String relationId, String belongsTo, boolean allowNull);
 
     Attachment queryById(Long id);
 
