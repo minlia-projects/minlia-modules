@@ -14,6 +14,7 @@ import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.event.AttachmentEvent;
 import com.minlia.modules.attachment.mapper.AttachmentMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -70,25 +71,50 @@ public class AttachmentServiceImpl implements AttachmentService {
         return attachment;
     }
 
+//    @Override
+//    @Transactional
+//    public String bindByAccessKey(String accessKey, String relationId, String belongsTo) {
+//        Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
+//        ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
+//
+//        if (null != attachment.getRelationId() || null != attachment.getBelongsTo()) {
+//            if (relationId.equals(attachment.getRelationId()) && belongsTo.equals(attachment.getBelongsTo())) {
+//                log.info("附件accessKey重复绑定直接通过：{}-{}", relationId, belongsTo);
+//            }
+//            ApiAssert.state(false, AttachmentCode.Message.ETAG_ALREADY_BIND);
+//        }
+//
+//        attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
+//        attachment.setRelationId(relationId);
+//        attachment.setBelongsTo(belongsTo);
+//        attachmentMapper.update(attachment);
+//        return attachment.getUrl();
+//    }
+
     @Override
     @Transactional
     public String bindByAccessKey(String accessKey, String relationId, String belongsTo) {
-        Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
-        ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
-
-        if (null != attachment.getRelationId() || null != attachment.getBelongsTo()) {
-            if (relationId.equals(attachment.getRelationId()) && belongsTo.equals(attachment.getBelongsTo())) {
-                log.info("附件accessKey重复绑定直接通过：{}-{}", relationId, belongsTo);
+        if (StringUtils.isBlank(accessKey)) {
+            attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
+            return null;
+        } else {
+            Attachment attachment = attachmentMapper.queryOne(AttachmentQO.builder().relationId(relationId).belongsTo(belongsTo).accessKey(accessKey).build());
+            if (null != attachment) {
+                return attachment.getUrl();
+            } else {
+                attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
+                ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
+                attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
+                attachment.setRelationId(relationId);
+                attachment.setBelongsTo(belongsTo);
+                attachmentMapper.update(attachment);
+                return attachment.getUrl();
             }
-            ApiAssert.state(false, AttachmentCode.Message.ETAG_ALREADY_BIND);
         }
-
-        attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
-        attachment.setRelationId(relationId);
-        attachment.setBelongsTo(belongsTo);
-        attachmentMapper.update(attachment);
-        return attachment.getUrl();
     }
+
+
+
 //    @Override
 //    @Transactional
 //    public void bindByAccessKey(String accessKey, String relationId, String belongsTo) {
