@@ -15,7 +15,7 @@ public class ArticleQO extends QueryRequest {
 
     @Override
     public String getSortsStr() {
-        return StringUtils.isBlank(super.getSortsStr()) ? "lastModifiedDate.DESC" : super.getSortsStr();
+        return StringUtils.isBlank(super.getSortsStr()) ? "createDate.DESC" : super.getSortsStr();
     }
 
     /**
