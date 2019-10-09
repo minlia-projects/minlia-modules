@@ -74,8 +74,8 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     }
 
     @Override
-    public PageInfo<ArticleLabel> page(ArticleLabelQRO qo, Pageable pageable) {
-        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize(), qro.getOrderBy(), qro.getOrderBy()).doSelectPageInfo(()-> articleLabelMapper.list(qo));
+    public PageInfo<ArticleLabel> page(ArticleLabelQRO qro, Pageable pageable) {
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleLabelMapper.list(qro));
     }
 
 }

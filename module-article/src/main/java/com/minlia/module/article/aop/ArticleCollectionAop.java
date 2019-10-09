@@ -1,7 +1,7 @@
 package com.minlia.module.article.aop;
 
 import com.minlia.module.article.ro.ArticleCollectionQRO;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import com.minlia.modules.security.model.UserContext;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
