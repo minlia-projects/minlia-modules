@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.modules.rebecca.bean.dto.OrganizationTree;
 import com.minlia.modules.rebecca.bean.dto.RoleTree;
 import com.minlia.modules.rebecca.bean.to.RoleCTO;
+import com.minlia.modules.rebecca.bean.to.RoleQRO;
 import com.minlia.modules.rebecca.bean.to.RoleUTO;
 import com.minlia.modules.rebecca.bean.domain.Role;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +67,7 @@ public interface RoleService {
 
     List<Role> queryList();
 
-    PageInfo<Role> queryPage(Pageable pageable);
+    PageInfo<Role> queryPage(RoleQRO qro);
 
     boolean isParent(String parentCode, String childCode);
 

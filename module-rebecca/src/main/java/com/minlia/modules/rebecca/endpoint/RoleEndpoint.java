@@ -5,6 +5,7 @@ import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
+import com.minlia.modules.rebecca.bean.to.RoleQRO;
 import com.minlia.modules.rebecca.constant.RebeccaSecurityConstant;
 import com.minlia.modules.rebecca.bean.to.RoleCTO;
 import com.minlia.modules.rebecca.bean.to.RoleUTO;
@@ -12,6 +13,7 @@ import com.minlia.modules.rebecca.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -94,8 +96,8 @@ public class RoleEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.ROLE_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "queryPage", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response queryPage(@PageableDefault Pageable pageable) {
-        return Response.success(roleService.queryPage(pageable));
+    public Response queryPage(@Valid @RequestBody RoleQRO qro) {
+        return Response.success(roleService.queryPage(qro));
     }
 
     @AuditLog(value = "query role tree", type = OperationTypeEnum.INFO)

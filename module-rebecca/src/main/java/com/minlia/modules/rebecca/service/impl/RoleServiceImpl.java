@@ -9,6 +9,7 @@ import com.minlia.modules.rebecca.bean.dto.OrganizationTree;
 import com.minlia.modules.rebecca.bean.dto.RoleTree;
 import com.minlia.modules.rebecca.bean.dto.TreeUtil;
 import com.minlia.modules.rebecca.bean.to.RoleCTO;
+import com.minlia.modules.rebecca.bean.to.RoleQRO;
 import com.minlia.modules.rebecca.bean.to.RoleUTO;
 import com.minlia.modules.rebecca.constant.RoleCode;
 import com.minlia.modules.rebecca.mapper.RoleMapper;
@@ -136,8 +137,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PageInfo<Role> queryPage(Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> roleMapper.queryList());
+    public PageInfo<Role> queryPage(RoleQRO qro) {
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> roleMapper.queryList());
     }
 
     @Override
