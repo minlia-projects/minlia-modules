@@ -3,6 +3,8 @@ package com.minlia.module.i18n.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.i18n.Lang;
+import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.i18n.constant.I18nConstants;
 import com.minlia.module.i18n.event.I18nReloadEvent;
 import com.minlia.module.i18n.resource.MessageSource;
@@ -35,6 +37,7 @@ public class I18nEndpoint {
     @Autowired
     private MessageSource messageSource;
 
+    @AuditLog(value = "create i18n info", type = OperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,6 +45,7 @@ public class I18nEndpoint {
         return Response.success(i18nService.create(cto));
     }
 
+    @AuditLog(value = "update i18n info", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_UPDATE + "')")
     @ApiOperation(value = "修改", notes = "修改", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PutMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +53,7 @@ public class I18nEndpoint {
         return Response.success(i18nService.update(uto));
     }
 
+    @AuditLog(value = "create i18n info", type = OperationTypeEnum.DELETE)
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_DELETE + "')")
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
@@ -57,6 +62,7 @@ public class I18nEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "reload i18n info", type = OperationTypeEnum.MODIFY)
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_DELETE + "')")
     @ApiOperation(value = "重置", notes = "重置", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "reload", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,6 +79,7 @@ public class I18nEndpoint {
         return Response.success(Lang.get(i18nkey));
     }
 
+    @AuditLog(value = "query i18n info by id", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
     @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,6 +87,7 @@ public class I18nEndpoint {
         return Response.success(i18nService.queryById(id));
     }
 
+    @AuditLog(value = "query i18n info as list", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "ID查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,6 +95,7 @@ public class I18nEndpoint {
         return Response.success(i18nService.queryList(qro));
     }
 
+    @AuditLog(value = "query i18n info as pageable", type = OperationTypeEnum.INFO)
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "ID查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "page", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

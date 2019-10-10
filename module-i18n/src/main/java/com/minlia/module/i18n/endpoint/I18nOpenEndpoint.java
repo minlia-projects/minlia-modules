@@ -2,6 +2,8 @@ package com.minlia.module.i18n.endpoint;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.i18n.resource.MessageSource;
 import com.minlia.module.i18n.service.I18nService;
@@ -26,6 +28,7 @@ public class I18nOpenEndpoint {
     @Autowired
     private MessageSource messageSource;
 
+    @AuditLog(value = "switch i18n locale", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "切换语言")
     @GetMapping(value = "locale")
     public Response locale(@RequestParam LocaleEnum lang) {
@@ -33,12 +36,14 @@ public class I18nOpenEndpoint {
         return Response.success();
     }
 
+    @AuditLog(value = "get all i18n", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "获取所有")
     @GetMapping(value = "all")
     public Response all() {
         return Response.success(messageSource.getLocalCache(LocaleContextHolder.getLocale()));
     }
 
+    @AuditLog(value = "get all i18n by locale", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "获取所有")
     @GetMapping(value = "{locale}")
     public Response all(@PathVariable String locale) {
