@@ -2,25 +2,26 @@ package com.minlia.module.article.mapper;
 
 import com.minlia.module.article.entity.ArticleCategory;
 import com.minlia.module.article.ro.ArticleCategoryQRO;
+import com.minlia.module.article.vo.ArticleSimpleVO;
 
 import java.util.List;
 
-/**
- *
- * Created by garen on 2018/10/16.
- */
 public interface ArticleCategoryMapper {
 
-    long create(ArticleCategory articleCategory);
+    int deleteByPrimaryKey(Long id);
 
-    long update(ArticleCategory articleCategory);
+    int insertSelective(ArticleCategory record);
 
-    long delete(Long id);
+    ArticleCategory selectByPrimaryKey(Long id);
 
-    long count(ArticleCategoryQRO qo);
+    int updateByPrimaryKeySelective(ArticleCategory record);
 
-    ArticleCategory one(ArticleCategoryQRO qo);
 
-    List<ArticleCategory> list(ArticleCategoryQRO qo);
+
+    List<ArticleSimpleVO> queryArticleByCategoryId(Long id);
+
+    long countByAll(ArticleCategoryQRO qro);
+
+    List<ArticleCategory> selectByAll(ArticleCategoryQRO qro);
 
 }

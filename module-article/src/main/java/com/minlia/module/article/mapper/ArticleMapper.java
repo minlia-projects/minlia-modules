@@ -1,4 +1,7 @@
 package com.minlia.module.article.mapper;
+import org.apache.ibatis.annotations.Param;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import java.time.LocalDateTime;
 
 import com.minlia.module.article.entity.Article;
 import com.minlia.module.article.ro.ArticleQRO;
@@ -7,31 +10,26 @@ import com.minlia.module.article.vo.ArticleVO;
 
 import java.util.List;
 
-/**
- * Created by garen on 2018/10/16.
- */
 public interface ArticleMapper {
 
-    long create(Article article);
+    int deleteByPrimaryKey(Long id);
 
-    long update(Article article);
+    int insertSelective(Article article);
 
-    long delete(Long id);
+    Article selectByPrimaryKey(Long id);
 
-    void setLabels(ArticleSetLabelRO to);
+    int updateByPrimaryKeySelective(Article article);
 
-    Article queryById(Long id);
 
-    long count(ArticleQRO qro);
 
-    Article one(ArticleQRO qro);
+    long plusReadCount(Long id, Integer increment);
 
-    List<Article> list(ArticleQRO qro);
+    long countByAll(ArticleQRO qro);
+
+    List<Article> selectByAll(ArticleQRO qro);
 
     ArticleVO oneVO(ArticleQRO qro);
 
     List<ArticleVO> listVO(ArticleQRO qro);
-
-    long plusReadCount(Long id, Integer increment);
 
 }

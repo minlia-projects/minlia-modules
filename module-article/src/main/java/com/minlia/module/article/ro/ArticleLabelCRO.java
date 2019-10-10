@@ -15,15 +15,19 @@ public class ArticleLabelCRO implements ApiRequestBody {
 
     @ApiModelProperty(value = "名称", example = "首页")
     @NotBlank(message = "名称不能为空")
-    @Size(max = 20)
+    @Size(max = 50)
     private String name;
 
-    @ApiModelProperty(value = "备注", example = "XXXXXX")
-    @Size(max = 200)
-    private String notes;
+    @ApiModelProperty(value = "语言环境", example = "zh_CN")
+    @Size(max = 255)
+    private String locale;
 
-    @ApiModelProperty(value = "是否启用", example = "true")
-    @NotNull(message = "是否启用不能为空")
-    private boolean enabled = true;
+    @ApiModelProperty(value = "备注", example = "XXXXXX")
+    @Size(max = 255)
+    private String remark;
+
+    @ApiModelProperty(value = "禁用标识")
+    @NotNull(message = "禁用标识不能为空")
+    private Boolean disFlag;
 
 }

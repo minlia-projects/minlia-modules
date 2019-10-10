@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *  文章标签
+ * 文章标签
  */
 @Data
 @Builder
@@ -21,13 +21,18 @@ public class ArticleLabel extends AbstractEntity {
     private String name;
 
     /**
-     * 备注
+     * 语言环境
      */
-    private String notes;
+    private String locale;
 
     /**
-     * 是否启用
+     * 备注
      */
-    private Boolean enabled;
+    private String remark;
+
+    /**
+     * 禁用标识
+     */
+    private Boolean disFlag;
 
 }

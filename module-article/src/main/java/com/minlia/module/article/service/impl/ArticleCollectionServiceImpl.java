@@ -28,7 +28,7 @@ public class ArticleCollectionServiceImpl implements ArticleCollectionService {
 
     @Override
     public boolean collection(Long articleId) {
-        long count = articleService.count(ArticleQRO.builder().id(articleId).enabled(true).build());
+        long count = articleService.count(ArticleQRO.builder().id(articleId).disFlag(false).build());
         ApiAssert.state(count > 0, SystemCode.Message.DATA_NOT_EXISTS);
 
         if (this.isCollected(articleId)) {

@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.List;
 
 /**
- *  文章类目
+ * 文章类目
  */
 @Data
 @Builder
@@ -28,12 +28,12 @@ public class ArticleCategory extends AbstractEntity {
     /**
      * 备注
      */
-    private String notes;
+    private String remark;
 
     /**
-     * 是否启用
+     * 禁用标识
      */
-    private Boolean enabled;
+    private Boolean disFlag;
 
     /**
      * 文章子项

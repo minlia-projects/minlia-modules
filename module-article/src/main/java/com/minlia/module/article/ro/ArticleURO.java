@@ -1,6 +1,7 @@
 package com.minlia.module.article.ro;
 
 import com.minlia.cloud.body.ApiRequestBody;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,34 +18,103 @@ public class ArticleURO implements ApiRequestBody {
     @NotNull(message = "ID不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "类目ID", example = "1")
+    /**
+     * 类目ID
+     */
     private Long categoryId;
 
-    @ApiModelProperty(value = "标签ID集合", example = "[1,2]")
+    @ApiModelProperty(value = "标签ID集合")
     private List<Long> labelIds;
 
-    @ApiModelProperty(value = "标题", example = "XXXXXX")
-    @Size(max = 50)
+    /**
+     * 标题
+     */
+    @Size(max = 255)
     private String title;
 
-    @ApiModelProperty(value = "内容", example = "XXXXXX")
+    /**
+     * 内容
+     */
     private String content;
 
-//    @ApiModelProperty(value = "封面", example = "http://xxxxxx")
-//    @URL
-//    private String cover;
+    /**
+     * 描述
+     */
+    @Size(max = 255)
+    private String description;
 
-    @ApiModelProperty(value = "封面ETag", example = "XXXXXX")
-    private String coverETag;
+    /**
+     * 语言环境
+     */
+    @NotNull
+    private LocaleEnum locale;
 
-    @ApiModelProperty(value = "扩展字段1", example = "刺客信条")
-    @Size(max = 200)
+    /**
+     * 草稿标识
+     */
+    private Boolean draftFlag;
+
+    /**
+     * 禁用标识
+     */
+    private Boolean disFlag;
+
+    /**
+     * 删除标识
+     */
+    private Boolean delFlag;
+
+    /**
+     * 阅读数
+     */
+    private Long readCount;
+
+    /**
+     * 封面
+     */
+    @Size(max = 255)
+    private String cover;
+
+    /**
+     * 关键字
+     */
+    @Size(max = 255)
+    private String keywords;
+
+    /**
+     * 备注
+     */
+    @Size(max = 255)
+    private String remark;
+
+    /**
+     * 扩展字段1
+     */
+    @Size(max = 255)
     private String attribute1;
 
-    @ApiModelProperty(value = "备注", example = "XXXXXX")
-    private String notes;
+    /**
+     * 扩展字段2
+     */
+    @Size(max = 255)
+    private String attribute2;
 
-    @ApiModelProperty(value = "是否启用", example = "true")
-    private Boolean enabled;
+    /**
+     * 扩展字段3
+     */
+    @Size(max = 255)
+    private String attribute3;
+
+    /**
+     * 扩展字段4
+     */
+    @Size(max = 255)
+    private String attribute4;
+
+    /**
+     * 扩展字段5
+     */
+    @Size(max = 255)
+    private String attribute5;
 
 }

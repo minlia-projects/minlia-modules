@@ -21,8 +21,6 @@ public interface ArticleLabelService {
 
     long count(ArticleLabelQRO qo);
 
-    ArticleLabel one(ArticleLabelQRO qo);
-
     List<ArticleLabel> list(ArticleLabelQRO qo);
 
     PageInfo<ArticleLabel> page(ArticleLabelQRO qo, Pageable pageable);

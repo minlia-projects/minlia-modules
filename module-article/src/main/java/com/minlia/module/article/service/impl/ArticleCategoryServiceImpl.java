@@ -12,6 +12,7 @@ import com.minlia.module.article.ro.ArticleCategoryURO;
 import com.minlia.module.article.mapper.ArticleCategoryMapper;
 import com.minlia.module.article.service.ArticleCategoryService;
 import com.minlia.module.article.service.ArticleService;
+import com.minlia.module.article.vo.ArticleSimpleVO;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -36,65 +37,64 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public ArticleCategory create(ArticleCategoryCRO cto) {
-        ApiAssert.state(articleCategoryMapper.count(ArticleCategoryQRO.builder().code(cto.getCode()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().code(cto.getCode()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
         ArticleCategory articleCategory = mapper.map(cto, ArticleCategory.class);
-        articleCategoryMapper.create(articleCategory);
+        articleCategoryMapper.insertSelective(articleCategory);
         return articleCategory;
     }
 
     @Override
     public ArticleCategory update(ArticleCategoryURO uto) {
-        ArticleCategory articleCategory = articleCategoryMapper.one(ArticleCategoryQRO.builder().id(uto.getId()).build());
+        ArticleCategory articleCategory = articleCategoryMapper.selectByPrimaryKey(uto.getId());
         ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
         mapper.map(uto, articleCategory);
-        articleCategoryMapper.update(articleCategory);
+        articleCategoryMapper.updateByPrimaryKeySelective(articleCategory);
         return articleCategory;
     }
 
     @Override
+    public boolean disable(Long id) {
+        ArticleCategory articleCategory = articleCategoryMapper.selectByPrimaryKey(id);
+        ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
+        articleCategory.setDisFlag(!articleCategory.getDisFlag());
+        articleCategoryMapper.updateByPrimaryKeySelective(articleCategory);
+        return articleCategory.getDisFlag();
+    }
+
+    @Override
     public void delete(Long id) {
-        ArticleCategory articleCategory = articleCategoryMapper.one(ArticleCategoryQRO.builder().id(id).build());
+        ArticleCategory articleCategory = articleCategoryMapper.selectByPrimaryKey(id);
         ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
 
         //判断是否有子项
         long count = articleService.count(ArticleQRO.builder().categoryId(id).build());
         ApiAssert.state(count == 0, "存在广告无法删除");
-        articleCategoryMapper.delete(articleCategory.getId());
+        articleCategoryMapper.deleteByPrimaryKey(articleCategory.getId());
+    }
+
+    @Override
+    public ArticleCategory selectByPrimaryKey(Long id) {
+        return articleCategoryMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public long count(ArticleCategoryQRO qro) {
-        return articleCategoryMapper.count(qro);
-    }
-
-    @Override
-    public ArticleCategory one(ArticleCategoryQRO qro) {
-        ArticleCategory articleCategory = articleCategoryMapper.one(qro);
-        return articleCategory;
+        return articleCategoryMapper.countByAll(qro);
     }
 
     @Override
     public List<ArticleCategory> list(ArticleCategoryQRO qro) {
-        List<ArticleCategory> list = articleCategoryMapper.list(qro);
-        return list;
+        return articleCategoryMapper.selectByAll(qro);
     }
 
     @Override
     public PageInfo<ArticleCategory> page(ArticleCategoryQRO qro, Pageable pageable) {
-        PageInfo<ArticleCategory> pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleCategoryMapper.list(qro));
-        return pageInfo;
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> articleCategoryMapper.selectByAll(qro));
     }
 
-//    private void setArticles(ArticleCategory articleCategory) {
-//        if (null != articleCategory) {
-//            articleCategory.setArticles(articleService.list(ArticleQRO.builder().categoryId(articleCategory.getId()).build()));
-//        }
-//    }
-//
-//    private void setArticles(List<ArticleCategory> articleCategories) {
-//        for (ArticleCategory articleCategory : articleCategories) {
-//            articleCategory.setArticles(articleService.list(ArticleQRO.builder().categoryId(articleCategory.getId()).build()));
-//        }
-//    }
+    @Override
+    public List<ArticleSimpleVO> queryArticleByCategoryId(Long id) {
+        return articleCategoryMapper.queryArticleByCategoryId(id);
+    }
 
 }

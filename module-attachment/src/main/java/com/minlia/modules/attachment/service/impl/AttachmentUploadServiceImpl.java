@@ -7,6 +7,8 @@ import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
+import com.minlia.modules.attachment.property.AttachmentConfig;
+import com.minlia.modules.attachment.property.AttachmentLocalConfig;
 import com.minlia.modules.attachment.ro.AttachmentUploadRO;
 import com.minlia.modules.attachment.dto.AttachmentDTO;
 import com.minlia.modules.attachment.constant.AttachmentCode;
@@ -42,8 +44,14 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     @Autowired
     private AttachmentService attachmentService;
 
+//    @Autowired
+//    private AttachmentProperties attachmentProperties;
+
     @Autowired
-    private AttachmentProperties attachmentProperties;
+    private AttachmentConfig attachmentConfig;
+
+    @Autowired
+    private AttachmentLocalConfig attachmentLocalConfig;
 
     @Override
     public Response upload(MultipartFile file) throws Exception {
@@ -52,12 +60,12 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
     @Override
     public Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
-        switch (attachmentProperties.getType()) {
-            case aliyun:
+        switch (attachmentConfig.getChannel()) {
+            case ALIYUN:
                 return uploadByAliyun(file, relationId, belongsTo);
-            case qcloud:
+            case QCLOUD:
                 return uploadByQcloud(file, relationId, belongsTo);
-            case local:
+            case LOCAL:
                 return uploadByLocal(file, relationId, belongsTo);
         }
         return Response.failure(AttachmentCode.Message.UNSUPPORTED_OSS_TYPE);
@@ -116,9 +124,9 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
     private Response uploadByLocal(MultipartFile file, String relationId, String belongsTo){
         String path = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
-        String filePath = attachmentProperties.getLocal().get("bucket") + path;
+        String filePath = attachmentLocalConfig.getBucket() + path;
         try {
-            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(filePath));//保存上传的文件到指定路径下
+            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(filePath)); //保存上传的文件到指定路径下
         } catch (IOException e) {
             e.printStackTrace();
         }

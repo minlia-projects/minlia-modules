@@ -1,84 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.article.mapper.ArticleLabelMapper">
-
-    <sql id="QUERY_CONTENT">
-        SELECT
-            id,
-            name,
-            notes,
-            enabled,
-            create_by,
-            create_date,
-            last_modified_by,
-            last_modified_date
-        FROM
-            mdl_article_label_t
-	</sql>
-
-    <sql id="QUERY_CONDITION">
-        <where>
-            <if test="id != null">
-                AND id = #{id}
-            </if>
-            <if test="name != null">
-                AND name = #{name}
-            </if>
-            <if test="enabled != null">
-                AND enabled = #{enabled}
-            </if>
-        </where>
+    <resultMap id="BaseResultMap" type="com.minlia.module.article.entity.ArticleLabel">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="locale" jdbcType="VARCHAR" property="locale"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="dis_flag" jdbcType="BOOLEAN" property="disFlag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `name`, `locale`, remark, dis_flag, create_by, create_date, last_modified_by,
+        last_modified_date
     </sql>
-
-    <insert id="create" parameterType="com.minlia.module.article.entity.ArticleLabel">
-        INSERT INTO mdl_article_label_t(
-            name ,
-            notes ,
-            enabled ,
-            create_by
-        ) VALUES (
-            #{name} ,
-            #{notes} ,
-            #{enabled} ,
-            #{createBy}
-        )
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_article_label
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from mdl_article_label
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.minlia.module.article.entity.ArticleLabel" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mdl_article_label
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="locale != null">
+                `locale`,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="disFlag != null">
+                dis_flag,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by,
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="locale != null">
+                #{locale,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="disFlag != null">
+                #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null">
+                #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedDate != null">
+                #{lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
     </insert>
-
-    <update id="update" parameterType="com.minlia.module.article.entity.ArticleLabel">
-        UPDATE mdl_article_label_t
+    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.article.entity.ArticleLabel">
+        <!--@mbg.generated-->
+        update mdl_article_label
         <set>
             <if test="name != null">
-                name = #{name},
+                `name` = #{name,jdbcType=VARCHAR},
             </if>
-            <if test="notes != null">
-                notes = #{notes} ,
+            <if test="locale != null">
+                `locale` = #{locale,jdbcType=VARCHAR},
             </if>
-            <if test="enabled != null">
-                enabled = #{enabled} ,
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
             </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+            <if test="disFlag != null">
+                dis_flag = #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
         </set>
-        WHERE id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <delete id="delete">
-        DELETE FROM mdl_article_label_t WHERE id = #{id};
-        DELETE FROM mdl_article_label_m where label_id = #{id};
-    </delete>
-
-    <select id="count" resultType="long">
-        SELECT COUNT(1) FROM mdl_article_label_t
-        <include refid="QUERY_CONDITION"/>
+    <select id="countByAll" resultType="long">
+        select count(1) from mdl_article_label
+        where 1=1
+        <if test="name != null">
+            and `name`=#{name,jdbcType=VARCHAR}
+        </if>
+        <if test="locale != null">
+            and `locale`=#{locale,jdbcType=VARCHAR}
+        </if>
+        <if test="remark != null">
+            and remark=#{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="disFlag != null">
+            and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="createBy != null">
+            and create_by=#{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="lastModifiedBy != null">
+            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate != null">
+            and create_date=#{createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastModifiedDate != null">
+            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="id != null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
     </select>
 
-    <select id="one" resultType="com.minlia.module.article.entity.ArticleLabel">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="list" resultType="com.minlia.module.article.entity.ArticleLabel">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
+    <!--auto generated by MybatisCodeHelper on 2019-10-09-->
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_article_label
+        where 1=1
+        <if test="name != null">
+            and `name`=#{name,jdbcType=VARCHAR}
+        </if>
+        <if test="locale != null">
+            and `locale`=#{locale,jdbcType=VARCHAR}
+        </if>
+        <if test="remark != null">
+            and remark=#{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="disFlag != null">
+            and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="createBy != null">
+            and create_by=#{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="lastModifiedBy != null">
+            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate != null">
+            and create_date=#{createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastModifiedDate != null">
+            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="id != null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
     </select>
 
 </mapper>

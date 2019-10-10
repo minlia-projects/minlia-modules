@@ -17,14 +17,18 @@ public class ArticleCategoryURO implements ApiRequestBody {
     private Long id;
 
     @ApiModelProperty(value = "名称", example = "首页")
-    @Size(max = 20)
+    @Size(max = 50)
     private String name;
 
-    @ApiModelProperty(value = "备注", example = "XXXXXX")
-    @Size(max = 200)
-    private String notes;
+    @ApiModelProperty(value = "编码", example = "XXXXXX")
+    @Size(max = 50)
+    private String code;
 
-    @ApiModelProperty(value = "是否启用", example = "true")
-    private Boolean enabled;
+    @ApiModelProperty(value = "备注", example = "XXXXXX")
+    @Size(max = 255)
+    private String remark;
+
+    @ApiModelProperty(value = "禁用标识")
+    private Boolean disFlag;
 
 }

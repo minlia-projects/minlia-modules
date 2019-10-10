@@ -47,9 +47,9 @@ public class OSSPathUtils {
     public static String getDirectory(String relationId, String belongsTo) {
         String path;
         if (StringUtils.isNotBlank(belongsTo)) {
-            path = String.format("%s/%s", belongsTo, relationId);
+            path = dateBuild() + String.format("%s/%s", belongsTo, relationId);
         } else {
-            path = AttachmentConstant.DEFAULT_PATH + dateBuild();
+            path = dateBuild() + AttachmentConstant.DEFAULT_PATH;
         }
         return path;
     }

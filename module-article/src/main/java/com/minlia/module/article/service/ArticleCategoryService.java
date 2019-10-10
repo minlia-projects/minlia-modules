@@ -5,6 +5,7 @@ import com.minlia.module.article.entity.ArticleCategory;
 import com.minlia.module.article.ro.ArticleCategoryQRO;
 import com.minlia.module.article.ro.ArticleCategoryCRO;
 import com.minlia.module.article.ro.ArticleCategoryURO;
+import com.minlia.module.article.vo.ArticleSimpleVO;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -15,14 +16,18 @@ public interface ArticleCategoryService {
 
     ArticleCategory update(ArticleCategoryURO uto);
 
+    boolean disable(Long id);
+
     void delete(Long id);
 
-    long count(ArticleCategoryQRO qo);
+    ArticleCategory selectByPrimaryKey(Long id);
 
-    ArticleCategory one(ArticleCategoryQRO qo);
+    long count(ArticleCategoryQRO qo);
 
     List<ArticleCategory> list(ArticleCategoryQRO qo);
 
     PageInfo<ArticleCategory> page(ArticleCategoryQRO qo, Pageable pageable);
+
+    List<ArticleSimpleVO> queryArticleByCategoryId(Long id);
 
 }

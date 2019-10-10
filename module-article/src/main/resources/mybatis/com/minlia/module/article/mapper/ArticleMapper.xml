@@ -2,68 +2,273 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.article.mapper.ArticleMapper">
 
-    <sql id="QUERY_CONTENT">
-        SELECT
-            mat.id,
-            mat.category_id,
-            mat.title,
-            mat.content,
-            mat.cover,
-            mat.read_count,
-            mat.attribute1,
-            mat.notes,
-            mat.enabled,
-            mat.create_by,
-            mat.create_date,
-            mat.last_modified_by,
-            mat.last_modified_date
-        FROM
-            mdl_article mat
-	</sql>
-
-    <resultMap id="articleVOMap" type="com.minlia.module.article.vo.ArticleVO">
-        <id column="id" property="id" />
-        <collection property="labelIds" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
-        <collection property="labelNames" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
+    <resultMap id="BaseResultMap" type="com.minlia.module.article.entity.Article">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="category_id" jdbcType="BIGINT" property="categoryId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="locale" jdbcType="VARCHAR" property="locale"/>
+        <result column="draft_flag" jdbcType="BOOLEAN" property="draftFlag"/>
+        <result column="dis_flag" jdbcType="BOOLEAN" property="disFlag"/>
+        <result column="del_flag" jdbcType="BOOLEAN" property="delFlag"/>
+        <result column="read_count" jdbcType="BIGINT" property="readCount"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="attribute1" jdbcType="VARCHAR" property="attribute1"/>
+        <result column="attribute2" jdbcType="VARCHAR" property="attribute2"/>
+        <result column="attribute3" jdbcType="VARCHAR" property="attribute3"/>
+        <result column="attribute4" jdbcType="VARCHAR" property="attribute4"/>
+        <result column="attribute5" jdbcType="VARCHAR" property="attribute5"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
     </resultMap>
 
-    <select id="queryLabelIdList" resultType="java.lang.Long">
-        SELECT malt.id FROM mdl_article_label_t malt INNER JOIN mdl_article_label_m malm ON malm.label_id=malt.id WHERE malm.article_id=#{id}
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, category_id, title, content, description, `locale`, draft_flag, dis_flag, del_flag,
+        read_count, cover, keywords, remark, attribute1, attribute2, attribute3, attribute4,
+        attribute5, create_by, create_date, last_modified_by, last_modified_date
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_article
+        where id = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="queryLabelNameList" resultType="java.lang.String">
-        SELECT malt.name FROM mdl_article_label_t malt INNER JOIN mdl_article_label_m malm ON malm.label_id=malt.id WHERE malm.article_id=#{id}
-    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from mdl_article
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
 
-    <sql id="QUERY_DETAIL_CONTENT">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.minlia.module.article.entity.Article" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mdl_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="locale != null">
+                `locale`,
+            </if>
+            <if test="draftFlag != null">
+                draft_flag,
+            </if>
+            <if test="disFlag != null">
+                dis_flag,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="readCount != null">
+                read_count,
+            </if>
+            <if test="cover != null">
+                cover,
+            </if>
+            <if test="keywords != null">
+                keywords,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="attribute1 != null">
+                attribute1,
+            </if>
+            <if test="attribute2 != null">
+                attribute2,
+            </if>
+            <if test="attribute3 != null">
+                attribute3,
+            </if>
+            <if test="attribute4 != null">
+                attribute4,
+            </if>
+            <if test="attribute5 != null">
+                attribute5,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="locale != null">
+                #{locale,jdbcType=VARCHAR},
+            </if>
+            <if test="draftFlag != null">
+                #{draftFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="disFlag != null">
+                #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="readCount != null">
+                #{readCount,jdbcType=BIGINT},
+            </if>
+            <if test="cover != null">
+                #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="keywords != null">
+                #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.article.entity.Article">
+        <!--@mbg.generated-->
+        update mdl_article
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="locale != null">
+                `locale` = #{locale,jdbcType=VARCHAR},
+            </if>
+            <if test="draftFlag != null">
+                draft_flag = #{draftFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="disFlag != null">
+                dis_flag = #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="readCount != null">
+                read_count = #{readCount,jdbcType=BIGINT},
+            </if>
+            <if test="cover != null">
+                cover = #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="keywords != null">
+                keywords = #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute1 != null">
+                attribute1 = #{attribute1,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute2 != null">
+                attribute2 = #{attribute2,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute3 != null">
+                attribute3 = #{attribute3,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute4 != null">
+                attribute4 = #{attribute4,jdbcType=VARCHAR},
+            </if>
+            <if test="attribute5 != null">
+                attribute5 = #{attribute5,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <sql id="BASE_DETAIL_CONTENT">
         SELECT
             mat.id,
             mat.category_id,
-            act.`name` AS categoryName,
             mat.title,
             mat.content,
-            at.url AS cover,
-            mat.attribute1,
-            mat.notes,
-            mat.enabled,
+            mat.description,
+            mat.`locale`,
+            mat.`draft_flag`,
+            mat.`dis_flag`,
+            mat.`del_flag`,
+            mat.`read_count`,
+            mat.`keywords`,
+            mat.`remark`,
+            mat.cover,
+            mat.`attribute1`,
+            mat.`attribute2`,
+            mat.`attribute3`,
+            mat.`attribute4`,
+            mat.`attribute5`,
             mat.create_by,
             mat.create_date,
             mat.last_modified_by,
             mat.last_modified_date,
             mat.read_count,
+
+            mact.`name` AS categoryName,
             (SELECT COUNT(1) FROM mdl_article_comment WHERE article_id=mat.id) AS commentCount,
             (SELECT COUNT(1) FROM mdl_article_praise WHERE article_id=mat.id AND choose=1) AS praiseCount,
-            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=mat.id) AS collectionCount,
-            muit.avatar,
-            muit.nickname
+            (SELECT COUNT(1) FROM mdl_article_collection WHERE article_id=mat.id) AS collectionCount
         FROM
             mdl_article mat
-        INNER JOIN mdl_article_category act ON act.id = mat.category_id
-        LEFT JOIN mdl_user_info muit ON muit.guid = mat.create_by
-        LEFT JOIN mdl_attachment at ON at.relation_id = mat.id AND at.belongs_to = 'ARTICLE_COVER'
+        INNER JOIN mdl_article_category mact ON mact.id = mat.category_id AND mact.dis_flag = 0
 	</sql>
 
-    <sql id="QUERY_CONDITION">
+    <sql id="BASE_DETAIL_CONDITION">
         <where>
             <if test="categoryId != null">
                 mat.category_id = #{categoryId}
@@ -84,113 +289,182 @@
                 AND mat.enabled = #{enabled}
             </if>
             <if test="labelId != null">
-                AND EXISTS (SELECT 1 FROM mdl_article_label_m m WHERE m.article_id = mat.id AND m.label_id = #{labelId})
+                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id = #{labelId})
             </if>
         </where>
     </sql>
 
-    <insert id="create" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO mdl_article(
-            category_id,
-            title,
-            content,
-            cover,
-            attribute1,
-            notes,
-            enabled,
-            create_by
-        ) VALUES (
-            #{categoryId},
-            #{title} ,
-            #{content} ,
-            #{cover} ,
-            #{attribute1} ,
-            #{notes} ,
-            #{enabled} ,
-            #{createBy}
-        )
-    </insert>
+    <resultMap id="articleVOMap" type="com.minlia.module.article.vo.ArticleVO">
+        <id column="id" property="id" />
+        <collection property="labelIds" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
+        <collection property="labelNames" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
+    </resultMap>
 
-    <update id="update" parameterType="com.minlia.module.article.entity.Article">
-        UPDATE mdl_article
-        <set>
-            <if test="categoryId != null">
-                category_id = #{categoryId},
-            </if>
-            <if test="title != null">
-                title = #{title},
-            </if>
-            <if test="content != null">
-                content = #{content},
-            </if>
-            <if test="cover != null">
-                cover = #{cover},
-            </if>
-            <if test="attribute1 != null">
-                attribute1 = #{attribute1} ,
-            </if>
-            <if test="notes != null">
-                notes = #{notes} ,
-            </if>
-            <if test="enabled != null">
-                enabled = #{enabled} ,
-            </if>
-            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
-        </set>
-        WHERE id = #{id,jdbcType=BIGINT}
-    </update>
-
-    <delete id="delete">
-        DELETE FROM mdl_article WHERE id = #{id}
-    </delete>
-
-    <insert id="setLabels">
-        DELETE FROM mdl_article_label_m where article_id = #{articleId};
-        INSERT INTO mdl_article_label_m (
-            article_id,
-            label_id
-        ) VALUES
-        <foreach collection="labelIds" item="item" separator=",">
-        (
-            #{articleId},
-            #{item}
-        )
-        </foreach>
-    </insert>
-
-    <select id="queryById" resultType="com.minlia.module.article.entity.Article">
-        <include refid="QUERY_CONTENT"/>
-        WHERE mat.id = #{id}
+    <select id="queryLabelIdList" resultType="java.lang.Long">
+        SELECT malt.id FROM mdl_article_label mal INNER JOIN mdl_article_label_relation malm ON malm.label_id=mal.id WHERE malm.article_id=#{id}
     </select>
 
-    <select id="count" resultType="long">
-        SELECT COUNT(1) FROM mdl_article mat
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="one" resultType="com.minlia.module.article.entity.Article">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
-    </select>
-
-    <select id="list" resultType="com.minlia.module.article.entity.Article">
-        <include refid="QUERY_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
+    <select id="queryLabelNameList" resultType="java.lang.String">
+        SELECT malt.name FROM mdl_article_label mal INNER JOIN mdl_article_label_relation malm ON malm.label_id=mal.id WHERE malm.article_id=#{id}
     </select>
 
     <select id="oneVO" resultMap="articleVOMap">
-        <include refid="QUERY_DETAIL_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
+        <include refid="BASE_DETAIL_CONTENT"/>
+        <include refid="BASE_DETAIL_CONDITION"/>
     </select>
 
     <select id="listVO" resultMap="articleVOMap">
-        <include refid="QUERY_DETAIL_CONTENT"/>
-        <include refid="QUERY_CONDITION"/>
+        <include refid="BASE_DETAIL_CONTENT"/>
+        <include refid="BASE_DETAIL_CONDITION"/>
     </select>
-
 
     <update id="plusReadCount">
         UPDATE mdl_article set read_count = read_count + #{arg1} where id = #{arg0}
     </update>
+
+
+    <!--auto generated by MybatisCodeHelper on 2019-10-09-->
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_article
+        where 1=1
+        <if test="categoryId != null">
+            and category_id=#{categoryId,jdbcType=BIGINT}
+        </if>
+        <if test="title != null">
+            and title=#{title,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null">
+            and content=#{content,jdbcType=VARCHAR}
+        </if>
+        <if test="description != null">
+            and description=#{description,jdbcType=VARCHAR}
+        </if>
+        <if test="locale != null">
+            and `locale`=#{locale,jdbcType=VARCHAR}
+        </if>
+        <if test="draftFlag != null">
+            and draft_flag=#{draftFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="disFlag != null">
+            and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="delFlag != null">
+            and del_flag=#{delFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="readCount != null">
+            and read_count=#{readCount,jdbcType=BIGINT}
+        </if>
+        <if test="cover != null">
+            and cover=#{cover,jdbcType=VARCHAR}
+        </if>
+        <if test="keywords != null">
+            and keywords=#{keywords,jdbcType=VARCHAR}
+        </if>
+        <if test="remark != null">
+            and remark=#{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute1 != null">
+            and attribute1=#{attribute1,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute2 != null">
+            and attribute2=#{attribute2,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute3 != null">
+            and attribute3=#{attribute3,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute4 != null">
+            and attribute4=#{attribute4,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute5 != null">
+            and attribute5=#{attribute5,jdbcType=VARCHAR}
+        </if>
+        <if test="createBy != null">
+            and create_by=#{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="lastModifiedBy != null">
+            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate != null">
+            and create_date=#{createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastModifiedDate != null">
+            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="id != null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
+    </select>
+    <select id="countByAll" resultType="long">
+        select count(1) from from mdl_article
+        where 1=1
+        <if test="categoryId != null">
+            and category_id=#{categoryId,jdbcType=BIGINT}
+        </if>
+        <if test="title != null">
+            and title=#{title,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null">
+            and content=#{content,jdbcType=VARCHAR}
+        </if>
+        <if test="description != null">
+            and description=#{description,jdbcType=VARCHAR}
+        </if>
+        <if test="locale != null">
+            and `locale`=#{locale,jdbcType=VARCHAR}
+        </if>
+        <if test="draftFlag != null">
+            and draft_flag=#{draftFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="disFlag != null">
+            and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="delFlag != null">
+            and del_flag=#{delFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="readCount != null">
+            and read_count=#{readCount,jdbcType=BIGINT}
+        </if>
+        <if test="cover != null">
+            and cover=#{cover,jdbcType=VARCHAR}
+        </if>
+        <if test="keywords != null">
+            and keywords=#{keywords,jdbcType=VARCHAR}
+        </if>
+        <if test="remark != null">
+            and remark=#{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute1 != null">
+            and attribute1=#{attribute1,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute2 != null">
+            and attribute2=#{attribute2,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute3 != null">
+            and attribute3=#{attribute3,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute4 != null">
+            and attribute4=#{attribute4,jdbcType=VARCHAR}
+        </if>
+        <if test="attribute5 != null">
+            and attribute5=#{attribute5,jdbcType=VARCHAR}
+        </if>
+        <if test="createBy != null">
+            and create_by=#{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="lastModifiedBy != null">
+            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate != null">
+            and create_date=#{createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastModifiedDate != null">
+            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="id != null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
+    </select>
 
 </mapper>

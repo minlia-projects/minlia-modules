@@ -9,11 +9,11 @@
     </resultMap>
 
     <select id="queryLabelIdList" resultType="java.lang.Long">
-        SELECT alt.id FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+        SELECT alt.id FROM mdl_article_label alt INNER JOIN mdl_article_label_relation alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
     </select>
 
     <select id="queryLabelNameList" resultType="java.lang.String">
-        SELECT alt.name FROM mdl_article_label_t alt INNER JOIN mdl_article_label_m alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
+        SELECT alt.name FROM mdl_article_label alt INNER JOIN mdl_article_label_relation alm ON alm.label_id=alt.id WHERE alm.article_id=#{id}
     </select>
 
     <sql id="QUERY_CONTENT">
@@ -25,7 +25,7 @@
             mat.content,
             at.url AS cover,
             mat.attribute1,
-            mat.notes,
+            mat.remark,
             mat.enabled,
             mat.create_by,
             mat.create_date,

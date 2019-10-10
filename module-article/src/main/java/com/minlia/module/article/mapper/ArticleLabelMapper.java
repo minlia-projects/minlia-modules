@@ -5,22 +5,17 @@ import com.minlia.module.article.ro.ArticleLabelQRO;
 
 import java.util.List;
 
-/**
- *
- * Created by garen on 2018/10/16.
- */
 public interface ArticleLabelMapper {
+    int deleteByPrimaryKey(Long id);
 
-    long create(ArticleLabel articleLabel);
+    int insertSelective(ArticleLabel record);
 
-    long update(ArticleLabel articleLabel);
+    ArticleLabel selectByPrimaryKey(Long id);
 
-    long delete(Long id);
+    int updateByPrimaryKeySelective(ArticleLabel record);
 
-    long count(ArticleLabelQRO qo);
+    long countByAll(ArticleLabelQRO qro);
 
-    ArticleLabel one(ArticleLabelQRO qo);
-
-    List<ArticleLabel> list(ArticleLabelQRO qo);
+    List<ArticleLabel> selectByAll(ArticleLabelQRO qro);
 
 }

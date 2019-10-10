@@ -31,9 +31,9 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
 
     @Override
     public ArticleLabel create(ArticleLabelCRO cto) {
-        ApiAssert.state(articleLabelMapper.count(ArticleLabelQRO.builder().name(cto.getName()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        ApiAssert.state(articleLabelMapper.countByAll(ArticleLabelQRO.builder().name(cto.getName()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
         ArticleLabel articleLabel = mapper.map(cto, ArticleLabel.class);
-        articleLabelMapper.create(articleLabel);
+        articleLabelMapper.insertSelective(articleLabel);
         return articleLabel;
     }
 
@@ -42,7 +42,7 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
         ArticleLabel articleLabel = this.queryById(uto.getId());
         ApiAssert.notNull(articleLabel, SystemCode.Message.DATA_NOT_EXISTS);
         mapper.map(uto, articleLabel);
-        articleLabelMapper.update(articleLabel);
+        articleLabelMapper.updateByPrimaryKeySelective(articleLabel);
         return articleLabel;
     }
 
@@ -50,32 +50,27 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     public void delete(Long id) {
         ArticleLabel articleLabel = this.queryById(id);
         ApiAssert.notNull(articleLabel, SystemCode.Message.DATA_NOT_EXISTS);
-        articleLabelMapper.delete(articleLabel.getId());
+        articleLabelMapper.deleteByPrimaryKey(articleLabel.getId());
     }
 
     @Override
     public ArticleLabel queryById(Long id) {
-        return articleLabelMapper.one(ArticleLabelQRO.builder().id(id).build());
+        return articleLabelMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public long count(ArticleLabelQRO qo) {
-        return articleLabelMapper.count(qo);
-    }
-
-    @Override
-    public ArticleLabel one(ArticleLabelQRO qo) {
-        return articleLabelMapper.one(qo);
+        return articleLabelMapper.countByAll(qo);
     }
 
     @Override
     public List<ArticleLabel> list(ArticleLabelQRO qo) {
-        return articleLabelMapper.list(qo);
+        return articleLabelMapper.selectByAll(qo);
     }
 
     @Override
     public PageInfo<ArticleLabel> page(ArticleLabelQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleLabelMapper.list(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> articleLabelMapper.selectByAll(qro));
     }
 
 }
