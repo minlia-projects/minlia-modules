@@ -397,7 +397,7 @@
         </if>
     </select>
     <select id="countByAll" resultType="long">
-        select count(1) from from mdl_article
+        select count(1) from mdl_article
         where 1=1
         <if test="categoryId != null">
             and category_id=#{categoryId,jdbcType=BIGINT}
