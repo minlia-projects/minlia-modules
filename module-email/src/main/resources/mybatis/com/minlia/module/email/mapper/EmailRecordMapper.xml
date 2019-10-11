@@ -7,6 +7,7 @@
         <result column="appid" jdbcType="VARCHAR" property="appid"/>
         <result column="number" jdbcType="VARCHAR" property="number"/>
         <result column="template_code" jdbcType="VARCHAR" property="templateCode"/>
+        <result column="recipient" jdbcType="VARCHAR" property="recipient"/>
         <result column="send_to" jdbcType="VARCHAR" property="sendTo"/>
         <result column="send_cc" jdbcType="VARCHAR" property="sendCc"/>
         <result column="send_bcc" jdbcType="VARCHAR" property="sendBcc"/>
@@ -23,7 +24,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, appid, `number`, template_code, send_to, send_cc, send_bcc, `locale`, channel,
+        id, appid, `number`, template_code, recipient, send_to, send_cc, send_bcc, `locale`, channel,
         `subject`, content, remark, success_flag, create_by, create_date, last_modified_by,
         last_modified_date
     </sql>
@@ -52,6 +53,9 @@
             </if>
             <if test="templateCode != null">
                 template_code,
+            </if>
+            <if test="recipient != null">
+                recipient,
             </if>
             <if test="sendTo != null">
                 send_to,
@@ -102,6 +106,9 @@
             </if>
             <if test="templateCode != null">
                 #{templateCode,jdbcType=VARCHAR},
+            </if>
+            <if test="recipient != null">
+                #{recipient,jdbcType=VARCHAR},
             </if>
             <if test="sendTo != null">
                 #{sendTo,jdbcType=VARCHAR},
@@ -156,6 +163,9 @@
             </if>
             <if test="templateCode != null">
                 template_code = #{templateCode,jdbcType=VARCHAR},
+            </if>
+            <if test="recipient != null">
+                recipient = #{recipient,jdbcType=VARCHAR},
             </if>
             <if test="sendTo != null">
                 send_to = #{sendTo,jdbcType=VARCHAR},
@@ -214,6 +224,9 @@
         </if>
         <if test="templateCode != null">
             and template_code=#{templateCode,jdbcType=VARCHAR}
+        </if>
+        <if test="recipient != null">
+            and LOWER(recipient)=LOWER(#{recipient,jdbcType=VARCHAR})
         </if>
         <if test="sendTo != null">
             and send_to=#{sendTo,jdbcType=VARCHAR}

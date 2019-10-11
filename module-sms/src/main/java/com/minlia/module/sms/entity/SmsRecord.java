@@ -28,6 +28,11 @@ public class SmsRecord extends AbstractEntity {
     private String code;
 
     /**
+     * 接收方
+     */
+    private String recipient;
+
+    /**
      * 接收人
      */
     private String sendTo;

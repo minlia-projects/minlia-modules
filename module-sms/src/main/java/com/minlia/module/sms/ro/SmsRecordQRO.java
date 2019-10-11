@@ -50,6 +50,11 @@ public class SmsRecordQRO extends QueryRequest {
     private String code;
 
     /**
+     * 接收方
+     */
+    private String recipient;
+
+    /**
      * 接收人
      */
     private String sendTo;

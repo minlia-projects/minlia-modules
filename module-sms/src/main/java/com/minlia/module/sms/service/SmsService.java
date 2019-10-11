@@ -32,4 +32,27 @@ public interface SmsService {
     @Async
     SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale);
 
+
+
+    /**
+     * 发送短信
+     * @param to
+     * @param richtextCode
+     * @param variables
+     * @return
+     */
+    @Async
+    SmsRecord sendRichtextSms(String recipient, String[] to, String richtextCode, Map<String, ?> variables);
+
+    /**
+     * 发送短信
+     * @param to
+     * @param richtextCode
+     * @param variables
+     * @param locale
+     * @return
+     */
+    @Async
+    SmsRecord sendRichtextSms(String recipient, String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale);
+
 }

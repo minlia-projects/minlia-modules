@@ -60,17 +60,26 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, ?> variables) {
-        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), templateCode);
-        ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
-        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables);
+        return this.sendRichtextMail(null, to, templateCode, variables);
     }
 
     @Override
     public EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, ?> variables, LocaleEnum locale) {
+        return this.sendRichtextMail(null, to, templateCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
+    }
+
+    @Override
+    public EmailRecord sendRichtextMail(String recipient, String[] to, String templateCode, Map<String, ?> variables) {
+        return this.sendRichtextMail(recipient, to, templateCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
+    }
+
+    @Override
+    public EmailRecord sendRichtextMail(String recipient, String[] to, String templateCode, Map<String, ?> variables, LocaleEnum locale) {
         Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), templateCode, locale);
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
-        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables, templateCode, locale);
+        return this.sendHtmlMail(recipient, to, richtext.getSubject(), richtext.getContent(), variables, templateCode, locale);
     }
+
 
     @Override
     public EmailRecord sendSimpleMail(String[] to, String subject, String content) {
@@ -98,6 +107,11 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables, String templateCode, LocaleEnum locale) {
+        return this.sendHtmlMail(null, to, subject, content, variables, templateCode, locale);
+    }
+
+    @Override
+    public EmailRecord sendHtmlMail(String recipient, String[] to, String subject, String content, Map<String, ?> variables, String templateCode, LocaleEnum locale) {
         if (null == content) {
             content = "<html>\n" +
                     "<ro>\n" +
@@ -113,6 +127,7 @@ public class EmailServiceImpl implements EmailService {
         EmailRecord emailRecord = EmailRecord.builder()
                 .number(null)
                 .templateCode(templateCode)
+                .recipient(recipient)
                 .sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to)))
                 .subject(subject)
                 .content(text)

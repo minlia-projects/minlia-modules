@@ -21,11 +21,6 @@ public class SmsRecordServiceImpl implements SmsRecordService {
     }
 
     @Override
-    public int insert(SmsRecord record) {
-        return smsRecordMapper.insert(record);
-    }
-
-    @Override
     public int insertSelective(SmsRecord record) {
         return smsRecordMapper.insertSelective(record);
     }
@@ -38,11 +33,6 @@ public class SmsRecordServiceImpl implements SmsRecordService {
     @Override
     public int updateByPrimaryKeySelective(SmsRecord record) {
         return smsRecordMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(SmsRecord record) {
-        return smsRecordMapper.updateByPrimaryKey(record);
     }
 
     @Override

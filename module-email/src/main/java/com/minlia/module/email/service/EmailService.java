@@ -37,6 +37,28 @@ public interface EmailService {
      * 发送文本邮件
      *
      * @param to
+     * @param templateCode
+     * @param variables
+     * @return
+     */
+    @Async
+    EmailRecord sendRichtextMail(String recipient, String[] to, String templateCode, Map<String, ?> variables);
+
+    /**
+     * 发送文本邮件
+     *
+     * @param to
+     * @param templateCode
+     * @param variables
+     * @return
+     */
+    @Async
+    EmailRecord sendRichtextMail(String recipient, String[] to, String templateCode, Map<String, ?> variables, LocaleEnum locale);
+
+    /**
+     * 发送文本邮件
+     *
+     * @param to
      * @param subject
      * @param content
      * @return
@@ -57,6 +79,8 @@ public interface EmailService {
 
     @Async
     EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, ?> variables, String templateCode, LocaleEnum locale);
+
+    EmailRecord sendHtmlMail(String recipient, String[] to, String subject, String content, Map<String, ?> variables, String templateCode, LocaleEnum locale);
 
     /**
      * 发送模版邮件

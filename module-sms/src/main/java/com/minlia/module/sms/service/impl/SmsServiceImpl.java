@@ -46,15 +46,25 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables) {
-        return this.sendRichtextSms(to, richtextCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
+        return this.sendRichtextSms(null, to, richtextCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
     }
 
     @Override
     public SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale) {
+        return this.sendRichtextSms(null, to, richtextCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
+    }
+
+    @Override
+    public SmsRecord sendRichtextSms(String recipient, String[] to, String richtextCode, Map<String, ?> variables) {
+        return this.sendRichtextSms(recipient, to, richtextCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
+    }
+
+    @Override
+    public SmsRecord sendRichtextSms(String recipient, String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale) {
         Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.SMS_TEMPLATE.name(), richtextCode, locale);
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, richtextCode);
         String content = TextReplaceUtils.replace(richtext.getContent(), variables);
-        SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
+        SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).recipient(recipient).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
         try {
             if (smsConfig.getRealSwitchFlag()) {
                 String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);

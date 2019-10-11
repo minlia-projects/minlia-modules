@@ -56,6 +56,11 @@ public class EmailRecordQRO extends QueryRequest {
     private String templateCode;
 
     /**
+     * 接收方
+     */
+    private String recipient;
+
+    /**
      * 主送人
      */
     private String sendTo;
