@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    public static final String JWT_TOKEN_HEADER_PARAM = "X-Authorization";
 
     public static final String OPEN_POINT = "/api/open/**";
+    public static final String OPEN_V_POINT = "/api/v*/open/**";
 
     public static final String LOGIN_ENTRY_POINT = "/api/auth/login";
     public static final String LOGOUT_ENTRY_POINT = "/api/auth/logout";
@@ -139,7 +140,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGOUT_ENTRY_POINT, TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
-                .antMatchers(OPEN_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
+                .antMatchers(OPEN_POINT, OPEN_V_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
 //                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)

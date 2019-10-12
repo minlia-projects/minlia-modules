@@ -64,29 +64,32 @@ public class AttachmentUploadEndpoint {
         return attachmentUploadService.upload(file, relationId, belongsTo);
     }
 
-//    public static void main(String[] agrs) throws IOException {
-//        byte[] data = null;
-//
-//        // 读取图片字节数组
-//        try {
-//
-//            InputStream in = new FileInputStream("/Users/garen/Pictures/下载.jpeg");
-//            data = new byte[in.available()];
-//            in.read(data);
-//            in.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        // 对字节数组Base64编码
-//        BASE64Encoder encoder = new BASE64Encoder();
-//        System.out.println(encoder.encode(data)); // 返回Base64编码过的字节数组字符串
-//
-//
-//        byte[] bytes = new BASE64Decoder().decodeBuffer(encoder.encode(data).trim());
-//        //转化为输入流
-//        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-//        FileUtils.copyInputStreamToFile(inputStream, new File("/Users/garen/upload/下载1"));
-//    }
+    public static void main(String[] agrs) throws IOException {
+        byte[] data = null;
+
+        // 读取图片字节数组
+        try {
+
+            InputStream in = new FileInputStream("/Users/garen/Pictures/下载.jpeg");
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 对字节数组Base64编码
+        BASE64Encoder encoder = new BASE64Encoder();
+        System.out.println(encoder.encode(data)); // 返回Base64编码过的字节数组字符串
+
+
+        byte[] bytes = new BASE64Decoder().decodeBuffer(encoder.encode(data).trim());
+        //转化为输入流
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+        FileUtils.copyInputStreamToFile(inputStream, new File("static/下载1.jpeg"));
+
+        String absolutePath = new File("static/下载1.jpeg").getAbsolutePath();
+        System.out.println(absolutePath);
+    }
 
 }
