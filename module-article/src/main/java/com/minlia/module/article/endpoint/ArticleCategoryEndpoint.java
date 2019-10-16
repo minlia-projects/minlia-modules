@@ -41,7 +41,7 @@ public class ArticleCategoryEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.UPDATE + "')")
-    @ApiOperation(value = "禁用/启用", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "禁用/启用", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @PutMapping(value = "disable/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response disable(@PathVariable Long id) {
         return Response.success(articleCategoryService.disable(id));

@@ -2,10 +2,12 @@ package com.minlia.module.article.entity;
 
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.modules.attachment.entity.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
 
 /**
  * 文章
@@ -65,6 +67,9 @@ public class Article extends AbstractEntity {
      * 封面
      */
     private String cover;
+    @Transient
+    private Attachment coverObj;
+
 
     /**
      * 关键字

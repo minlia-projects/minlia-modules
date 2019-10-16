@@ -54,17 +54,19 @@ public class ArticleServiceImpl implements ArticleService {
         ApiAssert.state(articleMapper.countByAll(ArticleQRO.builder().categoryId(cro.getCategoryId()).title(cro.getTitle()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         Article article = mapper.map(cro, Article.class);
+
+        //绑定附件
+        if (StringUtils.isNotBlank(cro.getCover())) {
+            String url = attachmentService.bindByAccessKey(cro.getCover(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
+            article.setCover(url);
+        }
+
         articleMapper.insertSelective(article);
 
         //设置标签
         if (CollectionUtils.isNotEmpty(cro.getLabelIds())) {
             this.setLabels(new ArticleSetLabelRO(article.getId(), cro.getLabelIds()));
         }
-
-        //绑定附件
-//        if (StringUtils.isNotBlank(cro.getCoverETag())) {
-//            attachmentService.bindByAccessKey(cro.getCoverETag(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
-//        }
         return article;
     }
 
@@ -84,12 +86,14 @@ public class ArticleServiceImpl implements ArticleService {
             this.setLabels(new ArticleSetLabelRO(article.getId(), uto.getLabelIds()));
         }
 
-        //绑定附件
-//        if (StringUtils.isNotBlank(uto.getCoverETag())) {
-//            attachmentService.bindByAccessKey(uto.getCoverETag(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
-//        }
-
         mapper.map(uto, article);
+
+        //绑定附件
+        if (StringUtils.isNotBlank(uto.getCover())) {
+            String url = attachmentService.bindByAccessKey(uto.getCover(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
+            article.setCover(url);
+        }
+
         articleMapper.updateByPrimaryKeySelective(article);
         return article;
     }
