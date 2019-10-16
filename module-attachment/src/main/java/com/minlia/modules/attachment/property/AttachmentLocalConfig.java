@@ -16,6 +16,13 @@ public class AttachmentLocalConfig {
 
     private String bucket;
 
-    private String region;
+//    private String region;
+//    private String endpoint;
+
+    private String host;
+
+    private String pathPatterns;
+
+    private String resourceLocations;
 
 }

@@ -133,19 +133,23 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
             e.printStackTrace();
         }
 
+        String url = attachmentLocalConfig.getHost() + attachmentLocalConfig.getPathPatterns() + path;
+
         Attachment attachment = Attachment.builder()
                 .relationId(relationId)
                 .belongsTo(belongsTo)
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .url(path)
+//                .url(path)
+                .url(url)
                 .size(file.getSize())
                 .accessKey(NumberGenerator.uuid32())
                 .build();
         attachmentService.create(attachment);
 
         AttachmentDTO dto = AttachmentDTO.builder()
-                .url(path)
+//                .url(path)
+                .url(url)
                 .eTag(attachment.getAccessKey())
                 .fileName(file.getName())
                 .originalFilename(file.getOriginalFilename())
@@ -165,19 +169,21 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
             e.printStackTrace();
         }
 
+        String url = attachmentLocalConfig.getHost() + attachmentLocalConfig.getPathPatterns() + path;
+
         Attachment attachment = Attachment.builder()
                 .relationId(relationId)
                 .belongsTo(belongsTo)
                 .name(uploadBody.getOriginalFilename())
                 .type(uploadBody.getContentType())
-                .url(path)
+                .url(url)
                 .size(uploadBody.getSize())
                 .accessKey(NumberGenerator.uuid32())
                 .build();
         attachmentService.create(attachment);
 
         AttachmentDTO dto = AttachmentDTO.builder()
-                .url(path)
+                .url(url)
                 .eTag(attachment.getAccessKey())
                 .fileName(uploadBody.getFileName())
                 .originalFilename(uploadBody.getOriginalFilename())

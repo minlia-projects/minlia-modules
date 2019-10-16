@@ -68,7 +68,11 @@ public class ArticleEndpoint {
     @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response id(@PathVariable Long id) {
-        return Response.success(articleService.queryById(id));
+        Article article = articleService.queryById(id);
+        if (null != article) {
+            article.setCoverObj(attachmentService.queryOne(AttachmentQRO.builder().relationId(article.getId().toString()).belongsTo(ArticleConstants.ARTICLE_COVER).build()));
+        }
+        return Response.success(article);
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")

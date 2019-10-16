@@ -1,5 +1,6 @@
 package com.minlia.module.article.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.modules.attachment.entity.Attachment;
@@ -68,6 +69,7 @@ public class Article extends AbstractEntity {
      */
     private String cover;
     @Transient
+    @JsonIgnoreProperties({"id", "createBy", "lastModifiedBy", "createDate", "lastModifiedDate"})
     private Attachment coverObj;
 
 
