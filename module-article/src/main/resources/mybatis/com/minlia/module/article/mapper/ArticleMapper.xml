@@ -271,70 +271,70 @@
     <sql id="BASE_DETAIL_CONDITION">
         <where>
             <if test="categoryId != null">
-                and category_id=#{categoryId,jdbcType=BIGINT}
+                and mat.category_id=#{categoryId,jdbcType=BIGINT}
             </if>
             <if test="title != null">
-                and title=#{title,jdbcType=VARCHAR}
+                and mat.title=#{title,jdbcType=VARCHAR}
             </if>
             <if test="content != null">
-                and content=#{content,jdbcType=VARCHAR}
+                and mat.content=#{content,jdbcType=VARCHAR}
             </if>
             <if test="description != null">
-                and description=#{description,jdbcType=VARCHAR}
+                and mat.description=#{description,jdbcType=VARCHAR}
             </if>
             <if test="locale != null">
-                and `locale`=#{locale,jdbcType=VARCHAR}
+                and mat.`locale`=#{locale,jdbcType=VARCHAR}
             </if>
             <if test="draftFlag != null">
-                and draft_flag=#{draftFlag,jdbcType=BOOLEAN}
+                and mat.draft_flag=#{draftFlag,jdbcType=BOOLEAN}
             </if>
             <if test="disFlag != null">
-                and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+                and mat.dis_flag=#{disFlag,jdbcType=BOOLEAN}
             </if>
             <if test="delFlag != null">
-                and del_flag=#{delFlag,jdbcType=BOOLEAN}
+                and mat.del_flag=#{delFlag,jdbcType=BOOLEAN}
             </if>
             <if test="readCount != null">
-                and read_count=#{readCount,jdbcType=BIGINT}
+                and mat.read_count=#{readCount,jdbcType=BIGINT}
             </if>
             <if test="cover != null">
-                and cover=#{cover,jdbcType=VARCHAR}
+                and mat.cover=#{cover,jdbcType=VARCHAR}
             </if>
             <if test="keywords != null">
-                and keywords=#{keywords,jdbcType=VARCHAR}
+                and mat.keywords=#{keywords,jdbcType=VARCHAR}
             </if>
             <if test="remark != null">
-                and remark=#{remark,jdbcType=VARCHAR}
+                and mat.remark=#{remark,jdbcType=VARCHAR}
             </if>
             <if test="attribute1 != null">
-                and attribute1=#{attribute1,jdbcType=VARCHAR}
+                and mat.attribute1=#{attribute1,jdbcType=VARCHAR}
             </if>
             <if test="attribute2 != null">
-                and attribute2=#{attribute2,jdbcType=VARCHAR}
+                and mat.attribute2=#{attribute2,jdbcType=VARCHAR}
             </if>
             <if test="attribute3 != null">
-                and attribute3=#{attribute3,jdbcType=VARCHAR}
+                and mat.attribute3=#{attribute3,jdbcType=VARCHAR}
             </if>
             <if test="attribute4 != null">
-                and attribute4=#{attribute4,jdbcType=VARCHAR}
+                and mat.attribute4=#{attribute4,jdbcType=VARCHAR}
             </if>
             <if test="attribute5 != null">
-                and attribute5=#{attribute5,jdbcType=VARCHAR}
+                and mat.attribute5=#{attribute5,jdbcType=VARCHAR}
             </if>
             <if test="createBy != null">
-                and create_by=#{createBy,jdbcType=VARCHAR}
+                and mat.create_by=#{createBy,jdbcType=VARCHAR}
             </if>
             <if test="lastModifiedBy != null">
-                and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+                and mat.last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
             </if>
             <if test="createDate != null">
-                and create_date=#{createDate,jdbcType=TIMESTAMP}
+                and mat.create_date=#{createDate,jdbcType=TIMESTAMP}
             </if>
             <if test="lastModifiedDate != null">
-                and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+                and mat.last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
             </if>
             <if test="id != null">
-                and id=#{id,jdbcType=BIGINT}
+                and mat.id=#{id,jdbcType=BIGINT}
             </if>
             <if test="labelId != null">
                 AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id = #{labelId})
