@@ -63,13 +63,14 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public void delete(Long id) {
-        ArticleCategory articleCategory = articleCategoryMapper.selectByPrimaryKey(id);
-        ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
+//        ArticleCategory articleCategory = articleCategoryMapper.selectByPrimaryKey(id);
+//        ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
 
         //判断是否有子项
-        long count = articleService.count(ArticleQRO.builder().categoryId(id).build());
-        ApiAssert.state(count == 0, "存在广告无法删除");
-        articleCategoryMapper.deleteByPrimaryKey(articleCategory.getId());
+//        long count = articleService.count(ArticleQRO.builder().categoryId(id).build());
+//        ApiAssert.state(count == 0, "存在广告无法删除");
+//        articleCategoryMapper.deleteByPrimaryKey(articleCategory.getId());
+        articleCategoryMapper.updateByPrimaryKeySelective(ArticleCategory.builder().id(id).delFlag(true).build());
     }
 
     @Override

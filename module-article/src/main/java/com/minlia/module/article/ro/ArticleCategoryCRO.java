@@ -31,4 +31,6 @@ public class ArticleCategoryCRO implements ApiRequestBody {
     @NotNull(message = "是否启用不能为空")
     private Boolean disFlag;
 
+    private Boolean delFlag;
+
 }

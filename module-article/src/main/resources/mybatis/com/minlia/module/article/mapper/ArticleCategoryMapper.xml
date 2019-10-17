@@ -16,7 +16,7 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, code, `name`, remark, dis_flag, create_by, create_date, last_modified_by, last_modified_date
+        id, code, `name`, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
     </sql>
 
     <sql id="BASE_CONDITION_LIST">
@@ -32,6 +32,9 @@
             </if>
             <if test="disFlag != null">
                 and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+            </if>
+            <if test="delFlag != null">
+                and del_flag=#{delFlag,jdbcType=BOOLEAN}
             </if>
             <if test="createBy != null">
                 and create_by=#{createBy,jdbcType=VARCHAR}
@@ -82,6 +85,9 @@
             <if test="disFlag != null">
                 dis_flag,
             </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
             <if test="createBy != null">
                 create_by,
             </if>
@@ -107,6 +113,9 @@
             </if>
             <if test="disFlag != null">
                 #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=BOOLEAN},
             </if>
             <if test="createBy != null">
                 #{createBy,jdbcType=VARCHAR},
@@ -138,6 +147,9 @@
             </if>
             <if test="disFlag != null">
                 dis_flag = #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=BOOLEAN},
             </if>
             <if test="createBy != null">
                 create_by = #{createBy,jdbcType=VARCHAR},

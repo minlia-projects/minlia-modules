@@ -47,14 +47,13 @@ public class ArticleCategoryEndpoint {
         return Response.success(articleCategoryService.disable(id));
     }
 
-//    @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.DELETE + "')")
-//    @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response delete(@PathVariable Long id) {
-//        articleCategoryService.delete(id);
-//        return Response.success();
-//    }
-
+    @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.DELETE + "')")
+    @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response delete(@PathVariable Long id) {
+        articleCategoryService.delete(id);
+        return Response.success();
+    }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
     @ApiOperation(value = "单个查询")
@@ -74,6 +73,7 @@ public class ArticleCategoryEndpoint {
     @ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response list(@RequestBody ArticleCategoryQRO qo) {
+        qo.setDelFlag(false);
         return Response.success(articleCategoryService.list(qo));
     }
 
@@ -81,6 +81,7 @@ public class ArticleCategoryEndpoint {
     @ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleCategoryQRO qo) {
+        qo.setDelFlag(false);
         return Response.success(articleCategoryService.page(qo, pageable));
     }
 

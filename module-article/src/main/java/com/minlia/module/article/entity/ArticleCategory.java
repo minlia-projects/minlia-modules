@@ -15,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class ArticleCategory extends AbstractEntity {
 
+    private Long id;
+
     /**
      * 名称
      */
@@ -34,6 +36,8 @@ public class ArticleCategory extends AbstractEntity {
      * 禁用标识
      */
     private Boolean disFlag;
+
+    private Boolean delFlag;
 
     /**
      * 文章子项

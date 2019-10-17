@@ -31,4 +31,6 @@ public class ArticleCategoryURO implements ApiRequestBody {
     @ApiModelProperty(value = "禁用标识")
     private Boolean disFlag;
 
+    private Boolean delFlag;
+
 }
