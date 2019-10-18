@@ -7,6 +7,7 @@ import com.minlia.module.article.ro.ArticleCategoryQRO;
 import com.minlia.module.article.service.ArticleCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -30,20 +31,39 @@ public class ArticleCategoryOpenEndpoint {
 //		return Response.success(articleCategoryService.count(qro));
 //	}
 //
-//	@ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-//	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
-//	public Response one(@RequestBody ArticleCategoryQRO qro) {
-//		qro.setEnabled(true);
-//		return Response.success(articleCategoryService.one(qro));
-//	}
+
+    @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response id(@PathVariable Long id) {
+        ArticleCategory articleCategory = articleCategoryService.selectByPrimaryKey(id);
+        articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId()));
+        return Response.success(articleCategory);
+    }
+
+
+    @ApiOperation(value = "单个查询", notes = "单个查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
+	public Response one(@RequestBody ArticleCategoryQRO qro) {
+        qro.setDisFlag(false);
+        qro.setDelFlag(false);
+        List<ArticleCategory> categories = articleCategoryService.list(qro);
+        if (CollectionUtils.isNotEmpty(categories)) {
+            categories.get(0).setArticles(articleCategoryService.queryArticleByCategoryId(categories.get(0).getId()));
+            return Response.success(categories.get(0));
+        } else {
+            return Response.success();
+        }
+
+	}
 
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@RequestBody ArticleCategoryQRO qro) {
         qro.setDisFlag(false);
+        qro.setDelFlag(false);
         List<ArticleCategory> categories = articleCategoryService.list(qro);
         categories.stream().forEach(articleCategory -> articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId())));
-        return Response.success();
+        return Response.success(categories);
     }
 
 //	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -5,11 +5,13 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.entity.ArticleLabel;
+import com.minlia.module.article.mapper.ArticleLabelRelationMapper;
 import com.minlia.module.article.ro.ArticleLabelQRO;
 import com.minlia.module.article.ro.ArticleLabelCRO;
 import com.minlia.module.article.ro.ArticleLabelURO;
 import com.minlia.module.article.mapper.ArticleLabelMapper;
 import com.minlia.module.article.service.ArticleLabelService;
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,9 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
 
     @Autowired
     private ArticleLabelMapper articleLabelMapper;
+
+    @Autowired
+    private ArticleLabelRelationMapper articleLabelRelationMapper;
 
     @Override
     public ArticleLabel create(ArticleLabelCRO cto) {
@@ -50,6 +55,7 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     public void delete(Long id) {
         ArticleLabel articleLabel = this.queryById(id);
         ApiAssert.notNull(articleLabel, SystemCode.Message.DATA_NOT_EXISTS);
+        articleLabelRelationMapper.deleteByLabelId(id);
         articleLabelMapper.deleteByPrimaryKey(articleLabel.getId());
     }
 
@@ -61,6 +67,12 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     @Override
     public long count(ArticleLabelQRO qo) {
         return articleLabelMapper.countByAll(qo);
+    }
+
+    @Override
+    public ArticleLabel one(ArticleLabelQRO qo) {
+        List<ArticleLabel> labels = articleLabelMapper.selectByAll(qo);
+        return CollectionUtils.isNotEmpty(labels) ? labels.get(0) : null;
     }
 
     @Override
