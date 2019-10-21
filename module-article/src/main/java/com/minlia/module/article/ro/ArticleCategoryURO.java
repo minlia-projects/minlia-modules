@@ -1,6 +1,7 @@
 package com.minlia.module.article.ro;
 
 import com.minlia.cloud.body.ApiRequestBody;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

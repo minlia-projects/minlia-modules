@@ -6,6 +6,7 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="locale" jdbcType="VARCHAR" property="locale"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="dis_flag" jdbcType="BOOLEAN" property="disFlag"/>
         <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
@@ -26,6 +27,9 @@
             </if>
             <if test="code != null">
                 and code=#{code,jdbcType=VARCHAR}
+            </if>
+            <if test="locale != null">
+                and `locale`=#{locale,jdbcType=VARCHAR}
             </if>
             <if test="remark != null">
                 and remark=#{remark,jdbcType=VARCHAR}
@@ -79,6 +83,9 @@
             <if test="name != null">
                 `name`,
             </if>
+            <if test="locale != null">
+                `locale`,
+            </if>
             <if test="remark != null">
                 remark,
             </if>
@@ -107,6 +114,9 @@
             </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="locale != null">
+                #{locale,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
@@ -141,6 +151,9 @@
             </if>
             <if test="name != null">
                 `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="locale != null">
+                `locale` = #{locale,jdbcType=VARCHAR},
             </if>
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},

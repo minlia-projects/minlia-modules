@@ -5,13 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.entity.ArticleCategory;
-import com.minlia.module.article.ro.ArticleCategoryQRO;
-import com.minlia.module.article.ro.ArticleQRO;
-import com.minlia.module.article.ro.ArticleCategoryCRO;
-import com.minlia.module.article.ro.ArticleCategoryURO;
 import com.minlia.module.article.mapper.ArticleCategoryMapper;
+import com.minlia.module.article.ro.ArticleCategoryCRO;
+import com.minlia.module.article.ro.ArticleCategoryQRO;
+import com.minlia.module.article.ro.ArticleCategoryURO;
 import com.minlia.module.article.service.ArticleCategoryService;
-import com.minlia.module.article.service.ArticleService;
 import com.minlia.module.article.vo.ArticleSimpleVO;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +28,12 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     private Mapper mapper;
 
     @Autowired
-    private ArticleService articleService;
-
-    @Autowired
     private ArticleCategoryMapper articleCategoryMapper;
 
     @Override
-    public ArticleCategory create(ArticleCategoryCRO cto) {
-        ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().code(cto.getCode()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
-        ArticleCategory articleCategory = mapper.map(cto, ArticleCategory.class);
+    public ArticleCategory create(ArticleCategoryCRO cro) {
+        ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().code(cro.getCode()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        ArticleCategory articleCategory = mapper.map(cro, ArticleCategory.class);
         articleCategoryMapper.insertSelective(articleCategory);
         return articleCategory;
     }

@@ -1,14 +1,13 @@
 package com.minlia.module.article.ro;
 
 import com.minlia.module.data.bean.QueryRequest;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -35,6 +34,11 @@ public class ArticleCategoryQRO extends QueryRequest {
     @ApiModelProperty(value = "编码", example = "XXXXXX")
     @Size(max = 50)
     private String code;
+
+    /**
+     * 语言环境
+     */
+    private LocaleEnum locale;
 
     @ApiModelProperty(value = "备注", example = "XXXXXX")
     @Size(max = 255)

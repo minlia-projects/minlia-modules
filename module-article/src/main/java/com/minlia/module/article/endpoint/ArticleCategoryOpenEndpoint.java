@@ -53,7 +53,6 @@ public class ArticleCategoryOpenEndpoint {
         } else {
             return Response.success();
         }
-
 	}
 
     @ApiOperation(value = "集合查询")

@@ -2,6 +2,7 @@ package com.minlia.module.article.entity;
 
 import com.minlia.module.article.vo.ArticleSimpleVO;
 import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import lombok.*;
 
 import java.util.List;
@@ -15,6 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ArticleCategory extends AbstractEntity {
 
+    /**
+     * ID
+     */
     private Long id;
 
     /**
@@ -28,6 +32,11 @@ public class ArticleCategory extends AbstractEntity {
     private String code;
 
     /**
+     * 语言环境
+     */
+    private LocaleEnum locale;
+
+    /**
      * 备注
      */
     private String remark;
@@ -37,6 +46,9 @@ public class ArticleCategory extends AbstractEntity {
      */
     private Boolean disFlag;
 
+    /**
+     * 删除标识
+     */
     private Boolean delFlag;
 
     /**
