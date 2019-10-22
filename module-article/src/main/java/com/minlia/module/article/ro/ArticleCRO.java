@@ -22,6 +22,10 @@ public class ArticleCRO implements ApiRequestBody {
     @ApiModelProperty(value = "标签ID集合")
     private List<Long> labelIds;
 
+    @NotBlank(message = "编码不能为空")
+    @Size(max = 64)
+    private String code;
+
     @NotBlank(message = "标题不能为空")
     @Size(max = 255)
     private String title;

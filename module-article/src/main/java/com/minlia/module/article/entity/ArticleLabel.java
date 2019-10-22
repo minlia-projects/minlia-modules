@@ -1,6 +1,7 @@
 package com.minlia.module.article.entity;
 
 import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,11 @@ import lombok.NoArgsConstructor;
 public class ArticleLabel extends AbstractEntity {
 
     /**
+     * 编码
+     */
+    private String code;
+
+    /**
      * 名称
      */
     private String name;
@@ -23,7 +29,7 @@ public class ArticleLabel extends AbstractEntity {
     /**
      * 语言环境
      */
-    private String locale;
+    private LocaleEnum locale;
 
     /**
      * 备注

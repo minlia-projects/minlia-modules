@@ -17,7 +17,7 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, code, `name`, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
+        id, code, `name`, `locale`, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
     </sql>
 
     <sql id="BASE_CONDITION_LIST">
@@ -181,7 +181,7 @@
     </update>
 
     <select id="queryArticleByCategoryId" resultType="com.minlia.module.article.vo.ArticleSimpleVO">
-        SELECT id,title FROM mdl_article where category_id = #{id} ORDER BY create_date DESC
+        SELECT id, `code`, title FROM mdl_article where category_id = #{id} ORDER BY create_date DESC
     </select>
 
     <select id="countByAll" resultType="long">

@@ -7,6 +7,7 @@ import com.minlia.module.article.ro.ArticleLabelCRO;
 import com.minlia.module.article.ro.ArticleLabelQRO;
 import com.minlia.module.article.ro.ArticleLabelURO;
 import com.minlia.module.article.service.ArticleLabelService;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,23 @@ public class ArticleLabelOpenEndpoint {
 	@Autowired
 	private ArticleLabelService articleLabelService;
 
-	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response id(@PathVariable Long id) {
-		return Response.success(articleLabelService.queryById(id));
+//	@ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+//	@RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//	public Response id(@PathVariable Long id) {
+//		return Response.success(articleLabelService.queryById(id));
+//	}
+
+	@ApiOperation(value = "编码查询", notes = "编码查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "{code}")
+	public Response id(@PathVariable String code) {
+		return Response.success(articleLabelService.one(ArticleLabelQRO.builder().code(code).locale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString())).disFlag(false).build()));
 	}
 
 	@ApiOperation(value = "计数查询", notes = "计数查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
 	@RequestMapping(value = "count", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response count(@RequestBody ArticleLabelQRO qo) {
 		qo.setDisFlag(false);
-		qo.setLocale(LocaleContextHolder.getLocale().toString());
+		qo.setLocale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
 		return Response.success(articleLabelService.count(qo));
 	}
 
@@ -45,7 +52,7 @@ public class ArticleLabelOpenEndpoint {
 	@RequestMapping(value = "one", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response one(@RequestBody ArticleLabelQRO qo) {
 		qo.setDisFlag(false);
-		qo.setLocale(LocaleContextHolder.getLocale().toString());
+		qo.setLocale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
 		return Response.success(articleLabelService.one(qo));
 	}
 
@@ -53,7 +60,7 @@ public class ArticleLabelOpenEndpoint {
 	@RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response list(@RequestBody ArticleLabelQRO qo) {
 		qo.setDisFlag(false);
-		qo.setLocale(LocaleContextHolder.getLocale().toString());
+		qo.setLocale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
 		return Response.success(articleLabelService.list(qo));
 	}
 
@@ -61,7 +68,7 @@ public class ArticleLabelOpenEndpoint {
 	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleLabelQRO qo) {
 		qo.setDisFlag(false);
-		qo.setLocale(LocaleContextHolder.getLocale().toString());
+		qo.setLocale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
 		return Response.success(articleLabelService.page(qo, pageable));
 	}
 

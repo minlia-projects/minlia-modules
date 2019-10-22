@@ -22,7 +22,6 @@ public class ArticleLabelURO implements ApiRequestBody {
     private String name;
 
     @ApiModelProperty(value = "语言环境", example = "zh_CN")
-    @Size(max = 255)
     private String locale;
 
     @ApiModelProperty(value = "备注", example = "XXXXXX")

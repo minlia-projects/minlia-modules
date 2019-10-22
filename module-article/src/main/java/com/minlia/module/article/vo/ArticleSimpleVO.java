@@ -20,6 +20,11 @@ public class ArticleSimpleVO {
     private Long id;
 
     /**
+     * 编码
+     */
+    private String code;
+
+    /**
      * 标题
      */
     private String title;

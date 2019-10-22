@@ -1,6 +1,7 @@
 package com.minlia.module.article.ro;
 
 import com.minlia.cloud.body.ApiRequestBody;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,14 +14,19 @@ import javax.validation.constraints.Size;
 @Data
 public class ArticleLabelCRO implements ApiRequestBody {
 
+    @ApiModelProperty(value = "编码", example = "HOME")
+    @NotBlank(message = "编码不能为空")
+    @Size(max = 64)
+    private String code;
+
     @ApiModelProperty(value = "名称", example = "首页")
     @NotBlank(message = "名称不能为空")
     @Size(max = 50)
     private String name;
 
-    @ApiModelProperty(value = "语言环境", example = "zh_CN")
-    @Size(max = 255)
-    private String locale;
+    @ApiModelProperty(value = "语言环境")
+    @NotNull
+    private LocaleEnum locale;
 
     @ApiModelProperty(value = "备注", example = "XXXXXX")
     @Size(max = 255)

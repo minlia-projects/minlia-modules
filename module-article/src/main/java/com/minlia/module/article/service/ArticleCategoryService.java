@@ -24,6 +24,8 @@ public interface ArticleCategoryService {
 
     long count(ArticleCategoryQRO qo);
 
+    ArticleCategory one(ArticleCategoryQRO qo);
+
     List<ArticleCategory> list(ArticleCategoryQRO qo);
 
     PageInfo<ArticleCategory> page(ArticleCategoryQRO qo, Pageable pageable);

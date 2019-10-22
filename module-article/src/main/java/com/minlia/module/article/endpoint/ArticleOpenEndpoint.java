@@ -5,11 +5,13 @@ import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.ro.ArticleQRO;
-import com.minlia.module.article.vo.ArticleVO;
 import com.minlia.module.article.service.ArticleService;
+import com.minlia.module.article.vo.ArticleVO;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -23,13 +25,23 @@ public class ArticleOpenEndpoint {
     @Autowired
     private ArticleService articleService;
 
-    @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response findByNumber(@PathVariable Long id) {
-        ArticleVO articleVO = articleService.oneVO(ArticleQRO.builder().id(id).draftFlag(false).disFlag(false).delFlag(false).build());
+//    @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @RequestMapping(value = "{id}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public Response findByNumber(@PathVariable Long id) {
+//        ArticleVO articleVO = articleService.oneVO(ArticleQRO.builder().id(id).draftFlag(false).disFlag(false).delFlag(false).build());
+//        ApiAssert.notNull(articleVO, SystemCode.Message.DATA_NOT_EXISTS);
+//        //每次查询阅读数加1
+//        articleService.plusReadCount(id, 1);
+//        return Response.success(articleVO);
+//    }
+
+    @ApiOperation(value = "编码查询", notes = "编码查询")
+    @GetMapping(value = "{code}")
+    public Response findByNumber(@PathVariable String code) {
+        ArticleVO articleVO = articleService.oneVO(ArticleQRO.builder().code(code).locale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString())).draftFlag(false).disFlag(false).delFlag(false).build());
         ApiAssert.notNull(articleVO, SystemCode.Message.DATA_NOT_EXISTS);
         //每次查询阅读数加1
-        articleService.plusReadCount(id, 1);
+        articleService.plusReadCount(articleVO.getId(), 1);
         return Response.success(articleVO);
     }
 

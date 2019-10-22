@@ -6,6 +6,7 @@
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="category_id" jdbcType="BIGINT" property="categoryId"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
@@ -30,7 +31,7 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, category_id, title, content, description, `locale`, draft_flag, dis_flag, del_flag,
+        id, category_id, `code`, title, content, description, `locale`, draft_flag, dis_flag, del_flag,
         read_count, cover, keywords, remark, attribute1, attribute2, attribute3, attribute4,
         attribute5, create_by, create_date, last_modified_by, last_modified_date
     </sql>
@@ -56,6 +57,9 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="categoryId != null">
                 category_id,
+            </if>
+            <if test="code != null">
+                `code`,
             </if>
             <if test="title != null">
                 title,
@@ -112,6 +116,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="categoryId != null">
                 #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
             </if>
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
@@ -173,6 +180,9 @@
         <set>
             <if test="categoryId != null">
                 category_id = #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                `code` = #{code,jdbcType=VARCHAR},
             </if>
             <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},
@@ -237,6 +247,7 @@
         SELECT
             mat.id,
             mat.category_id,
+            mat.code,
             mat.title,
             mat.content,
             mat.description,
@@ -272,6 +283,9 @@
         <where>
             <if test="categoryId != null">
                 and mat.category_id=#{categoryId,jdbcType=BIGINT}
+            </if>
+            <if test="code != null">
+                and mat.`code`=#{code,jdbcType=VARCHAR}
             </if>
             <if test="title != null">
                 and mat.title=#{title,jdbcType=VARCHAR}
@@ -337,15 +351,18 @@
                 and mat.id=#{id,jdbcType=BIGINT}
             </if>
             <if test="labelId != null">
-                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id = #{labelId})
+                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id =
+                #{labelId})
             </if>
         </where>
     </sql>
 
     <resultMap id="articleVOMap" type="com.minlia.module.article.vo.ArticleVO">
-        <id column="id" property="id" />
-        <collection property="labelIds" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelIdList" />
-        <collection property="labelNames" column="id" javaType="ArrayList" ofType="java.lang.String" select="queryLabelNameList" />
+        <id column="id" property="id"/>
+        <collection property="labelIds" column="id" javaType="ArrayList" ofType="java.lang.String"
+                    select="queryLabelIdList"/>
+        <collection property="labelNames" column="id" javaType="ArrayList" ofType="java.lang.String"
+                    select="queryLabelNameList"/>
     </resultMap>
 
     <select id="queryLabelIdList" resultType="java.lang.Long">
@@ -379,6 +396,9 @@
         where 1=1
         <if test="categoryId != null">
             and category_id=#{categoryId,jdbcType=BIGINT}
+        </if>
+        <if test="code != null">
+            and `code`=#{code,jdbcType=VARCHAR}
         </if>
         <if test="title != null">
             and title=#{title,jdbcType=VARCHAR}
@@ -449,6 +469,9 @@
         where 1=1
         <if test="categoryId != null">
             and category_id=#{categoryId,jdbcType=BIGINT}
+        </if>
+        <if test="code != null">
+            and `code`=#{code,jdbcType=VARCHAR}
         </if>
         <if test="title != null">
             and title=#{title,jdbcType=VARCHAR}

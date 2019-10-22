@@ -11,6 +11,7 @@ import com.minlia.module.article.ro.ArticleCategoryQRO;
 import com.minlia.module.article.ro.ArticleCategoryURO;
 import com.minlia.module.article.service.ArticleCategoryService;
 import com.minlia.module.article.vo.ArticleSimpleVO;
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -76,6 +77,15 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Override
     public long count(ArticleCategoryQRO qro) {
         return articleCategoryMapper.countByAll(qro);
+    }
+
+    @Override
+    public ArticleCategory one(ArticleCategoryQRO qro) {
+        List<ArticleCategory> list = articleCategoryMapper.selectByAll(qro);
+        if (CollectionUtils.isNotEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
     }
 
     @Override

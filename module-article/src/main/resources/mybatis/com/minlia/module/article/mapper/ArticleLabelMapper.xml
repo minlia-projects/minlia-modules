@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.minlia.module.article.entity.ArticleLabel">
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="locale" jdbcType="VARCHAR" property="locale"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
@@ -15,7 +16,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, `name`, `locale`, remark, dis_flag, create_by, create_date, last_modified_by,
+        id, `code`, `name`, `locale`, remark, dis_flag, create_by, create_date, last_modified_by,
         last_modified_date
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -35,6 +36,9 @@
         <!--@mbg.generated-->
         insert into mdl_article_label
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                `code`,
+            </if>
             <if test="name != null">
                 `name`,
             </if>
@@ -61,6 +65,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
@@ -91,6 +98,9 @@
         <!--@mbg.generated-->
         update mdl_article_label
         <set>
+            <if test="code != null">
+                `code` = #{code,jdbcType=VARCHAR},
+            </if>
             <if test="name != null">
                 `name` = #{name,jdbcType=VARCHAR},
             </if>
@@ -122,6 +132,9 @@
     <select id="countByAll" resultType="long">
         select count(1) from mdl_article_label
         where 1=1
+        <if test="code != null">
+            and `code`=#{code,jdbcType=VARCHAR}
+        </if>
         <if test="name != null">
             and `name`=#{name,jdbcType=VARCHAR}
         </if>
@@ -157,6 +170,9 @@
         <include refid="Base_Column_List"/>
         from mdl_article_label
         where 1=1
+        <if test="code != null">
+            and `code`=#{code,jdbcType=VARCHAR}
+        </if>
         <if test="name != null">
             and `name`=#{name,jdbcType=VARCHAR}
         </if>

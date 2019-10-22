@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,6 +32,9 @@ public class ArticleQRO extends QueryRequest {
      * 类目ID
      */
     private Long categoryId;
+
+    @Size(max = 64)
+    private String code;
 
     /**
      * 标题

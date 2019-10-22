@@ -11,9 +11,11 @@ import com.minlia.module.article.ro.ArticleLabelCRO;
 import com.minlia.module.article.ro.ArticleLabelURO;
 import com.minlia.module.article.mapper.ArticleLabelMapper;
 import com.minlia.module.article.service.ArticleLabelService;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
 
     @Override
     public ArticleLabel create(ArticleLabelCRO cto) {
-        ApiAssert.state(articleLabelMapper.countByAll(ArticleLabelQRO.builder().name(cto.getName()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        ApiAssert.state(articleLabelMapper.countByAll(ArticleLabelQRO.builder().code(cto.getCode()).locale(cto.getLocale()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
         ArticleLabel articleLabel = mapper.map(cto, ArticleLabel.class);
         articleLabelMapper.insertSelective(articleLabel);
         return articleLabel;
