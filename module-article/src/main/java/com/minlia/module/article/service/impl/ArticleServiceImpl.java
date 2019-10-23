@@ -7,6 +7,7 @@ import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.entity.Article;
+import com.minlia.module.article.entity.ArticleLabel;
 import com.minlia.module.article.mapper.ArticleLabelRelationMapper;
 import com.minlia.module.article.mapper.ArticleMapper;
 import com.minlia.module.article.ro.*;
@@ -75,6 +76,10 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = articleMapper.selectByPrimaryKey(uto.getId());
         ApiAssert.notNull(article, SystemCode.Message.DATA_NOT_EXISTS);
 
+        if (StringUtils.isNotBlank(uto.getCode()) && !uto.getCode().equals(article.getCode())) {
+            ApiAssert.state(articleMapper.countByAll(ArticleQRO.builder().code(uto.getCode()).locale(article.getLocale()).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        }
+
         //检查类目是否存在
         if (null != uto.getCategoryId()) {
             long count = articleCategoryService.count(ArticleCategoryQRO.builder().id(uto.getCategoryId()).build());
@@ -139,12 +144,18 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleVO> listVO(ArticleQRO qro) {
+        if (StringUtils.isNotBlank(qro.getLabelCode())) {
+            ArticleLabel articleLabel = articleLabelService.one(ArticleLabelQRO.builder().code(qro.getLabelCode()).locale(qro.getLocale()).build());
+            if (null != articleLabel) {
+                qro.setLabelId(articleLabel.getId());
+            }
+        }
         return articleMapper.listVO(qro);
     }
 
     @Override
     public PageInfo<ArticleVO> pageVO(ArticleQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> articleMapper.listVO(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> this.listVO(qro));
     }
 
     @Override

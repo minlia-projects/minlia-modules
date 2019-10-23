@@ -5,6 +5,7 @@ import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,6 +27,9 @@ public class ArticleURO implements ApiRequestBody {
     @ApiModelProperty(value = "标签ID集合")
     private List<Long> labelIds;
 
+    @Size(max = 64)
+    private String code;
+
     /**
      * 标题
      */
@@ -46,8 +50,7 @@ public class ArticleURO implements ApiRequestBody {
     /**
      * 语言环境
      */
-    @NotNull
-    private LocaleEnum locale;
+//    private LocaleEnum locale;
 
     /**
      * 草稿标识

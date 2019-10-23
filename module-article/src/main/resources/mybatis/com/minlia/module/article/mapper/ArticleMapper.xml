@@ -281,6 +281,15 @@
 
     <sql id="BASE_DETAIL_CONDITION">
         <where>
+
+            <if test="categoryCode != null">
+                and mact.`code`=#{categoryCode,jdbcType=VARCHAR}
+            </if>
+            <if test="labelId != null">
+                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id =
+                #{labelId})
+            </if>
+
             <if test="categoryId != null">
                 and mat.category_id=#{categoryId,jdbcType=BIGINT}
             </if>
@@ -349,10 +358,6 @@
             </if>
             <if test="id != null">
                 and mat.id=#{id,jdbcType=BIGINT}
-            </if>
-            <if test="labelId != null">
-                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id =
-                #{labelId})
             </if>
         </where>
     </sql>

@@ -58,6 +58,7 @@ public class ArticleOpenEndpoint {
         qo.setDraftFlag(false);
         qo.setDisFlag(false);
         qo.setDelFlag(false);
+        qo.setLocale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
         return Response.success(articleService.listVO(qo));
     }
 
@@ -67,6 +68,7 @@ public class ArticleOpenEndpoint {
         qo.setDraftFlag(false);
         qo.setDisFlag(false);
         qo.setDelFlag(false);
+        qo.setLocale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
         return Response.success(articleService.pageVO(qo, pageable));
     }
 

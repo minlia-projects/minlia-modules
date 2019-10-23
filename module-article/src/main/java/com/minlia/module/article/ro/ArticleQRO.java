@@ -32,6 +32,10 @@ public class ArticleQRO extends QueryRequest {
      * 类目ID
      */
     private Long categoryId;
+    private String categoryCode;
+
+    private Long labelId;
+    private String labelCode;
 
     @Size(max = 64)
     private String code;
@@ -126,8 +130,5 @@ public class ArticleQRO extends QueryRequest {
      */
     @Size(max = 255)
     private String attribute5;
-
-
-    private Long labelId;
 
 }
