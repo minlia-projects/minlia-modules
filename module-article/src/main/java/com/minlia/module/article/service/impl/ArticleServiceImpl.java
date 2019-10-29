@@ -52,7 +52,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Article create(ArticleCRO cro) {
         ApiAssert.state(articleCategoryService.count(ArticleCategoryQRO.builder().id(cro.getCategoryId()).build()) == 1, SystemCode.Message.DATA_NOT_EXISTS);
-        ApiAssert.state(articleMapper.countByAll(ArticleQRO.builder().categoryId(cro.getCategoryId()).code(cro.getCode()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        ApiAssert.state(articleMapper.countByAll(ArticleQRO.builder().code(cro.getCode()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         Article article = mapper.map(cro, Article.class);
 
@@ -144,12 +144,6 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleVO> listVO(ArticleQRO qro) {
-        if (StringUtils.isNotBlank(qro.getLabelCode())) {
-            ArticleLabel articleLabel = articleLabelService.one(ArticleLabelQRO.builder().code(qro.getLabelCode()).locale(qro.getLocale()).build());
-            if (null != articleLabel) {
-                qro.setLabelId(articleLabel.getId());
-            }
-        }
         return articleMapper.listVO(qro);
     }
 

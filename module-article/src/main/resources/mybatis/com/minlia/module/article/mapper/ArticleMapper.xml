@@ -286,8 +286,10 @@
                 and mact.`code`=#{categoryCode,jdbcType=VARCHAR}
             </if>
             <if test="labelId != null">
-                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id =
-                #{labelId})
+                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id = #{labelId})
+            </if>
+            <if test="labelCode != null">
+                AND EXISTS (SELECT 1 FROM mdl_article_label_relation m WHERE m.article_id = mat.id AND m.label_id IN (SELECT id FROM mdl_article_label WHERE `code` = #{labelCode}))
             </if>
 
             <if test="categoryId != null">
