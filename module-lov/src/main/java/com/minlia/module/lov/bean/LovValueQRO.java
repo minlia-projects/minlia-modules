@@ -49,10 +49,10 @@ public class LovValueQRO extends QueryRequest {
     @Size(max = 100)
     private String name;
 
-//    /**
-//     * 排序（升序）
-//     */
-//    private Byte sort;
+    /**
+     * 排序（升序）
+     */
+    private Integer sort;
 
     /**
      * 描述信息

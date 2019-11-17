@@ -3,6 +3,8 @@ package com.minlia.module.data.util;
 import com.minlia.module.common.constant.SymbolConstants;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.regex.Pattern;
+
 public class SensitiveInfoUtils {
 
     /**
@@ -195,17 +197,80 @@ public class SensitiveInfoUtils {
         return around(num, 1, 1, pad);
     }
 
+    /**
+     * [中文姓氏] 只显示第一个汉字，其他隐藏为2个星号<例子：李**>
+     * [英文姓氏] 只显示第一个字母，其他隐藏为2个星号<例子：S**>
+     */
+    public static String surname(final String surname, final String pad) {
+        if (surname.matches("[\\u4e00-\\u9fa5]+")) {
+            //中文名字
+            return left(surname, 1, pad);
+        } else {
+            //英文名字
+            StringBuilder sb = new StringBuilder();
+            String[] s = surname.split(SymbolConstants.SPACE);
+            for (String s1 : s) {
+                sb.append(left(s1, 1, pad)).append(SymbolConstants.SPACE);
+            }
+            return sb.toString().trim();
+        }
+    }
 
+//    public static Pattern ONLY_CHINESE_PATTERN = Pattern.compile("^[\\u4e00-\\u9fa5]+$");
+//    private static Pattern ONLY_ENGLISH_PATTERN = Pattern.compile("^[A-Za-z ]+$");
+
+    /**
+     * [中文名字] 全部隐藏<例子:**>
+     * [英文名字] 每个单词只显示首字母<例子:M**** A****>
+     */
+    public static String givenName(final String givenName, final String pad) {
+        if (givenName.matches("[\\u4e00-\\u9fa5]+")) {
+            //中文名字
+            return all(givenName, pad);
+        } else {
+            //英文名字
+            StringBuilder sb = new StringBuilder();
+            String[] s = givenName.split(SymbolConstants.SPACE);
+            for (String s1 : s) {
+                sb.append(left(s1, 1, pad)).append(SymbolConstants.SPACE);
+            }
+            return sb.toString().trim();
+        }
+    }
+
+    public static String mask(String givenName) {
+        StringBuilder sb = new StringBuilder();
+        String[] s = givenName.split(" ");
+        for (String s1 : s) {
+            sb.append(left(s1, 1, "*")).append(" ");
+        }
+        return sb.toString().trim();
+    }
 
     public static void main(String[] args) {
-//        String num = "13845678125";
-        String num = "456576547654877668";
-//        String num = "北京市海淀区三大放送大";
-        System.out.println(around(num, 3, 4,"*"));
-        System.out.println(left(num, 3, "*"));
-        System.out.println(right(num, 4, "*"));
-        System.out.println(leftPad(num, 4, "*"));
-        System.out.println(rightPad(num, 4, "*"));
+////        String num = "13845678125";
+//        String num = "456576547654877668";
+////        String num = "北京市海淀区三大放送大";
+//        System.out.println(around(num, 3, 4,"*"));
+//        System.out.println(left(num, 3, "*"));
+//        System.out.println(right(num, 4, "*"));
+//        System.out.println(leftPad(num, 4, "*"));
+//        System.out.println(rightPad(num, 4, "*"));
+
+//        System.out.println(surname("Aadsfsdaf", "*"));
+//        System.out.println(givenName("Aadsfsdaf", "*"));
+
+//        System.out.println("abgVBBG aaaa bbbb".matches("[a-zA-Z ]+"));
+//        System.out.println("Zzz Aaaa Bbbb".replaceAll("[a-z]{1} ", "*"));
+//        System.out.println("中".matches("[\\u4e00-\\u9fa5]+"));
+
+
+        System.out.println(surname("Aa", "*"));
+        System.out.println(surname("欧", "*"));
+
+        System.out.println(givenName("Zzz Aaaa Bbbb", "*"));
+        System.out.println(givenName("志鹏", "*"));
+
     }
 
 }

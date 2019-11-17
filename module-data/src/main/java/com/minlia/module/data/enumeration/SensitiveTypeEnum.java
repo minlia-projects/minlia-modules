@@ -73,4 +73,14 @@ public enum SensitiveTypeEnum {
 
     HK_CELLPHONE,
 
+    /**
+     * 姓氏
+     */
+    SURNAME,
+
+    /**
+     * 名字
+     */
+    GIVEN_NAME
+
 }

@@ -97,6 +97,12 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements Co
             case HK_CELLPHONE:
                 jsonGenerator.writeString(SensitiveInfoUtils.hkMobilePhone(s, pad));
                 break;
+            case SURNAME:
+                jsonGenerator.writeString(SensitiveInfoUtils.surname(s, pad));
+                break;
+            case GIVEN_NAME:
+                jsonGenerator.writeString(SensitiveInfoUtils.givenName(s, pad));
+                break;
         }
 
     }

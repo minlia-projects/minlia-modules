@@ -36,6 +36,11 @@ public class LovQRO extends QueryRequest {
     private String name;
 
     /**
+     * 排序（升序）
+     */
+    private Integer sort;
+
+    /**
      * 描述信息
      */
     @Size(max = 255)
@@ -65,8 +70,10 @@ public class LovQRO extends QueryRequest {
     @Size(max = 15)
     private String lastModifiedBy;
 
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime createDate;
 
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime lastModifiedDate;
 
 }
