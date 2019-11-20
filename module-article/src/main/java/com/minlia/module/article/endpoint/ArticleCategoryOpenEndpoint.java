@@ -46,7 +46,9 @@ public class ArticleCategoryOpenEndpoint {
     @RequestMapping(value = "{code}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response id(@PathVariable String code) {
         ArticleCategory articleCategory = articleCategoryService.one(ArticleCategoryQRO.builder().code(code).locale(LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString())).build());
-        articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId()));
+        if (null != articleCategory) {
+            articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId()));
+        }
         return Response.success(articleCategory);
     }
 
