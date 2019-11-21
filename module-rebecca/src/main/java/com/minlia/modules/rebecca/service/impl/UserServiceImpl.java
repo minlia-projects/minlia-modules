@@ -146,6 +146,7 @@ public class UserServiceImpl implements UserService {
 
         if (StringUtils.isNotBlank(uro.getPassword())) {
             user.setPassword(bCryptPasswordEncoder.encode(uro.getPassword()));
+            user.setCredentialsEffectiveDate(LocalDateTime.now().plusDays(sysSecurityConfig.getCredentialsEffectiveDays()));
         }
 
         if (null != uro.getDefaultRole()) {
