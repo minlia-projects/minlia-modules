@@ -26,6 +26,7 @@ import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.bean.AuditLogInfoQRO;
 import com.minlia.module.audit.entity.AuditLogInfo;
 import com.minlia.module.audit.service.AuditLogInfoService;
+import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.modules.security.context.MinliaSecurityContextHolder;
 import com.minlia.modules.security.model.UserContext;
 import io.swagger.annotations.Api;
@@ -117,7 +118,7 @@ public class AuditLogAspect {
         auditLogInfo.setMethod(request.getMethod());
         auditLogInfo.setUserAgent(request.getHeader("user-agent"));
         auditLogInfo.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-        auditLogInfo.setRemoteAddr(ServletUtil.getClientIP(request));
+        auditLogInfo.setRemoteAddr(RequestIpUtils.getClientIP(request));
 
         Api api = point.getTarget().getClass().getAnnotation(Api.class);
         if (null != api) {

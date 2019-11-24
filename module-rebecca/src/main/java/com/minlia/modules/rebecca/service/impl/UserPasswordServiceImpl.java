@@ -14,6 +14,7 @@ import com.minlia.modules.rebecca.constant.UserCode;
 import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import com.minlia.modules.rebecca.mapper.UserMapper;
 import com.minlia.modules.rebecca.service.UserPasswordService;
+import com.minlia.modules.security.config.SysSecurityConfig;
 import com.minlia.modules.security.model.token.TokenCacheUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class UserPasswordServiceImpl implements UserPasswordService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private SysSecurityConfig sysSecurityConfig;
 
     @Override
     public User forget(PasswordResetTO to) {
@@ -85,7 +89,7 @@ public class UserPasswordServiceImpl implements UserPasswordService {
 
         //设置新密码
         user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-        user.setCredentialsEffectiveDate(LocalDateTime.now().plusYears(1));
+        user.setCredentialsEffectiveDate(LocalDateTime.now().plusDays(sysSecurityConfig.getCredentialsEffectiveDays()));
         user.setLocked(Boolean.FALSE);
         user.setLockLimit(0);
         user.setLockTime(LocalDateTime.now());

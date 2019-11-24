@@ -27,7 +27,8 @@ public class RequestIpUtils {
         if (request == null) {
             return LOCALHOST_IP_V4;
         } else {
-            String ip = ServletUtil.getClientIP(request, otherHeaderNames);
+//            String ip = ServletUtil.getClientIP(request, otherHeaderNames);
+            String ip = BmpServletUtil.getClientIP(request, otherHeaderNames);
             return ip.equals(LOCALHOST_IP_V6) ? LOCALHOST_IP_V4 : ip;
         }
     }
