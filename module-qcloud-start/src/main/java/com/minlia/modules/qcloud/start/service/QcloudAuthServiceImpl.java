@@ -6,7 +6,7 @@ import com.minlia.modules.qcloud.start.body.QcloudApiTicketResponseBody;
 import com.minlia.modules.qcloud.start.body.QcloudApiTickets;
 import com.minlia.modules.qcloud.start.config.QcloudConfig;
 import com.minlia.modules.qcloud.start.constant.QcloudCode;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

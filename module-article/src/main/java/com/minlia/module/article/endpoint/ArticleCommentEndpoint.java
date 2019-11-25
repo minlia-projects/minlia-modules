@@ -6,7 +6,7 @@ import com.minlia.module.article.ro.ArticleCommentQRO;
 import com.minlia.module.article.ro.ArticleCommentCRO;
 import com.minlia.module.article.constant.ArticleConstants;
 import com.minlia.module.article.service.ArticleCommentService;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

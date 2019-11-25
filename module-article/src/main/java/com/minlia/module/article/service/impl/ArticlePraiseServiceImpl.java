@@ -12,7 +12,7 @@ import com.minlia.module.article.ro.ArticlePraiseRO;
 import com.minlia.module.article.mapper.ArticlePraiseMapper;
 import com.minlia.module.article.service.ArticlePraiseService;
 import com.minlia.module.article.service.ArticleService;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

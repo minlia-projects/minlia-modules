@@ -13,7 +13,7 @@ import com.minlia.module.article.vo.ArticleMyCommentVO;
 import com.minlia.module.article.mapper.ArticleCommentMapper;
 import com.minlia.module.article.service.ArticleCommentService;
 import com.minlia.module.article.service.ArticleService;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
