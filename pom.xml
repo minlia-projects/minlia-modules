@@ -5,7 +5,7 @@
 
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>minlia-modules</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Modules Parent</name>
 
@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <minlia.module.version>2.0.0-SNAPSHOT</minlia.module.version>
+        <minlia.module.version>3.0.0-SNAPSHOT</minlia.module.version>
     </properties>
 
     <modules>
@@ -107,15 +107,15 @@
         <tag>HEAD</tag>
     </scm>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>releases</id>
-            <url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-releases/</url>
-        </repository>
-    </distributionManagement>
+    <!--<distributionManagement>-->
+        <!--<snapshotRepository>-->
+            <!--<id>snapshots</id>-->
+            <!--<url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-snapshots/</url>-->
+        <!--</snapshotRepository>-->
+        <!--<repository>-->
+            <!--<id>releases</id>-->
+            <!--<url>http://nexus.microsoft.com.192.168.196.244.xip.io:7071/repository/minlia-releases/</url>-->
+        <!--</repository>-->
+    <!--</distributionManagement>-->
 
 </project>

@@ -80,20 +80,20 @@ public class QueryRequest implements Body {
     }
 
 
-    @JsonProperty("sort")
-    public String getSort() {
-        if (CollectionUtils.isNotEmpty(sorts)) {
-            StringJoiner sj = new StringJoiner(SymbolConstants.COMMA);
-            for (Sort sort : sorts) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(sort.getFiled()).append(SymbolConstants.SPACE).append(sort.getDirection().name());
-                sj.add(sb.toString());
-            }
-            return sj.toString();
-        } else {
-            return null;
-        }
-    }
+//    @JsonProperty("sort")
+//    public String getSort() {
+//        if (CollectionUtils.isNotEmpty(sorts)) {
+//            StringJoiner sj = new StringJoiner(SymbolConstants.COMMA);
+//            for (Sort sort : sorts) {
+//                StringBuilder sb = new StringBuilder();
+//                sb.append(sort.getFiled()).append(SymbolConstants.SPACE).append(sort.getDirection().name());
+//                sj.add(sb.toString());
+//            }
+//            return sj.toString();
+//        } else {
+//            return null;
+//        }
+//    }
 
 
     private static final String DOT_ASC = ".ASC";

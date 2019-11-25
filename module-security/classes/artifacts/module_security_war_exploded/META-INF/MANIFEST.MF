@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: Module Security
 Premain-Class: com.newrelic.bootstrap.BootstrapAgent
-Implementation-Version: 2.0.0-SNAPSHOT
+Implementation-Version: 3.0.0-SNAPSHOT
 Built-By: garen
 Can-Redefine-Classes: true
 Implementation-Vendor-Id: com.minlia.cloud.modules
