@@ -7,7 +7,7 @@
             id ,
             `type` ,
             code ,
-            thirdPartyCode ,
+            third_party_code ,
             locale ,
             subject ,
             content ,

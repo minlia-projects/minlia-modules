@@ -20,6 +20,11 @@ public class CaptchaConfig {
 //
 //    private Map<String,String> templates;
 
+    /**
+     * 产品
+     */
+    private String product;
+
     private Boolean realSwitchFlag = true;
 
     private Boolean randomCodeFlag = true;

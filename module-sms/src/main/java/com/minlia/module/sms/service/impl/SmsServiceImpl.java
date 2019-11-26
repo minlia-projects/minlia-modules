@@ -1,7 +1,6 @@
 package com.minlia.module.sms.service.impl;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonObject;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
@@ -12,15 +11,14 @@ import com.minlia.module.richtext.service.RichtextService;
 import com.minlia.module.sms.config.SmsConfig;
 import com.minlia.module.sms.constant.SmsCode;
 import com.minlia.module.sms.entity.SmsRecord;
-import com.minlia.module.sms.property.SmsProperties;
 import com.minlia.module.sms.service.SmsRecordService;
 import com.minlia.module.sms.service.SmsService;
 import com.minlia.module.sms.util.TextReplaceUtils;
 import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
+import com.minlia.modules.aliyun.sms.SmsSendService;
 import com.minlia.modules.otp.sms.OtpSmsService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -47,21 +45,7 @@ public class SmsServiceImpl implements SmsService {
     private SmsRecordService smsRecordService;
 
     @Autowired
-    private AliyunSmsSendService aliyunSmsSendService;
-
-    @Override
-    public SmsRecord send(String to, String templateCode, Map<String, ?> variables) {
-        SmsRecord smsRecord = SmsRecord.builder().channel(smsConfig.getChannel()).sendTo(to).code(templateCode).locale(LocaleContextHolder.getLocale().toString()).build();
-        switch (smsConfig.getChannel()) {
-            case ALIYUN:
-                boolean bool = aliyunSmsSendService.send(to, templateCode, JSONObject.fromObject(variables).toString());
-                smsRecord.setSuccessFlag(bool);
-                break;
-            default:
-                ApiAssert.state(false, SmsCode.Message.UNSUPPORTED_WAY);
-        }
-        return smsRecord;
-    }
+    private SmsSendService aliyunSmsSendService;
 
     @Override
     public SmsRecord sendRichtextSms(String[] to, String templateCode, Map<String, ?> variables) {
@@ -82,16 +66,27 @@ public class SmsServiceImpl implements SmsService {
     public SmsRecord sendRichtextSms(String recipient, String[] to, String templateCode, Map<String, ?> variables, LocaleEnum locale) {
         Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.SMS_TEMPLATE.name(), templateCode, locale);
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
+        String sendTo = String.join(SymbolConstants.COMMA, Lists.newArrayList(to));
         String content = TextReplaceUtils.replace(richtext.getContent(), variables);
-        SmsRecord smsRecord = SmsRecord.builder().channel(smsConfig.getChannel()).recipient(recipient).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).code(templateCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
+        SmsRecord smsRecord = SmsRecord.builder().channel(smsConfig.getChannel()).recipient(recipient).sendTo(sendTo).code(templateCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
         try {
             if (smsConfig.getRealSwitchFlag()) {
-                String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
-                smsRecord.setRemark(result);
+                switch (smsConfig.getChannel()) {
+                    case ALIYUN:
+                        boolean bool = aliyunSmsSendService.send(to[0], richtext.getThirdPartyCode(), JSONObject.fromObject(variables).toString());
+                        smsRecord.setSuccessFlag(bool);
+                        break;
+                    case OPT:
+                        String result = otpSmsService.send(null, sendTo, content);
+                        smsRecord.setRemark(result);
+                        smsRecord.setSuccessFlag(true);
+                        break;
+                    default:
+                        ApiAssert.state(false, SmsCode.Message.UNSUPPORTED_WAY);
+                }
             } else {
                 smsRecord.setRemark("unreal");
             }
-            smsRecord.setSuccessFlag(true);
         } catch (Exception e) {
             smsRecord.setRemark(e.getMessage());
             smsRecord.setSuccessFlag(false);

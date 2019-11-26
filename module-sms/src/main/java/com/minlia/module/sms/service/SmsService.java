@@ -14,16 +14,7 @@ public interface SmsService {
 
     /**
      * 发送短信
-     * @param to
-     * @param templateCode
-     * @param variables
-     * @return
-     */
-    @Async
-    SmsRecord send(String to, String templateCode, Map<String, ?> variables);
-    
-    /**
-     * 发送短信
+     *
      * @param to
      * @param templateCode
      * @param variables
@@ -34,6 +25,7 @@ public interface SmsService {
 
     /**
      * 发送短信
+     *
      * @param to
      * @param templateCode
      * @param variables
@@ -45,6 +37,7 @@ public interface SmsService {
 
     /**
      * 发送短信
+     *
      * @param to
      * @param templateCode
      * @param variables
@@ -55,6 +48,7 @@ public interface SmsService {
 
     /**
      * 发送短信
+     *
      * @param to
      * @param templateCode
      * @param variables

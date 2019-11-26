@@ -83,6 +83,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         if (captchaConfig.getRealSwitchFlag()) {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
+            variables.put("product", captchaConfig.getProduct());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
 //            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables);
             smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
