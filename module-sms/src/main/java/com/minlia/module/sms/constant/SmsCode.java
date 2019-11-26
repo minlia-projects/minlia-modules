@@ -25,7 +25,9 @@ public class SmsCode {
         /**
          * 短信发送失败
          */
-        SEND_FAILED;
+        SEND_FAILED,
+
+        UNSUPPORTED_WAY;
 
         @Override
         public String code() {

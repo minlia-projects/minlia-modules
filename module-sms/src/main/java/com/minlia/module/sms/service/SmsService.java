@@ -9,50 +9,59 @@ import java.util.Map;
 /**
  * Created by garen on 2018/8/10.
  */
+@Async
 public interface SmsService {
 
     /**
      * 发送短信
      * @param to
-     * @param richtextCode
+     * @param templateCode
      * @param variables
      * @return
      */
     @Async
-    SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables);
+    SmsRecord send(String to, String templateCode, Map<String, ?> variables);
+    
+    /**
+     * 发送短信
+     * @param to
+     * @param templateCode
+     * @param variables
+     * @return
+     */
+    @Async
+    SmsRecord sendRichtextSms(String[] to, String templateCode, Map<String, ?> variables);
 
     /**
      * 发送短信
      * @param to
-     * @param richtextCode
+     * @param templateCode
      * @param variables
      * @param locale
      * @return
      */
     @Async
-    SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale);
-
-
+    SmsRecord sendRichtextSms(String[] to, String templateCode, Map<String, ?> variables, LocaleEnum locale);
 
     /**
      * 发送短信
      * @param to
-     * @param richtextCode
+     * @param templateCode
      * @param variables
      * @return
      */
     @Async
-    SmsRecord sendRichtextSms(String recipient, String[] to, String richtextCode, Map<String, ?> variables);
+    SmsRecord sendRichtextSms(String recipient, String[] to, String templateCode, Map<String, ?> variables);
 
     /**
      * 发送短信
      * @param to
-     * @param richtextCode
+     * @param templateCode
      * @param variables
      * @param locale
      * @return
      */
     @Async
-    SmsRecord sendRichtextSms(String recipient, String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale);
+    SmsRecord sendRichtextSms(String recipient, String[] to, String templateCode, Map<String, ?> variables, LocaleEnum locale);
 
 }

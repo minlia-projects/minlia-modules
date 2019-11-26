@@ -1,6 +1,7 @@
 package com.minlia.module.sms.entity;
 
 import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.sms.enums.SmsChannelEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class SmsRecord extends AbstractEntity {
     /**
      * 通道
      */
-    private String channel;
+    private SmsChannelEnum channel;
 
     /**
      * 编码

@@ -5,8 +5,9 @@
     <sql id="QUERY_CONTENT">
         SELECT
             id ,
-            type ,
+            `type` ,
             code ,
+            thirdPartyCode ,
             locale ,
             subject ,
             content ,
@@ -25,7 +26,7 @@
                 id = #{id}
             </if>
             <if test="type != null">
-                AND type = #{type}
+                AND `type` = #{type}
             </if>
             <if test="code != null">
                 AND code = #{code}
@@ -44,8 +45,9 @@
 
     <insert id="create">
         INSERT INTO mdl_richtext(
-            type ,
+            `type` ,
             code ,
+            third_party_code ,
             locale ,
             subject ,
             content ,
@@ -58,6 +60,7 @@
         VALUES (
             #{type} ,
             #{code} ,
+            #{thirdPartyCode} ,
             #{locale} ,
             #{subject} ,
             #{content} ,
@@ -73,10 +76,13 @@
         UPDATE mdl_richtext
         <set>
             <if test="type != null">
-                type = #{type},
+                `type` = #{type},
             </if>
             <if test="code != null">
                 code = #{code},
+            </if>
+            <if test="thirdPartyCode != null">
+                third_party_code = #{thirdPartyCode},
             </if>
             <if test="locale != null">
                 locale = #{locale},

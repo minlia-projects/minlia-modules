@@ -27,6 +27,11 @@ public class Richtext extends AbstractEntity {
     private String code;
 
     /**
+     * 第三方编码
+     */
+    private String thirdPartyCode;
+
+    /**
      * 主题
      */
     private String subject;
