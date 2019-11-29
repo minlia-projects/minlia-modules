@@ -7,6 +7,7 @@ import com.minlia.cloud.body.Body;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.constant.SymbolConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.validation.constraints.Max;
@@ -23,7 +24,7 @@ public class QueryRequest implements Body {
     private Integer page;
 
     //    @JsonIgnore
-    @Max(3000)
+    @Range(min = 1, max = 3000)
     private Integer size;
 
     public QueryRequest() {
@@ -46,19 +47,19 @@ public class QueryRequest implements Body {
         return sortsStr;
     }
 
-    @Value("${system.pagination.minimum-page-number:0}")
-    public Integer minimumPageSize;
-
-    @Value("${system.pagination.maximumPageSize:2000}")
-    public Integer maximumPageSize;
+//    @Value("${system.pagination.minimum-page-number:0}")
+//    public Integer minimumPageSize;
+//
+//    @Value("${system.pagination.maximumPageSize:2000}")
+//    public Integer maximumPageSize;
 
     public void setPage(Integer page) {
-        ApiAssert.state(size < minimumPageSize, "MINIMUM_PAGINATION_NUMBER", "Minimum value cannot be less than" + minimumPageSize);
+//        ApiAssert.state(size < minimumPageSize, "MINIMUM_PAGINATION_NUMBER", "Minimum value cannot be less than" + minimumPageSize);
         this.page = page;
     }
 
     public void setSize(Integer size) {
-        ApiAssert.state(size > maximumPageSize, "MAXIMUM_PAGINATION_SIZE", "Maximum value cannot be greater than" + maximumPageSize);
+//        ApiAssert.state(size > maximumPageSize, "MAXIMUM_PAGINATION_SIZE", "Maximum value cannot be greater than" + maximumPageSize);
         this.size = size;
     }
 
