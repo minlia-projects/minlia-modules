@@ -34,34 +34,29 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Override
     public User registration(UserRegistrationTO to) {
-        User user = userService.create(UserCTO.builder()
-//                .method(to.getType())
-//                .username(to.getUsername())
-//                .cellphone(to.getCellphone())
-//                .email(to.getEmail())
+        UserCTO userCTO = UserCTO.builder()
                 .password(to.getPassword())
                 .defaultRole(SecurityConstant.ROLE_USER_CODE)
                 .roles(Sets.newHashSet(SecurityConstant.ROLE_USER_CODE))
                 .referral(to.getReferral())
                 .nickname(to.getNickname())
-                .build());
+                .build();
 
         switch (to.getType()) {
             case USERNAME:
                 ApiAssert.state(false, UserCode.Message.UNSUPPORTED_USERNAME_REGISTERED);
-                user.setUsername(to.getUsername());
+                userCTO.setUsername(to.getUsername());
                 break;
             case CELLPHONE:
                 captchaService.validityByCellphone(to.getCellphone(), to.getCode());
-                user.setCellphone(to.getCellphone());
+                userCTO.setCellphone(to.getCellphone());
                 break;
             case EMAIL:
                 captchaService.validityByEmail(to.getEmail(), to.getCode());
-                user.setEmail(to.getEmail());
+                userCTO.setEmail(to.getEmail());
                 break;
         }
-
-        return user;
+        return userService.create(userCTO);
     }
 
     @Override

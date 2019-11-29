@@ -1,7 +1,6 @@
 package com.minlia.modules.rebecca.service;
 
 
-import com.minlia.cloud.code.Code;
 import com.minlia.modules.rebecca.bean.domain.User;
 import com.minlia.modules.rebecca.bean.to.UserCTO;
 import com.minlia.modules.rebecca.bean.to.UserUTO;

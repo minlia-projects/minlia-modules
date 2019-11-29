@@ -14,10 +14,12 @@ import java.time.LocalDateTime;
 public abstract class WithDateEntity extends WithIdEntity {
 
     @CreatedDate
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime createDate;
 
     @LastModifiedDate
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
+    private LocalDateTime lastModifiedDate;
 
     public LocalDateTime getCreateDate() {
         return createDate;
