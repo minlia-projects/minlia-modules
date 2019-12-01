@@ -115,6 +115,11 @@
         WHERE code = #{code,jdbcType=VARCHAR}
     </select>
 
+    <select id="count" resultType="long">
+        select count(1) from mdl_district
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
     <select id="queryOne" resultType="com.minlia.module.disrtict.bean.domain.District">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
