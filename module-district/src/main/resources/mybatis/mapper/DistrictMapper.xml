@@ -47,30 +47,30 @@
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO mdl_district(
-			parent ,
-			adcode ,
-			citycode ,
-			center ,
-			name ,
-			level ,
-			address ,
-			fullcode ,
-			create_by
-		)
-		VALUES
-		(
-			#{parent} ,
-			#{adcode} ,
-			#{citycode} ,
-			#{center} ,
-			#{name} ,
-			#{level} ,
-			#{address} ,
-			#{fullcode} ,
-			#{createBy}
-		)
-	</insert>
+        INSERT INTO mdl_district(
+        parent ,
+        adcode ,
+        citycode ,
+        center ,
+        name ,
+        level ,
+        address ,
+        fullcode ,
+        create_by
+        )
+        VALUES
+        (
+        #{parent} ,
+        #{adcode} ,
+        #{citycode} ,
+        #{center} ,
+        #{name} ,
+        #{level} ,
+        #{address} ,
+        #{fullcode} ,
+        #{createBy}
+        )
+    </insert>
 
     <update id="update" parameterType="com.minlia.module.disrtict.bean.domain.District">
         UPDATE mdl_district
@@ -102,8 +102,8 @@
     </update>
 
     <delete id="delete">
-		DELETE FROM mdl_district WHERE id = #{id}
-	</delete>
+        DELETE FROM mdl_district WHERE id = #{id}
+    </delete>
 
     <select id="queryById" resultType="com.minlia.module.disrtict.bean.domain.District">
         <include refid="QUERY_CONTENT"/>
@@ -113,6 +113,11 @@
     <select id="queryByAdCode" resultType="com.minlia.module.disrtict.bean.domain.District">
         <include refid="QUERY_CONTENT"/>
         WHERE code = #{code,jdbcType=VARCHAR}
+    </select>
+
+    <select id="count" resultType="long">
+        select count(1) from mdl_district
+        <include refid="QUERY_CONDITION"/>
     </select>
 
     <select id="queryOne" resultType="com.minlia.module.disrtict.bean.domain.District">
