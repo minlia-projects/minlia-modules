@@ -58,7 +58,7 @@ public class OssService implements InitializingBean {
     private OssFile ossUpload(String key, InputStream inputStream, ObjectMetadata metadata) {
         OssFile result = null;
         try {
-            PutObjectResult putObjectResult = AliyunOssClient.ossClient().putObject(properties.getBucket(), key, inputStream, metadata);
+            PutObjectResult putObjectResult = AliyunOssClient.instance().putObject(properties.getBucket(), key, inputStream, metadata);
             result = new OssFile(putObjectResult.getETag());
             result.setUrl(builderUrl(key));
             result.setSize(metadata.getContentLength());

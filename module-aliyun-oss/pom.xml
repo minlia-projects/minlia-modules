@@ -22,20 +22,20 @@
         <aliyun-oss.version>2.2.1</aliyun-oss.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>oschina-v3-maven2-repository</id>
-            <name>oschina-v3-maven2-repository</name>
-            <url>http://git.oschina.net/v3/maven2/raw/master/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>oschina-v3-maven2-repository</id>-->
+<!--            <name>oschina-v3-maven2-repository</name>-->
+<!--            <url>http://git.oschina.net/v3/maven2/raw/master/</url>-->
+<!--            <layout>default</layout>-->
+<!--            <releases>-->
+<!--                <enabled>true</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>false</enabled>-->
+<!--            </snapshots>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 
     <dependencies>
 
@@ -51,10 +51,16 @@
             <version>${commons-io.version}</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun.oss</groupId>-->
+<!--            <artifactId>aliyun-sdk-oss</artifactId>-->
+<!--            <version>${aliyun-oss.version}</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>${aliyun-oss.version}</version>
+            <version>3.8.0</version>
         </dependency>
 
         <dependency>
