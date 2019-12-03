@@ -73,6 +73,10 @@ public class QueryRequest implements Body {
         return StringUtils.isNotBlank(sortsStr) ? CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortsStr.replace(DOT_ASC, SPACE_ASC).replace(DOT_DESC, SPACE_DESC).replace(SymbolConstants.ZHX, SymbolConstants.COMMA)) : null;
     }
 
+    public void setSortsStr(String sortsStr) {
+        this.sortsStr = sortsStr;
+    }
+
     public static void main(String[] args) {
         String sortsStr = "id.DESC-name.ASC";
         System.out.println(CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, sortsStr.replace(DOT_ASC, SPACE_ASC).replace(DOT_DESC, SPACE_DESC).replace(SymbolConstants.ZHX, SymbolConstants.COMMA)));
