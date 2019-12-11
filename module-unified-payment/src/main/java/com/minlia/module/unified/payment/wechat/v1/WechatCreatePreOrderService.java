@@ -7,13 +7,13 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceApacheHttpImpl;
 import com.minlia.cloud.body.Response;
 import com.minlia.module.common.util.NumberGenerator;
+import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.unified.payment.CreatePreOrderService;
 import com.minlia.module.unified.payment.bean.CreatePreOrderRequest;
 import com.minlia.module.unified.payment.entity.UnifiedOrder;
 import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
 import com.minlia.module.unified.payment.enumeration.PayOperationEnum;
 import com.minlia.module.unified.payment.service.UnifiedOrderService;
-import com.minlia.module.unified.payment.util.RequestIpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,7 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
                 .openid(body.getOpenid())
                 .body(body.getBody())
                 .attach(body.getAttach())
-                .spbillCreateIp(RequestIpUtils.getIpAddr())
+                .spbillCreateIp(RequestIpUtils.getClientIP())
                 .build();
 
         if (null != body.getTradeType()) {
@@ -110,7 +110,7 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
         WxPayUnifiedOrderRequest request = (WxPayUnifiedOrderRequest) o;
         request.setOutTradeNo(StringUtils.isEmpty(request.getOutTradeNo()) ? NumberGenerator.generatorByYMDHMSS(DEFAULT_WECHAT_ORDER_NUMBER_PREFIX, 1) : request.getOutTradeNo());
         request.setNotifyUrl(wxPayService.getConfig().getNotifyUrl());
-        request.setSpbillCreateIp(RequestIpUtils.getIpAddr());
+        request.setSpbillCreateIp(RequestIpUtils.getClientIP());
         try {
             Object result = wxPayService.createOrder(request);
 

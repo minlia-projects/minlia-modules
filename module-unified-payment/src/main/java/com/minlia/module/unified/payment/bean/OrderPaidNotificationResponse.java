@@ -32,14 +32,20 @@ public class OrderPaidNotificationResponse implements Body {
     private String paidBy;//openid buyerId
 
     /**
-     * 付款金额
+     * 付款金额:total_fee
      */
-    private Integer amount;//total_fee receiptAmount
+    private Integer amount;
 
-    private String subject;//付款主题, 为买什么而支付
+    /**
+     * 付款主题, 为买什么而支付
+     */
+    private String subject;
 
-    private String body;//付款备注  attach ro
+    /**
+     * 付款备注
+     */
+    private String body;
 
-    private String sign;//sign
+    private String sign;
 
 }

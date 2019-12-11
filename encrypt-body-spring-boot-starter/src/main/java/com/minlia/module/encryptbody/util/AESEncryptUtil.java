@@ -9,6 +9,8 @@ import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+import java.security.NoSuchAlgorithmException;
 
 public class AESEncryptUtil {
 
@@ -20,6 +22,15 @@ public class AESEncryptUtil {
     public static String generateKey() {
         byte[] key = SecureUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded();
         return Base64Encoder.encode(key);
+    }
+
+    public static String generateIv() {
+//        Cipher cipher = Cipher.getInstance(SymmetricAlgorithm.AES.getValue());
+//        SecureRandom randomSecureRandom = new SecureRandom();
+//        byte[] iv = new byte[cipher.getBlockSize()];
+//        randomSecureRandom.nextBytes(iv);
+//        return new String(iv, "UTF-8");
+        return RandomStringUtils.randomAlphanumeric(16);
     }
 
     /**
@@ -110,14 +121,21 @@ public class AESEncryptUtil {
 //        System.out.println("解密后的参数：" + decrypt(encryptStr, key, iv));
 //    }
 
-    public static void main(String[] args) {
-        String key = "zZyWl39ow6T0i4zIWJbfkA==";
-        String iv = "YSqr2v2jOsAZtQZi";
+    public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException {
+        String key = "1UqxUHXS5flqZO7Bv+B1kQ==";
+        String iv = "YWx1B0FSDiDAvx==";
+//        String key = "zZyWl39ow6T0i4zIWJbfkA==";
+//        String iv = "YSqr2v2jOsAZtQZi";
 
         AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
-        String data = "{\"cellphone\":\"99990002\"}";
 
-        System.out.println(decrypt("2bxib+VZ5IpjzQyB5aBzuSLf7jzMhb9aAbIgdR1+C+0fIHvT+U5HfR9w+JQw5tivzJe270rPBhOei33AjtDU1g==", key, iv));
+        System.out.println(encrypt("{ \"beginDateTime\": \"2019-12-06T19:12:47\", \"hours\": 8 }", key, iv));
+        System.out.println(decrypt("iLooMmFFCYsfDHuqp0B/kF7XgX9J4f8BR2scvqYXUyiyuJew8cHgaDIBw70EdmyepQa/XdvmGNIxhcOPcJzagw==", key, iv));
+
+
+//        {
+//            "data":"utp2P0b8AoH8BJyi0VXwklNTl/q03QRQPtjhs8Tg8AijOdwLO+3hgYLPpcA/jwrtLbiHBv9CK7sqFv6DcXNNkQ=="
+//        }
 
 //        System.out.println(encrypt(data, key, iv));
 //        System.out.println(decrypt(encrypt(data, key, iv), key, iv));

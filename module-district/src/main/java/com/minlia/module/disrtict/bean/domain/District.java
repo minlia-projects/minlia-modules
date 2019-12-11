@@ -59,6 +59,8 @@ public class District extends AbstractEntity {
      */
     private String parent;
 
+    private Boolean hasChild;
+
     /**
      * 所有编码
      */

@@ -11,7 +11,6 @@ import com.minlia.module.disrtict.mapper.DistrictMapper;
 import com.minlia.module.gad.yuntu.config.GadYuntuConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,36 +37,38 @@ public class DistrictServiceImpl implements DistrictService {
     public Response initAllDstrict() {
         Map<String, Object> resultMap = restTemplate.getForObject(String.format(GAODE_MAP_URL_MAP_CHILDREN, 4, gadYuntuConfig.getWebApiKey()), Map.class);
 
-        if(resultMap.get("status").equals("1")) {
+        if (resultMap.get("status").equals("1")) {
             List<Map<String, Object>> districts = (List<Map<String, Object>>) resultMap.get("districts");
             //获取行政区域级别--国家
             Map<String, Object> parentMap = districts.get(0);
-            saveChildrenDistrictByParentDistrict(parentMap,null,null);
+            saveChildrenDistrictByParentDistrict(parentMap, null, null);
         }
         return Response.success();
     }
 
     /**
      * 根据父级保存子级下的行政区域
+     *
      * @param mapResultSet
      * @param parentCode
      * @param parentAddress
      */
-    private void saveChildrenDistrictByParentDistrict(Map<String, Object> mapResultSet,String parentCode,String parentAddress){
+    private void saveChildrenDistrictByParentDistrict(Map<String, Object> mapResultSet, String parentCode, String parentAddress) {
         List<Map<String, Object>> districts = (List<Map<String, Object>>) mapResultSet.get("districts");
         for (Map<String, Object> districtMap : districts) {
-            saveMapDistrict(districtMap,parentCode, parentAddress);
-            saveChildrenDistrictByParentDistrict(districtMap,(null == parentCode ? "" : parentCode + ",") + districtMap.get("adcode"), (null == parentAddress ? "" : parentAddress + ",") + districtMap.get("name"));
+            saveMapDistrict(districtMap, parentCode, parentAddress);
+            saveChildrenDistrictByParentDistrict(districtMap, (null == parentCode ? "" : parentCode + ",") + districtMap.get("adcode"), (null == parentAddress ? "" : parentAddress + ",") + districtMap.get("name"));
         }
     }
 
     /**
      * 保存地图上的行政区域
+     *
      * @param districtMap
      * @param parentCode
      * @param parentAddress
      */
-    private void saveMapDistrict(Map<String, Object> districtMap,String parentCode,String parentAddress) {
+    private void saveMapDistrict(Map<String, Object> districtMap, String parentCode, String parentAddress) {
         String adcode = (String) districtMap.get("adcode");
         String level = (String) districtMap.get("level");
         String name = (String) districtMap.get("name");
@@ -111,6 +112,11 @@ public class DistrictServiceImpl implements DistrictService {
     @Override
     public List<District> queryList(DistrictQO qo) {
         return districtMapper.queryList(qo);
+    }
+
+    @Override
+    public String selectParentByAdcode(String adcode) {
+        return districtMapper.selectParentByAdcode(adcode);
     }
 
 }

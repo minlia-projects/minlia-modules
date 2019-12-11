@@ -46,7 +46,6 @@ public class CreatePreOrderRequest implements Body {
 //    WxPayConstants.TradeType
 
 
-
     /**
      * 微信 商品ID trade_type=NATIVE时，此参数必传。此参数为二维码中包含的商品ID，商户自行定义。
      */

@@ -11,7 +11,7 @@ import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
  * @description
  * @date 2019/4/15 4:27 PM
  */
-public class UnifiedPayClient {
+public class UnifiedPayClient<T> {
 
     public static Response create(PayChannelEnum channel, Object t) {
         CreatePreOrderService service = ContextHolder.getContext().getBean(channel.name() + "CreatePreOrderService", CreatePreOrderService.class);

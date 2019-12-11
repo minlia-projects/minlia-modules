@@ -6,6 +6,7 @@
 		SELECT
 			id ,
 			parent ,
+			has_child ,
 			adcode ,
 			citycode ,
 			center ,
@@ -24,6 +25,9 @@
         <where>
             <if test="parent != null">
                 AND parent = #{parent}
+            </if>
+            <if test="hasChild != null">
+                AND has_child = #{hasChild}
             </if>
             <if test="adcode != null">
                 AND adcode = #{adcode}
@@ -48,27 +52,25 @@
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mdl_district(
-        parent ,
-        adcode ,
-        citycode ,
-        center ,
-        name ,
-        level ,
-        address ,
-        fullcode ,
-        create_by
-        )
-        VALUES
-        (
-        #{parent} ,
-        #{adcode} ,
-        #{citycode} ,
-        #{center} ,
-        #{name} ,
-        #{level} ,
-        #{address} ,
-        #{fullcode} ,
-        #{createBy}
+            parent ,
+            adcode ,
+            citycode ,
+            center ,
+            name ,
+            level ,
+            address ,
+            fullcode ,
+            create_by
+        ) VALUES (
+            #{parent} ,
+            #{adcode} ,
+            #{citycode} ,
+            #{center} ,
+            #{name} ,
+            #{level} ,
+            #{address} ,
+            #{fullcode} ,
+            #{createBy}
         )
     </insert>
 
@@ -132,6 +134,10 @@
 
     <select id="queryAll" resultType="com.minlia.module.disrtict.bean.domain.District">
         <include refid="QUERY_CONTENT"/>
+    </select>
+
+    <select id="selectParentByAdcode" resultType="java.lang.String">
+        select parent from mdl_district where adcode = #{adcode,jdbcType=VARCHAR} AND parent != #{adcode,jdbcType=VARCHAR}
     </select>
 
 </mapper>

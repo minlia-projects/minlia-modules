@@ -42,6 +42,8 @@ public class DistrictQO extends QueryRequest {
     @ApiModelProperty(name = "父类编码", example = "10000")
     private String parent;
 
+    private Boolean hasChild;
+
 }
 
 

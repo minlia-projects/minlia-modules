@@ -32,4 +32,6 @@ public interface DistrictService {
 
     List<District> queryList(DistrictQO qo);
 
+    String selectParentByAdcode(String adcode);
+
 }

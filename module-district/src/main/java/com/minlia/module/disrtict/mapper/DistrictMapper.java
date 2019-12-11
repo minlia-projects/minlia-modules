@@ -17,5 +17,8 @@ public interface DistrictMapper {
 
     List<District> queryList(DistrictQO qo);
 
+
+    String selectParentByAdcode(String adcode);
+
 }
 
