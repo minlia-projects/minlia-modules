@@ -3,6 +3,7 @@ package com.minlia.modules.attachment.service;
 
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
+import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.ro.AttachmentCRO;
 import com.minlia.modules.attachment.ro.AttachmentQRO;
 import com.minlia.modules.attachment.entity.Attachment;

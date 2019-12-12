@@ -18,16 +18,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 //@Service
 public class OssService implements InitializingBean {
 
     @Autowired
     private AliyunOssProperties properties;
-//    private String endpoint;
-//    private String accessId;
-//    private String accessKey;
-//    private String bucket;
 
     private boolean detectContentType = false;
     public static final String ORIGIN_ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
@@ -55,14 +50,22 @@ public class OssService implements InitializingBean {
         return ossFile;
     }
 
+    public OssFile upload(InputStream inputStream, String key) {
+        OssFile ossFile = ossUpload(key, inputStream, null);
+        ossFile.setName(key);
+        return ossFile;
+    }
+
     private OssFile ossUpload(String key, InputStream inputStream, ObjectMetadata metadata) {
         OssFile result = null;
         try {
             PutObjectResult putObjectResult = AliyunOssClient.instance().putObject(properties.getBucket(), key, inputStream, metadata);
             result = new OssFile(putObjectResult.getETag());
             result.setUrl(builderUrl(key));
-            result.setSize(metadata.getContentLength());
-            result.setContentType(metadata.getContentType());
+            if (null != metadata) {
+                result.setSize(metadata.getContentLength());
+                result.setContentType(metadata.getContentType());
+            }
         } catch (OSSException e) {
             ApiAssert.state(false, AliyunOssCode.Message.UPLOAD_FAILURE, e.getMessage());
         } catch (Exception e) {

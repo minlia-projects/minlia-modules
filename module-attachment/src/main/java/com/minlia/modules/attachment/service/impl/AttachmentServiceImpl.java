@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.data.context.UserPrincipalHolder;
+import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.event.AttachmentEvent;
