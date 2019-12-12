@@ -47,9 +47,6 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
     @Autowired
     private AttachmentService attachmentService;
 
-//    @Autowired
-//    private AttachmentProperties attachmentProperties;
-
     @Autowired
     private AttachmentConfig attachmentConfig;
 
@@ -63,29 +60,24 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
     @Override
     public Response upload(MultipartFile file, String relationId, String belongsTo) throws Exception {
+        OssFile ossFile = null;
         switch (attachmentConfig.getChannel()) {
             case ALIYUN:
-                return uploadByAliyun(file, relationId, belongsTo);
+                ossFile = uploadByAliyun(file, relationId, belongsTo);
+                break;
             case QCLOUD:
-                return uploadByQcloud(file, relationId, belongsTo);
+                ossFile = uploadByQcloud(file, relationId, belongsTo);
+                break;
             case LOCAL:
-                return uploadByLocal(file, relationId, belongsTo);
+                ossFile = uploadByLocal(file, relationId, belongsTo);
+                break;
+            default:
+                return Response.failure(AttachmentCode.Message.UNSUPPORTED_OSS_TYPE);
         }
-        return Response.failure(AttachmentCode.Message.UNSUPPORTED_OSS_TYPE);
-    }
 
-    private Response uploadByQcloud(MultipartFile file, String relationId, String belongsTo) throws Exception {
-        String path = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
-        PutObjectResult result = qcloudCosService.putObject(null, path, file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
-        OssFile ossFile = new OssFile(result.getETag());
         ossFile.setContentType(file.getContentType());
         ossFile.setName(file.getOriginalFilename());
         ossFile.setSize(file.getSize());
-        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(file)) {
-            ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getImageDomain() + path);
-        } else {
-            ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getDomain() + path);
-        }
 
         Attachment attachment = Attachment.builder()
                 .relationId(relationId)
@@ -94,35 +86,45 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
                 .type(file.getContentType())
                 .url(ossFile.getUrl())
                 .size(file.getSize())
-                .accessKey(result.getETag())
-                .build();
-        attachmentService.create(attachment);
-        return Response.success(ossFile);
-    }
-
-    private Response uploadByAliyun(MultipartFile file, String relationId, String belongsTo) {
-        String key = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
-        OssFile ossFile = null;
-        try {
-            ossFile = ossService.upload(file, key);
-        } catch (Exception e) {
-            ApiAssert.state(false, SystemCode.Exception.REMOTE_REQUEST_FAILURE, e.getMessage());
-        }
-
-        Attachment attachment = Attachment.builder()
-                .relationId(relationId)
-                .belongsTo(belongsTo)
-                .name(ossFile.getOriginalName())
-                .type(ossFile.getContentType())
-                .url(ossFile.getUrl())
-                .size(ossFile.getSize())
                 .accessKey(ossFile.geteTag())
                 .build();
         attachmentService.create(attachment);
-        return Response.success(ossFile);
+
+        AttachmentDTO dto = AttachmentDTO.builder()
+                .url(ossFile.getUrl())
+                .originalFilename(file.getOriginalFilename())
+                .eTag(ossFile.geteTag())
+                .fileName(file.getName())
+                .contentType(file.getContentType())
+                .size(file.getSize())
+                .build();
+        return Response.success(dto);
+
     }
 
-    private Response uploadByLocal(MultipartFile file, String relationId, String belongsTo) {
+    private OssFile uploadByAliyun(MultipartFile file, String relationId, String belongsTo) {
+        String key = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
+        try {
+            return ossService.upload(file, key);
+        } catch (Exception e) {
+            ApiAssert.state(false, SystemCode.Exception.REMOTE_REQUEST_FAILURE, e.getMessage());
+        }
+        return null;
+    }
+
+    private OssFile uploadByQcloud(MultipartFile file, String relationId, String belongsTo) throws Exception {
+        String path = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
+        PutObjectResult result = qcloudCosService.putObject(null, path, file.getInputStream(), QcloudCosUtils.createDefaultObjectMetadata(file));
+        OssFile ossFile = new OssFile(result.getETag());
+        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(file)) {
+            ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getImageDomain() + path);
+        } else {
+            ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getDomain() + path);
+        }
+        return ossFile;
+    }
+
+    private OssFile uploadByLocal(MultipartFile file, String relationId, String belongsTo) {
         String path = OSSPathUtils.getPath(file.getOriginalFilename(), relationId, belongsTo);
         String filePath = attachmentLocalConfig.getBucket() + path;
         try {
@@ -130,31 +132,9 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        String url = attachmentLocalConfig.getHost() + attachmentLocalConfig.getPathPatterns() + path;
-
-        Attachment attachment = Attachment.builder()
-                .relationId(relationId)
-                .belongsTo(belongsTo)
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-//                .url(path)
-                .url(url)
-                .size(file.getSize())
-                .accessKey(NumberGenerator.uuid32())
-                .build();
-        attachmentService.create(attachment);
-
-        AttachmentDTO dto = AttachmentDTO.builder()
-//                .url(path)
-                .url(url)
-                .eTag(attachment.getAccessKey())
-                .fileName(file.getName())
-                .originalFilename(file.getOriginalFilename())
-                .contentType(file.getContentType())
-                .size(file.getSize())
-                .build();
-        return Response.success(dto);
+        OssFile ossFile = new OssFile(NumberGenerator.uuid32());
+        ossFile.setUrl(attachmentLocalConfig.getHost() + attachmentLocalConfig.getPathPatterns() + path);
+        return ossFile;
     }
 
     @Override
@@ -179,6 +159,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
                 ossFile = uploadByBase64ToLocal(inputStream, uploadRO.getOriginalFilename(), relationId, belongsTo);
                 break;
         }
+
         Attachment attachment = Attachment.builder()
                 .relationId(relationId)
                 .belongsTo(belongsTo)

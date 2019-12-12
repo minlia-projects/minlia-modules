@@ -4,7 +4,7 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.modules.aliyun.oss.api.config.AliyunOssProperties;
+import com.minlia.modules.aliyun.oss.api.config.AliyunOssConfig;
 import com.minlia.modules.aliyun.oss.api.constant.AliyunOssCode;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.aliyun.oss.builder.Constant;
@@ -22,7 +22,7 @@ import java.io.InputStream;
 public class OssService implements InitializingBean {
 
     @Autowired
-    private AliyunOssProperties properties;
+    private AliyunOssConfig aliyunOssConfig;
 
     private boolean detectContentType = false;
     public static final String ORIGIN_ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
@@ -59,7 +59,7 @@ public class OssService implements InitializingBean {
     private OssFile ossUpload(String key, InputStream inputStream, ObjectMetadata metadata) {
         OssFile result = null;
         try {
-            PutObjectResult putObjectResult = AliyunOssClient.instance().putObject(properties.getBucket(), key, inputStream, metadata);
+            PutObjectResult putObjectResult = AliyunOssClient.instance().putObject(aliyunOssConfig.getBucket(), key, inputStream, metadata);
             result = new OssFile(putObjectResult.getETag());
             result.setUrl(builderUrl(key));
             if (null != metadata) {
@@ -98,10 +98,10 @@ public class OssService implements InitializingBean {
 
     private String builderUrl(String key){
         String url;
-        if (ORIGIN_ENDPOINT.equals(properties.getEndpoint())) {
-            url=String.format(Constant.OLD_RETURN_URL_PATTERN,properties.getBucket(),properties.getEndpoint(),key);
+        if (ORIGIN_ENDPOINT.equals(aliyunOssConfig.getEndpoint())) {
+            url=String.format(Constant.OLD_RETURN_URL_PATTERN,aliyunOssConfig.getBucket(),aliyunOssConfig.getEndpoint(),key);
         } else {
-            url=String.format(Constant.RETURN_URL_PATTERN,properties.getEndpoint(),key);
+            url=String.format(Constant.RETURN_URL_PATTERN,aliyunOssConfig.getEndpoint(),key);
         }
         return url;
     }

@@ -2,9 +2,7 @@ package com.minlia.modules.aliyun.oss;
 
 import com.aliyun.oss.OSSClient;
 import com.minlia.modules.aliyun.oss.api.config.AliyunMtsProperties;
-import com.minlia.modules.aliyun.oss.api.config.AliyunOssProperties;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,11 +11,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass({OSSClient.class})
-@EnableConfigurationProperties({AliyunOssProperties.class, AliyunMtsProperties.class})
+@EnableConfigurationProperties({AliyunMtsProperties.class})
 public class AliyunOssAutoConfiguration {
-
-    @Autowired
-    private AliyunOssProperties properties;
 
 //    @Bean
 //    @ConditionalOnMissingBean
