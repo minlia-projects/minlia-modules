@@ -19,11 +19,13 @@ import com.minlia.module.unified.payment.bean.CreatePreOrderRequest;
 import com.minlia.module.unified.payment.enumeration.PayOperationEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 /**
  * 支付宝创建预订单服务
  */
 @Slf4j
+@Service
 public class AlipayCreatePreOrderService implements CreatePreOrderService {
 
     /**
@@ -39,7 +41,7 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
         Double amount = ((Double.parseDouble(body.getAmount().toString())) / 100);
 
         if (StringUtils.isEmpty(body.getNumber())) {
-            number = NumberGenerator.generatorByYMDHMSS(DEFAULT_ALIPAY_ORDER_NUMBER_PREFIX,1);
+            number = NumberGenerator.generatorByYMDHMSS(DEFAULT_ALIPAY_ORDER_NUMBER_PREFIX, 1);
         } else {
             number = body.getNumber();
         }

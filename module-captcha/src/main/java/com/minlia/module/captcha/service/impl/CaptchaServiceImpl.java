@@ -83,9 +83,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         if (captchaConfig.getRealSwitchFlag()) {
             Map variables = Maps.newHashMap();
             variables.put("code", captcha.getCode());
-            variables.put("product", captchaConfig.getProduct());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
-//            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables);
             smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
         }
         return captcha;
@@ -116,7 +114,6 @@ public class CaptchaServiceImpl implements CaptchaService {
             }
             variables.put("code", captcha.getCode());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
-//            emailService.sendRichtextMail(new String[]{email}, templateCode, variables);
             emailService.sendRichtextMail(new String[]{email}, templateCode, variables, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
         }
         return captcha;

@@ -14,7 +14,6 @@ import com.minlia.module.sms.entity.SmsRecord;
 import com.minlia.module.sms.service.SmsRecordService;
 import com.minlia.module.sms.service.SmsService;
 import com.minlia.module.sms.util.TextReplaceUtils;
-import com.minlia.modules.aliyun.sms.AliyunSmsSendService;
 import com.minlia.modules.aliyun.sms.SmsSendService;
 import com.minlia.modules.otp.sms.OtpSmsService;
 import lombok.extern.slf4j.Slf4j;
