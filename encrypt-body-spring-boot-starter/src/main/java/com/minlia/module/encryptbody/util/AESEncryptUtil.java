@@ -122,15 +122,15 @@ public class AESEncryptUtil {
 //    }
 
     public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException {
-        String key = "1UqxUHXS5flqZO7Bv+B1kQ==";
-        String iv = "YWx1B0FSDiDAvx==";
-//        String key = "zZyWl39ow6T0i4zIWJbfkA==";
-//        String iv = "YSqr2v2jOsAZtQZi";
+//        String key = "1UqxUHXS5flqZO7Bv+B1kQ==";
+//        String iv = "YWx1B0FSDiDAvx==";
+        String key = "zZyWl39ow6T0i4zIWJbfkA==";
+        String iv = "YSqr2v2jOsAZtQZi";
 
         AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
 
         System.out.println(encrypt("{ \"beginDateTime\": \"2019-12-06T19:12:47\", \"hours\": 8 }", key, iv));
-        System.out.println(decrypt("iLooMmFFCYsfDHuqp0B/kF7XgX9J4f8BR2scvqYXUyiyuJew8cHgaDIBw70EdmyepQa/XdvmGNIxhcOPcJzagw==", key, iv));
+        System.out.println(decrypt("Dan4Qe4bI4ZIc/rMyB9L/cO57W6N9DX4NCBw/trIJk8yfotM9ySz1ByULHBMkbBu", key, iv));
 
 
 //        {

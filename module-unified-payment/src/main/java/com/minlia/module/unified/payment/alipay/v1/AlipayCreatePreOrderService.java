@@ -6,19 +6,26 @@ import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.domain.AlipayTradePrecreateModel;
+import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.unified.payment.CreatePreOrderService;
 import com.minlia.module.unified.payment.bean.CreatePreOrderRequest;
+import com.minlia.module.unified.payment.entity.UnifiedOrder;
+import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
 import com.minlia.module.unified.payment.enumeration.PayOperationEnum;
+import com.minlia.module.unified.payment.service.UnifiedOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,6 +35,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlipayCreatePreOrderService implements CreatePreOrderService {
 
+    @Autowired
+    private UnifiedOrderService unifiedOrderService;
+
     /**
      * 交易通道
      * 前端提供金额
@@ -36,7 +46,6 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
      * 后端发起订单创建流程
      */
     public Response createPreOrder(CreatePreOrderRequest body) {
-        AlipayResponse result;
         String number;
         Double amount = ((Double.parseDouble(body.getAmount().toString())) / 100);
 
@@ -46,53 +55,128 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
             number = body.getNumber();
         }
 
-        if (StringUtils.isNotEmpty(body.getTradeType())) {
-            if (body.getTradeType().equals("NATIVE")) {
-                result = alipayTradePrecreatePay(body, number, amount);
-            } else {
-                result = alipayTradeAppPayPay(body, number, amount);
-            }
-        } else {
-            result = alipayTradeAppPayPay(body, number, amount);
+        AlipayResponse result = null;
+        switch (body.getTradeType()) {
+            case "FACE_TO_FACE_PAYMENT":
+                result = precreatePay(body, number, amount);
+                break;
+            case "QUICK_WAP_WAY":
+                result = wapPay(body, number, amount);
+                break;
+            case "QUICK_MSECURITY_PAY":
+                result = appPay(body, number, amount);
+                break;
         }
+
         log.info("支付宝第三方返回参数：{}", result);
         return Response.success(result);
     }
 
     @Override
     public Response createOrder(Object o) {
-        return null;
+        return this.createOrder(o, PayOperationEnum.PAY);
     }
 
     @Override
-    public Response createOrder(Object o, PayOperationEnum operation) {
-        return null;
+    public Response createOrder(Object obj, PayOperationEnum operation) {
+        CreatePreOrderRequest request = (CreatePreOrderRequest) obj;
+        Response response = createPreOrder(request);
+
+        UnifiedOrder unifiedOrder = UnifiedOrder.builder()
+                .channel(PayChannelEnum.alipay)
+                .operation(operation)
+                .outTradeNo(request.getNumber())
+                .amount(request.getAmount())
+                .body(request.getBody())
+                .build();
+        unifiedOrderService.create(unifiedOrder);
+        return response;
     }
 
-    private AlipayTradePrecreateResponse alipayTradePrecreatePay(CreatePreOrderRequest body, String number, Double amount) {
-        //页面端支付
+    /**
+     * 收银员通过收银台或商户后台调用支付宝接口，生成二维码后，展示给用户，由用户扫描二维码完成订单支付。
+     *
+     * @param body
+     * @param outTradeNo
+     * @param totalAmount
+     * @return
+     */
+    private AlipayTradePrecreateResponse precreatePay(CreatePreOrderRequest body, String outTradeNo, Double totalAmount) {
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
         AlipayTradePrecreateModel model = new AlipayTradePrecreateModel();
-        model.setOutTradeNo(number);
-        //固定值
-        model.setTotalAmount(amount.toString());
+        model.setOutTradeNo(outTradeNo);
+        model.setTotalAmount(totalAmount.toString());
         model.setSubject(body.getSubject());
         model.setBody(body.getBody());
         model.setTimeoutExpress("30m");
+        model.setProductCode("FACE_TO_FACE_PAYMENT");
         request.setBizModel(model);
         request.setNotifyUrl(alipayConfig.getCallback());
         try {
             return alipayClient.execute(request);
         } catch (Exception e) {
-            e.printStackTrace();
             log.error(e.getMessage());
             ApiAssert.state(false, SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), e.getMessage());
+            return null;
         }
-        return null;
     }
 
-    private AlipayTradeAppPayResponse alipayTradeAppPayPay(CreatePreOrderRequest body, String number, Double amount) {
-        //APP支付
+    /**
+     * 外部商户创建订单并支付
+     *
+     * @param body
+     * @param outTradeNo
+     * @param totalAmount
+     * @return
+     */
+    private AlipayTradeWapPayResponse wapPay(CreatePreOrderRequest body, String outTradeNo, Double totalAmount) {
+        AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
+        AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
+        model.setOutTradeNo(outTradeNo);
+        model.setTotalAmount(totalAmount.toString());
+        model.setSubject(body.getSubject());
+        model.setBody(body.getBody());
+        model.setTimeoutExpress("30m");
+        model.setProductCode("QUICK_WAP_WAY");
+        request.setBizModel(model);
+        request.setNotifyUrl(alipayConfig.getCallback());
+        try {
+            return alipayClient.execute(request);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            ApiAssert.state(false, SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), e.getMessage());
+            return null;
+        }
+    }
+//    private AlipayTradePrecreateResponse alipayTradePrecreatePay(CreatePreOrderRequest body, String outTradeNo, Double totalAmount) {
+//        //页面端支付
+//        AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
+//        AlipayTradePrecreateModel model = new AlipayTradePrecreateModel();
+//        model.setOutTradeNo(outTradeNo);
+//        model.setTotalAmount(totalAmount.toString());
+//        model.setSubject(body.getSubject());
+//        model.setBody(body.getBody());
+//        model.setTimeoutExpress("30m");
+//        request.setBizModel(model);
+//        request.setNotifyUrl(alipayConfig.getCallback());
+//        try {
+//            return alipayClient.execute(request);
+//        } catch (Exception e) {
+//            log.error(e.getMessage());
+//            ApiAssert.state(false, SystemCode.Exception.INTERNAL_SERVER_ERROR.code(), e.getMessage());
+//            return null;
+//        }
+//    }
+
+    /**
+     * APP
+     *
+     * @param body
+     * @param number
+     * @param amount
+     * @return
+     */
+    private AlipayTradeAppPayResponse appPay(CreatePreOrderRequest body, String number, Double amount) {
         AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
         AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
         model.setBody(body.getBody());
@@ -143,12 +227,21 @@ public class AlipayCreatePreOrderService implements CreatePreOrderService {
 
         //校验通过后开始初始化
         //初始化官方SDK
-        alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY,
+//        alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY,
+//                config.getAppId(),
+//                config.getCertificate().getAppPrivateKey(),
+//                config.getCertificate().getPlatformPublicKey(),
+//                AlipayConstants.FORMAT_JSON,
+//                AlipayConstants.CHARSET_UTF8,
+//                AlipayConstants.SIGN_TYPE_RSA2);
+
+        alipayClient = new DefaultAlipayClient(
+                ALIPAY_GATEWAY,
                 config.getAppId(),
                 config.getCertificate().getAppPrivateKey(),
-                config.getCertificate().getPlatformPublicKey(),
                 AlipayConstants.FORMAT_JSON,
                 AlipayConstants.CHARSET_UTF8,
+                config.getCertificate().getPlatformPublicKey(),
                 AlipayConstants.SIGN_TYPE_RSA2);
     }
 

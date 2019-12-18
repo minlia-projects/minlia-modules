@@ -113,7 +113,6 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
         request.setSpbillCreateIp(RequestIpUtils.getClientIP());
         try {
             Object result = wxPayService.createOrder(request);
-
             UnifiedOrder unifiedOrder = UnifiedOrder.builder()
                     .channel(PayChannelEnum.wechat)
                     .operation(operation)
@@ -122,11 +121,11 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
                     .body(request.getBody())
                     .build();
             unifiedOrderService.create(unifiedOrder);
-//            return Response.success(Optional.ofNullable(result));
             return Response.success(result);
         } catch (WxPayException e) {
             e.printStackTrace();
-            return Response.failure(e.getResultCode(), StringUtils.isEmpty(e.getReturnMsg()) ? e.getCustomErrorMsg() : e.getReturnMsg());
+            return Response.failure(e.getErrCode(), StringUtils.isNotEmpty(e.getErrCodeDes()) ? e.getErrCodeDes() : e.getCustomErrorMsg());
+//            return Response.failure(e.getResultCode(), StringUtils.isEmpty(e.getReturnMsg()) ? e.getCustomErrorMsg() : e.getReturnMsg());
         }
     }
 
