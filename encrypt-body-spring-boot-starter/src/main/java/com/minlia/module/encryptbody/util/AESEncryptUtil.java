@@ -130,7 +130,8 @@ public class AESEncryptUtil {
         AES aes = new AES(Mode.CBC, Padding.PKCS5Padding, key.getBytes(), iv.getBytes());
 
         System.out.println(encrypt("{ \"beginDateTime\": \"2019-12-06T19:12:47\", \"hours\": 8 }", key, iv));
-        System.out.println(decrypt("Dan4Qe4bI4ZIc/rMyB9L/cO57W6N9DX4NCBw/trIJk8yfotM9ySz1ByULHBMkbBu", key, iv));
+        System.out.println(decrypt("G6/RUN+/QW+Xuu5XkPXk46muHEBIucw+GOubnnSpITOL+QxMrEhKLSMyUwZZwXsbdjdCDszzsmLGP8FtMiXMJX9hKTt0FFTMFq8t28Ixjvx9D+lUYIx+4Ykj0ZGKb3VHqnX9J5pQmZrF1ncTR5BMpHr4MVmAi6SYfxldc66JNYUEezcWnZPhThNnsoMa26OtYgKEBZt+UMyECTlihkGEmp2ebNwS0BUZdlgZG1WjXRq4bQrx0rEF9EZwhVcRWY5W3GvRQ6agu0WvKgBmTWdy71/8Bi3IVUcCcyvW0xjumH3qUC9fU5mfjQK81cJCoCGPt8UR2tpW7HLqiI4IOJKrPAbJUe2eDiE5XGEtfYp/BfjVe31Yg+/GJEyqp48sLRtP", key, iv));
+        System.out.println(decrypt("ctFB2w7wYr3H5i2ZGTya8xP1ua5ZugX+RIvIc0W5IU2Rd/0Q6leAOe1ZuMvoPav6+5O8VOvWO0Bx8KENxVeG9d340gRkZjXijMrWtXVdQhlG2AcFZ3JiFgaZPTxMHuj51M7yq9O4kaOyGeoGx9FUzNb53n0wVytIpJ9ZW/xwWnI/DtLBLNHFjNeWfFVjQZxCCxBxUGoBUtDylgyjbVlZ9kk7mNKc28ynuYA1L+iaTfSEM+CL+RTW+0cvr/m0tcpe/u9u/V2jEAkvlDlaFYrxZi3IpArMXU2ghbgZD1i1zxazMh25eOp/ubPsmoPBOLaQ7fhaEosV6rnlVOvrECVeEF/pFto2OHuUZMo/aaJxcSX6AML+31ljXPLH8nhXvh1i", key, iv));
 
 
 //        {
