@@ -5,7 +5,7 @@ import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
+import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.ro.BibleItemQRO;
@@ -54,7 +54,7 @@ public class WechatMaServiceImpl implements WechatMaService {
 
     @Override
     public WxMaService getWxMaService(String type) {
-        WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
+        WxMaDefaultConfigImpl wxMaConfig = new WxMaDefaultConfigImpl();
         if (null != type) {
             BibleItem bibleItem = bibleItemService.queryOne(BibleItemQRO.builder().parentCode(WechatMaBibleConstants.MINIAPP_CODE).code(type).build());
             ApiAssert.notNull(bibleItem, WechatMaCode.Message.PARAMETER_NOT_CONFIG, type);

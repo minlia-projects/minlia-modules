@@ -5,7 +5,7 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaQrcodeServiceImpl;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
-import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
+import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import com.minlia.module.bible.service.BibleItemService;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class WechatMaAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public WxMaConfig wxMaConfig() {
-        WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
+        WxMaDefaultConfigImpl wxMaConfig = new WxMaDefaultConfigImpl();
         wxMaConfig.setAppid(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_APPID));
         wxMaConfig.setSecret(bibleItemService.get(WechatMaBibleConstants.MINIAPP_CODE, WechatMaBibleConstants.MINIAPP_ITEM_CODE_SECRET));
         wxMaConfig.setExpiresTime(System.currentTimeMillis());
