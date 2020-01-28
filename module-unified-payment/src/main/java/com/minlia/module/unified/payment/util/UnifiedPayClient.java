@@ -3,6 +3,7 @@ package com.minlia.module.unified.payment.util;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.unified.payment.CreatePreOrderService;
+import com.minlia.module.unified.payment.bean.CreatePreOrderRequest;
 import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
 
 /**
@@ -14,11 +15,19 @@ import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
 public class UnifiedPayClient<T> {
 
     public static Response create(PayChannelEnum channel, Object t) {
-        CreatePreOrderService service = ContextHolder.getContext().getBean(channel.name() + "CreatePreOrderService", CreatePreOrderService.class);
+        CreatePreOrderService service = ContextHolder.getContext().getBean(channel.getPlatform().getCode() + "CreatePreOrderService", CreatePreOrderService.class);
         if (null == service) {
             throw new RuntimeException("Unsupported gateway");
         }
         return service.createOrder(t);
+    }
+
+    public static Response create(CreatePreOrderRequest request) {
+        CreatePreOrderService service = ContextHolder.getContext().getBean(request.getChannel().getPlatform().getCode() + "CreatePreOrderService", CreatePreOrderService.class);
+        if (null == service) {
+            throw new RuntimeException("Unsupported gateway");
+        }
+        return service.createOrder(request);
     }
 
 }

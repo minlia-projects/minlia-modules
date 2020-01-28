@@ -19,6 +19,10 @@ public class AlipayConfig implements Config {
 
     private String callback;
 
+    private String notifyUrl;
+
+    private String returnUrl;
+
     public AlipayConfig() {
         if (null != this.getCertificate()) {
             if (StringUtils.isEmpty(this.getCertificate().getPlatformPublicKey())) {

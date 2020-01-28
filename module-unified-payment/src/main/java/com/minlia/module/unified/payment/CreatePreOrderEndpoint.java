@@ -25,7 +25,7 @@ public class CreatePreOrderEndpoint {
     @ApiOperation(value = "create", notes = "create", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "create", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response create(@Valid @RequestBody CreatePreOrderRequest request) {
-        CreatePreOrderService service = ContextHolder.getContext().getBean(request.getChannel().name() + "CreatePreOrderService", CreatePreOrderService.class);
+        CreatePreOrderService service = ContextHolder.getContext().getBean(request.getChannel().getPlatform() + "CreatePreOrderService", CreatePreOrderService.class);
         if (null == service) {
             throw new RuntimeException("Unsupported gateway");
         }

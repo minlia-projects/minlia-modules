@@ -1,6 +1,8 @@
 package com.minlia.module.unified.payment.wechat.v1;
 
+import com.github.binarywang.wxpay.bean.request.WxPayMicropayRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.bean.result.WxPayMicropayResult;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
@@ -29,6 +31,8 @@ import java.util.Map;
 public class WechatCreatePreOrderService implements CreatePreOrderService {
 
     private WxPayService wxPayService;
+
+    private WxPayConfig wxPayConfig;
 
     @Autowired
     private UnifiedOrderService unifiedOrderService;
@@ -66,67 +70,69 @@ public class WechatCreatePreOrderService implements CreatePreOrderService {
         config.setNotifyUrl(wechatConfig.getCallback());
         wxPayService.setConfig(config);
         this.wxPayService = wxPayService;
+        this.wxPayConfig = config;
     }
 
     @Override
-    public Response createPreOrder(CreatePreOrderRequest body) {
-        WxPayUnifiedOrderRequest request = WxPayUnifiedOrderRequest.newBuilder()
-                .outTradeNo(StringUtils.isEmpty(body.getNumber()) ? NumberGenerator.generatorByYMDHMSS(DEFAULT_WECHAT_ORDER_NUMBER_PREFIX, 1) : body.getNumber())
-                .tradeType(body.getTradeType())
-                .totalFee(Integer.parseInt(body.getAmount().toString()))
-                .notifyUrl(wxPayService.getConfig().getNotifyUrl())
-                .openid(body.getOpenid())
-                .body(body.getBody())
-                .attach(body.getAttach())
-                .spbillCreateIp(RequestIpUtils.getClientIP())
-                .build();
+    public Response createPreOrder(CreatePreOrderRequest createPreOrderRequest) {
+        return createOrder(createPreOrderRequest);
+    }
 
-        if (null != body.getTradeType()) {
-            request.setTradeType(body.getTradeType());
-            if (body.getTradeType().equals("NATIVE")) {
-                request.setProductId(body.getProductId());
+    @Override
+    public Response createOrder(Object obj) {
+        return this.createOrder(obj, PayOperationEnum.PAY);
+    }
+
+    @Override
+    public Response createOrder(Object obj, PayOperationEnum operation) {
+        CreatePreOrderRequest createPreOrderRequest = (CreatePreOrderRequest) obj;
+        String outTradeNo = StringUtils.isEmpty(createPreOrderRequest.getNumber()) ? NumberGenerator.generatorByYMDHMSS(DEFAULT_WECHAT_ORDER_NUMBER_PREFIX, 1) : createPreOrderRequest.getNumber();
+        Integer totalFee = Integer.parseInt(createPreOrderRequest.getAmount().toString());
+        Object result = null;
+        if (PayChannelEnum.WXPAY_MICROPAY.equals(createPreOrderRequest.getChannel())) {
+            WxPayMicropayRequest micropayRequest = WxPayMicropayRequest.newBuilder()
+                    .outTradeNo(outTradeNo)
+                    .totalFee(totalFee)
+                    .body(createPreOrderRequest.getBody())
+                    .attach(createPreOrderRequest.getAttach())
+                    .spbillCreateIp(RequestIpUtils.getClientIP())
+                    .authCode("")
+                    .build();
+            try {
+                result = wxPayService.micropay(micropayRequest);
+            } catch (WxPayException e) {
+                e.printStackTrace();
+                return Response.failure(e.getResultCode(), StringUtils.isNotEmpty(e.getReturnMsg()) ? e.getReturnMsg() : e.getCustomErrorMsg());
             }
         } else {
-            request.setTradeType("APP");
-        }
-
-        try {
-            Map result = wxPayService.getPayInfo(request);
-            log.info("微信第三方返回参数：{}", request);
-            return Response.success(result);
-        } catch (WxPayException e) {
-            e.printStackTrace();
-        }
-        return Response.failure();
-    }
-
-    @Override
-    public Response createOrder(Object o) {
-        return this.createOrder(o, PayOperationEnum.PAY);
-    }
-
-    @Override
-    public Response createOrder(Object o, PayOperationEnum operation) {
-        WxPayUnifiedOrderRequest request = (WxPayUnifiedOrderRequest) o;
-        request.setOutTradeNo(StringUtils.isEmpty(request.getOutTradeNo()) ? NumberGenerator.generatorByYMDHMSS(DEFAULT_WECHAT_ORDER_NUMBER_PREFIX, 1) : request.getOutTradeNo());
-        request.setNotifyUrl(wxPayService.getConfig().getNotifyUrl());
-        request.setSpbillCreateIp(RequestIpUtils.getClientIP());
-        try {
-            Object result = wxPayService.createOrder(request);
-            UnifiedOrder unifiedOrder = UnifiedOrder.builder()
-                    .channel(PayChannelEnum.wechat)
-                    .operation(operation)
-                    .outTradeNo(request.getOutTradeNo())
-                    .amount(request.getTotalFee())
-                    .body(request.getBody())
+            WxPayUnifiedOrderRequest request = WxPayUnifiedOrderRequest.newBuilder()
+                    .outTradeNo(outTradeNo)
+                    .tradeType(createPreOrderRequest.getChannel().getCode())
+                    .totalFee(totalFee)
+                    .notifyUrl(wxPayService.getConfig().getNotifyUrl())
+                    .openid(createPreOrderRequest.getOpenid())
+                    .body(createPreOrderRequest.getBody())
+                    .attach(createPreOrderRequest.getAttach())
+                    .spbillCreateIp(RequestIpUtils.getClientIP())
+                    .productId(wxPayConfig.getAppId())
                     .build();
-            unifiedOrderService.create(unifiedOrder);
-            return Response.success(result);
-        } catch (WxPayException e) {
-            e.printStackTrace();
-            return Response.failure(e.getErrCode(), StringUtils.isNotEmpty(e.getErrCodeDes()) ? e.getErrCodeDes() : e.getCustomErrorMsg());
-//            return Response.failure(e.getResultCode(), StringUtils.isEmpty(e.getReturnMsg()) ? e.getCustomErrorMsg() : e.getReturnMsg());
+            try {
+                result = wxPayService.createOrder(request);
+            } catch (WxPayException e) {
+                e.printStackTrace();
+                return Response.failure(e.getResultCode(), StringUtils.isNotEmpty(e.getReturnMsg()) ? e.getReturnMsg() : e.getCustomErrorMsg());
+            }
         }
+
+        UnifiedOrder unifiedOrder = UnifiedOrder.builder()
+                .channel(createPreOrderRequest.getChannel())
+                .operation(operation)
+                .outTradeNo(outTradeNo)
+                .amount(totalFee)
+                .body(createPreOrderRequest.getBody())
+                .build();
+        unifiedOrderService.create(unifiedOrder);
+        return Response.success(result);
     }
 
 }

@@ -69,12 +69,12 @@
         <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
-            <version>4.8.73.ALL</version>
+            <version>4.9.13.ALL</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.binarywang</groupId>
-            <version>3.3.0</version>
+            <version>3.6.0</version>
             <artifactId>weixin-java-pay</artifactId>
         </dependency>
 

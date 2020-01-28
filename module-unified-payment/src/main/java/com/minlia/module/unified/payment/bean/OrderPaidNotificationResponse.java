@@ -2,6 +2,7 @@ package com.minlia.module.unified.payment.bean;
 
 import com.minlia.cloud.body.Body;
 import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
+import com.minlia.module.unified.payment.enumeration.PayPlatformEnum;
 import lombok.Data;
 
 /**
@@ -25,6 +26,7 @@ public class OrderPaidNotificationResponse implements Body {
      * 支付渠道
      */
     private PayChannelEnum channel;
+    private PayPlatformEnum payPlatform;
 
     /**
      * 付款人

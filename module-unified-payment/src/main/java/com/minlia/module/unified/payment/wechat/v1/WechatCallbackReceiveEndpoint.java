@@ -5,6 +5,7 @@ import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.minlia.module.unified.payment.bean.OrderPaidNotificationResponse;
 import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
+import com.minlia.module.unified.payment.enumeration.PayPlatformEnum;
 import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
 import com.minlia.module.unified.payment.util.XmlUtils;
 import io.swagger.annotations.Api;
@@ -64,7 +65,8 @@ public class WechatCallbackReceiveEndpoint {
             body.setMerchantTradeNo(result.getOutTradeNo());
             body.setPaidBy(result.getOpenid());
             body.setSign(result.getSign());
-            body.setChannel(PayChannelEnum.wechat);
+            body.setPayPlatform(PayPlatformEnum.ALIPAY);
+//            body.setChannel(PayChannelEnum.wechat);
             log.info("微信解析回调参数：{}", body);
         } catch (WxPayException e) {
             log.info("微信回调参数解析異常：" + e.toString());

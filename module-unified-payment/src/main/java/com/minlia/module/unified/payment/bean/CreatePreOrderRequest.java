@@ -43,7 +43,8 @@ public class CreatePreOrderRequest implements Body {
 
     @ApiModelProperty(value = "微信交易类型", example = "APP,JSAPI")
     private String tradeType;
-//    WxPayConstants.TradeType
+
+    private String returnUrl;
 
 
     /**
