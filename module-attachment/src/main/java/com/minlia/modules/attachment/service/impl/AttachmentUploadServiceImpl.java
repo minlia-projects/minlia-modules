@@ -163,7 +163,8 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         Attachment attachment = Attachment.builder()
                 .relationId(relationId)
                 .belongsTo(belongsTo)
-                .name(uploadRO.getOriginalFilename())
+//                .name(uploadRO.getOriginalFilename())
+                .name(ossFile.getName())
                 .type(uploadRO.getContentType())
                 .url(ossFile.getUrl())
                 .size(Long.valueOf(bytes.length))
@@ -197,7 +198,7 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
         String path = OSSPathUtils.getPath(originalFileName, relationId, belongsTo);
         PutObjectResult result = qcloudCosService.putObject(null, path, inputStream, null);
         OssFile ossFile = new OssFile(result.getETag());
-        ossFile.setName(originalFileName);
+        ossFile.setName(path);
 //        if (null != qcloudCosService.getQcloudCosConfig().getImageDomain() && ContentTypeUtils.isImage(file)) {
 //            ossFile.setUrl(qcloudCosService.getQcloudCosConfig().getImageDomain() + path);
 //        } else {
