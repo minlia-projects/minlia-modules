@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 @Data
 public class ArticleCategoryCRO implements ApiRequestBody {
 
+    private Long parentId;
+
     @ApiModelProperty(value = "名称", example = "首页")
     @NotBlank(message = "名称不能为空")
     @Size(max = 50)

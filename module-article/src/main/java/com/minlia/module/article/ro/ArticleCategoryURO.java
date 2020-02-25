@@ -13,6 +13,8 @@ import javax.validation.constraints.Size;
 @Data
 public class ArticleCategoryURO implements ApiRequestBody {
 
+    private Long parentId;
+
     @ApiModelProperty(value = "ID", example = "1")
     @NotNull(message = "ID不能为空")
     private Long id;

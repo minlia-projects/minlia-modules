@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.minlia.module.article.entity.ArticleCategory">
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="locale" jdbcType="VARCHAR" property="locale"/>
@@ -17,7 +18,7 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, `code`, `name`, `locale`, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
+        id, parent_id, `code`, `name`, `locale`, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
     </sql>
 
     <sql id="BASE_CONDITION_LIST">
@@ -52,6 +53,9 @@
             <if test="lastModifiedDate != null">
                 and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
             </if>
+            <if test="parentId != null">
+                and parent_id=#{parentId,jdbcType=BIGINT}
+            </if>
             <if test="id != null">
                 and id=#{id,jdbcType=BIGINT}
             </if>
@@ -77,6 +81,9 @@
         <!--@mbg.generated-->
         insert into mdl_article_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                parent_id,
+            </if>
             <if test="code != null">
                 code,
             </if>
@@ -109,6 +116,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
             <if test="code != null">
                 #{code,jdbcType=VARCHAR},
             </if>
@@ -146,6 +156,9 @@
         <!--@mbg.generated-->
         update mdl_article_category
         <set>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR},
             </if>
@@ -181,7 +194,7 @@
     </update>
 
     <select id="queryArticleByCategoryId" resultType="com.minlia.module.article.vo.ArticleSimpleVO">
-        SELECT id, `code`, title FROM mdl_article where category_id = #{id} ORDER BY create_date DESC
+        SELECT id, `code`, title FROM mdl_article where category_id = #{id} AND del_flag = 0 AND dis_flag = 0 ORDER BY create_date DESC
     </select>
 
     <select id="countByAll" resultType="long">

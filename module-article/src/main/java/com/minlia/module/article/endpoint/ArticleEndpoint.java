@@ -3,18 +3,18 @@ package com.minlia.module.article.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.article.entity.Article;
-import com.minlia.module.article.ro.ArticleQRO;
-import com.minlia.module.article.ro.ArticleCRO;
-import com.minlia.module.article.ro.ArticleSetLabelRO;
-import com.minlia.module.article.ro.ArticleURO;
 import com.minlia.module.article.constant.ArticleConstants;
+import com.minlia.module.article.entity.Article;
+import com.minlia.module.article.entity.ArticleCategory;
+import com.minlia.module.article.ro.*;
+import com.minlia.module.article.service.ArticleCategoryService;
 import com.minlia.module.article.service.ArticleService;
-import com.minlia.modules.attachment.entity.Attachment;
+import com.minlia.module.article.vo.ArticleVO;
 import com.minlia.modules.attachment.ro.AttachmentQRO;
 import com.minlia.modules.attachment.service.AttachmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -23,6 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "System Article", description = "文章")
 @RestController
@@ -31,6 +32,9 @@ public class ArticleEndpoint {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private ArticleCategoryService articleCategoryService;
 
     @Autowired
     private AttachmentService attachmentService;
@@ -96,15 +100,26 @@ public class ArticleEndpoint {
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
     @ApiOperation(value = "集合查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response list(@RequestBody ArticleQRO qo) {
-        return Response.success(articleService.listVO(qo));
+    public Response list(@RequestBody ArticleQRO qro) {
+        return Response.success(articleService.listVO(qro));
     }
+
+//    private void bindChildren(ArticleCategory articleCategory) {
+//        //查询文章
+//        articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId()));
+//        //获取子项
+//        List<ArticleCategory> children = articleCategoryService.list(ArticleCategoryQRO.builder().parentId(articleCategory.getId()).build());
+//        if (CollectionUtils.isNotEmpty(children)) {
+//            articleCategory.setChildren(children);
+//            children.stream().forEach(category -> bindChildren(category));
+//        }
+//    }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
     @ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleQRO qo) {
-        return Response.success(articleService.pageVO(qo, pageable));
+    public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleQRO qro) {
+        return Response.success(articleService.pageVO(qro, pageable));
     }
 
 }

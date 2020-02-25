@@ -33,7 +33,10 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public ArticleCategory create(ArticleCategoryCRO cro) {
-        ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().code(cro.getCode()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
+        if (null != cro.getParentId()) {
+            ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().id(cro.getParentId()).delFlag(false).build()) > 0, SystemCode.Message.DATA_NOT_EXISTS);
+        }
+        ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().parentId(cro.getParentId()).code(cro.getCode()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
         ArticleCategory articleCategory = mapper.map(cro, ArticleCategory.class);
         articleCategoryMapper.insertSelective(articleCategory);
         return articleCategory;
@@ -41,6 +44,9 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 
     @Override
     public ArticleCategory update(ArticleCategoryURO uto) {
+        if (null != uto.getParentId()) {
+            ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().id(uto.getParentId()).delFlag(false).build()) > 0, SystemCode.Message.DATA_NOT_EXISTS);
+        }
         ArticleCategory articleCategory = articleCategoryMapper.selectByPrimaryKey(uto.getId());
         ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
         mapper.map(uto, articleCategory);

@@ -3,12 +3,14 @@ package com.minlia.module.article.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.article.constant.ArticleConstants;
+import com.minlia.module.article.entity.ArticleCategory;
 import com.minlia.module.article.ro.ArticleCategoryCRO;
 import com.minlia.module.article.ro.ArticleCategoryQRO;
 import com.minlia.module.article.ro.ArticleCategoryURO;
 import com.minlia.module.article.service.ArticleCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -17,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(tags = "System Article Category", description = "文章-类目")
 @RestController
@@ -59,7 +62,8 @@ public class ArticleCategoryEndpoint {
     @ApiOperation(value = "单个查询")
     @GetMapping(value = "{id}")
     public Response one(@PathVariable Long id) {
-        return Response.success(articleCategoryService.selectByPrimaryKey(id));
+        return Response.success(bindChildren(articleCategoryService.selectByPrimaryKey(id)));
+//        return Response.success(articleCategoryService.selectByPrimaryKey(id));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
@@ -74,7 +78,8 @@ public class ArticleCategoryEndpoint {
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response list(@RequestBody ArticleCategoryQRO qo) {
         qo.setDelFlag(false);
-        return Response.success(articleCategoryService.list(qo));
+        return Response.success(bindChildren(articleCategoryService.list(qo)));
+//        return Response.success(articleCategoryService.list(qo));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
@@ -83,6 +88,25 @@ public class ArticleCategoryEndpoint {
     public Response page(@PageableDefault Pageable pageable, @RequestBody ArticleCategoryQRO qo) {
         qo.setDelFlag(false);
         return Response.success(articleCategoryService.page(qo, pageable));
+    }
+
+    private List<ArticleCategory> bindChildren(List<ArticleCategory> articleCategories) {
+        if (CollectionUtils.isNotEmpty(articleCategories)) {
+            articleCategories.stream().forEach(articleCategory -> bindChildren(articleCategory));
+        }
+        return articleCategories;
+    }
+
+    private ArticleCategory bindChildren(ArticleCategory articleCategory) {
+        if (null != articleCategory) {
+            //获取子项
+            List<ArticleCategory> children = articleCategoryService.list(ArticleCategoryQRO.builder().parentId(articleCategory.getId()).build());
+            if (CollectionUtils.isNotEmpty(children)) {
+                articleCategory.setChildren(children);
+                children.stream().forEach(category -> bindChildren(category));
+            }
+        }
+        return articleCategory;
     }
 
 }

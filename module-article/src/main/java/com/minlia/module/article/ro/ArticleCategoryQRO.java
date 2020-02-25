@@ -27,6 +27,8 @@ public class ArticleCategoryQRO extends QueryRequest {
 
     private LocalDateTime lastModifiedDate;
 
+    private Long parentId;
+
     @ApiModelProperty(value = "名称", example = "首页")
     @Size(max = 50)
     private String name;

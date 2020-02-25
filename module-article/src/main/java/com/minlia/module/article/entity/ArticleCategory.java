@@ -21,6 +21,8 @@ public class ArticleCategory extends AbstractEntity {
      */
     private Long id;
 
+    private Long parentId;
+
     /**
      * 名称
      */
@@ -55,5 +57,7 @@ public class ArticleCategory extends AbstractEntity {
      * 文章子项
      */
     List<ArticleSimpleVO> articles;
+
+    List<ArticleCategory> children;
 
 }

@@ -49,7 +49,8 @@ public class ArticleCategoryOpenEndpoint {
         if (null != articleCategory) {
             articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId()));
         }
-        return Response.success(articleCategory);
+        return Response.success(bindChildren(articleCategory));
+//        return Response.success(articleCategory);
     }
 
 
@@ -61,7 +62,8 @@ public class ArticleCategoryOpenEndpoint {
         List<ArticleCategory> categories = articleCategoryService.list(qro);
         if (CollectionUtils.isNotEmpty(categories)) {
             categories.get(0).setArticles(articleCategoryService.queryArticleByCategoryId(categories.get(0).getId()));
-            return Response.success(categories.get(0));
+            return Response.success(bindChildren(categories.get(0)));
+//            return Response.success(categories.get(0));
         } else {
             return Response.success();
         }
@@ -74,7 +76,8 @@ public class ArticleCategoryOpenEndpoint {
         qro.setDelFlag(false);
         List<ArticleCategory> categories = articleCategoryService.list(qro);
         categories.stream().forEach(articleCategory -> articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId())));
-        return Response.success(categories);
+        return Response.success(bindChildren(categories));
+//        return Response.success(categories);
     }
 
 //	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,5 +86,24 @@ public class ArticleCategoryOpenEndpoint {
 //		qro.setEnabled(true);
 //		return Response.success(articleCategoryService.page(qro, pageable));
 //	}
+
+    private List<ArticleCategory> bindChildren(List<ArticleCategory> articleCategories) {
+        if (CollectionUtils.isNotEmpty(articleCategories)) {
+            articleCategories.stream().forEach(articleCategory -> bindChildren(articleCategory));
+        }
+        return articleCategories;
+    }
+
+    private ArticleCategory bindChildren(ArticleCategory articleCategory) {
+        if (null != articleCategory) {
+            //获取子项
+            List<ArticleCategory> children = articleCategoryService.list(ArticleCategoryQRO.builder().parentId(articleCategory.getId()).delFlag(false).disFlag(false).build());
+            if (CollectionUtils.isNotEmpty(children)) {
+                articleCategory.setChildren(children);
+                children.stream().forEach(category -> bindChildren(category));
+            }
+        }
+        return articleCategory;
+    }
 
 }
