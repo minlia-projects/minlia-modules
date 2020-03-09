@@ -29,6 +29,8 @@ public class ArticleCategoryQRO extends QueryRequest {
 
     private Long parentId;
 
+    private Boolean isLeaf;
+
     @ApiModelProperty(value = "名称", example = "首页")
     @Size(max = 50)
     private String name;

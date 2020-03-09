@@ -62,8 +62,8 @@ public class ArticleCategoryEndpoint {
     @ApiOperation(value = "单个查询")
     @GetMapping(value = "{id}")
     public Response one(@PathVariable Long id) {
-        return Response.success(bindChildren(articleCategoryService.selectByPrimaryKey(id)));
-//        return Response.success(articleCategoryService.selectByPrimaryKey(id));
+//        return Response.success(bindChildren(articleCategoryService.selectByPrimaryKey(id)));
+        return Response.success(articleCategoryService.selectByPrimaryKey(id));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")
@@ -78,8 +78,11 @@ public class ArticleCategoryEndpoint {
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response list(@RequestBody ArticleCategoryQRO qo) {
         qo.setDelFlag(false);
-        return Response.success(bindChildren(articleCategoryService.list(qo)));
-//        return Response.success(articleCategoryService.list(qo));
+        if (null != qo.getParentId()) {
+            return Response.success(bindChildren(articleCategoryService.list(qo)));
+        } else {
+            return Response.success(articleCategoryService.list(qo));
+        }
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ArticleConstants.SEARCH + "')")

@@ -35,6 +35,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     public ArticleCategory create(ArticleCategoryCRO cro) {
         if (null != cro.getParentId()) {
             ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().id(cro.getParentId()).delFlag(false).build()) > 0, SystemCode.Message.DATA_NOT_EXISTS);
+            articleCategoryMapper.updateByPrimaryKeySelective(ArticleCategory.builder().id(cro.getParentId()).isLeaf(false).build());
         }
         ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().parentId(cro.getParentId()).code(cro.getCode()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
         ArticleCategory articleCategory = mapper.map(cro, ArticleCategory.class);
@@ -46,6 +47,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     public ArticleCategory update(ArticleCategoryURO uto) {
         if (null != uto.getParentId()) {
             ApiAssert.state(articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().id(uto.getParentId()).delFlag(false).build()) > 0, SystemCode.Message.DATA_NOT_EXISTS);
+            articleCategoryMapper.updateByPrimaryKeySelective(ArticleCategory.builder().id(uto.getParentId()).isLeaf(false).build());
         }
         ArticleCategory articleCategory = articleCategoryMapper.selectByPrimaryKey(uto.getId());
         ApiAssert.notNull(articleCategory, SystemCode.Message.DATA_NOT_EXISTS);
@@ -72,7 +74,14 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 //        long count = articleService.count(ArticleQRO.builder().categoryId(id).build());
 //        ApiAssert.state(count == 0, "存在广告无法删除");
 //        articleCategoryMapper.deleteByPrimaryKey(articleCategory.getId());
-        articleCategoryMapper.updateByPrimaryKeySelective(ArticleCategory.builder().id(id).delFlag(true).build());
+
+        //判断是否有子项
+        long count = articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().parentId(id).build());
+        articleCategoryMapper.updateByPrimaryKeySelective(ArticleCategory.builder()
+                .id(id)
+                .delFlag(true)
+                .isLeaf(count > 0 ? false : true)
+                .build());
     }
 
     @Override

@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.minlia.module.article.entity.ArticleCategory">
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="is_leaf" jdbcType="BOOLEAN" property="isLeaf"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -18,7 +19,7 @@
 
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, parent_id, `code`, `name`, `locale`, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
+        id, is_leaf, parent_id, `code`, `name`, `locale`, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
     </sql>
 
     <sql id="BASE_CONDITION_LIST">
@@ -55,6 +56,9 @@
             </if>
             <if test="parentId != null">
                 and parent_id=#{parentId,jdbcType=BIGINT}
+            </if>
+            <if test="isLeaf != null">
+                and is_leaf=#{isLeaf,jdbcType=BOOLEAN}
             </if>
             <if test="id != null">
                 and id=#{id,jdbcType=BIGINT}
@@ -156,6 +160,9 @@
         <!--@mbg.generated-->
         update mdl_article_category
         <set>
+            <if test="isLeaf != null">
+                is_leaf = #{isLeaf,jdbcType=BOOLEAN},
+            </if>
             <if test="parentId != null">
                 parent_id = #{parentId,jdbcType=BIGINT},
             </if>

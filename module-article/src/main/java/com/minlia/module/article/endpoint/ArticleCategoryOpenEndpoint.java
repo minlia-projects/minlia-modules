@@ -49,8 +49,8 @@ public class ArticleCategoryOpenEndpoint {
         if (null != articleCategory) {
             articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId()));
         }
-        return Response.success(bindChildren(articleCategory));
-//        return Response.success(articleCategory);
+//        return Response.success(bindChildren(articleCategory));
+        return Response.success(articleCategory);
     }
 
 
@@ -62,8 +62,8 @@ public class ArticleCategoryOpenEndpoint {
         List<ArticleCategory> categories = articleCategoryService.list(qro);
         if (CollectionUtils.isNotEmpty(categories)) {
             categories.get(0).setArticles(articleCategoryService.queryArticleByCategoryId(categories.get(0).getId()));
-            return Response.success(bindChildren(categories.get(0)));
-//            return Response.success(categories.get(0));
+//            return Response.success(bindChildren(categories.get(0)));
+            return Response.success(categories.get(0));
         } else {
             return Response.success();
         }
@@ -76,8 +76,11 @@ public class ArticleCategoryOpenEndpoint {
         qro.setDelFlag(false);
         List<ArticleCategory> categories = articleCategoryService.list(qro);
         categories.stream().forEach(articleCategory -> articleCategory.setArticles(articleCategoryService.queryArticleByCategoryId(articleCategory.getId())));
-        return Response.success(bindChildren(categories));
-//        return Response.success(categories);
+        if (null != qro.getParentId()) {
+            return Response.success(bindChildren(categories));
+        } else {
+            return Response.success(categories);
+        }
     }
 
 //	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -21,6 +21,8 @@ public class ArticleCategory extends AbstractEntity {
      */
     private Long id;
 
+    private Boolean isLeaf;
+
     private Long parentId;
 
     /**
