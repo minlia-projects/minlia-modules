@@ -79,6 +79,7 @@ public class ArticleCategoryOpenEndpoint {
         if (null != qro.getParentId()) {
             return Response.success(bindChildren(categories));
         } else {
+            qro.setParentIdIsNull(true);
             return Response.success(categories);
         }
     }

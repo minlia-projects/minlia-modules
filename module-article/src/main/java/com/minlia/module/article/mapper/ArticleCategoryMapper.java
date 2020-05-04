@@ -24,4 +24,6 @@ public interface ArticleCategoryMapper {
 
     List<ArticleCategory> selectByAll(ArticleCategoryQRO qro);
 
+    Long selectParentIdById(Long id);
+
 }

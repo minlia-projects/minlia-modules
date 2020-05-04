@@ -22,6 +22,7 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,19 +51,20 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleLabelRelationMapper articleLabelRelationMapper;
 
     @Override
+    @Transactional
     public Article create(ArticleCRO cro) {
         ApiAssert.state(articleCategoryService.count(ArticleCategoryQRO.builder().id(cro.getCategoryId()).build()) == 1, SystemCode.Message.DATA_NOT_EXISTS);
         ApiAssert.state(articleMapper.countByAll(ArticleQRO.builder().code(cro.getCode()).locale(cro.getLocale()).delFlag(false).build()) == 0, SystemCode.Message.DATA_ALREADY_EXISTS);
 
         Article article = mapper.map(cro, Article.class);
+        articleMapper.insertSelective(article);
 
         //绑定附件
         if (StringUtils.isNotBlank(cro.getCover())) {
             String url = attachmentService.bindByAccessKey(cro.getCover(), article.getId().toString(), ArticleConstants.ARTICLE_COVER);
             article.setCover(url);
+            articleMapper.updateByPrimaryKeySelective(article);
         }
-
-        articleMapper.insertSelective(article);
 
         //设置标签
         if (CollectionUtils.isNotEmpty(cro.getLabelIds())) {
@@ -72,6 +74,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public Article update(ArticleURO uto) {
         Article article = articleMapper.selectByPrimaryKey(uto.getId());
         ApiAssert.notNull(article, SystemCode.Message.DATA_NOT_EXISTS);
@@ -104,12 +107,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @Transactional
     public int delete(Long id) {
         articleLabelRelationMapper.deleteByArticleId(id);
         return articleMapper.deleteByPrimaryKey(id);
     }
 
     @Override
+    @Transactional
     public Response setLabels(ArticleSetLabelRO to) {
         ApiAssert.notEmpty(to.getLabelIds(), SystemCode.Message.DATA_NOT_EXISTS);
         ApiAssert.state(articleMapper.countByAll(ArticleQRO.builder().id(to.getArticleId()).build()) == 1, SystemCode.Message.DATA_NOT_EXISTS);

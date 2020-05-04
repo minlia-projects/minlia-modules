@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Transient;
 
+import java.util.List;
+
 /**
  * 文章
  */
@@ -23,6 +25,8 @@ public class Article extends AbstractEntity {
      * 类目ID
      */
     private Long categoryId;
+    @Transient
+    private List<Long> categoryIds;
 
     /**
      * 编码

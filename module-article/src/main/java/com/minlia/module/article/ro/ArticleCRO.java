@@ -16,8 +16,9 @@ import java.util.List;
 public class ArticleCRO implements ApiRequestBody {
 
     @ApiModelProperty(value = "类目ID")
-    @NotNull(message = "类目ID不能为空")
+//    @NotNull(message = "类目ID不能为空")
     private Long categoryId;
+    private List<Long> categoryIds;
 
     @ApiModelProperty(value = "标签ID集合")
     private List<Long> labelIds;

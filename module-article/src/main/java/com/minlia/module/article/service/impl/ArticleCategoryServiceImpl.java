@@ -2,6 +2,7 @@ package com.minlia.module.article.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.entity.ArticleCategory;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -76,7 +79,7 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
 //        articleCategoryMapper.deleteByPrimaryKey(articleCategory.getId());
 
         //判断是否有子项
-        long count = articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().parentId(id).build());
+        long count = articleCategoryMapper.countByAll(ArticleCategoryQRO.builder().parentId(id).delFlag(false).build());
         articleCategoryMapper.updateByPrimaryKeySelective(ArticleCategory.builder()
                 .id(id)
                 .delFlag(true)
@@ -116,6 +119,33 @@ public class ArticleCategoryServiceImpl implements ArticleCategoryService {
     @Override
     public List<ArticleSimpleVO> queryArticleByCategoryId(Long id) {
         return articleCategoryMapper.queryArticleByCategoryId(id);
+    }
+
+    @Override
+    public List<Long> selectCategoryIdsById(Long id) {
+        List<Long> categoryIds = Lists.newArrayList();
+        categoryIds.add(id);
+        do {
+            Long parentId = articleCategoryMapper.selectParentIdById(id);
+            id = parentId;
+            if (null != parentId) {
+                categoryIds.add(parentId);
+            }
+        } while (null != id);
+//        categoryIds.sort(Comparator.reverseOrder());  //倒序
+//        categoryIds.sort(Comparator.naturalOrder());  //正序
+        Collections.reverse(categoryIds);
+        return categoryIds;
+    }
+
+    public static void main(String[] args) {
+        List<Long> categoryIds = Lists.newArrayList();
+        categoryIds.add(3L);
+        categoryIds.add(1L);
+        categoryIds.add(2L);
+//        categoryIds.sort(Comparator.reverseOrder());
+        Collections.reverse(categoryIds);
+        categoryIds.stream().forEach(System.out::println);
     }
 
 }

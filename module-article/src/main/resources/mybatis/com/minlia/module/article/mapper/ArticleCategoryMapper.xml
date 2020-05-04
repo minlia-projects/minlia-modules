@@ -57,6 +57,9 @@
             <if test="parentId != null">
                 and parent_id=#{parentId,jdbcType=BIGINT}
             </if>
+            <if test="parentIdIsNull == true">
+                and parent_id is null
+            </if>
             <if test="isLeaf != null">
                 and is_leaf=#{isLeaf,jdbcType=BOOLEAN}
             </if>
@@ -216,6 +219,10 @@
         <include refid="Base_Column_List"/>
         from mdl_article_category
         <include refid="BASE_CONDITION_LIST"/>
+    </select>
+
+    <select id="selectParentIdById" resultType="java.lang.Long">
+        SELECT parent_id FROM mdl_article_category WHERE id = #{id,jdbcType=BIGINT};
     </select>
 
 </mapper>

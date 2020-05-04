@@ -23,6 +23,7 @@ public class ArticleURO implements ApiRequestBody {
      * 类目ID
      */
     private Long categoryId;
+    private List<Long> categoryIds;
 
     @ApiModelProperty(value = "标签ID集合")
     private List<Long> labelIds;

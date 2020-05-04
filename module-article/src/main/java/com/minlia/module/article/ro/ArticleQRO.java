@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -32,6 +33,7 @@ public class ArticleQRO extends QueryRequest {
      * 类目ID
      */
     private Long categoryId;
+    private List<Long> categoryIds;
     private String categoryCode;
 
     private Long labelId;

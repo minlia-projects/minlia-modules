@@ -32,4 +32,6 @@ public interface ArticleCategoryService {
 
     List<ArticleSimpleVO> queryArticleByCategoryId(Long id);
 
+    List<Long> selectCategoryIdsById(Long id);
+
 }
