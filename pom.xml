@@ -40,7 +40,7 @@
         <module>module-email</module>
         <module>module-sms</module>
         <module>module-captcha</module>
-        <!--<module>module-richtext</module>-->
+        <module>module-richtext</module>
         <!--<module>module-todo</module>-->
 
         <module>drools-spring-boot-starter</module>
