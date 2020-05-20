@@ -79,7 +79,7 @@
         <!--<module>module-lbsyun</module>-->
 
         <!--高德地图-->
-        <!--<module>module-gad</module>-->
+        <module>module-gad</module>
 
         <!--普尔支付-->
         <!--<module>module-pooul</module>-->
