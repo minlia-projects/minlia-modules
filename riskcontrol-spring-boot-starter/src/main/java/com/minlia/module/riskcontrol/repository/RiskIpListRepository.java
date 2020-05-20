@@ -1,10 +1,8 @@
 package com.minlia.module.riskcontrol.repository;
 
 import com.minlia.module.riskcontrol.entity.RiskIpList;
-import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import sun.rmi.runtime.Log;
 
 import java.util.List;
 
