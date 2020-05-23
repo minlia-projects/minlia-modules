@@ -94,13 +94,16 @@
 
 	</dependencies>
 
-	<build>
-		<plugins>
-			<!--<plugin>-->
-				<!--<groupId>org.springframework.boot</groupId>-->
-				<!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-			<!--</plugin>-->
-		</plugins>
-	</build>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://nexus.app.minlia.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>https://nexus.app.minlia.com/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
 
 </project>
