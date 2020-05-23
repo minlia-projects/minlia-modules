@@ -5,7 +5,7 @@
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="lov_id" jdbcType="BIGINT" property="lovId"/>
-        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="sort" jdbcType="TINYINT" property="sort"/>
@@ -24,6 +24,88 @@
         id, lov_id, parent_id, code, `name`, sort, description, `locale`, dis_flag, del_flag, tenant_id,
         create_by, create_date, last_modified_by, last_modified_date
     </sql>
+
+    <sql id="Base_Condition_List">
+        <where>
+            <if test="parentId != null">
+                and parent_id=#{parentId,jdbcType=VARCHAR}
+            </if>
+            <if test="code != null">
+                and code=#{code,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null">
+                and `name`=#{name,jdbcType=VARCHAR}
+            </if>
+            <if test="locale != null">
+                and `locale`=#{locale,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null">
+                and description=#{description,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null">
+                and sort=#{sort,jdbcType=TINYINT}
+            </if>
+            <if test="disFlag != null">
+                and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+            </if>
+            <if test="delFlag != null">
+                and del_flag=#{delFlag,jdbcType=BOOLEAN}
+            </if>
+            <if test="tenantId != null">
+                and tenant_id=#{tenantId,jdbcType=INTEGER}
+            </if>
+            <if test="createBy != null">
+                and create_by=#{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="lastModifiedBy != null">
+                and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+            </if>
+            <if test="createDate != null">
+                and create_date=#{createDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastModifiedDate != null">
+                and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="id != null">
+                and id=#{id,jdbcType=BIGINT}
+            </if>
+
+
+            <if test="lovId != null">
+                <if test="parentId == null">
+                    and parent_id is null
+                </if>
+                and lov_id=#{lovId,jdbcType=BIGINT}
+            </if>
+            <if test="lovCode != null">
+                <if test="parentId == null">
+                    and parent_id is null
+                </if>
+                AND EXISTS (SELECT 1 FROM mdl_lov mlt WHERE mlt.id = mdl_lov_value.lov_id AND mlt.code = #{lovCode})
+            </if>
+
+            <if test="codes != null and codes.size != 0">
+                <if test="parentId == null">
+                    and parent_id is null
+                </if>
+                and code in
+                <foreach collection="codes" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <sql id="Base_Order_By">
+        <if test="sorts != null">
+            ORDER BY
+            <foreach collection="sorts" item="item" separator=",">
+                ${item.filed} ${item.direction}
+            </foreach>
+        </if>
+    </sql>
+
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         <!--@mbg.generated-->
         select
@@ -44,7 +126,7 @@
         dis_flag, del_flag, tenant_id,
         create_by, create_date, last_modified_by,
         last_modified_date)
-        values (#{lovId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR},
+        values (#{lovId,jdbcType=BIGINT}, #{parentId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
         #{name,jdbcType=VARCHAR},
         #{sort,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, #{locale,jdbcType=VARCHAR},
         #{disFlag,jdbcType=BOOLEAN}, #{delFlag,jdbcType=BOOLEAN}, #{tenantId,jdbcType=INTEGER},
@@ -104,7 +186,7 @@
                 #{lovId,jdbcType=BIGINT},
             </if>
             <if test="parentId != null">
-                #{parentId,jdbcType=BIGINT},
+                #{parentId,jdbcType=VARCHAR},
             </if>
             <if test="code != null">
                 #{code,jdbcType=VARCHAR},
@@ -152,7 +234,7 @@
                 lov_id = #{lovId,jdbcType=BIGINT},
             </if>
             <if test="parentId != null">
-                parent_id = #{parentId,jdbcType=BIGINT},
+                parent_id = #{parentId,jdbcType=VARCHAR},
             </if>
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR},
@@ -212,63 +294,53 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <!--auto generated by MybatisCodeHelper on 2019-05-20-->
-    <select id="selectByAll" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from mdl_lov_value
-        where 1=1
-        <if test="lovId != null">
-            and lov_id=#{lovId,jdbcType=BIGINT}
-        </if>
-        <if test="parentId != null">
-            and parent_id=#{parentId,jdbcType=BIGINT}
-        </if>
-        <if test="parentId = null">
-            and parent_id is null
-        </if>
-        <if test="code != null">
-            and code=#{code,jdbcType=VARCHAR}
-        </if>
-        <if test="name != null">
-            and `name`=#{name,jdbcType=VARCHAR}
-        </if>
-        <if test="description != null">
-            and description=#{description,jdbcType=VARCHAR}
-        </if>
-        <if test="locale != null">
-            and `locale`=#{locale,jdbcType=VARCHAR}
-        </if>
-        <if test="disFlag != null">
-            and dis_flag=#{disFlag,jdbcType=BOOLEAN}
-        </if>
-        <if test="delFlag != null">
-            and del_flag=#{delFlag,jdbcType=BOOLEAN}
-        </if>
-        <if test="tenantId != null">
-            and tenant_id=#{tenantId,jdbcType=INTEGER}
-        </if>
-        <if test="createBy != null">
-            and create_by=#{createBy,jdbcType=VARCHAR}
-        </if>
-        <if test="lastModifiedBy != null">
-            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
-        </if>
-        <if test="createDate != null">
-            and create_date=#{createDate,jdbcType=TIMESTAMP}
-        </if>
-        <if test="lastModifiedDate != null">
-            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
-        </if>
-        <if test="id != null">
-            and id=#{id,jdbcType=BIGINT}
-        </if>
-    </select>
-
     <!--auto generated by MybatisCodeHelper on 2019-05-21-->
     <select id="countById" resultType="java.lang.Long">
         select count(1)
         from mdl_lov_value
         where id=#{id,jdbcType=BIGINT}
     </select>
+
+    <!--auto generated by MybatisCodeHelper on 2019-05-27-->
+    <select id="selectOneByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_lov_value
+        <include refid="Base_Condition_List"/>
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2019-05-20-->
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_lov_value
+        <include refid="Base_Condition_List"/>
+        <include refid="Base_Order_By"/>
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2019-05-28-->
+    <select id="selectOneByCodeAndLovId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_lov_value
+        where `code` =#{code,jdbcType=VARCHAR}
+        AND `locale` = #{locale,jdbcType=VARCHAR}
+        AND lov_id = #{lovId}
+    </select>
+
+    <select id="selectNameByAll" resultType="java.lang.String">
+        select
+        `name`
+        from mdl_lov_value
+        <include refid="Base_Condition_List"/>
+        <include refid="Base_Order_By"/>
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2019-07-12-->
+    <select id="countByCode" resultType="java.lang.Long">
+        select count(1)
+        from mdl_lov_value
+        where code=#{code,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

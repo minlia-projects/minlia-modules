@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -22,48 +23,53 @@ import java.io.IOException;
 public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     private final ObjectMapper mapper;
-    
+
     @Autowired
     public AjaxAwareAuthenticationFailureHandler(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
-	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-		response.setStatus(HttpStatus.OK.value());
-		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        SecurityContextHolder.clearContext();
 
-		//TODO 非自定义异常直接抛出，
-		if (e instanceof AuthMethodNotSupportedException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_METHOD_NOT_SUPPORTED));
-		} else if (e instanceof AuthenticationCredentialsNotFoundException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND));
-		} else if (e instanceof UsernameNotFoundException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.USERNAME_NOT_FOUND));
-		} else if (e instanceof BadCredentialsException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.BAD_CREDENTIALS));
-		} else if (e instanceof AccountExpiredException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_EXPIRED));
-		} else if (e instanceof DisabledException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_DISABLED));
-		} else if (e instanceof LockedException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_LOCKED));
-		} else if (e instanceof CredentialsExpiredException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.ACCOUNT_CREDENTIALS_EXPIRED));
-		} else if (e instanceof AuthenticationServiceException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AUTH_SERVICE));
-		} else if (e instanceof JwtExpiredTokenException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_TOKEN_EXPIRED));
-		} else if (e instanceof JwtInvalidTokenException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_TOKEN_INVALID));
-		} else if (e instanceof JwtAcceptableException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.JWT_TOKEN_NOT_NULL));
-		} else if (e instanceof AjaxBadCredentialsException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AJAX_BAD_CREDENTIALS, ((AjaxBadCredentialsException) e).getFailureTimes()));
-		} else if (e instanceof AjaxLockedException) {
-			mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(HttpStatus.UNAUTHORIZED, SecurityCode.Exception.AJAX_LOCKED, ((AjaxLockedException) e).getLockTime()));
-		}
-	}
+        response.setStatus(HttpStatus.OK.value());
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+
+        //TODO 非自定义异常直接抛出
+        if (e instanceof DefaultAuthenticationException) {
+            DefaultAuthenticationException exception = (DefaultAuthenticationException) e;
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(exception.getCode(), exception.getArgs()));
+        } else if (e instanceof AuthMethodNotSupportedException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.AUTH_METHOD_NOT_SUPPORTED));
+        } else if (e instanceof AuthenticationCredentialsNotFoundException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND));
+        } else if (e instanceof UsernameNotFoundException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.USERNAME_NOT_FOUND));
+        } else if (e instanceof BadCredentialsException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.BAD_CREDENTIALS));
+        } else if (e instanceof AccountExpiredException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.ACCOUNT_EXPIRED));
+        } else if (e instanceof DisabledException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.ACCOUNT_DISABLED));
+        } else if (e instanceof LockedException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.ACCOUNT_LOCKED));
+        } else if (e instanceof CredentialsExpiredException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.ACCOUNT_CREDENTIALS_EXPIRED));
+        } else if (e instanceof AuthenticationServiceException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.AUTH_SERVICE));
+        } else if (e instanceof JwtExpiredTokenException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.JWT_TOKEN_EXPIRED));
+        } else if (e instanceof JwtInvalidTokenException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.JWT_TOKEN_INVALID));
+        } else if (e instanceof JwtAcceptableException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.JWT_TOKEN_NOT_NULL));
+        } else if (e instanceof AjaxBadCredentialsException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.AJAX_BAD_CREDENTIALS, ((AjaxBadCredentialsException) e).getFailureTimes()));
+        } else if (e instanceof AjaxLockedException) {
+            mapper.writeValue(response.getWriter(), new AuthenticationErrorResponseBody(SecurityCode.Exception.AJAX_LOCKED, ((AjaxLockedException) e).getLockTime()));
+        }
+    }
 
 //	@Override
 //	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

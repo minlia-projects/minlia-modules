@@ -5,10 +5,10 @@ import com.minlia.modules.attachment.constant.AttachmentConstant;
 import com.minlia.modules.qcloud.oss.builder.Constant;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-import static org.apache.commons.lang3.time.DateFormatUtils.ISO_DATE_FORMAT;
 
 /**
  * Created by garen on 2018/6/6.
@@ -16,7 +16,7 @@ import static org.apache.commons.lang3.time.DateFormatUtils.ISO_DATE_FORMAT;
 public class OSSPathUtils {
 
     public static String dateBuild() {
-        return ISO_DATE_FORMAT.format(new Date()) + SymbolConstants.LEFT_LINE;
+        return LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + SymbolConstants.LEFT_LINE;
     }
 
     /**
@@ -47,9 +47,9 @@ public class OSSPathUtils {
     public static String getDirectory(String relationId, String belongsTo) {
         String path;
         if (StringUtils.isNotBlank(belongsTo)) {
-            path = String.format("%s/%s", belongsTo, relationId);
+            path = dateBuild() + String.format("%s/%s", belongsTo, relationId);
         } else {
-            path = AttachmentConstant.DEFAULT_PATH + dateBuild();
+            path = dateBuild() + AttachmentConstant.DEFAULT_PATH;
         }
         return path;
     }

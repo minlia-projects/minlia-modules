@@ -1,9 +1,10 @@
 package com.minlia.module.richtext.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.data.entity.AbstractEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -13,10 +14,6 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = {"id"})
-@EqualsAndHashCode(of = {"id"})
-@JsonPropertyOrder({})
-@JsonIgnoreProperties(value = {})
 public class Richtext extends AbstractEntity {
 
     /**
@@ -30,9 +27,9 @@ public class Richtext extends AbstractEntity {
     private String code;
 
     /**
-     * 标题
+     * 主题
      */
-    private String title;
+    private String subject;
 
     /**
      * 内容
@@ -40,8 +37,18 @@ public class Richtext extends AbstractEntity {
     private String content;
 
     /**
+     * 语言
+     */
+    private String locale;
+
+    /**
      * 备注
      */
-    private String note;
+    private String remark;
+
+    /**
+     * 禁用标识
+     */
+    private Boolean disFlag;
 
 }

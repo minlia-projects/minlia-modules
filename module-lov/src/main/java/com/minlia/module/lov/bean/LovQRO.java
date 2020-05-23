@@ -1,10 +1,15 @@
 package com.minlia.module.lov.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.bean.QueryRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author garen
@@ -13,6 +18,9 @@ import java.util.Date;
  * @date 2019/5/20 4:09 PM
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LovQRO extends QueryRequest {
 
     /**
@@ -51,12 +59,14 @@ public class LovQRO extends QueryRequest {
 
     private Long id;
 
+    @Size(max = 15)
     private String createBy;
 
+    @Size(max = 15)
     private String lastModifiedBy;
 
-    private Date createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
 
-    private Date lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
 
 }

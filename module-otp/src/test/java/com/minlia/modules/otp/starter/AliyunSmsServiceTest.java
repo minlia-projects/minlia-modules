@@ -17,6 +17,6 @@ public class AliyunSmsServiceTest {
 
     @Test
     public void send() {
-        otpSmsService.sendSms("18566297716", "SMS_56155265", "{\"name\":\"" + "天上有个林妹妹" + "\"}");
+        otpSmsService.send("18566297716", "SMS_56155265", "{\"name\":\"" + "天上有个林妹妹" + "\"}");
     }
 }

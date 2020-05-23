@@ -11,7 +11,7 @@ public interface DistrictMapper {
 
     District queryById(Long id);
 
-    District queryByAdcode(String adcode);
+    District queryByAdCode(String adcode);
 
     long count(DistrictQO qo);
 

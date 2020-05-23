@@ -7,10 +7,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * @author chen junhan 569551869@qq.com
  */
-@ConfigurationProperties(prefix = "sms.otp")
+@ConfigurationProperties(prefix = "system.sms.otp")
 @Getter
 @Setter
 public class OtpSmsProperties {
+
+    private String defaultIcc;
 
     /**
      * 协议及域名
@@ -26,5 +28,20 @@ public class OtpSmsProperties {
      * jecto 客户端密钥
      */
     private String xJetcoClientSecret;
+
+    /**
+     * 是否启用ssl证书验证
+     */
+    private Boolean sslCertificateVerification;
+
+    /**
+     * 证书位置
+     */
+    private String certPath;
+
+    /**
+     * 证书密码
+     */
+    private String storePasswrod;
 
 }

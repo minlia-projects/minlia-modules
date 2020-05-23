@@ -87,7 +87,7 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public PageInfo<Advertisements> page(AdsQRO qro, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(()-> adsMapper.list(qro));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> adsMapper.list(qro));
     }
 
 }

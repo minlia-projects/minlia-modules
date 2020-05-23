@@ -15,12 +15,19 @@ public class CaptchaCode {
 
     final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".captcha";
 
-    public enum Message implements Code{
+    public final static String CAPTCHA_DEFAULT_TEMPLATE = "CAPTCHA_DEFAULT";
+
+    public enum Message implements Code {
 
         /**
          * 手机号码格式有误:请输入11位有效手机号码
          */
         CELLPHONE_WRONG_FORMAT,
+
+        /**
+         * 超过发送次数
+         */
+        OVER_SEND_TIMES,
 
         /**
          * 验证码已失效，请重新发送验证码
@@ -41,6 +48,11 @@ public class CaptchaCode {
          * 验证码已使用，请重新发送
          */
         ALREADY_USED,
+
+        /**
+         * 验证码已禁用，30分钟后解锁
+         */
+        ALREADY_LOCKED,
 
         /**
          * 短信模板没找到, 请先配置
@@ -80,7 +92,12 @@ public class CaptchaCode {
         /**
          * 邮箱不能为空
          */
-        EMAIL_NOT_NULL;
+        EMAIL_NOT_NULL,
+
+        VERIFY_SUCCESS,
+
+
+        NUM_OTP_MINS;
 
         @Override
         public String code() {
@@ -96,8 +113,8 @@ public class CaptchaCode {
         }
 
         @Override
-        public String message(){
-            return Lang.get(this.i18nKey());
+        public String message(Object... args) {
+            return Lang.get(this.i18nKey(), args);
         }
 
     }

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.riskcontrol.mapper.RiskDroolsConfigMapper">
+    <resultMap id="BaseResultMap" type="com.minlia.module.riskcontrol.entity.RiskDroolsConfig">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="rule_key" jdbcType="VARCHAR" property="ruleKey"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="dis_flag" jdbcType="BOOLEAN" property="disFlag"/>
+        <result column="period_seconds" jdbcType="BIGINT" property="periodSeconds"/>
+        <result column="danger_threshold" jdbcType="INTEGER" property="dangerThreshold"/>
+        <result column="warning_threshold" jdbcType="INTEGER" property="warningThreshold"/>
+        <result column="threshold_score" jdbcType="INTEGER" property="thresholdScore"/>
+        <result column="per_score" jdbcType="INTEGER" property="perScore"/>
+        <result column="detail" jdbcType="VARCHAR" property="detail"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, rule_key, `time`, dis_flag, period_seconds, danger_threshold, warning_threshold,
+        threshold_score, per_score, detail
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_risk_drools_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from mdl_risk_drools_config
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.minlia.module.riskcontrol.entity.RiskDroolsConfig" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mdl_risk_drools_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleKey != null">
+                rule_key,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+            <if test="disFlag != null">
+                dis_flag,
+            </if>
+            <if test="periodSeconds != null">
+                period_seconds,
+            </if>
+            <if test="dangerThreshold != null">
+                danger_threshold,
+            </if>
+            <if test="warningThreshold != null">
+                warning_threshold,
+            </if>
+            <if test="thresholdScore != null">
+                threshold_score,
+            </if>
+            <if test="perScore != null">
+                per_score,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleKey != null">
+                #{ruleKey,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="disFlag != null">
+                #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="periodSeconds != null">
+                #{periodSeconds,jdbcType=BIGINT},
+            </if>
+            <if test="dangerThreshold != null">
+                #{dangerThreshold,jdbcType=INTEGER},
+            </if>
+            <if test="warningThreshold != null">
+                #{warningThreshold,jdbcType=INTEGER},
+            </if>
+            <if test="thresholdScore != null">
+                #{thresholdScore,jdbcType=INTEGER},
+            </if>
+            <if test="perScore != null">
+                #{perScore,jdbcType=INTEGER},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.riskcontrol.entity.RiskDroolsConfig">
+        <!--@mbg.generated-->
+        update mdl_risk_drools_config
+        <set>
+            <if test="ruleKey != null">
+                rule_key = #{ruleKey,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="disFlag != null">
+                dis_flag = #{disFlag,jdbcType=BOOLEAN},
+            </if>
+            <if test="periodSeconds != null">
+                period_seconds = #{periodSeconds,jdbcType=BIGINT},
+            </if>
+            <if test="dangerThreshold != null">
+                danger_threshold = #{dangerThreshold,jdbcType=INTEGER},
+            </if>
+            <if test="warningThreshold != null">
+                warning_threshold = #{warningThreshold,jdbcType=INTEGER},
+            </if>
+            <if test="thresholdScore != null">
+                threshold_score = #{thresholdScore,jdbcType=INTEGER},
+            </if>
+            <if test="perScore != null">
+                per_score = #{perScore,jdbcType=INTEGER},
+            </if>
+            <if test="detail != null">
+                detail = #{detail,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--auto generated by MybatisCodeHelper on 2019-07-07-->
+    <select id="queryByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_risk_drools_config
+        where 1=1
+        <if test="id != null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
+        <if test="ruleKey != null">
+            and rule_key=#{ruleKey,jdbcType=VARCHAR}
+        </if>
+        <if test="detail != null">
+            and detail=#{detail,jdbcType=VARCHAR}
+        </if>
+        <if test="time != null">
+            and `time`=#{time,jdbcType=TIMESTAMP}
+        </if>
+        <if test="disFlag != null">
+            and dis_flag=#{disFlag,jdbcType=BOOLEAN}
+        </if>
+        <if test="periodSeconds != null">
+            and period_seconds=#{periodSeconds,jdbcType=BIGINT}
+        </if>
+        <if test="dangerThreshold != null">
+            and danger_threshold=#{dangerThreshold,jdbcType=INTEGER}
+        </if>
+        <if test="warningThreshold != null">
+            and warning_threshold=#{warningThreshold,jdbcType=INTEGER}
+        </if>
+        <if test="thresholdScore != null">
+            and threshold_score=#{thresholdScore,jdbcType=INTEGER}
+        </if>
+        <if test="perScore != null">
+            and per_score=#{perScore,jdbcType=INTEGER}
+        </if>
+    </select>
+</mapper>

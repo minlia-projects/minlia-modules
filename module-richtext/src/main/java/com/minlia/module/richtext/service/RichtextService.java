@@ -2,11 +2,11 @@ package com.minlia.module.richtext.service;
 
 
 import com.github.pagehelper.PageInfo;
-import com.minlia.module.richtext.bean.RichtextCTO;
-import com.minlia.module.richtext.bean.RichtextQO;
-import com.minlia.module.richtext.bean.RichtextUTO;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.richtext.bean.RichtextCRO;
+import com.minlia.module.richtext.bean.RichtextQRO;
+import com.minlia.module.richtext.bean.RichtextURO;
 import com.minlia.module.richtext.entity.Richtext;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,20 +17,24 @@ import java.util.List;
  */
 public interface RichtextService {
 
-    Richtext create(RichtextCTO cto);
+    Richtext create(RichtextCRO cro);
 
-    Richtext update(RichtextUTO uto);
+    Richtext update(RichtextURO uro);
 
     void delete(Long id);
 
     Richtext queryById(Long id);
 
-    Richtext queryByCode(String code);
+    Richtext queryByTypeAndCode(String type, String code);
 
-    long count(RichtextQO qro);
+    Richtext queryByTypeAndCode(String type, String code, String locale);
 
-    List<Richtext> queryList(RichtextQO qro);
+    Richtext queryByTypeAndCode(String type, String code, LocaleEnum locale);
 
-    PageInfo<Richtext> queryPage(RichtextQO qro, Pageable pageable);
+    long count(RichtextQRO qro);
+
+    List<Richtext> queryList(RichtextQRO qro);
+
+    PageInfo<Richtext> queryPage(RichtextQRO qro);
 
 }

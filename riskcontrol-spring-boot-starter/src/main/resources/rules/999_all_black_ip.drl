@@ -1,0 +1,34 @@
+package rules;
+
+import com.minlia.module.riskcontrol.event.RiskBlackIpEvent
+import com.minlia.module.riskcontrol.entity.RiskBlackList
+import com.minlia.module.riskcontrol.service.RiskBlackListService
+import com.minlia.module.riskcontrol.service.RiskRecordService
+import com.minlia.cloud.utils.ApiAssert
+import com.minlia.module.riskcontrol.entity.RiskBlackList
+import org.apache.commons.lang3.StringUtils
+import com.minlia.module.riskcontrol.constant.RiskCode
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+
+global RiskBlackListService riskBlackListService
+global RiskRecordService riskRecordService
+
+/**
+ * 黑名单-IP
+ */
+rule "999_all_black_ip"
+    salience 999
+    lock-on-active true
+    when
+        event:RiskBlackIpEvent()
+    then
+        if (StringUtils.isNotBlank(event.getIp())) {
+            boolean exists = riskBlackListService.contain(RiskBlackList.EnumDimension.IP, RiskTypeEnum.BLACK, event.getIp());
+            event.setMatched(exists);
+            if (exists) {
+                event.setLevel(RiskLevelEnum.DANGER);
+                riskRecordService.createEvent(event, RiskCode.Message.BLACK_IP);
+            }
+        }
+end

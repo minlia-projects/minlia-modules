@@ -50,7 +50,7 @@ public class UnifiedServiceImpl implements UnifiedOrderService {
 
 //    @Override
 //    public PageInfo<UnifiedOrder> queryPage(UnifiedOrder order) {
-//        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> unifiedOrderMapper.queryList(qro));
+//        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> unifiedOrderMapper.queryList(qro));
 //    }
 
 }

@@ -10,6 +10,7 @@ import com.minlia.modules.security.enumeration.LoginMethodEnum;
 import com.minlia.modules.security.exception.AuthMethodNotSupportedException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,16 +32,11 @@ import java.util.regex.Pattern;
 @Slf4j
 public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final AuthenticationSuccessHandler successHandler;
-    private final AuthenticationFailureHandler failureHandler;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    private final ObjectMapper objectMapper;
-
-    public AjaxLoginAuthenticationProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler, AuthenticationFailureHandler failureHandler, ObjectMapper mapper) {
+    public AjaxLoginAuthenticationProcessingFilter(String defaultProcessUrl) {
         super(defaultProcessUrl);
-        this.successHandler = successHandler;
-        this.failureHandler = failureHandler;
-        this.objectMapper = mapper;
     }
 
     @Override
@@ -65,9 +61,10 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
 
     /**
      * 前置校验, 是否只传入了一组登录对象
+     *
      * @param credentials
      */
-    private void preConditions(LoginCredentials credentials){
+    private void preConditions(LoginCredentials credentials) {
         ApiAssert.notNull(credentials, SecurityCode.Exception.AUTH_CREDENTIALS_NOT_FOUND);
 
         if (StringUtils.isBlank(credentials.getPassword()) && StringUtils.isBlank(credentials.getCaptcha())) {
@@ -81,10 +78,10 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
             if (Pattern.matches(validProperties.getCellphone(), credentials.getAccount())) {
                 credentials.setCellphone(credentials.getAccount());
                 credentials.setMethod(LoginMethodEnum.CELLPHONE);
-            } else if (Pattern.matches("^[a-zA-z][a-zA-Z0-9_]{2,9}$", credentials.getAccount())) {
+            } else if (Pattern.matches(validProperties.getUsername(), credentials.getAccount())) {
                 credentials.setUsername(credentials.getAccount());
                 credentials.setMethod(LoginMethodEnum.USERNAME);
-            } else if (Pattern.matches("^([A-Za-z0-9_\\-\\.\\u4e00-\\u9fa5])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,8})$", credentials.getAccount())) {
+            } else if (Pattern.matches(validProperties.getEmail(), credentials.getAccount())) {
                 credentials.setEmail(credentials.getAccount());
                 credentials.setMethod(LoginMethodEnum.EMAIL);
             } else {
@@ -93,15 +90,15 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         }
     }
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        successHandler.onAuthenticationSuccess(request, response, authResult);
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        SecurityContextHolder.clearContext();
-        failureHandler.onAuthenticationFailure(request, response, failed);
-    }
+//    @Override
+//    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+//        successHandler.onAuthenticationSuccess(request, response, authResult);
+//    }
+//
+//    @Override
+//    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+//        SecurityContextHolder.clearContext();
+//        failureHandler.onAuthenticationFailure(request, response, failed);
+//    }
 
 }

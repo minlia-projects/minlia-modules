@@ -1,14 +1,16 @@
 package com.minlia.module.aliyun.dypls.ro;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.common.validation.Cellphone;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by garen on 2018/5/18.
@@ -38,7 +40,7 @@ public class BindAxnRO {
      * 绑定关系对应的失效时间-不能早于当前系统时间
      */
     @NotNull
-    private Date expireTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime expireTime;
 
     /**
      * 是否需要录制音频-默认是false

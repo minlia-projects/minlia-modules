@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -17,37 +18,31 @@ import org.springframework.cache.interceptor.SimpleCacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 86400秒 = 1天
  */
 @Configuration
-@EnableScheduling
 @EnableCaching
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400 * 30)
+@ConfigurationProperties(prefix = "spring.cache.redis")
+//@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400 * 30)
 public class RedisAutoConfiguration extends CachingConfigurerSupport {
-
-//    @SuppressWarnings("SpringJavaAutowiringInspection")
-//    @Bean
-//    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-//        RedisTemplate<String, String> redisTemplate = new StringRedisTemplate(redisConnectionFactory);
-//        StringRedisSerializer redisSerializer = new StringRedisSerializer();
-//        redisTemplate.setKeySerializer(redisSerializer);
-//        redisTemplate.setValueSerializer(redisSerializer);
-//        redisTemplate.setHashValueSerializer(redisSerializer);
-//        redisTemplate.afterPropertiesSet();
-//        return redisTemplate;
-//    }
 
     private static String SYMBOL_UNDERLINE = "_";
 
@@ -61,57 +56,85 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
     @Bean
     public KeyGenerator keyGenerator() {
         return (target, method, params) -> {
+            //格式化缓存key字符串
             StringBuilder sb = new StringBuilder();
+            //追加类名
             sb.append(target.getClass().getSimpleName());
             sb.append(SYMBOL_UNDERLINE);
+            //追加方法名
             sb.append(method.getName());
+            //遍历参数并且追加
             for (Object obj : params) {
                 sb.append(SYMBOL_UNDERLINE);
                 sb.append(ToStringBuilder.reflectionToString(obj, ToStringStyle.SHORT_PREFIX_STYLE));
             }
+            System.out.println("调用Redis缓存Key : " + sb.toString());
             return sb.toString();
         };
     }
 
+    /**
+     * 缓存管理器
+     *
+     * @param redisConnectionFactory
+     * @return
+     */
     @Bean
-    @ConditionalOnBean(value = {RedisTemplate.class})
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisSerializer keySerializer = new StringRedisSerializer();
-        redisTemplate.setKeySerializer(keySerializer);
-        redisTemplate.setHashKeySerializer(keySerializer);
-        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+        RedisSerializer<String> redisSerializer = new StringRedisSerializer();
 
-        //按cacheName设置缓存过期时间
-//        Map<String, Long> expires = new HashMap<String, Long>();
-//        expires.put("news", 60L);
-//        cacheManager.setExpires(expires);
+        //解决查询缓存转换异常的问题
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
-        //设置缓存默认过期时间:秒
-        cacheManager.setDefaultExpiration(60 * 30);
+        // 配置序列化（解决乱码的问题）
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(30))   // 设置缓存管理器管理的缓存的默认过期时间
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer))
+                .disableCachingNullValues();        // 不缓存空值
+
+        // 初始化缓存名称
+        Set<String> cacheNames = new HashSet<>();
+        cacheNames.add("my-redis-cache1");
+        cacheNames.add("my-redis-cache2");
+
+        // 对每个缓存空间应用不同的配置
+        Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
+        configMap.put("my-redis-cache1", redisCacheConfiguration.entryTtl(Duration.ofMinutes(40)));
+        configMap.put("my-redis-cache2", redisCacheConfiguration.entryTtl(Duration.ofMinutes(50)));
+
+        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory)
+                .cacheDefaults(redisCacheConfiguration)
+                .initialCacheNames(cacheNames)
+                .withInitialCacheConfigurations(configMap)
+                .build();
         return cacheManager;
     }
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @SuppressWarnings("ALL")
     @Bean
     @Primary
     public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         StringRedisTemplate redisTemplate = new StringRedisTemplate(redisConnectionFactory);
-        redisTemplate.afterPropertiesSet();
-        this.setSerializer(redisTemplate);
-        return redisTemplate;
-    }
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
 
-    private void setSerializer(RedisTemplate<String, String> redisTemplate) {
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
 
+        // 设置value的序列化规则和 key的序列化规则
+        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
     }
 
     @Bean

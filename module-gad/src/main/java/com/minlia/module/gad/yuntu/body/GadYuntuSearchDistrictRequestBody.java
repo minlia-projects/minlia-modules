@@ -1,7 +1,7 @@
 package com.minlia.module.gad.yuntu.body;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 区县数据分布检索请求

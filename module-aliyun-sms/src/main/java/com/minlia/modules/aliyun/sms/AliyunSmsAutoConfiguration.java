@@ -10,7 +10,6 @@ import com.minlia.modules.aliyun.sms.properties.AliyunSmsProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +22,11 @@ import org.springframework.core.env.Environment;
 @ConditionalOnClass(SingleSendSmsRequest.class)
 public class AliyunSmsAutoConfiguration implements EnvironmentAware {
 
-    private RelaxedPropertyResolver propertyResolver;
+//    private RelaxedPropertyResolver propertyResolver;
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "aliyun.sms.");
+//        this.propertyResolver = new RelaxedPropertyResolver(environment, "aliyun.sms.");
     }
 
     @Autowired

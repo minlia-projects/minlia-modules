@@ -2,7 +2,7 @@ package com.minlia.module.lbsyun.body.request;
 
 import com.minlia.cloud.body.ApiRequestBody;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

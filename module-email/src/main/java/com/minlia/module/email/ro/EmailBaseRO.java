@@ -20,9 +20,4 @@ public class EmailBaseRO {
      */
     private String[] bcc;
 
-    /**
-     * 邮件主题
-     */
-    private String subject;
-
 }

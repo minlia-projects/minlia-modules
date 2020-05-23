@@ -46,15 +46,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO mdl_district(
 			parent ,
@@ -124,6 +115,11 @@
         WHERE code = #{code,jdbcType=VARCHAR}
     </select>
 
+    <select id="count" resultType="long">
+        select count(1) from mdl_district
+        <include refid="QUERY_CONDITION"/>
+    </select>
+
     <select id="queryOne" resultType="com.minlia.module.disrtict.bean.domain.District">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
@@ -132,7 +128,6 @@
     <select id="queryList" resultType="com.minlia.module.disrtict.bean.domain.District">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryAll" resultType="com.minlia.module.disrtict.bean.domain.District">

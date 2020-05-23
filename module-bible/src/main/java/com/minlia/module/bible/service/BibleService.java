@@ -31,4 +31,6 @@ public interface BibleService {
 
     PageInfo<Bible> queryPage(BibleQRO qro, Pageable pageable);
 
+    void reload();
+
 }

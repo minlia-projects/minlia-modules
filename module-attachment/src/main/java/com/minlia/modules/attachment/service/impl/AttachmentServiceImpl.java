@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.data.context.UserPrincipalHolder;
 import com.minlia.modules.attachment.constant.AttachmentCode;
 import com.minlia.modules.attachment.entity.Attachment;
 import com.minlia.modules.attachment.event.AttachmentEvent;
@@ -97,6 +98,25 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     @Transactional
     public void bindByAccessKey(List<String> accessKeys, String relationId, String belongsTo) {
+//        if (CollectionUtils.isEmpty(accessKeys)) {
+//            attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
+//        } else {
+//            for (String accessKey : accessKeys) {
+//                long count = attachmentMapper.queryCount(AttachmentQRO.builder().relationId(relationId).belongsTo(belongsTo).accessKey(accessKey).build());
+//                if (count == 0) {
+//                    Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
+//                    ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
+//                    attachment.setRelationId(relationId);
+//                    attachment.setBelongsTo(belongsTo);
+//                    attachmentMapper.update(attachment);
+//                }
+//            }
+//            attachmentMapper.deleteByRelationIdAndBelongsToAndNotExistAccessKeys(relationId, belongsTo, accessKeys);
+//        }
+    }
+
+    @Override
+    public void bindByAccessKey(List<String> accessKeys, String relationId, String belongsTo, boolean allowNull) {
         if (CollectionUtils.isEmpty(accessKeys)) {
             attachmentMapper.deleteByRelationIdAndBelongsTo(relationId, belongsTo);
         } else {
@@ -104,10 +124,20 @@ public class AttachmentServiceImpl implements AttachmentService {
                 long count = attachmentMapper.queryCount(AttachmentQRO.builder().relationId(relationId).belongsTo(belongsTo).accessKey(accessKey).build());
                 if (count == 0) {
                     Attachment attachment = attachmentMapper.queryFirstByUnusedKey(accessKey);
-                    ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
-                    attachment.setRelationId(relationId);
-                    attachment.setBelongsTo(belongsTo);
-                    attachmentMapper.update(attachment);
+                    if (allowNull && null == attachment) {
+
+                        attachment = attachmentMapper.queryLastByAccessKey(accessKey);
+                        attachment.setId(null);
+                        attachment.setRelationId(relationId);
+                        attachment.setBelongsTo(belongsTo);
+                        attachment.setCreateBy(UserPrincipalHolder.getCurrentUserLogin());
+                        attachmentMapper.create(attachment);
+                    } else {
+                        ApiAssert.notNull(attachment, AttachmentCode.Message.ETAG_NOT_EXISTS);
+                        attachment.setRelationId(relationId);
+                        attachment.setBelongsTo(belongsTo);
+                        attachmentMapper.update(attachment);
+                    }
                 }
             }
             attachmentMapper.deleteByRelationIdAndBelongsToAndNotExistAccessKeys(relationId, belongsTo, accessKeys);
@@ -145,7 +175,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public PageInfo<Attachment> queryPage(AttachmentQRO qo, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize()).doSelectPageInfo(() -> attachmentMapper.queryList(qo));
+        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qo.getOrderBy()).doSelectPageInfo(() -> attachmentMapper.queryList(qo));
     }
 
     @Override

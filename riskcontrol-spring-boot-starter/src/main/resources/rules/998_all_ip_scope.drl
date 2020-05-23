@@ -1,0 +1,31 @@
+package rules;
+
+import com.minlia.module.riskcontrol.event.RiskIpScopeEvent
+import com.minlia.module.riskcontrol.service.RiskIpListService
+import com.minlia.module.riskcontrol.service.RiskRecordService
+import org.apache.commons.lang3.StringUtils
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum
+import com.minlia.module.riskcontrol.constant.RiskCode
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+
+global RiskIpListService riskIpListService
+global RiskRecordService riskRecordService
+
+/**
+ * IP范围
+ */
+rule "998_all_ip_scope"
+    salience 998
+    lock-on-active true
+    when
+        event:RiskIpScopeEvent()
+    then
+        if (StringUtils.isNotBlank(event.getIp())) {
+            boolean exists = riskIpListService.contain(RiskTypeEnum.WHITE, event.getIp());
+            event.setMatched(exists);
+            if (!exists) {
+                event.setLevel(RiskLevelEnum.DANGER);
+                riskRecordService.createEvent(event, RiskCode.Message.BLACK_IP_SCOPE);
+            }
+        }
+end

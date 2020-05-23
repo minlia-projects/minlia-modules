@@ -8,12 +8,14 @@ import org.springframework.security.core.Authentication;
  */
 public abstract class AbstractAuthenticationService implements AuthenticationService {
 
-    @Override
-    public abstract Authentication authentication(Authentication authentication);
+    public Authentication authentication(Authentication authentication) {
+        return authentication;
+    }
+//    public boolean authentication(Authentication authentication) {
+//        return false;
+//    }
 
-
-//    public abstract Authentication authentication(Authentication authentication) {
-//
+//    public boolean authentication(Authentication authentication) {
 //        Assert.notNull(authentication, "No authentication data provided");
 //        String username = (String) authentication.getPrincipal();
 //        String password = (String) authentication.getCredentials();
@@ -31,4 +33,5 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
 //
 //        return null;
 //    }
+
 }

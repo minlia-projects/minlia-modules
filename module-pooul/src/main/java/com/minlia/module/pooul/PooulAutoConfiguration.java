@@ -1,6 +1,6 @@
 package com.minlia.module.pooul;
 
-import org.springframework.boot.bind.RelaxedPropertyResolver;
+//import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -9,11 +9,11 @@ import org.springframework.core.env.Environment;
 //@EnableConfigurationProperties(value = {PooulPayProperties.class, PooulMerchantProperties.class})
 public class PooulAutoConfiguration implements EnvironmentAware {
 
-    private RelaxedPropertyResolver propertyResolver;
+//    private RelaxedPropertyResolver propertyResolver;
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.propertyResolver = new RelaxedPropertyResolver(environment, "pooul.");
+//        this.propertyResolver = new RelaxedPropertyResolver(environment, "pooul.");
     }
 
 //    @Autowired

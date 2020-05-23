@@ -48,15 +48,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                wat.${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO wx_account(
 			guid ,
@@ -161,7 +152,6 @@
     <select id="queryList" resultType="com.minlia.module.wechat.login.entity.WechatUser">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

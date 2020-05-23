@@ -16,7 +16,7 @@ import com.minlia.modules.qcloud.faceid.utils.SignUtils;
 import com.minlia.modules.qcloud.start.config.QcloudConfig;
 import com.minlia.modules.qcloud.start.constant.QcloudCode;
 import com.minlia.modules.qcloud.start.service.QcloudAuthService;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

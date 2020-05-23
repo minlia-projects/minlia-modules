@@ -1,12 +1,18 @@
 package com.minlia.module.lov.enntity;
 
 import com.minlia.module.data.entity.AbstractEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lov extends AbstractEntity {
 
     /**
@@ -32,7 +38,7 @@ public class Lov extends AbstractEntity {
     /**
      * 排序（升序）
      */
-    private Byte sort;
+    private Integer sort;
 
     /**
      * 禁用标记

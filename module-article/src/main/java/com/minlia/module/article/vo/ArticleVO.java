@@ -1,6 +1,6 @@
 package com.minlia.module.article.vo;
 
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.article.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,67 +12,15 @@ import java.util.List;
  * 文章VO
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ArticleVO extends AbstractEntity {
-
-    /**
-     * 类目ID
-     */
-    private String categoryId;
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+public class ArticleVO extends Article {
 
     /**
      * 类目名称
      */
     private String categoryName;
-
-    /**
-     * 标签ID集
-     */
-    private List<Long> labelIds;
-
-    /**
-     * 标签名称集
-     */
-    private List<String> labelNames;
-
-    /**
-     * 标题
-     */
-    private String title;
-
-    /**
-     * 内容
-     */
-    private String content;
-
-    /**
-     * 封面
-     */
-    private String cover;
-
-    /**
-     * 扩展字段1：所属游戏
-     */
-    private String attribute1;
-
-    /**
-     * 备注
-     */
-    private String notes;
-
-    /**
-     * 是否启用
-     */
-    private Boolean enabled;
-
-
-
-    /**
-     * 阅读数
-     */
-    private Integer readCount;
 
     /**
      * 评论数
@@ -89,16 +37,24 @@ public class ArticleVO extends AbstractEntity {
      */
     private Integer collectionCount;
 
-
+    /**
+     * 标签ID集
+     */
+    private List<Long> labelIds;
 
     /**
-     * 昵称
+     * 标签名称集
      */
-    private String nickname;
+    private List<String> labelNames;
 
-    /**
-     * 头像
-     */
-    private String avatar;
+//    /**
+//     * 昵称
+//     */
+//    private String nickname;
+//
+//    /**
+//     * 头像
+//     */
+//    private String avatar;
 
 }

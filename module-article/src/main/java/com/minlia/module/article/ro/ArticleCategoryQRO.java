@@ -1,10 +1,15 @@
 package com.minlia.module.article.ro;
 
 import com.minlia.module.data.bean.QueryRequest;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -14,19 +19,40 @@ public class ArticleCategoryQRO extends QueryRequest {
 
     private Long id;
 
-    /**
-     * 名称
-     */
+    private String createBy;
+
+    private String lastModifiedBy;
+
+    private LocalDateTime createDate;
+
+    private LocalDateTime lastModifiedDate;
+
+    private Long parentId;
+
+    private boolean parentIdIsNull;
+
+    private Boolean isLeaf;
+
+    @ApiModelProperty(value = "名称", example = "首页")
+    @Size(max = 50)
     private String name;
 
-    /**
-     * 编码
-     */
+    @ApiModelProperty(value = "编码", example = "XXXXXX")
+    @Size(max = 50)
     private String code;
 
     /**
-     * 是否启用
+     * 语言环境
      */
-    private Boolean enabled;
+    private LocaleEnum locale;
+
+    @ApiModelProperty(value = "备注", example = "XXXXXX")
+    @Size(max = 255)
+    private String remark;
+
+    @ApiModelProperty(value = "禁用标识")
+    private Boolean disFlag;
+
+    private Boolean delFlag;
 
 }

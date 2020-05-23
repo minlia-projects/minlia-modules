@@ -2,6 +2,7 @@ package com.minlia.module.bible.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.ro.BibleItemQRO;
@@ -13,6 +14,7 @@ import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.mapper.BibleItemMapper;
 import com.minlia.module.bible.mapper.BibleMapper;
 import com.minlia.module.bible.service.BibleItemService;
+import org.apache.commons.collections.MapUtils;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BibleItemServiceImpl implements BibleItemService {
@@ -120,13 +123,26 @@ public class BibleItemServiceImpl implements BibleItemService {
     @Cacheable(value = "bible_item:page", key = "'bible_item_page:'.concat(#p1.pageNumber.toString()).concat('_').concat(#p1.pageSize.toString()).concat(#p0.toString())")
 //    @Cacheable(value = "bible_item:page", key = "'bible_item_page:'.concat(#p1.pageNumber).concat(#p0).toString()")
     public PageInfo<BibleItem> queryPage(BibleItemQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> this.queryList(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> this.queryList(qro));
     }
 
     @Override
     public String get(String parentCode,String code){
         BibleItem bibleItem = bibleItemMapper.queryOne(BibleItemQRO.builder().parentCode(parentCode).code(code).build());
         return null == bibleItem ? null : bibleItem.getValue();
+    }
+
+    @Override
+    public Map<String, String> queryValueMap(String bibleCode) {
+        Map<String, Map<String, String>> source = bibleItemMapper.queryValueMap(bibleCode);
+        Map<String, String> result = Maps.newHashMap();
+        if (MapUtils.isNotEmpty(source)) {
+            source.entrySet().stream().forEach(entry ->{
+                result.put(entry.getKey(), entry.getValue().get("value"));
+            });
+            return result;
+        }
+        return result;
     }
 
 }

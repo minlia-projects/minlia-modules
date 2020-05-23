@@ -4,10 +4,11 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.module.i18n.constant.I18nConstants;
+import com.minlia.module.i18n.event.I18nReloadEvent;
 import com.minlia.module.i18n.resource.MessageSource;
-import com.minlia.module.i18n.ro.I18nCRO;
-import com.minlia.module.i18n.ro.I18nQRO;
-import com.minlia.module.i18n.ro.I18nURO;
+import com.minlia.module.i18n.bean.I18nCRO;
+import com.minlia.module.i18n.bean.I18nQRO;
+import com.minlia.module.i18n.bean.I18nURO;
 import com.minlia.module.i18n.service.I18nService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +26,7 @@ import javax.validation.Valid;
  */
 @Api(tags = "System I18n", description = "系统国际化")
 @RestController
-@RequestMapping(value = ApiPrefix.V1+"i18n")
+@RequestMapping(value = ApiPrefix.V1 + "i18n")
 public class I18nEndpoint {
 
     @Autowired
@@ -49,8 +50,8 @@ public class I18nEndpoint {
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_DELETE + "')")
-    @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @DeleteMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "删除")
+    @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
         i18nService.delete(id);
         return Response.success();
@@ -61,6 +62,7 @@ public class I18nEndpoint {
     @PostMapping(value = "reload", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response reload() {
         messageSource.reload();
+        I18nReloadEvent.onReload();
         return Response.success();
     }
 
@@ -75,7 +77,7 @@ public class I18nEndpoint {
     @ApiOperation(value = "ID查询", notes = "ID查询", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response queryOne(@PathVariable Long id) {
-        return Response.success(i18nService.queryOne(id));
+        return Response.success(i18nService.queryById(id));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + I18nConstants.SEC_SEARCH + "')")
@@ -89,7 +91,7 @@ public class I18nEndpoint {
     @ApiOperation(value = "分页查询", notes = "ID查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "page", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response queryPage(@PageableDefault Pageable pageable, @RequestBody I18nQRO qro) {
-        return Response.success(i18nService.queryPage(qro,pageable));
+        return Response.success(i18nService.queryPage(qro, pageable));
     }
 
 }

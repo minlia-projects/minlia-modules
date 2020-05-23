@@ -7,8 +7,8 @@
             id ,
             appid ,
             code ,
-            value,
-            language ,
+            `value`,
+            `language` ,
             locale ,
             create_by ,
             create_date ,
@@ -24,29 +24,23 @@
                 AND appid = #{appid}
             </if>
             <if test="code != null">
-                AND code = #{code}
+                AND instr(`code`, #{code}) > 0
             </if>
             <if test="locale != null">
                 AND locale = #{locale}
             </if>
+            <if test="value != null">
+                AND instr(`value`, #{value}) > 0
+            </if>
         </where>
-    </sql>
-
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
-            </foreach>
-        </if>
     </sql>
 
     <insert id="create">
         INSERT INTO mdl_i18n(
             appid ,
             code ,
-            value,
-            language ,
+            `value`,
+            `language` ,
             locale ,
             create_by
         ) VALUES (
@@ -66,38 +60,47 @@
                 appid = #{appid},
             </if>
             <if test="code != null">
-                code = #{code},
+                `code` = #{code},
             </if>
             <if test="value != null">
-                value = #{value},
+                `value` = #{value},
             </if>
             <if test="language != null">
-                language = #{language},
+                `language` = #{language},
             </if>
             <if test="locale != null">
                 locale = #{locale},
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
+        where id = #{id}
     </update>
 
     <delete id="delete">
         DELETE FROM mdl_i18n where id = #{id}
     </delete>
 
-    <select id="queryOne" resultType="com.minlia.module.i18n.entity.I18n">
+    <select id="queryById" resultType="com.minlia.module.i18n.entity.I18n">
         <include refid="QUERY_CONTENT"/>
         WHERE id = #{id}
+    </select>
+
+    <select id="queryOne" resultType="com.minlia.module.i18n.entity.I18n">
+        <include refid="QUERY_CONTENT"/>
+        <include refid="QUERY_CONDITION"/>
     </select>
 
     <select id="queryList" resultType="com.minlia.module.i18n.entity.I18n">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
     <select id="queryMap" resultType="java.util.Map">
+<<<<<<< HEAD
         SELECT code, value FROM mdl_i18n
+=======
+        SELECT code, `value` FROM mdl_i18n
+>>>>>>> dev/coorigions
         <include refid="QUERY_CONDITION"/>
     </select>
 

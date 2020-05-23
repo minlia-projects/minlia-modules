@@ -9,7 +9,7 @@ import com.minlia.module.wallet.bean.entity.Wallet;
 import com.minlia.module.wallet.bean.ro.WalletRechargeRO;
 import com.minlia.module.wallet.service.WalletHistoryService;
 import com.minlia.module.wallet.service.WalletService;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class WalletEndpoint {
 	@PostMapping(value = "history/page", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public Response historyPage(@RequestBody QueryRequest qro) {
         Wallet wallet = walletService.queryByGuid(SecurityContextHolder.getCurrentGuid());
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> walletHistoryService.queryByWalletId(wallet.getId()));
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> walletHistoryService.queryByWalletId(wallet.getId()));
         return Response.success(pageInfo);
 	}
 

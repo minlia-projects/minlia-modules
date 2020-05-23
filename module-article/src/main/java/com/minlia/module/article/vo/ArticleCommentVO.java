@@ -1,11 +1,13 @@
 package com.minlia.module.article.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 文章评论
@@ -44,7 +46,7 @@ public class ArticleCommentVO {
     /**
      * 评论时间
      */
-    private Date createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
 
     /**
      * 昵称

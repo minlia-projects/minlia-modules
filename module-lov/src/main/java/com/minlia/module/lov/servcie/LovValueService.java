@@ -5,7 +5,7 @@ import com.minlia.module.lov.enntity.LovValue;
 
 import java.util.List;
 
-public interface LovValueService{
+public interface LovValueService {
 
     int insertSelective(LovValue record);
 
@@ -15,8 +15,18 @@ public interface LovValueService{
 
     Boolean disable(Long id);
 
+    Boolean delete(Long id);
+
     LovValue selectByPrimaryKey(Long id);
 
     List<LovValue> selectByAll(LovValueQRO qro);
+
+    LovValue selectOneByAll(LovValueQRO qro);
+
+    LovValue selectOneByCodeAndLovCode(String lovCode, String code);
+
+    String selectNameByCodeAndLovCode(String lovCode, String code);
+
+    List<String> selectNameByAll(LovValueQRO qro);
 
 }

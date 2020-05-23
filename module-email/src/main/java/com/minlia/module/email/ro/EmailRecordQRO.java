@@ -1,12 +1,17 @@
 package com.minlia.module.email.ro;
 
 import com.minlia.module.data.bean.QueryRequest;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -15,25 +20,84 @@ import lombok.NoArgsConstructor;
 @ApiModel("联行号-查询")
 public class EmailRecordQRO extends QueryRequest {
 
-    @ApiModelProperty(value = "省")
-    private String province;
+    private Long id;
 
-    @ApiModelProperty(value = "市")
-    private String city;
+    @Size(max = 15)
+    private String createBy;
 
-    @ApiModelProperty(value = "区")
-    private String district;
+    @Size(max = 15)
+    private String lastModifiedBy;
 
-    @ApiModelProperty(value = "街道")
-    private String street;
+    private LocalDateTime createDateTime;
 
-    @ApiModelProperty(value = "银行名称")
-    private String bankname;
+    private LocalDateTime lastModifiedDate;
 
-    @ApiModelProperty(value = "支行名称")
-    private String branchname;
+    private LocalDate createDate;
 
-    @ApiModelProperty(value = "联行号")
+    private LocalDateTime startCreateDateTime;
+
+    private LocalDateTime endCreateDateTime;
+
+    /**
+     * 应用ID
+     */
+    private String appid;
+
+    /**
+     * 编号
+     */
+    @Size(max = 32)
     private String number;
+
+    /**
+     * 模版代码
+     */
+    @Size(max = 100)
+    private String templateCode;
+
+    /**
+     * 主送人
+     */
+    private String sendTo;
+
+    /**
+     * 抄送人
+     */
+    private String sendCc;
+
+    /**
+     * 秘送人
+     */
+    private String sendBcc;
+
+    /**
+     * 语言
+     */
+    private LocaleEnum locale;
+
+    /**
+     * 通道：阿里云、腾讯云、MINLIA
+     */
+    private String channel;
+
+    /**
+     * 主题
+     */
+    private String subject;
+
+    /**
+     * 内容
+     */
+    private String content;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 发送成功
+     */
+    private Boolean successFlag;
 
 }

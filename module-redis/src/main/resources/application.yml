@@ -1,12 +1,18 @@
-security:
-    sessions: never
-
 spring:
-    jackson:
-        joda-date-time-format: yyyy-MM-dd HH:mm:ss
-        date-format: yyyy-MM-dd HH:mm:ss
-        serialization:
-            write_dates_as_timestamps: true
-    mvc:
-        favicon:
-            enabled: false
+  cache:
+    redis:
+      use-key-prefix: true
+      time-to-live: 1d
+  redis:
+    port: 6379
+    host: 127.0.0.1
+    password:
+    database: 0
+    timeout: 1s
+    # Lettuce 是一个可伸缩线程安全的 Redis 客户端，多个线程可以共享同一个 RedisConnection，它利用优秀 netty NIO 框架来高效地管理多个连接
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms

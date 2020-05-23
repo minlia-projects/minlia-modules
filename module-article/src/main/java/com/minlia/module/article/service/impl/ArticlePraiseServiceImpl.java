@@ -6,13 +6,13 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.entity.ArticlePraise;
-import com.minlia.module.article.ro.ArticlePraiseQRO;
-import com.minlia.module.article.ro.ArticleQRO;
-import com.minlia.module.article.ro.ArticlePraiseRO;
 import com.minlia.module.article.mapper.ArticlePraiseMapper;
+import com.minlia.module.article.ro.ArticlePraiseQRO;
+import com.minlia.module.article.ro.ArticlePraiseRO;
+import com.minlia.module.article.ro.ArticleQRO;
 import com.minlia.module.article.service.ArticlePraiseService;
 import com.minlia.module.article.service.ArticleService;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -121,7 +121,7 @@ public class ArticlePraiseServiceImpl implements ArticlePraiseService {
 
     @Override
     public PageInfo<ArticlePraise> page(ArticlePraiseQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> articlePraiseMapper.list(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articlePraiseMapper.list(qro));
     }
 
 }

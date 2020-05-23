@@ -16,4 +16,9 @@ public class EmailTemplateRO extends EmailBaseRO {
      */
     private String templateName;
 
+    /**
+     * 邮件主题
+     */
+    private String subject;
+
 }

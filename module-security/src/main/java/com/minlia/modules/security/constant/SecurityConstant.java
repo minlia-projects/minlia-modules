@@ -9,15 +9,18 @@ public class SecurityConstant {
         throw new AssertionError();
     }
 
-    public static final String ROLE_ADMIN_CODE = "Admin";
+    public static final String SID = "sid";
+
+
+    public static final String ROLE_ADMIN_CODE = "ADMIN";
     public static final String ROLE_ADMIN_DESC = "系统管理员";
     public static final Long ROLE_ADMIN_ID = 1L;
 
-    public static final String ROLE_USER_CODE = "User";
+    public static final String ROLE_USER_CODE = "USER";
     public static final String ROLE_USER_DESC = "用户";
     public static final Long ROLE_USER_ID = 2L;
 
-    public static final String ROLE_GUEST_CODE = "Guest";
+    public static final String ROLE_GUEST_CODE = "GUEST";
     public static final String ROLE_GUEST_DESC = "游客";
     public static final Long ROLE_GUEST_ID = 3L;
 
@@ -42,6 +45,10 @@ public class SecurityConstant {
     public static final String OPERATION_DELETE_CODE = ".delete";
     public static final String OPERATION_DELETE_DESC_CN = "删除";
     public static final String OPERATION_DELETE_DESC_EN = "Delete";
+
+    public static final String OPERATION_DISABLE_CODE = ".disable";
+    public static final String OPERATION_DISABLE_DESC_CN = "禁用";
+    public static final String OPERATION_DISABLE_DESC_EN = "Disable";
 
     public static final String OPERATION_READ_CODE = ".read";
     public static final String OPERATION_READ_DESC_CN = "读取";

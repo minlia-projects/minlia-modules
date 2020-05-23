@@ -58,15 +58,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                madt.${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mdl_advertisement(
             parent_id,
@@ -162,7 +153,6 @@
     <select id="list" resultType="com.minlia.module.ad.bean.entity.Advertisement">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

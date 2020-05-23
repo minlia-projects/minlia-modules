@@ -5,15 +5,15 @@ import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.entity.ArticleComment;
+import com.minlia.module.article.mapper.ArticleCommentMapper;
+import com.minlia.module.article.ro.ArticleCommentCRO;
 import com.minlia.module.article.ro.ArticleCommentQRO;
 import com.minlia.module.article.ro.ArticleQRO;
-import com.minlia.module.article.ro.ArticleCommentCRO;
-import com.minlia.module.article.vo.ArticleCommentVO;
-import com.minlia.module.article.vo.ArticleMyCommentVO;
-import com.minlia.module.article.mapper.ArticleCommentMapper;
 import com.minlia.module.article.service.ArticleCommentService;
 import com.minlia.module.article.service.ArticleService;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.module.article.vo.ArticleCommentVO;
+import com.minlia.module.article.vo.ArticleMyCommentVO;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -73,7 +73,7 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 
     @Override
     public PageInfo<ArticleComment> page(ArticleCommentQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.list(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleCommentMapper.list(qro));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 
     @Override
     public PageInfo<ArticleCommentVO> queryDetailsPage(ArticleCommentQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.queryDetailsList(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleCommentMapper.queryDetailsList(qro));
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 
     @Override
     public PageInfo<ArticleMyCommentVO> queryMyPage(ArticleCommentQRO qro, Pageable pageable) {
-        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(()-> articleCommentMapper.queryMyList(qro));
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> articleCommentMapper.queryMyList(qro));
     }
 
 }

@@ -1,10 +1,9 @@
 package com.minlia.module.email.service;
 
-import com.github.pagehelper.PageInfo;
 import com.minlia.module.email.entity.EmailRecord;
-import org.springframework.data.domain.Pageable;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import org.springframework.scheduling.annotation.Async;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,34 +13,65 @@ public interface EmailService {
 
     /**
      * 发送文本邮件
+     *
+     * @param to
+     * @param templateCode
+     * @param variables
+     * @return
+     */
+    @Async
+    EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables);
+
+    /**
+     * 发送文本邮件
+     *
+     * @param to
+     * @param templateCode
+     * @param variables
+     * @return
+     */
+    @Async
+    EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables, LocaleEnum locale);
+
+    /**
+     * 发送文本邮件
+     *
      * @param to
      * @param subject
      * @param content
      * @return
      */
+    @Async
     EmailRecord sendSimpleMail(String[] to, String subject, String content);
 
     /**
      * 发送HTML邮件
+     *
      * @param to
      * @param subject
      * @param content
      * @return
      */
-    EmailRecord sendHtmlMail(String[] to, String subject, String content);
+    @Async
+    EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables);
+
+    @Async
+    EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables, String templateCode, LocaleEnum locale);
 
     /**
      * 发送模版邮件
+     *
      * @param to
      * @param subject
      * @param templateName
      * @param variables
      * @return
      */
-    EmailRecord sendTemplateMail(String[] to, String subject, String templateName, Map<String, ?> variables);
+    EmailRecord sendTemplateMail(String[] to, String subject, String templateName, Map<String, Object> variables);
 
     /**
      * 发送带附件邮件
+     *
      * @param to
      * @param subject
      * @param content
@@ -52,6 +82,7 @@ public interface EmailService {
 
     /**
      * 发送静态文件邮件
+     *
      * @param to
      * @param subject
      * @param content
@@ -60,15 +91,5 @@ public interface EmailService {
      * @return
      */
     EmailRecord sendInlineResourceMail(String[] to, String subject, String content, String rscPath, String rscId);
-
-    EmailRecord update(EmailRecord emailRecord);
-
-    void delete(String number);
-
-    EmailRecord one(EmailRecord emailRecord);
-
-    List<EmailRecord> list(EmailRecord emailRecord);
-
-    PageInfo<EmailRecord> page(EmailRecord emailRecord, Pageable pageable);
 
 }

@@ -1,16 +1,23 @@
 package com.minlia.module.email.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
+import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.common.constant.SymbolConstants;
+import com.minlia.module.email.config.EmailConfig;
 import com.minlia.module.email.entity.EmailRecord;
-import com.minlia.module.email.mapper.EmailMapper;
+import com.minlia.module.email.service.EmailRecordService;
 import com.minlia.module.email.service.EmailService;
+import com.minlia.module.email.util.TextReplaceUtils;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.richtext.constant.RichtextCode;
+import com.minlia.module.richtext.entity.Richtext;
+import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
+import com.minlia.module.richtext.service.RichtextService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mail.MailProperties;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,8 +28,6 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +38,7 @@ import java.util.Map;
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
-    private EmailMapper emailMapper;
+    private EmailConfig emailConfig;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -47,27 +52,52 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private TemplateEngine templateEngine;
 
+    @Autowired
+    private RichtextService richtextService;
+
+    @Autowired
+    private EmailRecordService emailRecordService;
+
+    @Override
+    public EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables) {
+        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), templateCode);
+        ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
+        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables);
+    }
+
+    @Override
+    public EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables, LocaleEnum locale) {
+        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), templateCode, locale);
+        ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
+        return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables, templateCode, locale);
+    }
+
     @Override
     public EmailRecord sendSimpleMail(String[] to, String subject, String content) {
-//        JavaMailSender javaMailSender = new JavaMailSenderImpl();
-//        javaMailSender.set
-
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mailProperties.getUsername());
         message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
         mailSender.send(message);
-
-//        message.setTo("191285052@qq.com");
-//        message.setSubject("蜂鸟注册验证码");
-//        message.setText("尊敬的用户，您好！您本次操作的验证码为：8888，为了保证您的帐户安全，请勿向任何人提供此验证码。");
-
         return new EmailRecord();
     }
 
     @Override
-    public EmailRecord sendHtmlMail(String[] to, String subject, String content) {
+    public EmailRecord sendTemplateMail(String[] to, String subject, String templateName, Map<String, Object> variables) {
+        Context context = new Context();
+        context.setVariables(variables);
+        String emailContent = templateEngine.process(templateName, context);
+        return this.sendHtmlMail(to, subject, emailContent, null);
+    }
+
+    @Override
+    public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables) {
+        return this.sendHtmlMail(to, subject, content, variables, null, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
+    }
+
+    @Override
+    public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables, String templateCode, LocaleEnum locale) {
         if (null == content) {
             content = "<html>\n" +
                     "<ro>\n" +
@@ -77,31 +107,43 @@ public class EmailServiceImpl implements EmailService {
         }
 
         MimeMessage message = mailSender.createMimeMessage();
+        subject = TextReplaceUtils.replace(subject, variables);
+        String text = TextReplaceUtils.replace(content, variables);
+
+        EmailRecord emailRecord = EmailRecord.builder()
+                .number(null)
+                .templateCode(templateCode)
+                .sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to)))
+                .subject(subject)
+                .content(text)
+                .locale(locale)
+                .channel(mailProperties.getHost())
+                .build();
+
         try {
             //true表示需要创建一个multipart message
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-            message.setFrom(mailProperties.getUsername());
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(content, true);
-            mailSender.send(message);
-            log.info("html邮件发送成功");
-        } catch (MessagingException e) {
+            if (emailConfig.getRealSwitchFlag()) {
+                MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+                message.setFrom(mailProperties.getUsername());
+                helper.setTo(to);
+                helper.setSubject(subject);
+                helper.setText(text, true);
+                mailSender.send(message);
+            }
+            emailRecord.setSuccessFlag(true);
+        } catch (Exception e) {
             log.error("发送html邮件时发生异常！", e);
+            emailRecord.setSuccessFlag(false);
+            emailRecord.setRemark(e.getMessage());
+        } finally {
+            emailRecordService.insertSelective(emailRecord);
         }
-        return new EmailRecord();
+        return emailRecord;
     }
 
-    @Override
-    public EmailRecord sendTemplateMail(String[] to, String subject, String templateName, Map<String, ?> variables) {
-        Context context = new Context();
-        context.setVariables(variables);
-        String emailContent = templateEngine.process(templateName, context);
-        return  sendHtmlMail(to, subject, emailContent);
-    }
 
     @Override
-    public EmailRecord sendAttachmentsMail(String[] to, String subject, String content, String filePath){
+    public EmailRecord sendAttachmentsMail(String[] to, String subject, String content, String filePath) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -124,7 +166,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailRecord sendInlineResourceMail(String[] to, String subject, String content, String rscPath, String rscId){
+    public EmailRecord sendInlineResourceMail(String[] to, String subject, String content, String rscPath, String rscId) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -143,31 +185,6 @@ public class EmailServiceImpl implements EmailService {
             log.error("发送嵌入静态资源的邮件时发生异常！", e);
         }
         return new EmailRecord();
-    }
-
-    @Override
-    public EmailRecord update(EmailRecord emailRecord) {
-        return null;
-    }
-
-    @Override
-    public void delete(String number) {
-        emailMapper.delete(number);
-    }
-
-    @Override
-    public EmailRecord one(EmailRecord emailRecord) {
-        return emailMapper.one(emailRecord);
-    }
-
-    @Override
-    public List<EmailRecord> list(EmailRecord emailRecord) {
-        return emailMapper.list(emailRecord);
-    }
-
-    @Override
-    public PageInfo<EmailRecord> page(EmailRecord emailRecord, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(),pageable.getPageSize()).doSelectPageInfo(()-> emailMapper.list(emailRecord));
     }
 
 }

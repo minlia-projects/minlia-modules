@@ -76,8 +76,8 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public PageInfo<Version> page(VersionQRO qo, Pageable pageable) {
-        return PageHelper.startPage(qo.getPageNumber(), qo.getPageSize()).doSelectPageInfo(()-> versionMapper.list(qo));
+    public PageInfo<Version> page(VersionQRO qro, Pageable pageable) {
+        return PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> versionMapper.list(qro));
     }
 
 }

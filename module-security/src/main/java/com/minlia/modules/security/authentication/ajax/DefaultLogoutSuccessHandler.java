@@ -25,9 +25,8 @@ public class DefaultLogoutSuccessHandler implements LogoutSuccessHandler {
         Map<String, String> result = new HashMap<>();
         result.put( "result", "success" );
         response.setContentType("application/json");
-        response.getWriter().write( objectMapper.writeValueAsString( result ) );
+        response.getWriter().write(objectMapper.writeValueAsString(result));
         response.setStatus(HttpServletResponse.SC_OK);
-
     }
 
 }

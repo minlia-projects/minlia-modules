@@ -1,12 +1,14 @@
 package com.minlia.module.captcha.entity;
 
-import com.minlia.module.data.entity.WithIdEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 系统验证码实体
@@ -15,7 +17,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Captcha extends WithIdEntity {
+public class Captcha extends AbstractEntity {
 
     /**
      * 手机号码
@@ -38,14 +40,19 @@ public class Captcha extends WithIdEntity {
     private Boolean used = false;
 
     /**
-     * 是否锁定(用于风控) TODO
+     * 发送时间
      */
-    private Boolean locked;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime sendTime;
 
     /**
      * 验证有效时间
      */
-    private Date effectiveTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime effectiveTime;
+
+    /**
+     * 倒计时
+     */
+    private Integer countdown;
 
     /**
      * 连续验证失败次数
@@ -53,9 +60,15 @@ public class Captcha extends WithIdEntity {
     private Integer failureCount;
 
     /**
-     * 发送时间
+     * 是否锁定(用于风控) TODO
      */
-    private Date sendTime;
+    private Boolean locked;
+
+    /**
+     * 锁定时间
+     */
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lockTime;
+
 
     /**
      * 每天发送次数 TODO

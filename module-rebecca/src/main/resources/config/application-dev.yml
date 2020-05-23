@@ -2,92 +2,92 @@ server:
   port: 10001
 
 system:
-    appId: rebecca-app
-    token: bWlubGlhCg==
+  appId: rebecca-app
+  token: bWlubGlhCg==
 
 # SPRING PROFILES
 spring:
-    profile: dev
-    application:
-        name: Rebecca
-    http:
-        encoding.charset: UTF-8
-        encoding.enable: true
-        encoding.force: true
-    session:
-        store-type: redis
-    #出现错误时, 直接抛出异常(便于异常统一处理，否则捕获不到404)
-    mvc:
-        throw-exception-if-no-handler-found: true
-    #不要为我们工程中的资源文件建立映射
-    resources:
-        add-mappings: false
+  profile: dev
+  application:
+    name: Rebecca
+  http:
+    encoding.charset: UTF-8
+    encoding.enable: true
+    encoding.force: true
+#  session:
+#    store-type: redis
+  #出现错误时, 直接抛出异常(便于异常统一处理，否则捕获不到404)
+  mvc:
+    throw-exception-if-no-handler-found: true
+  #不要为我们工程中的资源文件建立映射
+  resources:
+    add-mappings: false
 
-    datasource:
-        driverClassName: net.sf.log4jdbc.DriverSpy
-        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_mdl?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
-        name:
-        username: root
-        password: Root.2018
-#        使用druid数据源
-#        type: com.alibaba.druid.pool.DruidDataSource
-        filters: stat
-        maxActive: 20
-        initialSize: 1
-        maxWait: 60000
-        minIdle: 1
-        timeBetweenEvictionRunsMillis: 60000
-        minEvictableIdleTimeMillis: 300000
-        validationQuery: select 1
-        testWhileIdle: true
-        testOnBorrow: false
-        testOnReturn: false
-        poolPreparedStatements: true
-        maxOpenPreparedStatements: 20
-        continue-on-error: true
-        initialize: true
-        data: classpath*:sql/minlia_init.sql
+  datasource:
+    driverClassName: net.sf.log4jdbc.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/bmp?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+    name:
+    username: root
+    password: Root.2018
+    #        使用druid数据源
+    #        type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    continue-on-error: true
+    initialize: true
+  #    data: classpath*:sql/minlia_init.sql
 
-    redis:
-        database: 0
-        host: 127.0.0.1
-        port: 6379
-        password:
-        pool:
-            max-active: 500
-            max-wait: 1000
-            max-idle: 100
-            min-idle: 50
-        timeout: 360
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 500
+      max-wait: 1000
+      max-idle: 100
+      min-idle: 50
+    timeout: 360
 
 system.security.jwt:
-    tokenExpirationTime: 604800 # Number of minutes
-    refreshTokenExpTime: 604800 # Minutes
-    tokenIssuer: http://minlia.com
-    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+  tokenExpirationTime: 604800 # Number of minutes
+  refreshTokenExpTime: 604800 # Minutes
+  tokenIssuer: http://minlia.com
+  tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
 
 swagger:
-    title: ${spring.application.name}接口
-    description: ${spring.application.name}接口
-    version: 1.0
-    contact: cloud@minlia.com
-    path: /api/.*
-    redirect: true
+  title: ${spring.application.name}接口
+  description: ${spring.application.name}接口
+  version: 1.0
+  contact: cloud@minlia.com
+  path: /api/.*
+  redirect: true
 
 mybatis:
-#    config-location: classpath:mybatis/mybatis-config.xml
-    mapper-locations: classpath*:mybatis/mapper/*.xml
-    configuration:
-        map-underscore-to-camel-case: true
+  #    config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath*:mybatis/**/mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
 
 # 分页配置
 pagehelper:
-    helper-dialect: mysql
-    reasonable: true
-    support-methods-arguments: true
-    params: count=countSql
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
 
 sms:
-    templates:
-        security_code: SMS_95635445
+  templates:
+    security_code: SMS_95635445
 

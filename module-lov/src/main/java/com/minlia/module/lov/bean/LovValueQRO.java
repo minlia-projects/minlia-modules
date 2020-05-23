@@ -1,10 +1,16 @@
 package com.minlia.module.lov.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.bean.QueryRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author garen
@@ -13,6 +19,9 @@ import java.util.Date;
  * @date 2019/5/20 4:09 PM
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class LovValueQRO extends QueryRequest {
 
     /**
@@ -20,13 +29,19 @@ public class LovValueQRO extends QueryRequest {
      */
     private Long lovId;
 
-    private Long parentId;
+    @Size(max = 100)
+    private String lovCode;
+
+
+    private String parentId;
 
     /**
      * 编码
      */
     @Size(max = 100)
     private String code;
+
+    private List<String> codes;
 
     /**
      * 名称
@@ -48,6 +63,7 @@ public class LovValueQRO extends QueryRequest {
     /**
      * 语言环境
      */
+    @Size(max = 15)
     private String locale;
 
     /**
@@ -68,12 +84,14 @@ public class LovValueQRO extends QueryRequest {
 
     private Long id;
 
+    @Size(max = 15)
     private String createBy;
 
+    @Size(max = 15)
     private String lastModifiedBy;
 
-    private Date createDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
 
-    private Date lastModifiedDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime lastModifiedDate;
 
 }

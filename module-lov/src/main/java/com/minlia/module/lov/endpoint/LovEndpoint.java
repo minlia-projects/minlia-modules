@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.audit.annotation.AuditLog;
+import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.lov.bean.LovQRO;
 import com.minlia.module.lov.enntity.Lov;
 import com.minlia.module.lov.servcie.LovService;
@@ -18,34 +20,45 @@ import javax.validation.Valid;
 
 @Api(tags = "System Lov", description = "LOV值集")
 @RestController
-@RequestMapping(value = ApiPrefix.OPEN + "lov")
+@RequestMapping(value = ApiPrefix.V1 + "lov")
 public class LovEndpoint {
 
     @Autowired
     private LovService lovService;
 
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.create')")
+    @AuditLog(value = "create a lov", type = OperationTypeEnum.CREATE)
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.create')")
     @ApiOperation(value = "创建", httpMethod = "POST")
     @PostMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response create(@Valid @RequestBody Lov lov) {
         return Response.success(lovService.insertSelective(lov));
     }
 
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.update')")
+    @AuditLog(value = "update a lov", type = OperationTypeEnum.MODIFY)
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.update')")
     @ApiOperation(value = "更新", httpMethod = "PUT")
     @PutMapping(value = "", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response update(@Valid @RequestBody Lov lov) {
         return Response.success(lovService.updateByPrimaryKeySelective(lov));
     }
 
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.delete')")
-    @ApiOperation(value = "启用/禁用", httpMethod = "DELETE")
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response delete(@PathVariable Long id) {
+    @AuditLog(value = "toggle a lov status by id", type = OperationTypeEnum.DELETE)
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.delete')")
+    @ApiOperation(value = "启用/禁用")
+    @RequestMapping(value = "disable/{id}", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response disable(@PathVariable Long id) {
         return Response.success(lovService.disable(id));
     }
 
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.search')")
+    @AuditLog(value = "delete a lov status by id", type = OperationTypeEnum.DELETE)
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.delete')")
+    @ApiOperation(value = "删除", httpMethod = "DELETE")
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response delete(@PathVariable Long id) {
+        return Response.success(lovService.delete(id));
+    }
+
+    //    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.search')")
 //    @ApiOperation(value = "ID查询", httpMethod = "GET")
 //    @GetMapping(value = "{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
 //    public Response one(@PathVariable Long id) {
@@ -59,12 +72,12 @@ public class LovEndpoint {
 //        return Response.success(lovService.selectByAll(qro));
 //    }
 //
-//    @PreAuthorize(value = "hasAnyAuthority('minlia.lov.search')")
-//    @ApiOperation(value = "分页查询", httpMethod = "POST")
-//    @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-//    public Response paginated(@RequestBody LovQRO qro) {
-//        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize()).doSelectPageInfo(() -> lovService.selectByAll(qro));
-//        return Response.success(pageInfo);
-//    }
+    @PreAuthorize(value = "hasAnyAuthority('system.lov.search')")
+    @ApiOperation(value = "分页查询", httpMethod = "POST")
+    @PostMapping(value = "page", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Response paginated(@RequestBody LovQRO qro) {
+        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> lovService.selectByAll(qro));
+        return Response.success(pageInfo);
+    }
 
 }

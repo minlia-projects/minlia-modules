@@ -41,15 +41,6 @@
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                mbit.${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create">
 		INSERT INTO mdl_bible_item(
 			parent_code ,
@@ -124,7 +115,10 @@
     <select id="queryList" resultType="com.minlia.module.bible.entity.BibleItem">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
+    </select>
+
+    <select id="queryValueMap" resultType="java.util.Map">
+        SELECT `code`, `value` from mdl_bible_item WHERE parent_code = #{bibleCode};
     </select>
 
 </mapper>

@@ -7,72 +7,91 @@
             id ,
             type ,
             code ,
-            title ,
+            locale ,
+            subject ,
             content ,
-            note ,
+            dis_flag,
+            remark ,
             create_by ,
             create_date ,
             last_modified_by ,
             last_modified_date
-            enabled
-        FROM minlia_richtext
+        FROM mdl_richtext
     </sql>
 
     <sql id="QUERY_CONDITION">
         <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
             <if test="type != null">
                 AND type = #{type}
             </if>
             <if test="code != null">
                 AND code = #{code}
             </if>
-            <if test="title != null">
-                AND instr(title,#{title}) > 0
+            <if test="locale != null">
+                AND locale = #{locale}
+            </if>
+            <if test="disFlag != null">
+                AND dis_flag = #{disFlag}
+            </if>
+            <if test="subject != null">
+                AND instr(subject,#{subject}) > 0
             </if>
         </where>
     </sql>
 
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
-            </foreach>
-        </if>
-    </sql>
-
     <insert id="create">
-        INSERT INTO minlia_richtext(
+        INSERT INTO mdl_richtext(
             type ,
             code ,
-            title ,
+            locale ,
+            subject ,
             content ,
-            note ,
-            enabled ,
+            remark ,
+            <if test="disFlag != null">
+                dis_flag ,
+            </if>
             create_by
         )
         VALUES (
             #{type} ,
             #{code} ,
-            #{title} ,
+            #{locale} ,
+            #{subject} ,
             #{content} ,
-            #{note} ,
-            #{enabled} ,
+            #{remark} ,
+            <if test="disFlag != null">
+                #{disFlag} ,
+            </if>
             #{createBy}
         )
     </insert>
 
     <update id="update" parameterType="com.minlia.module.richtext.entity.Richtext">
-        UPDATE minlia_richtext
+        UPDATE mdl_richtext
         <set>
-            <if test="title != null">
-                title = #{title},
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="locale != null">
+                locale = #{locale},
+            </if>
+            <if test="subject != null">
+                subject = #{subject},
             </if>
             <if test="content != null">
                 content = #{content},
             </if>
-            <if test="note != null">
-                note = #{note},
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="disFlag != null">
+                dis_flag = #{disFlag},
             </if>
             last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
@@ -80,11 +99,11 @@
     </update>
 
     <delete id="delete">
-        DELETE FROM minlia_richtext WHERE id = #{id}
+        DELETE FROM mdl_richtext WHERE id = #{id}
     </delete>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM minlia_richtext
+        SELECT COUNT(1) FROM mdl_richtext
         <include refid="QUERY_CONDITION"/>
     </select>
 
@@ -106,7 +125,6 @@
     <select id="queryList" resultType="com.minlia.module.richtext.entity.Richtext">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

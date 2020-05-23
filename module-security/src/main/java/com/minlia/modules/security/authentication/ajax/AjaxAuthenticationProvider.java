@@ -7,10 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
-@Transactional
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
@@ -18,6 +16,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
     /**
      * 具体实现请参见 @see RbacAuthenticationService
+     *
      * @param authentication
      * @return
      * @throws AuthenticationException
@@ -25,6 +24,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         return authenticationService.authentication(authentication);
+//        return authentication;
     }
 
     @Override

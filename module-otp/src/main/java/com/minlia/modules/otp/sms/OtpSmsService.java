@@ -14,6 +14,6 @@ public interface OtpSmsService {
      * @param message  短信信息
      * @return 邮件发送id
      */
-    String sendSms(String icc, String destAddr, String message);
+    String send(String icc, String destAddr, String message);
 
 }

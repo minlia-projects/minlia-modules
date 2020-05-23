@@ -10,10 +10,15 @@
 			code ,
 			used ,
 			locked ,
+			lock_time ,
 			failure_count ,
 			effective_time ,
 			send_time ,
-			enabled
+			enabled,
+            create_by ,
+            create_date ,
+            last_modified_by ,
+            last_modified_date
 		FROM
 			mdl_captcha
 	</sql>
@@ -38,16 +43,13 @@
             <if test="enabled != null">
                 AND enabled = #{enabled}
             </if>
+            <if test="createBy != null">
+                AND create_by = #{createBy}
+            </if>
+            <if test="lastModifiedBy != null">
+                AND last_modified_by = #{lastModifiedBy}
+            </if>
         </where>
-    </sql>
-
-    <sql id="ORDER_BY">
-        <if test="sorts != null">
-            ORDER BY
-            <foreach collection="sorts" item="item" separator=",">
-                ${item.filed} ${item.direction}
-            </foreach>
-        </if>
     </sql>
 
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
@@ -59,7 +61,8 @@
 			locked ,
 			failure_count ,
 			effective_time ,
-			send_time
+			send_time,
+			create_by
 		)
 		VALUES (
             #{cellphone,jdbcType=VARCHAR} ,
@@ -69,7 +72,8 @@
             #{locked,jdbcType=TINYINT} ,
             #{failureCount,jdbcType=TINYINT} ,
             #{effectiveTime,jdbcType=TIMESTAMP},
-            #{sendTime,jdbcType=TIMESTAMP}
+            #{sendTime,jdbcType=TIMESTAMP},
+            #{createBy,jdbcType=VARCHAR}
         )
 	</insert>
 
@@ -85,6 +89,9 @@
             <if test="locked != null">
                 locked = #{locked,jdbcType=TINYINT} ,
             </if>
+            <if test="lockTime != null">
+                lock_time = #{lockTime,jdbcType=TIMESTAMP} ,
+            </if>
             <if test="failureCount != null">
                 failure_count = #{failureCount,jdbcType=TINYINT} ,
             </if>
@@ -94,6 +101,7 @@
             <if test="sendTime != null">
                 send_time = #{sendTime,jdbcType=TIMESTAMP} ,
             </if>
+            last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
         </set>
         WHERE id = #{id,jdbcType=BIGINT}
     </update>
@@ -110,7 +118,6 @@
     <select id="queryList" resultType="com.minlia.module.captcha.entity.Captcha">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
-        <include refid="ORDER_BY"/>
     </select>
 
 </mapper>

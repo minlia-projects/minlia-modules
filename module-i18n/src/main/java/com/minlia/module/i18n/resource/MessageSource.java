@@ -2,8 +2,8 @@ package com.minlia.module.i18n.resource;
 
 import com.google.common.collect.Maps;
 import com.minlia.module.i18n.entity.I18n;
-import com.minlia.module.i18n.ro.I18nQRO;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.bean.I18nQRO;
 import com.minlia.module.i18n.service.I18nService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -36,7 +36,7 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 	public MessageSource() {}
 	
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		this.reload();
 	}
 
@@ -50,7 +50,7 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 		LOCAL_CACHE.putAll(getAllMessageResource());
 	}
 
-	public Map<String, Map<String, String>> getAllMessageResource() {
+	private Map<String, Map<String, String>> getAllMessageResource() {
 		final Map<String, Map<String, String>> messageResources = Maps.newHashMap();
 		for (int i = 0; i < LocaleEnum.values().length; i++) {
 			Map<String, String> localeMessageResources = new HashMap<>();
@@ -61,6 +61,14 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 			messageResources.put(LocaleEnum.values()[i].name(), localeMessageResources);
 		}
 		return messageResources;
+	}
+
+	public Map<String, String> getLocalCache(Locale locale) {
+		return LOCAL_CACHE.get(locale.toString());
+	}
+
+	public Map<String, String> getLocalCache(String locale) {
+		return LOCAL_CACHE.get(locale);
 	}
 
 	@Override

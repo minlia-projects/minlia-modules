@@ -18,15 +18,13 @@ public interface ArticleService {
 
     Article update(ArticleURO uto);
 
-    void delete(Long id);
+    int delete(Long id);
 
     Response setLabels(ArticleSetLabelRO to);
 
     Article queryById(Long id);
 
     long count(ArticleQRO qro);
-
-    Article one(ArticleQRO qro);
 
     List<Article> list(ArticleQRO qro);
 

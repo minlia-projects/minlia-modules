@@ -1,12 +1,15 @@
 package com.minlia.module.article.ro;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.bean.QueryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Data
 @Builder
@@ -18,6 +21,6 @@ public class ArticleCollectionQRO extends QueryRequest {
 
     private String collector;
 
-    private Date collectionDate;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime collectionDate;
 
 }

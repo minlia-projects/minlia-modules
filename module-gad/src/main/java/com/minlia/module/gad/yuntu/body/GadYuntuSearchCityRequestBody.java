@@ -1,7 +1,7 @@
 package com.minlia.module.gad.yuntu.body;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 本地检索请求体

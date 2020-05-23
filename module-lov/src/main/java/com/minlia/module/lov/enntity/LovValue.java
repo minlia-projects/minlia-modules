@@ -2,8 +2,9 @@ package com.minlia.module.lov.enntity;
 
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -16,22 +17,27 @@ public class LovValue extends AbstractEntity {
     @NotNull
     private Long lovId;
 
+    @Transient
+    @Size(max = 100)
+    private String lovCode;
+
     /**
      * 父ID
      */
-    private Long parentId;
+    @Size(max = 100)
+    private String parentId;
 
     /**
      * 编码
      */
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String code;
 
     /**
      * 名称
      */
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     private String name;
 
@@ -39,6 +45,7 @@ public class LovValue extends AbstractEntity {
      * 语言环境
      */
     @NotBlank
+    @Size(max = 10)
     private String locale;
 
     /**
@@ -50,7 +57,7 @@ public class LovValue extends AbstractEntity {
     /**
      * 排序（升序）
      */
-    private Byte sort;
+    private Integer sort;
 
     /**
      * 禁用标记

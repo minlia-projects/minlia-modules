@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.audit.mapper.AuditLogInfoMapper">
+    <resultMap id="BaseResultMap" type="com.minlia.module.audit.entity.AuditLogInfo">
+        <!--@mbg.generated-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="operation_type" jdbcType="VARCHAR" property="operationType"/>
+        <result column="tags" jdbcType="VARCHAR" property="tags"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="service_id" jdbcType="VARCHAR" property="serviceId"/>
+        <result column="remote_addr" jdbcType="VARCHAR" property="remoteAddr"/>
+        <result column="user_agent" jdbcType="VARCHAR" property="userAgent"/>
+        <result column="request_uri" jdbcType="VARCHAR" property="requestUri"/>
+        <result column="params" jdbcType="VARCHAR" property="params"/>
+        <result column="time" jdbcType="BIGINT" property="time"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="exception" jdbcType="VARCHAR" property="exception"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
+        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, username, `method`, operation_type, tags, title, service_id, remote_addr, user_agent,
+        request_uri, params, `time`, del_flag, `exception`, create_by, create_date, last_modified_by,
+        last_modified_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_audit_log
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from mdl_audit_log
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.minlia.module.audit.entity.AuditLogInfo" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into mdl_audit_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="method != null">
+                `method`,
+            </if>
+            <if test="operationType != null">
+                operation_type,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="serviceId != null">
+                service_id,
+            </if>
+            <if test="remoteAddr != null">
+                remote_addr,
+            </if>
+            <if test="userAgent != null">
+                user_agent,
+            </if>
+            <if test="requestUri != null">
+                request_uri,
+            </if>
+            <if test="params != null">
+                params,
+            </if>
+            <if test="time != null">
+                `time`,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="exception != null">
+                `exception`,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by,
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null">
+                #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="operationType != null">
+                #{operationType,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceId != null">
+                #{serviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="remoteAddr != null">
+                #{remoteAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="userAgent != null">
+                #{userAgent,jdbcType=VARCHAR},
+            </if>
+            <if test="requestUri != null">
+                #{requestUri,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null">
+                #{params,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=BIGINT},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="exception != null">
+                #{exception,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null">
+                #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedDate != null">
+                #{lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.audit.entity.AuditLogInfo">
+        <!--@mbg.generated-->
+        update mdl_audit_log
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="method != null">
+                `method` = #{method,jdbcType=VARCHAR},
+            </if>
+            <if test="operationType != null">
+                operation_type = #{operationType,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                tags = #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceId != null">
+                service_id = #{serviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="remoteAddr != null">
+                remote_addr = #{remoteAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="userAgent != null">
+                user_agent = #{userAgent,jdbcType=VARCHAR},
+            </if>
+            <if test="requestUri != null">
+                request_uri = #{requestUri,jdbcType=VARCHAR},
+            </if>
+            <if test="params != null">
+                params = #{params,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                `time` = #{time,jdbcType=BIGINT},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="exception != null">
+                `exception` = #{exception,jdbcType=VARCHAR},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastModifiedBy != null">
+                last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedDate != null">
+                last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--auto generated by MybatisCodeHelper on 2019-07-29-->
+    <select id="selectByAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mdl_audit_log
+        where 1=1
+        <if test="id != null">
+            and id=#{id,jdbcType=BIGINT}
+        </if>
+        <if test="username != null">
+            and username=#{username,jdbcType=VARCHAR}
+        </if>
+        <if test="method != null">
+            and `method`=#{method,jdbcType=VARCHAR}
+        </if>
+        <if test="operationType != null">
+            and operation_type=#{operationType,jdbcType=VARCHAR}
+        </if>
+        <if test="tags != null">
+            and tags=#{tags,jdbcType=VARCHAR}
+        </if>
+        <if test="title != null">
+            and title=#{title,jdbcType=VARCHAR}
+        </if>
+        <if test="serviceId != null">
+            and service_id=#{serviceId,jdbcType=VARCHAR}
+        </if>
+        <if test="remoteAddr != null">
+            and remote_addr=#{remoteAddr,jdbcType=VARCHAR}
+        </if>
+        <if test="userAgent != null">
+            and user_agent=#{userAgent,jdbcType=VARCHAR}
+        </if>
+        <if test="requestUri != null">
+            and request_uri=#{requestUri,jdbcType=VARCHAR}
+        </if>
+        <if test="params != null">
+            and params=#{params,jdbcType=VARCHAR}
+        </if>
+        <if test="time != null">
+            and `time`=#{time,jdbcType=BIGINT}
+        </if>
+        <if test="delFlag != null">
+            and del_flag=#{delFlag,jdbcType=INTEGER}
+        </if>
+        <if test="exception != null">
+            and `exception`=#{exception,jdbcType=VARCHAR}
+        </if>
+        <if test="createBy != null">
+            and create_by=#{createBy,jdbcType=VARCHAR}
+        </if>
+        <if test="createDateTime != null">
+            and create_date=#{createDateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastModifiedBy != null">
+            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+        </if>
+        <if test="lastModifiedDateTime != null">
+            and last_modified_date=#{lastModifiedDateTime,jdbcType=TIMESTAMP}
+        </if>
+
+        <if test="createDate != null">
+            and DATEDIFF(create_date, #{createDate,jdbcType=TIMESTAMP}) = 0
+        </if>
+        <if test="lastModifiedDate != null">
+            and DATEDIFF(last_modified_date, #{lastModifiedDate,jdbcType=TIMESTAMP}) = 0
+        </if>
+
+        <if test="ltCreateDateTime != null">
+            and create_date >= #{ltCreateDateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="gtLastModifiedDateTime != null">
+            and last_modified_date <![CDATA[ <= ]]> #{gtLastModifiedDateTime,jdbcType=TIMESTAMP}
+        </if>
+
+    </select>
+</mapper>

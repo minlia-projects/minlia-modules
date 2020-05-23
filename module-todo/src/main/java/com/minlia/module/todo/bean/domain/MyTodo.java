@@ -1,12 +1,15 @@
 package com.minlia.module.todo.bean.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.todo.enumeration.TodoStatus;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 /**
  * Created by garen on 2018/4/27.
@@ -54,12 +57,12 @@ public class MyTodo extends AbstractEntity {
     /**
      * 时间：待办时间、待处理时间
      */
-    private Date time;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime time;
 
     /**
      * 过期时间:到时间没处理定时任务自动修改为已过期
      */
-    private Date expiryTime;
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime expiryTime;
 
     /**
      * 备注

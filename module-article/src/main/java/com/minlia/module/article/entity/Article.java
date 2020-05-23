@@ -1,10 +1,16 @@
 package com.minlia.module.article.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.modules.attachment.entity.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Transient;
+
+import java.util.List;
 
 /**
  * 文章
@@ -19,6 +25,13 @@ public class Article extends AbstractEntity {
      * 类目ID
      */
     private Long categoryId;
+    @Transient
+    private List<Long> categoryIds;
+
+    /**
+     * 编码
+     */
+    private String code;
 
     /**
      * 标题
@@ -31,28 +44,77 @@ public class Article extends AbstractEntity {
     private String content;
 
     /**
-     * 封面
+     * 描述
      */
-    private String cover;
+    private String description;
 
     /**
-     * 扩展字段
+     * 语言环境
      */
-    private String attribute1;
+    private LocaleEnum locale;
 
     /**
-     * 备注
+     * 草稿标识
      */
-    private String notes;
+    private Boolean draftFlag;
+
+    /**
+     * 禁用标识
+     */
+    private Boolean disFlag;
+
+    /**
+     * 删除标识
+     */
+    private Boolean delFlag;
 
     /**
      * 阅读数
      */
-    private Integer readCount;
+    private Long readCount;
 
     /**
-     * 是否启用
+     * 封面
      */
-    private Boolean enabled;
+    private String cover;
+    @Transient
+    @JsonIgnoreProperties({"id", "createBy", "lastModifiedBy", "createDate", "lastModifiedDate"})
+    private Attachment coverObj;
+
+
+    /**
+     * 关键字
+     */
+    private String keywords;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 扩展字段1
+     */
+    private String attribute1;
+
+    /**
+     * 扩展字段2
+     */
+    private String attribute2;
+
+    /**
+     * 扩展字段3
+     */
+    private String attribute3;
+
+    /**
+     * 扩展字段4
+     */
+    private String attribute4;
+
+    /**
+     * 扩展字段5
+     */
+    private String attribute5;
 
 }

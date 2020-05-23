@@ -1,7 +1,7 @@
 package com.minlia.module.i18n.mapper;
 
 import com.minlia.module.i18n.entity.I18n;
-import com.minlia.module.i18n.ro.I18nQRO;
+import com.minlia.module.i18n.bean.I18nQRO;
 import org.apache.ibatis.annotations.MapKey;
 
 import java.util.List;
@@ -18,7 +18,9 @@ public interface I18nMapper {
 
     void delete(Long id);
 
-    I18n queryOne(Long id);
+    I18n queryById(Long id);
+
+    I18n queryOne(I18nQRO qro);
 
     List<I18n> queryList(I18nQRO qro);
 

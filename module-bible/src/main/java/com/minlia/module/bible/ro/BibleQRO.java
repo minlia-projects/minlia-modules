@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Size;
+
 /**
  * Created by will on 7/5/17.
  */
@@ -19,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class BibleQRO extends QueryRequest {
 
   @ApiModelProperty(value = "编码")
+  @Size(max = 50)
   private String code;
 
 //  @ApiModelProperty(value = "编码搜索符")
