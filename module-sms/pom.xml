@@ -21,9 +21,8 @@
 
     <repositories>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus Staging</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>internal-nexus-repository</id>
+            <url>https://nexus.app.minlia.com/repository/maven-public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
