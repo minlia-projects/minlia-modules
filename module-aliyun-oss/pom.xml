@@ -22,7 +22,7 @@
         <commons-io.version>2.5</commons-io.version>
         <aliyun-oss.version>2.2.1</aliyun-oss.version>
     </properties>
-    
+
     <repositories>
         <repository>
             <id>internal-nexus-repository</id>
