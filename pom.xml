@@ -86,7 +86,6 @@
 
 
         <module>module-otp</module>
-        <module>module-captcha</module>
         <module>module-lov</module>
         <!--<module>module-richtext</module>-->
 
