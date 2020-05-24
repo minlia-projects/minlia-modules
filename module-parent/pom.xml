@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.minlia.cloud</groupId>
+        <artifactId>minlia-cloud-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.minlia.cloud.modules</groupId>
+    <artifactId>module-parent</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Minlia Module Parent</name>
+    <description>Minlia Module Parent</description>
+    <url>https://minlia.com/module/parent/</url>
+    <inceptionYear>2020</inceptionYear>
+
+    <properties>
+        <minlia.cloud.version>2.0.0-SNAPSHOT</minlia.cloud.version>
+        <minlia.module.version>2.0.0-SNAPSHOT</minlia.module.version>
+    </properties>
+
+    <!-- <distributionManagement>
+    <snapshotRepository>
+        <id>ossrh</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+        <id>ossrh</id>
+        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+</distributionManagement> -->
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>https://nexus.app.minlia.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>https://nexus.app.minlia.com/repository/maven-releases/</url>
+        </repository>
+    </distributionManagement>
+
+</project>
