@@ -16,13 +16,13 @@ import java.util.Map;
 //@EnableConfigurationProperties({CaptchaConfig.class})
 public class CaptchaAutoConfiguration {
 
-    @Autowired
-    private BibleItemService bibleItemService;
-
-    @Bean
-    public CaptchaConfig captchaConfig() {
-        Map<String, String> map = bibleItemService.queryValueMap("CAPTCHA_CONFIG");
-        return BibleMapUtils.mapToBean(map, CaptchaConfig.class);
-    }
+//    @Autowired
+//    private BibleItemService bibleItemService;
+//
+//    @Bean
+//    public CaptchaConfig captchaConfig() {
+//        Map<String, String> map = bibleItemService.queryValueMap("CAPTCHA_CONFIG");
+//        return BibleMapUtils.mapToBean(map, CaptchaConfig.class);
+//    }
 
 }
