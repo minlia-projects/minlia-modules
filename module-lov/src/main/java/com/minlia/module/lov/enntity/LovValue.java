@@ -2,9 +2,10 @@ package com.minlia.module.lov.enntity;
 
 import com.minlia.module.data.entity.AbstractEntity;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
+
 import javax.validation.constraints.NotBlank;
 
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
