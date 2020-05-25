@@ -96,11 +96,7 @@
     </select>
 
     <select id="queryMap" resultType="java.util.Map">
-<<<<<<< HEAD
-        SELECT code, value FROM mdl_i18n
-=======
         SELECT code, `value` FROM mdl_i18n
->>>>>>> dev/coorigions
         <include refid="QUERY_CONDITION"/>
     </select>
 

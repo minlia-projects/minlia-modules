@@ -14,7 +14,6 @@ import com.minlia.module.sms.property.SmsProperties;
 import com.minlia.module.sms.service.SmsRecordService;
 import com.minlia.module.sms.service.SmsService;
 import com.minlia.module.sms.util.TextReplaceUtils;
-import com.minlia.modules.otp.sms.OtpSmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -35,8 +34,8 @@ public class SmsServiceImpl implements SmsService {
     @Autowired
     private SmsProperties smsProperties;
 
-    @Autowired
-    private OtpSmsService otpSmsService;
+//    @Autowired
+//    private OtpSmsService otpSmsService;
 
     @Autowired
     private RichtextService richtextService;
@@ -57,8 +56,8 @@ public class SmsServiceImpl implements SmsService {
         SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
         try {
             if (smsConfig.getRealSwitchFlag()) {
-                String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
-                smsRecord.setRemark(result);
+//                String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
+//                smsRecord.setRemark(result);
             } else {
                 smsRecord.setRemark("unreal");
             }
