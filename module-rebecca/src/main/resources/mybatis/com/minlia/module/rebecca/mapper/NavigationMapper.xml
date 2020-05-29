@@ -105,9 +105,9 @@
     <update id="updateType">
         UPDATE mdl_navigation
         SET
-            type = #{arg1,jdbcType=VARCHAR} ,
+            type = #{type,jdbcType=VARCHAR} ,
             last_modified_date = SYSDATE()
-        WHERE id = #{arg0,jdbcType=SMALLINT}
+        WHERE id = #{id,jdbcType=SMALLINT}
     </update>
 
     <update id="display">
@@ -128,9 +128,9 @@
             navigation_id
         )
         VALUES
-        <foreach collection="arg1" item="item" index="index" separator=",">
+        <foreach collection="ids" item="item" index="index" separator=",">
             (
-            #{arg0,jdbcType=BIGINT} ,
+            #{roleId,jdbcType=BIGINT} ,
             #{item,jdbcType=SMALLINT}
             )
         </foreach>
