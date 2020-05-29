@@ -8,6 +8,7 @@ import lombok.Data;
 import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -100,11 +101,8 @@ public class AuthenticationErrorResponseBody {
     public static Locale getLocale() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Cookie localeCookie = WebUtils.getCookie(request, "locale");
-        if (null == localeCookie) {
-            return LocaleContextHolder.getLocale();
-        } else {
-            return LocaleUtils.toLocale(localeCookie.getValue());
-        }
+//        return null == localeCookie ? LocaleContextHolder.getLocale() : LocaleUtils.toLocale(localeCookie.getValue());
+        return null == localeCookie ? LocaleContextHolder.getLocale() : StringUtils.parseLocale(localeCookie.getValue());
     }
 
 }
