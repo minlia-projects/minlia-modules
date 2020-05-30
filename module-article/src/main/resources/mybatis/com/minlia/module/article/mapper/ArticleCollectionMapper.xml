@@ -56,11 +56,11 @@
     </sql>
 
     <insert id="create">
-        INSERT INTO mdl_article_collection (article_id, collector)VALUES(#{arg0}, #{arg1})
+        INSERT INTO mdl_article_collection (article_id, collector)VALUES(#{articleId}, #{guid})
     </insert>
 
     <delete id="delete">
-        DELETE FROM mdl_article_collection WHERE article_id = #{arg0} AND collector = #{arg1}
+        DELETE FROM mdl_article_collection WHERE article_id = #{articleId} AND collector = #{guid}
     </delete>
 
     <select id="queryCount" resultType="long">

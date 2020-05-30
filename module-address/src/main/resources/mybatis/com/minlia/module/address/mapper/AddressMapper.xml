@@ -93,8 +93,8 @@
     </update>
 
     <update id="updateDefault">
-        UPDATE mdl_address SET def = 0 WHERE guid = #{arg0} AND def = 1 AND enabled = 1;
-        UPDATE mdl_address SET def = 1 WHERE id = #{arg1};
+        UPDATE mdl_address SET def = 0 WHERE guid = #{guid} AND def = 1 AND enabled = 1;
+        UPDATE mdl_address SET def = 1 WHERE id = #{id};
     </update>
 
     <delete id="delete">

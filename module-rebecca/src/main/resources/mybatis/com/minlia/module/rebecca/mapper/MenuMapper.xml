@@ -327,16 +327,16 @@
     </delete>
 
     <insert id="grant">
-        DELETE FROM mdl_role_menu where role_id = #{arg0};
+        DELETE FROM mdl_role_menu where role_id = #{roleId};
 
         INSERT INTO mdl_role_menu(
         role_id ,
         menu_id
         )
         VALUES
-        <foreach collection="arg1" item="item" index="index" separator=",">
+        <foreach collection="ids" item="item" index="index" separator=",">
             (
-            #{arg0,jdbcType=BIGINT} ,
+            #{roleId,jdbcType=BIGINT} ,
             #{item,jdbcType=SMALLINT}
             )
         </foreach>

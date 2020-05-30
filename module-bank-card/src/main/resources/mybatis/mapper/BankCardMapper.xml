@@ -113,8 +113,8 @@
     </update>
 
     <update id="setWithdraw">
-        UPDATE mdl_bank_card SET is_withdraw = 0 WHERE guid = #{arg0};
-        UPDATE mdl_bank_card SET is_withdraw = 1 WHERE guid = #{arg0} AND id = #{arg1};
+        UPDATE mdl_bank_card SET is_withdraw = 0 WHERE guid = #{guid};
+        UPDATE mdl_bank_card SET is_withdraw = 1 WHERE guid = #{guid} AND id = #{id};
     </update>
 
     <delete id="delete">

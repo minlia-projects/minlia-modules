@@ -391,7 +391,7 @@
     </select>
 
     <update id="plusReadCount">
-        UPDATE mdl_article set read_count = read_count + #{arg1} where id = #{arg0}
+        UPDATE mdl_article set read_count = read_count + #{increment} where id = #{id}
     </update>
 
 

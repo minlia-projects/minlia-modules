@@ -98,7 +98,7 @@
 	</delete>
 
     <delete id="deleteRolePermission">
-		DELETE FROM mdl_role_permission where role_id = #{arg0};
+		DELETE FROM mdl_role_permission where role_id = #{id};
 	</delete>
 
     <delete id="grant">
@@ -107,9 +107,9 @@
         permission_id
         )
         VALUES
-        <foreach collection="arg1" item="item" index="index" separator=",">
+        <foreach collection="permissions" item="item" index="index" separator=",">
             (
-            #{arg0,jdbcType=BIGINT} ,
+            #{id,jdbcType=BIGINT} ,
             #{item,jdbcType=SMALLINT}
             )
         </foreach>

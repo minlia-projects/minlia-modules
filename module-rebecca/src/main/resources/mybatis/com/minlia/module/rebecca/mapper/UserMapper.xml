@@ -186,16 +186,16 @@
     </delete>
 
     <update id="grant">
-        DELETE FROM mdl_user_role where user_id = #{arg0};
+        DELETE FROM mdl_user_role where user_id = #{id};
 
         INSERT INTO mdl_user_role(
         user_id ,
         role_id
         )
         VALUES
-        <foreach collection="arg1" item="item" index="index" separator=",">
+        <foreach collection="roles" item="item" index="index" separator=",">
             (
-            #{arg0,jdbcType=BIGINT} ,
+            #{id,jdbcType=BIGINT} ,
             #{item,jdbcType=SMALLINT}
             )
         </foreach>
@@ -204,7 +204,7 @@
 
     <select id="queryByUsernameOrCellphoneOrEmail" resultType="com.minlia.modules.rebecca.bean.domain.User">
         <include refid="QUERY_CONTENT"/>
-        WHERE mut.guid = #{arg0} OR mut.username = #{arg0} OR mut.cellphone = #{arg0} OR email = #{arg0}
+        WHERE mut.guid = #{arg} OR mut.username = #{arg} OR mut.cellphone = #{arg} OR email = #{arg}
     </select>
 
     <select id="count" resultType="java.lang.Long">

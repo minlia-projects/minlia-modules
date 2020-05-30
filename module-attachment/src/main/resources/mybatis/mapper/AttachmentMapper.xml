@@ -120,11 +120,11 @@
 	</delete>
 
     <delete id="deleteByRelationIdAndBelongsTo">
-		DELETE FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+		DELETE FROM mdl_attachment WHERE relation_id = #{relationId} AND belongs_to = #{belongsTo}
 	</delete>
 
     <delete id="deleteByRelationIdAndBelongsToAndNotExistAccessKeys">
-        DELETE FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+        DELETE FROM mdl_attachment WHERE relation_id = #{relationId} AND belongs_to = #{belongsTo}
         AND access_key NOT IN
         <foreach collection="arg2" item="item" separator="," open="(" close=")">
             #{item}
@@ -169,11 +169,11 @@
     </select>
 
     <select id="queryUrls" resultType="java.lang.String">
-        SELECT IFNULL(GROUP_CONCAT(url),'') FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1}
+        SELECT IFNULL(GROUP_CONCAT(url),'') FROM mdl_attachment WHERE relation_id = #{relationId} AND belongs_to = #{belongsTo}
     </select>
 
     <select id="queryFirstUrl" resultType="java.lang.String">
-        SELECT url FROM mdl_attachment WHERE relation_id = #{arg0} AND belongs_to = #{arg1} LIMIT 0 , 1
+        SELECT url FROM mdl_attachment WHERE relation_id = #{relationId} AND belongs_to = #{belongsTo} LIMIT 0 , 1
     </select>
 
 </mapper>
