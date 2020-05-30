@@ -113,9 +113,9 @@
     <update id="display">
         UPDATE mdl_navigation
         SET
-            display = #{arg1,jdbcType=TINYINT} ,
+            display = #{display,jdbcType=TINYINT} ,
             last_modified_date = SYSDATE()
-        WHERE id = #{arg0,jdbcType=SMALLINT}
+        WHERE id = #{id,jdbcType=SMALLINT}
     </update>
 
     <delete id="delete">
