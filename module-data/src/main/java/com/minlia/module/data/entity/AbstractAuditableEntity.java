@@ -29,19 +29,19 @@ import java.time.LocalDateTime;
 public class AbstractAuditableEntity extends AbstractStatefulEntity implements AuditableType {
 
     @CreatedBy
-    @Column(name="created_by", columnDefinition = "varchar(254) null default '10000'")
+    @Column(name="created_by", columnDefinition = "varchar(254) null default '10000' COMMENT 'created by'")
     private String createdBy;
 
     @LastModifiedBy
-    @Column(name="last_modified_by", columnDefinition = "varchar(254) null default '10000'")
+    @Column(name="last_modified_by", columnDefinition = "varchar(254) null default '10000' COMMENT 'last modified by'")
     private String lastModifiedBy;
 
     @CreatedDate
-    @Column(name = "created_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
+    @Column(name = "created_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP COMMENT 'created date'")
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(name = "last_modified_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0)")
+    @Column(name = "last_modified_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT 'last modified date'")
     private LocalDateTime lastModifiedDate;
 
     @PreUpdate
