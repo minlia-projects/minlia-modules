@@ -9,10 +9,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -29,15 +26,21 @@ import java.time.LocalDateTime;
 public class AbstractAuditableEntity extends AbstractStatefulEntity implements AuditableType {
 
     @CreatedBy
+    @Column(name="created_by", columnDefinition = "varchar(254) null default '10000'")
     private String createdBy;
 
     @LastModifiedBy
+    @Column(name="last_modified_by", columnDefinition = "varchar(254) null default '10000'")
     private String lastModifiedBy;
 
     @CreatedDate
+    @Column(name = "created_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
+    @Column(name = "last_modified_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0)")
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastModifiedDate;
 
     @PreUpdate

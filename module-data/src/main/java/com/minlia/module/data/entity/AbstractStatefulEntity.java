@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -21,7 +22,7 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @SuperBuilder
 public abstract class AbstractStatefulEntity extends AbstractIdentifiableEntity implements StatefulType {
-
+    @Column(name = "data_status",  columnDefinition = "TINYINT DEFAULT 1")
     private DataStatusEnum dataStatus;
 
 }
