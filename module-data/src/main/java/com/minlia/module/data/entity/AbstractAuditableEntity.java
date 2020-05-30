@@ -1,7 +1,10 @@
 package com.minlia.module.data.entity;
 
 import com.minlia.module.data.type.AuditableType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,12 +38,10 @@ public class AbstractAuditableEntity extends AbstractStatefulEntity implements A
 
     @CreatedDate
     @Column(name = "created_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
     @Column(name = "last_modified_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0)")
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastModifiedDate;
 
     @PreUpdate
