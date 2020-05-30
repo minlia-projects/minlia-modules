@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 public class DataScopeParam {
 
-    private DataScopeDimensionEnum dimension = DataScopeDimensionEnum.ORGID;
+    private DataScopeDimensionEnum dimension = DataScopeDimensionEnum.ORGINATION_ID;
 
     /**
      * 限制范围的字段名称
