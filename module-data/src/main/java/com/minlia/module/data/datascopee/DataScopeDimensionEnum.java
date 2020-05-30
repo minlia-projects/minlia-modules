@@ -20,12 +20,6 @@ package com.minlia.module.data.datascopee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * @author lengleng
- * @date 2018/12/26
- * <p>
- * 数据权限类型
- */
 @Getter
 @AllArgsConstructor
 public enum DataScopeDimensionEnum {
@@ -33,12 +27,12 @@ public enum DataScopeDimensionEnum {
     /**
      * 用户ID
      */
-    UID,
+    GUID,
 
     /**
      * 组织
      */
-    ORGID,
+    ORGINATION_ID,
 
     /**
      * 区域

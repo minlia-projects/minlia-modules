@@ -20,12 +20,6 @@ package com.minlia.module.data.datascopee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * @author lengleng
- * @date 2018/12/26
- * <p>
- * 数据权限类型
- */
 @Getter
 @AllArgsConstructor
 public enum DataScopeTypeEnum {
