@@ -1,6 +1,8 @@
 package com.minlia.module.data.entity.v1;
 
 import com.minlia.module.data.enumeration.DataStatusEnum;
+import com.minlia.module.data.type.AbstractAuditableType;
+import com.minlia.module.data.type.AuditableType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
@@ -23,7 +25,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class AbstractAuditableEntity extends AbstractStatefulEntity implements AuditableEntity {
+public class AbstractAuditableEntity extends AbstractStatefulEntity implements AuditableType {
 
     @CreatedBy
     private String createdBy;
@@ -51,14 +53,5 @@ public class AbstractAuditableEntity extends AbstractStatefulEntity implements A
 //    protected void preRemove() {
 //        updateTime = new Date();
 //    }
-
-    public AbstractAuditableEntity(Long id, DataStatusEnum dataStatus,String createdBy,String lastModifiedBy,LocalDateTime createdDate,LocalDateTime lastModifiedDate){
-        super(id,dataStatus);
-        this.createdBy=createdBy;
-        this.lastModifiedBy=lastModifiedBy;
-        this.createdDate=createdDate;
-        this.lastModifiedDate=lastModifiedDate;
-
-    }
 
 }

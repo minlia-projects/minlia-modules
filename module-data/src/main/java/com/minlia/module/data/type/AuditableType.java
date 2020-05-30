@@ -1,7 +1,6 @@
-package com.minlia.module.data.entity.v1;
+package com.minlia.module.data.type;
 
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
  * 关于日期类型的使用, 请参考: https://www.baeldung.com/migrating-to-java-8-date-time-api
  *
  */
-public interface AuditableEntity extends IdentifableEntity {
+public interface AuditableType extends IdentifableType {
 
     public String getCreatedBy();
 

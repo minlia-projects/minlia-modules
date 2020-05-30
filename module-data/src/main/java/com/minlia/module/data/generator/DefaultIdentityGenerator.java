@@ -1,4 +1,4 @@
-package com.minlia.module.data.entity.v1;
+package com.minlia.module.data.generator;
 
 import com.minlia.module.data.util.ReflectionUtils;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
