@@ -1,6 +1,6 @@
 package com.minlia.module.lov.enntity;
 
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import lombok.Data;
 import org.springframework.data.annotation.Transient;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class LovValue extends AbstractEntity {
+public class LovValue extends AuditableEntity {
 
     /**
      * 值集ID

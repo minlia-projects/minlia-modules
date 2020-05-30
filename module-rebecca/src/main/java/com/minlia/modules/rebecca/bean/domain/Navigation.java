@@ -2,7 +2,7 @@ package com.minlia.modules.rebecca.bean.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import com.minlia.modules.rebecca.enumeration.NavigationType;
 import lombok.*;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
 @EqualsAndHashCode(of = {"id"},callSuper = true)
-public class Navigation extends AbstractEntity {
+public class Navigation extends AuditableEntity {
 
     /**
      * 父ID

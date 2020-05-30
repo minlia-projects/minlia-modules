@@ -1,7 +1,7 @@
 package com.minlia.module.article.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.modules.attachment.entity.Attachment;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Article extends AbstractEntity {
+public class Article extends AuditableEntity {
 
     /**
      * 类目ID

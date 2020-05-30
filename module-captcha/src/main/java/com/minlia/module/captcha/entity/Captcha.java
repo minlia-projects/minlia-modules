@@ -2,7 +2,7 @@ package com.minlia.module.captcha.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minlia.module.common.constant.LocalDateConstants;
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Captcha extends AbstractEntity {
+public class Captcha extends AuditableEntity {
 
     /**
      * 手机号码

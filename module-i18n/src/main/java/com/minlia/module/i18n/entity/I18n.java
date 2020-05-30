@@ -1,10 +1,10 @@
 package com.minlia.module.i18n.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import lombok.Data;
 
 @Data
-public class I18n extends AbstractEntity {
+public class I18n extends AuditableEntity {
 
     /**
      * 应用ID

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.minlia.module.common.constant.LocalDateConstants;
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.modules.rebecca.enumeration.UserStatusEnum;
 import lombok.*;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
 @EqualsAndHashCode(of = {"guid", "username"})
-public class User extends AbstractEntity {
+public class User extends AuditableEntity {
 
     /**
      * 组织ID

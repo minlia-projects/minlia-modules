@@ -2,7 +2,7 @@ package com.minlia.module.bible.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import lombok.*;
 
 /**
@@ -17,7 +17,7 @@ import lombok.*;
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
 @EqualsAndHashCode(of = {"id","code"},callSuper = true)
-public class Bible extends AbstractEntity {
+public class Bible extends AuditableEntity {
 
   private static final long serialVersionUID = 1L;
 

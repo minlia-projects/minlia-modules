@@ -1,6 +1,6 @@
 package com.minlia.module.richtext.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Richtext extends AbstractEntity {
+public class Richtext extends AuditableEntity {
 
     /**
      * 类型

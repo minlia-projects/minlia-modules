@@ -1,6 +1,6 @@
 package com.minlia.module.email.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailRecord extends AbstractEntity {
+public class EmailRecord extends AuditableEntity {
 
     /**
      * 应用ID

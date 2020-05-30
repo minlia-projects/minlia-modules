@@ -2,7 +2,7 @@ package com.minlia.module.ad.bean.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.minlia.module.ad.enumeration.AdTypeEnum;
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import com.minlia.modules.attachment.entity.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Advertisement extends AbstractEntity {
+public class Advertisement extends AuditableEntity {
 
     /**
      * 父ID

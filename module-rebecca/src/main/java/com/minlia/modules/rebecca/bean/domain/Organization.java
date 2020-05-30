@@ -1,6 +1,6 @@
 package com.minlia.modules.rebecca.bean.domain;
 
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Organization extends AbstractEntity {
+public class Organization extends AuditableEntity {
 
     /**
      * 父ID

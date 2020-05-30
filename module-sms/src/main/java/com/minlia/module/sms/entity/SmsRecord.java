@@ -1,6 +1,6 @@
 package com.minlia.module.sms.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.data.entity.AuditableEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SmsRecord extends AbstractEntity {
+public class SmsRecord extends AuditableEntity {
 
     /**
      * 应用ID
