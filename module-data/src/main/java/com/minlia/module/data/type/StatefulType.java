@@ -3,9 +3,11 @@ package com.minlia.module.data.type;
 import com.minlia.module.data.enumeration.DataStatusEnum;
 
 /**
- * 带状态的实体
+ * @author william raym at minlia.com
+ * Created on: 2020-05-30
+ * With statueful type
  */
-public interface StatefulType extends IdentifableType {
+public interface StatefulType extends IdentifiableType {
 
     DataStatusEnum getDataStatus();
 

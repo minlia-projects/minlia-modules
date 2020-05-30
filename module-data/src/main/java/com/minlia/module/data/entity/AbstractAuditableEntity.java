@@ -1,7 +1,5 @@
-package com.minlia.module.data.entity.v1;
+package com.minlia.module.data.entity;
 
-import com.minlia.module.data.enumeration.DataStatusEnum;
-import com.minlia.module.data.type.AbstractAuditableType;
 import com.minlia.module.data.type.AuditableType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -17,7 +15,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
-
+/**
+ * @author william raym at minlia.com
+ * Created on: 2020-05-30
+ */
 @Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

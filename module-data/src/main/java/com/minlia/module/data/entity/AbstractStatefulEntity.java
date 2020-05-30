@@ -1,7 +1,6 @@
-package com.minlia.module.data.entity.v1;
+package com.minlia.module.data.entity;
 
 import com.minlia.module.data.enumeration.DataStatusEnum;
-import com.minlia.module.data.type.AbstractStatefulType;
 import com.minlia.module.data.type.StatefulType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,13 +10,17 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.MappedSuperclass;
 
+/**
+ * @author william raym at minlia.com
+ * Created on: 2020-05-30
+ */
 @Data
 @MappedSuperclass
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public abstract class AbstractStatefulEntity extends AbstractIdentifableEntity implements StatefulType {
+public abstract class AbstractStatefulEntity extends AbstractIdentifiableEntity implements StatefulType {
 
     private DataStatusEnum dataStatus;
 

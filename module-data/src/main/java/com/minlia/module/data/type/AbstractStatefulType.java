@@ -7,13 +7,16 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-
+/**
+ * @author william raym at minlia.com
+ * Created on: 2020-05-30
+ */
 @Data
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public abstract class AbstractStatefulType extends AbstractIdentifableType implements StatefulType {
+public abstract class AbstractStatefulType extends AbstractIdentifiableType implements StatefulType {
 
     private DataStatusEnum dataStatus;
 
