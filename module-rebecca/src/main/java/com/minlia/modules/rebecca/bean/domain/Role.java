@@ -2,7 +2,7 @@ package com.minlia.modules.rebecca.bean.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.*;
 
 /**
@@ -16,7 +16,7 @@ import lombok.*;
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
 @EqualsAndHashCode(of = {"code"})
-public class Role extends AuditableEntity {
+public class Role extends AbstractEntity {
 
     private Long parentId;
 

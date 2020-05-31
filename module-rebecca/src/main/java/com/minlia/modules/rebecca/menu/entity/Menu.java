@@ -1,7 +1,7 @@
 package com.minlia.modules.rebecca.menu.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.modules.rebecca.enumeration.NavigationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Menu extends AuditableEntity {
+public class Menu extends AbstractEntity {
 
     /**
     * 父ID

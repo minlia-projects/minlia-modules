@@ -1,6 +1,6 @@
 package com.minlia.module.article.entity;
 
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticlePraise extends AuditableEntity {
+public class ArticlePraise extends AbstractEntity {
 
     /**
      * 文章ID

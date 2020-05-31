@@ -1,7 +1,7 @@
 package com.minlia.module.ad.bean.entity;
 
 import com.minlia.module.ad.enumeration.PlatformEnum;
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.*;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(of = "id")
-public class Advertisements extends AuditableEntity {
+public class Advertisements extends AbstractEntity {
 
     /**
      * 名称

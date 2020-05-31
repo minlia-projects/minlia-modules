@@ -1,6 +1,6 @@
 package com.minlia.module.article.entity;
 
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleLabel extends AuditableEntity {
+public class ArticleLabel extends AbstractEntity {
 
     /**
      * 编码

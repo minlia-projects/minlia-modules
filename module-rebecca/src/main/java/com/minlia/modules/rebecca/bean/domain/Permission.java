@@ -3,7 +3,7 @@ package com.minlia.modules.rebecca.bean.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.*;
 
 /**
@@ -17,7 +17,7 @@ import lombok.*;
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
 @EqualsAndHashCode(of = {"id"}, callSuper = true)
-public class Permission extends AuditableEntity {
+public class Permission extends AbstractEntity {
 
     /**
      * 权限点编码：account.creation

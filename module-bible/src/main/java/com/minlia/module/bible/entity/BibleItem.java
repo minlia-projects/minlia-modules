@@ -1,6 +1,6 @@
 package com.minlia.module.bible.entity;
 
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 //@JsonIgnoreProperties(value = {})
 //@ToString(of = {"id"})
 //@EqualsAndHashCode(of = {"id","parentCode","code"},callSuper = true)
-public class BibleItem extends AuditableEntity {
+public class BibleItem extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 

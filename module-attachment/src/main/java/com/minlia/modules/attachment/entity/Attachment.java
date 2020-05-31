@@ -2,7 +2,7 @@ package com.minlia.modules.attachment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.modules.attachment.enumeration.StorageTypeEnum;
 import lombok.*;
 
@@ -18,7 +18,7 @@ import lombok.*;
 @JsonIgnoreProperties(value = {})
 @ToString(of = {"id"})
 @EqualsAndHashCode(of = {"id"})
-public class Attachment extends AuditableEntity {
+public class Attachment extends AbstractEntity {
 
     /**
      * 业务类型

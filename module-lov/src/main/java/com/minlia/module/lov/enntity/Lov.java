@@ -1,6 +1,6 @@
 package com.minlia.module.lov.enntity;
 
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Lov extends AuditableEntity {
+public class Lov extends AbstractEntity {
 
     /**
      * 编码

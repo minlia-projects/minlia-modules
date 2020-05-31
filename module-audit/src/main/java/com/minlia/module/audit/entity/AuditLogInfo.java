@@ -1,11 +1,11 @@
 package com.minlia.module.audit.entity;
 
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.Data;
 
 @Data
-public class AuditLogInfo extends AuditableEntity {
+public class AuditLogInfo extends AbstractEntity {
 
     /**
      * 用户名

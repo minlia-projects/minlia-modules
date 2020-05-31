@@ -3,7 +3,7 @@ package com.minlia.module.disrtict.bean.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.minlia.module.data.entity.AuditableEntity;
+import com.minlia.module.data.entity.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonPropertyOrder({})
 @JsonIgnoreProperties(value = {})
-public class District extends AuditableEntity {
+public class District extends AbstractEntity {
 
     /**
      * 编码
