@@ -16,6 +16,7 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.mp.enums.WxMpApiUrl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -52,7 +53,8 @@ public class WechatMpEndpoint {
         params.put("type", type);
         params.put("offset", offset);
         params.put("count", count);
-        String responseText = this.wxMpService.post(WxMpMaterialService.MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
+//        String responseText = this.wxMpService.post(WxMpMaterialService.MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
+        String responseText = this.wxMpService.post(WxMpApiUrl.Material.MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
         WxError wxError = WxError.fromJson(responseText);
         if (wxError.getErrorCode() != 0) {
             throw new WxErrorException(wxError);

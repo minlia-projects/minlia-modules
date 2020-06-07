@@ -5,7 +5,7 @@ import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
+import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.entity.BibleItem;
 import com.minlia.module.bible.ro.BibleItemQRO;
@@ -41,20 +41,23 @@ import java.io.File;
 @Transactional
 public class WechatMaServiceImpl implements WechatMaService {
 
-    @Autowired
-    private WxMaService wxMaService;
-    @Autowired
-    private BibleItemService bibleItemService;
-    @Autowired
-    private AttachmentUploadService attachmentUploadService;
-    @Autowired
-    private WechatUserService wechatUserService;
+    private final WxMaService wxMaService;
+    private final BibleItemService bibleItemService;
+    private final AttachmentUploadService attachmentUploadService;
+    private final WechatUserService wechatUserService;
 
     static String DEFAULT_QRCODE_PATH = "qrcode";
 
+    public WechatMaServiceImpl(WxMaService wxMaService, BibleItemService bibleItemService, AttachmentUploadService attachmentUploadService, WechatUserService wechatUserService) {
+        this.wxMaService = wxMaService;
+        this.bibleItemService = bibleItemService;
+        this.attachmentUploadService = attachmentUploadService;
+        this.wechatUserService = wechatUserService;
+    }
+
     @Override
     public WxMaService getWxMaService(String type) {
-        WxMaInMemoryConfig wxMaConfig = new WxMaInMemoryConfig();
+        WxMaDefaultConfigImpl wxMaConfig = new WxMaDefaultConfigImpl();
         if (null != type) {
             BibleItem bibleItem = bibleItemService.queryOne(BibleItemQRO.builder().parentCode(WechatMaBibleConstants.MINIAPP_CODE).code(type).build());
             ApiAssert.notNull(bibleItem, WechatMaCode.Message.PARAMETER_NOT_CONFIG, type);

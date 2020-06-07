@@ -11,8 +11,8 @@ import com.minlia.module.wechat.ma.event.WechatMaUpdatedEvent;
 import com.minlia.module.wechat.ma.mapper.WechatMaUserMapper;
 import com.minlia.module.wechat.ma.service.WechatMaService;
 import com.minlia.module.wechat.ma.service.WechatMaUserService;
-import com.minlia.modules.rbac.bean.domain.User;
-import com.minlia.modules.rbac.context.SecurityContextHolder;
+import com.minlia.modules.rebecca.bean.domain.User;
+import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
@@ -29,14 +29,17 @@ import java.util.List;
 @Slf4j
 public class WechatMaUserServiceImpl implements WechatMaUserService {
 
-    @Autowired
-    private Mapper mapper;
-    @Autowired
-    private WechatMaService wechatMaService;
-    @Autowired
-    private WechatMaUserMapper wechatMaUserMapper;
-    @Autowired
-    private WechatUserService wechatUserService;
+    private final Mapper mapper;
+    private final WechatMaService wechatMaService;
+    private final WechatMaUserMapper wechatMaUserMapper;
+    private final WechatUserService wechatUserService;
+
+    public WechatMaUserServiceImpl(Mapper mapper, WechatMaService wechatMaService, WechatMaUserMapper wechatMaUserMapper, WechatUserService wechatUserService) {
+        this.mapper = mapper;
+        this.wechatMaService = wechatMaService;
+        this.wechatMaUserMapper = wechatMaUserMapper;
+        this.wechatUserService = wechatUserService;
+    }
 
     @Override
     @Transactional

@@ -24,7 +24,7 @@
         <module>module-http</module>
         <module>module-logger</module>
         <module>module-swagger</module>
-        <!--<module>module-websocket</module>-->
+
         <module>module-security</module>
         <module>module-data</module>
         <!--<module>module-dict</module>-->
@@ -56,9 +56,10 @@
         <module>module-bible</module>
         <module>module-attachment</module>
 
+        <module>module-websocket</module>
         <!--微信-->
-        <!--<module>module-wechat</module>-->
-        <!--<module>module-wechat-material</module>-->
+        <module>module-wechat</module>
+        <module>module-wechat-material</module>
 
         <!--腾讯云-->
         <module>module-qcloud-start</module>

@@ -3,7 +3,6 @@ package com.minlia.module.wechat.login.service.impl;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.service.BibleItemService;
@@ -40,7 +39,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,24 +48,27 @@ import java.util.List;
 @Service
 public class WechatLoginServiceImpl implements WechatLoginService {
 
-    @Autowired
-    private WxMpService wxMpService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private LoginService loginService;
-    @Autowired
-    private WechatMaService wechatMaService;
-    @Autowired
-    private UserQueryService userQueryService;
-    @Autowired
-    private BibleItemService bibleItemService;
-    @Autowired
-    private WechatUserService wechatUserService;
-    @Autowired
-    private WechatMaUserService wechatMaUserService;
-    @Autowired
-    private UserRegistrationService userRegistrationService;
+    private final WxMpService wxMpService;
+    private final UserService userService;
+    private final LoginService loginService;
+    private final WechatMaService wechatMaService;
+    private final UserQueryService userQueryService;
+    private final BibleItemService bibleItemService;
+    private final WechatUserService wechatUserService;
+    private final WechatMaUserService wechatMaUserService;
+    private final UserRegistrationService userRegistrationService;
+
+    public WechatLoginServiceImpl(WxMpService wxMpService, UserService userService, LoginService loginService, WechatMaService wechatMaService, UserQueryService userQueryService, BibleItemService bibleItemService, WechatUserService wechatUserService, WechatMaUserService wechatMaUserService, UserRegistrationService userRegistrationService) {
+        this.wxMpService = wxMpService;
+        this.userService = userService;
+        this.loginService = loginService;
+        this.wechatMaService = wechatMaService;
+        this.userQueryService = userQueryService;
+        this.bibleItemService = bibleItemService;
+        this.wechatUserService = wechatUserService;
+        this.wechatMaUserService = wechatMaUserService;
+        this.userRegistrationService = userRegistrationService;
+    }
 
     @Override
     public Response loginByWxMpCode(WechatLoginRO ro) throws WxErrorException {
@@ -116,7 +117,10 @@ public class WechatLoginServiceImpl implements WechatLoginService {
                 log.info("登陆创建默认用户---------------------------");
                 String username = NumberGenerator.generatorByYMDHMSS("C",5);
                 String rawPassword = RandomStringUtils.randomAlphabetic(8);
-                User user = userService.create(UserCTO.builder().method(RegistrationMethodEnum.USERNAME).username(username).password(rawPassword).roles(Sets.newHashSet(2L)).defaultRole(2L).build());
+
+//                User user = userService.create(UserCTO.builder().method(RegistrationMethodEnum.USERNAME).username(username).password(rawPassword).roles(Sets.newHashSet(2L)).defaultRole(2L).build());
+                //TODO finxme for upgrading error 
+                User user = userService.create(UserCTO.builder().username(username).password(rawPassword).build());//.roles(Sets.newHashSet(2L)).defaultRole(2L)
                 wechatUser.setGuid(user.getGuid());
                 wechatUserService.create(wechatUser);
                 return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));

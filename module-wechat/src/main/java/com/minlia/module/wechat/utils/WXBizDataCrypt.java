@@ -5,8 +5,8 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import me.chanjar.weixin.common.util.crypto.PKCS7Encoder;
-import sun.misc.BASE64Decoder;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.binary.Base64;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -59,10 +59,13 @@ public class WXBizDataCrypt {
     public String decrypt(String encryptedData, String sessionKey, String iv, String encodingFormat) throws Exception {  
         try {  
             Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");  
-            BASE64Decoder base64Decoder = new BASE64Decoder();  
-            byte[] _encryptedData = base64Decoder.decodeBuffer(encryptedData);
-            byte[] _sessionKey = base64Decoder.decodeBuffer(sessionKey);
-            byte[] _iv = base64Decoder.decodeBuffer(iv);
+//            BASE64Decoder base64Decoder = new BASE64Decoder();
+//            byte[] _encryptedData = base64Decoder.decodeBuffer(encryptedData);
+//            byte[] _sessionKey = base64Decoder.decodeBuffer(sessionKey);
+//            byte[] _iv = base64Decoder.decodeBuffer(iv);
+            byte[] _encryptedData = Base64.decodeBase64(encryptedData);
+            byte[] _sessionKey = Base64.decodeBase64(sessionKey);
+            byte[] _iv = Base64.decodeBase64(iv);
 
             SecretKeySpec secretKeySpec = new SecretKeySpec(_sessionKey, "AES");
             IvParameterSpec ivParameterSpec = new IvParameterSpec(_iv);

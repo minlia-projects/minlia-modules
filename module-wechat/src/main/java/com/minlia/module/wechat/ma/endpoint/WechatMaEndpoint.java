@@ -26,11 +26,14 @@ import javax.validation.Valid;
 @RequestMapping(value = ApiPrefix.V1 + "wechat/miniapp")
 public class WechatMaEndpoint {
 
-    @Autowired
-    private WechatMaService wechatMaService;
+    private final WechatMaService wechatMaService;
 
-    @Autowired
-    private WechatMaUserService wechatMaUserService;
+    private final WechatMaUserService wechatMaUserService;
+
+    public WechatMaEndpoint(WechatMaService wechatMaService, WechatMaUserService wechatMaUserService) {
+        this.wechatMaService = wechatMaService;
+        this.wechatMaUserService = wechatMaUserService;
+    }
 
     @ApiOperation(value = "更新微信用户详情", notes = "更新微信用户详情", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "userinfo", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
