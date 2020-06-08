@@ -14,8 +14,8 @@
 			wat.is_subscribe ,
 			wat.raw_password ,
 			wat.cellphone ,
-			wat.create_by ,
-			wat.create_date ,
+			wat.created_by ,
+			wat.created_date ,
 			wat.last_modified_by ,
 			wat.last_modified_date
 		FROM
@@ -51,7 +51,7 @@
     <insert id="create" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO wx_account(
 			guid ,
-			type ,
+			`type` ,
 			union_id ,
 			open_id ,
 			wx_code ,
@@ -59,7 +59,7 @@
 			is_subscribe ,
 			raw_password ,
 			cellphone ,
-			create_by
+			created_by
 		)
 		VALUES
         (
@@ -72,7 +72,7 @@
             #{isSubscribe,jdbcType=TINYINT},
             #{rawPassword,jdbcType=VARCHAR},
             #{cellphone,jdbcType=VARCHAR},
-            #{createBy,jdbcType=VARCHAR}
+            #{createdBy,jdbcType=VARCHAR}
         )
 	</insert>
 
@@ -83,7 +83,7 @@
                 guid = #{guid,jdbcType=VARCHAR} ,
             </if>
             <if test="type != null">
-                type = #{type,jdbcType=VARCHAR} ,
+                `type` = #{type,jdbcType=VARCHAR} ,
             </if>
             <if test="unionId != null">
                 union_id = #{unionId,jdbcType=VARCHAR} ,
@@ -147,6 +147,7 @@
     <select id="queryOne" resultType="com.minlia.module.wechat.login.entity.WechatUser">
         <include refid="QUERY_CONTENT"/>
         <include refid="QUERY_CONDITION"/>
+        limit 1
     </select>
 
     <select id="queryList" resultType="com.minlia.module.wechat.login.entity.WechatUser">

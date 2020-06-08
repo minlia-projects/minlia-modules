@@ -20,7 +20,7 @@ public class WechatLoginRO {
     @ApiModelProperty(value = "微信返回的加密码后的数据")
     private String encryptedData;
 
-    @ApiModelProperty(value = "类型，区分不用的小程序")
+    @ApiModelProperty(value = "微信账号类型，区分多个小程序")
     private String type;
 
 }

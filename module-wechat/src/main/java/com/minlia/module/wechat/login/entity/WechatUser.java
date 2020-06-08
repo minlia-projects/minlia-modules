@@ -1,12 +1,18 @@
 package com.minlia.module.wechat.login.entity;
 
 
+import com.minlia.module.data.entity.AbstractAuditableEntity;
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
 
 /**
  * 微信公众号
@@ -14,11 +20,13 @@ import lombok.NoArgsConstructor;
  * @since: 1.0.0.RELEASE
  * Bible Define as a JPA entity
  */
+@Entity
+@Table(name = "wx_account")
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WechatUser extends AbstractEntity {
+public class WechatUser extends AbstractAuditableEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,6 +53,7 @@ public class WechatUser extends AbstractEntity {
     /**
      * openId类型
      */
+    @Enumerated(EnumType.STRING)
     private WechatOpenidType type;
 
     /**

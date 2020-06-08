@@ -1,10 +1,16 @@
 package com.minlia.module.wechat.ma.config;
 
+import com.minlia.module.bible.service.BibleItemService;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * 使用bible替代配置项
+ * @see WechatMaAutoConfiguration
+ */
+@Deprecated
 @Data
 @ConfigurationProperties(prefix = "wechat.miniapp")
 public class WechatMaProperties {

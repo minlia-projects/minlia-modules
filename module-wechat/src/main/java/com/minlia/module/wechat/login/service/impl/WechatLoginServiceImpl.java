@@ -3,6 +3,7 @@ package com.minlia.module.wechat.login.service.impl;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
+import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.bible.service.BibleItemService;
@@ -17,6 +18,7 @@ import com.minlia.module.wechat.ma.bean.entity.WechatMaUser;
 import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
 import com.minlia.module.wechat.ma.constant.WechatMaBibleConstants;
 import com.minlia.module.wechat.ma.enumeration.WechatOpenidType;
+import com.minlia.module.wechat.ma.event.WechatMaEventPublisher;
 import com.minlia.module.wechat.ma.service.WechatMaService;
 import com.minlia.module.wechat.ma.service.WechatMaUserService;
 import com.minlia.module.wechat.mp.constant.WechatMpCode;
@@ -117,12 +119,11 @@ public class WechatLoginServiceImpl implements WechatLoginService {
                 log.info("登陆创建默认用户---------------------------");
                 String username = NumberGenerator.generatorByYMDHMSS("C",5);
                 String rawPassword = RandomStringUtils.randomAlphabetic(8);
-
 //                User user = userService.create(UserCTO.builder().method(RegistrationMethodEnum.USERNAME).username(username).password(rawPassword).roles(Sets.newHashSet(2L)).defaultRole(2L).build());
-                //TODO finxme for upgrading error 
-                User user = userService.create(UserCTO.builder().username(username).password(rawPassword).build());//.roles(Sets.newHashSet(2L)).defaultRole(2L)
+                User user = userService.create(UserCTO.builder().username(username).password(rawPassword).defaultRole(SecurityConstant.ROLE_USER_CODE).roles(Sets.newHashSet(SecurityConstant.ROLE_USER_CODE)).build());
                 wechatUser.setGuid(user.getGuid());
                 wechatUserService.create(wechatUser);
+                WechatMaEventPublisher.onAuthorized(wechatUser);
                 return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             } else {
                 //判断是否用其他openId登录过 TODO
@@ -135,6 +136,7 @@ public class WechatLoginServiceImpl implements WechatLoginService {
                         wechatUser.setGuid(wechatUsers.get(0).getGuid());
                         wechatUserService.create(wechatUser);
                         User user = userQueryService.queryOne(UserQO.builder().guid(wechatUser.getGuid()).build());
+                        WechatMaEventPublisher.onAuthorized(wechatUser);
                         return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
                     }
                 } else {
@@ -152,12 +154,123 @@ public class WechatLoginServiceImpl implements WechatLoginService {
             if (null != wechatUser.getGuid()) {
                 log.error("小程序login guid-------------------------------------------------");
                 User user = userQueryService.queryOne(UserQO.builder().guid(wechatUser.getGuid()).build());
+                WechatMaEventPublisher.onAuthorized(wechatUser);
                 return Response.success(loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
             } else {
                 return Response.success(UserCode.Message.UNREGISTERED);
             }
         }
     }
+
+    private Response login2222(WechatOpenidType wechatOpenidType, String unionId, String openId, String openidSubitem, String wxCode) {
+        log.debug("小程序授权登录");
+        log.debug("根据类型[{}] 和 openid [{}] 查询出微信用户", wechatOpenidType, openId);
+        WechatUser wechatUser = wechatUserService.queryOne(WechatUserQO.builder().type(wechatOpenidType).openId(openId).build());
+        log.debug("查询到的微信用户: {}", wechatUser);
+        User user;
+
+        if (StringUtils.isNotBlank(unionId)) {
+            log.debug("当有联盟号时");
+            log.debug("UnionId: {}", unionId);
+            List<WechatUser> wechatUsers = this.wechatUserService.queryByUnionIdAndGuidNotNull(unionId);
+            if (CollectionUtils.isEmpty(wechatUsers)) {
+                log.debug("通过微信联盟ID查找不到微信用户信息");
+                this.wechatUserService.create(wechatUser);
+                return Response.success(com.minlia.modules.rebecca.constant.UserCode.Message.UNREGISTERED);
+            } else {
+                log.debug("通过微信联盟ID查找到微信用户信息: 共: {}", wechatUsers.size());
+                wechatUser.setGuid((wechatUsers.get(0)).getGuid());
+                WechatUser created = this.wechatUserService.create(wechatUser);
+                user = this.userQueryService.queryOne(UserQO.builder().guid(wechatUser.getGuid()).build());
+                WechatMaEventPublisher.onAuthorized(created);
+                return Response.success(this.loginService.loginWithRole(user, SecurityConstant.ROLE_USER_CODE));
+            }
+        }
+
+        if (null == wechatUser) {
+            //当无法查询到微信用户时自动创建一个微信用户
+            wechatUser = createWechatUserAccount(wechatOpenidType, unionId, openId, openidSubitem, wxCode);
+            user = createSystemUser(wechatUser);
+        } else {
+            //一个已授权登录过的老用户
+            user = updateWechatUserAccount(wxCode, wechatUser);
+        }
+
+//        } else {
+//            log.info("小程序login unionId is null-------------------------------------------------");
+//            WechatUser created = this.wechatUserService.create(wechatUser);
+//            WechatMaEventPublisher.onAuthorized(created);
+//            return Response.success(com.minlia.modules.rebecca.constant.UserCode.Message.UNREGISTERED);
+        WechatMaEventPublisher.onAuthorized(wechatUser);
+        return Response.success(user);
+    }
+
+    private User updateWechatUserAccount(String wxCode, WechatUser wechatUser) {
+        wechatUser.setWxCode(wxCode);
+        WechatUser updated = wechatUserService.update(wechatUser);
+        WechatMaEventPublisher.onUpdated(updated);
+        User user = userQueryService.queryOne(UserQO.builder().guid(wechatUser.getGuid()).build());
+        return user;
+    }
+
+    /**
+     * 当系统配置允许创建系统用户时自动创建系统用户, 并与当前微信用户绑定
+     *
+     * @param wechatUser
+     */
+    private User createSystemUser(WechatUser wechatUser) {
+        log.debug("创建系统用户");
+        Boolean allowAutoRegistration = getAllowAutoRegistrationValue();
+        log.debug("系统配置(ALLOW_AUTO_REGISTRATION)是否允许自动为微信登录用户注册新账户: {}", allowAutoRegistration);
+        User user;
+        if (allowAutoRegistration) {
+            log.info("自动创建一个已授权登录的用户");
+            String username = NumberGenerator.generatorByYMDHMSS("C", 5);
+            String rawPassword = RandomStringUtils.randomAlphabetic(8);
+            user = this.userService.create(UserCTO.builder().username(username).defaultRole(SecurityConstant.ROLE_USER_CODE).roles(Sets.newHashSet(SecurityConstant.ROLE_USER_CODE)).password(rawPassword).build());
+            log.debug("已创建系统用户 {}", user);
+
+            wechatUser.setGuid(user.getGuid());
+            log.debug("绑定系统用用户关系: {}", user.getGuid());
+            WechatUser created = this.wechatUserService.update(wechatUser);
+            log.debug("更新微信用户: {}", created);
+            log.debug("创建系统用户流程结束");
+//                return Response.success(this.loginService.getLoginInfoByUser(user, SecurityConstant.ROLE_USER_CODE));
+            //不允许自动创建用户
+//            WechatMaEventPublisher.onAuthorized(user);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    private WechatUser createWechatUserAccount(WechatOpenidType wechatOpenidType, String unionId, String openId, String openidSubitem, String wxCode) {
+        WechatUser wechatUser;
+        log.debug("微信用户为空, 第一次使用微信授权登录");
+        wechatUser = new WechatUser();
+        wechatUser.setUnionId(unionId);
+        wechatUser.setOpenId(openId);
+        wechatUser.setWxCode(wxCode);
+        wechatUser.setType(wechatOpenidType);
+        wechatUser.setSubitem(openidSubitem);
+        log.debug("首先创建一个新的微信用户实例: {}", wechatUser);
+        WechatUser created = this.wechatUserService.create(wechatUser);
+        log.debug("已创建的微信用户: {}", created);
+        return created;
+    }
+
+    private Boolean getAllowAutoRegistrationValue() {
+        String allowAutoRegistration = this.bibleItemService.get("WECHAT_MA", "ALLOW_AUTO_REGISTRATION");
+        //向后版本兼容
+        if (StringUtils.isEmpty(allowAutoRegistration)) {
+            allowAutoRegistration = this.bibleItemService.get("WECHAT_MA", "REGISTER_FLAG");
+        }
+        if (null != allowAutoRegistration && BooleanUtils.toBoolean(allowAutoRegistration)) {
+            return BooleanUtils.toBoolean(allowAutoRegistration);
+        }
+        return Boolean.FALSE;
+    }
+
 
     @Override
     @Transactional

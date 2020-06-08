@@ -46,7 +46,7 @@ public class MinliaSecurityContextHolder {
 
     public static String getCurrentGuid() {
         if (isAnonymousUser()) {
-            return null;
+            return "-10000";
         } else {
             return getUserContext().getGuid();
         }
@@ -82,6 +82,9 @@ public class MinliaSecurityContextHolder {
     public static boolean isAnonymousUser() {
         SecurityContext securityContext = org.springframework.security.core.context.SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
+        if(null==authentication){
+            return true;
+        }
         return authentication.getPrincipal().equals("anonymousUser");
     }
 

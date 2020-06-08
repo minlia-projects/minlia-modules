@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -22,7 +24,8 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @SuperBuilder
 public abstract class AbstractStatefulEntity extends AbstractIdentifiableEntity implements StatefulType {
-    @Column(name = "data_status",  columnDefinition = "TINYINT(1) DEFAULT 1 COMMENT 'Data status: 0: invalid, 1: OK, 2: enabled, 3: disabled, 4: deleted, 5: expired, 6: archived'")
+    @Column(name = "data_status",  columnDefinition = "varchar(255) DEFAULT 'OK' COMMENT 'Data status: 0: invalid, 1: OK, 2: enabled, 3: disabled, 4: deleted, 5: expired, 6: archived'")
+    @Enumerated(value = EnumType.STRING)
     private DataStatusEnum dataStatus;
 
 }

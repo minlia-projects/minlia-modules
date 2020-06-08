@@ -7,7 +7,7 @@ import com.minlia.module.wechat.login.service.WechatUserService;
 import com.minlia.module.wechat.ma.bean.entity.WechatMaUser;
 import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
 import com.minlia.module.wechat.ma.bean.ro.WechatMaUserDetailRO;
-import com.minlia.module.wechat.ma.event.WechatMaUpdatedEvent;
+import com.minlia.module.wechat.ma.event.WechatMaEventPublisher;
 import com.minlia.module.wechat.ma.mapper.WechatMaUserMapper;
 import com.minlia.module.wechat.ma.service.WechatMaService;
 import com.minlia.module.wechat.ma.service.WechatMaUserService;
@@ -16,7 +16,6 @@ import com.minlia.modules.rebecca.context.SecurityContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,7 +60,7 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
     @Override
     @Transactional
     public WechatMaUser update(WxMaUserInfo wxMaUserInfo, String code, String guid) {
-        log.error("更新小程序用户信息-------------------------------------------------");
+        log.debug("更新小程序用户信息");
         if (null != guid && null != wxMaUserInfo.getUnionId()) {
             wechatUserService.updateGuidByUnionId(guid, wxMaUserInfo.getUnionId());
         }
@@ -79,9 +78,6 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
             wechatMaUser.setCode(code);
             wechatMaUserMapper.update(wechatMaUser);
         }
-
-        //发布更新微信用户详情事件
-        WechatMaUpdatedEvent.onUpdated(wechatMaUser);
         return wechatMaUser;
     }
 
