@@ -19,14 +19,14 @@ public abstract class AbstractEntity extends WithDateEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
+//    @JsonIgnore
     @CreatedBy
 //    @NotBlank
     private String createBy;
 
-    @JsonIgnore
+//    @JsonIgnore
     @LastModifiedBy
-    @LastModifiedDate
+//    @LastModifiedDate
     private String lastModifiedBy;
 
     public String getCreateBy() {
@@ -45,12 +45,14 @@ public abstract class AbstractEntity extends WithDateEntity {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    @JsonProperty("createBy")
+//    @JsonProperty("createBy")
+    @JsonIgnore
     public String getCreateByAsJson() {
         return this.createBy;
     }
 
-    @JsonProperty("lastModifiedBy")
+//    @JsonProperty("lastModifiedBy")
+    @JsonIgnore
     public String getLastModifiedByAsJson() {
         return this.lastModifiedBy;
     }
