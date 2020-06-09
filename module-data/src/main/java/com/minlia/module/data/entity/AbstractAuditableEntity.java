@@ -1,5 +1,11 @@
 package com.minlia.module.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.data.type.AuditableType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,12 +42,18 @@ public class AbstractAuditableEntity extends AbstractStatefulEntity implements A
     @Column(name="last_modified_by", columnDefinition = "varchar(254) null default '10000' COMMENT 'last modified by'")
     private String lastModifiedBy;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @CreatedDate
     @Column(name = "created_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP COMMENT 'created date'")
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime createdDate;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @LastModifiedDate
     @Column(name = "last_modified_date", columnDefinition = "timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT 'last modified date'")
+    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime lastModifiedDate;
 
     @PreUpdate
