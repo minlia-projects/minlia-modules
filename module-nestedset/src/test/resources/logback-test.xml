@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%date %-5level [%thread] %logger{36} - %message%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="OFF">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="org.hibernate" level="INFO"/>
+    <!--<logger name="org.hibernate.tool.schema.internal" treeLevel="ERROR"/>-->
+    <logger name="org.springframework" level="INFO" />
+    <logger name="pl.exsio" level="INFO" />
+
+    <logger name="jdbc.connection" level="ERROR"/>
+    <logger name="jdbc.resultset" level="ERROR"/>
+    <logger name="jdbc.resultsettable" level="INFO"/>
+    <logger name="jdbc.audit" level="ERROR"/>
+    <logger name="jdbc.sqltiming" level="ERROR"/>
+    <logger name="jdbc.sqlonly" level="INFO"/>
+
+
+</configuration>

@@ -4,10 +4,20 @@ public class Configuration {
     private String leftFieldName;
     private String rightFieldName;
     private String levelFieldName;
-    private String rootIdFieldName;
+    private String parentIdFieldName;
+    private String idFieldName;
     private String entityName;
 
     private boolean hasManyRoots = false;
+
+
+    public String getIdFieldName() {
+        return idFieldName;
+    }
+
+    public void setIdFieldName(String idFieldName) {
+        this.idFieldName = idFieldName;
+    }
 
     public String getLeftFieldName() {
         return leftFieldName;
@@ -33,12 +43,12 @@ public class Configuration {
         this.levelFieldName = levelFieldName;
     }
 
-    public String getRootIdFieldName() {
-        return rootIdFieldName;
+    public String getParentIdFieldName() {
+        return parentIdFieldName;
     }
 
-    public void setRootIdFieldName(String rootIdFieldName) {
-        this.rootIdFieldName = rootIdFieldName;
+    public void setParentIdFieldName(String parentIdFieldName) {
+        this.parentIdFieldName = parentIdFieldName;
         this.hasManyRoots = true;
     }
 
@@ -51,7 +61,8 @@ public class Configuration {
         return "[leftFieldName: " + this.leftFieldName
                 + ", rightFieldName:" + this.rightFieldName
                 + ", levelFieldName: " + this.levelFieldName
-                + ", rootIdFieldName:" + this.rootIdFieldName
+                + ", rootIdFieldName:" + this.parentIdFieldName
+                + ", idFieldName:" + this.idFieldName
                 + "]";
     }
 

@@ -1,0 +1,115 @@
+/*
+ *  The MIT License
+ *
+ *  Copyright (c) 2019 eXsio.
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ *  the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ */
+
+package com.minlia.module.nestedset.delegate.query.jdbc;
+
+import com.minlia.module.nestedset.model.NestedSet;
+import com.minlia.module.nestedset.config.jdbc.JdbcNestedNodeRepositoryConfiguration;
+import com.minlia.module.nestedset.delegate.query.NestedSetInsertingQueryDelegate;
+
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.Types;
+
+public class JdbcNestedSetInsertingQueryDelegate<ID extends Serializable, N extends NestedSet<ID>>
+        extends JdbcNestedSetQueryDelegate<ID, N>
+        implements NestedSetInsertingQueryDelegate<ID, N> {
+
+    public JdbcNestedSetInsertingQueryDelegate(JdbcNestedNodeRepositoryConfiguration<ID, N> configuration) {
+        super(configuration);
+    }
+
+    @Override
+    public Class<?> getClz() {
+        return null;
+    }
+
+    @Override
+
+    public void insert(N node) {
+        if (node.getId() == null) {
+            doInsert(node);
+        } else {
+            update(node);
+        }
+
+    }
+
+    private void update(N node) {
+        jdbcTemplate.update(
+                getDiscriminatedQuery(
+                        new Query("update :tableName set :left = ?, :right = ?, :level = ?, :parentId = ? where :id = ?").build()
+                ),
+                preparedStatement -> {
+                    preparedStatement.setObject(1, node.getLeft());
+                    preparedStatement.setObject(2, node.getRight());
+                    preparedStatement.setObject(3, node.getLevel());
+                    if (node.getParentId() == null) {
+                        preparedStatement.setNull(4, Types.OTHER);
+                    } else {
+                        preparedStatement.setObject(4, node.getParentId());
+                    }
+                    preparedStatement.setObject(5, node.getId());
+                    setDiscriminatorParams(preparedStatement, 6);
+                }
+        );
+    }
+
+    private void doInsert(N node) {
+        JdbcKeyHolder keyHolder = new JdbcKeyHolder();
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(insertQuery, new String[]{id});
+            Object[] params = insertValuesProvider.apply(node);
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
+            }
+            return ps;
+        }, keyHolder);
+        node.setId(generatedKeyResolver.apply(node, keyHolder));
+    }
+
+    @Override
+    public void incrementSideFieldsGreaterThan(Long from, String fieldName) {
+        updateFields(from, fieldName, false);
+    }
+
+    @Override
+    public void incermentSideFieldsGreaterThanOrEqualTo(Long from, String fieldName) {
+        updateFields(from, fieldName, true);
+    }
+
+    private void updateFields(Long from, String fieldName, boolean gte) {
+        String columnName = treeColumnNames.get(fieldName);
+        String sign = gte ? ">=" : ">";
+        jdbcTemplate.update(
+                getDiscriminatedQuery(
+                        new Query("update :tableName set :columnName = (:columnName + ?) where :columnName :sign ?")
+                                .set("columnName", columnName)
+                                .set("sign", sign)
+                                .build()
+                ),
+                preparedStatement -> {
+                    preparedStatement.setLong(1, INCREMENT_BY);
+                    preparedStatement.setLong(2, from);
+                    setDiscriminatorParams(preparedStatement, 3);
+                }
+        );
+    }
+}

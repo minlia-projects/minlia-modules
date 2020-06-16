@@ -1,0 +1,131 @@
+server:
+  port: 30049
+
+system:
+  appId: tudouapi-app
+  token: bWlubGlhCg==
+  security:
+    jwt:
+      tokenExpirationTime: 180000 # Number of Seconds
+      refreshTokenExpTime: 180000 # Seconds
+      tokenIssuer: http://minlia.com
+      tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+  sms:
+    type: opt
+
+# SPRING PROFILES
+spring:
+  cache:
+    type: redis
+  aop:
+    auto: true
+  application:
+    name: tudou
+  http:
+    # for upgrade 2.3.0.RELEASE
+    #    encoding.charset: UTF-8
+    #    encoding.force: true
+    encoding.enable: true
+    multipart:
+      enabled: true
+      max-file-size: 30MB  #(这里是限制的文件大小)
+      max-request-size: 30MB #(这里是限制的文件大小)
+  main:
+    register-shutdown-hook: true
+    allow-bean-definition-overriding: true
+  mail:
+    host: smtp.tidetech.com.hk
+    port: 25
+    username: dev-no-reply@tidetech.com.hk
+    password: Dev@20190531
+    properties.mail.smtp:
+      auth: true
+      ssl:
+        enable: false
+      starttls:
+        enable: false
+        required: false
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 300
+      max-wait: 10000
+      max-idle: 100
+      min-idle: 50
+    timeout: 0
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    #    type: com.alibaba.druid.pool.DruidDataSource
+    name:
+    #    driverClassName: com.mysql.jdbc.Driver
+    #    url: jdbc:mysql://localhost/tudouapi_dev?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+    driverClassName: net.sf.log4jdbc.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost/tudou?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true&serverTimezone=GMT%2b8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root
+    druid:
+      initial-size: 5                             #初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+      min-idle: 1                                 #最小连接池数量
+      max-active: 100                             #最大连接池数量
+      max-wait: 60000                             #获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降,如果需要可以通过配置useUnfairLock属性为true使用非公平锁。
+      validation-query: SELECT 1                  #用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。
+      time-between-eviction-runs-millis: 60000    #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      test-while-idle: true                       #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-on-borrow: false                       #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false                       #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      min-evictable-idle-time-millis: 300000      #配置一个连接在池中最小生存的时间，单位是毫秒
+      #    max-evictable-idle-time-millis: 3600000     #配置一个连接在池中最大生存的时间，单位是毫秒
+      pool-prepared-statements: true              #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。
+      max-pool-prepared-statement-per-connection-size: 20 #开启poolPreparedStatements后生效
+      log-abandoned: false
+      remove-abandoned: false
+      remove-abandoned-timeout-millis: 1800000    #关闭空闲连接超时时间
+      use-global-data-source-stat: true           #合并多个DruidDataSource的监控数据
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500   #通过connectProperties属性来打开mergeSql功能;慢SQL记录
+      async-init: true                            #asyncInit是1.1.4中新增加的配置，如果有initialSize数量较多时，打开会加快应用启动时间
+      #      filters: stat,slf4j,wall                    #配置扩展插件，常用的插件有=>stat:监控统计  log4j:日志  wall:防御sql注入
+      filter:
+        wall:
+          config:
+            multi-statement-allow: true
+
+mybatis:
+  #    config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath*:mybatis/mapper/**/*Mapper.xml,classpath*:mybatis/**/mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    variables:
+      AES_KEY: 3109283da79d5bd3
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+swagger:
+  title: ${spring.application.name}接口
+  description: ${spring.application.name}接口
+  version: 1.0
+  contact: cloud@minlia.com
+  path: /api/.*
+  redirect: true
+
+encrypt:
+  body:
+    aes-key: zZyWl39ow6T0i4zIWJbfkA== #AES加密秘钥
+    aes-iv: YSqr2v2jOsAZtQZi #AES加密秘钥
+    des-key: 12345678 #DES加密秘钥
+    rsa-public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDKfxQMr/QZekhZur/SWXN32Bd4bnnj5AcQtXxMY3IpNdLz1sySaEzO+YsFWhWWvualApTP2MhhjsA3hGexc4g1XhEvKCXmSbtAu/tsYe+iBulufX+I2K5QN/A5yH8Dt5Cf+pxMMP+E6WHwTptuHEL7ywb9J0EPcbiArW5fciLXsQIDAQAB
+    rsa-private-key: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMp/FAyv9Bl6SFm6v9JZc3fYF3hueePkBxC1fExjcik10vPWzJJoTM75iwVaFZa+5qUClM/YyGGOwDeEZ7FziDVeES8oJeZJu0C7+2xh76IG6W59f4jYrlA38DnIfwO3kJ/6nEww/4TpYfBOm24cQvvLBv0nQQ9xuICtbl9yItexAgMBAAECgYA/FAzr0tfII/ZrtSfR37l/aJoPEuL3YW3t/4rDxOqn+bNH7+5z4PekNcnfletJtRfl6QLwKAhrk2s/IAipF2MjJtsPY5ptFDa10pJR/DQ5SEAiZ83hzvsgyuLFjm+rAAmveAcr/XIBGWg7TQXK59Q8MpVMfXar2xx5WWqLxf+ZnQJBAOUtl/w4vDLWuTn8S+GkrJVhTzKg+8mdv6/2TIcXqqlxE6kQzqmjvms8hHUwnDb3fSMLObyhhPpE8mgTrwpVkt8CQQDiMhL0x1kuTqDMCtUHseeH6Piu5U1iKrAUxBzqqcDQKwQDtwDTQxCsTRAxVSbrlo7CcuDDOjceBqROAg4vDfdvAkBs3OKUWfL0B1GHPNRixBGDB+1R9GyGUhvLHyktBs33nRIkviodJP3//IhDDqs15QwZSGzNsL/1DilDzQ3Zz9prAkEAnCKgfyKT5qkTyYS4pAUjoucnseJKVjbNMKhmpXzjwU3QCZhrE2k5uxW+1a7HnNtiU8rkZx5qKWnARLCahdSINQJBAOBiIvDlIbcLvFxHc+1Nct7N/jtrrA02ITQzREKGAOZ9KEGv7cDtZxXA1TlQlt4VvN1REEX0cZH37NWuTRM9wYg=
+    xor-key: 136
