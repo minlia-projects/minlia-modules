@@ -21,11 +21,11 @@ package com.minlia.app.demo.nestedset.entity;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.minlia.module.nestedset.annotation.*;
+import com.minlia.module.nestedset.annotation.NestedSetModel;
+import com.minlia.module.nestedset.model.NestedSet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.minlia.module.nestedset.model.NestedSet;
 
 import javax.persistence.*;
 import java.sql.ResultSet;
@@ -37,9 +37,9 @@ import java.sql.SQLException;
 @Entity
 @Table(name = "tdl_team_test")
 @SequenceGenerator(name = "seq", initialValue = 1, allocationSize = 1)
+@NestedSetModel(idFieldName = "id", leftFieldName = "left", rightFieldName = "right", parentIdFieldName = "parentId", levelFieldName = "level")
 public class Team implements NestedSet<Long> {
 
-    @IdColumn
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private Long id;
@@ -47,20 +47,20 @@ public class Team implements NestedSet<Long> {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @LeftColumn
+//    @LeftColumn
     @Column(name = "lft", nullable = false)
     private Long left;
 
-    @RightColumn
+//    @RightColumn
     @Column(name = "rgt", nullable = false)
     private Long right;
 
-    @LevelColumn
+//    @LevelColumn
     @Column(name = "level", nullable = false)
     private Long level;
 
 
-    @ParentIdColumn
+//    @ParentIdColumn
     @Column(name = "parent_id")
     private Long parentId;
 

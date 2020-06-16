@@ -9,9 +9,9 @@ package com.minlia.module.nestedset.model;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@ package com.minlia.module.nestedset.model;
  */
 
 import com.google.common.base.MoreObjects;
-import com.minlia.module.nestedset.annotation.*;
+import com.minlia.module.nestedset.annotation.NestedSetModel;
 
 import javax.persistence.*;
 import java.sql.ResultSet;
@@ -31,10 +31,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "nested_nodes")
-@SequenceGenerator(name="seq", initialValue=1, allocationSize=1)
+@SequenceGenerator(name = "seq", initialValue = 1, allocationSize = 1)
+@NestedSetModel(idFieldName = "id", leftFieldName = "treeLeft", rightFieldName = "treeRight", parentIdFieldName = "parentId", levelFieldName = "treeLevel")
 public class TestSet implements NestedSet<Long> {
 
-    @IdColumn
+    //    @IdColumn
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     private Long id;
@@ -42,19 +43,19 @@ public class TestSet implements NestedSet<Long> {
     @Column(name = "node_name", nullable = false, unique = true)
     private String name;
 
-    @LeftColumn
+    //    @LeftColumn
     @Column(name = "tree_left", nullable = false)
     private Long treeLeft;
 
-    @RightColumn
+    //    @RightColumn
     @Column(name = "tree_right", nullable = false)
     private Long treeRight;
 
-    @LevelColumn
+    //    @LevelColumn
     @Column(name = "tree_level", nullable = false)
     private Long treeLevel;
 
-    @ParentIdColumn
+    //    @ParentIdColumn
     @Column(name = "parent_id")
     private Long parentId;
 
@@ -175,7 +176,7 @@ public class TestSet implements NestedSet<Long> {
         n.setRight(resultSet.getLong("TREE_RIGHT"));
         n.setName(resultSet.getString("NODE_NAME"));
         n.setParentId(resultSet.getLong("PARENT_ID"));
-        if(resultSet.wasNull()) {
+        if (resultSet.wasNull()) {
             n.setParentId(null);
         }
         n.setDiscriminator(resultSet.getString("DISCRIMINATOR"));

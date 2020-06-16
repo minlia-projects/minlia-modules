@@ -24,6 +24,7 @@ import com.minlia.module.nestedset.delegate.*;
 import com.minlia.module.nestedset.exception.InvalidNodeException;
 import com.minlia.module.nestedset.exception.InvalidParentException;
 import com.minlia.module.nestedset.exception.RepositoryLockedException;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Transactional;
 import com.minlia.module.nestedset.model.NestedSet;
 import com.minlia.module.nestedset.model.NestedSetDetail;
@@ -37,6 +38,7 @@ import java.util.Optional;
  * {@inheritDoc}
  */
 @Transactional
+@NoRepositoryBean
 public class DelegatingNestedNodeRepository<ID extends Serializable, ENTITY extends NestedSet<ID>> implements NestedNodeRepository<ID, ENTITY> {
 
     private final NestedSetCreator<ID, ENTITY> creator;

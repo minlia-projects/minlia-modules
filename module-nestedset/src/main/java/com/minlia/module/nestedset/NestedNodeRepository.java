@@ -22,6 +22,7 @@ package com.minlia.module.nestedset;
 
 import com.minlia.module.nestedset.model.NestedSet;
 import com.minlia.module.nestedset.model.Tree;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.Optional;
  * @param <ID>     - Nested Node Identifier Class
  * @param <ENTITY> - Nested Node Class
  */
+@NoRepositoryBean
 public interface NestedNodeRepository<ID extends Serializable, ENTITY extends NestedSet<ID>> {
 
     /**

@@ -10,9 +10,9 @@ package com.minlia.module.nestedset.delegate.query.jpa;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,17 +23,21 @@ package com.minlia.module.nestedset.delegate.query.jpa;
 
 import com.minlia.module.nestedset.annotation.*;
 import com.minlia.module.nestedset.config.Configuration;
+import com.minlia.module.nestedset.config.ConfigurationUtils;
 import com.minlia.module.nestedset.config.jpa.JpaNestedSetRepositoryConfiguration;
 import com.minlia.module.nestedset.config.jpa.discriminator.JpaTreeDiscriminator;
 import com.minlia.module.nestedset.model.NestedSet;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class JpaNestedSetQueryDelegate<ID extends Serializable, ENTITY extends NestedSet<ID>> {
@@ -54,52 +58,53 @@ public abstract class JpaNestedSetQueryDelegate<ID extends Serializable, ENTITY 
     }
 
     protected String getLeftFieldName() {
-        return getConfig(nodeClass).getLeftFieldName();
+        return ConfigurationUtils.getLeftFieldName(nodeClass);
     }
 
     protected String getRightFieldName() {
-        return getConfig(nodeClass).getRightFieldName();
+        return ConfigurationUtils.getRightFieldName(nodeClass);
     }
 
     protected String getLevelFieldName() {
-        return getConfig(nodeClass).getLevelFieldName();
+        return ConfigurationUtils.getLevelFieldName(nodeClass);
     }
 
     protected String getIdFieldName() {
-        return getConfig(nodeClass).getIdFieldName();
+        return ConfigurationUtils.getIdFieldName(nodeClass);
     }
 
     protected String getParentIdFieldName() {
-        return getConfig(nodeClass).getParentIdFieldName();
+        return ConfigurationUtils.getParentIdFieldName(nodeClass);
     }
 
-    Configuration getConfig(Class<?> clazz) {
-        if (!this.configs.containsKey(clazz)) {
-            Configuration config = new Configuration();
 
-            Entity entity = clazz.getAnnotation(Entity.class);
-            String name = entity.name();
-            config.setEntityName((name != null && name.length() > 0) ? name : clazz.getSimpleName());
-
-            for (Field field : clazz.getDeclaredFields()) {
-                if (field.getAnnotation(LeftColumn.class) != null) {
-                    config.setLeftFieldName(field.getName());
-                } else if (field.getAnnotation(RightColumn.class) != null) {
-                    config.setRightFieldName(field.getName());
-                } else if (field.getAnnotation(LevelColumn.class) != null) {
-                    config.setLevelFieldName(field.getName());
-                } else if (field.getAnnotation(IdColumn.class) != null) {
-                    config.setIdFieldName(field.getName());
-                } else if (field.getAnnotation(ParentIdColumn.class) != null) {
-                    config.setParentIdFieldName(field.getName());
-                }
-            }
-
-            this.configs.put(clazz, config);
-        }
-
-        return this.configs.get(clazz);
-    }
+//    Configuration getConfigWithField(Class<?> clazz) {
+//        if (!this.configs.containsKey(clazz)) {
+//            Configuration config = new Configuration();
+//
+//            Entity entity = clazz.getAnnotation(Entity.class);
+//            String name = entity.name();
+//            config.setEntityName((name != null && name.length() > 0) ? name : clazz.getSimpleName());
+//
+//            for (Field field : clazz.getDeclaredFields()) {
+//                if (field.getAnnotation(LeftColumn.class) != null) {
+//                    config.setLeftFieldName(field.getName());
+//                } else if (field.getAnnotation(RightColumn.class) != null) {
+//                    config.setRightFieldName(field.getName());
+//                } else if (field.getAnnotation(LevelColumn.class) != null) {
+//                    config.setLevelFieldName(field.getName());
+//                } else if (field.getAnnotation(IdColumn.class) != null) {
+//                    config.setIdFieldName(field.getName());
+//                } else if (field.getAnnotation(ParentIdColumn.class) != null) {
+//                    config.setParentIdFieldName(field.getName());
+//                }
+//            }
+//
+//            this.configs.put(clazz, config);
+//        }
+//
+//        return this.configs.get(clazz);
+//    }
 
     public JpaNestedSetQueryDelegate(JpaNestedSetRepositoryConfiguration<ID, ENTITY> configuration) {
         this.entityManager = configuration.getEntityManager();
