@@ -4,7 +4,7 @@ package com.minlia.module.nestedset.config;
  * #%L
  * minlia
  * %%
- * Copyright (C) 2005 - 2020 Minlia, Inc
+ * Copyright (C) 2005 - 2020 Minlia Team
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
