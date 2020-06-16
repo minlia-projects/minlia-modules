@@ -9,9 +9,9 @@ package com.minlia.module.nestedset;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,8 +36,8 @@ import java.util.Optional;
  * As for Tree manipulation, the Repository covers all scenarios and should be the only entry point. I you're missing a feature
  * in that area, please consider raising a request in github.
  *
- * @param <ID> - Nested Node Identifier Class
- * @param <ENTITY>  - Nested Node Class
+ * @param <ID>     - Nested Node Identifier Class
+ * @param <ENTITY> - Nested Node Class
  */
 public interface NestedNodeRepository<ID extends Serializable, ENTITY extends NestedSet<ID>> {
 

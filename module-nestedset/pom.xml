@@ -79,7 +79,7 @@
                 <version>${license-maven-plugin.version}</version>
                 <configuration>
                     <inceptionYear>2005</inceptionYear>
-                    <organizationName>Minlia, Inc</organizationName>
+                    <organizationName>Minlia Team</organizationName>
                     <projectName>minlia</projectName>
                     <licenseName>apache_v2</licenseName>
                 </configuration>
