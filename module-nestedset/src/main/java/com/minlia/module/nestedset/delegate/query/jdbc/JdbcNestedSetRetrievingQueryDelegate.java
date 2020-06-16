@@ -1,24 +1,25 @@
-/*
- *  The MIT License
- *
- *  Copyright (c) 2019 eXsio.
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- *  the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- */
 
 package com.minlia.module.nestedset.delegate.query.jdbc;
+
+/*-
+ * #%L
+ * minlia
+ * %%
+ * Copyright (C) 2005 - 2020 Minlia, Inc
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 
 import com.google.common.collect.Lists;
 import com.minlia.module.nestedset.model.NestedSet;
@@ -41,14 +42,14 @@ public class JdbcNestedSetRetrievingQueryDelegate<ID extends Serializable, N ext
 
 
     @Override
-    public List<N> getTreeAsList(N node) {
+    public List<N> getTreeAsList(N entity) {
         return jdbcTemplate.query(
                 getDiscriminatedQuery(
                         new Query("select * from :tableName where :left >= ? and :right <= ? order by :left asc").build()
                 ),
                 preparedStatement -> {
-                    preparedStatement.setObject(1, node.getLeft());
-                    preparedStatement.setObject(2, node.getRight());
+                    preparedStatement.setObject(1, entity.getLeft());
+                    preparedStatement.setObject(2, entity.getRight());
                     setDiscriminatorParams(preparedStatement, 3);
                 },
                 rowMapper
@@ -56,15 +57,15 @@ public class JdbcNestedSetRetrievingQueryDelegate<ID extends Serializable, N ext
     }
 
     @Override
-    public List<N> getChildren(N node) {
+    public List<N> getChildren(N entity) {
         return jdbcTemplate.query(
                 getDiscriminatedQuery(
                         new Query("select * from :tableName where :left >= ? and :right <= ? and :level = ? order by :left asc").build()
                 ),
                 preparedStatement -> {
-                    preparedStatement.setObject(1, node.getLeft());
-                    preparedStatement.setObject(2, node.getRight());
-                    preparedStatement.setObject(3, node.getLevel() + 1);
+                    preparedStatement.setObject(1, entity.getLeft());
+                    preparedStatement.setObject(2, entity.getRight());
+                    preparedStatement.setObject(3, entity.getLevel() + 1);
                     setDiscriminatorParams(preparedStatement, 4);
                 },
                 rowMapper
@@ -72,16 +73,16 @@ public class JdbcNestedSetRetrievingQueryDelegate<ID extends Serializable, N ext
     }
 
     @Override
-    public Optional<N> getParent(N node) {
-        if (node.getLevel() > 0) {
+    public Optional<N> getParent(N entity) {
+        if (entity.getLevel() > 0) {
             return jdbcTemplate.query(
                     getDiscriminatedQuery(
                             new Query("select * from :tableName where :left < ? and :right > ? and :level = ? order by :left asc").build()
                     ),
                     preparedStatement -> {
-                        preparedStatement.setObject(1, node.getLeft());
-                        preparedStatement.setObject(2, node.getRight());
-                        preparedStatement.setObject(3, node.getLevel() - 1);
+                        preparedStatement.setObject(1, entity.getLeft());
+                        preparedStatement.setObject(2, entity.getRight());
+                        preparedStatement.setObject(3, entity.getLevel() - 1);
                         setDiscriminatorParams(preparedStatement, 4);
                     },
                     rowMapper
@@ -92,15 +93,15 @@ public class JdbcNestedSetRetrievingQueryDelegate<ID extends Serializable, N ext
     }
 
     @Override
-    public List<N> getParents(N node) {
-        if (node.getLevel() > 0) {
+    public List<N> getParents(N entity) {
+        if (entity.getLevel() > 0) {
             return jdbcTemplate.query(
                     getDiscriminatedQuery(
                             new Query("select * from :tableName where :left < ? and :right > ? order by :left desc").build()
                     ),
                     preparedStatement -> {
-                        preparedStatement.setObject(1, node.getLeft());
-                        preparedStatement.setObject(2, node.getRight());
+                        preparedStatement.setObject(1, entity.getLeft());
+                        preparedStatement.setObject(2, entity.getRight());
                         setDiscriminatorParams(preparedStatement, 3);
                     },
                     rowMapper
@@ -111,14 +112,14 @@ public class JdbcNestedSetRetrievingQueryDelegate<ID extends Serializable, N ext
     }
 
     @Override
-    public Optional<N> getPrevSibling(N node) {
+    public Optional<N> getPrevSibling(N entity) {
         return jdbcTemplate.query(
                 getDiscriminatedQuery(
                         new Query("select * from :tableName where :right = ? and :level = ? order by :left asc").build()
                 ),
                 preparedStatement -> {
-                    preparedStatement.setObject(1, node.getLeft() - 1);
-                    preparedStatement.setObject(2, node.getLevel());
+                    preparedStatement.setObject(1, entity.getLeft() - 1);
+                    preparedStatement.setObject(2, entity.getLevel());
                     setDiscriminatorParams(preparedStatement, 3);
                 },
                 rowMapper
@@ -126,14 +127,14 @@ public class JdbcNestedSetRetrievingQueryDelegate<ID extends Serializable, N ext
     }
 
     @Override
-    public Optional<N> getNextSibling(N node) {
+    public Optional<N> getNextSibling(N entity) {
         return jdbcTemplate.query(
                 getDiscriminatedQuery(
                         new Query("select * from :tableName where :left = ? and :level = ? order by :left asc").build()
                 ),
                 preparedStatement -> {
-                    preparedStatement.setObject(1, node.getRight() + 1);
-                    preparedStatement.setObject(2, node.getLevel());
+                    preparedStatement.setObject(1, entity.getRight() + 1);
+                    preparedStatement.setObject(2, entity.getLevel());
                     setDiscriminatorParams(preparedStatement, 3);
                 },
                 rowMapper
@@ -142,7 +143,7 @@ public class JdbcNestedSetRetrievingQueryDelegate<ID extends Serializable, N ext
 
     @Override
     @SuppressWarnings("unchecked")
-    public Optional<NestedSetDetail<ID>> getNodeInfo(ID nodeId) {
+    public Optional<NestedSetDetail<ID>> getNestedSetDetail(ID nodeId) {
         NestedSetDetail<ID> info = jdbcTemplate.query(
                 getDiscriminatedQuery(
                         new Query("select :id, :parentId, :left, :right, :level from :tableName where :id = ?").build()

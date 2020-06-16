@@ -18,6 +18,7 @@
 
     <properties>
         <httpcore.version>4.4.4</httpcore.version>
+        <license-maven-plugin.version>2.0.0</license-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -71,6 +72,39 @@
             <!--</execution>-->
             <!--</executions>-->
             <!--</plugin>-->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin.version}</version>
+                <configuration>
+                    <inceptionYear>2005</inceptionYear>
+                    <organizationName>Minlia, Inc</organizationName>
+                    <projectName>minlia</projectName>
+                    <licenseName>apache_v2</licenseName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>check-file-header</goal>
+                        </goals>
+                        <configuration>
+                            <licenseName>apache_v2</licenseName>
+                            <failOnMissingHeader>true</failOnMissingHeader>
+                            <roots>
+                                <root>src/main/java</root>
+                                <root>src/test</root>
+                            </roots>
+                            <excludes>
+                                <exclude>*.png</exclude>
+                                <exclude>*.txt</exclude>
+                                <exclude>*Test.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

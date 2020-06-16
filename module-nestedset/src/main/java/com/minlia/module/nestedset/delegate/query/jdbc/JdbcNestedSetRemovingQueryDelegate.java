@@ -1,24 +1,25 @@
-/*
- *  The MIT License
- *
- *  Copyright (c) 2019 eXsio.
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- *  the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- */
 
 package com.minlia.module.nestedset.delegate.query.jdbc;
+
+/*-
+ * #%L
+ * minlia
+ * %%
+ * Copyright (C) 2005 - 2020 Minlia, Inc
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 
 import com.minlia.module.nestedset.exception.InvalidNodeException;
 import com.minlia.module.nestedset.model.NestedSet;
@@ -45,21 +46,21 @@ public class JdbcNestedSetRemovingQueryDelegate<ID extends Serializable, N exten
     }
 
     @Override
-    public void setNewParentForDeletedNodesChildren(NestedSetDetail<ID> node) {
+    public void setNewParentForDeletedNodesChildren(NestedSetDetail<ID> nestedSetDetail) {
         jdbcTemplate.update(
                 getDiscriminatedQuery(
                         new Query("update :tableName set :parentId = ? where :left >= ? and :right <= ? and :level = ?").build()
                 ),
                 preparedStatement -> {
-                    Optional<ID> newParentId = findNodeParentId(node);
+                    Optional<ID> newParentId = findNodeParentId(nestedSetDetail);
                     if (!newParentId.isPresent()) {
                         preparedStatement.setNull(1, Types.OTHER);
                     } else {
                         preparedStatement.setObject(1, newParentId.get());
                     }
-                    preparedStatement.setLong(2, node.getLeft());
-                    preparedStatement.setLong(3, node.getRight());
-                    preparedStatement.setLong(4, node.getLevel() + 1);
+                    preparedStatement.setLong(2, nestedSetDetail.getLeft());
+                    preparedStatement.setLong(3, nestedSetDetail.getRight());
+                    preparedStatement.setLong(4, nestedSetDetail.getLevel() + 1);
                     setDiscriminatorParams(preparedStatement, 5);
                 }
         );
@@ -91,13 +92,13 @@ public class JdbcNestedSetRemovingQueryDelegate<ID extends Serializable, N exten
     }
 
     @Override
-    public void performSingleDeletion(NestedSetDetail<ID> node) {
+    public void performSingleDeletion(NestedSetDetail<ID> nestedSetDetail) {
         jdbcTemplate.update(
                 getDiscriminatedQuery(
                         new Query("delete from :tableName where :id = ?").build()
                 ),
                 preparedStatement -> {
-                    preparedStatement.setObject(1, node.getId());
+                    preparedStatement.setObject(1, nestedSetDetail.getId());
                     setDiscriminatorParams(preparedStatement, 2);
                 }
         );
@@ -109,14 +110,14 @@ public class JdbcNestedSetRemovingQueryDelegate<ID extends Serializable, N exten
     }
 
     @Override
-    public void pushUpDeletedNodesChildren(NestedSetDetail<ID> node) {
+    public void pushUpDeletedNodesChildren(NestedSetDetail<ID> nestedSetDetail) {
         jdbcTemplate.update(
                 getDiscriminatedQuery(
                         new Query("update :tableName set :right = (:right - 1), :left = (:left - 1), :level = (:level - 1) where :right < ? and :left > ?").build()
                 ),
                 preparedStatement -> {
-                    preparedStatement.setObject(1, node.getRight());
-                    preparedStatement.setObject(2, node.getLeft());
+                    preparedStatement.setObject(1, nestedSetDetail.getRight());
+                    preparedStatement.setObject(2, nestedSetDetail.getLeft());
                     setDiscriminatorParams(preparedStatement, 3);
                 }
         );
@@ -128,14 +129,14 @@ public class JdbcNestedSetRemovingQueryDelegate<ID extends Serializable, N exten
     }
 
     @Override
-    public void performBatchDeletion(NestedSetDetail<ID> node) {
+    public void performBatchDeletion(NestedSetDetail<ID> nestedSetDetail) {
         jdbcTemplate.update(
                 getDiscriminatedQuery(
                         new Query("delete from :tableName where :left >= ? and :right <= ?").build()
                 ),
                 preparedStatement -> {
-                    preparedStatement.setObject(1, node.getLeft());
-                    preparedStatement.setObject(2, node.getRight());
+                    preparedStatement.setObject(1, nestedSetDetail.getLeft());
+                    preparedStatement.setObject(2, nestedSetDetail.getRight());
                     setDiscriminatorParams(preparedStatement, 3);
                 }
         );

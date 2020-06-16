@@ -1,24 +1,25 @@
-/*
- *  The MIT License
- *
- *  Copyright (c) 2019 eXsio.
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- *  the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- */
 
 package com.minlia.module.nestedset.delegate.query.jpa;
+
+/*-
+ * #%L
+ * minlia
+ * %%
+ * Copyright (C) 2005 - 2020 Minlia, Inc
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 
 import com.google.common.base.Preconditions;
 import com.minlia.module.nestedset.config.jpa.JpaNestedSetRepositoryConfiguration;
@@ -32,9 +33,9 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 
-public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, N extends NestedSet<ID>>
-        extends JpaNestedSetQueryDelegate<ID, N>
-        implements NestedSetMovingQueryDelegate<ID, N> {
+public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, ENTITY extends NestedSet<ID>>
+        extends JpaNestedSetQueryDelegate<ID, ENTITY>
+        implements NestedSetMovingQueryDelegate<ID, ENTITY> {
 
     private enum Mode {
         UP, DOWN
@@ -42,7 +43,7 @@ public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, N extends 
 
     private final static Long MARKING_MODIFIER = 1000L;
 
-    public JpaNestedSetMovingQueryDelegate(JpaNestedSetRepositoryConfiguration<ID, N> configuration) {
+    public JpaNestedSetMovingQueryDelegate(JpaNestedSetRepositoryConfiguration<ID, ENTITY> configuration) {
         super(configuration);
     }
 
@@ -53,10 +54,10 @@ public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, N extends 
     }
 
     @Override
-    public Integer markNodeIds(NestedSetDetail<ID> node) {
+    public Integer markNodeIds(NestedSetDetail<ID> nestedSetDetail) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<N> update = cb.createCriteriaUpdate(nodeClass);
-        Root<N> root = update.from(nodeClass);
+        CriteriaUpdate<ENTITY> update = cb.createCriteriaUpdate(nodeClass);
+        Root<ENTITY> root = update.from(nodeClass);
         update
 //                .set(root.<Long>get(RIGHT), markRightField(root))
                 .set(root.<Long>get(getRightFieldName()), markRightField(root))
@@ -64,8 +65,8 @@ public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, N extends 
                         getPredicates(cb, root,
 //                                cb.greaterThanOrEqualTo(root.get(LEFT), node.getLeft()),
 //                                cb.lessThanOrEqualTo(root.get(RIGHT), node.getRight())
-                                cb.greaterThanOrEqualTo(root.get(getLeftFieldName()), node.getLeft()),
-                                cb.lessThanOrEqualTo(root.get(getRightFieldName()), node.getRight())
+                                cb.greaterThanOrEqualTo(root.get(getLeftFieldName()), nestedSetDetail.getLeft()),
+                                cb.lessThanOrEqualTo(root.get(getRightFieldName()), nestedSetDetail.getRight())
                         ));
         return entityManager.createQuery(update).executeUpdate();
     }
@@ -92,20 +93,20 @@ public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, N extends 
     }
 
     @Override
-    public void updateParentField(ID newParentId, NestedSetDetail<ID> node) {
+    public void updateParentField(ID newParentId, NestedSetDetail<ID> nestedSetDetail) {
         Preconditions.checkNotNull(newParentId);
-        doUpdateParentField(newParentId, node);
+        doUpdateParentField(newParentId, nestedSetDetail);
     }
 
     @Override
-    public void clearParentField(NestedSetDetail<ID> node) {
-        doUpdateParentField(null, node);
+    public void clearParentField(NestedSetDetail<ID> nestedSetDetail) {
+        doUpdateParentField(null, nestedSetDetail);
     }
 
     private void updateFields(Mode mode, Long delta, Long start, Long stop, String field) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<N> update = cb.createCriteriaUpdate(nodeClass);
-        Root<N> root = update.from(nodeClass);
+        CriteriaUpdate<ENTITY> update = cb.createCriteriaUpdate(nodeClass);
+        Root<ENTITY> root = update.from(nodeClass);
 
         if (Mode.DOWN.equals(mode)) {
             update.set(root.<Long>get(field), cb.diff(root.get(field), delta));
@@ -121,8 +122,8 @@ public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, N extends 
 
     private void performMove(Mode mode, Long nodeDelta, Long levelModificator) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<N> update = cb.createCriteriaUpdate(nodeClass);
-        Root<N> root = update.from(nodeClass);
+        CriteriaUpdate<ENTITY> update = cb.createCriteriaUpdate(nodeClass);
+        Root<ENTITY> root = update.from(nodeClass);
 
         update.set(root.<Long>get(getLevelFieldName()), cb.sum(root.get(getLevelFieldName()), levelModificator));
         if (Mode.DOWN.equals(mode)) {
@@ -138,23 +139,23 @@ public class JpaNestedSetMovingQueryDelegate<ID extends Serializable, N extends 
         entityManager.createQuery(update).executeUpdate();
     }
 
-    private Expression<Long> markRightField(Root<N> root) {
+    private Expression<Long> markRightField(Root<ENTITY> root) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         return cb.diff(cb.neg(root.get(getRightFieldName())), MARKING_MODIFIER);
     }
 
-    private Expression<Long> unMarkRightField(Root<N> root) {
+    private Expression<Long> unMarkRightField(Root<ENTITY> root) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         return cb.neg(cb.sum(root.get(getRightFieldName()), MARKING_MODIFIER));
     }
 
-    private void doUpdateParentField(ID newParentId, NestedSetDetail<ID> node) {
+    private void doUpdateParentField(ID newParentId, NestedSetDetail<ID> nestedSetDetail) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaUpdate<N> update = cb.createCriteriaUpdate(nodeClass);
-        Root<N> root = update.from(nodeClass);
+        CriteriaUpdate<ENTITY> update = cb.createCriteriaUpdate(nodeClass);
+        Root<ENTITY> root = update.from(nodeClass);
 
         update.set(root.get(getParentIdFieldName()), newParentId)
-                .where(getPredicates(cb, root, cb.equal(root.get(getIdFieldName()), node.getId())));
+                .where(getPredicates(cb, root, cb.equal(root.get(getIdFieldName()), nestedSetDetail.getId())));
 
         entityManager.createQuery(update).executeUpdate();
     }

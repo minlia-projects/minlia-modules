@@ -1,23 +1,24 @@
-/*
- *  The MIT License
- *
- *  Copyright (c) 2019 eXsio.
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- *  the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- */
 package com.minlia.module.nestedset.delegate.control;
+
+/*-
+ * #%L
+ * minlia
+ * %%
+ * Copyright (C) 2005 - 2020 Minlia, Inc
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 
 import com.minlia.module.nestedset.model.InMemoryTree;
 import com.minlia.module.nestedset.model.NestedSet;
@@ -30,66 +31,66 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public class QueryBasedNestedSetRetriever<ID extends Serializable, N extends NestedSet<ID>> implements NestedSetRetriever<ID, N> {
+public class QueryBasedNestedSetRetriever<ID extends Serializable, ENTITY extends NestedSet<ID>> implements NestedSetRetriever<ID, ENTITY> {
 
-    private final NestedSetRetrievingQueryDelegate<ID, N> queryDelegate;
+    private final NestedSetRetrievingQueryDelegate<ID, ENTITY> queryDelegate;
 
-    public QueryBasedNestedSetRetriever(NestedSetRetrievingQueryDelegate<ID, N> queryDelegate) {
+    public QueryBasedNestedSetRetriever(NestedSetRetrievingQueryDelegate<ID, ENTITY> queryDelegate) {
         this.queryDelegate = queryDelegate;
     }
 
     @Override
-    public Tree<ID, N> getTree(N node) {
-        Tree<ID, N> tree = new InMemoryTree<>(node);
-        for (N n : queryDelegate.getChildren(node)) {
-            Tree<ID, N> subtree = this.getTree(n);
+    public Tree<ID, ENTITY> getTree(ENTITY entity) {
+        Tree<ID, ENTITY> tree = new InMemoryTree<>(entity);
+        for (ENTITY n : queryDelegate.getChildren(entity)) {
+            Tree<ID, ENTITY> subtree = this.getTree(n);
             tree.addChild(subtree);
         }
         return tree;
     }
 
     @Override
-    public List<N> getTreeAsList(N node) {
-        return queryDelegate.getTreeAsList(node);
+    public List<ENTITY> getTreeAsList(ENTITY entity) {
+        return queryDelegate.getTreeAsList(entity);
     }
 
     @Override
-    public List<N> getChildren(N node) {
-        return queryDelegate.getChildren(node);
+    public List<ENTITY> getChildren(ENTITY entity) {
+        return queryDelegate.getChildren(entity);
     }
 
     @Override
-    public Optional<N> getParent(N node) {
-        return queryDelegate.getParent(node);
+    public Optional<ENTITY> getParent(ENTITY entity) {
+        return queryDelegate.getParent(entity);
     }
 
     @Override
-    public List<N> getParents(N node) {
-        return queryDelegate.getParents(node);
+    public List<ENTITY> getParents(ENTITY entity) {
+        return queryDelegate.getParents(entity);
     }
 
     @Override
-    public Optional<N> getPrevSibling(N node) {
-        return queryDelegate.getPrevSibling(node);
+    public Optional<ENTITY> getPrevSibling(ENTITY entity) {
+        return queryDelegate.getPrevSibling(entity);
     }
 
     @Override
-    public Optional<N> getNextSibling(N node) {
-        return queryDelegate.getNextSibling(node);
+    public Optional<ENTITY> getNextSibling(ENTITY entity) {
+        return queryDelegate.getNextSibling(entity);
     }
 
     @Override
-    public Optional<NestedSetDetail<ID>> getNodeInfo(ID nodeId) {
-        return queryDelegate.getNodeInfo(nodeId);
+    public Optional<NestedSetDetail<ID>> getNestedSetDetail(ID nestedSetDetailIds) {
+        return queryDelegate.getNestedSetDetail(nestedSetDetailIds);
     }
 
     @Override
-    public Optional<N> findFirstRoot() {
+    public Optional<ENTITY> findFirstRoot() {
         return queryDelegate.findFirstRoot();
     }
 
     @Override
-    public Optional<N> findLastRoot() {
+    public Optional<ENTITY> findLastRoot() {
         return queryDelegate.findLastRoot();
     }
 

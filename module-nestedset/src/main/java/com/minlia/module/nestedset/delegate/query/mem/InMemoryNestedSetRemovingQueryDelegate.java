@@ -1,24 +1,25 @@
-/*
- *  The MIT License
- *
- *  Copyright (c) 2019 eXsio.
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- *  the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- */
 
 package com.minlia.module.nestedset.delegate.query.mem;
+
+/*-
+ * #%L
+ * minlia
+ * %%
+ * Copyright (C) 2005 - 2020 Minlia, Inc
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 
 import com.minlia.module.nestedset.config.mem.InMemoryNestedNodeRepositoryConfiguration;
 import com.minlia.module.nestedset.exception.InvalidNodeException;
@@ -44,18 +45,18 @@ public class InMemoryNestedSetRemovingQueryDelegate<ID extends Serializable, N e
     }
 
     @Override
-    public void setNewParentForDeletedNodesChildren(NestedSetDetail<ID> node) {
+    public void setNewParentForDeletedNodesChildren(NestedSetDetail<ID> nestedSetDetail) {
         nodesStream()
-                .filter(n -> getLong(NestedSet.LEFT, n) >= node.getLeft())
-                .filter(n -> getLong(NestedSet.RIGHT, n) <= node.getRight())
-                .filter(n -> getLong(NestedSet.LEVEL, n).equals(node.getLevel() + 1))
-                .forEach(n -> setSerializable(NestedSet.PARENT_ID, n, findNodeParentId(node).orElse(null)));
+                .filter(n -> getLong(NestedSet.LEFT, n) >= nestedSetDetail.getLeft())
+                .filter(n -> getLong(NestedSet.RIGHT, n) <= nestedSetDetail.getRight())
+                .filter(n -> getLong(NestedSet.LEVEL, n).equals(nestedSetDetail.getLevel() + 1))
+                .forEach(n -> setSerializable(NestedSet.PARENT_ID, n, findNodeParentId(nestedSetDetail).orElse(null)));
     }
 
     @Override
-    public void performSingleDeletion(NestedSetDetail<ID> node) {
+    public void performSingleDeletion(NestedSetDetail<ID> nestedSetDetail) {
         nodesStream()
-                .filter(n -> getSerializable(NestedSet.ID, n).equals(node.getId()))
+                .filter(n -> getSerializable(NestedSet.ID, n).equals(nestedSetDetail.getId()))
                 .forEach(nodes::remove);
     }
 
@@ -65,10 +66,10 @@ public class InMemoryNestedSetRemovingQueryDelegate<ID extends Serializable, N e
     }
 
     @Override
-    public void pushUpDeletedNodesChildren(NestedSetDetail<ID> node) {
+    public void pushUpDeletedNodesChildren(NestedSetDetail<ID> nestedSetDetail) {
         nodesStream()
-                .filter(n -> getLong(NestedSet.LEFT, n) > node.getLeft())
-                .filter(n -> getLong(NestedSet.RIGHT, n) < node.getRight())
+                .filter(n -> getLong(NestedSet.LEFT, n) > nestedSetDetail.getLeft())
+                .filter(n -> getLong(NestedSet.RIGHT, n) < nestedSetDetail.getRight())
                 .forEach(n -> {
                     setLong(NestedSet.RIGHT, n , getLong(NestedSet.RIGHT, n) - 1);
                     setLong(NestedSet.LEFT, n , getLong(NestedSet.LEFT, n) - 1);
@@ -82,10 +83,10 @@ public class InMemoryNestedSetRemovingQueryDelegate<ID extends Serializable, N e
     }
 
     @Override
-    public void performBatchDeletion(NestedSetDetail<ID> node) {
+    public void performBatchDeletion(NestedSetDetail<ID> nestedSetDetail) {
         nodesStream()
-                .filter(n -> getLong(NestedSet.LEFT, n) >= node.getLeft())
-                .filter(n -> getLong(NestedSet.RIGHT, n) <= node.getRight())
+                .filter(n -> getLong(NestedSet.LEFT, n) >= nestedSetDetail.getLeft())
+                .filter(n -> getLong(NestedSet.RIGHT, n) <= nestedSetDetail.getRight())
                 .forEach(nodes::remove);
     }
 

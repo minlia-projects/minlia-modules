@@ -1,24 +1,25 @@
-/*
- *  The MIT License
- *
- *  Copyright (c) 2019 eXsio.
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- *  the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- */
 
 package com.minlia.module.nestedset.delegate.query.jpa;
+
+/*-
+ * #%L
+ * minlia
+ * %%
+ * Copyright (C) 2005 - 2020 Minlia, Inc
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 
 import com.minlia.module.nestedset.annotation.*;
 import com.minlia.module.nestedset.config.Configuration;
@@ -35,13 +36,13 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public abstract class JpaNestedSetQueryDelegate<ID extends Serializable, N extends NestedSet<ID>> {
+public abstract class JpaNestedSetQueryDelegate<ID extends Serializable, ENTITY extends NestedSet<ID>> {
 
-    private final JpaTreeDiscriminator<ID, N> treeDiscriminator;
+    private final JpaTreeDiscriminator<ID, ENTITY> treeDiscriminator;
 
     protected final EntityManager entityManager;
 
-    protected final Class<N> nodeClass;
+    protected final Class<ENTITY> nodeClass;
 
     protected final Class<ID> idClass;
 
@@ -100,7 +101,7 @@ public abstract class JpaNestedSetQueryDelegate<ID extends Serializable, N exten
         return this.configs.get(clazz);
     }
 
-    public JpaNestedSetQueryDelegate(JpaNestedSetRepositoryConfiguration<ID, N> configuration) {
+    public JpaNestedSetQueryDelegate(JpaNestedSetRepositoryConfiguration<ID, ENTITY> configuration) {
         this.entityManager = configuration.getEntityManager();
         this.treeDiscriminator = configuration.getTreeDiscriminator();
         this.nodeClass = configuration.getNodeClass();
@@ -110,7 +111,7 @@ public abstract class JpaNestedSetQueryDelegate<ID extends Serializable, N exten
     }
 
 
-    protected Predicate[] getPredicates(CriteriaBuilder cb, Root<N> root, Predicate... predicates) {
+    protected Predicate[] getPredicates(CriteriaBuilder cb, Root<ENTITY> root, Predicate... predicates) {
         List<Predicate> predicateList = new ArrayList<>(treeDiscriminator.getPredicates(cb, root));
         Collections.addAll(predicateList, predicates);
         return predicateList.toArray(new Predicate[0]);

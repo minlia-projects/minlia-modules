@@ -1,23 +1,24 @@
-/*
- *  The MIT License
- *
- *  Copyright (c) 2019 eXsio.
- *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- *  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- *  permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- *  the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- *  BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- *  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- *  SOFTWARE.
- */
 package com.minlia.module.nestedset;
+
+/*-
+ * #%L
+ * minlia
+ * %%
+ * Copyright (C) 2005 - 2020 Minlia, Inc
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
 
 import com.minlia.module.nestedset.delegate.*;
 import com.minlia.module.nestedset.exception.InvalidNodeException;
@@ -36,29 +37,29 @@ import java.util.Optional;
  * {@inheritDoc}
  */
 @Transactional
-public class DelegatingNestedNodeRepository<ID extends Serializable, N extends NestedSet<ID>> implements NestedNodeRepository<ID, N> {
+public class DelegatingNestedNodeRepository<ID extends Serializable, ENTITY extends NestedSet<ID>> implements NestedNodeRepository<ID, ENTITY> {
 
-    private final NestedSetCreator<ID, N> inserter;
+    private final NestedSetCreator<ID, ENTITY> creator;
 
-    private final NestedSetMover<ID, N> mover;
+    private final NestedSetMover<ID, ENTITY> mover;
 
-    private final NestedSetRemover<ID, N> remover;
+    private final NestedSetRemover<ID, ENTITY> remover;
 
-    private final NestedSetRetriever<ID, N> retriever;
+    private final NestedSetRetriever<ID, ENTITY> retriever;
 
-    private final NestedSetRebuilder<ID, N> rebuilder;
+    private final NestedSetRebuilder<ID, ENTITY> rebuilder;
 
-    private final Lock<ID, N> lock;
+    private final Lock<ID, ENTITY> lock;
 
     private boolean allowNullableTreeFields = false;
 
-    public DelegatingNestedNodeRepository(NestedSetMover<ID, N> mover,
-                                          NestedSetRemover<ID, N> remover,
-                                          NestedSetRetriever<ID, N> retriever,
-                                          NestedSetRebuilder<ID, N> rebuilder,
-                                          NestedSetCreator<ID, N> inserter,
-                                          Lock<ID, N> lock) {
-        this.inserter = inserter;
+    public DelegatingNestedNodeRepository(NestedSetMover<ID, ENTITY> mover,
+                                          NestedSetRemover<ID, ENTITY> remover,
+                                          NestedSetRetriever<ID, ENTITY> retriever,
+                                          NestedSetRebuilder<ID, ENTITY> rebuilder,
+                                          NestedSetCreator<ID, ENTITY> creator,
+                                          Lock<ID, ENTITY> lock) {
+        this.creator = creator;
         this.mover = mover;
         this.remover = remover;
         this.retriever = retriever;
@@ -70,7 +71,7 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public void insertAsFirstChildOf(N node, N parent) {
+    public void insertAsFirstChildOf(ENTITY node, ENTITY parent) {
         lockNode(node, () -> insertOrMove(node, parent, NestedSetHierarchyManipulator.Mode.FIRST_CHILD));
     }
 
@@ -78,7 +79,7 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public void insertAsLastChildOf(N node, N parent) {
+    public void insertAsLastChildOf(ENTITY node, ENTITY parent) {
         lockNode(node, () -> insertOrMove(node, parent, NestedSetHierarchyManipulator.Mode.LAST_CHILD));
     }
 
@@ -86,7 +87,7 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public void insertAsNextSiblingOf(N node, N parent) {
+    public void insertAsNextSiblingOf(ENTITY node, ENTITY parent) {
         lockNode(node, () -> insertOrMove(node, parent, NestedSetHierarchyManipulator.Mode.NEXT_SIBLING));
     }
 
@@ -94,52 +95,52 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public void insertAsPrevSiblingOf(N node, N parent) {
+    public void insertAsPrevSiblingOf(ENTITY node, ENTITY parent) {
         lockNode(node, () -> insertOrMove(node, parent, NestedSetHierarchyManipulator.Mode.PREV_SIBLING));
     }
 
-    private void insertOrMove(N node, N parent, NestedSetHierarchyManipulator.Mode mode) {
+    private void insertOrMove(ENTITY node, ENTITY parent, NestedSetHierarchyManipulator.Mode mode) {
         if (parent.getId() == null) {
             throw new InvalidParentException("Cannot insert or move to a parent that has null id");
         }
-        Optional<NestedSetDetail<ID>> parentInfo = retriever.getNodeInfo(parent.getId());
+        Optional<NestedSetDetail<ID>> parentInfo = retriever.getNestedSetDetail(parent.getId());
         if (!parentInfo.isPresent()) {
             throw new InvalidParentException(String.format("Cannot insert or move to non existent parent. Parent id: %s", parent.getId()));
         }
         if (node.getId() != null) {
-            Optional<NestedSetDetail<ID>> nodeInfo = retriever.getNodeInfo(node.getId());
+            Optional<NestedSetDetail<ID>> nodeInfo = retriever.getNestedSetDetail(node.getId());
             if (nodeInfo.isPresent()) {
-                boolean nodeInfoValid = isNodeInfoValid(nodeInfo.get());
+                boolean nodeInfoValid = isNestedSetDetailValid(nodeInfo.get());
                 if (nodeInfoValid) {
                     this.mover.move(nodeInfo.get(), parentInfo.get(), mode);
                 } else if (allowNullableTreeFields) {
-                    this.inserter.create(node, parentInfo.get(), mode);
+                    this.creator.create(node, parentInfo.get(), mode);
                 } else {
                     throw new InvalidNodeException(String.format("Current configuration doesn't allow nullable tree fields: %s", nodeInfo.get()));
                 }
             } else {
-                this.inserter.create(node, parentInfo.get(), mode);
+                this.creator.create(node, parentInfo.get(), mode);
             }
         } else {
-            this.inserter.create(node, parentInfo.get(), mode);
+            this.creator.create(node, parentInfo.get(), mode);
         }
     }
 
-    private boolean isNodeInfoValid(NestedSetDetail<ID> nodeInfo) {
-        return (nodeInfo.getLeft() != null && nodeInfo.getRight() != null && nodeInfo.getLeft() > 0 && nodeInfo.getRight() > 0);
+    private boolean isNestedSetDetailValid(NestedSetDetail<ID> nestedSetDetail) {
+        return (nestedSetDetail.getLeft() != null && nestedSetDetail.getRight() != null && nestedSetDetail.getLeft() > 0 && nestedSetDetail.getRight() > 0);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void removeSingle(N node) {
-        lockNode(node, () -> {
-            Optional<NestedSetDetail<ID>> nodeInfo = retriever.getNodeInfo(node.getId());
+    public void removeSingle(ENTITY entity) {
+        lockNode(entity, () -> {
+            Optional<NestedSetDetail<ID>> nodeInfo = retriever.getNestedSetDetail(entity.getId());
             if (nodeInfo.isPresent()) {
                 this.remover.removeSingle(nodeInfo.get());
             } else {
-                throw new InvalidNodeException(String.format("Couldn't remove node, was it already removed?: %s", node));
+                throw new InvalidNodeException(String.format("Couldn't remove node, was it already removed?: %s", entity));
             }
         });
     }
@@ -148,13 +149,13 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public void removeSubtree(N node) {
-        lockNode(node, () -> {
-            Optional<NestedSetDetail<ID>> nodeInfo = retriever.getNodeInfo(node.getId());
+    public void removeSubtree(ENTITY entity) {
+        lockNode(entity, () -> {
+            Optional<NestedSetDetail<ID>> nodeInfo = retriever.getNestedSetDetail(entity.getId());
             if (nodeInfo.isPresent()) {
                 this.remover.removeSubtree(nodeInfo.get());
             } else {
-                throw new InvalidNodeException(String.format("Couldn't remove node subtree, was it already removed?: %s", node));
+                throw new InvalidNodeException(String.format("Couldn't remove node subtree, was it already removed?: %s", entity));
             }
         });
     }
@@ -163,56 +164,56 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public List<N> getTreeAsList(N node) {
-        return this.retriever.getTreeAsList(node);
+    public List<ENTITY> getTreeAsList(ENTITY entity) {
+        return this.retriever.getTreeAsList(entity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<N> getChildren(N node) {
-        return this.retriever.getChildren(node);
+    public List<ENTITY> getChildren(ENTITY entity) {
+        return this.retriever.getChildren(entity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<N> getParent(N node) {
-        return this.retriever.getParent(node);
+    public Optional<ENTITY> getParent(ENTITY entity) {
+        return this.retriever.getParent(entity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<N> getPrevSibling(N node) {
-        return this.retriever.getPrevSibling(node);
+    public Optional<ENTITY> getPrevSibling(ENTITY entity) {
+        return this.retriever.getPrevSibling(entity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<N> getNextSibling(N node) {
-        return this.retriever.getNextSibling(node);
+    public Optional<ENTITY> getNextSibling(ENTITY entity) {
+        return this.retriever.getNextSibling(entity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Tree<ID, N> getTree(N node) {
-        return this.retriever.getTree(node);
+    public Tree<ID, ENTITY> getTree(ENTITY entity) {
+        return this.retriever.getTree(entity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<N> getParents(N node) {
-        return this.retriever.getParents(node);
+    public List<ENTITY> getParents(ENTITY entity) {
+        return this.retriever.getParents(entity);
     }
 
     /**
@@ -235,15 +236,15 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public void insertAsFirstRoot(N node) {
-        lockNode(node, () -> {
-            Optional<N> firstRoot = retriever.findFirstRoot();
+    public void insertAsFirstRoot(ENTITY entity) {
+        lockNode(entity, () -> {
+            Optional<ENTITY> firstRoot = retriever.findFirstRoot();
             if (firstRoot.isPresent()) {
-                if (differentNodes(node, firstRoot.get())) {
-                    insertOrMove(node, firstRoot.get(), NestedSetHierarchyManipulator.Mode.PREV_SIBLING);
+                if (differentNodes(entity, firstRoot.get())) {
+                    insertOrMove(entity, firstRoot.get(), NestedSetHierarchyManipulator.Mode.PREV_SIBLING);
                 }
             } else {
-                insertAsFirstNode(node);
+                insertAsFirstNode(entity);
             }
         });
     }
@@ -252,25 +253,25 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
      * {@inheritDoc}
      */
     @Override
-    public void insertAsLastRoot(N node) {
-        lockNode(node, () -> {
-            Optional<N> lastRoot = retriever.findLastRoot();
+    public void insertAsLastRoot(ENTITY entity) {
+        lockNode(entity, () -> {
+            Optional<ENTITY> lastRoot = retriever.findLastRoot();
             if (lastRoot.isPresent()) {
-                if (differentNodes(node, lastRoot.get())) {
-                    insertOrMove(node, lastRoot.get(), NestedSetHierarchyManipulator.Mode.NEXT_SIBLING);
+                if (differentNodes(entity, lastRoot.get())) {
+                    insertOrMove(entity, lastRoot.get(), NestedSetHierarchyManipulator.Mode.NEXT_SIBLING);
                 }
             } else {
-                insertAsFirstNode(node);
+                insertAsFirstNode(entity);
             }
         });
     }
 
-    private boolean differentNodes(N node, N firstRoot) {
-        return !firstRoot.getId().equals(node.getId());
+    private boolean differentNodes(ENTITY entity, ENTITY firstRoot) {
+        return !firstRoot.getId().equals(entity.getId());
     }
 
-    private void insertAsFirstNode(N node) {
-        inserter.createAsFirstNode(node);
+    private void insertAsFirstNode(ENTITY entity) {
+        creator.createAsFirstNode(entity);
     }
 
     public boolean isAllowNullableTreeFields() {
@@ -282,18 +283,18 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
     }
 
 
-    private void lockNode(N node, TreeModifier modifier) {
-        if (!lock.lockNode(node)) {
-            throw new RepositoryLockedException(String.format("Nested Node Repository is locked for Node %s. Try again later.", node));
+    private void lockNode(ENTITY entity, NestedSetModifier modifier) {
+        if (!lock.lockNode(entity)) {
+            throw new RepositoryLockedException(String.format("Nested Node Repository is locked for Node %s. Try again later.", entity));
         }
         try {
             modifier.modifyTree();
         } finally {
-            lock.unlockNode(node);
+            lock.unlockNode(entity);
         }
     }
 
-    private void lockRepository(TreeModifier modifier) {
+    private void lockRepository(NestedSetModifier modifier) {
         if (!lock.lockRepository()) {
             throw new RepositoryLockedException("Nested Node Repository is locked. Try again later.");
         }
@@ -304,7 +305,7 @@ public class DelegatingNestedNodeRepository<ID extends Serializable, N extends N
         }
     }
 
-    private interface TreeModifier {
+    private interface NestedSetModifier {
         void modifyTree();
     }
 }
