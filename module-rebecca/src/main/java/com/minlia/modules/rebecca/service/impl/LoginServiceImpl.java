@@ -8,7 +8,9 @@ import com.minlia.modules.rebecca.service.RoleService;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
+import com.minlia.modules.security.model.token.JwtToken;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,12 +87,19 @@ public class LoginServiceImpl implements LoginService {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
 
-        AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext, UUID.randomUUID().toString());
-        AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext, UUID.randomUUID().toString());
+        String id = UUID.randomUUID().toString();
+        AccessJwtToken accessToken = tokenFactory.createAccessJwtToken(userContext, id);
+        AccessJwtToken refreshToken = tokenFactory.createRefreshToken(userContext, id);
+        AccessJwtToken rawToken = tokenFactory.createRawJwtToken(userContext, id);
+
         HashMap tokenMap = new HashMap();
         tokenMap.put("token", accessToken.getToken());
         tokenMap.put("accountEffectiveDate", (accessToken).getClaims().getExpiration().getTime());
         tokenMap.put("refreshToken", refreshToken.getToken());
+
+        //缓存token TODO
+        TokenCacheUtils.kill(userContext.getGuid());
+        TokenCacheUtils.cache(userContext.getGuid(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
         return tokenMap;
     }
 
