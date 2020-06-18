@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private SysSecurityConfig sysSecurityConfig;
 
+
     @Override
     @Transactional
     public User create(UserCTO cro) {

@@ -2,6 +2,7 @@ package com.minlia.modules.rebecca.service.impl;
 
 import com.google.common.collect.Lists;
 import com.minlia.modules.rebecca.bean.domain.User;
+import com.minlia.modules.rebecca.body.UserLogonResponseBody;
 import com.minlia.modules.rebecca.service.LoginService;
 import com.minlia.modules.rebecca.service.PermissionService;
 import com.minlia.modules.rebecca.service.RoleService;
@@ -101,6 +102,27 @@ public class LoginServiceImpl implements LoginService {
         TokenCacheUtils.kill(userContext.getGuid());
         TokenCacheUtils.cache(userContext.getGuid(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
         return tokenMap;
+    }
+    @Override
+    public UserLogonResponseBody loginWithRole(User user, String currentRole) {
+        //如果当前角色为空获取默认角色
+        UserContext userContext = this.getUserContext(user, user.getDefaultRole());
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(token);
+        AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext, UUID.randomUUID().toString());
+        AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext, UUID.randomUUID().toString());
+
+        UserLogonResponseBody userLogonResponseBody=UserLogonResponseBody.builder()
+                .token(accessToken.getToken())
+                .loginEffectiveDate((accessToken).getClaims().getExpiration().getTime())
+                .refreshToken(refreshToken.getToken())
+                .build();
+
+//        HashMap tokenMap = new HashMap();
+//        tokenMap.put("token", accessToken.getToken());
+//        tokenMap.put("accountEffectiveDate", (accessToken).getClaims().getExpiration().getTime());
+//        tokenMap.put("refreshToken", refreshToken.getToken());
+        return userLogonResponseBody;
     }
 
 }
