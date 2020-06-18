@@ -109,14 +109,22 @@ public class LoginServiceImpl implements LoginService {
         UserContext userContext = this.getUserContext(user, user.getDefaultRole());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
-        AccessJwtToken accessToken = this.tokenFactory.createAccessJwtToken(userContext, UUID.randomUUID().toString());
-        AccessJwtToken refreshToken = this.tokenFactory.createRefreshToken(userContext, UUID.randomUUID().toString());
+
+        String id = UUID.randomUUID().toString();
+        AccessJwtToken accessToken = tokenFactory.createAccessJwtToken(userContext, id);
+        AccessJwtToken refreshToken = tokenFactory.createRefreshToken(userContext, id);
+        AccessJwtToken rawToken = tokenFactory.createRawJwtToken(userContext, id);
+
 
         UserLogonResponseBody userLogonResponseBody=UserLogonResponseBody.builder()
                 .token(accessToken.getToken())
                 .loginEffectiveDate((accessToken).getClaims().getExpiration().getTime())
                 .refreshToken(refreshToken.getToken())
                 .build();
+
+        //缓存token TODO
+        TokenCacheUtils.kill(userContext.getGuid());
+        TokenCacheUtils.cache(userContext.getGuid(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
 
 //        HashMap tokenMap = new HashMap();
 //        tokenMap.put("token", accessToken.getToken());
