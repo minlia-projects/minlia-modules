@@ -93,7 +93,8 @@ public class AuthEndpoint {
         //,headers = "X-Authorization"
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
         RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
-        RefreshToken refreshToken = RefreshToken.create(rawToken, jwtProperty.getTokenSigningKey()).orElseThrow(() -> new InvalidJwtTokenException());
+//        RefreshToken refreshToken = RefreshToken.create(rawToken, jwtProperty.getTokenSigningKey()).orElseThrow(() -> new InvalidJwtTokenException());
+        RefreshToken refreshToken = RefreshToken.create(rawToken, jwtProperty.getTokenSigningKey()).get();
 
         String jti = refreshToken.getJti();
         if (!tokenVerifier.verify(jti)) {

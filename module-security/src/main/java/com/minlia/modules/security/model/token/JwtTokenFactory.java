@@ -95,6 +95,7 @@ public class JwtTokenFactory {
                 .setIssuedAt(LocalDateUtils.localDateTimeToDate(currentTime))
 //                .setNotBefore()   //不能早于这个时间使用
 //                .setExpiration(LocalDateUtils.localDateTimeToDate(currentTime.plusMinutes(tokenExpirationTime)))
+                //token永不过期了
                 .setExpiration(LocalDateUtils.localDateTimeToDate(LocalDateTime.MAX.withYear(9999)))       //设置永不过期 TODO
                 .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
                 .compact();
