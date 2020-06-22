@@ -27,10 +27,10 @@ public class RefreshToken implements JwtToken {
     public static Optional<RefreshToken> create(RawAccessJwtToken token, String signingKey) {
         Jws<Claims> claims = token.parseClaims(signingKey);
         //TODO
-        List<String> permissions = claims.getBody().get("permissions", List.class);
-        if (CollectionUtils.isEmpty(permissions)) {
-            return Optional.empty();
-        }
+//        List<String> permissions = claims.getBody().get("permissions", List.class);
+//        if (CollectionUtils.isEmpty(permissions)) {
+//            return Optional.empty();
+//        }
 
 //        List<String> scopes = claims.getBody().get("scopes", List.class);
 //        if (scopes == null || scopes.isEmpty()
