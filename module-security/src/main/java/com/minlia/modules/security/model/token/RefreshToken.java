@@ -26,18 +26,22 @@ public class RefreshToken implements JwtToken {
      */
     public static Optional<RefreshToken> create(RawAccessJwtToken token, String signingKey) {
         Jws<Claims> claims = token.parseClaims(signingKey);
+
         //TODO
-        List<String> permissions = claims.getBody().get("permissions", List.class);
-        if (CollectionUtils.isEmpty(permissions)) {
-            return Optional.empty();
-        }
+//        List<String> permissions = claims.getBody().get("permissions", List.class);
+//        if (CollectionUtils.isEmpty(permissions)) {
+//            return Optional.empty();
+//        }
+
 
 //        List<String> scopes = claims.getBody().get("scopes", List.class);
 //        if (scopes == null || scopes.isEmpty()
 ////                || !scopes.stream().filter(scope -> Scopes.REFRESH_TOKEN.authority().equals(scope)).findFirst().isPresent()
 //) {
 //            return Optional.empty();
-//        }LoginCredentials
+//        } LoginCredentials
+
+
         return Optional.of(new RefreshToken(claims));
     }
 
