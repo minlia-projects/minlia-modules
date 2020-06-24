@@ -174,20 +174,20 @@ public class Team implements NestedSet<Long> {
 //        return Objects.hash(getId());
 //    }
 
-    public static Team fromResultSet(ResultSet resultSet) throws SQLException {
-        Team n = new Team();
-        n.setId(resultSet.getLong("ID"));
-        n.setLeft(resultSet.getLong("TREE_LEFT"));
-        n.setLevel(resultSet.getLong("TREE_LEVEL"));
-        n.setRight(resultSet.getLong("TREE_RIGHT"));
-        n.setName(resultSet.getString("NODE_NAME"));
-        n.setParentId(resultSet.getLong("PARENT_ID"));
-        if (resultSet.wasNull()) {
-            n.setParentId(null);
-        }
-        n.setDiscriminator(resultSet.getString("DISCRIMINATOR"));
-        return n;
-    }
+//    public static Team fromResultSet(ResultSet resultSet) throws SQLException {
+//        Team n = new Team();
+//        n.setId(resultSet.getLong("ID"));
+//        n.setLeft(resultSet.getLong("TREE_LEFT"));
+//        n.setLevel(resultSet.getLong("TREE_LEVEL"));
+//        n.setRight(resultSet.getLong("TREE_RIGHT"));
+//        n.setName(resultSet.getString("NODE_NAME"));
+//        n.setParentId(resultSet.getLong("PARENT_ID"));
+//        if (resultSet.wasNull()) {
+//            n.setParentId(null);
+//        }
+//        n.setDiscriminator(resultSet.getString("DISCRIMINATOR"));
+//        return n;
+//    }
 
     public Team copy() {
         return new Team(id, name, left, right, level, parentId, discriminator,accountLevel);
