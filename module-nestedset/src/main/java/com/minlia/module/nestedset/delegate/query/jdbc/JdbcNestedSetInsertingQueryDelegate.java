@@ -83,7 +83,9 @@ public class JdbcNestedSetInsertingQueryDelegate<ID extends Serializable, N exte
             }
             return ps;
         }, keyHolder);
-        node.setId(generatedKeyResolver.apply(node, keyHolder));
+
+        //FIXME for no id set
+//        node.setId(generatedKeyResolver.apply(node, keyHolder));
     }
 
     @Override

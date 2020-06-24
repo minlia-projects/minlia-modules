@@ -81,7 +81,7 @@ public interface NestedSet<ID extends Serializable> {
      *
      * @param id - unique Identifier of the Entity/Object.
      */
-    void setId(ID id);
+//    void setId(ID id);
 
     /**
      * Sets the Nested Set Model LEFT value
