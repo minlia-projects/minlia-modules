@@ -1,6 +1,9 @@
 package com.minlia.module.i18n.resource;
 
 import com.google.common.collect.Maps;
+import com.minlia.module.i18n.attribution.bean.I18nAttributionQRO;
+import com.minlia.module.i18n.attribution.entity.I18nAttribution;
+import com.minlia.module.i18n.attribution.service.I18nAttributionService;
 import com.minlia.module.i18n.entity.I18n;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.i18n.bean.I18nQRO;
@@ -26,9 +29,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MessageSource extends AbstractMessageSource implements ResourceLoaderAware, InitializingBean {
  
 	private ResourceLoader resourceLoader;
-	
+
 	@Autowired
 	private I18nService i18nService;
+
+	@Autowired
+	private I18nAttributionService i18nAttributionService;
 
 	//cache resource
 	private static final Map<String, Map<String, String>> LOCAL_CACHE = new ConcurrentHashMap<>(256);
@@ -63,12 +69,24 @@ public class MessageSource extends AbstractMessageSource implements ResourceLoad
 		return messageResources;
 	}
 
-	public Map<String, String> getLocalCache(Locale locale) {
-		return LOCAL_CACHE.get(locale.toString());
+//	public Map<String, String> getLocalCache(Locale locale) {
+//		return LOCAL_CACHE.get(locale.toString());
+//	}
+//
+//	public Map<String, String> getLocalCache(String locale) {
+//		return LOCAL_CACHE.get(locale);
+//	}
+	public Map<String, String> getLocalCache(Locale locale,String attributionCode) {
+		return getLocalCache(locale.toString(),attributionCode);
 	}
 
-	public Map<String, String> getLocalCache(String locale) {
-		return LOCAL_CACHE.get(locale);
+	public Map<String, String> getLocalCache(String locale,String attributionCode) {
+		Map<String, String> map = Maps.newHashMap();
+		List<I18nAttribution> list = i18nAttributionService.selectByAll(I18nAttributionQRO.builder().attributionCode(attributionCode).build());
+		list.stream().forEach(i18nAttribution -> {
+			map.put(i18nAttribution.getI18nCode(),LOCAL_CACHE.get(locale).get(i18nAttribution.getI18nCode()));
+		});
+		return map;
 	}
 
 	@Override

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.i18n.attribution.mapper.I18nAttributionMapper">
+  <resultMap id="BaseResultMap" type="com.minlia.module.i18n.attribution.entity.I18nAttribution">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="attribution_code" jdbcType="VARCHAR" property="attributionCode" />
+    <result column="i18n_code" jdbcType="VARCHAR" property="i18nCode" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, attribution_code, i18n_code, create_date, create_by, last_modified_date, last_modified_by
+  </sql>
+  <sql id="QUERY_CONDITION">
+    <where>
+      <if test="id != null">
+        and id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="attributionCode != null">
+        and attribution_code=#{attributionCode,jdbcType=VARCHAR}
+      </if>
+      <if test="i18nCode != null">
+        and i18n_code=#{i18nCode,jdbcType=VARCHAR}
+      </if>
+      <if test="createBy != null">
+        and create_by=#{createBy,jdbcType=VARCHAR}
+      </if>
+      <if test="lastModifiedBy != null">
+        and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null">
+        and create_date=#{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="lastModifiedDate != null">
+        and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from mdl_i18n_attribution
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from mdl_i18n_attribution
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minlia.module.i18n.attribution.entity.I18nAttribution" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into mdl_i18n_attribution (attribution_code, i18n_code, create_date,
+      create_by, last_modified_date, last_modified_by
+      )
+    values (#{attributionCode,jdbcType=VARCHAR}, #{i18nCode,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
+      #{createBy,jdbcType=VARCHAR}, #{lastModifiedDate,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minlia.module.i18n.attribution.entity.I18nAttribution" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into mdl_i18n_attribution
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="attributionCode != null">
+        attribution_code,
+      </if>
+      <if test="i18nCode != null">
+        i18n_code,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="lastModifiedDate != null">
+        last_modified_date,
+      </if>
+      <if test="lastModifiedBy != null">
+        last_modified_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="attributionCode != null">
+        #{attributionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="i18nCode != null">
+        #{i18nCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifiedDate != null">
+        #{lastModifiedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null">
+        #{lastModifiedBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.i18n.attribution.entity.I18nAttribution">
+    <!--@mbg.generated-->
+    update mdl_i18n_attribution
+    <set>
+      <if test="attributionCode != null">
+        attribution_code = #{attributionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="i18nCode != null">
+        i18n_code = #{i18nCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifiedDate != null">
+        last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null">
+        last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.minlia.module.i18n.attribution.entity.I18nAttribution">
+    <!--@mbg.generated-->
+    update mdl_i18n_attribution
+    set attribution_code = #{attributionCode,jdbcType=VARCHAR},
+      i18n_code = #{i18nCode,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+      last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2020-07-08-->
+  <select id="selectByAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mdl_i18n_attribution
+    <include refid="QUERY_CONDITION"/>
+  </select>
+
+</mapper>

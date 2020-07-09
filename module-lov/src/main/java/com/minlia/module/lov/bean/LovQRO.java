@@ -38,7 +38,7 @@ public class LovQRO extends QueryRequest {
     /**
      * 排序（升序）
      */
-    private Integer sort;
+    private String sort;
 
     /**
      * 描述信息

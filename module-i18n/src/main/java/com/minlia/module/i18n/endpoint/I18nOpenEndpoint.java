@@ -36,18 +36,31 @@ public class I18nOpenEndpoint {
         return Response.success();
     }
 
+//    @AuditLog(value = "get all i18n", type = OperationTypeEnum.INFO)
+//    @ApiOperation(value = "获取所有")
+//    @GetMapping(value = "all")
+//    public Response all() {
+//        return Response.success(messageSource.getLocalCache(LocaleContextHolder.getLocale()));
+//    }
+//
+//    @AuditLog(value = "get all i18n by locale", type = OperationTypeEnum.INFO)
+//    @ApiOperation(value = "获取所有")
+//    @GetMapping(value = "{locale}/{attributionCode}")
+//    public Response all(@PathVariable String locale) {
+//        return Response.success(messageSource.getLocalCache(locale));
+//    }
     @AuditLog(value = "get all i18n", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "获取所有")
-    @GetMapping(value = "all")
-    public Response all() {
-        return Response.success(messageSource.getLocalCache(LocaleContextHolder.getLocale()));
+    @GetMapping(value = "all/{attributionCode}")
+    public Response all(@PathVariable String attributionCode) {
+        return Response.success(messageSource.getLocalCache(LocaleContextHolder.getLocale(),attributionCode));
     }
 
     @AuditLog(value = "get all i18n by locale", type = OperationTypeEnum.INFO)
     @ApiOperation(value = "获取所有")
-    @GetMapping(value = "{locale}")
-    public Response all(@PathVariable String locale) {
-        return Response.success(messageSource.getLocalCache(locale));
+    @GetMapping(value = "{locale}/{attributionCode}")
+    public Response all(@PathVariable String locale,@PathVariable String attributionCode) {
+        return Response.success(messageSource.getLocalCache(locale,attributionCode));
     }
 
 //    @ApiOperation(value = "测试")
