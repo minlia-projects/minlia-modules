@@ -69,6 +69,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         List<String> roles = jwsClaims.getBody().get("roles", List.class);
         List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
         Date expirDate = jwsClaims.getBody().getExpiration();
+        Boolean isApprover = jwsClaims.getBody().get("isApprover", Boolean.class);
 
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {
@@ -88,6 +89,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .currdomain(currdomain)
                 .permissions(permissions)
                 .expireDate(LocalDateUtils.dateToLocalDateTime(expirDate))
+                .isApprover(isApprover)
                 .build();
 
         //重置缓存时间

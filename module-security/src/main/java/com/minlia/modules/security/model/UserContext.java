@@ -84,4 +84,9 @@ public final class UserContext implements Body {
     @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime expireDate;
 
+    /**
+     * admin端的审批权限
+     */
+    private Boolean isApprover;
+
 }

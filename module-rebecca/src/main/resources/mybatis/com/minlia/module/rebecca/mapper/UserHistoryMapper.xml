@@ -22,6 +22,7 @@
         <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
         <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
         <result column="referral" jdbcType="VARCHAR" property="referral"/>
+        <result column="is_approver" jdbcType="BOOLEAN" property="isApprover"/>
         <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
         <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
@@ -31,7 +32,7 @@
         <!--@mbg.generated-->
         id, update_type, org_id, guid, username, cellphone, email, nickname, `password`, default_role,
         default_locale, account_effective_date, credentials_effective_date, `status`, locked,
-        lock_limit, lock_time, last_login_time, last_login_ip, referral, create_by, create_date,
+        lock_limit, lock_time, last_login_time, last_login_ip, referral, is_approver , create_by, create_date,
         last_modified_by, last_modified_date
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -108,6 +109,9 @@
             <if test="referral != null">
                 referral,
             </if>
+            <if test="isApprover != null">
+               is_approver,
+            </if>
             <if test="createBy != null">
                 create_by,
             </if>
@@ -178,6 +182,9 @@
             </if>
             <if test="referral != null">
                 #{referral,jdbcType=VARCHAR},
+            </if>
+            <if test="isApprover != null">
+                #{isApprover,jdbcType=BOOLEAN},
             </if>
             <if test="createBy != null">
                 #{createBy,jdbcType=VARCHAR},
@@ -250,6 +257,9 @@
             </if>
             <if test="referral != null">
                 referral = #{referral,jdbcType=VARCHAR},
+            </if>
+            <if test="isApprover != null">
+                is_approver = #{isApprover,jdbcType=BOOLEAN},
             </if>
             <if test="createBy != null">
                 create_by = #{createBy,jdbcType=VARCHAR},

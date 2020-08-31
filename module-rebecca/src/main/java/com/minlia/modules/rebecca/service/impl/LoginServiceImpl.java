@@ -73,6 +73,7 @@ public class LoginServiceImpl implements LoginService {
 //                .navigations(navigations)
                 .permissions(permissions)
                 .authorities(authorities)
+                .isApprover(user.getIsApprover())
                 .build();
         return userContext;
     }

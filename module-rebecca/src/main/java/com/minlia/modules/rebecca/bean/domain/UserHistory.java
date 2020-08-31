@@ -114,6 +114,11 @@ public class UserHistory {
     private String referral;
 
     /**
+     * admin端的审批权限
+     */
+    private Boolean isApprover;
+
+    /**
      * GUID
      */
     private String createBy;

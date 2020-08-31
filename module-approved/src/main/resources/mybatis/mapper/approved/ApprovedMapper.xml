@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.approved.mapper.ApprovedMapper">
+  <resultMap id="BaseResultMap" type="com.minlia.module.approved.entity.Approved">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="request_date_time" jdbcType="TIMESTAMP" property="requestDateTime" />
+    <result column="requestor_user_guid" jdbcType="VARCHAR" property="requestorUserGuid" />
+    <result column="function" jdbcType="VARCHAR" property="function" />
+    <result column="identifier" jdbcType="VARCHAR" property="identifier" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="approved_date_time" jdbcType="TIMESTAMP" property="approvedDateTime" />
+    <result column="approver_user_guid" jdbcType="VARCHAR" property="approverUserGuid" />
+    <result column="before_data" jdbcType="LONGVARCHAR" property="beforeData" />
+    <result column="after_data" jdbcType="LONGVARCHAR" property="afterData" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, request_date_time, requestor_user_guid, `function`, identifier, `status`, approved_date_Time,
+    approver_user_guid, before_data, after_data, remark, create_by, create_date,
+    last_modified_by, last_modified_date
+  </sql>
+  <resultMap id="ApprovedVOResultMap" type="com.minlia.module.approved.bean.vo.ApprovedVO">
+    <!--@mbg.generated-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="request_date_time" jdbcType="TIMESTAMP" property="requestDateTime" />
+    <result column="requestor_user_guid" jdbcType="VARCHAR" property="requestorUserGuid" />
+    <result column="function" jdbcType="VARCHAR" property="function" />
+    <result column="identifier" jdbcType="VARCHAR" property="identifier" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="approved_date_time" jdbcType="TIMESTAMP" property="approvedDateTime" />
+    <result column="approver_user_guid" jdbcType="VARCHAR" property="approverUserGuid" />
+    <result column="before_data" jdbcType="LONGVARCHAR" property="beforeData" />
+    <result column="after_data" jdbcType="LONGVARCHAR" property="afterData" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy" />
+    <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate" />
+    <result column="requestor_user_name" jdbcType="VARCHAR" property="requestorUserName" />
+    <result column="approver_user_name" jdbcType="VARCHAR" property="approverUserName" />
+    <result column="function_value" jdbcType="VARCHAR" property="functionVal" />
+    <result column="approval_method_url" jdbcType="VARCHAR" property="approvalMethodUrl" />
+    <result column="detail_flag" jdbcType="INTEGER" property="detailFlag" />
+    <result column="detail_data_field" jdbcType="VARCHAR" property="detailDataField" />
+  </resultMap>
+  <sql id="ApprovedVO_Column_List">
+    <!--@mbg.generated-->
+    mat.id, mat.request_date_time, mat.requestor_user_guid, mat.`function`, mat.identifier, mat.`status`, mat.approved_date_Time,
+    approver_user_guid, mat.before_data, mat.after_data, mat.remark, mat.create_by, mat.create_date,
+    last_modified_by, mat.last_modified_date,
+    mafst.function_value,mafst.approval_method_url,mafst.detail_flag,mafst.detail_data_field,
+    (SELECT mut.`username` from mdl_user mut where mut.guid = mat.requestor_user_guid) requestor_user_name,
+    (SELECT mut.`username` from mdl_user mut where mut.guid = mat.approver_user_guid) approver_user_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from mdl_approved
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from mdl_approved
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.minlia.module.approved.entity.Approved" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into mdl_approved (request_date_time, requestor_user_guid,
+    `function`, identifier, `status`,
+    approved_date_Time, approver_user_guid, before_data,
+    after_data, remark,
+    create_by, create_date, last_modified_by,
+    last_modified_date)
+    values (#{requestDateTime,jdbcType=TIMESTAMP}, #{requestorUserGuid,jdbcType=VARCHAR},
+    #{function,jdbcType=VARCHAR}, #{identifier,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+    #{approvedDateTime,jdbcType=TIMESTAMP}, #{approverUserGuid,jdbcType=VARCHAR}, #{beforeData,jdbcType=LONGVARCHAR},
+    #{afterData,jdbcType=LONGVARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{lastModifiedBy,jdbcType=VARCHAR},
+    #{lastModifiedDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.minlia.module.approved.entity.Approved" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into mdl_approved
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="requestDateTime != null">
+        request_date_time,
+      </if>
+      <if test="requestorUserGuid != null">
+        requestor_user_guid,
+      </if>
+      <if test="function != null">
+        `function`,
+      </if>
+      <if test="identifier != null">
+        identifier,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="approvedDateTime != null">
+        approved_date_Time,
+      </if>
+      <if test="approverUserGuid != null">
+        approver_user_guid,
+      </if>
+      <if test="beforeData != null">
+        before_data,
+      </if>
+      <if test="afterData != null">
+        after_data,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="lastModifiedBy != null">
+        last_modified_by,
+      </if>
+      <if test="lastModifiedDate != null">
+        last_modified_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="requestDateTime != null">
+        #{requestDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestorUserGuid != null">
+        #{requestorUserGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="function != null">
+        #{function,jdbcType=VARCHAR},
+      </if>
+      <if test="identifier != null">
+        #{identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedDateTime != null">
+        #{approvedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approverUserGuid != null">
+        #{approverUserGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeData != null">
+        #{beforeData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="afterData != null">
+        #{afterData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null">
+        #{lastModifiedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifiedDate != null">
+        #{lastModifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.approved.entity.Approved">
+    <!--@mbg.generated-->
+    update mdl_approved
+    <set>
+      <if test="requestDateTime != null">
+        request_date_time = #{requestDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestorUserGuid != null">
+        requestor_user_guid = #{requestorUserGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="function != null">
+        `function` = #{function,jdbcType=VARCHAR},
+      </if>
+      <if test="identifier != null">
+        identifier = #{identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="approvedDateTime != null">
+        approved_date_Time = #{approvedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approverUserGuid != null">
+        approver_user_guid = #{approverUserGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeData != null">
+        before_data = #{beforeData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="afterData != null">
+        after_data = #{afterData,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifiedBy != null">
+        last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifiedDate != null">
+        last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.minlia.module.approved.entity.Approved">
+    <!--@mbg.generated-->
+    update mdl_approved
+    set request_date_time = #{requestDateTime,jdbcType=TIMESTAMP},
+    requestor_user_guid = #{requestorUserGuid,jdbcType=VARCHAR},
+    `function` = #{function,jdbcType=VARCHAR},
+    identifier = #{identifier,jdbcType=VARCHAR},
+    `status` = #{status,jdbcType=VARCHAR},
+    approved_date_Time = #{approvedDateTime,jdbcType=TIMESTAMP},
+    approver_user_guid = #{approverUserGuid,jdbcType=VARCHAR},
+    before_data = #{beforeData,jdbcType=LONGVARCHAR},
+    after_data = #{afterData,jdbcType=LONGVARCHAR},
+    remark = #{remark,jdbcType=VARCHAR},
+    create_by = #{createBy,jdbcType=VARCHAR},
+    create_date = #{createDate,jdbcType=TIMESTAMP},
+    last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
+    last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mdl_approved
+    where 1=1
+    <if test="requestDateTime != null">
+      and request_date_time=#{requestDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="requestorUserGuid != null">
+      and requestor_user_guid=#{requestorUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="function != null">
+      and `function`=#{function,jdbcType=VARCHAR}
+    </if>
+    <if test="identifier != null">
+      and identifier=#{identifier,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and `status`=#{status,jdbcType=VARCHAR}
+    </if>
+    <if test="approvedDateTime != null">
+      and approved_date_Time=#{approvedDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="approverUserGuid != null">
+      and approver_user_guid=#{approverUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="beforeData != null">
+      and before_data=#{beforeData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="afterData != null">
+      and after_data=#{afterData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="remark != null">
+      and remark=#{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="createBy != null">
+      and create_by=#{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="lastModifiedBy != null">
+      and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+    </if>
+    <if test="id != null">
+      and id=#{id,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectOneByAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from mdl_approved
+    where 1=1
+    <if test="requestDateTime != null">
+      and request_date_time=#{requestDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="requestorUserGuid != null">
+      and requestor_user_guid=#{requestorUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="function != null">
+      and `function`=#{function,jdbcType=VARCHAR}
+    </if>
+    <if test="identifier != null">
+      and identifier=#{identifier,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and `status`=#{status,jdbcType=VARCHAR}
+    </if>
+    <if test="approvedDateTime != null">
+      and approved_date_Time=#{approvedDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="approverUserGuid != null">
+      and approver_user_guid=#{approverUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="beforeData != null">
+      and before_data=#{beforeData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="afterData != null">
+      and after_data=#{afterData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="remark != null">
+      and remark=#{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="createBy != null">
+      and create_by=#{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="lastModifiedBy != null">
+      and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+    </if>
+    <if test="createDate != null">
+      and create_date=#{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="lastModifiedDate != null">
+      and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="id != null">
+      and id=#{id,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectDetailsByAll" resultMap="ApprovedVOResultMap">
+    select
+    <include refid="ApprovedVO_Column_List"/>
+    from mdl_approved mat left join mdl_approved_function_setting mafst on  mat.`function` = mafst.`function_code`
+    where 1=1
+    <if test="requestDateTime != null">
+      and mat.request_date_time=#{requestDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="requestorUserGuid != null">
+      and mat.requestor_user_guid=#{requestorUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="function != null">
+      and mat.`function`=#{function,jdbcType=VARCHAR}
+    </if>
+    <if test="identifier != null">
+      and mat.identifier=#{identifier,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and mat.`status`=#{status,jdbcType=VARCHAR}
+    </if>
+    <if test="approvedDateTime != null">
+      and mat.approved_date_Time=#{approvedDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="approverUserGuid != null">
+      and mat.approver_user_guid=#{approverUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="beforeData != null">
+      and mat.before_data=#{beforeData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="afterData != null">
+      and mat.after_data=#{afterData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="remark != null">
+      and mat.remark=#{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="createBy != null">
+      and mat.create_by=#{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="lastModifiedBy != null">
+      and mat.last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+    </if>
+    <if test="id != null">
+      and mat.id=#{id,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="selectDetailsOneByAll" resultMap="ApprovedVOResultMap">
+    select
+    <include refid="ApprovedVO_Column_List"/>
+    from mdl_approved mat left join mdl_approved_function_setting mafst on  mat.`function` = mafst.`function_code`
+    where 1=1
+    <if test="requestDateTime != null">
+      and mat.request_date_time=#{requestDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="requestorUserGuid != null">
+      and mat.requestor_user_guid=#{requestorUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="function != null">
+      and mat.`function`=#{function,jdbcType=VARCHAR}
+    </if>
+    <if test="identifier != null">
+      and mat.identifier=#{identifier,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      and mat.`status`=#{status,jdbcType=VARCHAR}
+    </if>
+    <if test="approvedDateTime != null">
+      and mat.approved_date_Time=#{approvedDateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="approverUserGuid != null">
+      and mat.approver_user_guid=#{approverUserGuid,jdbcType=VARCHAR}
+    </if>
+    <if test="beforeData != null">
+      and mat.before_data=#{beforeData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="afterData != null">
+      and mat.after_data=#{afterData,jdbcType=LONGVARCHAR}
+    </if>
+    <if test="remark != null">
+      and mat.remark=#{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="createBy != null">
+      and mat.create_by=#{createBy,jdbcType=VARCHAR}
+    </if>
+    <if test="lastModifiedBy != null">
+      and mat.last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
+    </if>
+    <if test="id != null">
+      and mat.id=#{id,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectApprovedUserEmails" resultType="java.lang.String">
+    select email from mdl_user where is_approver=1 and email is not null
+  </select>
+  <select id="selectEmailByGuid" resultType="java.lang.String">
+    select email from mdl_user where guid=#{email,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -91,6 +91,7 @@
         <module>module-otp</module>
         <module>module-lov</module>
         <module>module-richtext</module>
+        <module>module-approved</module>
 
 
         <!--<module>module-registry</module>-->

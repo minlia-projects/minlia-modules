@@ -1,10 +1,20 @@
 
 package com.minlia.modules.rebecca.endpoint;
 
+import com.alibaba.fastjson.JSONObject;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.approved.bean.ro.ApprovedRO;
+import com.minlia.module.approved.constant.ApprovedSecurityConstant;
+import com.minlia.module.approved.entity.Approved;
+import com.minlia.module.approved.enumeration.ApprovedFunctionEnum;
+import com.minlia.module.approved.enumeration.ApprovedStatusEnum;
+import com.minlia.module.approved.service.ApprovedService;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
+import com.minlia.module.bible.entity.BibleItem;
+import com.minlia.module.bible.ro.BibleItemCRO;
+import com.minlia.modules.rebecca.bean.domain.Navigation;
 import com.minlia.modules.rebecca.bean.qo.NavigationQO;
 import com.minlia.modules.rebecca.bean.to.NavigationCTO;
 import com.minlia.modules.rebecca.bean.to.NavigationGrantTO;
@@ -21,6 +31,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,12 +50,66 @@ public class NavigationEndpoint {
     @Autowired
     private NavigationService navigationService;
 
+    @Autowired
+    private ApprovedService approvedService;
+
+//    @AuditLog(value = "create a navigation", type = OperationTypeEnum.CREATE)
+//    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_CREATE + "')")
+//    @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public Response createByParent(@Valid @RequestBody NavigationCTO body) {
+//        return navigationService.create(body);
+//    }
+//
+//    @AuditLog(value = "update a navigation", type = OperationTypeEnum.MODIFY)
+//    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_UPDATE + "')")
+//    @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public Response update(@Valid @RequestBody NavigationUTO body) {
+//        return Response.success(navigationService.update(body));
+//    }
+//
+//    @AuditLog(value = "delete a navigation by id", type = OperationTypeEnum.DELETE)
+//    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_DELETE + "')")
+//    @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public Response delete(@PathVariable Long id) {
+//        navigationService.delete(id);
+//        return Response.success();
+//    }
+
     @AuditLog(value = "create a navigation", type = OperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.NAVIGATION_CREATE + "')")
     @ApiOperation(value = "创建", notes = "创建", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "create", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response createByParent(@Valid @RequestBody NavigationCTO body) {
-        return navigationService.create(body);
+        Approved approved = Approved.builder()
+                .identifier(body.getName())
+                .function(ApprovedFunctionEnum.SYSTEM_SETTINGS_NAVIGATION_CREATE)
+//                .beforeData(JSONObject.toJSONString(body))
+                .afterData(JSONObject.toJSONString(body))
+                .build();
+        if(null != body.getParentId()){
+            Navigation parentNavigation = navigationService.queryById(body.getParentId());
+            approved.setIdentifier(parentNavigation.getName()+"&"+body.getName());
+        }
+        approvedService.insert(approved);
+        return Response.success();
+    }
+
+    @AuditLog(value = "create a navigation", type = OperationTypeEnum.CREATE)
+    @ApiOperation(value = "创建", notes = "创建", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(value = "hasAnyAuthority('" + ApprovedSecurityConstant.APPROVED_APPROVAL + "')")
+    @RequestMapping(value = "create/approval", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Transactional
+    public Response createByParent(@Valid @RequestBody ApprovedRO approvedRO) {
+        Approved approved = approvedService.approval(approvedRO);
+        if (ApprovedStatusEnum.APPROVED.equals(approvedRO.getStatus())) {
+            NavigationCTO body = JSONObject.parseObject(approved.getAfterData(),NavigationCTO.class);
+            navigationService.create(body);
+        }
+        approvedService.sendEmail(approved);
+        return Response.success();
     }
 
     @AuditLog(value = "update a navigation", type = OperationTypeEnum.MODIFY)
@@ -52,7 +117,34 @@ public class NavigationEndpoint {
     @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "update", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response update(@Valid @RequestBody NavigationUTO body) {
-        return Response.success(navigationService.update(body));
+        Navigation navigation = navigationService.queryById(body.getId());
+        Approved approved = Approved.builder()
+                .identifier(navigation.getName())
+                .function(ApprovedFunctionEnum.SYSTEM_SETTINGS_NAVIGATION_EDIT)
+                .beforeData(JSONObject.toJSONString(navigation))
+                .afterData(JSONObject.toJSONString(body))
+                .build();
+        if(null != body.getParentId()){
+            Navigation parentNavigation = navigationService.queryById(body.getParentId());
+            approved.setIdentifier(parentNavigation.getName()+"&"+navigation.getName());
+        }
+        approvedService.insert(approved);
+        return Response.success();
+    }
+
+    @AuditLog(value = "update a navigation", type = OperationTypeEnum.MODIFY)
+    @ApiOperation(value = "更新", notes = "更新", httpMethod = "PUT", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(value = "hasAnyAuthority('" + ApprovedSecurityConstant.APPROVED_APPROVAL + "')")
+    @RequestMapping(value = "update/approval", method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Transactional
+    public Response update(@Valid @RequestBody ApprovedRO approvedRO) {
+        Approved approved = approvedService.approval(approvedRO);
+        if (ApprovedStatusEnum.APPROVED.equals(approvedRO.getStatus())) {
+            NavigationUTO body = JSONObject.parseObject(approved.getAfterData(),NavigationUTO.class);
+            navigationService.update(body);
+        }
+        approvedService.sendEmail(approved);
+        return Response.success();
     }
 
     @AuditLog(value = "delete a navigation by id", type = OperationTypeEnum.DELETE)
@@ -60,7 +152,32 @@ public class NavigationEndpoint {
     @ApiOperation(value = "删除", notes = "删除", httpMethod = "DELETE", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
     public Response delete(@PathVariable Long id) {
-        navigationService.delete(id);
+        Navigation navigation = navigationService.queryById(id);
+        Approved approved = Approved.builder()
+                .identifier(navigation.getName())
+                .function(ApprovedFunctionEnum.SYSTEM_SETTINGS_NAVIGATION_DELETE)
+                .beforeData(JSONObject.toJSONString(navigation))
+                .afterData(""+id)
+                .build();
+        if(null != navigation.getParentId()){
+            Navigation parentNavigation = navigationService.queryById(navigation.getParentId());
+            approved.setIdentifier(parentNavigation.getName()+"&"+navigation.getName());
+        }
+        approvedService.insert(approved);
+        return Response.success();
+    }
+
+    @AuditLog(value = "delete a navigation by id", type = OperationTypeEnum.DELETE)
+    @ApiOperation(value = "删除", notes = "删除", httpMethod = "PUT", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize(value = "hasAnyAuthority('" + ApprovedSecurityConstant.APPROVED_APPROVAL + "')")
+    @RequestMapping(value = "delete/approval", method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Transactional
+    public Response delete(@Valid @RequestBody ApprovedRO approvedRO) {
+        Approved approved = approvedService.approval(approvedRO);
+        if (ApprovedStatusEnum.APPROVED.equals(approvedRO.getStatus())) {
+            navigationService.delete(Long.valueOf(approved.getAfterData()));
+        }
+        approvedService.sendEmail(approved);
         return Response.success();
     }
 

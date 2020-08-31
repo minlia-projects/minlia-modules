@@ -19,6 +19,11 @@ public class BibleURO {
     @NotNull
     private Long id;
 
+    @ApiModelProperty(value = "编码", example = "gender")
+    @NotNull
+    @Size(max = 50)
+    private String code;
+
     @ApiModelProperty(value = "值", example = "male")
     @Size(max = 255)
     private String value;

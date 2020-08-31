@@ -52,6 +52,7 @@ public class JwtTokenFactory {
         claims.put("roles", userContext.getRoles());
 //        claims.put("navigations", userContext.getNavigations());
         claims.put("permissions", userContext.getPermissions());
+        claims.put("isApprover", userContext.getIsApprover());
 
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
     }
@@ -82,6 +83,7 @@ public class JwtTokenFactory {
         claims.put("currrole", userContext.getCurrrole());
         claims.put("currdomain", userContext.getCurrdomain());
         claims.put("permissions", userContext.getPermissions());
+        claims.put("isApprover", userContext.getIsApprover());
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
     }
 

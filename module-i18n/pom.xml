@@ -47,6 +47,12 @@
             <version>${minlia.module.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-approved</artifactId>
+            <version>${minlia.module.version}</version>
+        </dependency>
+
     </dependencies>
 
 

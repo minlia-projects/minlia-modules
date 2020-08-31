@@ -1,0 +1,63 @@
+server:
+  port: 10001
+
+system:
+    appId: minlia-approved-app
+    token: bWlubGlhCg==
+
+# SPRING PROFILES
+spring:
+    profile: dev
+    application:
+        name: Miniq Approved
+    http:
+        encoding.charset: UTF-8
+        encoding.enable: true
+        encoding.force: true
+
+    datasource:
+        driverClassName: net.sf.log4jdbc.DriverSpy
+        url: jdbc:log4jdbc:mysql://192.168.196.111:13306/bmp?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+#        url: jdbc:log4jdbc:mysql://localhost:3306/minlia_mdl?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+        name:
+        username: root
+        password: root
+
+    redis:
+        database: 0
+        host: 192.168.196.111
+        port: 6379
+        password:
+        pool:
+            max-active: 500
+            max-wait: 1000
+            max-idle: 100
+            min-idle: 50
+        timeout: 180
+
+system.security.jwt:
+    tokenExpirationTime: 604800 # Number of minutes
+    refreshTokenExpTime: 604800 # Minutes
+    tokenIssuer: http://minlia.com
+    tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+
+swagger:
+    title: ${spring.application.name}接口
+    description: ${spring.application.name}接口
+    version: 1.0
+    contact: cloud@minlia.com
+    path: /api/.*
+    redirect: true
+
+mybatis:
+#    config-location: classpath:mybatis/mybatis-config.xml
+    mapper-locations: classpath*:mybatis/mapper/**/*Mapper.xml,classpath*:mybatis/**/mapper/*Mapper.xml
+    configuration:
+        map-underscore-to-camel-case: true
+
+# 分页配置
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql

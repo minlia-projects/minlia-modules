@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <logger level="INFO" name="org.springframework.web"/>
+  <logger level="INFO" name="org.springframework.security"/>
+  <logger level="ERROR" name="org.springframework"/>
+  <logger level="ALL" name="com.minlia"/>
+  <logger level="ERROR" name="jdbc.connection"/>
+  <logger level="ERROR" name="jdbc.resultset"/>
+  <logger level="INFO" name="jdbc.resultsettable"/>
+  <logger level="ERROR" name="jdbc.audit"/>
+  <logger level="ERROR" name="jdbc.sqltiming"/>
+  <logger level="INFO" name="jdbc.sqlonly"/>
+
+</configuration>

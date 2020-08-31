@@ -62,4 +62,9 @@ public class UserUTO implements ApiRequestBody {
      */
     private UserStatusEnum status;
 
+    /**
+     * admin端的审批权限
+     */
+    private Boolean isApprover;
+
 }

@@ -128,6 +128,7 @@ public class UserServiceImpl implements UserService {
         user.setAccountEffectiveDate(null == cro.getAccountEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getAccountEffectiveDays()) : cro.getAccountEffectiveDate());
         user.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getCredentialsEffectiveDays()) : cro.getCredentialsEffectiveDate());
         user.setStatus(UserStatusEnum.ACTIVE);
+        user.setIsApprover(cro.getIsApprover());
         userMapper.create(user);
 
         //给用户授予角色

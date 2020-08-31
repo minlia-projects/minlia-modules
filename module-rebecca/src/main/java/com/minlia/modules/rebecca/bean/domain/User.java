@@ -122,4 +122,8 @@ public class User extends AbstractEntity {
      */
     private String referral;
 
+    /**
+     * admin端的审批权限
+     */
+    private Boolean isApprover;
 }

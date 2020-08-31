@@ -68,4 +68,9 @@ public class UserCTO implements ApiRequestBody {
      */
     private LocalDateTime credentialsEffectiveDate;
 
+    /**
+     * admin端的审批权限
+     */
+    private Boolean isApprover;
+
 }

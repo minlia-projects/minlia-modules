@@ -1,9 +1,16 @@
 package com.minlia.module.riskcontrol.endpoint;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.approved.bean.ro.ApprovedRO;
+import com.minlia.module.approved.constant.ApprovedSecurityConstant;
+import com.minlia.module.approved.entity.Approved;
+import com.minlia.module.approved.enumeration.ApprovedFunctionEnum;
+import com.minlia.module.approved.enumeration.ApprovedStatusEnum;
+import com.minlia.module.approved.service.ApprovedService;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enumeration.OperationTypeEnum;
 import com.minlia.module.riskcontrol.bean.RiskDroolsConfigQRO;
@@ -16,6 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,12 +42,45 @@ public class RiskDroolsConfigEndpoint {
     @Autowired
     private RiskDroolsConfigMapper riskDroolsConfigMapper;
 
+    @Autowired
+    private ApprovedService approvedService;
+
+//    @AuditLog(value = "save fraud drools config", type = OperationTypeEnum.CREATE)
+//    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.DROOLS_CONFIG_SAVE + "')")
+//    @ApiOperation(value = "保存")
+//    @PostMapping(value = "")
+//    public Response save(@Valid @RequestBody RiskDroolsConfig riskDroolsConfig) {
+//        riskDroolsConfigService.pub(riskDroolsConfig);
+//        return Response.success();
+//    }
     @AuditLog(value = "save fraud drools config", type = OperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.DROOLS_CONFIG_SAVE + "')")
     @ApiOperation(value = "保存")
     @PostMapping(value = "")
     public Response save(@Valid @RequestBody RiskDroolsConfig riskDroolsConfig) {
-        riskDroolsConfigService.pub(riskDroolsConfig);
+        RiskDroolsConfig config = riskDroolsConfigService.get(riskDroolsConfig.getRuleKey());
+        Approved approved = Approved.builder()
+                .identifier(config.getRuleKey())
+                .function(ApprovedFunctionEnum.RISK_MANAGE_SETTING_EDIT)
+                .beforeData(JSONObject.toJSONString(config))
+                .afterData(JSONObject.toJSONString(riskDroolsConfig))
+                .build();
+        approvedService.insert(approved);
+        return Response.success();
+    }
+
+    @AuditLog(value = "save fraud drools config", type = OperationTypeEnum.CREATE)
+    @PreAuthorize(value = "hasAnyAuthority('" + ApprovedSecurityConstant.APPROVED_APPROVAL + "')")
+    @ApiOperation(value = "保存")
+    @PutMapping(value = "save/approval")
+    @Transactional
+    public Response save(@Valid @RequestBody ApprovedRO approvedRO) {
+        Approved approved = approvedService.approval(approvedRO);
+        if (ApprovedStatusEnum.APPROVED.equals(approvedRO.getStatus())) {
+            RiskDroolsConfig riskDroolsConfig = JSONObject.parseObject(approved.getAfterData(),RiskDroolsConfig.class);
+            riskDroolsConfigService.pub(riskDroolsConfig);
+        }
+        approvedService.sendEmail(approved);
         return Response.success();
     }
 

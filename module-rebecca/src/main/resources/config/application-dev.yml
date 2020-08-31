@@ -25,10 +25,10 @@ spring:
 
   datasource:
     driverClassName: net.sf.log4jdbc.DriverSpy
-    url: jdbc:log4jdbc:mysql://localhost:3306/bmp?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
+    url: jdbc:log4jdbc:mysql://192.168.196.111:13306/bmp?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true
     name:
     username: root
-    password: Root.2018
+    password: root
     #        使用druid数据源
     #        type: com.alibaba.druid.pool.DruidDataSource
     filters: stat
@@ -50,7 +50,7 @@ spring:
 
   redis:
     database: 0
-    host: 127.0.0.1
+    host: 192.168.196.111
     port: 6379
     password:
     pool:
@@ -76,7 +76,7 @@ swagger:
 
 mybatis:
   #    config-location: classpath:mybatis/mybatis-config.xml
-  mapper-locations: classpath*:mybatis/**/mapper/*Mapper.xml
+  mapper-locations: classpath*:mybatis/mapper/**/*Mapper.xml,classpath*:mybatis/**/mapper/*Mapper.xml
   configuration:
     map-underscore-to-camel-case: true
 
