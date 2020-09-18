@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.captcha.mapper.CaptchaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.captcha.entity.CaptchaEntity">
+        <result column="id" property="id"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+        <result column="cellphone" property="cellphone"/>
+        <result column="email" property="email"/>
+        <result column="vcode" property="vcode"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="effective_time" property="effectiveTime"/>
+        <result column="lock_time" property="lockTime"/>
+        <result column="failure_count" property="failureCount"/>
+        <result column="lock_flag" property="lockFlag"/>
+        <result column="use_flag" property="useFlag"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        cellphone, email, vcode, send_time, effective_time, lock_time, failure_count, lock_flag, use_flag
+    </sql>
+
+</mapper>

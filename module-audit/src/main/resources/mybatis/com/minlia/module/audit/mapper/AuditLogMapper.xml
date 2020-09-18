@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.audit.mapper.AuditLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.audit.entity.AuditLogEntity">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="method" property="method"/>
+        <result column="operation_type" property="operationType"/>
+        <result column="success_flag" property="successFlag"/>
+        <result column="tags" property="tags"/>
+        <result column="title" property="title"/>
+        <result column="service_id" property="serviceId"/>
+        <result column="remote_addr" property="remoteAddr"/>
+        <result column="user_agent" property="userAgent"/>
+        <result column="request_uri" property="requestUri"/>
+        <result column="params" property="params"/>
+        <result column="time" property="time"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="exception" property="exception"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, method, operation_type, success_flag, tags, title, service_id, remote_addr, user_agent, request_uri, params, time, del_flag, exception, create_by, create_date, last_modified_by, last_modified_date
+    </sql>
+
+</mapper>

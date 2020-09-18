@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.article.mapper.SysArticleLabelMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.article.entity.SysArticleLabelEntity">
+        <result column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="locale" property="locale" />
+        <result column="remark" property="remark" />
+        <result column="dis_flag" property="disFlag" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        code, name, locale, remark, dis_flag, del_flag
+    </sql>
+
+</mapper>

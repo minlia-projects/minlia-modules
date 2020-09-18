@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.attachment.mapper.AttachmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.attachment.entity.SysAttachmentEntity">
+        <result column="id" property="id"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+        <result column="relation_to" property="relationTo"/>
+        <result column="relation_id" property="relationId"/>
+        <result column="access_key" property="accessKey"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="url" property="url"/>
+        <result column="size" property="size"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        relation_to, relation_id, access_key, `name`, `type`, url, `size`
+    </sql>
+
+</mapper>

@@ -1,0 +1,126 @@
+server:
+  port: 8880
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+system:
+  appId: minlia-cloud-module-library
+  token: bWlubGlhCg==
+  security:
+    jwt:
+      tokenExpirationTime: 90000 # Number of Seconds
+      refreshTokenExpTime: 90000 # Seconds
+      tokenIssuer: http://minlia.com
+      tokenSigningKey: minlia8EV6Hy5RMFK4EEACIDAwQus
+
+# SPRING PROFILES
+spring:
+  profile: dev
+  aop:
+    auto: true
+  application:
+    name: minlia cloud module library
+  http:
+    encoding.enable: true
+    multipart:
+      enabled: true
+      max-file-size: 30MB  #(这里是限制的文件大小)
+      max-request-size: 30MB #(这里是限制的文件大小)
+  main:
+    sources:
+  mail:
+    host: smtp.tidetech.com.hk
+    port: 25
+    username: dev-no-reply@tidetech.com.hk
+    password: Dev@20190531
+    properties.mail.smtp:
+      auth: true
+      ssl:
+        enable: false
+      starttls:
+        enable: false
+        required: false
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-active: 300
+        max-wait: 10000
+        max-idle: 100
+        min-idle: 50
+    timeout: 0
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    name:
+    #    driverClassName: net.sf.log4jdbc.DriverSpy
+    #    url: jdbc:log4jdbc:mysql://localhost/hsjs?createDatabaseIfNotExist=true&useUnicode=true&useUnicode=true&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false&sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false&allowMultiQueries=true&serverTimezone=GMT%2b8
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hsjs?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: Root.2018
+    druid:
+      initial-size: 5                             #初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+      min-idle: 1                                 #最小连接池数量
+      max-active: 100                             #最大连接池数量
+      max-wait: 60000                             #获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降,如果需要可以通过配置useUnfairLock属性为true使用非公平锁。
+      validation-query: SELECT 1                  #用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用。
+      time-between-eviction-runs-millis: 60000    #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      test-while-idle: true                       #建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-on-borrow: false                       #申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false                       #归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+      min-evictable-idle-time-millis: 300000      #配置一个连接在池中最小生存的时间，单位是毫秒
+      #    max-evictable-idle-time-millis: 3600000     #配置一个连接在池中最大生存的时间，单位是毫秒
+      pool-prepared-statements: true              #是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。
+      max-pool-prepared-statement-per-connection-size: 20 #开启poolPreparedStatements后生效
+      log-abandoned: false
+      remove-abandoned: false
+      remove-abandoned-timeout-millis: 1800000    #关闭空闲连接超时时间
+      use-global-data-source-stat: true           #合并多个DruidDataSource的监控数据
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500   #通过connectProperties属性来打开mergeSql功能;慢SQL记录
+      async-init: true                            #asyncInit是1.1.4中新增加的配置，如果有initialSize数量较多时，打开会加快应用启动时间
+      #      filters: stat,slf4j,wall                    #配置扩展插件，常用的插件有=>stat:监控统计  log4j:日志  wall:防御sql注入
+      filter:
+        wall:
+          config:
+            multi-statement-allow: true
+
+mybatis:
+  #    config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath*:mybatis/mapper/**/*Mapper.xml,classpath*:mybatis/**/mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    variables:
+      AES_KEY: 3109283da79d5bd3
+
+mybatis-plus:
+  mapper-locations: classpath*:mybatis/mapper/**/*Mapper.xml,classpath*:mybatis/**/mapper/*Mapper.xml
+  global-config:
+    db-config:
+      # 主键策略
+      id-type: assign_id
+      # 表名前缀
+      #      table-prefix: t
+      # 表名是否使用下划线间隔，默认：是
+      table-underline: true
+  # 添加mybatis配置文件路径
+  #  config-location: mybatis-config.xml
+  # 配置实体类包地址
+  #  type-aliases-package: org.ywb.demo.pojo
+  # 驼峰转下划线
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+swagger:
+  title: ${spring.application.name}接口
+  description: ${spring.application.name}接口
+  version: 1.0
+  contact: cloud@minlia.com
+  path: /api/.*
+  redirect: true

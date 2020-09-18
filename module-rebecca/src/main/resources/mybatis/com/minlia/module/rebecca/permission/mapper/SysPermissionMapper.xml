@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.rebecca.permission.mapper.SysPermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.rebecca.permission.entity.SysPermissionEntity">
+        <result column="id" property="id"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+        <result column="code" property="code"/>
+        <result column="label" property="label"/>
+        <result column="dis_flag" property="disFlag"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        code, label, dis_flag
+    </sql>
+
+    <delete id="clear">
+        DELETE FROM sys_role_permission WHERE NOT EXISTS (SELECT 1 FROM sys_permission WHERE id = sys_role_permission.permission_id)
+    </delete>
+
+
+    <select id="oneLevel" resultType="java.lang.String">
+        SELECT DISTINCT SUBSTRING_INDEX(CODE , '.' , 1) FROM sys_permission
+    </select>
+
+    <select id="twoLevel" resultType="java.lang.String">
+        SELECT DISTINCT
+            SUBSTRING_INDEX(
+                SUBSTRING_INDEX(CODE , '.' , 2) ,
+                '.' ,- 1
+            )
+        FROM
+            sys_permission t
+        WHERE
+            INSTR(CODE , #{prefix}) = 1;
+    </select>
+
+    <select id="threeLevel" resultType="java.util.Map">
+        SELECT
+            id ,
+            SUBSTRING_INDEX(CODE , '.' , - 1) AS code
+        FROM
+            sys_permission t
+        WHERE
+            INSTR(CODE , #{prefix}) = 1;
+    </select>
+
+    <select id="selectIdsByRoleCode" resultType="java.lang.Long">
+        SELECT spt.id FROM sys_permission spt
+        INNER JOIN sys_role_permission srpt ON srpt.permission_id = spt.id
+        INNER JOIN sys_role srt ON srt.id = srpt.role_id AND srt.dis_flag = FALSE AND srt.del_flag = FALSE
+        WHERE spt.dis_flag=FALSE
+        AND srt.`code` = ${roleCode}
+    </select>
+
+    <select id="selectIdsByUserCode" resultType="java.lang.Long">
+        SELECT spt.id FROM sys_permission spt
+        INNER JOIN sys_role_permission srpt ON srpt.permission_id = spt.id
+        INNER JOIN sys_role srt ON srt.id = srpt.role_id AND srt.dis_flag = FALSE AND srt.del_flag = FALSE
+        INNER JOIN sys_role_user srut ON srut.role_id = srpt.id
+        INNER JOIN sys_user sut ON sut.id = srut.user_id AND sut.dis_flag = FALSE AND sut.del_flag = FALSE
+        WHERE spt.dis_flag=FALSE
+        AND sut.`uid` = ${uid}
+    </select>
+
+    <select id="selectCodesByRoleId" resultType="java.lang.String">
+        SELECT sys_permission.`code` FROM sys_permission
+        INNER JOIN sys_role_permission ON sys_role_permission.permission_id = sys_permission.id
+        WHERE sys_role_permission.role_id = #{roleId}
+    </select>
+
+    <select id="selectIdsByRoleId" resultType="java.lang.Long">
+        SELECT spt.id FROM sys_permission spt
+        INNER JOIN sys_role_permission srpt ON srpt.permission_id = spt.id
+        INNER JOIN sys_role srt ON srt.id = srpt.role_id AND srt.dis_flag = FALSE AND srt.del_flag = FALSE
+        INNER JOIN sys_role_user srut ON srut.role_id = srpt.id
+        WHERE spt.dis_flag=FALSE
+        AND srut.id = ${userId}
+    </select>
+
+</mapper>
