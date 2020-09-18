@@ -1,279 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.email.mapper.EmailRecordMapper">
-    <resultMap id="BaseResultMap" type="com.minlia.module.email.entity.EmailRecord">
-        <!--@mbg.generated-->
-        <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="appid" jdbcType="VARCHAR" property="appid"/>
-        <result column="number" jdbcType="VARCHAR" property="number"/>
-        <result column="template_code" jdbcType="VARCHAR" property="templateCode"/>
-        <result column="send_to" jdbcType="VARCHAR" property="sendTo"/>
-        <result column="send_cc" jdbcType="VARCHAR" property="sendCc"/>
-        <result column="send_bcc" jdbcType="VARCHAR" property="sendBcc"/>
-        <result column="locale" jdbcType="VARCHAR" property="locale"/>
-        <result column="channel" jdbcType="VARCHAR" property="channel"/>
-        <result column="subject" jdbcType="VARCHAR" property="subject"/>
-        <result column="content" jdbcType="VARCHAR" property="content"/>
-        <result column="remark" jdbcType="VARCHAR" property="remark"/>
-        <result column="success_flag" jdbcType="BOOLEAN" property="successFlag"/>
-        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
-        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
-        <result column="last_modified_by" jdbcType="VARCHAR" property="lastModifiedBy"/>
-        <result column="last_modified_date" jdbcType="TIMESTAMP" property="lastModifiedDate"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.email.entity.EmailRecordEntity">
+        <result column="id" property="id"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+        <result column="appid" property="appid"/>
+        <result column="channel" property="channel"/>
+        <result column="template_code" property="templateCode"/>
+        <result column="send_to" property="sendTo"/>
+        <result column="send_cc" property="sendCc"/>
+        <result column="send_bcc" property="sendBcc"/>
+        <result column="locale" property="locale"/>
+        <result column="subject" property="subject"/>
+        <result column="content" property="content"/>
+        <result column="remark" property="remark"/>
+        <result column="success_flag" property="successFlag"/>
     </resultMap>
+
+    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        <!--@mbg.generated-->
-        id, appid, `number`, template_code, send_to, send_cc, send_bcc, `locale`, channel,
-        `subject`, content, remark, success_flag, create_by, create_date, last_modified_by,
-        last_modified_date
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        appid, channel, template_code, send_to, send_cc, send_bcc, locale, subject, content, remark, success_flag
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        <!--@mbg.generated-->
-        select
-        <include refid="Base_Column_List"/>
-        from mdl_email_record
-        where id = #{id,jdbcType=BIGINT}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        <!--@mbg.generated-->
-        delete from mdl_email_record
-        where id = #{id,jdbcType=BIGINT}
-    </delete>
-    <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="com.minlia.module.email.entity.EmailRecord" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into mdl_email_record
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="appid != null">
-                appid,
-            </if>
-            <if test="number != null">
-                `number`,
-            </if>
-            <if test="templateCode != null">
-                template_code,
-            </if>
-            <if test="sendTo != null">
-                send_to,
-            </if>
-            <if test="sendCc != null">
-                send_cc,
-            </if>
-            <if test="sendBcc != null">
-                send_bcc,
-            </if>
-            <if test="locale != null">
-                `locale`,
-            </if>
-            <if test="channel != null">
-                channel,
-            </if>
-            <if test="subject != null">
-                subject,
-            </if>
-            <if test="content != null">
-                content,
-            </if>
-            <if test="remark != null">
-                remark,
-            </if>
-            <if test="successFlag != null">
-                success_flag,
-            </if>
-            <if test="createBy != null">
-                create_by,
-            </if>
-            <if test="createDate != null">
-                create_date,
-            </if>
-            <if test="lastModifiedBy != null">
-                last_modified_by,
-            </if>
-            <if test="lastModifiedDate != null">
-                last_modified_date,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="appid != null">
-                #{appid,jdbcType=VARCHAR},
-            </if>
-            <if test="number != null">
-                #{number,jdbcType=VARCHAR},
-            </if>
-            <if test="templateCode != null">
-                #{templateCode,jdbcType=VARCHAR},
-            </if>
-            <if test="sendTo != null">
-                #{sendTo,jdbcType=VARCHAR},
-            </if>
-            <if test="sendCc != null">
-                #{sendCc,jdbcType=VARCHAR},
-            </if>
-            <if test="sendBcc != null">
-                #{sendBcc,jdbcType=VARCHAR},
-            </if>
-            <if test="locale != null">
-                #{locale,jdbcType=VARCHAR},
-            </if>
-            <if test="channel != null">
-                #{channel,jdbcType=VARCHAR},
-            </if>
-            <if test="subject != null">
-                #{subject,jdbcType=VARCHAR},
-            </if>
-            <if test="content != null">
-                #{content,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                #{remark,jdbcType=VARCHAR},
-            </if>
-            <if test="successFlag != null">
-                #{successFlag,jdbcType=BOOLEAN},
-            </if>
-            <if test="createBy != null">
-                #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createDate != null">
-                #{createDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastModifiedBy != null">
-                #{lastModifiedBy,jdbcType=VARCHAR},
-            </if>
-            <if test="lastModifiedDate != null">
-                #{lastModifiedDate,jdbcType=TIMESTAMP},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.email.entity.EmailRecord">
-        <!--@mbg.generated-->
-        update mdl_email_record
-        <set>
-            <if test="appid != null">
-                appid = #{appid,jdbcType=VARCHAR},
-            </if>
-            <if test="number != null">
-                `number` = #{number,jdbcType=VARCHAR},
-            </if>
-            <if test="templateCode != null">
-                template_code = #{templateCode,jdbcType=VARCHAR},
-            </if>
-            <if test="sendTo != null">
-                send_to = #{sendTo,jdbcType=VARCHAR},
-            </if>
-            <if test="sendCc != null">
-                send_cc = #{sendCc,jdbcType=VARCHAR},
-            </if>
-            <if test="sendBcc != null">
-                send_bcc = #{sendBcc,jdbcType=VARCHAR},
-            </if>
-            <if test="locale != null">
-                `locale` = #{locale,jdbcType=VARCHAR},
-            </if>
-            <if test="channel != null">
-                channel = #{channel,jdbcType=VARCHAR},
-            </if>
-            <if test="subject != null">
-                subject = #{subject,jdbcType=VARCHAR},
-            </if>
-            <if test="content != null">
-                content = #{content,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                remark = #{remark,jdbcType=VARCHAR},
-            </if>
-            <if test="successFlag != null">
-                success_flag = #{successFlag,jdbcType=BOOLEAN},
-            </if>
-            <if test="createBy != null">
-                create_by = #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createDate != null">
-                create_date = #{createDate,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastModifiedBy != null">
-                last_modified_by = #{lastModifiedBy,jdbcType=VARCHAR},
-            </if>
-            <if test="lastModifiedDate != null">
-                last_modified_date = #{lastModifiedDate,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where id = #{id,jdbcType=BIGINT}
-    </update>
 
-    <!--auto generated by MybatisCodeHelper on 2019-07-01-->
-    <select id="selectByAll" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from mdl_email_record
-        where 1=1
-        <if test="appid != null">
-            and appid=#{appid,jdbcType=VARCHAR}
-        </if>
-        <if test="number != null">
-            and `number`=#{number,jdbcType=VARCHAR}
-        </if>
-        <if test="templateCode != null">
-            and template_code=#{templateCode,jdbcType=VARCHAR}
-        </if>
-        <if test="sendTo != null">
-            and send_to=#{sendTo,jdbcType=VARCHAR}
-        </if>
-        <if test="sendCc != null">
-            and send_cc=#{sendCc,jdbcType=VARCHAR}
-        </if>
-        <if test="sendBcc != null">
-            and send_bcc=#{sendBcc,jdbcType=VARCHAR}
-        </if>
-        <if test="locale != null">
-            and `locale`=#{locale,jdbcType=VARCHAR}
-        </if>
-        <if test="channel != null">
-            and channel=#{channel,jdbcType=VARCHAR}
-        </if>
-        <if test="subject != null">
-            and subject=#{subject,jdbcType=VARCHAR}
-        </if>
-        <if test="content != null">
-            and content=#{content,jdbcType=VARCHAR}
-        </if>
-        <if test="remark != null">
-            and remark=#{remark,jdbcType=VARCHAR}
-        </if>
-        <if test="successFlag != null">
-            and success_flag=#{successFlag,jdbcType=BOOLEAN}
-        </if>
-        <if test="createBy != null">
-            and create_by=#{createBy,jdbcType=VARCHAR}
-        </if>
-        <if test="lastModifiedBy != null">
-            and last_modified_by=#{lastModifiedBy,jdbcType=VARCHAR}
-        </if>
-        <if test="createDateTime != null">
-            and create_date=#{createDateTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="lastModifiedDate != null">
-            and last_modified_date=#{lastModifiedDate,jdbcType=TIMESTAMP}
-        </if>
-        <if test="id != null">
-            and id=#{id,jdbcType=BIGINT}
-        </if>
-
-        <if test="createDate != null">
-            and DATEDIFF(create_date, #{createDate,jdbcType=TIMESTAMP}) = 0
-        </if>
-        <if test="startCreateDateTime != null">
-            and create_date >= #{startCreateDateTime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="endCreateDateTime != null">
-            and create_date <![CDATA[ <= ]]> #{endCreateDateTime,jdbcType=TIMESTAMP}
-        </if>
-    </select>
-
-    <!--auto generated by MybatisCodeHelper on 2019-07-01-->
-    <select id="selectOneByNumber" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from mdl_email_record
-        where `number`=#{number,jdbcType=VARCHAR}
-    </select>
 </mapper>

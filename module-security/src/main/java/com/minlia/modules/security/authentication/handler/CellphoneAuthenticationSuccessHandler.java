@@ -39,8 +39,8 @@
 //        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
 //
 //        SysUser sysUser = (SysUser) authentication.getPrincipal();
-//        JwtToken accessToken = tokenFactory.createAccessToken(sysUser.getGuid());
-//        JwtToken refreshToken = tokenFactory.createRefreshToken(sysUser.getGuid());
+//        JwtToken accessToken = tokenFactory.createAccessToken(sysUser.getUid());
+//        JwtToken refreshToken = tokenFactory.createRefreshToken(sysUser.getUid());
 //        JwtToken originalToken = tokenFactory.createRawJwtToken(null);  //TODO
 //
 //        Map<String, Object> tokenMap = Maps.newHashMap();
@@ -56,9 +56,9 @@
 //        clearAuthenticationAttributes(request);
 //
 //        //杀掉已登陆token
-//        TokenCacheUtils.kill(sysUser.getGuid());
+//        TokenCacheUtils.kill(sysUser.getUid());
 //        //缓存原始token
-//        TokenCacheUtils.cache(sysUser.getGuid(), originalToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
+//        TokenCacheUtils.cache(sysUser.getUid(), originalToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
 //    }
 //
 //    /**

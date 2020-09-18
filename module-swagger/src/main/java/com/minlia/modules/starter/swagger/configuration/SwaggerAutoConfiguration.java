@@ -2,10 +2,8 @@ package com.minlia.modules.starter.swagger.configuration;
 
 import com.minlia.modules.starter.swagger.EnableDevSwagger;
 import com.minlia.modules.starter.swagger.properties.SwaggerConfigurationProperties;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -16,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class SwaggerAutoConfiguration {
 
     @EnableDevSwagger
-//    @ConditionalOnMissingBean(EnableDevSwagger.class)
     @EnableConfigurationProperties(SwaggerConfigurationProperties.class)
     public static class Swagger2AutoConfig {
 

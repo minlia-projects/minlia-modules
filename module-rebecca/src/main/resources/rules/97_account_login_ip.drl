@@ -3,8 +3,9 @@ package rules;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskRecordService
-import com.minlia.modules.rebecca.risk.event.RiskLoginEvent
+import com.minlia.module.rebecca.risk.event.RiskLoginEvent
 import com.minlia.module.riskcontrol.constant.RiskCode
+import com.minlia.module.rebecca.risk.event.RiskLoginEvent
 
 global RiskRecordService riskRecordService
 global DimensionService dimensionService

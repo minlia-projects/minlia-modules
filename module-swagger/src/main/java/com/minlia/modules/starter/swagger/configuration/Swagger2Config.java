@@ -1,7 +1,6 @@
 package com.minlia.modules.starter.swagger.configuration;
 
 import com.fasterxml.classmate.TypeResolver;
-import com.minlia.modules.starter.swagger.plugins.PageableParameterBuilderPlugin;
 import com.minlia.modules.starter.swagger.properties.SwaggerConfigurationProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +9,12 @@ import org.springframework.util.StopWatch;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.TypeNameExtractor;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.ApiKeyVehicle;
 import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.UiConfiguration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -57,7 +55,8 @@ public class Swagger2Config {
                 .title(minliaProperties.getTitle())
                 .description(minliaProperties.getDescription())
                 .version(minliaProperties.getVersion())
-                .contact(minliaProperties.getContact())
+                .contact(new Contact(minliaProperties.getContact(), "", ""))
+//                .contact(minliaProperties.getContact())
                 .build();
     }
 
@@ -66,14 +65,14 @@ public class Swagger2Config {
         return new SecurityConfiguration(null, null, null, null, null, ApiKeyVehicle.HEADER, "X-Auth-Token", ",");
     }
 
-    @Bean
-    PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver typeResolver) {
-        return new PageableParameterBuilderPlugin(nameExtractor, typeResolver);
-    }
+//    @Bean
+//    PageableParameterBuilderPlugin pageableParameterBuilderPlugin(TypeNameExtractor nameExtractor, TypeResolver typeResolver) {
+//        return new PageableParameterBuilderPlugin(nameExtractor, typeResolver);
+//    }
 
-    @Bean
-    public UiConfiguration uiConfig() {
-        return UiConfiguration.DEFAULT;
-    }
+//    @Bean
+//    public UiConfiguration uiConfig() {
+//        return UiConfiguration.DEFAULT;
+//    }
 
 }

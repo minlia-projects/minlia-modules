@@ -104,14 +104,14 @@ public class AdServiceImpl implements AdService {
         return list;
     }
 
-    @Override
-    public PageInfo<Advertisement> page(AdQRO qro, Pageable pageable) {
-        PageInfo<Advertisement> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> adMapper.list(qro));
-        for (Advertisement advertisement : pageInfo.getList()) {
-            bindDetailsParameter(advertisement);
-        }
-        return pageInfo;
-    }
+//    @Override
+//    public PageInfo<Advertisement> page(AdQRO qro, Pageable pageable) {
+//        PageInfo<Advertisement> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> adMapper.list(qro));
+//        for (Advertisement advertisement : pageInfo.getList()) {
+//            bindDetailsParameter(advertisement);
+//        }
+//        return pageInfo;
+//    }
 
     private void bindDetailsParameter(Advertisement advertisement) {
         if (null != advertisement) {

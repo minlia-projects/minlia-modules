@@ -3,6 +3,9 @@ package com.minlia.modules.aliyun.oss.api.config;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+/**
+ * @author garen
+ */
 @ConfigurationProperties(prefix = "aliyun.mts", ignoreUnknownFields = false)
 @Data
 public class AliyunMtsProperties {

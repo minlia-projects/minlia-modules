@@ -17,7 +17,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <swagger.version>2.5.0</swagger.version>
         <lombok.version>1.16.12</lombok.version>
         <springdata.commons.version>1.13.6.RELEASE</springdata.commons.version>
     </properties>
@@ -33,12 +32,6 @@
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-data</artifactId>
-            <version>${minlia.module.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-swagger</artifactId>
             <version>${minlia.module.version}</version>
         </dependency>
 

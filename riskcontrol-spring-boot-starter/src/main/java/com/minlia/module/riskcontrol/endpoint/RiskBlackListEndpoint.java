@@ -1,12 +1,9 @@
 package com.minlia.module.riskcontrol.endpoint;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.OperationTypeEnum;
-import com.minlia.module.riskcontrol.bean.RiskBlackListQRO;
+import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
 import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.entity.RiskBlackList;
 import com.minlia.module.riskcontrol.mapper.RiskBlackListMapper;
@@ -34,7 +31,7 @@ public class RiskBlackListEndpoint {
     @Autowired
     private RiskBlackListMapper riskBlackListMapper;
 
-    @AuditLog(value = "save fraud black list", type = OperationTypeEnum.CREATE)
+    @AuditLog(value = "save fraud black list", type = AuditOperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SAVE + "')")
     @ApiOperation(value = "保存")
     @PostMapping(value = "")
@@ -43,7 +40,7 @@ public class RiskBlackListEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "reset fraud black list", type = OperationTypeEnum.MODIFY)
+    @AuditLog(value = "reset fraud black list", type = AuditOperationTypeEnum.UPDATE)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_RESET + "')")
     @ApiOperation(value = "重置")
     @PostMapping(value = "reset")
@@ -52,7 +49,7 @@ public class RiskBlackListEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "delete fraud black list by id", type = OperationTypeEnum.DELETE)
+    @AuditLog(value = "delete fraud black list by id", type = AuditOperationTypeEnum.DELETE)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_DELETE + "')")
     @ApiOperation(value = "ID删除")
     @DeleteMapping(value = "{id}")
@@ -61,7 +58,7 @@ public class RiskBlackListEndpoint {
         return Response.success();
     }
 
-    @AuditLog(value = "query fraud black list by id", type = OperationTypeEnum.INFO)
+    @AuditLog(value = "query fraud black list by id", type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
@@ -69,7 +66,7 @@ public class RiskBlackListEndpoint {
         return Response.success(riskBlackListService.queryById(id));
     }
 
-    @AuditLog(value = "query fraud black list by all", type = OperationTypeEnum.INFO)
+    @AuditLog(value = "query fraud black list by all", type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SEARCH + "')")
     @ApiOperation(value = "查询所有")
     @GetMapping(path = "all")
@@ -77,13 +74,13 @@ public class RiskBlackListEndpoint {
         return Response.success(riskBlackListService.getAll());
     }
 
-    @AuditLog(value = "query fraud black list as paginated", type = OperationTypeEnum.INFO)
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SEARCH + "')")
-    @ApiOperation(value = "分页查询")
-    @PostMapping(path = "page")
-    public Response page(@RequestBody RiskBlackListQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskBlackListMapper.selectByAll(mapper.map(qro, RiskBlackList.class)));
-        return Response.success(pageInfo);
-    }
+//    @AuditLog(value = "query fraud black list as paginated", type = AuditOperationTypeEnum.SELECT)
+//    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.BLACK_LIST_SEARCH + "')")
+//    @ApiOperation(value = "分页查询")
+//    @PostMapping(path = "page")
+//    public Response page(@RequestBody RiskBlackListQRO qro) {
+//        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskBlackListMapper.selectByAll(mapper.map(qro, RiskBlackList.class)));
+//        return Response.success(pageInfo);
+//    }
 
 }

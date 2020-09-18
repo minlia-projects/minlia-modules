@@ -1,30 +1,16 @@
 package com.minlia.module.richtext.mapper;
 
-import com.minlia.module.richtext.bean.RichtextQRO;
-import com.minlia.module.richtext.entity.Richtext;
-
-import java.util.List;
+import com.minlia.module.richtext.entity.RichtextEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
+ * <p>
+ * 富文本 Mapper 接口
+ * </p>
  *
  * @author garen
+ * @since 2020-08-25
  */
-public interface RichtextMapper {
-
-    int create(Richtext richtext);
-
-    int update(Richtext richtext);
-
-    int delete(Long id);
-
-    Richtext queryById(Long id);
-
-    Richtext queryByCode(String code);
-
-    long count(RichtextQRO qro);
-
-    Richtext queryOne(RichtextQRO qro);
-
-    List<Richtext> queryList(RichtextQRO qro);
+public interface RichtextMapper extends BaseMapper<RichtextEntity> {
 
 }

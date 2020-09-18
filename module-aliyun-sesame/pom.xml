@@ -22,7 +22,6 @@
         <swagger.version>2.5.0</swagger.version>
         <lombok.version>1.16.12</lombok.version>
         <springdata.commons.version>1.13.6.RELEASE</springdata.commons.version>
-        <mybatis.version>3.4.5</mybatis.version>
     </properties>
 
     <dependencies>
@@ -79,9 +78,20 @@
             <!--</execution>-->
             <!--</executions>-->
             <!--</plugin>-->
+            <!-- 要排除启动类 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source> <!--指明源码用的Jdk版本-->
+                    <target>${java.version}</target> <!--指明打包后的Jdk版本-->
+                    <!-- 如果发现依然排除不了，考虑先clean再install-->
+                    <excludes>
+                        <exclude>
+                            com.minlia.module.aliyun.sesame.SesameApplication
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

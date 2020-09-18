@@ -1,16 +1,17 @@
 package com.minlia.module.email.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
+import com.minlia.cloud.constant.SymbolConstants;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.module.email.config.EmailConfig;
-import com.minlia.module.email.entity.EmailRecord;
+import com.minlia.module.email.entity.EmailRecordEntity;
 import com.minlia.module.email.service.EmailRecordService;
 import com.minlia.module.email.service.EmailService;
 import com.minlia.module.email.util.TextReplaceUtils;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.richtext.constant.RichtextCode;
-import com.minlia.module.richtext.entity.Richtext;
+import com.minlia.module.richtext.entity.RichtextEntity;
 import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
 import com.minlia.module.richtext.service.RichtextService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,8 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Created by garen on 2018/8/10.
+ * @author garen
+ * @date 2018/8/10
  */
 @Slf4j
 @Service
@@ -42,9 +44,6 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
-
-//    @Value("${spring.mail.username}")
-//    private String sender;
 
     @Autowired
     private MailProperties mailProperties;
@@ -59,32 +58,32 @@ public class EmailServiceImpl implements EmailService {
     private EmailRecordService emailRecordService;
 
     @Override
-    public EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables) {
-        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), templateCode);
+    public EmailRecordEntity sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables) {
+        RichtextEntity richtext = richtextService.getOne(Wrappers.<RichtextEntity>lambdaQuery().eq(RichtextEntity::getType, RichtextTypeEnum.EMAIL_TEMPLATE.name()).eq(RichtextEntity::getCode, templateCode));
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
         return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables);
     }
 
     @Override
-    public EmailRecord sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables, LocaleEnum locale) {
-        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.EMAIL_TEMPLATE.name(), templateCode, locale);
+    public EmailRecordEntity sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables, LocaleEnum locale) {
+        RichtextEntity richtext = richtextService.getOne(Wrappers.<RichtextEntity>lambdaQuery().eq(RichtextEntity::getType, RichtextTypeEnum.EMAIL_TEMPLATE.name()).eq(RichtextEntity::getCode, templateCode));
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
         return this.sendHtmlMail(to, richtext.getSubject(), richtext.getContent(), variables, templateCode, locale);
     }
 
     @Override
-    public EmailRecord sendSimpleMail(String[] to, String subject, String content) {
+    public EmailRecordEntity sendSimpleMail(String[] to, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(mailProperties.getUsername());
         message.setTo(to);
         message.setSubject(subject);
         message.setText(content);
         mailSender.send(message);
-        return new EmailRecord();
+        return new EmailRecordEntity();
     }
 
     @Override
-    public EmailRecord sendTemplateMail(String[] to, String subject, String templateName, Map<String, Object> variables) {
+    public EmailRecordEntity sendTemplateMail(String[] to, String subject, String templateName, Map<String, Object> variables) {
         Context context = new Context();
         context.setVariables(variables);
         String emailContent = templateEngine.process(templateName, context);
@@ -92,12 +91,12 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables) {
+    public EmailRecordEntity sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables) {
         return this.sendHtmlMail(to, subject, content, variables, null, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
     }
 
     @Override
-    public EmailRecord sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables, String templateCode, LocaleEnum locale) {
+    public EmailRecordEntity sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables, String templateCode, LocaleEnum locale) {
         if (null == content) {
             content = "<html>\n" +
                     "<ro>\n" +
@@ -110,8 +109,7 @@ public class EmailServiceImpl implements EmailService {
         subject = TextReplaceUtils.replace(subject, variables);
         String text = TextReplaceUtils.replace(content, variables);
 
-        EmailRecord emailRecord = EmailRecord.builder()
-                .number(null)
+        EmailRecordEntity emailRecord = EmailRecordEntity.builder()
                 .templateCode(templateCode)
                 .sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to)))
                 .subject(subject)
@@ -136,14 +134,14 @@ public class EmailServiceImpl implements EmailService {
             emailRecord.setSuccessFlag(false);
             emailRecord.setRemark(e.getMessage());
         } finally {
-            emailRecordService.insertSelective(emailRecord);
+            emailRecordService.save(emailRecord);
         }
         return emailRecord;
     }
 
 
     @Override
-    public EmailRecord sendAttachmentsMail(String[] to, String subject, String content, String filePath) {
+    public EmailRecordEntity sendAttachmentsMail(String[] to, String subject, String content, String filePath) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -162,11 +160,11 @@ public class EmailServiceImpl implements EmailService {
         } catch (MessagingException e) {
             log.error("发送带附件的邮件时发生异常！", e);
         }
-        return new EmailRecord();
+        return new EmailRecordEntity();
     }
 
     @Override
-    public EmailRecord sendInlineResourceMail(String[] to, String subject, String content, String rscPath, String rscId) {
+    public EmailRecordEntity sendInlineResourceMail(String[] to, String subject, String content, String rscPath, String rscId) {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -184,7 +182,7 @@ public class EmailServiceImpl implements EmailService {
         } catch (MessagingException e) {
             log.error("发送嵌入静态资源的邮件时发生异常！", e);
         }
-        return new EmailRecord();
+        return new EmailRecordEntity();
     }
 
 }

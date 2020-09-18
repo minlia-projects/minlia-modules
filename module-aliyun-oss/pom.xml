@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>1.5.4.RELEASE</spring-boot.version>
         <commons-io.version>2.5</commons-io.version>
-        <aliyun-oss.version>2.2.1</aliyun-oss.version>
+        <aliyun-oss.version>3.8.0</aliyun-oss.version>
     </properties>
 
     <repositories>
@@ -50,10 +50,11 @@
             <version>${commons-io.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>${aliyun-oss.version}</version>
+            <version>3.8.0</version>
         </dependency>
 
         <dependency>
@@ -85,21 +86,26 @@
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-common</artifactId>
             <version>${minlia.module.version}</version>
-            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-swagger</artifactId>
+            <version>${minlia.module.version}</version>
         </dependency>
 
     </dependencies>
 
     <!--<build>-->
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<version>3.3</version>-->
-                <!--<configuration>-->
-                    <!--<source>1.8</source>-->
-                    <!--<target>1.8</target>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-        <!--</plugins>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<artifactId>maven-compiler-plugin</artifactId>-->
+    <!--<version>3.3</version>-->
+    <!--<configuration>-->
+    <!--<source>1.8</source>-->
+    <!--<target>1.8</target>-->
+    <!--</configuration>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
     <!--</build>-->
 </project>

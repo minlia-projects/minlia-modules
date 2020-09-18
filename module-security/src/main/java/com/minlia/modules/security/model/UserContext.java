@@ -1,9 +1,7 @@
 package com.minlia.modules.security.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.Body;
-import com.minlia.module.common.constant.LocalDateConstants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,16 +13,25 @@ import java.util.List;
 
 /**
  * 当前用户上下文
+ *
+ * @author will
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public final class UserContext implements Body {
+//public final class UserContext implements Body {
+public class UserContext implements Body {
+
+    /**
+     * 用户唯一编号
+     */
+    private Long uid;
 
     /**
      * 组织ID
      */
+    @JsonIgnore
     private Long orgId;
 
     /**
@@ -35,19 +42,14 @@ public final class UserContext implements Body {
     /**
      * 手机号码
      */
+    @JsonIgnore
     private String cellphone;
 
     /**
      * 邮箱
      */
+    @JsonIgnore
     private String email;
-
-    /**
-     * 用户唯一编号
-     */
-    private String guid;
-
-    private String parentGuid;
 
     /**
      * JwtTokenFactory
@@ -55,6 +57,7 @@ public final class UserContext implements Body {
      */
     private String currrole;
 
+    @JsonIgnore
     private String currdomain;
 
     /**
@@ -81,7 +84,6 @@ public final class UserContext implements Body {
     /**
      * 过期时间
      */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime expireDate;
 
 }

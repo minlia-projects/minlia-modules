@@ -1,7 +1,8 @@
 package com.minlia.module.audit.annotation;
 
 
-import com.minlia.module.audit.enumeration.OperationTypeEnum;
+import com.minlia.cloud.constant.SymbolConstants;
+import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
 
 import java.lang.annotation.*;
 
@@ -22,13 +23,13 @@ public @interface AuditLog {
      *
      * @return {String}
      */
-    String value();
+    String value() default SymbolConstants.EMPTY;
 
     /**
      * 操作类型
      *
      * @return {String}
      */
-    OperationTypeEnum type();
+    AuditOperationTypeEnum type();
 
 }

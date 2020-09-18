@@ -4,7 +4,7 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.aliyun.oss.model.PutObjectResult;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.modules.aliyun.oss.api.config.AliyunOssProperties;
+import com.minlia.modules.aliyun.oss.api.config.AliyunOssConfig;
 import com.minlia.modules.aliyun.oss.api.constant.AliyunOssCode;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.aliyun.oss.builder.Constant;
@@ -19,21 +19,19 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-//@Service
+/**
+ * @author garen
+ */ //@Service
 public class OssService implements InitializingBean {
 
     @Autowired
-    private AliyunOssProperties properties;
-//    private String endpoint;
-//    private String accessId;
-//    private String accessKey;
-//    private String bucket;
+    private AliyunOssConfig aliyunOssConfig;
 
     private boolean detectContentType = false;
     public static final String ORIGIN_ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
 
     public OssFile upload(MultipartFile file) throws IOException {
-        return upload(file,  PathBuilder.dateBuild() + PathBuilder.uuidNameBuild(file.getOriginalFilename()));
+        return upload(file, PathBuilder.dateBuild() + PathBuilder.uuidNameBuild(file.getOriginalFilename()));
     }
 
     public OssFile upload(MultipartFile file, String key) throws IOException {
@@ -58,7 +56,7 @@ public class OssService implements InitializingBean {
     private OssFile ossUpload(String key, InputStream inputStream, ObjectMetadata metadata) {
         OssFile result = null;
         try {
-            PutObjectResult putObjectResult = AliyunOssClient.ossClient().putObject(properties.getBucket(), key, inputStream, metadata);
+            PutObjectResult putObjectResult = AliyunOssClient.instance().putObject(aliyunOssConfig.getBucket(), key, inputStream, metadata);
             result = new OssFile(putObjectResult.getETag());
             result.setUrl(builderUrl(key));
             result.setSize(metadata.getContentLength());
@@ -93,12 +91,12 @@ public class OssService implements InitializingBean {
         return metadata;
     }
 
-    private String builderUrl(String key){
+    private String builderUrl(String key) {
         String url;
-        if (ORIGIN_ENDPOINT.equals(properties.getEndpoint())) {
-            url=String.format(Constant.OLD_RETURN_URL_PATTERN,properties.getBucket(),properties.getEndpoint(),key);
+        if (ORIGIN_ENDPOINT.equals(aliyunOssConfig.getEndpoint())) {
+            url = String.format(Constant.OLD_RETURN_URL_PATTERN, aliyunOssConfig.getBucket(), aliyunOssConfig.getEndpoint(), key);
         } else {
-            url=String.format(Constant.RETURN_URL_PATTERN,properties.getEndpoint(),key);
+            url = String.format(Constant.RETURN_URL_PATTERN, aliyunOssConfig.getEndpoint(), key);
         }
         return url;
     }

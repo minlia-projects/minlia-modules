@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "mdl_risk_black_url")
-@Table(name = "mdl_risk_black_url", uniqueConstraints = {@UniqueConstraint(columnNames = {"type", "value"})})
+@Entity(name = "sys_risk_black_url")
+@Table(name = "sys_risk_black_url", uniqueConstraints = {@UniqueConstraint(columnNames = {"type", "value"})})
 public class RiskBlackUrl {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(value = javax.persistence.EnumType.STRING)
@@ -39,7 +39,7 @@ public class RiskBlackUrl {
     private String value;
 
     @Column(nullable = false, insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '时间'")
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime time;
+    private LocalDateTime time;
 
     @Column(columnDefinition = "VARCHAR(200) COMMENT '详情'")
     private String detail;

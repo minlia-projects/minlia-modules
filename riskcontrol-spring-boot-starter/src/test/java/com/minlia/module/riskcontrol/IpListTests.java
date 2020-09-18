@@ -1,6 +1,6 @@
 package com.minlia.module.riskcontrol;
 
-import com.minlia.module.common.constant.SymbolConstants;
+import com.minlia.cloud.constant.SymbolConstants;
 import org.junit.Test;
 
 /**

@@ -3,7 +3,7 @@ package com.minlia.module.pooul.test;
 import com.minlia.cloud.body.Response;
 import com.minlia.module.common.config.RestConfiguration;
 import com.minlia.module.common.util.NumberGenerator;
-import com.minlia.module.pooul.Application;
+import com.minlia.module.pooul.PooulApplication;
 import com.minlia.module.pooul.bean.dto.PooulBlancesDTO;
 import com.minlia.module.pooul.bean.to.*;
 import com.minlia.module.pooul.enumeration.PayTypeEnum;
@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Created by will on 9/10/17.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {RestConfiguration.class, Application.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {RestConfiguration.class, PooulApplication.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PooulAbstractTest {
 
 //    @Before

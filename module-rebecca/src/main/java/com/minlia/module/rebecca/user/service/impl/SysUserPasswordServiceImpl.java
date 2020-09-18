@@ -1,0 +1,100 @@
+package com.minlia.module.rebecca.user.service.impl;
+
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.captcha.constant.CaptchaCode;
+import com.minlia.module.captcha.entity.CaptchaEntity;
+import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.module.rebecca.user.bean.SysPasswordByCaptchaChangeTo;
+import com.minlia.module.rebecca.user.bean.SysPasswordByRawPasswordChangeTo;
+import com.minlia.module.rebecca.user.bean.SysPasswordResetTo;
+import com.minlia.module.rebecca.user.constant.SysUserCode;
+import com.minlia.module.rebecca.context.SecurityContextHolder;
+import com.minlia.module.rebecca.user.entity.SysUserEntity;
+import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
+import com.minlia.module.rebecca.user.service.SysUserPasswordService;
+import com.minlia.module.rebecca.user.service.SysUserService;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+
+
+/**
+ * @author garen
+ */
+@Service
+public class SysUserPasswordServiceImpl implements SysUserPasswordService {
+
+    @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
+    private CaptchaService captchaService;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    public boolean forget(SysPasswordResetTo to) {
+        SysUserEntity entity = null;
+        //校验凭证是否有效
+        switch (to.getType()) {
+            case CELLPHONE:
+                entity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, to.getCellphone()));
+                ApiAssert.notNull(entity, SysUserCode.Message.NOT_EXISTS);
+                captchaService.validity(to.getCellphone(), to.getVcode());
+                break;
+            case EMAIL:
+                entity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getEmail, to.getEmail()));
+                ApiAssert.notNull(entity, SysUserCode.Message.NOT_EXISTS);
+                captchaService.validity(to.getEmail(), to.getVcode());
+                break;
+            default:
+        }
+        return change(entity, to.getNewPassword());
+    }
+
+    @Override
+    public boolean change(SysPasswordByCaptchaChangeTo to) {
+        SysUserEntity entity = SecurityContextHolder.getCurrentUser();
+        CaptchaEntity captcha = captchaService.getOne(Wrappers.<CaptchaEntity>lambdaQuery().eq(CaptchaEntity::getLastModifiedBy, entity.getId()).eq(CaptchaEntity::getVcode, to.getVcode()));
+        ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
+
+        //验证验证码是否正确
+        if (StringUtils.isNotBlank(captcha.getCellphone())) {
+            captchaService.validity(captcha.getCellphone(), to.getVcode());
+        } else {
+            captchaService.validity(captcha.getEmail(), to.getVcode());
+        }
+        return change(entity, to.getNewPassword());
+    }
+
+    @Override
+    public boolean change(SysPasswordByRawPasswordChangeTo to) {
+        SysUserEntity entity = SecurityContextHolder.getCurrentUser();
+        Boolean bool = bCryptPasswordEncoder.matches(to.getRawPassword(), entity.getPassword());
+        ApiAssert.state(bool, SysUserCode.Message.RAW_PASSWORD_ERROR);
+        return change(entity, to.getNewPassword());
+    }
+
+    @Override
+    public boolean change(SysUserEntity entity, String newPassword) {
+        ApiAssert.state(!bCryptPasswordEncoder.matches(newPassword, entity.getPassword()), SysUserCode.Message.NEW_PASSWORD_EQUALS_OLD);
+
+        //设置新密码
+        entity.setPassword(bCryptPasswordEncoder.encode(newPassword));
+        entity.setCredentialsEffectiveDate(LocalDateTime.now().plusYears(1));
+        entity.setLockFlag(Boolean.FALSE);
+        entity.setLockLimit(0);
+        entity.setLockTime(LocalDateTime.now());
+        sysUserService.update(entity, SysUserUpdateTypeEnum.CHANGE_PASSWORD);
+        //注销token
+        TokenCacheUtils.kill(entity.getId());
+        return true;
+    }
+
+}

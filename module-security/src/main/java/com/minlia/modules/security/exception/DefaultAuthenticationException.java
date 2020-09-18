@@ -40,4 +40,5 @@ public class DefaultAuthenticationException extends AuthenticationException {
     public Object[] getArgs() {
         return args;
     }
+
 }

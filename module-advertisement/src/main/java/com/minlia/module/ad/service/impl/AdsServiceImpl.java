@@ -1,20 +1,17 @@
 package com.minlia.module.ad.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.ad.bean.entity.Advertisements;
 import com.minlia.module.ad.bean.ro.AdQRO;
-import com.minlia.module.ad.bean.ro.AdsQRO;
 import com.minlia.module.ad.bean.ro.AdsCRO;
+import com.minlia.module.ad.bean.ro.AdsQRO;
 import com.minlia.module.ad.bean.ro.AdsURO;
 import com.minlia.module.ad.mapper.AdsMapper;
 import com.minlia.module.ad.service.AdService;
 import com.minlia.module.ad.service.AdsService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,9 +82,9 @@ public class AdsServiceImpl implements AdsService {
         return adsMapper.list(qro);
     }
 
-    @Override
-    public PageInfo<Advertisements> page(AdsQRO qro, Pageable pageable) {
-        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> adsMapper.list(qro));
-    }
+//    @Override
+//    public PageInfo<Advertisements> page(AdsQRO qro, Pageable pageable) {
+//        return PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()-> adsMapper.list(qro));
+//    }
 
 }

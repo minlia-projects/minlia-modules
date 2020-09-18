@@ -1,7 +1,10 @@
 package com.minlia.modules.security.constant;
 
+import com.minlia.module.common.constant.MinliaConstants;
+
 /**
- * Created by will on 6/22/17.
+ * @author will
+ * @date 6/22/17
  */
 public class SecurityConstant {
 
@@ -9,8 +12,9 @@ public class SecurityConstant {
         throw new AssertionError();
     }
 
-    public static final String SID = "sid";
+    final public static String MODULE_NAME = MinliaConstants.APP_NAME + ".security";
 
+    public static final String SID = "sid";
 
     public static final String ROLE_ADMIN_CODE = "ADMIN";
     public static final String ROLE_ADMIN_DESC = "系统管理员";
@@ -105,5 +109,13 @@ public class SecurityConstant {
     public static final String OPERATION_CANCEL_CODE = ".cancel";
     public static final String OPERATION_CANCEL_DESC_CN = "取消";
     public static final String OPERATION_CANCEL_DESC_EN = "Cancel";
+
+    public static final String OPERATION_REVIEW_CODE = "review";
+    public static final String OPERATION_REVIEW_DESC_CN = "审核";
+    public static final String OPERATION_REVIEW_DESC_EN = "Review";
+
+    public static final String OPERATION_AUTHENTICATION_CODE = "authentication";
+    public static final String OPERATION_AUTHENTICATION_DESC_CN = "认证";
+    public static final String OPERATION_AUTHENTICATION_DESC_EN = "Authentication";
 
 }

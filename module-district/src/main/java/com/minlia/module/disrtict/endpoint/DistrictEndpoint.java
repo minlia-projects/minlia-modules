@@ -1,7 +1,5 @@
 package com.minlia.module.disrtict.endpoint;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.disrtict.bean.domain.District;
@@ -63,11 +61,11 @@ public class DistrictEndpoint {
         return Response.success(districtList);
     }
 
-    @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "page", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Response paginated(@PageableDefault Pageable pageable, @RequestBody DistrictQO qo) {
-        PageInfo<District> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qo.getOrderBy()).doSelectPageInfo(()-> service.queryList(qo));
-        return Response.success(pageInfo);
-    }
+//    @ApiOperation(value = "分页查询", notes = "分页查询", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PostMapping(value = "page", produces = {MediaType.APPLICATION_JSON_VALUE})
+//    public Response paginated(@PageableDefault Pageable pageable, @RequestBody DistrictQO qo) {
+//        PageInfo<District> pageInfo = PageHelper.startPage(pageable.getPageNumber(), pageable.getPageSize(), qo.getOrderBy()).doSelectPageInfo(()-> service.queryList(qo));
+//        return Response.success(pageInfo);
+//    }
 
 }

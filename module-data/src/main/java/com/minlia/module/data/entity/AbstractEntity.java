@@ -1,11 +1,16 @@
 package com.minlia.module.data.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.minlia.module.data.context.UserPrincipalHolder;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 //@JsonAutoDetect(
@@ -14,47 +19,39 @@ import org.springframework.data.annotation.LastModifiedDate;
 //        setterVisibility = JsonAutoDetect.Visibility.NONE,
 //        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
 //        creatorVisibility = JsonAutoDetect.Visibility.NONE)
-
-public abstract class AbstractEntity extends WithDateEntity {
+@Getter
+@Setter
+@SuperBuilder
+public abstract class AbstractEntity extends WithIdEntity {
 
     private static final long serialVersionUID = 1L;
 
-//    @JsonIgnore
+    /**
+     * 创建人
+     */
     @CreatedBy
-//    @NotBlank
-    private String createBy;
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    private Long createBy;
 
-//    @JsonIgnore
+    /**
+     * 创建时间
+     */
+    @CreatedDate
+    @TableField("create_date")
+    private LocalDateTime createDate;
+
+    /**
+     * 最后修改人
+     */
     @LastModifiedBy
-//    @LastModifiedDate
-    private String lastModifiedBy;
+    @TableField(value = "last_modified_by", fill = FieldFill.UPDATE)
+    private Long lastModifiedBy;
 
-    public String getCreateBy() {
-        return null == createBy ? UserPrincipalHolder.getCurrentUserLogin() : createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getLastModifiedBy() {
-        return UserPrincipalHolder.getCurrentUserLogin();
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-//    @JsonProperty("createBy")
-    @JsonIgnore
-    public String getCreateByAsJson() {
-        return this.createBy;
-    }
-
-//    @JsonProperty("lastModifiedBy")
-    @JsonIgnore
-    public String getLastModifiedByAsJson() {
-        return this.lastModifiedBy;
-    }
+    /**
+     * 最后修改时间
+     */
+    @LastModifiedDate
+    @TableField("last_modified_date")
+    private LocalDateTime lastModifiedDate;
 
 }

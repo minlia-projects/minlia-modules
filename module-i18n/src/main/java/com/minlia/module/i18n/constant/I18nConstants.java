@@ -20,6 +20,4 @@ public class I18nConstants {
 
     public final static String SEC_READ = MODULE + SecurityConstant.OPERATION_READ_CODE;
 
-
-
 }

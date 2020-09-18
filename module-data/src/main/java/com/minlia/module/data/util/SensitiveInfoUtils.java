@@ -1,6 +1,6 @@
 package com.minlia.module.data.util;
 
-import com.minlia.module.common.constant.SymbolConstants;
+import com.minlia.cloud.constant.SymbolConstants;
 import org.apache.commons.lang3.StringUtils;
 
 public class SensitiveInfoUtils {

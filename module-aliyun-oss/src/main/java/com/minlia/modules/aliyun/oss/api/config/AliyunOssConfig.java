@@ -2,13 +2,14 @@ package com.minlia.modules.aliyun.oss.api.config;
 
 import com.minlia.module.common.annotation.ConfigAutowired;
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by will on 4/1/17.
+ * 阿里云OSS配置
+ *
+ * @author garen
+ * @date 2018/7/12
  */
-
 @Component
 @ConfigAutowired(type = "SYS_OSS_ALIYUN_CONFIG")
 @Data
@@ -25,6 +26,11 @@ public class AliyunOssConfig {
     /**
      * 域名
      */
-    private String host;
+    private String domain;
 
 }
+//ACCESS_KEY_ID;
+//ACCESS_KEY_SECRET;
+//BUCKET;
+//ENDPOINT;
+//DOMAIN;

@@ -1,15 +1,11 @@
 package com.minlia.module.captcha.constant;
 
-import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
-import com.minlia.cloud.i18n.Lang;
 import com.minlia.module.common.constant.MinliaConstants;
-import com.minlia.module.common.constant.SymbolConstants;
-
-import java.util.StringJoiner;
 
 /**
- * Created by garen on 2018/1/22.
+ * @author garen
+ * @date 2018/1/22
  */
 public class CaptchaCode {
 
@@ -100,21 +96,8 @@ public class CaptchaCode {
         NUM_OTP_MINS;
 
         @Override
-        public String code() {
-            return this.name();
-        }
-
-        @Override
-        public String i18nKey() {
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
-                    .add(CODE_PREFIX)
-                    .add(this.getClass().getSimpleName())
-                    .add(this.name()).toString());
-        }
-
-        @Override
-        public String message(Object... args) {
-            return Lang.get(this.i18nKey(), args);
+        public String module() {
+            return CODE_PREFIX;
         }
 
     }

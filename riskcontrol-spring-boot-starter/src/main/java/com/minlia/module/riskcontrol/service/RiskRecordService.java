@@ -1,8 +1,6 @@
 package com.minlia.module.riskcontrol.service;
 
 import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.code.Code;
 import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
 import com.minlia.module.riskcontrol.config.RiskcontrolConfig;
@@ -91,9 +89,9 @@ public class RiskRecordService {
         return riskRecordRepository.findAll(Example.of(riskRecord));
     }
 
-    public PageInfo<RiskRecord> queryPage(RiskRecordQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
-        return pageInfo;
-    }
+//    public PageInfo<RiskRecord> queryPage(RiskRecordQRO qro) {
+//        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
+//        return pageInfo;
+//    }
 
 }

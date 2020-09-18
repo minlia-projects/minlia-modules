@@ -1,6 +1,6 @@
 package com.minlia.module.common.util;
 
-import com.minlia.module.common.constant.SymbolConstants;
+import com.minlia.cloud.constant.SymbolConstants;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 

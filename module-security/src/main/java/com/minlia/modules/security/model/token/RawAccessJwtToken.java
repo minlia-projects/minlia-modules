@@ -3,15 +3,14 @@ package com.minlia.modules.security.model.token;
 import com.minlia.modules.security.exception.JwtExpiredTokenException;
 import com.minlia.modules.security.exception.JwtInvalidTokenException;
 import io.jsonwebtoken.*;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 
-@ApiModel
 @Slf4j
 public class RawAccessJwtToken implements JwtToken {
 
-    @ApiModelProperty(value = "令牌", example = "x001")
+    /**
+     * 令牌
+     */
     private String token;
 
     public RawAccessJwtToken(String token) {
@@ -39,7 +38,7 @@ public class RawAccessJwtToken implements JwtToken {
 
     public Jws<Claims> parseClaimsWithCache(String signingKey) {
         Jws<Claims> jwsClaims = this.parseClaims(signingKey);
-        Object token = TokenCacheUtils.get(jwsClaims.getBody().get("guid", String.class));
+        Object token = TokenCacheUtils.get(jwsClaims.getBody().get("uid", Long.class));
         if (null == token) {
             throw new JwtExpiredTokenException("JWT Token expired");
         } else {
@@ -47,8 +46,8 @@ public class RawAccessJwtToken implements JwtToken {
         }
     }
 
-    public Jws<Claims> parseClaimsWithGuid(String guid, String signingKey) {
-        Object token = TokenCacheUtils.get(guid);
+    public Jws<Claims> parseClaimsWithGuid(Long uid, String signingKey) {
+        Object token = TokenCacheUtils.get(uid);
         if (null == token) {
             throw new JwtExpiredTokenException("JWT Token expired");
         } else {
@@ -62,8 +61,8 @@ public class RawAccessJwtToken implements JwtToken {
         }
     }
 
-    public void isExpired(String guid) {
-        if (!TokenCacheUtils.exists(guid)) {
+    public void isExpired(Long uid) {
+        if (!TokenCacheUtils.exists(uid)) {
             throw new JwtExpiredTokenException("JWT Token expired");
         }
     }

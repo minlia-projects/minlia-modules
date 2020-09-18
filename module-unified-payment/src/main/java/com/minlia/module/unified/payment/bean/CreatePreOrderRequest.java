@@ -43,9 +43,6 @@ public class CreatePreOrderRequest implements Body {
 
     @ApiModelProperty(value = "微信交易类型", example = "APP,JSAPI")
     private String tradeType;
-//    WxPayConstants.TradeType
-
-
 
     /**
      * 微信 商品ID trade_type=NATIVE时，此参数必传。此参数为二维码中包含的商品ID，商户自行定义。
@@ -58,4 +55,3 @@ public class CreatePreOrderRequest implements Body {
     private String openid;
 
 }
-

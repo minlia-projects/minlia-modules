@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface SmsRecordService {
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SmsRecord record);
 
     int insertSelective(SmsRecord record);
 
-    SmsRecord selectByPrimaryKey(Integer id);
+    SmsRecord selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(SmsRecord record);
 

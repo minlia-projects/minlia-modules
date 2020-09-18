@@ -36,8 +36,8 @@
 //        System.out.println("aa");
 //
 //
-////        String guid = authentication.getName();
-////        TokenCacheUtils.kill(guid);
+////        Long uid = authentication.getName();
+////        TokenCacheUtils.kill(uid);
 //
 ////        Assert.notNull(request, "HttpServletRequest required");
 ////        if (this.invalidateHttpSession) {

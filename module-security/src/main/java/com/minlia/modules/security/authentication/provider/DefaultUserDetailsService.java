@@ -26,7 +26,7 @@ public class DefaultUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 模拟查询数据库，获取属于Admin和Normal角色的用户
         SysUser user = new SysUser(username, passwordEncoder.encode("Ab123456"), true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("Admin,Normal"));
-        user.setGuid("xxxxx");
+        user.setUid(1000000L);
         return user;
     }
 

@@ -1,12 +1,12 @@
 package rules;
 
-import com.minlia.modules.rebecca.risk.event.ChangeEmailEvent
+import com.minlia.module.rebecca.risk.event.ChangeEmailEvent
 
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 import com.minlia.module.riskcontrol.service.DimensionService
 import com.minlia.module.riskcontrol.service.RiskRecordService
 import com.minlia.cloud.utils.ApiAssert
-import com.minlia.modules.rebecca.constant.UserCode
+import com.minlia.module.rebecca.user.constant.SysUserCode
 
 global DimensionService dimensionService
 global RiskRecordService riskRecordService
@@ -19,9 +19,9 @@ rule "80_user_change_email"
     then
         RiskLevelEnum riskLevel = dimensionService.calculationLevelWithConfig(event, event.getCount());
         if(!riskLevel.equals(RiskLevelEnum.NORMAL)) {
-            riskRecordService.createEvent(event, UserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, event.getCount());
+            riskRecordService.createEvent(event, SysUserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, event.getCount());
             if (riskLevel.equals(RiskLevelEnum.DANGER)) {
-                ApiAssert.state(false, UserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, event.getCount());
+                ApiAssert.state(false, SysUserCode.Message.CHANGE_EMAIL_OVER_TIMES, 6, event.getCount());
             }
         }
 end

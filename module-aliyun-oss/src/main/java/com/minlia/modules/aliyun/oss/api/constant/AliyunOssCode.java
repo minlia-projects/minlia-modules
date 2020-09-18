@@ -1,14 +1,10 @@
 package com.minlia.modules.aliyun.oss.api.constant;
 
-import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
-import com.minlia.cloud.i18n.Lang;
-import com.minlia.module.common.constant.SymbolConstants;
-
-import java.util.StringJoiner;
 
 /**
- * Created by will on 4/16/17.
+ * @author will
+ * @date 4/16/17
  * API错误代码索引
  */
 public class AliyunOssCode {
@@ -43,21 +39,8 @@ public class AliyunOssCode {
         ENDPOINT_NOT_CONFIG;
 
         @Override
-        public String code() {
-            return this.name();
-        }
-
-        @Override
-        public String i18nKey() {
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
-                    .add(CODE_PREFIX)
-                    .add(this.getClass().getSimpleName())
-                    .add(this.name()).toString());
-        }
-
-        @Override
-        public String message(Object... args) {
-            return Lang.get(this.i18nKey(), args);
+        public String module() {
+            return CODE_PREFIX;
         }
 
     }

@@ -16,7 +16,7 @@ public class SmsRecordServiceImpl implements SmsRecordService {
     private SmsRecordMapper smsRecordMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
+    public int deleteByPrimaryKey(Long id) {
         return smsRecordMapper.deleteByPrimaryKey(id);
     }
 
@@ -31,7 +31,7 @@ public class SmsRecordServiceImpl implements SmsRecordService {
     }
 
     @Override
-    public SmsRecord selectByPrimaryKey(Integer id) {
+    public SmsRecord selectByPrimaryKey(Long id) {
         return smsRecordMapper.selectByPrimaryKey(id);
     }
 

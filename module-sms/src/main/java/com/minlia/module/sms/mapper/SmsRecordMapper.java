@@ -6,13 +6,13 @@ import com.minlia.module.sms.ro.SmsRecordQRO;
 import java.util.List;
 
 public interface SmsRecordMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(SmsRecord record);
 
     int insertSelective(SmsRecord record);
 
-    SmsRecord selectByPrimaryKey(Integer id);
+    SmsRecord selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(SmsRecord record);
 

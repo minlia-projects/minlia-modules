@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "mdl_risk_drools_config")
+@Entity(name = "sys_risk_drools_config")
 public class RiskDroolsConfig {
 
     @Id

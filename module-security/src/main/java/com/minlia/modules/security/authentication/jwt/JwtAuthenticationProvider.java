@@ -49,9 +49,9 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         RawAccessJwtToken rawAccessToken = (RawAccessJwtToken) authentication.getCredentials();
         Jws<Claims> rawClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
-        String guid = rawClaims.getBody().get("guid", String.class);
+        Long uid = rawClaims.getBody().get("uid", Long.class);
 
-        Jws<Claims> jwsClaims = rawAccessToken.parseClaimsWithGuid(guid, jwtProperty.getTokenSigningKey());
+        Jws<Claims> jwsClaims = rawAccessToken.parseClaimsWithGuid(uid, jwtProperty.getTokenSigningKey());
 
         if (!sysSecurityConfig.getMultiClientLogin() && !rawClaims.getBody().getId().equals(jwsClaims.getBody().getId())) {
             throw new DefaultAuthenticationException(SecurityCode.Exception.LOGGED_AT_ANOTHER_LOCATION);
@@ -78,7 +78,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         }
 
         UserContext userContext = UserContext.builder()
-                .guid(guid)
+                .uid(uid)
                 .orgId(null != orgId ? Long.valueOf(orgId.toString()) : null)
                 .username(username)
                 .cellphone(cellphone)
@@ -91,7 +91,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .build();
 
         //重置缓存时间
-        TokenCacheUtils.expire(userContext.getGuid(), jwtProperty.getTokenExpirationTime());
+        TokenCacheUtils.expire(userContext.getUid(), jwtProperty.getTokenExpirationTime());
         return new JwtAuthenticationToken(userContext, authorities);
     }
 

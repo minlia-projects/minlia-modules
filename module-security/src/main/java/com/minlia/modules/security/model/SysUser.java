@@ -12,7 +12,7 @@ import java.util.Collection;
 @Data
 public class SysUser extends User {
 
-    private String guid;
+    private Long uid;
 
     public SysUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
@@ -24,7 +24,7 @@ public class SysUser extends User {
 
     @Override
     public boolean equals(Object rhs) {
-        return rhs instanceof SysUser ? this.guid.equals(((SysUser) rhs).guid) : false;
+        return rhs instanceof SysUser ? this.uid.equals(((SysUser) rhs).uid) : false;
     }
 
 }

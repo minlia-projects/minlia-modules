@@ -1,12 +1,9 @@
 package com.minlia.module.riskcontrol.endpoint;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.OperationTypeEnum;
-import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
+import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
 import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.mapper.RiskRecordMapper;
 import com.minlia.module.riskcontrol.service.RiskRecordService;
@@ -33,7 +30,7 @@ public class RiskRecordEndpoint {
 //        return Response.success(riskRecordService.queryAll());
 //    }
 
-    @AuditLog(value = "query fraud record by id", type = OperationTypeEnum.INFO)
+    @AuditLog(value = "query fraud record by id", type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.RECORD_SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(path = "{id}")
@@ -41,20 +38,13 @@ public class RiskRecordEndpoint {
         return Response.success(riskRecordService.queryById(id));
     }
 
-    @AuditLog(value = "query fraud record as paginated", type = OperationTypeEnum.INFO)
-    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.RECORD_SEARCH + "')")
-    @ApiOperation(value = "分页查询")
-    @PostMapping(path = "page")
-    public Response page(@RequestBody RiskRecordQRO qro) {
-        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
-        return Response.success(pageInfo);
-    }
-
-//    @ApiOperation(value = "ID删除")
-//    @DeleteMapping(value = "{id}")
-//    public Response delete(@PathVariable Long id) {
-//        riskRecordService.delete(id);
-//        return Response.success();
+//    @AuditLog(value = "query fraud record as paginated", type = AuditOperationTypeEnum.SELECT)
+//    @PreAuthorize(value = "hasAnyAuthority('" + RiskSecurityConstants.RECORD_SEARCH + "')")
+//    @ApiOperation(value = "分页查询")
+//    @PostMapping(path = "page")
+//    public Response page(@RequestBody RiskRecordQRO qro) {
+//        PageInfo pageInfo = PageHelper.startPage(qro.getPageNumber(), qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(() -> riskRecordMapper.selectByAll(qro));
+//        return Response.success(pageInfo);
 //    }
 
 }

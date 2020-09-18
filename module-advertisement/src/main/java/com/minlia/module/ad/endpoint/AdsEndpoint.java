@@ -76,11 +76,11 @@ public class AdsEndpoint {
 		return Response.success(adsService.list(qro));
 	}
 
-	@PreAuthorize(value = "isAuthenticated()")
-	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-	public Response page(@PageableDefault Pageable pageable, @RequestBody AdsQRO qro) {
-		return Response.success(adsService.page(qro, pageable));
-	}
+//	@PreAuthorize(value = "isAuthenticated()")
+//	@ApiOperation(value = "分页查询", notes = "编号查询", httpMethod = "POST", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//	@RequestMapping(value = "page", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+//	public Response page(@PageableDefault Pageable pageable, @RequestBody AdsQRO qro) {
+//		return Response.success(adsService.page(qro, pageable));
+//	}
 
 }

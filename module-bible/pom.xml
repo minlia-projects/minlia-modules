@@ -17,11 +17,6 @@
     <name>Module Bible</name>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <swagger.version>2.5.0</swagger.version>
-        <lombok.version>1.16.12</lombok.version>
-        <hutool.all.version>4.1.19</hutool.all.version>
     </properties>
 
     <dependencies>
@@ -59,7 +54,6 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool.all.version}</version>
         </dependency>
 
         <dependency>
@@ -72,24 +66,20 @@
 
     <build>
         <plugins>
-            <!--<plugin>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--<configuration>-->
-            <!--<addResources>true</addResources>-->
-            <!--<mainClass>com.microsoft.apps.application.platform.Application</mainClass>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<goals>-->
-            <!--<goal>repackage</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
+            <!-- 要排除启动类 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source> <!--指明源码用的Jdk版本-->
+                    <target>${java.version}</target> <!--指明打包后的Jdk版本-->
+                    <!-- 如果发现依然排除不了，考虑先clean再install-->
+                    <excludes>
+                        <exclude>
+                            com.minlia.module.bible.BibleApplication
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

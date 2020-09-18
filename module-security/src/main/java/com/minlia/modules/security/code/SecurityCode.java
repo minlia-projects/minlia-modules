@@ -1,19 +1,13 @@
 package com.minlia.modules.security.code;
 
-import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
-import com.minlia.cloud.i18n.Lang;
-import com.minlia.module.common.constant.MinliaConstants;
-import com.minlia.module.common.constant.SymbolConstants;
-
-import java.util.StringJoiner;
+import com.minlia.modules.security.constant.SecurityConstant;
 
 /**
- * Created by garen on 2018/9/14.
+ * @author garen
+ * @date 2018/9/14
  */
 public class SecurityCode {
-
-    final static String CODE_PREFIX = MinliaConstants.APP_NAME + ".security";
 
     public enum Exception implements Code {
 
@@ -113,21 +107,8 @@ public class SecurityCode {
         LOGGED_AT_ANOTHER_LOCATION;
 
         @Override
-        public String code() {
-            return this.name();
-        }
-
-        @Override
-        public String i18nKey() {
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
-                    .add(CODE_PREFIX)
-                    .add(this.getClass().getSimpleName())
-                    .add(this.name()).toString());
-        }
-
-        @Override
-        public String message(Object... args) {
-            return Lang.get(this.i18nKey(), args);
+        public String module() {
+            return SecurityConstant.MODULE_NAME;
         }
 
     }
@@ -140,21 +121,8 @@ public class SecurityCode {
         NOT_DATA_AUTHORIZED;
 
         @Override
-        public String code() {
-            return this.name();
-        }
-
-        @Override
-        public String i18nKey() {
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
-                    .add(CODE_PREFIX)
-                    .add(this.getClass().getSimpleName())
-                    .add(this.name()).toString());
-        }
-
-        @Override
-        public String message(Object... args) {
-            return Lang.get(this.i18nKey(), args);
+        public String module() {
+            return SecurityConstant.MODULE_NAME;
         }
 
     }

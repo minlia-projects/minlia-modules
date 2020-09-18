@@ -1,6 +1,5 @@
 package com.minlia.module.sms.endpoint;
 
-import com.github.pagehelper.PageInfo;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.sms.entity.SmsRecord;

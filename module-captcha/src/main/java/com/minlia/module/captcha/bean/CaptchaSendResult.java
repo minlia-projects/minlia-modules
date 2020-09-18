@@ -18,7 +18,7 @@ public class CaptchaSendResult {
     /**
      * 验证码内容
      */
-    private String code;
+    private String vcode;
 
     /**
      * 倒计时

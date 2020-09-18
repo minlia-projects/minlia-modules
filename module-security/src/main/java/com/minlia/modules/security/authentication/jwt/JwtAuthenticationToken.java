@@ -2,13 +2,11 @@ package com.minlia.modules.security.authentication.jwt;
 
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.RawAccessJwtToken;
-import io.swagger.annotations.ApiModel;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-@ApiModel
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private RawAccessJwtToken rawAccessToken;
@@ -48,7 +46,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public String getName() {
-        return this.userContext.getGuid();
+        return this.userContext.getUsername();
     }
 
     @Override

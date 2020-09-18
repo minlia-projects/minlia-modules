@@ -20,65 +20,65 @@ public class TokenCacheUtils {
 
     public static final String TOKEN_R = "token.r:";
 
-    private static String getKey(String guid) {
-        return TOKEN + guid;
+    private static String getKey(Long uid) {
+        return TOKEN + uid;
     }
 
-    private static String getKeyWithSessionId(String guid) {
+    private static String getKeyWithSessionId(Long uid) {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
         Object sid = servletRequest.getSession().getAttribute(SecurityConstant.SID);
-        return String.format(TOKEN_GUID_SESSION, guid, sid);
+        return String.format(TOKEN_GUID_SESSION, uid, sid);
     }
 
     /**
      * 缓存token
      *
-     * @param guid
+     * @param uid
      * @param token
      * @param expirationTime
      */
-    public static void cache(String guid, String token, int expirationTime) {
-        RedisUtils.set(getKey(guid), token, expirationTime);
+    public static void cache(Long uid, String token, int expirationTime) {
+        RedisUtils.set(getKey(uid), token, expirationTime);
     }
 
     /**
      * 获取token
      *
-     * @param guid
+     * @param uid
      */
-    public static Object get(String guid) {
-        return RedisUtils.get(getKey(guid));
+    public static Object get(Long uid) {
+        return RedisUtils.get(getKey(uid));
     }
 
     /**
      * 杀掉token
      *
-     * @param guid
+     * @param uid
      */
-    public static void kill(String guid) {
-        RedisUtils.delByPrefix(getKey(guid));
-//        RedisUtils.del(getKey(guid));
+    public static void kill(Long uid) {
+        RedisUtils.delByPrefix(getKey(uid));
+//        RedisUtils.del(getKey(uid));
     }
 
     /**
      * 是否存在
      *
-     * @param guid
+     * @param uid
      * @return
      */
-    public static boolean exists(String guid) {
-        return RedisUtils.getRedisTemplate().hasKey(getKey(guid));
+    public static boolean exists(Long uid) {
+        return RedisUtils.getRedisTemplate().hasKey(getKey(uid));
     }
 
     /**
      * 续期
      *
-     * @param guid
+     * @param uid
      * @return
      */
-    public static boolean expire(String guid, long time) {
-        return RedisUtils.expire(getKey(guid), time);
+    public static boolean expire(Long uid, long time) {
+        return RedisUtils.expire(getKey(uid), time);
     }
 
 }

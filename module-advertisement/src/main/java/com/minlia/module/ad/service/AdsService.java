@@ -25,6 +25,6 @@ public interface AdsService {
 
     List<Advertisements> list(AdsQRO qro);
 
-    PageInfo<Advertisements> page(AdsQRO qro, Pageable pageable);
+//    PageInfo<Advertisements> page(AdsQRO qro, Pageable pageable);
 
 }

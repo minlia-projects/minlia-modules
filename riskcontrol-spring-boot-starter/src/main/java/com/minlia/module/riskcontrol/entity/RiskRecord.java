@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "mdl_risk_record")
+@Entity(name = "sys_risk_record")
 //@Table(name = "mdl_risk_record", uniqueConstraints = {@UniqueConstraint(columnNames={"dimension","value"})})
 public class RiskRecord {
 

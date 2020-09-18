@@ -5,7 +5,7 @@ import com.google.common.base.CaseFormat;
 import com.minlia.cloud.code.Code;
 import com.minlia.cloud.i18n.Lang;
 import com.minlia.module.common.constant.MinliaConstants;
-import com.minlia.module.common.constant.SymbolConstants;
+import com.minlia.cloud.constant.SymbolConstants;
 
 import java.util.StringJoiner;
 

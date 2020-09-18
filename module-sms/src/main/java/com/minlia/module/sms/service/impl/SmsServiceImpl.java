@@ -1,11 +1,12 @@
 package com.minlia.module.sms.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
+import com.minlia.cloud.constant.SymbolConstants;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.common.constant.SymbolConstants;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.richtext.constant.RichtextCode;
-import com.minlia.module.richtext.entity.Richtext;
+import com.minlia.module.richtext.entity.RichtextEntity;
 import com.minlia.module.richtext.enumeration.RichtextTypeEnum;
 import com.minlia.module.richtext.service.RichtextService;
 import com.minlia.module.sms.config.SmsConfig;
@@ -50,7 +51,7 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale) {
-        Richtext richtext = richtextService.queryByTypeAndCode(RichtextTypeEnum.SMS_TEMPLATE.name(), richtextCode, locale);
+        RichtextEntity richtext = richtextService.getOne(Wrappers.<RichtextEntity>lambdaQuery().eq(RichtextEntity::getType, RichtextTypeEnum.SMS_TEMPLATE.name()).eq(RichtextEntity::getCode, richtextCode).eq(RichtextEntity::getLocale, locale));
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, richtextCode);
         String content = TextReplaceUtils.replace(richtext.getContent(), variables);
         SmsRecord smsRecord = SmsRecord.builder().channel(smsProperties.getType()).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).code(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();

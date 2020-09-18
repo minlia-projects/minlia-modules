@@ -32,7 +32,7 @@ public class JwtTokenFactory {
      */
     public AccessJwtToken createAccessJwtToken(UserContext userContext, String id) {
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-        claims.put("guid", userContext.getGuid());
+        claims.put("uid", userContext.getUid());
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
     }
 
@@ -43,7 +43,7 @@ public class JwtTokenFactory {
      */
     public AccessJwtToken createRawJwtToken(UserContext userContext, String id) {
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-        claims.put("guid", userContext.getGuid());
+        claims.put("uid", userContext.getUid());
         claims.put("orgId", userContext.getOrgId());
         claims.put("cellphone", userContext.getCellphone());
         claims.put("email", userContext.getEmail());
@@ -58,7 +58,7 @@ public class JwtTokenFactory {
 
     public AccessJwtToken createRefreshToken(UserContext userContext, String id) {
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-        claims.put("guid", userContext.getGuid());
+        claims.put("uid", userContext.getUid());
         return getJwtToken(claims, settings.getRefreshTokenExpTime(), id);
     }
 
@@ -74,7 +74,7 @@ public class JwtTokenFactory {
     }
 
     public AccessJwtToken createOriginalToken(UserContext userContext, String id) {
-        Claims claims = Jwts.claims().setSubject(userContext.getGuid());
+        Claims claims = Jwts.claims().setSubject(userContext.getUid().toString());
         claims.put("orgId", userContext.getOrgId());
         claims.put("username", userContext.getUsername());
         claims.put("cellphone", userContext.getCellphone());

@@ -7,7 +7,7 @@ import com.minlia.module.lbsyun.body.request.GeoSearchDetailRequest;
 import com.minlia.module.lbsyun.body.request.GeoSearchLocalRequest;
 import com.minlia.module.lbsyun.body.request.GeoSearchNearbyRequest;
 import com.minlia.module.lbsyun.service.GeoSearchService;
-import io.swagger.annotations.Api;
+import io.swagger.annotationsmi.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

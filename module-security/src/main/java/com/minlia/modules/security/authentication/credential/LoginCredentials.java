@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
-import com.minlia.modules.security.enumeration.LoginMethodEnum;
-import io.swagger.annotations.ApiModelProperty;
+import com.minlia.modules.security.enumeration.LoginTypeEnum;
 import lombok.Data;
+import org.springframework.security.core.AuthenticatedPrincipal;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,51 +17,63 @@ import javax.validation.constraints.Size;
 /**
  * 只能用其中之一来登录
  * 如: username password
- *
+ * <p>
  * 当有多个同时传入时报出错误
- *
  */
 @Data
-public class LoginCredentials implements WithUsernameCredential, WithEmailCredential, WithCellphoneCredential {
-//public class LoginCredentials implements WithUsernameCredential {
+public class LoginCredentials implements AuthenticatedPrincipal, WithUsernameCredential, WithEmailCredential, WithCellphoneCredential {
 
-    @ApiModelProperty(value = "登陆方式", example = "USERNAME")
+    /**
+     * 登陆方式
+     */
     @NotBlank(message = "登陆方式不能为空")
     @JsonIgnore
-    private LoginMethodEnum method;
+    private LoginTypeEnum type;
 
-    @ApiModelProperty(value = "用户名", example = "admin")
+    /**
+     * 用户名
+     */
     @Username
     @JsonIgnore
     private String username;
 
-    @ApiModelProperty(value = "手机号码", example = "18588888888")
+    /**
+     * 手机号码
+     */
     @Cellphone
     @JsonIgnore
     private String cellphone;
 
-    @ApiModelProperty(value = "邮箱", example = "admin@admin.com")
+    /**
+     * 邮箱
+     */
     @Email
     @JsonIgnore
     private String email;
 
-    /*****更改为账号登陆，合并登陆方式*****/
-
-    @ApiModelProperty(value = "用户名/手机号码/邮箱", example = "16888888888")
+    /**
+     * 用户名/手机号码/邮箱
+     */
     @Size(max = 30)
     @JsonProperty("username")
-    private String account;
+    private String name;
 
-    @ApiModelProperty(value = "密码", example = "admin")
+    /**
+     * 密码
+     */
     @NotBlank(message = "密码不能为空")
     @Password
     private String password;
 
-    @ApiModelProperty(value = "验证码", example = "8888")
+    /**
+     * 验证码
+     */
     @Size(min = 4, max = 8)
-    private String captcha;
+    private String vcode;
 
-    @ApiModelProperty(value = "当前角色", example = "User")
+    /**
+     * 当前角色
+     */
     private String currrole;
 
 }

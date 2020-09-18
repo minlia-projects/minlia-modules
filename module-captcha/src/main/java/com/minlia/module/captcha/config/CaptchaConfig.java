@@ -5,7 +5,8 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by garen on 2018/8/10.
+ * @author garen
+ * @date 2018/8/10
  */
 @ConfigAutowired(type = "SYS_CAPTCHA_CONFIG")
 @Component

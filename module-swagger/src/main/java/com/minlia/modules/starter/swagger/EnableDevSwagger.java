@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @EnableSwagger2
-@Import({ Swagger2Config.class})
+@Import({Swagger2Config.class})
 public @interface EnableDevSwagger {
+
 }

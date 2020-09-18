@@ -13,18 +13,18 @@ import java.util.regex.Pattern;
 
 /**
  * Annotation that check the cellphone
+ * @author garen
  */
 @Documented
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = { Cellphone.CellphoneValidator.class })
+@Constraint(validatedBy = {Cellphone.CellphoneValidator.class})
 //@ReportAsSingleViolation
 //@Pattern(regexp = "")
 public @interface Cellphone {
 
     boolean required() default false;
 
-    //    String message() default "{javax.validation.constraints.NotBlank.message}";
     String message() default "system.validator.message.cellphone";
 
     Class<?>[] groups() default {};
@@ -38,7 +38,7 @@ public @interface Cellphone {
         private String message;
 
         @Value("${system.valid.rule.cellphone}")
-        private String cellphoneRule;
+        private String regex;
 
         @Override
         public void initialize(Cellphone mobile) {
@@ -53,7 +53,7 @@ public @interface Cellphone {
                 ctx.disableDefaultConstraintViolation();
                 //自定义返回消息
                 ctx.buildConstraintViolationWithTemplate(Lang.get(message)).addConstraintViolation();
-                return Pattern.matches(cellphoneRule, mobile);
+                return Pattern.matches(regex, mobile);
             } else {
                 return true;
             }

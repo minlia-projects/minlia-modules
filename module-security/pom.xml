@@ -24,12 +24,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-swagger</artifactId>
-            <version>${minlia.module.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
@@ -42,9 +36,9 @@
         </dependency>
 
         <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-oauth2</artifactId>-->
-            <!--<version>2.0.0.RELEASE</version>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-oauth2</artifactId>-->
+        <!--<version>2.0.0.RELEASE</version>-->
         <!--</dependency>-->
 
         <dependency>
@@ -66,18 +60,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>eu.infomas</groupId>-->
-        <!--<artifactId>annotation-detector</artifactId>-->
-        <!--<version>3.0.5</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>org.atteo.classindex</groupId>-->
-        <!--<artifactId>classindex</artifactId>-->
-        <!--<version>3.4</version>-->
-        <!--</dependency>-->
-
     </dependencies>
 
     <build>
@@ -97,9 +79,20 @@
             <!--</execution>-->
             <!--</executions>-->
             <!--</plugin>-->
+            <!-- 要排除启动类 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source> <!--指明源码用的Jdk版本-->
+                    <target>${java.version}</target> <!--指明打包后的Jdk版本-->
+                    <!-- 如果发现依然排除不了，考虑先clean再install-->
+                    <excludes>
+                        <exclude>
+                            com.minlia.modules.security.SecurityApplication
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

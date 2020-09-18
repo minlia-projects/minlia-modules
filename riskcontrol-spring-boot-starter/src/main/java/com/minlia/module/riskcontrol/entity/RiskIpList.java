@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "mdl_risk_ip_list")
-@Table(name = "mdl_risk_ip_list", uniqueConstraints = {@UniqueConstraint(columnNames = {"country", "start"})})
+@Entity(name = "sys_risk_ip_list")
+@Table(name = "sys_risk_ip_list", uniqueConstraints = {@UniqueConstraint(columnNames = {"country", "start"})})
 public class RiskIpList {
 
     @Id

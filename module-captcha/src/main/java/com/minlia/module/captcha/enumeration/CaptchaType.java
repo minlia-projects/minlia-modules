@@ -1,6 +1,8 @@
 package com.minlia.module.captcha.enumeration;
 /**
- * Created by will on 6/19/17.
+ *
+ * @author will
+ * @date 6/19/17
  * 发送验证码的类型
  */
 public enum CaptchaType {

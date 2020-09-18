@@ -1,7 +1,7 @@
 package com.minlia.module.riskcontrol.service;
 
 import com.alibaba.fastjson.JSON;
-import com.minlia.module.common.constant.SymbolConstants;
+import com.minlia.cloud.constant.SymbolConstants;
 import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskIpList;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;

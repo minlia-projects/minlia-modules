@@ -1,7 +1,6 @@
 package com.minlia.module.data.bean;
 
 import com.google.common.base.CaseFormat;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,10 +13,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = {"filed"})
 public class Sort {
 
-    @ApiModelProperty(example = "id")
     private String filed;
 
-    @ApiModelProperty(example = "DESC")
     private Direction direction;
 
     public String getFiled() {
