@@ -35,5 +35,4 @@ public class SysArticleLabelRelationEntity implements Serializable {
     @TableField("label_id")
     private Long labelId;
 
-
 }

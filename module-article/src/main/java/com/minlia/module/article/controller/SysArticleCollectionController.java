@@ -51,15 +51,15 @@ public class SysArticleCollectionController {
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
     @ApiOperation(value = "计数查询")
-    @RequestMapping(value = "count")
-    public Response count() {
+    @PostMapping(value = "count")
+    public Response count(@Valid @RequestBody BaseQueryEntity qro) {
         return Response.success(sysArticleCollectionService.count(Wrappers.<SysArticleCollectionEntity>lambdaQuery()
-                .eq(SysArticleCollectionEntity::getOperator, SecurityContextHolder.getCurrentGuid())));
+                .eq(SysArticleCollectionEntity::getOperator, SecurityContextHolder.getUid())));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
     @ApiOperation(value = "分页查询")
-    @RequestMapping(value = "page")
+    @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BaseQueryEntity qro) {
         return Response.success(sysArticleCollectionService.myPage(qro.getPageNumber(), qro.getPageSize()));
     }

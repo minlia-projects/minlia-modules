@@ -6,6 +6,7 @@ import com.minlia.module.data.entity.WithIdEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
  * @since 2020-09-02
  */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -34,7 +35,7 @@ public class SysArticleCommentEntity extends WithIdEntity {
 
     @ApiModelProperty(value = "操作人")
     @TableField("operator")
-    private String operator;
+    private Long operator;
 
     @ApiModelProperty(value = "时间")
     @TableField("time")

@@ -38,16 +38,16 @@ public class SysRoleSeedDataInitializeListener implements ApplicationListener<Co
             return;
         }
         log.debug("Starting Initialize Role Seed Data ");
-        initialRole();
+        initialSuperAdminRole();
         alreadySetup = true;
     }
 
     /**
-     * 初始化默认角色
+     * 初始化超级管理员角色
      */
-    private void initialRole() {
-        if (sysRoleService.count(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getCode, SecurityConstant.ROLE_ADMIN_CODE)) == 0) {
-            SysRoleEntity roleEntity = SysRoleEntity.builder().code(SecurityConstant.ROLE_ADMIN_CODE).name(SecurityConstant.ROLE_ADMIN_DESC).build();
+    private void initialSuperAdminRole() {
+        if (sysRoleService.count(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getCode, SecurityConstant.ROLE_SUPER_ADMIN_CODE)) == 0) {
+            SysRoleEntity roleEntity = SysRoleEntity.builder().code(SecurityConstant.ROLE_SUPER_ADMIN_CODE).name(SecurityConstant.ROLE_SUPER_ADMIN_DESC).build();
             sysRoleService.save(roleEntity);
             //授权权限点
             sysRoleService.grantPermission(roleEntity.getId(), sysPermissionService.getAllIds());

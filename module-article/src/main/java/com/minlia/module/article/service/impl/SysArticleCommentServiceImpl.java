@@ -15,6 +15,7 @@ import com.minlia.module.article.service.SysArticleCommentService;
 import com.minlia.module.article.service.SysArticleService;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
 
     private final SysArticleService sysArticleService;
 
-    public SysArticleCommentServiceImpl(SysArticleService sysArticleService) {
+    public SysArticleCommentServiceImpl(@Lazy SysArticleService sysArticleService) {
         this.sysArticleService = sysArticleService;
     }
 
@@ -51,7 +52,7 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
 
     @Override
     public boolean isCommented(Long articleId) {
-        long countPraise = this.count(Wrappers.<SysArticleCommentEntity>lambdaQuery().eq(SysArticleCommentEntity::getArticleId, articleId).eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getCurrentGuid()));
+        long countPraise = this.count(Wrappers.<SysArticleCommentEntity>lambdaQuery().eq(SysArticleCommentEntity::getArticleId, articleId).eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getUid()));
         return countPraise > 0;
     }
 
@@ -59,7 +60,7 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
     public Page myPage(int pageNumber, int pageSize) {
         List<Long> articleIds = this.list(Wrappers.<SysArticleCommentEntity>lambdaQuery()
                 .select(SysArticleCommentEntity::getArticleId)
-                .eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getCurrentGuid()))
+                .eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getUid()))
                 .stream().map(data -> data.getArticleId()).collect(Collectors.toList());
         return sysArticleService.page(new Page(pageNumber, pageSize), Wrappers.<SysArticleEntity>lambdaQuery().in(SysArticleEntity::getId, articleIds));
     }

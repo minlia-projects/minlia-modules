@@ -5,6 +5,8 @@ import org.springframework.security.core.AuthenticationException;
 
 /**
  * jwt接收异常、格式错误什么的
+ *
+ * @author garen
  */
 public class JwtAcceptableException extends AuthenticationException {
     private static final long serialVersionUID = -5959543783324224864L;
@@ -23,4 +25,5 @@ public class JwtAcceptableException extends AuthenticationException {
     public String token() {
         return this.token.getToken();
     }
+
 }

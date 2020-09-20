@@ -32,8 +32,8 @@ public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticati
     private TokenExtractor tokenExtractor;
 
     @Autowired
-    public JwtTokenAuthenticationProcessingFilter(RequestMatcher matcher) {
-        super(matcher);
+    public JwtTokenAuthenticationProcessingFilter(RequestMatcher requestMatcher) {
+        super(requestMatcher);
     }
 
     @Override

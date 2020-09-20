@@ -2,8 +2,7 @@ package com.minlia.module.data.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,9 +18,10 @@ import java.time.LocalDateTime;
 //        setterVisibility = JsonAutoDetect.Visibility.NONE,
 //        isGetterVisibility = JsonAutoDetect.Visibility.NONE,
 //        creatorVisibility = JsonAutoDetect.Visibility.NONE)
-@Getter
-@Setter
+@Data
 @SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class AbstractEntity extends WithIdEntity {
 
     private static final long serialVersionUID = 1L;

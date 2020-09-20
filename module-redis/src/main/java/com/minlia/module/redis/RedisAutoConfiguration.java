@@ -18,6 +18,8 @@ import org.springframework.cache.interceptor.SimpleCacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -41,6 +43,7 @@ import java.util.Set;
 @Configuration
 @EnableCaching
 @ConfigurationProperties(prefix = "spring.cache.redis")
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
 //@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400 * 30)
 public class RedisAutoConfiguration extends CachingConfigurerSupport {
 
@@ -80,7 +83,8 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport {
      * @return
      */
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+    @Primary
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
 
         //解决查询缓存转换异常的问题

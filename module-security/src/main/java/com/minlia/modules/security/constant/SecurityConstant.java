@@ -16,15 +16,19 @@ public class SecurityConstant {
 
     public static final String SID = "sid";
 
-    public static final String ROLE_ADMIN_CODE = "ADMIN";
-    public static final String ROLE_ADMIN_DESC = "系统管理员";
-    public static final Long ROLE_ADMIN_ID = 1L;
+    public static final String ROLE_SUPER_ADMIN_CODE = "ROLE_SUPER_ADMIN";
+    public static final String ROLE_SUPER_ADMIN_DESC = "超级管理员";
+    public static final Long ROLE_SUPER_ADMIN_ID = 1L;
 
-    public static final String ROLE_USER_CODE = "USER";
+    public static final String ROLE_SYSTEM_ADMIN_CODE = "ROLE_SYS_ADMIN";
+    public static final String ROLE_SYSTEM_ADMIN_DESC = "系统管理员";
+    public static final Long ROLE_SYSTEM_ADMIN_ID = 2L;
+
+    public static final String ROLE_USER_CODE = "ROLE_USER";
     public static final String ROLE_USER_DESC = "用户";
     public static final Long ROLE_USER_ID = 2L;
 
-    public static final String ROLE_GUEST_CODE = "GUEST";
+    public static final String ROLE_GUEST_CODE = "ROLE_GUEST";
     public static final String ROLE_GUEST_DESC = "游客";
     public static final Long ROLE_GUEST_ID = 3L;
 

@@ -52,15 +52,15 @@ public class SysArticleCommentController {
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
     @ApiOperation(value = "计数查询")
-    @RequestMapping(value = "count")
-    public Response count() {
+    @PostMapping(value = "count")
+    public Response count(@Valid @RequestBody BaseQueryEntity qro) {
         return Response.success(sysArticleCommentService.count(Wrappers.<SysArticleCommentEntity>lambdaQuery()
-                .eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getCurrentGuid())));
+                .eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getUid())));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
     @ApiOperation(value = "分页查询")
-    @RequestMapping(value = "page")
+    @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BaseQueryEntity qro) {
         return Response.success(sysArticleCommentService.myPage(qro.getPageNumber(), qro.getPageSize()));
     }

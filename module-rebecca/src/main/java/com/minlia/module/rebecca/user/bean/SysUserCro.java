@@ -1,6 +1,5 @@
 package com.minlia.module.rebecca.user.bean;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
@@ -11,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -25,6 +25,7 @@ import java.util.Set;
  */
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class SysUserCro implements ApiRequestBody {
 

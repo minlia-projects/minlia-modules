@@ -15,10 +15,12 @@ import com.minlia.module.rebecca.permission.entity.SysPermissionEntity;
 import com.minlia.module.rebecca.permission.service.SysPermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -73,10 +75,20 @@ public class SysPermissionController {
                 .setEntity(DozerUtils.map(qro, SysPermissionEntity.class))
                 .last(qro.getOrderBy());
         if (null != qro.getRoleId()) {
-            queryWrapper.in(SysPermissionEntity::getId, sysPermissionService.getIdsByRoleId(qro.getRoleId()));
+            List<Long> permissionIds = sysPermissionService.getIdsByRoleId(qro.getRoleId());
+            if (CollectionUtils.isNotEmpty(permissionIds)) {
+                queryWrapper.in(SysPermissionEntity::getId, permissionIds);
+            } else {
+                return Response.success();
+            }
         }
         if (null != qro.getUserId()) {
-            queryWrapper.in(SysPermissionEntity::getId, sysPermissionService.getIdsByUserId(qro.getUserId()));
+            List<Long> permissionIds = sysPermissionService.getIdsByUserId(qro.getUserId());
+            if (CollectionUtils.isNotEmpty(permissionIds)) {
+                queryWrapper.in(SysPermissionEntity::getId, permissionIds);
+            } else {
+                return Response.success();
+            }
         }
         return Response.success(sysPermissionService.list(queryWrapper));
     }
@@ -91,10 +103,20 @@ public class SysPermissionController {
                 .setEntity(DozerUtils.map(qro, SysPermissionEntity.class))
                 .last(qro.getOrderBy());
         if (null != qro.getRoleId()) {
-            queryWrapper.in(SysPermissionEntity::getId, sysPermissionService.getIdsByRoleId(qro.getRoleId()));
+            List<Long> permissionIds = sysPermissionService.getIdsByRoleId(qro.getRoleId());
+            if (CollectionUtils.isNotEmpty(permissionIds)) {
+                queryWrapper.in(SysPermissionEntity::getId, permissionIds);
+            } else {
+                return Response.success();
+            }
         }
         if (null != qro.getUserId()) {
-            queryWrapper.in(SysPermissionEntity::getId, sysPermissionService.getIdsByUserId(qro.getUserId()));
+            List<Long> permissionIds = sysPermissionService.getIdsByUserId(qro.getUserId());
+            if (CollectionUtils.isNotEmpty(permissionIds)) {
+                queryWrapper.in(SysPermissionEntity::getId, permissionIds);
+            } else {
+                return Response.success();
+            }
         }
         Page<SysPermissionEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysPermissionService.page(page, queryWrapper));
