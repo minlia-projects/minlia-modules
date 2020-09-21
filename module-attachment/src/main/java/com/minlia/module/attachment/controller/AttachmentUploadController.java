@@ -10,10 +10,10 @@ import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
 
 import java.io.ByteArrayInputStream;
 
@@ -50,7 +50,7 @@ public class AttachmentUploadController {
     @PostMapping(value = "base64")
     public Response upload(@RequestBody AttachmentUploadBody uploadBody) throws Exception {
         //将字符串转换为byte数组
-        byte[] bytes = new BASE64Decoder().decodeBuffer(uploadBody.getFile().trim());
+        byte[] bytes = Base64.decodeBase64(uploadBody.getFile().trim());
         //转化为输入流
         ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
         uploadBody.setInputStream(inputStream);
