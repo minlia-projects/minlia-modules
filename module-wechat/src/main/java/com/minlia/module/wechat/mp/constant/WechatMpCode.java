@@ -46,8 +46,13 @@ public class WechatMpCode {
         }
 
         @Override
+<<<<<<< HEAD
         public String message(Object... args) {
             return Lang.get(this.i18nKey(), args);
+=======
+        public String message(Object... var1) {
+            return Lang.get(this.i18nKey(), var1);
+>>>>>>> dev/garen
         }
 
     }

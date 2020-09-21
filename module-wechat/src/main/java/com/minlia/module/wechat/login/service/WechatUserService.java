@@ -33,4 +33,5 @@ public interface WechatUserService {
 
     List<WechatUser> queryList(WechatUserQO body);
 
+    int deleteByWxCodeAndGuidIsNull(String wxCode);
 }

@@ -7,6 +7,10 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.config.WxMpConfigStorage;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
+<<<<<<< HEAD
+=======
+import me.chanjar.weixin.mp.util.WxMpConfigStorageHolder;
+>>>>>>> dev/garen
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -33,7 +37,10 @@ public class WechatMpAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public WxMpConfigStorage configStorage() {
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev/garen
         WxMpDefaultConfigImpl configStorage = new WxMpDefaultConfigImpl();
         configStorage.setAppId( bibleItemService.get(WechatMpBibleConstants.PUBLIC_CODE, WechatMpBibleConstants.PUBLIC_ITEM_CODE_APPID));
         configStorage.setSecret(bibleItemService.get(WechatMpBibleConstants.PUBLIC_CODE, WechatMpBibleConstants.PUBLIC_ITEM_CODE_SECRET));

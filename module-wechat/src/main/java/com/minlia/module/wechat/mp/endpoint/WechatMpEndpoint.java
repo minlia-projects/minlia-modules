@@ -53,8 +53,13 @@ public class WechatMpEndpoint {
         params.put("type", type);
         params.put("offset", offset);
         params.put("count", count);
+<<<<<<< HEAD
 //        String responseText = this.wxMpService.post(WxMpMaterialService.MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
         String responseText = this.wxMpService.post(WxMpApiUrl.Material.MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
+=======
+        String url = WxMpApiUrl.Material.MATERIAL_BATCHGET_URL.getUrl(this.wxMpService.getWxMpConfigStorage());
+        String responseText = this.wxMpService.post(url, WxGsonBuilder.create().toJson(params));
+>>>>>>> dev/garen
         WxError wxError = WxError.fromJson(responseText);
         if (wxError.getErrorCode() != 0) {
             throw new WxErrorException(wxError);

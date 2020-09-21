@@ -9,6 +9,20 @@
     <packaging>pom</packaging>
     <name>Minlia Modules Parent</name>
 
+<<<<<<< HEAD
+=======
+    <parent>
+        <groupId>com.minlia.cloud</groupId>
+        <artifactId>minlia-cloud-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <project.version>1.0.1-SNAPSHOT</project.version>
+    </properties>
+
+>>>>>>> dev/garen
     <modules>
         <module>module-parent</module>
         <module>module-common</module>

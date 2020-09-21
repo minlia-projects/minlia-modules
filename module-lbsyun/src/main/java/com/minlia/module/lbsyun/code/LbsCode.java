@@ -28,5 +28,14 @@ public class LbsCode {
         public String module() {
             return CODE_PREFIX;
         }
+<<<<<<< HEAD
+=======
+
+        @Override
+        public String message(Object... var1) {
+            return Lang.get(this.i18nKey(), var1);
+        }
+
+>>>>>>> dev/garen
     }
 }

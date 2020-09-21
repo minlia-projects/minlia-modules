@@ -25,7 +25,11 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
+<<<<<<< HEAD
             <version>2.0.0-SNAPSHOT</version>
+=======
+            <version>1.0.0-SNAPSHOT</version>
+>>>>>>> dev/garen
         </dependency>
 
         <dependency>
@@ -64,14 +68,22 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-miniapp</artifactId>
+<<<<<<< HEAD
             <version>3.8.0</version>
+=======
+            <version>3.6.0</version>
+>>>>>>> dev/garen
         </dependency>
 
         <!--公众号-->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
+<<<<<<< HEAD
             <version>3.8.0</version>
+=======
+            <version>3.6.0</version>
+>>>>>>> dev/garen
         </dependency>
 
         <dependency>

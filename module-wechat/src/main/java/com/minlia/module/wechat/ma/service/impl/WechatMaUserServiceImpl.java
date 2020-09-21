@@ -98,4 +98,8 @@ public class WechatMaUserServiceImpl implements WechatMaUserService {
         return wechatMaUserMapper.queryList(qo);
     }
 
+    @Override
+    public int deleteByCodeAndGuidIsNull(String code) {
+        return wechatMaUserMapper.deleteByCodeAndGuidIsNull(code);
+    }
 }

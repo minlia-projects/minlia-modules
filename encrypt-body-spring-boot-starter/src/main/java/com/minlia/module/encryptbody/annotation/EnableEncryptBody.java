@@ -206,6 +206,10 @@ package com.minlia.module.encryptbody.annotation;
 import com.minlia.module.encryptbody.advice.CryptRequestBodyAdvice;
 import com.minlia.module.encryptbody.advice.EncryptResponseBodyAdvice;
 import com.minlia.module.encryptbody.config.EncryptBodyConfig;
+<<<<<<< HEAD
+=======
+import com.minlia.module.encryptbody.config.HttpConverterConfig;
+>>>>>>> dev/garen
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -222,7 +226,11 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @Import({EncryptBodyConfig.class,
+<<<<<<< HEAD
 //        HttpConverterConfig.class,    //TODO
+=======
+        HttpConverterConfig.class,
+>>>>>>> dev/garen
         EncryptResponseBodyAdvice.class,
         CryptRequestBodyAdvice.class})
 public @interface EnableEncryptBody {

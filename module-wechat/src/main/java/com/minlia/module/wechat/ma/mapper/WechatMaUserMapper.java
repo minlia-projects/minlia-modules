@@ -1,4 +1,5 @@
 package com.minlia.module.wechat.ma.mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.minlia.module.wechat.ma.bean.entity.WechatMaUser;
 import com.minlia.module.wechat.ma.bean.qo.WechatMaUserQO;
@@ -23,5 +24,7 @@ public interface WechatMaUserMapper {
     WechatMaUser queryOne(WechatMaUserQO qo);
 
     List<WechatMaUser> queryList(WechatMaUserQO qo);
+
+    int deleteByCodeAndGuidIsNull(@Param("code")String code);
 
 }

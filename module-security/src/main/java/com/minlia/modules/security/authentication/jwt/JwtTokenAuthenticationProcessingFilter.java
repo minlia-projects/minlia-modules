@@ -27,13 +27,24 @@ import java.io.IOException;
  */
 @Slf4j
 public class JwtTokenAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
+<<<<<<< HEAD
+=======
+//    private final AuthenticationFailureHandler failureHandler;
+>>>>>>> dev/garen
 
     @Autowired
     private TokenExtractor tokenExtractor;
 
     @Autowired
+<<<<<<< HEAD
     public JwtTokenAuthenticationProcessingFilter(RequestMatcher requestMatcher) {
         super(requestMatcher);
+=======
+    public JwtTokenAuthenticationProcessingFilter(RequestMatcher matcher) {
+        super(matcher);
+//        this.failureHandler = failureHandler;
+//        this.tokenExtractor = tokenExtractor;
+>>>>>>> dev/garen
     }
 
     @Override

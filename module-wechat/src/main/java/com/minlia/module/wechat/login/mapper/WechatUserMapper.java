@@ -1,4 +1,5 @@
 package com.minlia.module.wechat.login.mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.minlia.module.wechat.login.entity.WechatUser;
 import com.minlia.module.wechat.login.ro.WechatUserQO;
@@ -20,5 +21,7 @@ public interface WechatUserMapper {
     WechatUser queryOne(WechatUserQO qo);
 
     List<WechatUser> queryList(WechatUserQO qo);
+
+    int deleteByWxCodeAndGuidIsNull(@Param("wxCode")String wxCode);
 
 }

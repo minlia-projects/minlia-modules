@@ -95,4 +95,8 @@ public class WechatUserServiceImpl implements WechatUserService {
         return wechatUserMapper.queryList(body);
     }
 
+    @Override
+    public int deleteByWxCodeAndGuidIsNull(String wxCode) {
+        return wechatUserMapper.deleteByWxCodeAndGuidIsNull(wxCode);
+    }
 }
