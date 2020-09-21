@@ -3,12 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.minlia.cloud.modules</groupId>
-    <artifactId>module-data</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>Module Data</name>
-
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
         <artifactId>module-parent</artifactId>
@@ -16,8 +10,13 @@
         <relativePath>../module-parent/pom.xml</relativePath>
     </parent>
 
+    <groupId>com.minlia.cloud.modules</groupId>
+    <artifactId>module-data</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Module Data</name>
+
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <mybatis.version>3.5.5</mybatis.version>
         <pagehelper.version>3.6.3</pagehelper.version>
@@ -26,22 +25,16 @@
     </properties>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>com.minlia.cloud</groupId>-->
-<!--            <artifactId>minlia-cloud-starter</artifactId>-->
-<!--            <version>2.0.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.minlia.cloud</groupId>-->
+        <!--            <artifactId>minlia-cloud-starter</artifactId>-->
+        <!--            <version>${minlia.cloud.version}</version>-->
+        <!--        </dependency>-->
 
         <dependency>
-<<<<<<< HEAD
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${baomidou.version}</version>
-=======
-            <groupId>com.minlia.cloud</groupId>
-            <artifactId>minlia-cloud-starter</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
->>>>>>> dev/garen
         </dependency>
 
         <dependency>

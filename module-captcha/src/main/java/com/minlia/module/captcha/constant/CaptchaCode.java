@@ -96,13 +96,8 @@ public class CaptchaCode {
         NUM_OTP_MINS;
 
         @Override
-<<<<<<< HEAD
         public String module() {
             return CODE_PREFIX;
-=======
-        public String message(Object... var1){
-            return Lang.get(this.i18nKey(), var1);
->>>>>>> dev/garen
         }
 
     }

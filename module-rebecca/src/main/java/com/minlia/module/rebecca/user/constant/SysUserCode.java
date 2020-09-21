@@ -127,13 +127,8 @@ public class SysUserCode {
 
 
         @Override
-<<<<<<< HEAD:module-rebecca/src/main/java/com/minlia/module/rebecca/user/constant/SysUserCode.java
         public String module() {
             return MODULE_NAME;
-=======
-        public String message(Object... var1){
-            return Lang.get(this.i18nKey(), var1);
->>>>>>> dev/garen:module-rebecca/src/main/java/com/minlia/modules/rbac/constant/UserCode.java
         }
 
     }

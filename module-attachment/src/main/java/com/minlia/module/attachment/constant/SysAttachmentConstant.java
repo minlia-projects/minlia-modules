@@ -70,6 +70,8 @@ public class SysAttachmentConstant {
 
     public enum Image {
 
+        IMAGE,
+
         /**
          * 头像
          */

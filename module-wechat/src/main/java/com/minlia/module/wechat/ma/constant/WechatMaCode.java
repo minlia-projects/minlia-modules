@@ -29,29 +29,6 @@ public class WechatMaCode {
          */
         PARAMETER_NOT_CONFIG;
 
-        @Override
-        public String code() {
-            return this.name();
-        }
-
-        @Override
-        public String i18nKey() {
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, new StringJoiner(SymbolConstants.DOT)
-                    .add(CODE_PREFIX)
-                    .add(this.getClass().getSimpleName())
-                    .add(this.name()).toString());
-        }
-
-        @Override
-<<<<<<< HEAD
-        public String message(Object... args) {
-            return Lang.get(this.i18nKey(), args);
-=======
-        public String message(Object... var1){
-            return Lang.get(this.i18nKey(), var1);
->>>>>>> dev/garen
-        }
-
     }
 
 }

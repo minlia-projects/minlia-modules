@@ -39,7 +39,7 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>${minlia.module.version}</version>
+            <version>${minlia.cloud.version}</version>
         </dependency>
 
         <dependency>

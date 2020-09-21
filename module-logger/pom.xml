@@ -26,11 +26,7 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-<<<<<<< HEAD
-            <version>2.0.0-SNAPSHOT</version>
-=======
-            <version>1.0.0-SNAPSHOT</version>
->>>>>>> dev/garen
+            <version>${minlia.cloud.version}</version>
         </dependency>
 
         <!--<dependency>-->

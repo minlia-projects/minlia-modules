@@ -52,7 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/v*/**";
 
     @Autowired
-<<<<<<< HEAD
     private AuthenticationEntryPoint authenticationEntryPoint;  // 未登陆时返回 JSON 格式的数据给前端（否则为 html）
 //    AjaxAuthenticationEntryPoint authenticationEntryPoint;
 
@@ -81,27 +80,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Autowired
 //    private UserDetailsAuthenticationProvider userDetailsAuthenticationProvider;
 
-=======
-    private AuthenticationEntryPoint authenticationEntryPoint;
-    @Autowired
-    @Qualifier("ajaxAwareAuthenticationSuccessHandler")
-    private AuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
-    @Autowired
-    @Qualifier("ajaxAwareAuthenticationFailureHandler")
-    private AuthenticationFailureHandler ajaxAuthenticationFailureHandler;
-    @Autowired
-    private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
->>>>>>> dev/garen
     @Autowired
     private AuthenticationProvider ajaxAuthenticationProvider;
+
     @Autowired
     private AuthenticationProvider jwtAuthenticationProvider;
-//    @Autowired
-//    private AjaxLoginAuthenticationProcessingFilter ajaxLoginAuthenticationProcessingFilter;
-//    @Autowired
-//    private JwtTokenAuthenticationProcessingFilter jwtTokenAuthenticationProcessingFilter;
 
-<<<<<<< HEAD
 
 //    @Autowired
 //    private CellphoneCaptchaAuthenticationProcessingFilter cellphoneCaptchaAuthenticationProcessingFilter;
@@ -122,16 +106,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Autowired
 //    @Qualifier("authenticationManagerBean")
 //    private AuthenticationManager authenticationManager;
-=======
->>>>>>> dev/garen
 
     @Bean
+    @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-<<<<<<< HEAD
 //        auth.authenticationProvider(cellphoneCaptchaAuthenticationProvider);
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
@@ -143,10 +126,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .password(encoder().encode("pass"))
 //                .roles("USER")
 //                .authorities();
-=======
-        auth.authenticationProvider(this.ajaxAuthenticationProvider);
-        auth.authenticationProvider(this.jwtAuthenticationProvider);
->>>>>>> dev/garen
     }
 
     @Override
@@ -165,7 +144,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
-<<<<<<< HEAD
 //                .addFilterBefore(cellphoneCaptchaAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(userDetailsAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(ajaxLoginAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
@@ -250,36 +228,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public ServletListenerRegistrationBean httpSessionEventPublisher() {
         return new ServletListenerRegistrationBean(new HttpSessionEventPublisher());
-=======
-                .addFilterBefore(ajaxLoginAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_ENTRY_POINT))
-                .logoutSuccessHandler(defaultLogoutSuccessHandler);
     }
-
-    @Bean
-    AjaxLoginAuthenticationProcessingFilter ajaxLoginAuthenticationProcessingFilter() {
-        AjaxLoginAuthenticationProcessingFilter filter = new AjaxLoginAuthenticationProcessingFilter(LOGIN_ENTRY_POINT);
-        ProviderManager providerManager = new ProviderManager(Collections.singletonList(this.ajaxAuthenticationProvider));
-        filter.setAuthenticationManager(providerManager);
-        filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
-        filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
-        return filter;
->>>>>>> dev/garen
-    }
-
-    @Bean
-    JwtTokenAuthenticationProcessingFilter jwtTokenAuthenticationProcessingFilter() {
-        List<String> pathsToSkip = Arrays.asList(TOKEN_REFRESH_ENTRY_POINT, LOGIN_ENTRY_POINT);
-        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
-        JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(matcher);
-
-        ProviderManager providerManager = new ProviderManager(Collections.singletonList(this.jwtAuthenticationProvider));
-        filter.setAuthenticationManager(providerManager);
-        filter.setAuthenticationFailureHandler(this.ajaxAuthenticationFailureHandler);
-        return filter;
-    }
-
 
 }
