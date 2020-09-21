@@ -9,20 +9,13 @@
     <packaging>pom</packaging>
     <name>Minlia Modules Parent</name>
 
-<!--    <parent>-->
-<!--        <groupId>com.minlia.cloud</groupId>-->
-<!--        <artifactId>minlia-cloud-parent</artifactId>-->
-<!--        <version>2.0.0-SNAPSHOT</version>-->
-<!--        <relativePath/>-->
-<!--    </parent>-->
-
     <modules>
         <module>module-parent</module>
         <module>module-common</module>
         <module>encrypt-body-spring-boot-starter</module>
         <module>dozer-spring-boot-start</module>
-<!--        <module>module-http</module>-->
-<!--        <module>module-logger</module>-->
+        <!--        <module>module-http</module>-->
+        <!--        <module>module-logger</module>-->
         <module>module-swagger</module>
 
         <module>module-security</module>
@@ -31,7 +24,7 @@
         <module>module-i18n</module>
         <module>module-audit</module>
         <module>module-redis</module>
-<!--        <module>module-district</module>-->
+        <!--        <module>module-district</module>-->
         <!--<module>module-country</module>-->
         <!--<module>module-address</module>-->
         <module>module-email</module>
@@ -42,7 +35,7 @@
         <module>module-lov</module>
         <!--<module>module-todo</module>-->
 
-<!--        <module>drools-spring-boot-starter</module>-->
+        <!--        <module>drools-spring-boot-starter</module>-->
         <module>riskcontrol-spring-boot-starter</module>
 
         <!--<module>module-bank</module>-->
@@ -50,36 +43,36 @@
         <!--<module>module-bank-card</module>-->
 
         <!--<module>module-wallet</module>-->
-<!--        <module>module-advertisement</module>-->
+        <!--        <module>module-advertisement</module>-->
         <!--<module>module-version</module>-->
-<!--        <module>module-article</module>-->
+        <!--        <module>module-article</module>-->
 
         <module>module-rebecca</module>
         <module>module-bible</module>
         <module>module-attachment</module>
 
-<!--        <module>module-websocket</module>-->
+        <!--        <module>module-websocket</module>-->
         <!--微信-->
-<!--        <module>module-wechat</module>-->
-<!--        <module>module-wechat-material</module>-->
+        <!--        <module>module-wechat</module>-->
+        <!--        <module>module-wechat-material</module>-->
 
         <!--腾讯云-->
-<!--        <module>module-qcloud-start</module>-->
+        <!--        <module>module-qcloud-start</module>-->
         <!--<module>module-qcloud-faceid</module>-->
-<!--        <module>module-qcloud-cos</module>-->
+        <!--        <module>module-qcloud-cos</module>-->
 
         <!--阿里云-->
         <!--<module>module-aliyun-dypls</module>-->
         <!--<module>module-aliyun-sesame</module>-->
-<!--        <module>module-aliyun-sms</module>-->
-<!--        <module>module-aliyun-oss</module>-->
+        <!--        <module>module-aliyun-sms</module>-->
+        <!--        <module>module-aliyun-oss</module>-->
         <!--<module>module-aliyun-market</module>-->
 
         <!--百度地图-->
         <!--<module>module-lbsyun</module>-->
 
         <!--高德地图-->
-<!--        <module>module-gad</module>-->
+        <!--        <module>module-gad</module>-->
 
         <!--普尔支付-->
         <!--<module>module-pooul</module>-->
@@ -87,7 +80,7 @@
         <!--统一支付-->
         <!--<module>module-unified-payment</module>-->
 
-<!--        <module>module-otp</module>-->
+        <!--        <module>module-otp</module>-->
         <!--<module>module-registry</module>-->
         <!--<module>module-nestedset</module>-->
         <!--<module>module-tenant</module>-->
@@ -103,14 +96,24 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>snapshots</id>
-            <url>https://nexus.app.minlia.com/repository/maven-snapshots/</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>releases</id>
-            <url>https://nexus.app.minlia.com/repository/maven-releases/</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
+    <!--    <distributionManagement>-->
+    <!--        <snapshotRepository>-->
+    <!--            <id>snapshots</id>-->
+    <!--            <url>https://nexus.app.minlia.com/repository/maven-snapshots/</url>-->
+    <!--        </snapshotRepository>-->
+    <!--        <repository>-->
+    <!--            <id>releases</id>-->
+    <!--            <url>https://nexus.app.minlia.com/repository/maven-releases/</url>-->
+    <!--        </repository>-->
+    <!--    </distributionManagement>-->
 
 </project>
