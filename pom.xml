@@ -3,26 +3,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.minlia.cloud</groupId>
+        <artifactId>minlia-cloud-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+
     <groupId>com.minlia.cloud.modules</groupId>
     <artifactId>minlia-modules</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Minlia Modules Parent</name>
 
-<<<<<<< HEAD
-=======
-    <parent>
-        <groupId>com.minlia.cloud</groupId>
-        <artifactId>minlia-cloud-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath/>
-    </parent>
-
     <properties>
-        <project.version>1.0.1-SNAPSHOT</project.version>
+        <project.version>2.0.0-SNAPSHOT</project.version>
     </properties>
 
->>>>>>> dev/garen
     <modules>
         <module>module-parent</module>
         <module>module-common</module>
