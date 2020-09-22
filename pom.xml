@@ -56,11 +56,13 @@
         <!--<module>module-wallet</module>-->
         <!--        <module>module-advertisement</module>-->
         <!--<module>module-version</module>-->
-        <!--        <module>module-article</module>-->
+
 
         <module>module-rebecca</module>
         <module>module-bible</module>
         <module>module-attachment</module>
+        <module>module-library</module>
+        <module>module-article</module>
 
         <!--        <module>module-websocket</module>-->
         <!--微信-->
@@ -70,7 +72,7 @@
         <!--腾讯云-->
         <!--        <module>module-qcloud-start</module>-->
         <!--<module>module-qcloud-faceid</module>-->
-                <module>module-qcloud-cos</module>
+        <module>module-qcloud-cos</module>
 
         <!--阿里云-->
         <!--<module>module-aliyun-dypls</module>-->

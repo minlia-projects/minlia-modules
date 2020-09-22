@@ -41,7 +41,7 @@
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-attachment</artifactId>
+            <artifactId>module-i18n</artifactId>
             <version>${minlia.module.version}</version>
         </dependency>
 
@@ -59,7 +59,7 @@
                     <!-- 如果发现依然排除不了，考虑先clean再install-->
                     <excludes>
                         <exclude>
-                            com.minlia.module.ad.AdvertisementApplication
+                            com.minlia.module.advertisement.SysAdvertisementApplication
                         </exclude>
                     </excludes>
                 </configuration>

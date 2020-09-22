@@ -114,7 +114,7 @@ public class SysNavigationController {
     @PostMapping(value = "list")
     public Response list(@RequestBody SysNavigationQro qro) {
         LambdaQueryWrapper<SysNavigationEntity> queryWrapper = new QueryWrapper<SysNavigationEntity>()
-                .lambda().setEntity(DozerUtils.map(qro, SysNavigationEntity.class)).last(qro.getOrderBy());
+                .lambda().setEntity(DozerUtils.map(qro, SysNavigationEntity.class)).orderByAsc(SysNavigationEntity::getSort);
         List<SysNavigationEntity> list = sysNavigationService.list(queryWrapper);
         sysNavigationService.setChildren(list, null, null, null);
         return Response.success(list);
@@ -126,7 +126,7 @@ public class SysNavigationController {
     @PostMapping(value = "page")
     public Response page(@RequestBody SysNavigationQro qro) {
         LambdaQueryWrapper<SysNavigationEntity> queryWrapper = new QueryWrapper<SysNavigationEntity>()
-                .lambda().setEntity(DozerUtils.map(qro, SysNavigationEntity.class)).last(qro.getOrderBy());
+                .lambda().setEntity(DozerUtils.map(qro, SysNavigationEntity.class)).orderByAsc(SysNavigationEntity::getSort);
         Page<SysNavigationEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         sysNavigationService.page(page, queryWrapper);
         sysNavigationService.setChildren(page.getRecords(), null, null, null);

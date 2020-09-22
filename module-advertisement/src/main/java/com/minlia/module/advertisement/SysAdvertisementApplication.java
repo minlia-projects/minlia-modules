@@ -1,11 +1,14 @@
-package com.minlia.module.ad;
+package com.minlia.module.advertisement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author garen
+ */
 @SpringBootApplication
-public class AdvertisementApplication {
+public class SysAdvertisementApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AdvertisementApplication.class, args);
+        SpringApplication.run(SysAdvertisementApplication.class, args);
     }
 }

@@ -120,6 +120,7 @@ public class SysNavigationServiceImpl extends ServiceImpl<SysNavigationMapper, S
                     if (StringUtils.isNotBlank(existsRole)) {
                         queryWrapper.exists(existsRole);
                     }
+                    queryWrapper.orderByAsc(SysNavigationEntity::getSort);
                     List<SysNavigationEntity> children = this.list(queryWrapper);
                     entity.setChildren(children);
                     setChildren(children, hideFlag, disFlag, existsRole);
