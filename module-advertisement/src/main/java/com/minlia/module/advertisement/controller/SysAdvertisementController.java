@@ -82,7 +82,7 @@ public class SysAdvertisementController {
         return Response.success(sysAdvertisementService.list(queryWrapper));
     }
 
-    @PreAuthorize(value = "isAuthenticated()")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysAdvertisementConstants.AUTHORIZE_SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysAdvertisementQro qro) {
