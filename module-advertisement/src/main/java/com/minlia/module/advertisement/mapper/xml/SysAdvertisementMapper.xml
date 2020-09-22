@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.advertisement.mapper.SysAdvertisementMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.advertisement.entity.SysAdvertisementEntity">
+        <result column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="aid" property="aid" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="path" property="path" />
+        <result column="cover" property="cover" />
+        <result column="remark" property="remark" />
+        <result column="locale" property="locale" />
+        <result column="attribute1" property="attribute1" />
+        <result column="attribute2" property="attribute2" />
+        <result column="attribute3" property="attribute3" />
+        <result column="attribute4" property="attribute4" />
+        <result column="attribute5" property="attribute5" />
+        <result column="dis_flag" property="disFlag" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        tenant_id, aid, name, type, path, cover, remark, locale, attribute1, attribute2, attribute3, attribute4, attribute5, dis_flag, del_flag
+    </sql>
+
+</mapper>
