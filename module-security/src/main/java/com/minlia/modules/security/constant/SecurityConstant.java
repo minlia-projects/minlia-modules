@@ -114,11 +114,11 @@ public class SecurityConstant {
     public static final String OPERATION_CANCEL_DESC_CN = "取消";
     public static final String OPERATION_CANCEL_DESC_EN = "Cancel";
 
-    public static final String OPERATION_REVIEW_CODE = "review";
+    public static final String OPERATION_REVIEW_CODE = ".review";
     public static final String OPERATION_REVIEW_DESC_CN = "审核";
     public static final String OPERATION_REVIEW_DESC_EN = "Review";
 
-    public static final String OPERATION_AUTHENTICATION_CODE = "authentication";
+    public static final String OPERATION_AUTHENTICATION_CODE = ".authentication";
     public static final String OPERATION_AUTHENTICATION_DESC_CN = "认证";
     public static final String OPERATION_AUTHENTICATION_DESC_EN = "Authentication";
 
