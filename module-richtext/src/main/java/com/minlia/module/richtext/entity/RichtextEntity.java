@@ -21,10 +21,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_richtext")
-@ApiModel(value="RichtextEntity对象", description="富文本")
+@ApiModel(value = "RichtextEntity对象", description = "富文本")
 public class RichtextEntity extends AbstractEntity {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "应用ID")
     @TableField("appid")
@@ -62,6 +62,5 @@ public class RichtextEntity extends AbstractEntity {
     @TableField("del_flag")
     @TableLogic
     private Boolean delFlag;
-
 
 }

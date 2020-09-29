@@ -71,8 +71,10 @@ public class SysArticleCategoryEntity extends AbstractEntity {
     /**
      * 文章子项
      */
+    @TableField(exist = false)
     List<ArticleSimpleVO> articles;
 
+    @TableField(exist = false)
     List<SysArticleCategoryEntity> children;
 
 }

@@ -42,19 +42,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String JWT_TOKEN_HEADER_PARAM = "X-Auth-Token";
 //    public static final String JWT_TOKEN_HEADER_PARAM = "X-Authorization";
 
-    public static final String OPEN_POINT = "/api/open/**";
-    public static final String OPEN_V_POINT = "/api/v*/open/**";
-
+    /**
+     * 公开入口
+     */
+    public static final String OPEN_ENTRY_POINT = "/api/open/**";
+    /**
+     * 登陆入口
+     */
     public static final String LOGIN_ENTRY_POINT = "/api/auth/login";
+    /**
+     * 注销入口
+     */
     public static final String LOGOUT_ENTRY_POINT = "/api/auth/logout";
-
+    /**
+     * 令牌刷新入口
+     */
     public static final String TOKEN_REFRESH_ENTRY_POINT = "/api/auth/token";
+    /**
+     * 令牌访问入口
+     */
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/v*/**";
+//    public static final String TOKEN_OTHER_AUTH_ENTRY_POINT = "/admin/**";
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;  // 未登陆时返回 JSON 格式的数据给前端（否则为 html）
 //    AjaxAuthenticationEntryPoint authenticationEntryPoint;
-
 
     @Autowired
     @Qualifier("ajaxAwareAuthenticationSuccessHandler")
@@ -140,8 +152,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGOUT_ENTRY_POINT, TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
-                .antMatchers(OPEN_POINT, OPEN_V_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
-//                .anyRequest().authenticated()
+                .antMatchers(OPEN_ENTRY_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(cellphoneCaptchaAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)

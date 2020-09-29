@@ -49,11 +49,11 @@ public class SysAttachmentRelationServiceImpl extends ServiceImpl<SysAttachmentR
 
     @Override
     public String getUrl(Long relationId, String relationTo) {
-        return this.getOne(Wrappers.<SysAttachmentRelationEntity>lambdaQuery()
+        SysAttachmentRelationEntity entity = this.getOne(Wrappers.<SysAttachmentRelationEntity>lambdaQuery()
                 .select(SysAttachmentRelationEntity::getUrl)
                 .eq(SysAttachmentRelationEntity::getRelationId, relationId)
-                .eq(SysAttachmentRelationEntity::getRelationTo, relationTo))
-                .getUrl();
+                .eq(SysAttachmentRelationEntity::getRelationTo, relationTo));
+        return null != entity ? entity.getUrl() : null;
     }
 
 }
