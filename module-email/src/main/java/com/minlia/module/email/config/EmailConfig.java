@@ -17,4 +17,16 @@ public class EmailConfig {
 
     private Boolean realSwitchFlag = false;
 
+    private String host;
+
+    private Integer port;
+
+    private String username;
+
+    private String password;
+
+    private String protocol = "smtp";
+
+    private String replyTo;
+
 }

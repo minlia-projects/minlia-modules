@@ -1,27 +1,23 @@
-package com.minlia.modules.starter.swagger.configuration;
+package com.minlia.module.swagger.config;
 
-import com.minlia.modules.starter.swagger.EnableDevSwagger;
-import com.minlia.modules.starter.swagger.properties.SwaggerConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+
+/**
+ * @author garen
+ */
+//@EnableAutoConfiguration
 @Configuration
-//@ConditionalOnClass(Swagger2Config.class)
+//@ConditionalOnClass(SwaggerConfiguration.class)
 //@Profile(value = {"!prod"})
 public class SwaggerAutoConfiguration {
 
-    @EnableDevSwagger
-    @EnableConfigurationProperties(SwaggerConfigurationProperties.class)
-    public static class Swagger2AutoConfig {
-
-    }
-
     @Configuration
     @EnableWebMvc
-    public static class EnableMinliaStaticResourceConfiguration extends WebMvcConfigurerAdapter {
+    public static class EnableStaticResourceConfiguration implements WebMvcConfigurer {
 
         private final String[] CLASSPATH_RESOURCE_LOCATIONS = {
                 "classpath:/META-INF/resources/",

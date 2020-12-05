@@ -124,6 +124,7 @@ public class EmailServiceImpl implements EmailService {
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
                 message.setFrom(mailProperties.getUsername());
                 helper.setTo(to);
+                helper.setReplyTo("sales@camelsc.com");
                 helper.setSubject(subject);
                 helper.setText(text, true);
                 mailSender.send(message);

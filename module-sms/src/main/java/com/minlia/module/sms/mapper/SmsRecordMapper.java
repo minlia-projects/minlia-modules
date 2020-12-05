@@ -1,25 +1,16 @@
 package com.minlia.module.sms.mapper;
 
-import com.minlia.module.sms.entity.SmsRecord;
-import com.minlia.module.sms.ro.SmsRecordQRO;
+import com.minlia.module.sms.entity.SmsRecordEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import java.util.List;
-
-public interface SmsRecordMapper {
-    int deleteByPrimaryKey(Long id);
-
-    int insert(SmsRecord record);
-
-    int insertSelective(SmsRecord record);
-
-    SmsRecord selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(SmsRecord record);
-
-    int updateByPrimaryKey(SmsRecord record);
-
-    List<SmsRecord> selectByAll(SmsRecordQRO smsRecord);
-
-
+/**
+ * <p>
+ * 短信历史 Mapper 接口
+ * </p>
+ *
+ * @author garen
+ * @since 2020-12-05
+ */
+public interface SmsRecordMapper extends BaseMapper<SmsRecordEntity> {
 
 }

@@ -100,11 +100,11 @@ public class SysArticleController {
         return Response.success(vo);
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
-    @ApiOperation(value = "分页查询")
-    @PostMapping(value = "details/page")
-    public Response datailsPage(@Valid @RequestBody ArticleQro qro) {
-        return Response.success(sysArticleService.detailsPage(qro));
-    }
+//    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+//    @ApiOperation(value = "分页查询")
+//    @PostMapping(value = "details/page")
+//    public Response datailsPage(@Valid @RequestBody ArticleQro qro) {
+//        return Response.success(sysArticleService.detailsPage(qro));
+//    }
 
 }

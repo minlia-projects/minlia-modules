@@ -43,7 +43,7 @@ public class SysAdvertisementSro implements ApiRequestBody {
     @ApiModelProperty(value = "封面", example = "封面")
     @NotNull(message = "封面不能为空")
     @Size(max = 255)
-    @URL
+//    @URL
     private String cover;
 
     @ApiModelProperty(value = "备注", example = "XXXXXX")

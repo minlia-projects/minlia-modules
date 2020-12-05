@@ -1,53 +1,20 @@
 package com.minlia.module.sms.service.impl;
 
-import com.minlia.module.sms.ro.SmsRecordQRO;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import com.minlia.module.sms.entity.SmsRecord;
+import com.minlia.module.sms.entity.SmsRecordEntity;
 import com.minlia.module.sms.mapper.SmsRecordMapper;
 import com.minlia.module.sms.service.SmsRecordService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+/**
+ * <p>
+ * 短信历史 服务实现类
+ * </p>
+ *
+ * @author garen
+ * @since 2020-12-05
+ */
 @Service
-public class SmsRecordServiceImpl implements SmsRecordService {
+public class SmsRecordServiceImpl extends ServiceImpl<SmsRecordMapper, SmsRecordEntity> implements SmsRecordService {
 
-    @Resource
-    private SmsRecordMapper smsRecordMapper;
-
-    @Override
-    public int deleteByPrimaryKey(Long id) {
-        return smsRecordMapper.deleteByPrimaryKey(id);
-    }
-
-    @Override
-    public int insert(SmsRecord record) {
-        return smsRecordMapper.insert(record);
-    }
-
-    @Override
-    public int insertSelective(SmsRecord record) {
-        return smsRecordMapper.insertSelective(record);
-    }
-
-    @Override
-    public SmsRecord selectByPrimaryKey(Long id) {
-        return smsRecordMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(SmsRecord record) {
-        return smsRecordMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public int updateByPrimaryKey(SmsRecord record) {
-        return smsRecordMapper.updateByPrimaryKey(record);
-    }
-
-    @Override
-    public List<SmsRecord> selectByAll(SmsRecordQRO smsRecord) {
-        return smsRecordMapper.selectByAll(smsRecord);
-    }
 }
-

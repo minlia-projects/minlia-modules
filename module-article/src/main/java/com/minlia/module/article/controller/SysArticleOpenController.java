@@ -1,14 +1,21 @@
 package com.minlia.module.article.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.ArticleQro;
 import com.minlia.module.article.bean.vo.ArticleVo;
+import com.minlia.module.article.constant.SysArticleConstants;
+import com.minlia.module.article.entity.SysArticleEntity;
 import com.minlia.module.article.service.SysArticleService;
+import com.minlia.module.dozer.util.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,11 +50,19 @@ public class SysArticleOpenController {
     }
 
     @ApiOperation(value = "分页查询")
-    @PostMapping(value = "details/page")
-    public Response detailsPage(@Valid @RequestBody ArticleQro qro) {
-        qro.setDisFlag(false);
-        qro.setDraftFlag(false);
-        return Response.success(sysArticleService.detailsPage(qro));
+    @PostMapping(value = "page")
+    public Response page(@Valid @RequestBody ArticleQro qro) {
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
+        Page page = new Page(qro.getPageNumber(), qro.getPageSize());
+        return Response.success(sysArticleService.page(page, queryWrapper));
     }
+
+//    @ApiOperation(value = "分页查询")
+//    @PostMapping(value = "details/page")
+//    public Response detailsPage(@Valid @RequestBody ArticleQro qro) {
+//        qro.setDisFlag(false);
+//        qro.setDraftFlag(false);
+//        return Response.success(sysArticleService.detailsPage(qro));
+//    }
 
 }

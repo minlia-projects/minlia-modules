@@ -1,7 +1,7 @@
 package com.minlia.module.sms.service;
 
 import com.minlia.module.i18n.enumeration.LocaleEnum;
-import com.minlia.module.sms.entity.SmsRecord;
+import com.minlia.module.sms.entity.SmsRecordEntity;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Map;
@@ -19,7 +19,7 @@ public interface SmsService {
      * @return
      */
     @Async
-    SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables);
+    SmsRecordEntity sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables);
 
     /**
      * 发送短信
@@ -30,6 +30,6 @@ public interface SmsService {
      * @return
      */
     @Async
-    SmsRecord sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale);
+    SmsRecordEntity sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables, LocaleEnum locale);
 
 }
