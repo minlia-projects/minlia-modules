@@ -34,15 +34,4 @@
         </repository>
     </distributionManagement>
 
-    <!--    <distributionManagement>-->
-    <!--        <snapshotRepository>-->
-    <!--            <id>snapshots</id>-->
-    <!--            <url>https://nexus.app.minlia.com/repository/maven-snapshots/</url>-->
-    <!--        </snapshotRepository>-->
-    <!--        <repository>-->
-    <!--            <id>releases</id>-->
-    <!--            <url>https://nexus.app.minlia.com/repository/maven-releases/</url>-->
-    <!--        </repository>-->
-    <!--    </distributionManagement>-->
-
 </project>

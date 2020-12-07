@@ -23,19 +23,6 @@
         <aliyun-oss.version>3.8.0</aliyun-oss.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>internal-nexus-repository</id>
-            <url>https://nexus.app.minlia.com/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <dependencies>
 
         <dependency>

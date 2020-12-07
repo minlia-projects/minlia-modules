@@ -19,19 +19,6 @@
     <properties>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>internal-nexus-repository</id>
-            <url>https://nexus.app.minlia.com/repository/maven-public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <dependencies>
 
         <dependency>
