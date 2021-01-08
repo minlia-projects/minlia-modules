@@ -68,6 +68,10 @@
         <module>module-library</module>
         <module>module-article</module>
 
+
+        <module>module-currency</module>
+
+
         <!--        <module>module-websocket</module>-->
         <!--微信-->
         <!--        <module>module-wechat</module>-->

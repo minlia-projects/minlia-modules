@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.module.attachment.entity.SysAttachmentRelationEntity;
 import com.minlia.module.attachment.mapper.SysAttachmentRelationMapper;
 import com.minlia.module.attachment.service.SysAttachmentRelationService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,11 +50,8 @@ public class SysAttachmentRelationServiceImpl extends ServiceImpl<SysAttachmentR
 
     @Override
     public String getUrl(Long relationId, String relationTo) {
-        SysAttachmentRelationEntity entity = this.getOne(Wrappers.<SysAttachmentRelationEntity>lambdaQuery()
-                .select(SysAttachmentRelationEntity::getUrl)
-                .eq(SysAttachmentRelationEntity::getRelationId, relationId)
-                .eq(SysAttachmentRelationEntity::getRelationTo, relationTo));
-        return null != entity ? entity.getUrl() : null;
+        List<String> urls = this.getUrls(relationId, relationTo);
+        return CollectionUtils.isNotEmpty(urls) ? urls.get(0): null;
     }
 
 }

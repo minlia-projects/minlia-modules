@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.currency.mapper.SysCurrencyRateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.currency.entity.SysCurrencyRateEntity">
+        <result column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+        <result column="symbol" property="symbol" />
+        <result column="cur_base" property="curBase" />
+        <result column="cur_trans" property="curTrans" />
+        <result column="rate" property="rate" />
+        <result column="time" property="time" />
+        <result column="auto_flag" property="autoFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        symbol, cur_base, cur_trans, rate, time, auto_flag
+    </sql>
+
+</mapper>
