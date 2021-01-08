@@ -31,13 +31,17 @@
 
         <module>module-security</module>
         <module>module-data</module>
-        <!--<module>module-dict</module>-->
+        <!--        <module>module-dict</module>-->
         <module>module-i18n</module>
         <module>module-audit</module>
         <module>module-redis</module>
+
+        <!--    地址管理    -->
         <!--        <module>module-district</module>-->
-        <!--<module>module-country</module>-->
-        <!--<module>module-address</module>-->
+        <!--        <module>module-country</module>-->
+        <!--        <module>module-address</module>-->
+        <module>module-shipping-address</module>
+
         <module>module-email</module>
         <module>module-sms</module>
 

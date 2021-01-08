@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.i18n.util.LocaleUtils;
 import com.minlia.module.lov.bean.LovValueQro;

@@ -17,8 +17,12 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface SysArticleMapper extends BaseMapper<SysArticleEntity> {
 
-    ArticleVo details(@Param("id") Long id);
+    ArticleVo selectDetailsById(@Param("id") Long id);
+
+    ArticleVo selectDetailsByCode(@Param("code") String code, @Param("locale") String locale);
 
     Page<ArticleVo> pageVo(@Param("page") Page page, @Param("ew") LambdaQueryWrapper<Object> ew);
+
+    int plusReadCount(@Param("id") Long id, @Param("increment") Integer increment);
 
 }

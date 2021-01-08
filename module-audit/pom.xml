@@ -88,7 +88,7 @@
                     <!-- 如果发现依然排除不了，考虑先clean再install-->
                     <excludes>
                         <exclude>
-                            com.minlia.module.audit.AuditApplication
+                            AuditApplication
                         </exclude>
                     </excludes>
                 </configuration>

@@ -5,7 +5,7 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.rebecca.user.bean.SysPasswordByRawSysPasswordChangeTo;
 import com.minlia.module.rebecca.user.bean.SysPasswordResetTo;
 import com.minlia.module.rebecca.user.constant.SysUserCode;

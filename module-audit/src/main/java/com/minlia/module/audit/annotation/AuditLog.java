@@ -2,7 +2,7 @@ package com.minlia.module.audit.annotation;
 
 
 import com.minlia.cloud.constant.SymbolConstants;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 
 import java.lang.annotation.*;
 

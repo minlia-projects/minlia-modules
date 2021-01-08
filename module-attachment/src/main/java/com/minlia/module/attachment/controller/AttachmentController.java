@@ -14,7 +14,7 @@ import com.minlia.module.attachment.constant.SysAttachmentConstant;
 import com.minlia.module.attachment.entity.SysAttachmentEntity;
 import com.minlia.module.attachment.service.AttachmentService;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

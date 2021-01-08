@@ -3,7 +3,7 @@ package com.minlia.module.riskcontrol.endpoint;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.riskcontrol.constant.RiskSecurityConstants;
 import com.minlia.module.riskcontrol.entity.RiskIpList;
 import com.minlia.module.riskcontrol.mapper.RiskIpListMapper;

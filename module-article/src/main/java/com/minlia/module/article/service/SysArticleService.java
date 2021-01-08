@@ -50,6 +50,14 @@ public interface SysArticleService extends IService<SysArticleEntity> {
     ArticleVo details(Long id);
 
     /**
+     * 详情
+     *
+     * @param code 编码
+     * @return
+     */
+    ArticleVo details(String code);
+
+    /**
      * 详情分页
      *
      * @param qro

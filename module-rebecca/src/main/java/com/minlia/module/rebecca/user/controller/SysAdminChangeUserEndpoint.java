@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.service.SysUserService;

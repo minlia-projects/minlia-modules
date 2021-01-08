@@ -4,20 +4,20 @@ package com.minlia.module.rebecca.user.controller;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.property.MinliaValidProperties;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
+import com.minlia.module.rebecca.user.bean.SysUserChangeRo;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author garen
@@ -62,7 +62,18 @@ public class SysUserChangeEndpoint {
     @PutMapping(value = "nickname/{nickname}")
     public Response nickname(@PathVariable String nickname) {
         SysUserEntity entity = SecurityContextHolder.getCurrentUser();
-//        sysUserService.changeEmail(entity, email, vcode);
+        return Response.success();
+    }
+
+    @AuditLog(value = "change nickname", type = AuditOperationTypeEnum.UPDATE)
+    //    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaSecurityConstant.USER_UPDATE + "')")
+    @ApiOperation(value = "修改")
+    @PutMapping
+    public Response change(@Valid @RequestBody SysUserChangeRo changeRo) {
+        SysUserEntity entity = SecurityContextHolder.getCurrentUser();
+        entity.setNickname(changeRo.getNickname());
+        entity.setAvatar(changeRo.getAvatar());
+        sysUserService.updateById(entity);
         return Response.success();
     }
 

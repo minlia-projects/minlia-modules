@@ -3,18 +3,16 @@ package com.minlia.module.article.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.ArticleQro;
-import com.minlia.module.article.bean.ArticleSetLabelRO;
 import com.minlia.module.article.bean.ArticleSro;
 import com.minlia.module.article.bean.vo.ArticleVo;
 import com.minlia.module.article.entity.*;
 import com.minlia.module.article.mapper.SysArticleMapper;
 import com.minlia.module.article.service.*;
 import com.minlia.module.dozer.util.DozerUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.minlia.module.i18n.util.LocaleUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,14 +74,17 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void plusReadCount(Long id, Integer increment) {
-        SysArticleEntity entity = this.getById(id);
-        entity.setReadCount(entity.getReadCount() + 1);
-        this.saveOrUpdate(entity);
+        this.getBaseMapper().plusReadCount(id, increment);
     }
 
     @Override
     public ArticleVo details(Long id) {
-        return this.getBaseMapper().details(id);
+        return this.getBaseMapper().selectDetailsById(id);
+    }
+
+    @Override
+    public ArticleVo details(String code) {
+        return this.getBaseMapper().selectDetailsByCode(code, LocaleUtils.localeToString());
     }
 
     @Override

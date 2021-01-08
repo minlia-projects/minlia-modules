@@ -9,13 +9,11 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.ArticleQro;
 import com.minlia.module.article.bean.vo.ArticleVo;
-import com.minlia.module.article.constant.SysArticleConstants;
 import com.minlia.module.article.entity.SysArticleEntity;
 import com.minlia.module.article.service.SysArticleService;
 import com.minlia.module.dozer.util.DozerUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -49,10 +47,20 @@ public class SysArticleOpenController {
         return Response.success(vo);
     }
 
+    @ApiOperation(value = "详情")
+    @GetMapping(value = "details/code/{code}")
+    public Response findByNumber(@PathVariable String code) {
+        ArticleVo vo = sysArticleService.details(code);
+        ApiAssert.notNull(vo, SystemCode.Message.DATA_NOT_EXISTS);
+        //每次查询阅读数加1
+        sysArticleService.plusReadCount(vo.getId(), 1);
+        return Response.success(vo);
+    }
+
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).orderByDesc(SysArticleEntity::getCreateDate).last(qro.getOrderBy());
         Page page = new Page(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysArticleService.page(page, queryWrapper));
     }

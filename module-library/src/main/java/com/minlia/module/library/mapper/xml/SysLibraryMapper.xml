@@ -4,26 +4,25 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.minlia.module.library.entity.SysLibraryEntity">
-        <id column="id" property="id" />
-        <result column="type" property="type" />
-        <result column="keyword" property="keyword" />
-        <result column="access_key" property="accessKey" />
-        <result column="file_name" property="fileName" />
-        <result column="file_type" property="fileType" />
-        <result column="file_size" property="fileSize" />
-        <result column="url" property="url" />
-        <result column="remark" property="remark" />
-        <result column="dis_flag" property="disFlag" />
-        <result column="del_flag" property="delFlag" />
-        <result column="create_by" property="createBy" />
-        <result column="create_date" property="createDate" />
-        <result column="last_modified_by" property="lastModifiedBy" />
-        <result column="last_modified_date" property="lastModifiedDate" />
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="keyword" property="keyword"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="summary" property="summary"/>
+        <result column="content" property="content"/>
+        <result column="remark" property="remark"/>
+        <result column="dis_flag" property="disFlag"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, type, keyword, access_key, file_name, file_type, file_size, url, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
+        id, `type`, keyword, `name`, url, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
     </sql>
 
 </mapper>

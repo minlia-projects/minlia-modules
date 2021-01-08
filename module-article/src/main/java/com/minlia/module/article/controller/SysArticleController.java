@@ -83,7 +83,7 @@ public class SysArticleController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).orderByDesc(SysArticleEntity::getCreateDate).last(qro.getOrderBy());
         Page page = new Page(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysArticleService.page(page, queryWrapper));
     }

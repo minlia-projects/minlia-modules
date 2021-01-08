@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -30,25 +29,9 @@ public class SysLibraryQro extends BaseQueryEntity {
     @Size(max = 50)
     private String keyword;
 
-    @ApiModelProperty(value = "令牌")
-    @Size(max = 32)
-    private String accessKey;
-
-    @ApiModelProperty(value = "文件名称")
+    @ApiModelProperty(value = "名称")
     @Size(max = 50)
-    private String fileName;
-
-    @ApiModelProperty(value = "文件类型")
-    @Size(max = 50)
-    private String fileType;
-
-    @ApiModelProperty(value = "地址")
-    @Size(max = 255)
-    private String url;
-
-    @ApiModelProperty(value = "备注")
-    @Size(max = 255)
-    private String remark;
+    private String name;
 
     @ApiModelProperty(value = "是否禁用")
     private Boolean disFlag;

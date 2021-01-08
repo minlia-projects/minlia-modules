@@ -3,6 +3,8 @@ package com.minlia.module.library.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.attachment.service.AttachmentUploadService;
+import com.minlia.module.library.bean.SysLibraryOcrVo;
+import com.minlia.module.library.config.OcrConfig;
 import com.minlia.module.library.entity.SysLibraryEntity;
 import com.minlia.module.library.mapper.SysLibraryMapper;
 import com.minlia.module.library.service.SysLibraryService;
@@ -13,8 +15,8 @@ import com.minlia.modules.aliyun.oss.builder.PathBuilder;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.json.JSONException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -33,16 +35,18 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibraryEntity> implements SysLibraryService {
 
-    @Autowired
-    private OssService ossService;
+    private final OcrConfig ocrConfig;
+    private final OssService ossService;
     private final AttachmentUploadService attachmentUploadService;
 
-    public SysLibraryServiceImpl(AttachmentUploadService attachmentUploadService) {
+    public SysLibraryServiceImpl(AttachmentUploadService attachmentUploadService, OcrConfig ocrConfig, OssService ossService) {
+        this.ocrConfig = ocrConfig;
+        this.ossService = ossService;
         this.attachmentUploadService = attachmentUploadService;
     }
 
     @Override
-    public SysLibraryEntity upload(MultipartFile file, String type, String keyword) {
+    public SysLibraryOcrVo ocr(MultipartFile file) {
         OssFile ossFile = null;
         try {
             ossFile = (OssFile) attachmentUploadService.upload(file).getPayload();
@@ -53,38 +57,25 @@ public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibr
         //OCR识别内容
         String content = null;
         try {
-            content = OcrUtils.pdf2String(file.getBytes());
+            content = OcrUtils.pdf2String(file.getBytes(), ocrConfig.getFilePath());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        SysLibraryEntity libraryEntity = SysLibraryEntity.builder()
-                .type(type)
-                .keyword(keyword)
-                .fileName(file.getOriginalFilename())
-                .fileType(file.getContentType())
-                .fileSize(file.getSize())
-                .url(ossFile.getUrl())
-                .accessKey(ossFile.geteTag())
-                .content(content)
-                .build();
-        this.save(libraryEntity);
-        return libraryEntity;
+        return SysLibraryOcrVo.builder().name(file.getOriginalFilename()).url(ossFile.getUrl()).content(content).build();
     }
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
-//    @Transactional(rollbackFor = Exception.class)
-    public boolean upload(File file, String targetPath, String type, String keyword) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean ocr(File file, String targetPath, String type, String keyword) {
         //OCR识别内容
         String content = null;
         try {
             content = OcrUtils.pdf2String(file, targetPath);
         } catch (JSONException e) {
-//            e.printStackTrace();
             System.out.println(e.getMessage());
             FileUtils.deleteQuietly(new File(targetPath));
             new File(targetPath).mkdir();
@@ -96,22 +87,26 @@ public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibr
             String key = "library/" + LocalDate.now().format(DATE_TIME_FORMATTER) + "/" + PathBuilder.uuidNameBuild(file.getName());
             ossFile = this.ossService.upload(file, key);
         } catch (Exception e) {
-//            ApiAssert.state(false, e.getMessage());
             return false;
         }
 
         SysLibraryEntity libraryEntity = SysLibraryEntity.builder()
                 .type(type)
                 .keyword(keyword)
-                .fileName(FilenameUtils.getBaseName(file.getName()))
-                .fileType(FilenameUtils.getExtension(file.getName()))
-                .fileSize(file.length())
+                .name(FilenameUtils.getBaseName(file.getName()))
                 .url(ossFile.getUrl())
-                .accessKey(ossFile.geteTag())
                 .content(content)
                 .build();
         this.save(libraryEntity);
         return true;
+    }
+
+    @Override
+    public boolean disable(Long id) {
+        SysLibraryEntity libraryEntity = this.getById(id);
+        libraryEntity.setDisFlag(!libraryEntity.getDisFlag());
+        this.updateById(libraryEntity);
+        return libraryEntity.getDisFlag();
     }
 
 }

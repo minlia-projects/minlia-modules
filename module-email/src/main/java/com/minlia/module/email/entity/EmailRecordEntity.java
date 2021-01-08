@@ -71,5 +71,4 @@ public class EmailRecordEntity extends AbstractEntity {
     @TableField("success_flag")
     private Boolean successFlag;
 
-
 }

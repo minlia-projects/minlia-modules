@@ -6,7 +6,7 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.bible.bean.BibleItemCro;
 import com.minlia.module.bible.bean.BibleItemQro;
 import com.minlia.module.bible.bean.BibleItemUro;

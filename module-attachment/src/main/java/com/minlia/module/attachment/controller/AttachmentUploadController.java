@@ -7,7 +7,7 @@ import com.minlia.module.attachment.bean.AttachmentUploadBody;
 import com.minlia.module.attachment.constant.SysAttachmentConstant;
 import com.minlia.module.attachment.service.AttachmentUploadService;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;

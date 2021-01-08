@@ -2,7 +2,7 @@ package com.minlia.module.rebecca.authentication.controller;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.rebecca.navigation.service.SysNavigationService;
 import com.minlia.modules.security.model.UserContext;

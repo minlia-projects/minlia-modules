@@ -1,4 +1,4 @@
-package com.minlia.module.audit.enumeration;
+package com.minlia.module.audit.enums;
 
 /**
  * @author Henry Lin badcop@163.com

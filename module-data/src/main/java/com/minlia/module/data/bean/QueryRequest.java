@@ -1,6 +1,7 @@
 package com.minlia.module.data.bean;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.CaseFormat;
 import com.minlia.cloud.body.Body;
@@ -45,6 +46,10 @@ public class QueryRequest implements Body {
     private static final String SPACE_DESC = " desc";
 
     private static final String ORDER_BY = " order by ";
+
+    public Page getPage() {
+        return new Page(this.getPageNumber(), this.getPageSize());
+    }
 
     public String getOrderBy() {
         //id.DESC-name.ASC to id DESC,name ASC

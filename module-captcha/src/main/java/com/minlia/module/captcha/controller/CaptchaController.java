@@ -6,7 +6,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.Environments;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.captcha.bean.CaptchaCro;
 import com.minlia.module.captcha.bean.CaptchaSendResult;
 import com.minlia.module.captcha.bean.CaptchaVerifyRo;

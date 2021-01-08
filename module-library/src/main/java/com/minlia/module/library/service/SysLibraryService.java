@@ -1,6 +1,8 @@
 package com.minlia.module.library.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.minlia.cloud.code.Code;
+import com.minlia.module.library.bean.SysLibraryOcrVo;
 import com.minlia.module.library.entity.SysLibraryEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,16 +18,10 @@ import java.io.File;
  */
 public interface SysLibraryService extends IService<SysLibraryEntity> {
 
-    /**
-     * 上传
-     *
-     * @param file
-     * @param type
-     * @param keyword
-     * @return
-     */
-    SysLibraryEntity upload(MultipartFile file, String type, String keyword);
+    SysLibraryOcrVo ocr(MultipartFile file);
 
-    boolean upload(File file, String targetPath, String type, String keyword);
+    boolean ocr(File file, String targetPath, String type, String keyword);
+
+    boolean disable(Long id);
 
 }

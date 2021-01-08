@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.shipping.mapper.ShippingAddressMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.shipping.entity.ShippingAddressEntity">
+        <result column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+        <result column="uid" property="uid" />
+        <result column="receiver" property="receiver" />
+        <result column="alias" property="alias" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="street" property="street" />
+        <result column="address" property="address" />
+        <result column="postcode" property="postcode" />
+        <result column="mobile" property="mobile" />
+        <result column="telephone" property="telephone" />
+        <result column="email" property="email" />
+        <result column="remark" property="remark" />
+        <result column="sort" property="sort" />
+        <result column="def_flag" property="defFlag" />
+        <result column="dis_flag" property="disFlag" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        uid, receiver, alias, province, city, district, street, address, postcode, mobile, telephone, email, remark, sort, def_flag, dis_flag, del_flag
+    </sql>
+
+</mapper>

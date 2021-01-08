@@ -3,7 +3,7 @@ package com.minlia.module.rebecca.authentication.controller;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.constant.SecurityConstant;
 import io.swagger.annotations.Api;

@@ -39,7 +39,20 @@
         category_id, `code`, title, content, description, locale, draft_flag, dis_flag, del_flag, read_count, cover, keywords, remark, attribute1, attribute2, attribute3, attribute4, attribute5
     </sql>
 
-    <select id="details" resultType="com.minlia.module.article.bean.vo.ArticleVo">
+    <update id="plusReadCount">
+        UPDATE sys_article SET read_count = read_count + #{increment} WHERE id = #{id};
+    </update>
+
+    <resultMap id="details_map" type="com.minlia.module.article.bean.vo.ArticleVo">
+        <id column="id" property="id"/>
+        <collection property="labelIds" ofType="java.lang.Long" column="id" select="selectLabelIds"/>
+    </resultMap>
+
+    <select id="selectLabelIds" resultType="java.lang.Long">
+        SELECT label_id FROM sys_article_label_relation WHERE article_id = #{id};
+    </select>
+
+    <select id="selectDetailsById" resultMap="details_map">
         SELECT
             id,
             create_by,
@@ -71,6 +84,40 @@
         FROM
             sys_article
         where id = #{id}
+    </select>
+
+    <select id="selectDetailsByCode" resultMap="details_map">
+        SELECT
+            id,
+            create_by,
+            create_date,
+            last_modified_by,
+            last_modified_date,
+            category_id,
+            `code`,
+            title,
+            content,
+            description,
+            locale,
+            draft_flag,
+            dis_flag,
+            del_flag,
+            read_count,
+            cover,
+            keywords,
+            remark,
+            attribute1,
+            attribute2,
+            attribute3,
+            attribute4,
+            attribute5,
+            (SELECT `name` FROM sys_article_category WHERE id =  sys_article.category_id) AS categoryName,
+            (SELECT COUNT(1) FROM sys_article_comment WHERE article_id = sys_article.id) AS commentCount,
+            (SELECT COUNT(1) FROM sys_article_praise WHERE article_id = sys_article.id) AS praiseCount,
+            (SELECT COUNT(1) FROM sys_article_collection WHERE article_id = sys_article.id) AS collectionCount
+        FROM
+            sys_article
+        where `code` = #{code} and locale = #{locale}
     </select>
 
     <select id="pageVo" resultType="com.minlia.module.article.bean.vo.ArticleVo">

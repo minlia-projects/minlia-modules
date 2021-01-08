@@ -36,17 +36,16 @@ public class OcrUtils {
 
     static AipOcr client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
 
-    public static String pdf2String(byte[] bytes) throws JSONException {
-        String fileAddress = "/Users/garen/Documents/环视技术/test";
+    public static String pdf2String(byte[] bytes, String filePath) throws JSONException {
         String filename = "pp";
         String type = "jpg";
         //pdf to images
 //        int pageCount = pdf2png(fileAddress, filename, type);
-        int pageCount = pdf2png(bytes, fileAddress, filename, type);
+        int pageCount = pdf2png(bytes, filePath, filename, type);
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < pageCount; i++) {
-            String fileName = fileAddress + "/" + filename + "_" + (i) + "." + type;
+            String fileName = filePath + "/" + filename + "_" + (i) + "." + type;
             sb.append(gjd(fileName));
             File file = new File(fileName);
             FileUtils.deleteQuietly(file);
@@ -203,7 +202,6 @@ public class OcrUtils {
         HashMap<String, String> options = new HashMap<String, String>();
         options.put("detect_direction", "true");
         options.put("probability", "true");
-
 
         StringBuilder sb = new StringBuilder();
 

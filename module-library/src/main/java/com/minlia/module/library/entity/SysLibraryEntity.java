@@ -8,8 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 /**
  * <p>
  * 文库
@@ -37,25 +35,17 @@ public class SysLibraryEntity extends AbstractEntity {
     @TableField("keyword")
     private String keyword;
 
-    @ApiModelProperty(value = "令牌")
-    @TableField("access_key")
-    private String accessKey;
-
-    @ApiModelProperty(value = "文件名称")
-    @TableField("file_name")
-    private String fileName;
-
-    @ApiModelProperty(value = "文件类型")
-    @TableField("file_type")
-    private String fileType;
-
-    @ApiModelProperty(value = "大小")
-    @TableField("file_size")
-    private Long fileSize;
+    @ApiModelProperty(value = "名称")
+    @TableField("name")
+    private String name;
 
     @ApiModelProperty(value = "地址")
     @TableField("url")
     private String url;
+
+    @ApiModelProperty(value = "概要")
+    @TableField("summary")
+    private String summary;
 
     @ApiModelProperty(value = "内容")
     @TableField("content")

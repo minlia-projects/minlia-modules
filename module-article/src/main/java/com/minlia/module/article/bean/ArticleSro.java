@@ -90,7 +90,6 @@ public class ArticleSro implements ApiRequestBody {
 
 
     @ApiModelProperty(value = "标签ID集合")
-    @NotNull
     private Set<Long> labelIds;
 
 }

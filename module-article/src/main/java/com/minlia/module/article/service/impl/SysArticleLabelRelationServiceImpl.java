@@ -25,7 +25,7 @@ public class SysArticleLabelRelationServiceImpl extends ServiceImpl<SysArticleLa
     @Override
     public void saveWithArticleIdAndLabelIds(Long articleId, Set<Long> labelIds) {
         //根据文章删除关系
-        this.removeById(Wrappers.<SysArticleLabelRelationEntity>lambdaQuery().eq(SysArticleLabelRelationEntity::getArticleId, articleId));
+        this.remove(Wrappers.<SysArticleLabelRelationEntity>lambdaQuery().eq(SysArticleLabelRelationEntity::getArticleId, articleId));
         //重新保存关系
         this.saveBatch(labelIds.stream().map(labelId -> SysArticleLabelRelationEntity.builder().articleId(articleId).labelId(labelId).build()).collect(Collectors.toList()));
     }

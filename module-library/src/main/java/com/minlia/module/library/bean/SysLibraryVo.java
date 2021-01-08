@@ -1,7 +1,5 @@
 package com.minlia.module.library.bean;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.minlia.module.data.entity.AbstractEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,28 +17,22 @@ public class SysLibraryVo extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "ID")
+    private Long id;
+
     @ApiModelProperty(value = "业务类型")
-    @TableField("type")
     private String type;
 
     @ApiModelProperty(value = "关键字")
-    @TableField("keyword")
     private String keyword;
 
-    @ApiModelProperty(value = "文件名称")
-    @TableField("file_name")
-    private String fileName;
+    @ApiModelProperty(value = "名称")
+    private String name;
 
-    @ApiModelProperty(value = "文件类型")
-    @TableField("file_type")
-    private String fileType;
+    @ApiModelProperty(value = "连接")
+    private String url;
 
-    @ApiModelProperty(value = "大小")
-    @TableField("file_size")
-    private Long fileSize;
-
-    @ApiModelProperty(value = "内容")
-    @TableField("content")
-    private String content;
+    @ApiModelProperty(value = "概要")
+    private String summary;
 
 }

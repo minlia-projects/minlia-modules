@@ -3,7 +3,7 @@ package com.minlia.module.rebecca.authentication;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.minlia.module.audit.entity.AuditLogEntity;
-import com.minlia.module.audit.enumeration.AuditOperationTypeEnum;
+import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.audit.event.AuditSaveEvent;
 import lombok.SneakyThrows;
 import org.aspectj.lang.JoinPoint;

@@ -39,23 +39,21 @@ import java.util.Map;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    private EmailConfig emailConfig;
+    private final EmailConfig emailConfig;
+    private final JavaMailSender mailSender;
+    private final MailProperties mailProperties;
+    private final TemplateEngine templateEngine;
+    private final RichtextService richtextService;
+    private final EmailRecordService emailRecordService;
 
-    @Autowired
-    private JavaMailSender mailSender;
-
-    @Autowired
-    private MailProperties mailProperties;
-
-    @Autowired
-    private TemplateEngine templateEngine;
-
-    @Autowired
-    private RichtextService richtextService;
-
-    @Autowired
-    private EmailRecordService emailRecordService;
+    public EmailServiceImpl(EmailConfig emailConfig, JavaMailSender mailSender, MailProperties mailProperties, TemplateEngine templateEngine, RichtextService richtextService, EmailRecordService emailRecordService) {
+        this.emailConfig = emailConfig;
+        this.mailSender = mailSender;
+        this.mailProperties = mailProperties;
+        this.templateEngine = templateEngine;
+        this.richtextService = richtextService;
+        this.emailRecordService = emailRecordService;
+    }
 
     @Override
     public EmailRecordEntity sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables) {
