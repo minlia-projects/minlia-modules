@@ -107,7 +107,7 @@ public class CaptchaServiceImpl extends ServiceImpl<CaptchaMapper, CaptchaEntity
         if (captchaConfig.getRealSwitchFlag()) {
             variables.put("code", entity.getVcode());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
-            emailService.sendRichtextMail(new String[]{email}, templateCode, variables, LocaleUtils.locale());
+            emailService.sendRichtextMail(new String[]{email}, templateCode, variables);
         }
         return entity;
     }

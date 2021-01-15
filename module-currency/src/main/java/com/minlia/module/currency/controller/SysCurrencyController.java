@@ -42,7 +42,7 @@ public class SysCurrencyController {
     @AuditLog(type = AuditOperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + SysCurrencyConstant.Authorize.CREATE + "')")
     @ApiOperation(value = "创建")
-    @PostMapping(value = ApiPrefix.V1 + "currency")
+    @PostMapping()
     public Response create(@Valid @RequestBody SysCurrencyEntity entity) {
         return Response.success(sysCurrencyService.save(entity));
     }
@@ -85,7 +85,7 @@ public class SysCurrencyController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysCurrencyQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class)).orderByDesc(SysCurrencyEntity::getSort).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class)).last(qro.getOrderBy());
         return Response.success(sysCurrencyService.page(qro.getPage(), queryWrapper));
     }
 

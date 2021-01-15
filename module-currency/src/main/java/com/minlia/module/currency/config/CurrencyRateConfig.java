@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @ConfigAutowired(type = "SYS_CURRENCY_RATE")
 public class CurrencyRateConfig {
 
-    private String appkey;
+    private String appKey;
 
     private String sign;
 

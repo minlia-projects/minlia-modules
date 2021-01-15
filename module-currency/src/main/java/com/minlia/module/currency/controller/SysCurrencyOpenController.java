@@ -44,18 +44,18 @@ public class SysCurrencyOpenController {
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
-    @ApiOperation(value = "计数查询")
-    @PostMapping(value = "count")
-    public Response count(@Valid @RequestBody SysCurrencyQro qro) {
+    @ApiOperation(value = "集合查询")
+    @PostMapping(value = "list")
+    public Response list(@Valid @RequestBody SysCurrencyQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class)).last(qro.getOrderBy());
-        return Response.success(sysCurrencyService.count(queryWrapper));
+        return Response.success(sysCurrencyService.list(queryWrapper));
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysCurrencyQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class)).orderByDesc(SysCurrencyEntity::getSort).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class)).last(qro.getOrderBy());
         return Response.success(sysCurrencyService.page(qro.getPage(), queryWrapper));
     }
 

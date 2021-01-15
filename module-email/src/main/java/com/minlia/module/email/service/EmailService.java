@@ -32,7 +32,18 @@ public interface EmailService {
      * @return
      */
     @Async
-    EmailRecordEntity sendRichtextMail(String[] to, String templateCode, Map<String, Object> variables, LocaleEnum locale);
+    EmailRecordEntity sendRichtextMail(String sender, String[] to, String templateCode, Map<String, Object> variables);
+
+    /**
+     * 发送文本邮件
+     *
+     * @param to
+     * @param templateCode
+     * @param variables
+     * @return
+     */
+    @Async
+    EmailRecordEntity sendRichtextMail(String sender, String[] to, String templateCode, Map<String, Object> variables, LocaleEnum locale);
 
     /**
      * 发送文本邮件
@@ -54,10 +65,10 @@ public interface EmailService {
      * @return
      */
     @Async
-    EmailRecordEntity sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables);
+    EmailRecordEntity sendHtmlMail(String sender, String[] to, String subject, String content, Map<String, Object> variables);
 
     @Async
-    EmailRecordEntity sendHtmlMail(String[] to, String subject, String content, Map<String, Object> variables, String templateCode, LocaleEnum locale);
+    EmailRecordEntity sendHtmlMail(String sender, String[] to, String subject, String content, Map<String, Object> variables, String templateCode, LocaleEnum locale);
 
     /**
      * 发送模版邮件

@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author garen
  */
@@ -54,6 +56,7 @@ public class ShippingAddressSro {
     private Integer sort;
 
     @ApiModelProperty(value = "是否默认")
+    @NotNull
     private Boolean defFlag;
 
     @ApiModelProperty(value = "是否启用")
