@@ -62,7 +62,4 @@ public class ShippingAddressSro {
     @ApiModelProperty(value = "是否启用")
     private Boolean disFlag;
 
-    @ApiModelProperty(value = "是否删除")
-    private Boolean delFlag;
-
 }

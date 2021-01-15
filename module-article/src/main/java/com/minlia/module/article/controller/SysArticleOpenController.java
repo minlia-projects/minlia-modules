@@ -8,7 +8,9 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.ArticleQro;
 import com.minlia.module.article.bean.vo.ArticleVo;
+import com.minlia.module.article.entity.SysArticleCategoryEntity;
 import com.minlia.module.article.entity.SysArticleEntity;
+import com.minlia.module.article.service.SysArticleCategoryService;
 import com.minlia.module.article.service.SysArticleService;
 import com.minlia.module.dozer.util.DozerUtils;
 import io.swagger.annotations.Api;
@@ -16,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * <p>
@@ -31,9 +34,11 @@ import javax.validation.Valid;
 public class SysArticleOpenController {
 
     private final SysArticleService sysArticleService;
+    private final SysArticleCategoryService sysArticleCategoryService;
 
-    public SysArticleOpenController(SysArticleService sysArticleService) {
+    public SysArticleOpenController(SysArticleService sysArticleService, SysArticleCategoryService sysArticleCategoryService) {
         this.sysArticleService = sysArticleService;
+        this.sysArticleCategoryService = sysArticleCategoryService;
     }
 
     @ApiOperation(value = "详情")
@@ -59,6 +64,10 @@ public class SysArticleOpenController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleQro qro) {
+        SysArticleCategoryEntity sysArticleCategoryEntity = sysArticleCategoryService.getOne(Wrappers.<SysArticleCategoryEntity>lambdaQuery().select(SysArticleCategoryEntity::getId).eq(SysArticleCategoryEntity::getCode, qro.getCategoryCode()));
+        if (Objects.nonNull(sysArticleCategoryEntity)) {
+            qro.setCategoryId(sysArticleCategoryEntity.getId());
+        }
         LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
         return Response.success(sysArticleService.page(qro.getPage(), queryWrapper));
     }

@@ -34,7 +34,8 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
         ShippingAddressEntity shippingAddressEntity = DozerUtils.map(sro, ShippingAddressEntity.class);
         shippingAddressEntity.setUid(MinliaSecurityContextHolder.getUid());
         if (sro.getDefFlag()) {
-            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(ShippingAddressEntity::getDefFlag, 0).eq(ShippingAddressEntity::getReceiver, MinliaSecurityContextHolder.getUid()));
+            this.getBaseMapper().updateDefFlag(MinliaSecurityContextHolder.getUid(), false);
+//            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(ShippingAddressEntity::getDefFlag, false).eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid()).eq(ShippingAddressEntity::getDefFlag, toString()));
         } else {
             shippingAddressEntity.setDefFlag(count == 0 ? true : sro.getDefFlag());
         }
@@ -48,7 +49,8 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
         ShippingAddressEntity shippingAddressEntity = this.getOne(queryWrapper);
         DozerUtils.map(sro, shippingAddressEntity);
         if (sro.getDefFlag()) {
-            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(ShippingAddressEntity::getDefFlag, 0).eq(ShippingAddressEntity::getReceiver, MinliaSecurityContextHolder.getUid()));
+            this.getBaseMapper().updateDefFlag(MinliaSecurityContextHolder.getUid(), false);
+//            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(ShippingAddressEntity::getDefFlag, false).eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid()).eq(ShippingAddressEntity::getDefFlag, toString()));
         }
         return this.updateById(shippingAddressEntity);
     }

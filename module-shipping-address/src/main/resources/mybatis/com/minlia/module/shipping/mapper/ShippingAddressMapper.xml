@@ -38,4 +38,8 @@
         uid, receiver, alias, province, city, district, street, address, postcode, mobile, telephone, email, remark, sort, def_flag, dis_flag, del_flag
     </sql>
 
+    <update id="updateDefFlag">
+        UPDATE sys_shipping_address SET def_flag= #{defFlag} WHERE uid = #{uid}
+    </update>
+
 </mapper>

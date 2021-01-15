@@ -10,6 +10,7 @@ import com.minlia.module.article.bean.ArticleQro;
 import com.minlia.module.article.bean.ArticleSro;
 import com.minlia.module.article.bean.vo.ArticleVo;
 import com.minlia.module.article.constant.SysArticleConstants;
+import com.minlia.module.article.entity.SysArticleCategoryEntity;
 import com.minlia.module.article.entity.SysArticleEntity;
 import com.minlia.module.article.service.SysArticleCategoryService;
 import com.minlia.module.article.service.SysArticleService;
@@ -20,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * <p>
@@ -74,6 +76,10 @@ public class SysArticleController {
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody ArticleQro qro) {
+        SysArticleCategoryEntity sysArticleCategoryEntity = sysArticleCategoryService.getOne(Wrappers.<SysArticleCategoryEntity>lambdaQuery().select(SysArticleCategoryEntity::getId).eq(SysArticleCategoryEntity::getCode, qro.getCategoryCode()));
+        if (Objects.nonNull(sysArticleCategoryEntity)) {
+            qro.setCategoryId(sysArticleCategoryEntity.getId());
+        }
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
         return Response.success(sysArticleService.count(queryWrapper));
     }
@@ -82,6 +88,10 @@ public class SysArticleController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleQro qro) {
+        SysArticleCategoryEntity sysArticleCategoryEntity = sysArticleCategoryService.getOne(Wrappers.<SysArticleCategoryEntity>lambdaQuery().select(SysArticleCategoryEntity::getId).eq(SysArticleCategoryEntity::getCode, qro.getCategoryCode()));
+        if (Objects.nonNull(sysArticleCategoryEntity)) {
+            qro.setCategoryId(sysArticleCategoryEntity.getId());
+        }
         LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
         return Response.success(sysArticleService.page(qro.getPage(), queryWrapper));
     }

@@ -25,6 +25,8 @@ public class SysPasswordResetTo extends SysPasswordChangeTo {
     @Password
     private String rawPassword;
 
+    private String areaCode;
+
     @Cellphone
     private String cellphone;
 

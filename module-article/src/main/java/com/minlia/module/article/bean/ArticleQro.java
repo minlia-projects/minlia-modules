@@ -26,6 +26,8 @@ public class ArticleQro extends BaseQueryEntity {
     @ApiModelProperty(value = "类目ID")
     private Long categoryId;
 
+    private String categoryCode;
+
     @ApiModelProperty(value = "编码")
     @Size(max = 64)
     private String code;

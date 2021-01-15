@@ -106,13 +106,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
         if (StringUtils.isEmpty(cro.getNickname())) {
             entity.setNickname(sysSecurityConfig.getNicknamePrefix() + RandomStringUtils.randomAlphanumeric(10));
+        } else {
+            entity.setNickname(cro.getNickname());
         }
 
         entity.setOrgId(cro.getOrgId());
         entity.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
         entity.setDefaultRole(cro.getDefaultRole());
         entity.setDefaultLocale(cro.getDefaultLocale());
-        entity.setNickname(cro.getNickname());
         entity.setAccountEffectiveDate(null == cro.getAccountEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getAccountEffectiveDays()) : cro.getAccountEffectiveDate());
         entity.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getCredentialsEffectiveDays()) : cro.getCredentialsEffectiveDate());
         entity.setStatus(SysUserStatusEnum.ACTIVE);

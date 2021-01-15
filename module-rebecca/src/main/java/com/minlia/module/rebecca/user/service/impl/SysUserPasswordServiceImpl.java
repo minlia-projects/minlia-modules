@@ -1,15 +1,16 @@
 package com.minlia.module.rebecca.user.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.CaptchaEntity;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.rebecca.user.bean.SysPasswordByCaptchaChangeTo;
 import com.minlia.module.rebecca.user.bean.SysPasswordByRawPasswordChangeTo;
 import com.minlia.module.rebecca.user.bean.SysPasswordResetTo;
 import com.minlia.module.rebecca.user.constant.SysUserCode;
-import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
 import com.minlia.module.rebecca.user.service.SysUserPasswordService;
@@ -44,14 +45,16 @@ public class SysUserPasswordServiceImpl implements SysUserPasswordService {
         //校验凭证是否有效
         switch (to.getType()) {
             case CELLPHONE:
-                entity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, to.getCellphone()));
+                entity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, to.getAreaCode() + to.getCellphone()));
                 ApiAssert.notNull(entity, SysUserCode.Message.NOT_EXISTS);
-                captchaService.validity(to.getCellphone(), to.getVcode());
+                Response response = captchaService.validity(to.getAreaCode() + to.getCellphone(), to.getVcode());
+                ApiAssert.state(response.isSuccess(), response.getCode(), response.getMessage());
                 break;
             case EMAIL:
                 entity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getEmail, to.getEmail()));
                 ApiAssert.notNull(entity, SysUserCode.Message.NOT_EXISTS);
-                captchaService.validity(to.getEmail(), to.getVcode());
+                Response responseEmail = captchaService.validity(to.getEmail(), to.getVcode());
+                ApiAssert.state(responseEmail.isSuccess(), responseEmail.getCode(), responseEmail.getMessage());
                 break;
             default:
         }
