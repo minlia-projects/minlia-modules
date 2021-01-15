@@ -1,10 +1,13 @@
 package com.minlia.module.currency.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.module.currency.entity.SysCurrencyRateEntity;
 import com.minlia.module.currency.mapper.SysCurrencyRateMapper;
 import com.minlia.module.currency.service.SysCurrencyRateService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -16,5 +19,17 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysCurrencyRateServiceImpl extends ServiceImpl<SysCurrencyRateMapper, SysCurrencyRateEntity> implements SysCurrencyRateService {
+
+    @Override
+    public BigDecimal getRate(String symbol) {
+        SysCurrencyRateEntity entity = this.getOne(Wrappers.<SysCurrencyRateEntity>lambdaQuery().eq(SysCurrencyRateEntity::getSymbol, symbol));
+        return entity.getRate();
+    }
+
+    @Override
+    public BigDecimal getRate(String curBase, String curTrade) {
+        SysCurrencyRateEntity entity = this.getOne(Wrappers.<SysCurrencyRateEntity>lambdaQuery().eq(SysCurrencyRateEntity::getCurBase, curBase).eq(SysCurrencyRateEntity::getCurTrans, curTrade));
+        return entity.getRate();
+    }
 
 }

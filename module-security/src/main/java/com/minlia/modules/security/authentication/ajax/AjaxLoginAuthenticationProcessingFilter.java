@@ -74,7 +74,7 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         } else {
             MinliaValidProperties validProperties = ContextHolder.getContext().getBean(MinliaValidProperties.class);
             if (Pattern.matches(validProperties.getCellphone(), credentials.getName())) {
-                credentials.setCellphone(credentials.getName());
+                credentials.setCellphone(credentials.getAreaCode() + credentials.getName());
                 credentials.setType(LoginTypeEnum.CELLPHONE);
             } else if (Pattern.matches(validProperties.getUsername(), credentials.getName())) {
                 credentials.setUsername(credentials.getName());

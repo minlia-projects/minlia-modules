@@ -1,7 +1,9 @@
 package com.minlia.module.currency.service;
 
-import com.minlia.module.currency.entity.SysCurrencyRateEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.minlia.module.currency.entity.SysCurrencyRateEntity;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -12,5 +14,22 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-01-08
  */
 public interface SysCurrencyRateService extends IService<SysCurrencyRateEntity> {
+
+    /**
+     * 根据货币对获取汇率
+     *
+     * @param symbol
+     * @return
+     */
+    BigDecimal getRate(String symbol);
+
+    /**
+     * 根据货币对获取汇率
+     *
+     * @param curBase
+     * @param curTrans
+     * @return
+     */
+    BigDecimal getRate(String curBase, String curTrans);
 
 }

@@ -5,6 +5,7 @@ import com.minlia.cloud.code.Code;
 import com.minlia.module.captcha.bean.CaptchaCro;
 import com.minlia.module.captcha.entity.CaptchaEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public interface CaptchaService extends IService<CaptchaEntity> {
     CaptchaEntity sendByCellphone(String cellphone, String templateCode);
 
     CaptchaEntity sendByCellphone(String cellphone, String templateCode, Map<String, Object> variables);
+
+    CaptchaEntity sendByCellphone(String cellphone, String templateCode, Map<String, Object> variables, LocaleEnum locale);
 
     CaptchaEntity sendByEmail(String email);
 

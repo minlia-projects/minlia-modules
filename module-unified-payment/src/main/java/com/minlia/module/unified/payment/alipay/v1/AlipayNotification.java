@@ -1,8 +1,5 @@
 package com.minlia.module.unified.payment.alipay.v1;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minlia.module.common.constant.LocalDateConstants;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,7 +15,7 @@ public class AlipayNotification implements Serializable {
 
     private String notifyType;
 
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime notifyTime;
+    private LocalDateTime notifyTime;
 
     private String signType;
 
@@ -50,9 +47,9 @@ public class AlipayNotification implements Serializable {
 
     private String body;
 
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime gmtCreate;
+    private LocalDateTime gmtCreate;
 
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime gmtPayment;
+    private LocalDateTime gmtPayment;
 
     private String isTotalFeeAdjust;
 
@@ -62,7 +59,7 @@ public class AlipayNotification implements Serializable {
 
     private String refundStatus;
 
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime gmtRefund;
+    private LocalDateTime gmtRefund;
 
     private Boolean verifyResult;
 

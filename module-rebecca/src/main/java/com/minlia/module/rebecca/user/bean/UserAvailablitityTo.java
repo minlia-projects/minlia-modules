@@ -6,10 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.Email;
 
 /**
- *
  * @author garen
  * @date 2017/7/24
  * 用户有效性验证请求体
@@ -26,6 +26,11 @@ public class UserAvailablitityTo {
 
     @Username
     private String username;
+
+    /**
+     * 手机区号
+     */
+    private Integer areaCode;
 
     @Cellphone
     private String cellphone;

@@ -38,8 +38,13 @@ public class UserRegisterRo implements ApiRequestBody {
     @Username
     private String username;
 
+    /**
+     * 手机区号
+     */
+    private Integer areaCode;
+
     @ApiModelProperty(value = "手机号码", example = "18888888888")
-    @Cellphone
+//    @Cellphone
     private String cellphone;
 
     @ApiModelProperty(value = "邮箱", example = "88888888@qq.com")

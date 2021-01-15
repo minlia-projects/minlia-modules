@@ -5,7 +5,6 @@ import com.minlia.module.common.validation.Cellphone;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,7 +20,13 @@ public class CaptchaCro {
     @Email
     private String email;
 
-    @Cellphone
+
+    /**
+     * 手机区号
+     */
+    private Integer areaCode;
+
+//    @Cellphone
     private String cellphone;
 
     @Size(max = 50)

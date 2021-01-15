@@ -37,6 +37,8 @@ public class LoginCredentials implements AuthenticatedPrincipal, WithUsernameCre
     @JsonIgnore
     private String username;
 
+    private Integer areaCode;
+
     /**
      * 手机号码
      */

@@ -32,7 +32,7 @@ public class CurrencyRateScheduled {
     }
 
     /**
-     * 工作日每天17：20
+     * 工作日每天17：20/ShippingAddressServiceImpl.java
      */
     //    @Scheduled(cron = "0 20 17 ? * 2-6")
     @Scheduled(cron = "0 20 17 ? * MON-FRI")

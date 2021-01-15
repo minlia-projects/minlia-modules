@@ -19,6 +19,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * <p>
  * 收货地址 前端控制器
@@ -42,7 +44,7 @@ public class ShippingAddressController {
     @AuditLog(type = AuditOperationTypeEnum.CREATE)
     @ApiOperation(value = "创建")
     @PostMapping(value = "")
-    public Response create(@RequestBody ShippingAddressSro sro) {
+    public Response create(@Valid @RequestBody ShippingAddressSro sro) {
         return Response.success(shippingAddressService.create(sro));
     }
 
@@ -50,7 +52,7 @@ public class ShippingAddressController {
     @AuditLog(type = AuditOperationTypeEnum.UPDATE)
     @ApiOperation(value = "修改")
     @PutMapping(value = "")
-    public Response update(@RequestBody ShippingAddressSro sro) {
+    public Response update(@Valid @RequestBody ShippingAddressSro sro) {
         return Response.success(shippingAddressService.update(sro));
     }
 
@@ -82,7 +84,7 @@ public class ShippingAddressController {
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
-    public Response list(@RequestBody ShippingAddressQro qro) {
+    public Response list(@Valid @RequestBody ShippingAddressQro qro) {
         qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper<ShippingAddressEntity> queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery()
                 .setEntity(DozerUtils.map(qro, ShippingAddressEntity.class))
@@ -94,7 +96,7 @@ public class ShippingAddressController {
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
-    public Response page(@RequestBody ShippingAddressQro qro) {
+    public Response page(@Valid @RequestBody ShippingAddressQro qro) {
         qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper<ShippingAddressEntity> queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery()
                 .setEntity(DozerUtils.map(qro, ShippingAddressEntity.class))

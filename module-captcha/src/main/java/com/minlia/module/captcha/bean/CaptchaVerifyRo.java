@@ -22,7 +22,12 @@ public class CaptchaVerifyRo {
     @Email
     private String email;
 
-    @Cellphone
+    /**
+     * 手机区号
+     */
+    private Integer areaCode;
+
+//    @Cellphone
     private String cellphone;
 
     @NotBlank

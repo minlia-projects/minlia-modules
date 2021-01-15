@@ -14,6 +14,7 @@ import com.minlia.module.captcha.enumeration.CaptchaTypeEnum;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.email.service.EmailService;
+import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.i18n.util.LocaleUtils;
 import com.minlia.module.sms.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +55,7 @@ public class CaptchaServiceImpl extends ServiceImpl<CaptchaMapper, CaptchaEntity
         CaptchaEntity entity;
         if (cro.getType().equals(CaptchaTypeEnum.CELLPHONE)) {
             ApiAssert.hasLength(cro.getCellphone(), CaptchaCode.Message.CELLPHONE_NOT_NULL);
-            entity = this.sendByCellphone(cro.getCellphone());
+            entity = this.sendByCellphone(cro.getAreaCode() + cro.getCellphone(), CAPTCHA_DEFAULT_TEMPLATE, null, cro.getAreaCode() == 86 ? LocaleEnum.zh_CN : LocaleEnum.en_US);
         } else {
             ApiAssert.hasLength(cro.getEmail(), CaptchaCode.Message.EMAIL_NOT_NULL);
             entity = this.sendByEmail(cro.getEmail());
@@ -77,12 +78,21 @@ public class CaptchaServiceImpl extends ServiceImpl<CaptchaMapper, CaptchaEntity
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CaptchaEntity sendByCellphone(String cellphone, String templateCode, Map<String, Object> variables) {
+        return this.sendByCellphone(cellphone, templateCode, Maps.newHashMap(), LocaleUtils.locale());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public CaptchaEntity sendByCellphone(String cellphone, String templateCode, Map<String, Object> variables, LocaleEnum locale) {
         log.info("Sending security code for cellphone: {}", cellphone);
         CaptchaEntity entity = this.save(cellphone, CaptchaTypeEnum.CELLPHONE);
         if (captchaConfig.getRealSwitchFlag()) {
+            if (null == variables) {
+                variables = Maps.newHashMap();
+            }
             variables.put("code", entity.getVcode());
             variables.put("effectiveSeconds", captchaConfig.getEffectiveSeconds());
-            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables, LocaleUtils.locale());
+            smsService.sendRichtextSms(new String[]{cellphone}, templateCode, variables, locale);
         }
         return entity;
     }
