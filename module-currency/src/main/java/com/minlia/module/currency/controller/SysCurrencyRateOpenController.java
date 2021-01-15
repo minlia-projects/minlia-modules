@@ -44,11 +44,11 @@ public class SysCurrencyRateOpenController {
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
-    @ApiOperation(value = "计数查询")
-    @PostMapping(value = "count")
-    public Response count(@Valid @RequestBody SysCurrencyRateQro qro) {
+    @ApiOperation(value = "集合查询")
+    @PostMapping(value = "list")
+    public Response list(@Valid @RequestBody SysCurrencyRateQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyRateEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyRateEntity.class)).last(qro.getOrderBy());
-        return Response.success(sysCurrencyRateService.count(queryWrapper));
+        return Response.success(sysCurrencyRateService.list(queryWrapper));
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)

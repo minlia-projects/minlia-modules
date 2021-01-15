@@ -1,9 +1,9 @@
 package com.minlia.module.unified.payment.alipay.v1;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayConstants;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.google.gson.Gson;
 import com.minlia.module.unified.payment.bean.OrderPaidNotificationResponse;
 import com.minlia.module.unified.payment.enumeration.PayChannelEnum;
 import com.minlia.module.unified.payment.event.OrderPaidEventProducer;
@@ -49,22 +49,13 @@ public class AlipayCallbackReceiveEndpoint {
     private OrderPaidNotificationResponse mapToBody(HttpServletRequest request, OrderPaidNotificationResponse body) {
         Map<String, String> underScoreKeyMap = RequestUtils.getStringParams(request);
         Map<String, String> camelCaseKeyMap = RequestUtils.convertKeyToCamelCase(underScoreKeyMap);
-        String jsonStr = JSON.toJSONString(camelCaseKeyMap);
-
-        AlipayNotification requestBody = JSON.parseObject(jsonStr, AlipayNotification.class);
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(camelCaseKeyMap);
+        AlipayNotification requestBody = gson.fromJson(jsonStr, AlipayNotification.class);
         body.setMerchantTradeNo(requestBody.getOutTradeNo());
         body.setGatewayTradeNo(requestBody.getTradeNo());
         body.setChannel(PayChannelEnum.alipay);
         return body;
-    }
-
-    public static void main(String[] args) {
-        AlipayNotification body = new AlipayNotification();
-        body.setTradeNo("2019022522001491651029770879");
-
-        OrderPaidNotificationResponse notificationBody = new OrderPaidNotificationResponse();
-        notificationBody.setMerchantTradeNo(body.getTradeNo());
-        log.info("支付宝第三方回调参数3：{}", body.toString());
     }
 
     private Boolean isOfficialNotificationRequest(HttpServletRequest request) {
@@ -80,12 +71,11 @@ public class AlipayCallbackReceiveEndpoint {
                     valueStr = (i == values.length - 1) ? valueStr + values[i]
                             : valueStr + values[i] + ",";
                 }
-                params.put(name,valueStr);
-
+                params.put(name, valueStr);
             }
             //切记alipaypublickey是支付宝的公钥，请去open.alipay.com对应应用下查看。
             try {
-                boolean flag = AlipaySignature.rsaCheckV1(params, alipayConfig.getCertificate().getPlatformPublicKey(), AlipayConstants.CHARSET_UTF8,"RSA2");
+                boolean flag = AlipaySignature.rsaCheckV1(params, alipayConfig.getCertificate().getPlatformPublicKey(), AlipayConstants.CHARSET_UTF8, "RSA2");
                 if (flag) {
                     return Boolean.TRUE;
                 } else {
@@ -99,4 +89,5 @@ public class AlipayCallbackReceiveEndpoint {
         }
         return Boolean.FALSE;
     }
+
 }

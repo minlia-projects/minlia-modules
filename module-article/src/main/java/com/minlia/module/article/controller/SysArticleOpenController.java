@@ -2,7 +2,6 @@ package com.minlia.module.article.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.constant.ApiPrefix;
@@ -60,9 +59,8 @@ public class SysArticleOpenController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).orderByDesc(SysArticleEntity::getCreateDate).last(qro.getOrderBy());
-        Page page = new Page(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysArticleService.page(page, queryWrapper));
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
+        return Response.success(sysArticleService.page(qro.getPage(), queryWrapper));
     }
 
 //    @ApiOperation(value = "分页查询")

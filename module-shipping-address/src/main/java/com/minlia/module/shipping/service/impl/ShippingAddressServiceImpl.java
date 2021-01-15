@@ -12,6 +12,7 @@ import com.minlia.module.shipping.mapper.ShippingAddressMapper;
 import com.minlia.module.shipping.service.ShippingAddressService;
 import com.minlia.modules.security.context.MinliaSecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -25,21 +26,36 @@ import org.springframework.stereotype.Service;
 public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMapper, ShippingAddressEntity> implements ShippingAddressService {
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean create(ShippingAddressSro sro) {
-        ShippingAddressEntity shippingAddressEntity = DozerUtils.map(sro, ShippingAddressEntity.class);
-        shippingAddressEntity.setUid(MinliaSecurityContextHolder.getUid());
         long count = this.count(Wrappers.<ShippingAddressEntity>lambdaQuery().eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid()));
         ApiAssert.state(count <= 10, ShippingAddressCode.Message.ADD_UP_TO_10_ADDRESSES);
-        shippingAddressEntity.setDefFlag(count > 0 ? false : true);
+
+        ShippingAddressEntity shippingAddressEntity = DozerUtils.map(sro, ShippingAddressEntity.class);
+        shippingAddressEntity.setUid(MinliaSecurityContextHolder.getUid());
+        if (sro.getDefFlag()) {
+            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(false, ShippingAddressEntity::getDefFlag, 0).eq(ShippingAddressEntity::getReceiver, MinliaSecurityContextHolder.getUid()));
+        } else {
+            shippingAddressEntity.setDefFlag(count == 0 ? true : sro.getDefFlag());
+        }
         return this.save(shippingAddressEntity);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean update(ShippingAddressSro sro) {
         LambdaQueryWrapper queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery().eq(ShippingAddressEntity::getId, sro.getId()).eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid());
         ShippingAddressEntity shippingAddressEntity = this.getOne(queryWrapper);
         DozerUtils.map(sro, shippingAddressEntity);
+        if (sro.getDefFlag()) {
+            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(false, ShippingAddressEntity::getDefFlag, 0).eq(ShippingAddressEntity::getReceiver, MinliaSecurityContextHolder.getUid()));
+        }
         return this.updateById(shippingAddressEntity);
+    }
+
+    @Override
+    public boolean exists(LambdaQueryWrapper lambdaQueryWrapper) {
+        return this.count(lambdaQueryWrapper) > 0;
     }
 
     @Override

@@ -35,7 +35,15 @@ public class SysSecurityConfig {
      */
     private Integer lockedDays = 1;
 
+    /**
+     * 多端登陆
+     */
     private Boolean multiClientLogin;
+
+    /**
+     * 昵称前缀
+     */
+    private String nicknamePrefix;
 
 //    /**
 //     * 数据传输加密

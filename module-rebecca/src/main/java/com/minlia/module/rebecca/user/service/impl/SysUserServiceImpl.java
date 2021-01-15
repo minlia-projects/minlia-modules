@@ -15,9 +15,9 @@ import com.minlia.module.rebecca.role.entity.SysRoleEntity;
 import com.minlia.module.rebecca.role.entity.SysRoleUserEntity;
 import com.minlia.module.rebecca.role.service.SysRoleService;
 import com.minlia.module.rebecca.role.service.SysRoleUserService;
-import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.bean.SysUserCro;
 import com.minlia.module.rebecca.user.bean.SysUserUro;
+import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.entity.SysUserHistoryEntity;
 import com.minlia.module.rebecca.user.enums.SysUserStatusEnum;
@@ -103,6 +103,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         }
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new QueryWrapper<SysRoleEntity>().lambda().in(SysRoleEntity::getCode, roles);
         ApiAssert.state(sysRoleService.count(queryWrapper) == roles.size(), SysRoleCode.Message.NOT_EXISTS);
+
+        if (StringUtils.isEmpty(cro.getNickname())) {
+            entity.setNickname(sysSecurityConfig.getNicknamePrefix() + RandomStringUtils.randomAlphanumeric(10));
+        }
 
         entity.setOrgId(cro.getOrgId());
         entity.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));

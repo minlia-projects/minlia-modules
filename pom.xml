@@ -99,7 +99,7 @@
         <!--<module>module-pooul</module>-->
 
         <!--统一支付-->
-        <!--<module>module-unified-payment</module>-->
+        <module>module-unified-payment</module>
 
         <!--        <module>module-otp</module>-->
         <!--<module>module-registry</module>-->

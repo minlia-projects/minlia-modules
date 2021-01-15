@@ -62,9 +62,9 @@ public class CaptchaController {
     public Response verify(@Valid @RequestBody CaptchaVerifyRo verifyRo) {
         if (verifyRo.getType().equals(CaptchaTypeEnum.CELLPHONE)) {
             ApiAssert.hasLength(verifyRo.getCellphone(), CaptchaCode.Message.CELLPHONE_NOT_NULL);
-            return captchaService.validity(verifyRo.getCellphone(), verifyRo.getVcode());
+            return captchaService.validity(verifyRo.getAreaCode() + verifyRo.getCellphone(), verifyRo.getVcode());
         } else {
-            ApiAssert.hasLength(verifyRo.getCellphone(), CaptchaCode.Message.EMAIL_NOT_NULL);
+            ApiAssert.hasLength(verifyRo.getEmail(), CaptchaCode.Message.EMAIL_NOT_NULL);
             return captchaService.validity(verifyRo.getEmail(), verifyRo.getVcode());
         }
     }

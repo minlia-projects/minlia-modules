@@ -28,29 +28,29 @@ public class EmailAutoConfiguration {
         this.mailProperties = mailProperties;
     }
 
-    @Bean
-    public JavaMailSender getJavaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(null != emailConfig.getHost() ? emailConfig.getHost() : "smtp.gmail.com");
-        mailSender.setPort(null != emailConfig.getPort() ? emailConfig.getPort() : 587);
-
-        Properties props = mailSender.getJavaMailProperties();
-        if (MapUtils.isEmpty(mailProperties.getProperties())) {
-            props.put("mail.debug", "true");
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.ssl.enable", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.starttls.required", "true");
-        } else {
-            props.putAll(mailProperties.getProperties());
-        }
-
-        if (props.getProperty("mail.smtp.auth", "false").equals("true")) {
-            mailSender.setUsername(emailConfig.getUsername());
-            mailSender.setPassword(emailConfig.getPassword());
-        }
-
-        return mailSender;
-    }
+//    @Bean
+//    public JavaMailSender getJavaMailSender() {
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//        mailSender.setHost(null != emailConfig.getHost() ? emailConfig.getHost() : "smtp.gmail.com");
+//        mailSender.setPort(null != emailConfig.getPort() ? emailConfig.getPort() : 587);
+//
+//        Properties props = mailSender.getJavaMailProperties();
+//        if (MapUtils.isEmpty(mailProperties.getProperties())) {
+//            props.put("mail.debug", "true");
+//            props.put("mail.smtp.auth", "true");
+//            props.put("mail.smtp.ssl.enable", "true");
+//            props.put("mail.smtp.starttls.enable", "true");
+//            props.put("mail.smtp.starttls.required", "true");
+//        } else {
+//            props.putAll(mailProperties.getProperties());
+//        }
+//
+//        if (props.getProperty("mail.smtp.auth", "false").equals("true")) {
+//            mailSender.setUsername(emailConfig.getUsername());
+//            mailSender.setPassword(emailConfig.getPassword());
+//        }
+//
+//        return mailSender;
+//    }
 
 }

@@ -9,11 +9,11 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
-import com.minlia.module.email.constant.EmailConstants;
-import com.minlia.module.email.entity.EmailRecordEntity;
 import com.minlia.module.email.bean.EmailHtmlSendRo;
 import com.minlia.module.email.bean.EmailRecordQro;
 import com.minlia.module.email.bean.EmailRichtextSendRo;
+import com.minlia.module.email.constant.EmailConstants;
+import com.minlia.module.email.entity.EmailRecordEntity;
 import com.minlia.module.email.service.EmailRecordService;
 import com.minlia.module.email.service.EmailService;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
@@ -46,16 +46,17 @@ public class EmailRecordController {
         this.emailRecordService = emailRecordService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.CREATE + "')")
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
+    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.Authorize.CREATE + "')")
     @ApiOperation(value = "HTML")
     @PostMapping(value = "send/html")
     public Response html(@Valid @RequestBody EmailHtmlSendRo ro) {
-        EmailRecordEntity entity = emailService.sendHtmlMail(ro.getTo(), ro.getSubject(), ro.getContent(), null, null, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
+        EmailRecordEntity entity = emailService.sendHtmlMail(null, ro.getTo(), ro.getSubject(), ro.getContent(), null, null, LocaleEnum.valueOf(LocaleContextHolder.getLocale().toString()));
         return Response.success(entity);
     }
 
-    @AuditLog(value = "sned email by richtextt", type = AuditOperationTypeEnum.SELECT)
-    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.CREATE + "')")
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
+    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.Authorize.CREATE + "')")
     @ApiOperation(value = "RICKTEXT")
     @PostMapping(value = "send/richtext")
     public Response richtext(@Valid @RequestBody EmailRichtextSendRo ro) {
@@ -63,8 +64,8 @@ public class EmailRecordController {
         return Response.success(entity);
     }
 
-    @AuditLog(value = "query one email sent record as one", type = AuditOperationTypeEnum.SELECT)
-    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.SEARCH + "')")
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "单个查询")
     @PostMapping(value = "one")
     public Response one(@Valid @PathVariable EmailRecordQro qro) {
@@ -72,8 +73,8 @@ public class EmailRecordController {
         return Response.success(emailRecordService.getOne(queryWrapper));
     }
 
-    @AuditLog(value = "query email sent records as list", type = AuditOperationTypeEnum.SELECT)
-    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.SEARCH + "')")
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody EmailRecordQro qro) {
@@ -81,8 +82,8 @@ public class EmailRecordController {
         return Response.success(emailRecordService.list(queryWrapper));
     }
 
-    @AuditLog(value = "query email sent records as paginated result", type = AuditOperationTypeEnum.SELECT)
-    @PreAuthorize(value = "isAuthenticated()")
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @PreAuthorize(value = "hasAnyAuthority('" + EmailConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody EmailRecordQro qro) {

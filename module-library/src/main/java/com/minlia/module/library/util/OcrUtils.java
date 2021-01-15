@@ -99,7 +99,7 @@ public class OcrUtils {
             PDFRenderer renderer = new PDFRenderer(doc);
             pageCount = doc.getNumberOfPages();
             for (int i = 0; i < pageCount; i++) {
-                BufferedImage image = renderer.renderImageWithDPI(i, 300); // Windows native DPI
+                BufferedImage image = renderer.renderImageWithDPI(i, 80); // Windows native DPI 300
                 ImageIO.write(image, type, new File(targetPath + FilenameUtils.getBaseName(file.getName()) + "_" + i + "." + type));
             }
         } catch (IOException e) {
@@ -124,7 +124,7 @@ public class OcrUtils {
             PDFRenderer renderer = new PDFRenderer(doc);
             pageCount = doc.getNumberOfPages();
             for (int i = 0; i < pageCount; i++) {
-                BufferedImage image = renderer.renderImageWithDPI(i, 300); // Windows native DPI
+                BufferedImage image = renderer.renderImageWithDPI(i, 80); // Windows native DPI
                 ImageIO.write(image, type, new File(fileAddress + "/" + filename + "_" + (i + 1) + "." + type));
             }
         } catch (IOException e) {
@@ -141,7 +141,7 @@ public class OcrUtils {
             PDFRenderer renderer = new PDFRenderer(doc);
             pageCount = doc.getNumberOfPages();
             for (int i = 0; i < pageCount; i++) {
-                BufferedImage image = renderer.renderImageWithDPI(i, 300); // Windows native DPI
+                BufferedImage image = renderer.renderImageWithDPI(i, 80); // Windows native DPI
                 ImageIO.write(image, type, new File(fileAddress + "/" + filename + "_" + (i) + "." + type));
             }
         } catch (IOException e) {

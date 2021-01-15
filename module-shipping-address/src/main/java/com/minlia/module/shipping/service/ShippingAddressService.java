@@ -1,5 +1,6 @@
 package com.minlia.module.shipping.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.minlia.module.shipping.bean.ShippingAddressSro;
 import com.minlia.module.shipping.entity.ShippingAddressEntity;
@@ -17,6 +18,8 @@ public interface ShippingAddressService extends IService<ShippingAddressEntity> 
     Boolean create(ShippingAddressSro sro);
 
     Boolean update(ShippingAddressSro sro);
+
+    boolean exists(LambdaQueryWrapper lambdaQueryWrapper);
 
     ShippingAddressEntity getDefault();
 
