@@ -32,7 +32,7 @@ public class EmailSenderServiceImpl extends ServiceImpl<EmailSenderMapper, Email
     @Transactional(rollbackFor = Exception.class)
     public boolean create(EmailSenderCro cro) {
         EmailSenderEntity entity = DozerUtils.map(cro, EmailSenderEntity.class);
-        boolean existsDefault = this.exists(Wrappers.<EmailSenderEntity>lambdaQuery().eq(EmailSenderEntity::getDelFlag, true));
+        boolean existsDefault = this.exists(Wrappers.<EmailSenderEntity>lambdaQuery().eq(EmailSenderEntity::getDefFlag, true));
         if (!existsDefault) {
             entity.setDefFlag(true);
         }
@@ -46,10 +46,12 @@ public class EmailSenderServiceImpl extends ServiceImpl<EmailSenderMapper, Email
     public boolean update(EmailSenderUro uro) {
         EmailSenderEntity entity = DozerUtils.map(uro, EmailSenderEntity.class);
         if (entity.getDefFlag()) {
-            this.update(Wrappers.<EmailSenderEntity>lambdaUpdate().set(EmailSenderEntity::getDelFlag, false));
+            this.update(Wrappers.<EmailSenderEntity>lambdaUpdate().set(EmailSenderEntity::getDefFlag, false));
         }
         this.updateById(entity);
-        emailSenderHolder.add(entity);
+
+        EmailSenderEntity entityFound = this.getById(uro.getId());
+        emailSenderHolder.add(entityFound);
         return false;
     }
 

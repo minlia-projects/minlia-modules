@@ -54,10 +54,10 @@ public class EmailSenderHolder {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setDefaultEncoding("UTF-8");
         javaMailSender.setHost(senderEntity.getHost());
-        javaMailSender.setPort(senderEntity.getPort());
+//        javaMailSender.setPort(senderEntity.getPort());
         javaMailSender.setUsername(senderEntity.getUsername());
         javaMailSender.setPassword(senderEntity.getPassword());
-        javaMailSender.setProtocol(senderEntity.getProtocol());
+//        javaMailSender.setProtocol(senderEntity.getProtocol());
 
         Properties props = javaMailSender.getJavaMailProperties();
         if (MapUtils.isEmpty(mailProperties.getProperties())) {
@@ -68,7 +68,9 @@ public class EmailSenderHolder {
             props.put("mail.smtp.starttls.required", "true");
         } else {
             props.putAll(mailProperties.getProperties());
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         }
+        javaMailSender.setJavaMailProperties(props);
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         try {

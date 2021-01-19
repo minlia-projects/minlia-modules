@@ -4,7 +4,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * <p>
@@ -30,7 +33,6 @@ public class EmailSenderCro {
 
     @ApiModelProperty(value = "端口")
     @NotNull
-    @Digits(integer = 5, fraction = 0)
     private Integer port;
 
     @ApiModelProperty(value = "用户名")

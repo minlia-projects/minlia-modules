@@ -70,7 +70,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public EmailRecordEntity sendRichtextMail(String sender, String[] to, String templateCode, Map<String, Object> variables, LocaleEnum locale) {
-        RichtextEntity richtext = richtextService.getOne(Wrappers.<RichtextEntity>lambdaQuery().eq(RichtextEntity::getType, RichtextTypeEnum.EMAIL_TEMPLATE.name()).eq(RichtextEntity::getCode, templateCode));
+        RichtextEntity richtext = richtextService.getOne(Wrappers.<RichtextEntity>lambdaQuery().eq(RichtextEntity::getType, RichtextTypeEnum.EMAIL_TEMPLATE.name()).eq(RichtextEntity::getCode, templateCode).eq(RichtextEntity::getLocale, locale.name()));
         ApiAssert.notNull(richtext, RichtextCode.Message.NOT_EXISTS, templateCode);
         return this.sendHtmlMail(sender, to, richtext.getSubject(), richtext.getContent(), variables, templateCode, locale);
     }

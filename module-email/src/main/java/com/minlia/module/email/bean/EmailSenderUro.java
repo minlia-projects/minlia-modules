@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,11 +29,9 @@ public class EmailSenderUro {
     private String code;
 
     @ApiModelProperty(value = "主机")
-    @Digits(integer = 5, fraction = 0)
     private String host;
 
     @ApiModelProperty(value = "端口")
-    @Size(max = 5)
     private Integer port;
 
     @ApiModelProperty(value = "用户名")
