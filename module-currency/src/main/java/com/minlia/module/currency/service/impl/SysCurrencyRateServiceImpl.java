@@ -28,6 +28,9 @@ public class SysCurrencyRateServiceImpl extends ServiceImpl<SysCurrencyRateMappe
 
     @Override
     public BigDecimal getRate(String curBase, String curTrade) {
+        if (curBase.equals(curBase)) {
+            return BigDecimal.ONE;
+        }
         SysCurrencyRateEntity entity = this.getOne(Wrappers.<SysCurrencyRateEntity>lambdaQuery().eq(SysCurrencyRateEntity::getCurBase, curBase).eq(SysCurrencyRateEntity::getCurTrans, curTrade));
         return entity.getRate();
     }
