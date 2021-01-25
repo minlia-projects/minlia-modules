@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -218,12 +219,35 @@ public class RedisUtils {
     }
 
     /**
+     * HashGet
+     *
+     * @param key  键 不能为null
+     * @param item 项 不能为null
+     * @return 值
+     */
+    public static <T> T hget(String key, String item, Class<T> c) {
+        Object o = getRedisTemplate().opsForHash().get(key, item);
+        return Objects.nonNull(o) ? c.cast(o) : null;
+    }
+
+    /**
      * 获取hashKey对应的所有键值
      *
      * @param key 键
      * @return 对应的多个键值
      */
     public static Map<Object, Object> hmget(String key) {
+        return getRedisTemplate().opsForHash().entries(key);
+    }
+
+    /**
+     * 获取hashKey对应的所有键值
+     *
+     * @param key 键
+     * @return 对应的多个键值
+     */
+    public static <T> T  hmget(String key, Class<T> c) {
+        Map<Object, Object> o = getRedisTemplate().opsForHash().entries(key);
         return getRedisTemplate().opsForHash().entries(key);
     }
 
