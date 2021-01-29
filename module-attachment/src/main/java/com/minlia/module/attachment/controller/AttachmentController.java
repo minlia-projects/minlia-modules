@@ -89,7 +89,7 @@ public class AttachmentController {
     public Response list(@RequestBody AttachmentQro qro) {
         LambdaQueryWrapper<SysAttachmentEntity> queryWrapper = new QueryWrapper<SysAttachmentEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class))
-                .last(qro.getOrderBy());
+                ;
         return Response.success(attachmentService.list(queryWrapper));
     }
 
@@ -100,7 +100,7 @@ public class AttachmentController {
     public Response page(@RequestBody AttachmentQro qro) {
         LambdaQueryWrapper<SysAttachmentEntity> queryWrapper = new QueryWrapper<SysAttachmentEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class))
-                .last(qro.getOrderBy());
+                ;
         Page<SysAttachmentEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(attachmentService.page(page, queryWrapper));
     }

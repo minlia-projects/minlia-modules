@@ -117,7 +117,7 @@ public class SysUserController {
     public Response one(@Valid @RequestBody SysUserQro qro) {
         LambdaQueryWrapper<SysUserEntity> queryWrapper = new QueryWrapper<SysUserEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysUserEntity.class))
-                .last(qro.getOrderBy());
+                ;
         return Response.success(sysUserService.getOne(queryWrapper));
     }
 
@@ -128,7 +128,7 @@ public class SysUserController {
     public Response list(@Valid @RequestBody SysUserQro qro) {
         LambdaQueryWrapper<SysUserEntity> queryWrapper = new QueryWrapper<SysUserEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysUserEntity.class))
-                .last(qro.getOrderBy());
+                ;
         return Response.success(sysUserService.list(queryWrapper));
     }
 
@@ -139,7 +139,7 @@ public class SysUserController {
     public Response page(@Valid @RequestBody SysUserQro qro) {
         LambdaQueryWrapper<SysUserEntity> queryWrapper = new QueryWrapper<SysUserEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysUserEntity.class))
-                .last(qro.getOrderBy());
+                ;
         Page<SysUserEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysUserService.page(page, queryWrapper));
     }

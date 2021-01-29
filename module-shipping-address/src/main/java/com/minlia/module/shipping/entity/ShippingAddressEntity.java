@@ -1,10 +1,10 @@
 package com.minlia.module.shipping.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.minlia.module.data.entity.AbstractEntity;
+import com.minlia.module.shipping.enums.ExpressAddressTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -30,9 +30,13 @@ public class ShippingAddressEntity extends AbstractEntity {
     @TableField("uid")
     private Long uid;
 
-    @ApiModelProperty(value = "收货人")
-    @TableField("receiver")
-    private String receiver;
+    @ApiModelProperty(value = "类型")
+    @TableField("`type`")
+    private ExpressAddressTypeEnum type;
+
+    @ApiModelProperty(value = "联系人")
+    @TableField("contacts")
+    private String contacts;
 
     @ApiModelProperty(value = "别名")
     @TableField("alias")

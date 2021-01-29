@@ -98,7 +98,7 @@ public class SysMenuController {
     @PostMapping(value = "list")
     public Response queryList(@RequestBody SysMenuQro qro) {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new QueryWrapper<SysMenuEntity>()
-                .lambda().setEntity(DozerUtils.map(qro, SysMenuEntity.class)).last(qro.getOrderBy());
+                .lambda().setEntity(DozerUtils.map(qro, SysMenuEntity.class));
         return Response.success(sysMenuService.list(queryWrapper));
     }
 
@@ -108,7 +108,7 @@ public class SysMenuController {
     @PostMapping(value = "page")
     public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC, sort = "id") Pageable pageable, @RequestBody SysMenuQro qro) {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new QueryWrapper<SysMenuEntity>()
-                .lambda().setEntity(DozerUtils.map(qro, SysMenuEntity.class)).last(qro.getOrderBy());
+                .lambda().setEntity(DozerUtils.map(qro, SysMenuEntity.class));
         Page<SysMenuEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysMenuService.page(page, queryWrapper));
     }

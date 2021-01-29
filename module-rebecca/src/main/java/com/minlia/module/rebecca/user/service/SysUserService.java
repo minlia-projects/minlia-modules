@@ -5,6 +5,7 @@ import com.minlia.module.rebecca.user.bean.SysUserCro;
 import com.minlia.module.rebecca.user.bean.SysUserUro;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -34,6 +35,12 @@ public interface SysUserService extends IService<SysUserEntity> {
 
     Boolean disable(Long id);
 
+    Boolean addRole(Long id, String roleCode);
+
     Boolean grant(Long id, Set<Long> roles);
+
+    Boolean grantByRoleCodes(Long id, Set<String> roleCodes);
+
+    Boolean grant(SysUserEntity entity, Set<String> roleCodes);
 
 }

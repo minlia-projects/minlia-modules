@@ -90,7 +90,7 @@ public class SysArticleServiceImpl extends ServiceImpl<SysArticleMapper, SysArti
     @Override
     public Page<ArticleVo> detailsPage(ArticleQro qro) {
         return this.getBaseMapper().pageVo(new Page(qro.getPageNumber(), qro.getPageSize()),
-                Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy())
+                Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class))
         );
     }
 

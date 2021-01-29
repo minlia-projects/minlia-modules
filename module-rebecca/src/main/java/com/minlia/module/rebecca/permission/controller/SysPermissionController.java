@@ -73,7 +73,7 @@ public class SysPermissionController {
         //TODO 根据userId、roleId查询
         LambdaQueryWrapper<SysPermissionEntity> queryWrapper = new QueryWrapper<SysPermissionEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysPermissionEntity.class))
-                .last(qro.getOrderBy());
+                ;
         if (null != qro.getRoleId()) {
             List<Long> permissionIds = sysPermissionService.getIdsByRoleId(qro.getRoleId());
             if (CollectionUtils.isNotEmpty(permissionIds)) {
@@ -101,7 +101,7 @@ public class SysPermissionController {
         //TODO 根据userId、roleId查询
         LambdaQueryWrapper<SysPermissionEntity> queryWrapper = new QueryWrapper<SysPermissionEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysPermissionEntity.class))
-                .last(qro.getOrderBy());
+                ;
         if (null != qro.getRoleId()) {
             List<Long> permissionIds = sysPermissionService.getIdsByRoleId(qro.getRoleId());
             if (CollectionUtils.isNotEmpty(permissionIds)) {

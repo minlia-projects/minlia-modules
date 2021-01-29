@@ -49,10 +49,7 @@ public class AuditLogController {
     @PostMapping(value = "page")
     public Response page(@RequestBody AuditLogQro qro) {
         AuditLogEntity entity = DozerUtils.map(qro, AuditLogEntity.class);
-        LambdaQueryWrapper<AuditLogEntity> queryWrapper = new QueryWrapper<AuditLogEntity>()
-                .lambda()
-                .setEntity(entity)
-                .last(qro.getOrderBy());
+        LambdaQueryWrapper<AuditLogEntity> queryWrapper = new QueryWrapper<AuditLogEntity>().lambda().setEntity(entity);
         Page<AuditLogEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(auditLogService.page(page, queryWrapper));
     }
@@ -64,10 +61,7 @@ public class AuditLogController {
     public Response myPage(@RequestBody AuditLogQro qro) {
         AuditLogEntity entity = DozerUtils.map(qro, AuditLogEntity.class);
         entity.setCreateBy(MinliaSecurityContextHolder.getUid());
-        LambdaQueryWrapper<AuditLogEntity> queryWrapper = new QueryWrapper<AuditLogEntity>()
-                .lambda()
-                .setEntity(entity)
-                .last(qro.getOrderBy());
+        LambdaQueryWrapper<AuditLogEntity> queryWrapper = new QueryWrapper<AuditLogEntity>().lambda().setEntity(entity);
         Page<AuditLogEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(auditLogService.page(page, queryWrapper));
     }

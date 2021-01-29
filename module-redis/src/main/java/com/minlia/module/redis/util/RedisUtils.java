@@ -240,16 +240,16 @@ public class RedisUtils {
         return getRedisTemplate().opsForHash().entries(key);
     }
 
-    /**
-     * 获取hashKey对应的所有键值
-     *
-     * @param key 键
-     * @return 对应的多个键值
-     */
-    public static <T> T  hmget(String key, Class<T> c) {
-        Map<Object, Object> o = getRedisTemplate().opsForHash().entries(key);
-        return getRedisTemplate().opsForHash().entries(key);
-    }
+//    /**
+//     * 获取hashKey对应的所有键值
+//     *
+//     * @param key 键
+//     * @return 对应的多个键值
+//     */
+//    public static <T> T  hmget(String key, Class<T> c) {
+//        Map<Object, Object> o = getRedisTemplate().opsForHash().entries(key);
+//        return getRedisTemplate().opsForHash().entries(key);
+//    }
 
     /**
      * HashSet

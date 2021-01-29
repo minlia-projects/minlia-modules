@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.minlia.module.shipping.bean.ShippingAddressSro;
 import com.minlia.module.shipping.entity.ShippingAddressEntity;
+import com.minlia.module.shipping.enums.ExpressAddressTypeEnum;
 
 /**
  * <p>
@@ -21,6 +22,6 @@ public interface ShippingAddressService extends IService<ShippingAddressEntity> 
 
     boolean exists(LambdaQueryWrapper lambdaQueryWrapper);
 
-    ShippingAddressEntity getDefault();
+    ShippingAddressEntity getDefault(ExpressAddressTypeEnum type);
 
 }

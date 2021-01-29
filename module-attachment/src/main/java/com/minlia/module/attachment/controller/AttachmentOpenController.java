@@ -41,7 +41,7 @@ public class AttachmentOpenController {
     @PostMapping(value = "list")
     public Response list(@RequestBody AttachmentQro qro) {
         return Response.success(attachmentService.lambdaQuery()
-                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class)).last(qro.getOrderBy())
+                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class))
                 .list());
     }
 
@@ -49,7 +49,7 @@ public class AttachmentOpenController {
     @RequestMapping(value = "page")
     public Response page(@RequestBody AttachmentQro qro) {
         return Response.success(attachmentService.lambdaQuery()
-                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class)).last(qro.getOrderBy())
+                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class))
                 .page(new Page<>(qro.getPageNumber(), qro.getPageSize())));
     }
 

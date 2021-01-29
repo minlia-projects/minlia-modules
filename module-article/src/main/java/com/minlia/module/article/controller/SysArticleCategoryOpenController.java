@@ -52,7 +52,7 @@ public class SysArticleCategoryOpenController {
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody ArticleCategoryQro qro) {
         qro.setDisFlag(false);
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class));
         List<SysArticleCategoryEntity> list = sysArticleCategoryService.list(queryWrapper);
         setChildren(list);
         return Response.success(list);
@@ -62,7 +62,7 @@ public class SysArticleCategoryOpenController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleCategoryQro qro) {
         qro.setDisFlag(false);
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class));
         Page<SysArticleCategoryEntity> page = sysArticleCategoryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper);
         setChildren(page.getRecords());
         return Response.success(page);

@@ -10,7 +10,8 @@
         <result column="last_modified_by" property="lastModifiedBy" />
         <result column="last_modified_date" property="lastModifiedDate" />
         <result column="uid" property="uid" />
-        <result column="receiver" property="receiver" />
+        <result column="type" property="type" />
+        <result column="contacts" property="contacts" />
         <result column="alias" property="alias" />
         <result column="province" property="province" />
         <result column="city" property="city" />
@@ -35,11 +36,11 @@
         create_date,
         last_modified_by,
         last_modified_date,
-        uid, receiver, alias, province, city, district, street, address, postcode, mobile, telephone, email, remark, sort, def_flag, dis_flag, del_flag
+        uid, `type`, contacts, alias, province, city, district, street, address, postcode, mobile, telephone, email, remark, sort, def_flag, dis_flag, del_flag
     </sql>
 
     <update id="updateDefFlag">
-        UPDATE sys_shipping_address SET def_flag= #{defFlag} WHERE uid = #{uid}
+        UPDATE sys_shipping_address SET def_flag= #{defFlag} WHERE uid = #{uid} AND `type` = #{type}
     </update>
 
 </mapper>

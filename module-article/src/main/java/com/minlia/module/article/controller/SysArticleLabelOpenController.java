@@ -51,7 +51,7 @@ public class SysArticleLabelOpenController {
         qro.setLocale(LocaleUtils.locale());
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery()
                 .setEntity(DozerUtils.map(qro, SysArticleLabelEntity.class))
-                .last(qro.getOrderBy());
+                ;
         return Response.success(sysArticleLabelService.list(queryWrapper));
     }
 

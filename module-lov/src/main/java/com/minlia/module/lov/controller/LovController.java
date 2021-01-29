@@ -86,7 +86,7 @@ public class LovController {
     @PostMapping(value = "list")
     public Response list(@RequestBody LovQro qro) {
         LambdaQueryWrapper<SysLovEntity> queryWrapper = new QueryWrapper<SysLovEntity>().lambda()
-                .setEntity(DozerUtils.map(qro, SysLovEntity.class)).last(qro.getOrderBy());
+                .setEntity(DozerUtils.map(qro, SysLovEntity.class));
         return Response.success(lovService.list(queryWrapper));
     }
 
@@ -96,10 +96,9 @@ public class LovController {
     @PostMapping(value = "page")
     public Response paginated(@RequestBody LovQro qro) {
         LambdaQueryWrapper<SysLovEntity> queryWrapper = new QueryWrapper<SysLovEntity>().lambda()
-                .setEntity(DozerUtils.map(qro, SysLovEntity.class)).last(qro.getOrderBy());
+                .setEntity(DozerUtils.map(qro, SysLovEntity.class));
         Page<SysLovEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(lovService.page(page, queryWrapper));
     }
 
 }
-

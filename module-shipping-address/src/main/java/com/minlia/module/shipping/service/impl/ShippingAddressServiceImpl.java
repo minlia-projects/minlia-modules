@@ -8,6 +8,7 @@ import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.shipping.bean.ShippingAddressSro;
 import com.minlia.module.shipping.constant.ShippingAddressCode;
 import com.minlia.module.shipping.entity.ShippingAddressEntity;
+import com.minlia.module.shipping.enums.ExpressAddressTypeEnum;
 import com.minlia.module.shipping.mapper.ShippingAddressMapper;
 import com.minlia.module.shipping.service.ShippingAddressService;
 import com.minlia.modules.security.context.MinliaSecurityContextHolder;
@@ -34,8 +35,7 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
         ShippingAddressEntity shippingAddressEntity = DozerUtils.map(sro, ShippingAddressEntity.class);
         shippingAddressEntity.setUid(MinliaSecurityContextHolder.getUid());
         if (sro.getDefFlag()) {
-            this.getBaseMapper().updateDefFlag(MinliaSecurityContextHolder.getUid(), false);
-//            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(ShippingAddressEntity::getDefFlag, false).eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid()).eq(ShippingAddressEntity::getDefFlag, toString()));
+            this.getBaseMapper().updateDefFlag(MinliaSecurityContextHolder.getUid(), sro.getType(), false);
         } else {
             shippingAddressEntity.setDefFlag(count == 0 ? true : sro.getDefFlag());
         }
@@ -49,8 +49,7 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
         ShippingAddressEntity shippingAddressEntity = this.getOne(queryWrapper);
         DozerUtils.map(sro, shippingAddressEntity);
         if (sro.getDefFlag()) {
-            this.getBaseMapper().updateDefFlag(MinliaSecurityContextHolder.getUid(), false);
-//            this.update(Wrappers.<ShippingAddressEntity>lambdaUpdate().set(ShippingAddressEntity::getDefFlag, false).eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid()).eq(ShippingAddressEntity::getDefFlag, toString()));
+            this.getBaseMapper().updateDefFlag(MinliaSecurityContextHolder.getUid(), sro.getType(), false);
         }
         return this.updateById(shippingAddressEntity);
     }
@@ -61,8 +60,11 @@ public class ShippingAddressServiceImpl extends ServiceImpl<ShippingAddressMappe
     }
 
     @Override
-    public ShippingAddressEntity getDefault() {
-        LambdaQueryWrapper queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery().eq(ShippingAddressEntity::getDefFlag, true).eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid());
+    public ShippingAddressEntity getDefault(ExpressAddressTypeEnum type) {
+        LambdaQueryWrapper queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery()
+                .eq(ShippingAddressEntity::getDefFlag, true)
+                .eq(ShippingAddressEntity::getType, type)
+                .eq(ShippingAddressEntity::getUid, MinliaSecurityContextHolder.getUid());
         return this.getOne(queryWrapper);
     }
 

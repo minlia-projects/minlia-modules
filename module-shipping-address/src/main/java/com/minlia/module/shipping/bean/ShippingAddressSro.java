@@ -1,9 +1,11 @@
 package com.minlia.module.shipping.bean;
 
+import com.minlia.module.shipping.enums.ExpressAddressTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,8 +18,13 @@ public class ShippingAddressSro {
     @ApiModelProperty(value = "ID")
     private Long id;
 
-    @ApiModelProperty(value = "收货人")
-    private String receiver;
+    @ApiModelProperty(value = "类型")
+    @NotNull
+    private ExpressAddressTypeEnum type;
+
+    @ApiModelProperty(value = "联系人")
+    @NotBlank
+    private String contacts;
 
     @ApiModelProperty(value = "别名")
     private String alias;

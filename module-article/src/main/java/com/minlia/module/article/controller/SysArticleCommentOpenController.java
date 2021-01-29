@@ -37,7 +37,7 @@ public class SysArticleCommentOpenController {
     public Response page(@Valid @RequestBody SysArticleCommentQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery()
                 .setEntity(DozerUtils.map(qro, SysArticleCommentEntity.class))
-                .last(qro.getOrderBy());
+                ;
         Page page = new Page(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysArticleCommentService.page(page, queryWrapper));
     }

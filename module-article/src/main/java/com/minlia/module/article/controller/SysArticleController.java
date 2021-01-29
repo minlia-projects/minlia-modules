@@ -80,7 +80,7 @@ public class SysArticleController {
         if (Objects.nonNull(sysArticleCategoryEntity)) {
             qro.setCategoryId(sysArticleCategoryEntity.getId());
         }
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class));
         return Response.success(sysArticleService.count(queryWrapper));
     }
 
@@ -92,7 +92,7 @@ public class SysArticleController {
         if (Objects.nonNull(sysArticleCategoryEntity)) {
             qro.setCategoryId(sysArticleCategoryEntity.getId());
         }
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class));
         return Response.success(sysArticleService.page(qro.getPage(), queryWrapper));
     }
 

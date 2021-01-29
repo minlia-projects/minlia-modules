@@ -79,7 +79,7 @@ public class SysArticleCategoryController {
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody ArticleCategoryQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class));
         return Response.success(sysArticleCategoryService.count(queryWrapper));
     }
 
@@ -87,7 +87,7 @@ public class SysArticleCategoryController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody ArticleCategoryQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class));
         List<SysArticleCategoryEntity> list = sysArticleCategoryService.list(queryWrapper);
         setChildren(list);
         return Response.success(list);
@@ -97,7 +97,7 @@ public class SysArticleCategoryController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleCategoryQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class));
         Page<SysArticleCategoryEntity> page = sysArticleCategoryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper);
         setChildren(page.getRecords());
         return Response.success(page);

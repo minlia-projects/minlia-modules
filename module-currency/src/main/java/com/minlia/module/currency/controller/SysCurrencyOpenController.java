@@ -47,7 +47,7 @@ public class SysCurrencyOpenController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody SysCurrencyQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class));
         return Response.success(sysCurrencyService.list(queryWrapper));
     }
 
@@ -55,7 +55,7 @@ public class SysCurrencyOpenController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysCurrencyQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyEntity.class));
         return Response.success(sysCurrencyService.page(qro.getPage(), queryWrapper));
     }
 

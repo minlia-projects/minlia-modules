@@ -5,12 +5,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.article.entity.SysArticleCollectionEntity;
+import com.minlia.module.article.bean.ArticleCommentCro;
 import com.minlia.module.article.entity.SysArticleCommentEntity;
 import com.minlia.module.article.entity.SysArticleEntity;
 import com.minlia.module.article.mapper.SysArticleCommentMapper;
-import com.minlia.module.article.bean.ArticleCommentCro;
-import com.minlia.module.article.service.SysArticleCollectionService;
 import com.minlia.module.article.service.SysArticleCommentService;
 import com.minlia.module.article.service.SysArticleService;
 import com.minlia.module.dozer.util.DozerUtils;
@@ -46,6 +44,7 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
         ApiAssert.state(countArticle == 1, SystemCode.Message.DATA_NOT_EXISTS);
 
         SysArticleCommentEntity entity = DozerUtils.map(cro, SysArticleCommentEntity.class);
+        entity.setOperator(SecurityContextHolder.getUid());
         this.save(entity);
         return entity;
     }

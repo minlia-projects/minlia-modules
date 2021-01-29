@@ -70,7 +70,7 @@ public class SysAdvertisementController {
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody SysAdvertisementQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysAdvertisementEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysAdvertisementEntity.class));
         return Response.success(sysAdvertisementService.count(queryWrapper));
     }
 
@@ -78,7 +78,7 @@ public class SysAdvertisementController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody SysAdvertisementQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysAdvertisementEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysAdvertisementEntity.class));
         return Response.success(sysAdvertisementService.list(queryWrapper));
     }
 
@@ -86,7 +86,7 @@ public class SysAdvertisementController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysAdvertisementQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysAdvertisementEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysAdvertisementEntity.class));
         return Response.success(sysAdvertisementService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper));
     }
 

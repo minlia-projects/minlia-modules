@@ -87,7 +87,7 @@ public class SysLibraryOpenController {
                 .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
                 .setEntity(entity)
                 .orderByDesc(SysLibraryEntity::getCreateDate)
-                .last(qro.getOrderBy());
+                ;
         return Response.success(sysLibraryService.list(queryWrapper));
     }
 
@@ -101,7 +101,7 @@ public class SysLibraryOpenController {
                 .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
                 .setEntity(entity)
                 .orderByDesc(SysLibraryEntity::getCreateDate)
-                .last(qro.getOrderBy());
+                ;
         Page page = sysLibraryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper);
         page.setRecords(DozerUtils.map(page.getRecords(), SysLibraryVo.class));
         return Response.success(page);

@@ -49,7 +49,7 @@ public class LovValueOpenController {
         qro.setDisFlag(false);
         qro.setLocale(LocaleUtils.locale());
         LambdaQueryWrapper<SysLovItemEntity> queryWrapper = new QueryWrapper<SysLovItemEntity>().lambda()
-                .setEntity(DozerUtils.map(qro, SysLovItemEntity.class)).last(qro.getOrderBy());
+                .setEntity(DozerUtils.map(qro, SysLovItemEntity.class));
         return Response.success(lovValueService.list(queryWrapper));
     }
 
@@ -60,7 +60,7 @@ public class LovValueOpenController {
         qro.setDisFlag(false);
         qro.setLocale(LocaleUtils.locale());
         LambdaQueryWrapper<SysLovItemEntity> queryWrapper = new QueryWrapper<SysLovItemEntity>().lambda()
-                .setEntity(DozerUtils.map(qro, SysLovItemEntity.class)).last(qro.getOrderBy());
+                .setEntity(DozerUtils.map(qro, SysLovItemEntity.class));
         Page<SysLovItemEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(lovValueService.page(page, queryWrapper));
     }

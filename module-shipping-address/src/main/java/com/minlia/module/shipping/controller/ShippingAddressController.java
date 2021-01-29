@@ -12,6 +12,7 @@ import com.minlia.module.shipping.bean.ShippingAddressQro;
 import com.minlia.module.shipping.bean.ShippingAddressSro;
 import com.minlia.module.shipping.constant.ShippingAddressConstants;
 import com.minlia.module.shipping.entity.ShippingAddressEntity;
+import com.minlia.module.shipping.enums.ExpressAddressTypeEnum;
 import com.minlia.module.shipping.service.ShippingAddressService;
 import com.minlia.modules.security.context.MinliaSecurityContextHolder;
 import io.swagger.annotations.Api;
@@ -75,9 +76,9 @@ public class ShippingAddressController {
     @PreAuthorize(value = "hasAnyAuthority('" + ShippingAddressConstants.Authorize.SEARCH + "')")
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @ApiOperation(value = "默认地址")
-    @GetMapping(value = "default")
-    public Response def() {
-        return Response.success(shippingAddressService.getDefault());
+    @GetMapping(value = "default/{type}")
+    public Response def(@PathVariable ExpressAddressTypeEnum type) {
+        return Response.success(shippingAddressService.getDefault(type));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + ShippingAddressConstants.Authorize.SEARCH + "')")
@@ -87,8 +88,7 @@ public class ShippingAddressController {
     public Response list(@Valid @RequestBody ShippingAddressQro qro) {
         qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper<ShippingAddressEntity> queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery()
-                .setEntity(DozerUtils.map(qro, ShippingAddressEntity.class))
-                .last(qro.getOrderBy());
+                .setEntity(DozerUtils.map(qro, ShippingAddressEntity.class));
         return Response.success(shippingAddressService.list(queryWrapper));
     }
 
@@ -99,8 +99,7 @@ public class ShippingAddressController {
     public Response page(@Valid @RequestBody ShippingAddressQro qro) {
         qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper<ShippingAddressEntity> queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery()
-                .setEntity(DozerUtils.map(qro, ShippingAddressEntity.class))
-                .last(qro.getOrderBy());
+                .setEntity(DozerUtils.map(qro, ShippingAddressEntity.class));
         return Response.success(shippingAddressService.page(qro.getPage(), queryWrapper));
     }
 

@@ -2,6 +2,7 @@ package com.minlia.module.shipping.mapper;
 
 import com.minlia.module.shipping.entity.ShippingAddressEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.minlia.module.shipping.enums.ExpressAddressTypeEnum;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -14,6 +15,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ShippingAddressMapper extends BaseMapper<ShippingAddressEntity> {
 
-    int updateDefFlag(@Param("uid") Long uid, @Param("defFlag") boolean defFlag);
+    int updateDefFlag(@Param("uid") Long uid, @Param("type") ExpressAddressTypeEnum type, @Param("defFlag") boolean defFlag);
 
 }

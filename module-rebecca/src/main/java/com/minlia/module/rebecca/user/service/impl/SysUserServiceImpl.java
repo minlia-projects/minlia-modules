@@ -231,6 +231,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         return entity.getDisFlag();
     }
 
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean addRole(Long id, String roleCode) {
+        SysRoleEntity sysRoleEntity = sysRoleService.getOne(new QueryWrapper<SysRoleEntity>().lambda().select(SysRoleEntity::getId).eq(SysRoleEntity::getCode, roleCode));
+        return sysRoleUserService.save(SysRoleUserEntity.builder().roleId(sysRoleEntity.getId()).userId(id).build());
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean grant(Long id, Set<Long> roleIds) {
@@ -241,13 +249,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         return sysRoleUserService.saveBatch(sysRoleUserEntities);
     }
 
-    public void grant(SysUserEntity entity, Set<String> roleCodes) {
-        //roleCodes to roleIds
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean grantByRoleCodes(Long id, Set<String> roleCodes) {
         List<SysRoleEntity> roles = sysRoleService.list(new QueryWrapper<SysRoleEntity>().lambda().select(SysRoleEntity::getId).in(SysRoleEntity::getCode, roleCodes));
         Set<Long> roleIds = roles.stream().map(role -> role.getId()).collect(Collectors.toSet());
+        return this.grant(id, roleIds);
+    }
 
-        //批量保存
-        this.grant(entity.getId(), roleIds);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean grant(SysUserEntity entity, Set<String> roleCodes) {
+        return this.grantByRoleCodes(entity.getId(), roleCodes);
     }
 
 }

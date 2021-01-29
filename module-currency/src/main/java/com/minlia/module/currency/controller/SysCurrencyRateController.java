@@ -76,7 +76,7 @@ public class SysCurrencyRateController {
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody SysCurrencyRateQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyRateEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyRateEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyRateEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyRateEntity.class));
         return Response.success(sysCurrencyRateService.count(queryWrapper));
     }
 
@@ -85,7 +85,7 @@ public class SysCurrencyRateController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysCurrencyRateQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyRateEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyRateEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyRateEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyRateEntity.class));
         return Response.success(sysCurrencyRateService.page(qro.getPage(), queryWrapper));
     }
 

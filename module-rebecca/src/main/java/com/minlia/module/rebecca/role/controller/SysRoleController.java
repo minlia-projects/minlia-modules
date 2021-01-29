@@ -96,7 +96,7 @@ public class SysRoleController {
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody SysRoleQro qro) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new QueryWrapper<SysRoleEntity>()
-                .lambda().setEntity(DozerUtils.map(qro, SysRoleEntity.class)).last(qro.getOrderBy());
+                .lambda().setEntity(DozerUtils.map(qro, SysRoleEntity.class));
         return Response.success(sysRoleService.list(queryWrapper));
     }
 
@@ -106,7 +106,7 @@ public class SysRoleController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysRoleQro qro) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new QueryWrapper<SysRoleEntity>()
-                .lambda().setEntity(DozerUtils.map(qro, SysRoleEntity.class)).last(qro.getOrderBy());
+                .lambda().setEntity(DozerUtils.map(qro, SysRoleEntity.class));
         Page<SysRoleEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysRoleService.page(page, queryWrapper));
     }

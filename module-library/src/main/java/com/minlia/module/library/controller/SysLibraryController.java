@@ -16,7 +16,6 @@ import com.minlia.module.library.entity.SysLibraryEntity;
 import com.minlia.module.library.service.SysLibraryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -100,9 +99,7 @@ public class SysLibraryController {
         LambdaQueryWrapper<SysLibraryEntity> queryWrapper = new QueryWrapper<SysLibraryEntity>().lambda()
                 .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
                 .setEntity(entity);
-        if (StringUtils.isNotBlank(qro.getOrderBy())) {
-            queryWrapper.last(qro.getOrderBy());
-        } else {
+        if (!qro.hasOrder()) {
             queryWrapper.orderByDesc(SysLibraryEntity::getCreateDate);
         }
         return Response.success(sysLibraryService.list(queryWrapper));
@@ -117,9 +114,7 @@ public class SysLibraryController {
         LambdaQueryWrapper<SysLibraryEntity> queryWrapper = new QueryWrapper<SysLibraryEntity>().lambda()
                 .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
                 .setEntity(entity);
-        if (StringUtils.isNotBlank(qro.getOrderBy())) {
-            queryWrapper.last(qro.getOrderBy());
-        } else {
+        if (!qro.hasOrder()) {
             queryWrapper.orderByDesc(SysLibraryEntity::getCreateDate);
         }
         Page<SysLibraryEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());

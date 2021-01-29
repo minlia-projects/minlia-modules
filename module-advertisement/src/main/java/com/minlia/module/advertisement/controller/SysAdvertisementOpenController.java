@@ -46,7 +46,7 @@ public class SysAdvertisementOpenController {
     @PostMapping(value = "list")
     public Response queryList(@Valid @RequestBody SysAdvertisementsQro qro) {
         List<SysAdvertisementsEntity> advertisementsList = sysAdvertisementsService.list(Wrappers.<SysAdvertisementsEntity>lambdaQuery()
-                .setEntity(DozerUtils.map(qro, SysAdvertisementsEntity.class)).last(qro.getOrderBy()));
+                .setEntity(DozerUtils.map(qro, SysAdvertisementsEntity.class)));
 
         for (SysAdvertisementsEntity advertisements : advertisementsList) {
             LambdaQueryWrapper queryWrapper = Wrappers.<SysAdvertisementEntity>lambdaQuery().eq(SysAdvertisementEntity::getAid, advertisements.getId());

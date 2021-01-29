@@ -72,7 +72,7 @@ public class SysArticleLabelController {
     public Response list(@Valid @RequestBody ArticleLabelQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery()
                 .setEntity(DozerUtils.map(qro, SysArticleLabelEntity.class))
-                .last(qro.getOrderBy());
+                ;
         return Response.success(sysArticleLabelService.list(queryWrapper));
     }
 
@@ -82,7 +82,7 @@ public class SysArticleLabelController {
     public Response page(@Valid @RequestBody ArticleLabelQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery()
                 .setEntity(DozerUtils.map(qro, SysArticleLabelEntity.class))
-                .last(qro.getOrderBy());
+                ;
         Page page = new Page(qro.getPageNumber(), qro.getPageSize());
         return Response.success(sysArticleLabelService.page(page, queryWrapper));
     }

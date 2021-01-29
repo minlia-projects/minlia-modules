@@ -69,7 +69,7 @@ public class EmailRecordController {
     @ApiOperation(value = "单个查询")
     @PostMapping(value = "one")
     public Response one(@Valid @PathVariable EmailRecordQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailRecordEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailRecordEntity.class));
         return Response.success(emailRecordService.getOne(queryWrapper));
     }
 
@@ -78,7 +78,7 @@ public class EmailRecordController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody EmailRecordQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailRecordEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailRecordEntity.class));
         return Response.success(emailRecordService.list(queryWrapper));
     }
 
@@ -87,7 +87,7 @@ public class EmailRecordController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody EmailRecordQro qro) {
-        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailRecordEntity.class)).last(qro.getOrderBy());
+        LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailRecordEntity.class));
         Page<EmailRecordEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
         return Response.success(emailRecordService.page(page, queryWrapper));
     }
