@@ -2,6 +2,7 @@ package com.minlia.module.shipping.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.module.data.entity.BaseQueryEntity;
+import com.minlia.module.shipping.enums.ExpressAddressTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,8 +21,11 @@ public class ShippingAddressQro extends BaseQueryEntity {
     @JsonIgnore
     private Long uid;
 
-    @ApiModelProperty(value = "收货人")
-    private String receiver;
+    @ApiModelProperty(value = "类型")
+    private ExpressAddressTypeEnum type;
+
+    @ApiModelProperty(value = "联系人")
+    private String contacts;
 
     @ApiModelProperty(value = "别名")
     private String alias;
