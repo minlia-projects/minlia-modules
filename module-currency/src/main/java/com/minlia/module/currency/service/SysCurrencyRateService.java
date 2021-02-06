@@ -32,4 +32,14 @@ public interface SysCurrencyRateService extends IService<SysCurrencyRateEntity> 
      */
     BigDecimal getRate(String curBase, String curTrans);
 
+    /**
+     * 换算
+     *
+     * @param amount
+     * @param curBase
+     * @param curTrans
+     * @return
+     */
+    BigDecimal convert(BigDecimal amount, String curBase, String curTrans);
+
 }

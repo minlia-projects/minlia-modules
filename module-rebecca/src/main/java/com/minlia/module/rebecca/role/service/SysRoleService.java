@@ -33,14 +33,6 @@ public interface SysRoleService extends IService<SysRoleEntity> {
      */
     List<SysRoleEntity> getRolesByUserId(Long userId);
 
-    /**
-     * 通过用户uid，查询角色信息
-     *
-     * @param uid
-     * @return
-     */
-    List<SysRoleEntity> getRolesByUserCode(Long uid);
-
     List<String> getCodesByUserId(Long userId);
 
     /**

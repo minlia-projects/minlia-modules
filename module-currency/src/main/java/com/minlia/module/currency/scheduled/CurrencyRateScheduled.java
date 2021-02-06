@@ -41,7 +41,7 @@ public class CurrencyRateScheduled {
         List<SysCurrencyRateEntity> currencyRateEntities = sysCurrencyRateService.list(Wrappers.<SysCurrencyRateEntity>lambdaQuery().eq(SysCurrencyRateEntity::getAutoFlag, true));
         String curDate = LocalDate.now().format(DateTimeFormatter.ofPattern(DatePattern.PURE_DATE_PATTERN));
         for (SysCurrencyRateEntity currencyRateEntity : currencyRateEntities) {
-            SysCurrencyRateDto rateDto = restTemplate.getForObject(URL, SysCurrencyRateDto.class, currencyRateEntity.getCurBase(), currencyRateEntity.getCurTrans(), curDate, currencyRateConfig.getAppKey(), currencyRateConfig.getSign());
+            SysCurrencyRateDto rateDto = restTemplate.getForObject(URL, SysCurrencyRateDto.class, currencyRateEntity.getCurTrans(), currencyRateEntity.getCurBase(), curDate, currencyRateConfig.getAppKey(), currencyRateConfig.getSign());
             if (rateDto.isSuccess()) {
                 currencyRateEntity.setRate(new BigDecimal(rateDto.getResult().getExchangeRate()));
                 currencyRateEntity.setTime(LocalDate.parse(rateDto.getResult().getCurDate()));

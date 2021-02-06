@@ -23,6 +23,7 @@ public interface SysPermissionService extends IService<SysPermissionEntity> {
     List<Map<String, Object>> tree();
 
     List<String> getCodesByRoleId(Long roleId);
+    List<String> getCodesByRoleId(List<Long> roleIds);
 
     List<Long> getIdsByRoleId(Long roleId);
     List<Long> getIdsByRoleCode(String roleCode);

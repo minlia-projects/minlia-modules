@@ -27,6 +27,8 @@ public interface SysPermissionMapper extends BaseMapper<SysPermissionEntity> {
 
     List<String> selectCodesByRoleId(Long roleId);
 
+    List<String> selectCodesByRoleIds(List<Long> roleIds);
+
     List<Long> selectIdsByRoleCode(@Param("roleCode") String roleCode);
 
     List<Long> selectIdsByUserCode(@Param("userCode") String userCode);

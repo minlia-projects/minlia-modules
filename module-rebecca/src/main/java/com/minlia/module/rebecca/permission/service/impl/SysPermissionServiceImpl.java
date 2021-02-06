@@ -72,6 +72,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
+    public List<String> getCodesByRoleId(List<Long> roleIds) {
+        return this.getBaseMapper().selectCodesByRoleIds(roleIds);
+    }
+
+    @Override
     public List<Long> getIdsByRoleId(Long roleId) {
         List<SysRolePermissionEntity> entities = sysRolePermissionService.list(Wrappers.<SysRolePermissionEntity>lambdaQuery().eq(SysRolePermissionEntity::getRoleId, roleId));
         return entities.stream().map(entity -> entity.getPermissionId()).collect(Collectors.toList());

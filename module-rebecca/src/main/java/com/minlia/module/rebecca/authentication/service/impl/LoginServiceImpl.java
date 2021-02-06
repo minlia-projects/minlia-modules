@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author garen
@@ -52,7 +53,13 @@ public class LoginServiceImpl implements LoginService {
         }
 
         SysRoleEntity roleEntity = sysRoleService.getOne(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getCode, currrole));
-        List<String> permissions = sysPermissionService.getCodesByRoleId(roleEntity.getId());
+//        List<String> permissions = sysPermissionService.getCodesByRoleId(roleEntity.getId());
+
+        //TODO 获取用户角色
+        List<Long> roleIds = sysRoleService.getRolesByUserId(userEntity.getId()).stream().map(SysRoleEntity::getId).collect(Collectors.toList());
+        //TODO 获取权限点
+        List<String> permissions = sysPermissionService.getCodesByRoleId(roleIds);
+
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {
             for (String permission : permissions) {

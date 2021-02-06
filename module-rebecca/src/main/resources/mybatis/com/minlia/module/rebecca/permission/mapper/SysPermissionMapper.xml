@@ -79,6 +79,15 @@
         WHERE sys_role_permission.role_id = #{roleId}
     </select>
 
+    <select id="selectCodesByRoleIds" resultType="java.lang.String">
+        SELECT sys_permission.`code` FROM sys_permission
+        INNER JOIN sys_role_permission ON sys_role_permission.permission_id = sys_permission.id
+        WHERE sys_role_permission.role_id IN
+        <foreach collection="list" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
     <select id="selectIdsByRoleId" resultType="java.lang.Long">
         SELECT spt.id FROM sys_permission spt
         INNER JOIN sys_role_permission srpt ON srpt.permission_id = spt.id
