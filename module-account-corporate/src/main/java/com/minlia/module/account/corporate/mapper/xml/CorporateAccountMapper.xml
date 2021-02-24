@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.account.corporate.mapper.CorporateAccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.account.corporate.entity.CorporateAccountEntity">
+        <result column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+        <result column="bank_name" property="bankName" />
+        <result column="branch_name" property="branchName" />
+        <result column="account_name" property="accountName" />
+        <result column="account_number" property="accountNumber" />
+        <result column="remark" property="remark" />
+        <result column="def_flag" property="defFlag" />
+        <result column="dis_flag" property="disFlag" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        bank_name, branch_name, account_name, account_number, remark, def_flag, dis_flag, del_flag
+    </sql>
+
+</mapper>

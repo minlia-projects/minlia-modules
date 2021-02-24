@@ -1,0 +1,20 @@
+server:
+  port: 8080
+# SPRING PROFILES
+spring:
+  profile: dev
+  application:
+    name: Minlia
+swagger:
+  enable: true
+  host: http://localhost:${server.port}
+  title: ${spring.application.name}
+  version: 1.0
+  path: /api/.*
+  description: Minlia Swagger
+  termsOfServiceUrl: https://www.google.com/tos
+  redirect: true
+  contact:
+    name: garen
+    url: https://www.google.com
+    email: cloud@google.com

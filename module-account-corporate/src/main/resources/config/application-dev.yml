@@ -1,0 +1,60 @@
+server:
+  port: 8080
+#
+spring:
+  application:
+    name: minlia corporate account
+  #
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password:
+    lettuce:
+      pool:
+        max-active: 300
+        max-wait: 10000
+        max-idle: 100
+        min-idle: 50
+    timeout: 0
+  #
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    name:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hsjs?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password:
+#
+mybatis-plus:
+  mapper-locations: classpath*:mybatis/mapper/**/*Mapper.xml,classpath*:mybatis/**/mapper/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: assign_id
+      # 表名前缀
+      #      table-prefix: t
+      # 表名是否使用下划线间隔，默认：是
+      table-underline: true
+  # 添加mybatis配置文件路径
+  #  config-location: mybatis-config.xml
+  # 配置实体类包地址
+  #  type-aliases-package: org.ywb.demo.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumTypeHandler
+
+# ===== 自定义swagger配置 ===== #
+swagger:
+  enable: true
+  host: http://localhost:${server.port}
+  title: ${spring.application.name}
+  version: 1.0
+  path: /api/.*
+  description: Corporate Account Swagger
+  termsOfServiceUrl: https://www.google.com/tos
+  redirect: true
+  contact:
+    name: garen
+    url: https://www.google.com
+    email: cloud@google.com
