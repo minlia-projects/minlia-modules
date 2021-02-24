@@ -42,6 +42,8 @@
         <!--        <module>module-address</module>-->
         <module>module-shipping-address</module>
 
+        <module>module-account-corporate</module>
+
         <module>module-email</module>
         <module>module-sms</module>
 

@@ -2,11 +2,9 @@ package com.minlia.module.riskcontrol.service;
 
 import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.code.Code;
-import com.minlia.module.riskcontrol.bean.RiskRecordQRO;
 import com.minlia.module.riskcontrol.config.RiskcontrolConfig;
 import com.minlia.module.riskcontrol.entity.RiskRecord;
 import com.minlia.module.riskcontrol.event.Event;
-import com.minlia.module.riskcontrol.mapper.RiskRecordMapper;
 import com.minlia.module.riskcontrol.repository.RiskRecordRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
@@ -30,9 +28,6 @@ public class RiskRecordService {
 
     @Autowired
     private RiskcontrolConfig riskcontrolConfig;
-
-    @Autowired
-    private RiskRecordMapper riskRecordMapper;
 
     @Autowired
     private RiskRecordRepository riskRecordRepository;

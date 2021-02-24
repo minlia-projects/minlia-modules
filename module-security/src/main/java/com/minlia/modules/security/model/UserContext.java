@@ -2,6 +2,8 @@ package com.minlia.modules.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.Body;
+import com.minlia.module.common.annotation.SensitiveInfo;
+import com.minlia.module.common.enumeration.SensitiveTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,13 +44,13 @@ public class UserContext implements Body {
     /**
      * 手机号码
      */
-    @JsonIgnore
+    @SensitiveInfo(value = SensitiveTypeEnum.MOBILE_PHONE)
     private String cellphone;
 
     /**
      * 邮箱
      */
-    @JsonIgnore
+    @SensitiveInfo(value = SensitiveTypeEnum.EMAIL)
     private String email;
 
     /**

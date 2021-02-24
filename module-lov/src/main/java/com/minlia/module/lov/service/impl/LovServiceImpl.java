@@ -1,5 +1,6 @@
 package com.minlia.module.lov.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.module.lov.entity.SysLovEntity;
 import com.minlia.module.lov.mapper.SysLovMapper;
@@ -23,6 +24,11 @@ public class LovServiceImpl extends ServiceImpl<SysLovMapper, SysLovEntity> impl
         entity.setDisFlag(!entity.getDelFlag());
         this.updateById(entity);
         return entity.getDisFlag();
+    }
+
+    @Override
+    public SysLovEntity getByCode(String code) {
+        return getOne(Wrappers.<SysLovEntity>lambdaQuery().eq(SysLovEntity::getCode, code));
     }
 
 }

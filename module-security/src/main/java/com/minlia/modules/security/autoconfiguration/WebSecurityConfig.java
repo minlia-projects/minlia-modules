@@ -4,7 +4,6 @@ import com.minlia.modules.security.authentication.ajax.AjaxLoginAuthenticationPr
 import com.minlia.modules.security.authentication.ajax.DefaultLogoutSuccessHandler;
 import com.minlia.modules.security.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.SkipPathRequestMatcher;
-import com.minlia.modules.security.web.filter.SystemCorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -155,7 +154,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(OPEN_ENTRY_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
 //                .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(cellphoneCaptchaAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(userDetailsAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(ajaxLoginAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)

@@ -18,4 +18,8 @@ public interface LovValueService extends IService<SysLovItemEntity> {
     SysLovItemEntity update(SysLovItemEntity entity);
 
     Boolean disable(Long id);
+
+    SysLovItemEntity get(String lovCode, String itemCode);
+
+    String getName(String lovCode, String itemCode);
 }

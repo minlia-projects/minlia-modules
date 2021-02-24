@@ -2,10 +2,8 @@ package com.minlia.module.swagger.endpoint;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Swagger测试 前端控制器
@@ -14,21 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0.0
  * @date 2020-10-24 13:50:09
  */
-@Api("Swagger Test")
+@Api(tags = "Swagger Test")
 @RestController
 @RequestMapping("/api/test")
 public class SwaggerTestEndpoint {
 
-    @ApiOperation("POST")
+    @ApiOperation(value = "创建")
     @PostMapping
-    public Boolean post() {
-        return true;
+    public String create(@Validated @RequestBody SwaggerTestBody sro) {
+        return "ok";
     }
 
-    @ApiOperation("GET")
-    @GetMapping
-    public Boolean get() {
-        return true;
+    @ApiOperation(value = "修改")
+    @PutMapping
+    public String update(@Validated @RequestBody SwaggerTestBody sro) {
+        return "ok";
+    }
+
+    @ApiOperation(value = "删除")
+    @DeleteMapping(value = "{id}")
+    public String delete(@PathVariable Long id) {
+        return "ok";
+    }
+
+    @ApiOperation(value = "查询")
+    @GetMapping(value = "{id}")
+    public String select(@PathVariable Long id) {
+        return "ok";
     }
 
 }

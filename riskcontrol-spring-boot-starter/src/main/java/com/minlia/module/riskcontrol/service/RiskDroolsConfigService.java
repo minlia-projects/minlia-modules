@@ -1,21 +1,19 @@
 package com.minlia.module.riskcontrol.service;
 
-import com.google.common.collect.Lists;
-import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import com.minlia.module.riskcontrol.event.RiskConfigReloadEvent;
 import com.minlia.module.riskcontrol.repository.RiskConfigRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisPubSub;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,29 +21,18 @@ import java.util.stream.Collectors;
 @Service
 public class RiskDroolsConfigService {
 
-    private String channel = this.getClass().getName();
+    public static String channel = "risk:drools";
+
+    @Resource(name = "redisTemplate")
+    private RedisTemplate redisTemplate;
 
     private Map<String, RiskDroolsConfig> configMap;
 
     @Autowired
     private RiskConfigRepository riskConfigRepository;
 
-    @Autowired
-    private RedisDao redisDao;
-
     @PostConstruct
     public void init() {
-        new Thread(() ->
-                redisDao.subscribe(new JedisPubSub() {
-                    @Override
-                    public void onMessage(String pchannel, String message) {
-                        log.info("redis通知，channel={},message={}", pchannel, message);
-                        if (channel.equals(pchannel)) {
-                            updateCache();
-                        }
-                    }
-                }, channel)
-        ).start();
         updateCache();
     }
 
@@ -60,7 +47,7 @@ public class RiskDroolsConfigService {
     public void pub(RiskDroolsConfig riskDroolsConfig) {
         riskDroolsConfig.setTime(LocalDateTime.now());
         riskConfigRepository.save(riskDroolsConfig);
-        redisDao.publish(this.channel, "");
+        redisTemplate.convertAndSend(channel, "");
     }
 
     public List<RiskDroolsConfig> getAll() {

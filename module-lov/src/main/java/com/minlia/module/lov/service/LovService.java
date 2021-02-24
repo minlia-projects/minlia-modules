@@ -15,4 +15,5 @@ public interface LovService extends IService<SysLovEntity> {
 
     Boolean disable(Long id);
 
+    SysLovEntity getByCode(String code);
 }

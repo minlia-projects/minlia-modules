@@ -2,7 +2,6 @@ package com.minlia.module.riskcontrol.service;
 
 import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.constant.SymbolConstants;
-import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskIpList;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import com.minlia.module.riskcontrol.event.RiskIplistReloadEvent;
@@ -10,10 +9,11 @@ import com.minlia.module.riskcontrol.repository.RiskIpListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisPubSub;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -23,35 +23,35 @@ import java.util.stream.Collectors;
 @Service
 public class RiskIpListService {
 
-    private String channel = this.getClass().getName();
+    public static String channel = "risk:iplist";
 
     private Map<Long, RiskIpList> blackListMap;
 
-    @Autowired
-    private RedisDao redisDao;
+    @Resource(name = "redisTemplate")
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private RiskIpListRepository riskIpListRepository;
 
     @PostConstruct
     public void init() {
-        new Thread(() -> {
-            redisDao.subscribe(new JedisPubSub() {
-                @Override
-                public void onMessage(String pchannel, String message) {
-                    log.info("redis通知，channel={},message={}", pchannel, message);
-                    if (channel.equals(pchannel)) {
-                        updateCache();
-                    }
-                }
-            }, channel);
-        }).start();
+//        new Thread(() -> {
+//            redisDao.subscribe(new JedisPubSub() {
+//                @Override
+//                public void onMessage(String pchannel, String message) {
+//                    log.info("redis通知，channel={},message={}", pchannel, message);
+//                    if (channel.equals(pchannel)) {
+//                        updateCache();
+//                    }
+//                }
+//            }, channel);
+//        }).start();
         updateCache();
     }
 
     public void pub(RiskIpList riskIpList) {
         add(riskIpList);
-        redisDao.publish(this.channel, "");
+        redisTemplate.convertAndSend(channel, "");
     }
 
     public List<RiskIpList> getAll() {
@@ -82,7 +82,7 @@ public class RiskIpListService {
      */
     public void delete(Long id) {
         riskIpListRepository.deleteById(id);
-        redisDao.publish(this.channel, "");
+        redisTemplate.convertAndSend(channel, "");
     }
 
     public RiskIpList queryById(Long id) {
@@ -119,7 +119,6 @@ public class RiskIpListService {
         Long number = Long.valueOf(ips[0]) * (256 * 256 * 256) + Long.valueOf(ips[1]) * (256 * 256) + Long.valueOf(ips[2]) * (256) + Long.valueOf(ips[3]);
         return number;
     }
-
 
     public static void main(String[] args) {
         Long l = ipToNumber("172.0.0.1");

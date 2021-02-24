@@ -68,18 +68,10 @@
             <artifactId>drools-compiler</artifactId>
             <version>${drools.version}</version>
         </dependency>
-
-        <!--swagger-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.5.0</version>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-swagger</artifactId>
+            <version>${minlia.module.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.5.0</version>
-        </dependency>
-
     </dependencies>
 </project>

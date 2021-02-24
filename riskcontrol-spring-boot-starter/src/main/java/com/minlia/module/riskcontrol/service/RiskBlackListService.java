@@ -1,22 +1,20 @@
 package com.minlia.module.riskcontrol.service;
 
 import com.alibaba.fastjson.JSON;
-import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskBlackList;
-import com.minlia.module.riskcontrol.entity.RiskBlackUrl;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import com.minlia.module.riskcontrol.event.RiskBlacklistReloadEvent;
 import com.minlia.module.riskcontrol.repository.RiskBlackListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.JedisPubSub;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,35 +22,23 @@ import java.util.stream.Collectors;
 @Service
 public class RiskBlackListService {
 
-    private String channel = this.getClass().getName();
+    public static String channel = "risk:blacklist";
 
     private Map<String, RiskBlackList> blackListMap;
 
-    @Autowired
-    private RedisDao redisDao;
-
+    @Resource(name = "redisTemplate")
+    private RedisTemplate redisTemplate;
     @Autowired
     private RiskBlackListRepository riskBlackListRepository;
 
     @PostConstruct
     public void init() {
-        new Thread(() -> {
-            redisDao.subscribe(new JedisPubSub() {
-                @Override
-                public void onMessage(String pchannel, String message) {
-                    log.info("redis通知，channel={},message={}", pchannel, message);
-                    if (channel.equals(pchannel)) {
-                        updateCache();
-                    }
-                }
-            }, channel);
-        }).start();
         updateCache();
     }
 
     public void pub(RiskBlackList riskBlackList) {
         add(riskBlackList);
-        redisDao.publish(this.channel, "");
+        redisTemplate.convertAndSend(channel, "");
     }
 
     public List<RiskBlackList> getAll() {
@@ -83,7 +69,7 @@ public class RiskBlackListService {
      */
     public void delete(Long id) {
         riskBlackListRepository.deleteById(id);
-        redisDao.publish(this.channel, "");
+        redisTemplate.convertAndSend(channel, "");
     }
 
     public RiskBlackList queryById(Long id) {

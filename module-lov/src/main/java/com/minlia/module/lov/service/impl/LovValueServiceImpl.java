@@ -1,9 +1,11 @@
 package com.minlia.module.lov.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.i18n.util.LocaleUtils;
 import com.minlia.module.lov.entity.SysLovEntity;
 import com.minlia.module.lov.entity.SysLovItemEntity;
 import com.minlia.module.lov.mapper.LovValueMapper;
@@ -50,21 +52,19 @@ public class LovValueServiceImpl extends ServiceImpl<LovValueMapper, SysLovItemE
         return entity.getDisFlag();
     }
 
-//    @Override
-//    public LovValue selectOneByCodeAndLovCode(String lovCode, String code) {
-//        Lov lov = lovService.selectOneByCode(lovCode);
-//        return null != lov ? lovValueMapper.selectOneByCodeAndLovId(lov.getId(), code, LocaleContextHolder.getLocale().toString()) : null;
-//    }
-//
-//    @Override
-//    public String selectNameByCodeAndLovCode(String lovCode, String code) {
-//        LovValue lovValue = this.selectOneByCodeAndLovCode(lovCode, code);
-//        return null != lovValue ? lovValue.getName() : null;
-//    }
-//
-//    @Override
-//    public List<String> selectNameByAll(LovValueQRO qro) {
-//        return lovValueMapper.selectNameByAll(qro);
-//    }
+    @Override
+    public SysLovItemEntity get(String lovCode, String itemCode) {
+        SysLovEntity lov = lovService.getByCode(lovCode);
+        return null != lov ? getOne(Wrappers.<SysLovItemEntity>lambdaQuery()
+                .eq(SysLovItemEntity::getLovId, lov.getId())
+                .eq(SysLovItemEntity::getCode, itemCode)
+                .eq(SysLovItemEntity::getLocale, LocaleUtils.locale())) : null;
+    }
+
+    @Override
+    public String getName(String lovCode, String itemCode) {
+        SysLovItemEntity item = get(lovCode, itemCode);
+        return null != item ? item.getName() : null;
+    }
 
 }

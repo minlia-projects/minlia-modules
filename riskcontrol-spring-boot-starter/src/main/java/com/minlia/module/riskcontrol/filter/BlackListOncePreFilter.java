@@ -5,7 +5,6 @@ import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.riskcontrol.constant.RiskCode;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import com.minlia.module.riskcontrol.event.RiskBlackIpEvent;
-import com.minlia.module.riskcontrol.event.RiskIpScopeEvent;
 import com.minlia.module.riskcontrol.service.KieService;
 import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
 import lombok.extern.slf4j.Slf4j;

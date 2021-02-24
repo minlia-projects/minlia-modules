@@ -2,17 +2,20 @@ package com.minlia.module.riskcontrol.service;
 
 import com.minlia.module.redis.util.RedisUtils;
 import com.minlia.module.riskcontrol.config.RiskcontrolConfig;
-import com.minlia.module.riskcontrol.dao.RedisDao;
 import com.minlia.module.riskcontrol.entity.RiskDroolsConfig;
 import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import com.minlia.module.riskcontrol.event.Event;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.StringJoiner;
 
 /**
@@ -26,8 +29,8 @@ public class DimensionService {
 
     private final static String RISK_KEY_FORMAT = "risk_%s_%s:%s_%s";
 
-    @Autowired
-    private RedisDao redisDao;
+    @Resource
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private RiskcontrolConfig riskcontrolConfig;
@@ -49,17 +52,21 @@ public class DimensionService {
             "redis.call('ZADD', KEYS[1], ARGV[3], ARGV[4]);" +
             "return redis.call('ZCOUNT',KEYS[1],ARGV[5],ARGV[6]);";
 
-    private String luaSha;
+//    private String luaSha;
 
     /**
      * lua 添加行为数据并获取结果
      */
     private Long runSha(String key, String remMaxScore, String expire, String score, String value, String queryMinScore, String queryMaxScore) {
-        if (luaSha == null) {
-            luaSha = redisDao.scriptLoad(luaScript);
-        }
-        return redisDao.evalsha(luaSha, 1, new String[]{key, remMaxScore, expire, score, value, queryMinScore, queryMaxScore});
+//        if (luaSha == null) {
+//            luaSha = redisDao.scriptLoad(luaScript);
+//        }
+//        return redisDao.evalsha(luaSha, 1, key, remMaxScore, expire, score, value, queryMinScore, queryMaxScore);
+        String result = redisTemplate.execute(longDefaultRedisScript, Collections.singletonList("1"), key, remMaxScore, expire, score, value, queryMinScore, queryMaxScore);
+        return Long.valueOf(result);
     }
+
+    DefaultRedisScript<String> longDefaultRedisScript = new DefaultRedisScript(luaScript, String.class);
 
     /**
      * 计算频数，这里考虑性能，采用redis方式

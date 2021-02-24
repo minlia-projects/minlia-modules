@@ -2,6 +2,7 @@ package com.minlia.module.swagger.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * Swagger 配置参数
@@ -10,23 +11,22 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @version 2.0
  * @date 2020-11-2
  */
-@ConfigurationProperties(prefix = "swagger", ignoreUnknownFields = false)
 @Data
+@Component
+@ConfigurationProperties(prefix = "swagger", ignoreUnknownFields = false)
 public class SwaggerProperties {
 
-    private String title = "GAUSS";
+    private Boolean enable = true;
+
+    private String host = "http://localhost:8080";
+
+    private String title = "Minlia";
 
     private String version = "1.0";
 
     private String path = "/api/.*";
 
-    private String description = "TP Api Documentations";
-
-    private String author = "garen";
-
-    private String url = "https://www.google.com";
-
-    private String email = "191285052@qq.com";
+    private String description = "Minlia Api Documentations";
 
     /**
      * 服务条款
@@ -34,5 +34,14 @@ public class SwaggerProperties {
     private String termsOfServiceUrl = "https://www.google.com/tos";
 
     boolean redirect = false;
+
+    public Contact contact;
+
+    @Data
+    public static class Contact {
+        String name;
+        String url;
+        String email;
+    }
 
 }
