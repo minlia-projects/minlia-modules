@@ -20,7 +20,7 @@ public class AliyunGreenUtil {
     private static TextScanRequest textScanRequest = request();
 
     public static IAcsClient client() {
-        IClientProfile profile = DefaultProfile.getProfile("cn-shanghai", "LTAI4GL2xYzQAJiKU3W7DWJ3", "W65DgDth45J4CT8aJmidjSUgsbHHI1");
+        IClientProfile profile = DefaultProfile.getProfile("cn-shanghai", "", "");
         DefaultProfile.addEndpoint("cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");
         IAcsClient client = new DefaultAcsClient(profile);
         return client;
