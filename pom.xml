@@ -63,12 +63,14 @@
         <module>module-advertisement</module>
         <!--<module>module-version</module>-->
 
+        <module>minlia-aliyun-green</module>
 
         <module>module-rebecca</module>
         <module>module-bible</module>
         <module>module-attachment</module>
         <module>module-library</module>
         <module>module-article</module>
+
 
 
         <module>module-currency</module>

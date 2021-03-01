@@ -29,7 +29,7 @@ public abstract class BaseQueryEntity extends QueryRequest {
     /**
      * 创建人
      */
-    private String createBy;
+    private Long createBy;
 
     /**
      * 创建时间
@@ -39,7 +39,7 @@ public abstract class BaseQueryEntity extends QueryRequest {
     /**
      * 最后修改人
      */
-    private String lastModifiedBy;
+    private Long lastModifiedBy;
 
     /**
      * 最后修改时间
