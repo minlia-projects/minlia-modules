@@ -22,7 +22,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//public final class UserContext implements Body {
 public class UserContext implements Body {
 
     /**
@@ -35,6 +34,10 @@ public class UserContext implements Body {
      */
     @JsonIgnore
     private Long orgId;
+    @JsonIgnore
+    private Integer dpType;
+    @JsonIgnore
+    private String dpScope;
 
     /**
      * 用户名
@@ -52,6 +55,11 @@ public class UserContext implements Body {
      */
     @SensitiveInfo(value = SensitiveTypeEnum.EMAIL)
     private String email;
+
+    /**
+     * 过期时间
+     */
+    private LocalDateTime expireDate;
 
     /**
      * JwtTokenFactory
@@ -82,10 +90,5 @@ public class UserContext implements Body {
      */
     @JsonIgnore
     private List<GrantedAuthority> authorities;
-
-    /**
-     * 过期时间
-     */
-    private LocalDateTime expireDate;
 
 }

@@ -29,17 +29,17 @@
 //    private final String dbUrl = "jdbc:mysql://127.0.0.1:3306/hsjs?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai&useSSL=false&autoReconnect=true&autoReconnectForPools=true&allowMultiQueries=true";
 //    private final String driver = "com.mysql.cj.jdbc.Driver";
 //    private final String userName = "root";
-//    private final String password = "Root.2018";
+//    private final String password = "";
 //
 //    /**
 //     * 项目名
 //     */
-//    private final String projectName = "module-rebecca";
+//    private final String projectName = "minlia-modules/module-rebecca";
 //
 //    /**
 //     * 模块名 如果有模块名，则需在模块名前加. 例：.log
 //     */
-//    private final String moduleName = "user";
+//    private final String moduleName = "";
 //
 //    /**
 //     * 指定包名
@@ -64,7 +64,7 @@
 //    /**
 //     * 指定生成的表名
 //     */
-//    private final String[] tableNames = new String[]{"sys_user_history"};
+//    private final String[] tableNames = new String[]{"sys_data_permission"};
 //
 //    /**
 //     * 表前缀

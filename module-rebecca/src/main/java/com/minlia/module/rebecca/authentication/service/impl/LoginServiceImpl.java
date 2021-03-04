@@ -69,6 +69,8 @@ public class LoginServiceImpl implements LoginService {
 
         UserContext userContext = UserContext.builder()
                 .orgId(userEntity.getOrgId())
+                .dpType(roleEntity.getDpType())
+                .dpScope(roleEntity.getDpScope())
                 .username(userEntity.getUsername())
                 .cellphone(userEntity.getCellphone())
                 .email(userEntity.getEmail())

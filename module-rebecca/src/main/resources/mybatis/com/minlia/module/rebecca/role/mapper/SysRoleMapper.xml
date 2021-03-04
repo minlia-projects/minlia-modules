@@ -12,8 +12,8 @@
         <result column="parent_id" property="parentId"/>
         <result column="`code`" property="code"/>
         <result column="name" property="name"/>
-        <result column="ds_type" property="dsType"/>
-        <result column="ds_scope" property="dsScope"/>
+        <result column="dp_type" property="dpType"/>
+        <result column="dp_scope" property="dpScope"/>
         <result column="access_domain" property="accessDomain"/>
         <result column="remark" property="remark"/>
         <result column="dis_flag" property="disFlag"/>
@@ -27,7 +27,7 @@
         create_date,
         last_modified_by,
         last_modified_date,
-        parent_id, `code`, `name`, ds_type, ds_scope, access_domain, remark, dis_flag, del_flag
+        parent_id, `code`, `name`, dp_type, dp_scope, access_domain, remark, dis_flag, del_flag
     </sql>
 
     <select id="selectCodesByUserId" resultType="java.lang.String">

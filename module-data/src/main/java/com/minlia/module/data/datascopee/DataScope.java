@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface DataScope {
 
-    DataScopeTypeEnum type() default DataScopeTypeEnum.OWN_LEVEL;
+    DataScopeTypeEnum type() default DataScopeTypeEnum.OWN;
 
     /**
      * 限制范围的字段名称

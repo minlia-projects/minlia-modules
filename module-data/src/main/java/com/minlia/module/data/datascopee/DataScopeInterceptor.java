@@ -1,20 +1,3 @@
-///*
-// *    Copyright (c) 2018-2025, lengleng All rights reserved.
-// *
-// * Redistribution and use in source and binary forms, with or without
-// * modification, are permitted provided that the following conditions are met:
-// *
-// * Redistributions of source code must retain the above copyright notice,
-// * this list of conditions and the following disclaimer.
-// * Redistributions in binary form must reproduce the above copyright
-// * notice, this list of conditions and the following disclaimer in the
-// * documentation and/or other materials provided with the distribution.
-// * Neither the name of the pig4cloud.com developer nor the names of its
-// * contributors may be used to endorse or promote products derived from
-// * this software without specific prior written permission.
-// * Author: lengleng (wangiegie@gmail.com)
-// */
-//
 //package com.minlia.module.data.datascopee;
 //
 //import cn.hutool.core.collection.CollUtil;
@@ -68,9 +51,6 @@
 //    @Override
 //    @SneakyThrows
 //    public Object intercept(Invocation invocation) {
-//        if (log.isInfoEnabled()) {
-//            log.info("进入 DataScopeInterceptor 拦截器...");
-//        }
 //
 //        if (invocation.getTarget() instanceof StatementHandler) {
 //            StatementHandler handler = (StatementHandler) invocation.getTarget();
@@ -113,24 +93,24 @@
 //            //获取数据范围类型
 //            Entity query = Db.use(dataSource)
 //                    .query(String.format(ROLE_SPLIT_SQL, user.getCurrrole()))
-//                    .stream().min(Comparator.comparingInt(o -> o.getInt("ds_type"))).get();
-//            Integer dsType = query.getInt("ds_type");
+//                    .stream().min(Comparator.comparingInt(o -> o.getInt("dp_type"))).get();
+//            Integer dsType = query.getInt("dp_type");
 //            ApiAssert.notNull(dsType, "Data scope not configured");
 //
 //            // 查询全部
 //            if (DataScopeTypeEnum.ALL.getType() == dsType) {
 //                return sql;
 //            } else if (DataScopeTypeEnum.CUSTOMIZE.getType() == dsType) {
-//                String dsScope = query.getStr("ds_scope");
-//                scopeIds.addAll(Arrays.stream(dsScope.split(","))
+//                String dpScope = query.getStr("dp_scope");
+//                scopeIds.addAll(Arrays.stream(dpScope.split(","))
 //                        .map(Long::parseLong).collect(Collectors.toList()));
-//            } else if (DataScopeTypeEnum.OWN_CHILD_LEVEL.getType() == dsType) {
+//            } else if (DataScopeTypeEnum.OWN_CHILD.getType() == dsType) {
 //                List<Long> deptIdList = Db.use(dataSource)
 //                        .findBy("mdl_organization_relation", "ancestor", user.getOrgId())
 //                        .stream().map(entity -> entity.getLong("descendant"))
 //                        .collect(Collectors.toList());
 //                scopeIds.addAll(deptIdList);
-//            } else if (DataScopeTypeEnum.OWN_LEVEL.getType() == dsType) {
+//            } else if (DataScopeTypeEnum.OWN.getType() == dsType) {
 //                scopeIds.add(user.getOrgId());
 //            }
 //        }

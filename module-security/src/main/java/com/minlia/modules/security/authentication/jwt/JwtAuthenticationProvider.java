@@ -60,15 +60,25 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String currdomain = jwsClaims.getBody().get("currdomain", String.class);
         checkDomain(currdomain);
 
-        String username = jwsClaims.getBody().getSubject();
-
-        Object orgId = jwsClaims.getBody().get("orgId");
-        String cellphone = jwsClaims.getBody().get("cellphone", String.class);
-        String email = jwsClaims.getBody().get("email", String.class);
-        String currrole = jwsClaims.getBody().get("currrole", String.class);
-        List<String> roles = jwsClaims.getBody().get("roles", List.class);
         List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
-        Date expirDate = jwsClaims.getBody().getExpiration();
+
+        UserContext userContext = UserContext.builder()
+                .uid(uid)
+                .orgId(Long.valueOf(jwsClaims.getBody().get("orgId").toString()))
+                .dpType(jwsClaims.getBody().get("dpType", Integer.class))
+                .dpScope(jwsClaims.getBody().get("dpScope", String.class))
+                .username(jwsClaims.getBody().getSubject())
+                .cellphone(jwsClaims.getBody().get("cellphone", String.class))
+                .email(jwsClaims.getBody().get("email", String.class))
+                .roles(jwsClaims.getBody().get("roles", List.class))
+                .currrole(jwsClaims.getBody().get("currrole", String.class))
+                .currdomain(currdomain)
+                .permissions(permissions)
+                .expireDate(LocalDateUtils.dateToLocalDateTime(jwsClaims.getBody().getExpiration()))
+                .build();
+
+        //重置缓存时间
+        TokenCacheUtils.expire(userContext.getUid(), jwtProperty.getTokenExpirationTime());
 
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {
@@ -76,22 +86,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 authorities.add(new SimpleGrantedAuthority(permission));
             }
         }
-
-        UserContext userContext = UserContext.builder()
-                .uid(uid)
-                .orgId(null != orgId ? Long.valueOf(orgId.toString()) : null)
-                .username(username)
-                .cellphone(cellphone)
-                .email(email)
-                .roles(roles)
-                .currrole(currrole)
-                .currdomain(currdomain)
-                .permissions(permissions)
-                .expireDate(LocalDateUtils.dateToLocalDateTime(expirDate))
-                .build();
-
-        //重置缓存时间
-        TokenCacheUtils.expire(userContext.getUid(), jwtProperty.getTokenExpirationTime());
         return new JwtAuthenticationToken(userContext, authorities);
     }
 
@@ -111,7 +105,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
             try {
                 URL url = new URL(servletRequest.getRequestURL().toString());
-//                if (!url.getHost().equals(currdomain)) {
                 if (!currdomain.contains(url.getHost())) {
                     throw new JwtInvalidTokenException("Invalid JWT token");
                 }

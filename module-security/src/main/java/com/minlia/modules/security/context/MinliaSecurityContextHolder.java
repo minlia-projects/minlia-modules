@@ -1,5 +1,6 @@
 package com.minlia.modules.security.context;
 
+import com.minlia.modules.security.model.DataPermission;
 import com.minlia.modules.security.model.UserContext;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.security.core.Authentication;
@@ -9,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class MinliaSecurityContextHolder {
 
@@ -19,6 +21,14 @@ public class MinliaSecurityContextHolder {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
                 return userContext;
             }
+        }
+        return null;
+    }
+
+    public static DataPermission getDataPermission() {
+        UserContext userContext = getUserContext();
+        if (Objects.nonNull(userContext)) {
+            return DataPermission.builder().orgId(userContext.getOrgId()).dpType(userContext.getDpType()).dpScope(userContext.getDpScope()).build();
         }
         return null;
     }

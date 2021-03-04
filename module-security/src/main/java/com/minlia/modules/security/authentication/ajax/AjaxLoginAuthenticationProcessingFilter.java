@@ -23,6 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Slf4j
@@ -74,7 +75,7 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
         } else {
             MinliaValidProperties validProperties = ContextHolder.getContext().getBean(MinliaValidProperties.class);
             if (Pattern.matches(validProperties.getCellphone(), credentials.getName())) {
-                credentials.setCellphone(credentials.getAreaCode() + credentials.getName());
+                credentials.setCellphone(Objects.isNull(credentials.getAreaCode()) ? credentials.getName() : credentials.getAreaCode() + credentials.getName());
                 credentials.setType(LoginTypeEnum.CELLPHONE);
             } else if (Pattern.matches(validProperties.getUsername(), credentials.getName())) {
                 credentials.setUsername(credentials.getName());

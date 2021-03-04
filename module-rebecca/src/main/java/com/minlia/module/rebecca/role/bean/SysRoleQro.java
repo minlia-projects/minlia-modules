@@ -34,7 +34,7 @@ public class SysRoleQro extends BaseQueryEntity {
     private Integer dsType;
 
     @ApiModelProperty(value = "数据范围自定义值")
-    private Integer dsScope;
+    private String dpScope;
 
     @ApiModelProperty(value = "禁用标识")
     private Boolean disFlag;

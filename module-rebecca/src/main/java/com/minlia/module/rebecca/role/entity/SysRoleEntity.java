@@ -1,10 +1,9 @@
 package com.minlia.module.rebecca.role.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.minlia.module.data.entity.AbstractEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -41,12 +40,12 @@ public class SysRoleEntity extends AbstractEntity {
     private String name;
 
     @ApiModelProperty(value = "数据范围类型")
-    @TableField("ds_type")
-    private Integer dsType;
+    @TableField("dp_type")
+    private Integer dpType;
 
     @ApiModelProperty(value = "数据范围自定义值")
-    @TableField("ds_scope")
-    private Integer dsScope;
+    @TableField("dp_scope")
+    private String dpScope;
 
     @ApiModelProperty(value = "访问域名")
     @TableField("access_domain")
@@ -64,6 +63,5 @@ public class SysRoleEntity extends AbstractEntity {
     @TableField("del_flag")
     @TableLogic
     private Boolean delFlag;
-
 
 }

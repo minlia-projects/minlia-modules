@@ -116,7 +116,7 @@
             success: function (response) {
                 $("#codeContent").val('Bearer ' + response.payload.token);
                 $('#openSwagger').on('click', function () {
-                    var swaggerUiUrl = "/swagger-ui.html";
+                    var swaggerUiUrl = "/swagger-ui/index.html";
                     window.open(swaggerUiUrl, "_blank");
                 });
             },

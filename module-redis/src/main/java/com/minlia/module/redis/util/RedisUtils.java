@@ -48,12 +48,12 @@ public class RedisUtils {
      */
     public static Object ping() {
         return getRedisTemplate().execute(new RedisCallback() {
+            @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.ping();
             }
         });
     }
-
 
     /**
      * 指定缓存失效时间
@@ -410,7 +410,7 @@ public class RedisUtils {
      * @param value 值
      * @return true 存在 false不存在
      */
-    public static boolean sHasKey(String key, Object value) {
+    public static boolean sHasValue(String key, Object value) {
         try {
             return getRedisTemplate().opsForSet().isMember(key, value);
         } catch (Exception e) {

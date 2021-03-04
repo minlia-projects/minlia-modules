@@ -41,7 +41,7 @@ public class SysRoleSro {
     private Integer dsType;
 
     @ApiModelProperty(value = "数据范围自定义值")
-    private Integer dsScope;
+    private Integer dpScope;
 
     @ApiModelProperty(value = "访问域名")
     @Size(max = 200)

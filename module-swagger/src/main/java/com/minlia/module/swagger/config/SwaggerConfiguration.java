@@ -44,6 +44,7 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.OAS_30).pathMapping("/")
+                .groupName("全部")
                 // 定义是否开启swagger，false为关闭，可以通过变量控制
                 .enable(swaggerProperties.getEnable())
 //                .groupName()

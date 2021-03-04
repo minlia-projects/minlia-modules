@@ -37,17 +37,17 @@ public enum DataScopeTypeEnum {
     /**
      * 本级及子级
      */
-    OWN_CHILD_LEVEL(2, "本级及子级"),
+    OWN_CHILD(2, "本级及子级"),
 
     /**
      * 本级
      */
-    OWN_LEVEL(3, "本级"),
+    OWN(3, "本级"),
 
     /**
      * 本级及上级
      */
-    OWN_PARENT_LEVEL(4, "本级及上级");
+    OWN_PARENT(4, "本级及上级");
 
     /**
      * 类型
