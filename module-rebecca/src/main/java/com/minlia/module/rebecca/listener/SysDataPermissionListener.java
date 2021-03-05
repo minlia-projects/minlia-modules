@@ -28,7 +28,9 @@ public class SysDataPermissionListener implements CommandLineRunner {
                 .stream().map(SysDataPermissionEntity::getMethod).collect(Collectors.toList());
         //添加到缓存
         if (CollectionUtils.isNotEmpty(methods)) {
-            RedisUtils.sSet(SysDataConstants.Redis.DATA_PERMISSION_PREFIX, methods);
+            for (String method : methods) {
+                RedisUtils.sSet(SysDataConstants.Redis.DATA_PERMISSION_PREFIX, method);
+            }
         }
     }
 
