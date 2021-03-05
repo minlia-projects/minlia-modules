@@ -1,8 +1,7 @@
 package com.minlia.module.encryptbody;
 
-import cn.hutool.core.date.DateUtil;
 import org.apache.commons.io.FileUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
