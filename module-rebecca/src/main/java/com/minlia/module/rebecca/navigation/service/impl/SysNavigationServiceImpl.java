@@ -7,19 +7,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.common.enumeration.TreeNodeTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
-import com.minlia.module.rebecca.navigation.constant.SysNavigationCode;
+import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.rebecca.navigation.bean.SysNavigationSro;
 import com.minlia.module.rebecca.navigation.bean.SysNavigationVo;
+import com.minlia.module.rebecca.navigation.constant.SysNavigationCode;
 import com.minlia.module.rebecca.navigation.entity.SysNavigationEntity;
 import com.minlia.module.rebecca.navigation.mapper.SysNavigationMapper;
 import com.minlia.module.rebecca.navigation.service.SysNavigationService;
 import com.minlia.module.rebecca.role.bean.RoleTreeVo;
-import com.minlia.module.rebecca.role.entity.SysRoleEntity;
 import com.minlia.module.rebecca.role.entity.SysRoleNavigationEntity;
+import com.minlia.module.rebecca.role.entity.SysRoleUserEntity;
 import com.minlia.module.rebecca.role.service.SysRoleNavigationService;
 import com.minlia.module.rebecca.role.service.SysRoleService;
+import com.minlia.module.rebecca.role.service.SysRoleUserService;
 import com.minlia.module.rebecca.role.util.TreeUtil;
-import com.minlia.modules.security.context.MinliaSecurityContextHolder;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +40,12 @@ import java.util.stream.Collectors;
 public class SysNavigationServiceImpl extends ServiceImpl<SysNavigationMapper, SysNavigationEntity> implements SysNavigationService {
 
     private final SysRoleService sysRoleService;
+    private final SysRoleUserService sysRoleUserService;
     private final SysRoleNavigationService sysRoleNavigationService;
 
-    public SysNavigationServiceImpl(SysRoleService sysRoleService, SysRoleNavigationService sysRoleNavigationService) {
+    public SysNavigationServiceImpl(SysRoleService sysRoleService, SysRoleNavigationService sysRoleNavigationService, SysRoleUserService sysRoleUserService) {
         this.sysRoleService = sysRoleService;
+        this.sysRoleUserService = sysRoleUserService;
         this.sysRoleNavigationService = sysRoleNavigationService;
     }
 
@@ -87,21 +91,55 @@ public class SysNavigationServiceImpl extends ServiceImpl<SysNavigationMapper, S
         return entity.getHideFlag();
     }
 
-    public static final String EXISTS_ROLE_TEMPLATE = "SELECT 1 FROM sys_role_navigation WHERE role_id = %s AND navigation_id = sys_navigation.id";
+    //    public static final String EXISTS_ROLE_TEMPLATE = "SELECT 1 FROM sys_role_navigation WHERE role_id = %s AND navigation_id = sys_navigation.id";
+    public static final String EXISTS_ROLE_TEMPLATE = "SELECT 1 FROM sys_role_navigation WHERE role_id in (%s) AND navigation_id = sys_navigation.id";
 
     @Override
     public List<SysNavigationVo> getMe() {
-        String roleCode = MinliaSecurityContextHolder.getUserContext().getCurrrole();
-        SysRoleEntity roleEntity = sysRoleService.getOne(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getCode, roleCode));
-        String existsRole = String.format(EXISTS_ROLE_TEMPLATE, roleEntity.getId());
-        LambdaQueryWrapper<SysNavigationEntity> queryWrapper = new QueryWrapper<SysNavigationEntity>().lambda()
+        //TODO
+//        String roleCode = MinliaSecurityContextHolder.getUserContext().getCurrrole();
+//        SysRoleEntity roleEntity = sysRoleService.getOne(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getCode, roleCode));
+        List<Long> roleIds = sysRoleUserService.list(Wrappers.<SysRoleUserEntity>lambdaQuery().eq(SysRoleUserEntity::getUserId, SecurityContextHolder.getUid()))
+                .stream().map(SysRoleUserEntity::getRoleId).collect(Collectors.toList());
+
+        List<Long> navigationIds = sysRoleNavigationService.list(Wrappers.<SysRoleNavigationEntity>lambdaQuery().in(SysRoleNavigationEntity::getRoleId, roleIds))
+                .stream().map(SysRoleNavigationEntity::getNavigationId).collect(Collectors.toList());
+
+//        String existsRole = String.format(EXISTS_ROLE_TEMPLATE, roleEntity.getId());
+        LambdaQueryWrapper<SysNavigationEntity> queryWrapper = Wrappers.<SysNavigationEntity>lambdaQuery()
                 .eq(SysNavigationEntity::getParentId, 0)
                 .eq(SysNavigationEntity::getHideFlag, false)
                 .eq(SysNavigationEntity::getDisFlag, false)
-                .exists(existsRole).orderByAsc(SysNavigationEntity::getSort);
+                .in(SysNavigationEntity::getId, navigationIds)
+//                .exists(existsRole)
+                .orderByAsc(SysNavigationEntity::getSort);
         List<SysNavigationEntity> list = this.list(queryWrapper);
-        this.setChildren(list, false, false, existsRole);
+        this.setChildren(list, false, false, navigationIds);
         return DozerUtils.map(list, SysNavigationVo.class);
+    }
+
+    public void setChildren(List<SysNavigationEntity> list, Boolean hideFlag, Boolean disFlag, List<Long> navigationIds) {
+        if (!org.springframework.util.CollectionUtils.isEmpty(list)) {
+            for (SysNavigationEntity entity : list) {
+                if (TreeNodeTypeEnum.FOLDER.equals(entity.getType())) {
+                    LambdaQueryWrapper<SysNavigationEntity> queryWrapper = new QueryWrapper<SysNavigationEntity>().lambda()
+                            .eq(SysNavigationEntity::getParentId, entity.getId());
+                    if (null != hideFlag) {
+                        queryWrapper.eq(SysNavigationEntity::getHideFlag, hideFlag);
+                    }
+                    if (null != disFlag) {
+                        queryWrapper.eq(SysNavigationEntity::getDisFlag, disFlag);
+                    }
+                    if (CollectionUtils.isNotEmpty(navigationIds)) {
+                        queryWrapper.in(SysNavigationEntity::getId, navigationIds);
+                    }
+                    queryWrapper.orderByAsc(SysNavigationEntity::getSort);
+                    List<SysNavigationEntity> children = this.list(queryWrapper);
+                    entity.setChildren(children);
+                    setChildren(children, hideFlag, disFlag, navigationIds);
+                }
+            }
+        }
     }
 
     @Override
