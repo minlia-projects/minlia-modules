@@ -36,6 +36,14 @@ public class SysDataPermissionController {
 
     @AuditLog(type = AuditOperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + RebeccaConstant.Authorize.DataPermission.CREATE + "')")
+    @ApiOperation(value = "创建所有")
+    @PostMapping(value = "all")
+    public Response createAllSelect(@RequestParam String className) {
+        return Response.success(sysDataPermissionService.createAllSelect(className));
+    }
+
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaConstant.Authorize.DataPermission.CREATE + "')")
     @ApiOperation(value = "创建")
     @PostMapping
     public Response create(@Valid @RequestBody SysDataPermissionEntity entity) {

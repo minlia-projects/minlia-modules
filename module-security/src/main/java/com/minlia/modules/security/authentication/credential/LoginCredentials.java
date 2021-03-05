@@ -27,7 +27,6 @@ public class LoginCredentials implements AuthenticatedPrincipal, WithUsernameCre
      * 登陆方式
      */
     @NotBlank(message = "登陆方式不能为空")
-    @JsonIgnore
     private LoginTypeEnum type;
 
     /**

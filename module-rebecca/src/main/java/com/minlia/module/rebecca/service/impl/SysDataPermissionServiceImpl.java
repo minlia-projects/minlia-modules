@@ -8,6 +8,7 @@ import com.minlia.module.rebecca.mapper.SysDataPermissionMapper;
 import com.minlia.module.rebecca.service.SysDataPermissionService;
 import com.minlia.module.redis.util.RedisUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,10 +23,14 @@ import java.util.List;
 @Service
 public class SysDataPermissionServiceImpl extends ServiceImpl<SysDataPermissionMapper, SysDataPermissionEntity> implements SysDataPermissionService {
 
-    private final static List<String> method = Lists.newArrayList("selectById", "selectOne", "selectBatchIds", "selectList", "selectPage", "selectCount");
+    private final static List<String> ALL_SELECT_METHOD = Lists.newArrayList(".selectById", ".selectBatchIds", ".selectOne", ".selectCount", ".selectList", ".selectPage", ".selectByMap", ".selectMaps", ".selectObjs", ".selectMapsPage");
 
     @Override
-    public boolean createAllSelect(String method) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean createAllSelect(String className) {
+        for (String method : ALL_SELECT_METHOD) {
+            create(SysDataPermissionEntity.builder().method(className + method).build());
+        }
         return false;
     }
 

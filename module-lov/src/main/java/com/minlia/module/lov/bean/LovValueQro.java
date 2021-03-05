@@ -30,6 +30,7 @@ public class LovValueQro extends QueryRequest {
 
     @ApiModelProperty(value = "值集ID")
     private Long lovId;
+    private String lovCode;
 
     @ApiModelProperty(value = "编码")
     @Size(max = 50)

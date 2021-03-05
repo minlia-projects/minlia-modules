@@ -34,15 +34,18 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
     @Override
     public Expression getSqlSegment(Expression where, String mappedStatementId) {
         //判断是否需要过滤
-        if (RedisUtils.sHasValue(SysDataConstants.Redis.DATA_PERMISSION_PREFIX, mappedStatementId)) {
+        if (RedisUtils.isReady() && RedisUtils.sHasValue(SysDataConstants.Redis.DATA_PERMISSION_PREFIX, mappedStatementId)) {
             //从上下文获取 org_id, dp_type, dp_scope
             DataPermission dataPermission = MinliaSecurityContextHolder.getDataPermission();
             if (Objects.nonNull(dataPermission)) {
                 Expression sqlSegmentExpression = builder(dataPermission);
-                if (null != where) {
-                    return new AndExpression(where, sqlSegmentExpression);
+                if (Objects.nonNull(sqlSegmentExpression)) {
+                    if (null != where) {
+                        return new AndExpression(where, sqlSegmentExpression);
+                    } else {
+                        return sqlSegmentExpression;
+                    }
                 }
-                return sqlSegmentExpression;
             }
         }
         return where;

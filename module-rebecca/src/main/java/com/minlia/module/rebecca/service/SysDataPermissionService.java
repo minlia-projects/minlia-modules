@@ -13,7 +13,7 @@ import com.minlia.module.rebecca.entity.SysDataPermissionEntity;
  */
 public interface SysDataPermissionService extends IService<SysDataPermissionEntity> {
 
-    boolean createAllSelect(String method);
+    boolean createAllSelect(String className);
 
     boolean create(SysDataPermissionEntity entity);
 

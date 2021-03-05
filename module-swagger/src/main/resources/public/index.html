@@ -81,7 +81,7 @@
 <body class="pagecolor">
 <div>
     <div>
-        <input type="text" id="codeContent" name="codeContent" class="in-token" placeholder="CODE" value=""/>
+        <textarea id="codeContent" name="codeContent" class="in-token" placeholder="Token"></textarea>
     </div>
     <div class="line"></div>
 </div>
@@ -90,6 +90,7 @@
     <input type="button" id="confirm" value="复制Bearer Token" data-clipboard-target="#codeContent"/> <br>
     <input type="button" id="openSwagger" class="btn" value="打开Swagger UI"/> <br>
     <input type="button" id="refresh" class="btn" value="刷新页面"/> <br>
+    <input type="text" id="type" name="type" class="btn" placeholder="类型"/> <br>
     <input type="text" id="username" name="username" class="btn" placeholder="用户名/手机号码/邮箱"/> <br>
     <input type="text" id="password" name="password" class="btn" placeholder="密码"/> <br>
     <input type="button" id="login" class="btn" value="登录"/> <br>
@@ -102,11 +103,12 @@
 <script>
 
     function login() {
+        var type = $("#type").val();
         var username = $("#username").val();
         var password = $("#password").val();
 
         var url = '/api/auth/login';
-        var data = {'username': username, 'password': password};
+        var data = {'type': type, 'username': username, 'password': password};
         $.ajax({
             url: url,
             data: JSON.stringify(data),
@@ -114,11 +116,11 @@
             contentType: "application/json",
             dataType: "json",
             success: function (response) {
-                if (response.code == 'SUCCESS') {
-                    $("#codeContent").val('Bearer ' + response.payload.token);
-                } else {
-                    alert(response.message);
-                }
+                $("#codeContent").val('Bearer ' + response.payload.token);
+                $('#openSwagger').on('click', function () {
+                    var swaggerUiUrl = "/swagger-ui/index.html";
+                    window.open(swaggerUiUrl, "_blank");
+                });
             },
             error: function (request, textStatus, errorThrown) {
                 $("#codeContent").val("" + textStatus + " " + errorThrown);
@@ -132,11 +134,6 @@
     $(function () {
         $('#refresh').on('click', function () {
             window.location.reload(true);
-        });
-
-        $('#openSwagger').on('click', function () {
-            var swaggerUiUrl = "/swagger-ui/index.html";
-            window.open(swaggerUiUrl, "_blank");
         });
 
         $('#login').on('click', function () {

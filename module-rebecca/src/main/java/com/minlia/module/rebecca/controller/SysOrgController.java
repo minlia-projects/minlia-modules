@@ -1,13 +1,16 @@
 package com.minlia.module.rebecca.controller;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
+import com.minlia.module.data.entity.BaseQueryEntity;
 import com.minlia.module.rebecca.bean.SysOrganizationCro;
 import com.minlia.module.rebecca.bean.SysOrganizationUro;
 import com.minlia.module.rebecca.constant.RebeccaConstant;
+import com.minlia.module.rebecca.entity.SysOrgEntity;
 import com.minlia.module.rebecca.service.SysOrgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,6 +60,22 @@ public class SysOrgController {
     @DeleteMapping(value = "{id}")
     public Response update(@PathVariable Long id) {
         return Response.success(sysOrgService.delete(id));
+    }
+
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaConstant.Authorize.Organization.SELECT + "')")
+    @ApiOperation(value = "集合查询")
+    @PostMapping(value = "list")
+    public Response list(@Valid @PathVariable SysOrgEntity entity) {
+        return Response.success(sysOrgService.list(Wrappers.<SysOrgEntity>lambdaQuery().setEntity(entity)));
+    }
+
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @PreAuthorize(value = "hasAnyAuthority('" + RebeccaConstant.Authorize.Organization.SELECT + "')")
+    @ApiOperation(value = "分页查询")
+    @PostMapping(value = "page")
+    public Response page(@Valid @PathVariable BaseQueryEntity entity) {
+        return Response.success(sysOrgService.page(entity.getPage()));
     }
 
 //    /**

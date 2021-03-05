@@ -47,6 +47,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 /**
  * @author will
@@ -83,16 +84,16 @@ public class RbacAuthenticationService implements AuthenticationService {
         SysUserEntity userEntity = null;
         switch (loginCredentials.getType()) {
             case USERNAME:
-                ApiAssert.hasLength(loginCredentials.getUsername(), SysUserCode.Message.USERNAME_NOT_NULL);
-                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, loginCredentials.getUsername()));
+                ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.USERNAME_NOT_NULL);
+                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, loginCredentials.getName()));
                 break;
             case CELLPHONE:
-                ApiAssert.hasLength(loginCredentials.getCellphone(), SysUserCode.Message.CELLPHONE_NOT_NULL);
-                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, loginCredentials.getCellphone()));
+                ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.CELLPHONE_NOT_NULL);
+                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, loginCredentials.getName()));
                 break;
             case EMAIL:
-                ApiAssert.hasLength(loginCredentials.getEmail(), SysUserCode.Message.EMAIL_NOT_NULL);
-                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getEmail, loginCredentials.getEmail()));
+                ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.EMAIL_NOT_NULL);
+                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getEmail, loginCredentials.getName()));
                 break;
         }
 

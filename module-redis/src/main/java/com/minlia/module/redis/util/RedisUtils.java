@@ -40,6 +40,10 @@ public class RedisUtils {
         return zSetOperations;
     }
 
+    public static boolean isReady() {
+        return Objects.nonNull(redisTemplate);
+    }
+
 
     //=============================common============================
 
