@@ -9,6 +9,7 @@ import com.minlia.modules.aliyun.oss.api.constant.AliyunOssCode;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.aliyun.oss.builder.Constant;
 import com.minlia.modules.aliyun.oss.builder.PathBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -93,10 +94,14 @@ public class OssService implements InitializingBean {
 
     private String builderUrl(String key) {
         String url;
-        if (ORIGIN_ENDPOINT.equals(aliyunOssConfig.getEndpoint())) {
-            url = String.format(Constant.OLD_RETURN_URL_PATTERN, aliyunOssConfig.getBucket(), aliyunOssConfig.getEndpoint(), key);
+        if (StringUtils.isNotBlank(aliyunOssConfig.getEndpoint())) {
+            url = String.format(Constant.RETURN_URL_PATTERN, aliyunOssConfig.getDomain(), key);
         } else {
-            url = String.format(Constant.RETURN_URL_PATTERN, aliyunOssConfig.getEndpoint(), key);
+            if (ORIGIN_ENDPOINT.equals(aliyunOssConfig.getEndpoint())) {
+                url = String.format(Constant.OLD_RETURN_URL_PATTERN, aliyunOssConfig.getBucket(), aliyunOssConfig.getEndpoint(), key);
+            } else {
+                url = String.format(Constant.RETURN_URL_PATTERN, aliyunOssConfig.getEndpoint(), key);
+            }
         }
         return url;
     }
