@@ -71,8 +71,8 @@
             width: 12rem;
             height: 2rem;
             color: white;
-            font-size: 0.9rem;
-            margin-top: 1.3rem;
+            font-size: 0.8rem;
+            margin-top: 0.8rem;
         }
 
     </style>
@@ -87,13 +87,17 @@
 </div>
 
 <div style="text-align: center;">
-    <input type="button" id="confirm" value="复制Bearer Token" data-clipboard-target="#codeContent"/> <br>
-    <input type="button" id="openSwagger" class="btn" value="打开Swagger UI"/> <br>
-    <input type="button" id="refresh" class="btn" value="刷新页面"/> <br>
-    <input type="text" id="type" name="type" class="btn" placeholder="类型"/> <br>
-    <input type="text" id="username" name="username" class="btn" placeholder="用户名/手机号码/邮箱"/> <br>
-    <input type="text" id="password" name="password" class="btn" placeholder="密码"/> <br>
-    <input type="button" id="login" class="btn" value="登录"/> <br>
+    <input type="button" id="confirm" value="复制Bearer Token" data-clipboard-target="#codeContent"/> <br/>
+    <input type="button" id="openSwagger" class="btn" value="打开Swagger UI"/> <br/>
+    <input type="button" id="refresh" class="btn" value="刷新页面"/> <br/>
+    <select id="type" name="type" class="btn" placeholder="类型">
+        <option value="USERNAME">用户名</option>
+        <option value="CELLPHONE">手机号码</option>
+        <option value="EMAIL">邮箱</option>
+    </select> <br/>
+    <input type="text" id="username" name="username" class="btn" placeholder="用户名/手机号码/邮箱"/> <br/>
+    <input type="text" id="password" name="password" class="btn" placeholder="密码"/> <br/>
+    <input type="button" id="login" class="btn" value="登录"/> <br/>
 </div>
 </body>
 
