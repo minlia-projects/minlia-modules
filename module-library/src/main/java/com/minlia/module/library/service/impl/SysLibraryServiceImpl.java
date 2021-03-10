@@ -1,9 +1,15 @@
 package com.minlia.module.library.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.attachment.service.AttachmentUploadService;
+import com.minlia.module.common.util.NumberGenerator;
+import com.minlia.module.data.util.SequenceUtils;
 import com.minlia.module.library.bean.SysLibraryOcrVo;
+import com.minlia.module.library.bean.SysLibraryQro;
+import com.minlia.module.library.config.LibraryConfig;
 import com.minlia.module.library.config.OcrConfig;
 import com.minlia.module.library.entity.SysLibraryEntity;
 import com.minlia.module.library.mapper.SysLibraryMapper;
@@ -12,8 +18,10 @@ import com.minlia.module.library.util.OcrUtils;
 import com.minlia.modules.aliyun.oss.api.service.OssService;
 import com.minlia.modules.aliyun.oss.bean.OssFile;
 import com.minlia.modules.aliyun.oss.builder.PathBuilder;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * <p>
@@ -33,17 +42,13 @@ import java.time.format.DateTimeFormatter;
  * @since 2020-09-11
  */
 @Service
+@RequiredArgsConstructor
 public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibraryEntity> implements SysLibraryService {
 
     private final OcrConfig ocrConfig;
     private final OssService ossService;
+    private final LibraryConfig libraryConfig;
     private final AttachmentUploadService attachmentUploadService;
-
-    public SysLibraryServiceImpl(AttachmentUploadService attachmentUploadService, OcrConfig ocrConfig, OssService ossService) {
-        this.ocrConfig = ocrConfig;
-        this.ossService = ossService;
-        this.attachmentUploadService = attachmentUploadService;
-    }
 
     @Override
     public SysLibraryOcrVo ocr(MultipartFile file) {
@@ -97,8 +102,17 @@ public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibr
                 .url(ossFile.getUrl())
                 .content(content)
                 .build();
-        this.save(libraryEntity);
+        this.create(libraryEntity);
         return true;
+    }
+
+    @Override
+    public SysLibraryEntity create(SysLibraryEntity entity) {
+        if (StringUtils.isNotBlank(entity.getNumber())) {
+            entity.setNumber(this.generatorNumber());
+        }
+        this.save(entity);
+        return entity;
     }
 
     @Override
@@ -107,6 +121,32 @@ public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibr
         libraryEntity.setDisFlag(!libraryEntity.getDisFlag());
         this.updateById(libraryEntity);
         return libraryEntity.getDisFlag();
+    }
+
+    @Override
+    public LambdaQueryWrapper builderQueryWrapper(SysLibraryQro qro) {
+        LambdaQueryWrapper<SysLibraryEntity> queryWrapper = Wrappers.<SysLibraryEntity>lambdaQuery()
+                .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary);
+        if (StringUtils.isNotBlank(qro.getNumber())) {
+            queryWrapper.eq(SysLibraryEntity::getNumber, qro.getNumber());
+        }
+        if (StringUtils.isNotBlank(qro.getType())) {
+            queryWrapper.eq(SysLibraryEntity::getType, qro.getType());
+        }
+        if (Objects.nonNull(qro.getDisFlag())) {
+            queryWrapper.eq(SysLibraryEntity::getDisFlag, qro.getDisFlag());
+        }
+        if (StringUtils.isNotBlank(qro.getName())) {
+            queryWrapper.like(SysLibraryEntity::getName, qro.getName());
+        }
+        if (!qro.hasOrder()) {
+            queryWrapper.orderByDesc(SysLibraryEntity::getCreateDate);
+        }
+        return queryWrapper;
+    }
+
+    private String generatorNumber() {
+        return NumberGenerator.generator(libraryConfig.getNumberPrefix(), Math.toIntExact(SequenceUtils.nextval(libraryConfig.getSequenceName())), libraryConfig.getNumberFullNum());
     }
 
 }

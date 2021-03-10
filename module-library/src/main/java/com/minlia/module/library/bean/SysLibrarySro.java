@@ -25,6 +25,10 @@ public class SysLibrarySro implements Serializable {
     @ApiModelProperty(value = "主键")
     private Long id;
 
+    @ApiModelProperty(value = "编号")
+    @Size(max = 32)
+    private String number;
+
     @ApiModelProperty(value = "业务类型")
     @NotBlank
     @Size(max = 20)
@@ -37,7 +41,7 @@ public class SysLibrarySro implements Serializable {
 
     @ApiModelProperty(value = "名称")
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 200)
     private String name;
 
     @ApiModelProperty(value = "地址")

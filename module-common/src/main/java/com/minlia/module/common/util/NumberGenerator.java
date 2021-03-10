@@ -19,6 +19,10 @@ public class NumberGenerator {
         return generated;
     }
 
+    public static String generator(String prefix, Integer suffix, Integer size) {
+        return prefix + StringUtils.leftPad(String.valueOf(suffix), size, '0');
+    }
+
     public static String generatorByHMSS(String prefix, Integer stuffLength) {
         return prefix + RandomStringUtils.randomNumeric(stuffLength) + LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddHHmmssSSS"));
     }
@@ -32,6 +36,7 @@ public class NumberGenerator {
     }
 
     public static void main(String[] args) {
+        System.out.println(generator("ABC-", 100,6));
         System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")));
     }
 

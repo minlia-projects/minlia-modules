@@ -38,6 +38,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-common</artifactId>
+            <version>2.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
@@ -47,12 +53,23 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>aliyun-java-sdk-core</artifactId>-->
+<!--            <version>4.1.1</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.1.1</version>
+            <version>4.5.14</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-imageaudit -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-imageaudit</artifactId>
+            <version>1.0.8</version>
+        </dependency>
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-green</artifactId>
@@ -65,11 +82,36 @@
             <version>1.2.51</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.aliyun.oss</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>2.8.3</version>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aliyun/ocr20191230 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>ocr20191230</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aliyun/imagerecog20190930 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>imagerecog20190930</artifactId>-->
+<!--            <version>1.0.1</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aliyun/imageseg20191230 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>imageseg20191230</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aliyun/imageenhan20190930 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>imageenhan20190930</artifactId>-->
+<!--            <version>0.0.9</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.aliyun/imgsearch20200320 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>imgsearch20200320</artifactId>-->
+<!--            <version>0.2.5</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

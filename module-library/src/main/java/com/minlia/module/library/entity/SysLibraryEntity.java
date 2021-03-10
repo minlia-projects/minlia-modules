@@ -27,6 +27,10 @@ public class SysLibraryEntity extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "编号")
+    @TableField("number")
+    private String number;
+
     @ApiModelProperty(value = "业务类型")
     @TableField("type")
     private String type;

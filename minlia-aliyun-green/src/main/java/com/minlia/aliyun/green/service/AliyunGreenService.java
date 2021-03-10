@@ -1,4 +1,4 @@
-package com.minlia.aliyun.green.util;
+package com.minlia.aliyun.green.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.DefaultAcsClient;
@@ -9,21 +9,52 @@ import com.aliyuncs.http.HttpResponse;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.minlia.aliyun.green.bean.AliyunGreenResult;
+import com.minlia.aliyun.green.config.AliyunGreenConfig;
+import com.minlia.aliyun.green.constant.AliyunGreenCode;
+import com.minlia.aliyun.green.enums.GreenLabelEnum;
 import com.minlia.cloud.utils.ApiAssert;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
-public class AliyunGreenUtil {
+@Service
+@RequiredArgsConstructor
+public class AliyunGreenService {
 
-    private static IAcsClient client = client();
+    private final AliyunGreenConfig aliyunGreenConfig;
+    private static IAcsClient client = null;
     private static TextScanRequest textScanRequest = request();
 
-    public static IAcsClient client() {
-        IClientProfile profile = DefaultProfile.getProfile("cn-shanghai", "", "");
+    public AliyunGreenResult antispam(String content) {
+        return antispam(content, false);
+    }
+
+    public AliyunGreenResult antispam(String content, boolean throwException) {
+        AliyunGreenResult aliyunGreenResult = null;
+        try {
+            textScanRequest.setHttpContent(getData(Arrays.asList("antispam"), content), "UTF-8", FormatType.JSON);
+            textScanRequest.setConnectTimeout(3000);
+            textScanRequest.setReadTimeout(6000);
+            HttpResponse httpResponse = client.doAction(textScanRequest);
+            aliyunGreenResult = AliyunGreenResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
+        } catch (Exception e) {
+            ApiAssert.state(true, e.getMessage());
+        }
+
+        if (throwException) {
+            ApiAssert.state(aliyunGreenResult.isSuccess() && aliyunGreenResult.isPass(), AliyunGreenCode.Message.valueOf(aliyunGreenResult.getLabel()));
+        }
+        return aliyunGreenResult;
+    }
+
+    @PostMapping
+    public void init() {
+        IClientProfile profile = DefaultProfile.getProfile("cn-shanghai", aliyunGreenConfig.getAccessKeyId(), aliyunGreenConfig.getAccessKeySecret());
         DefaultProfile.addEndpoint("cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");
-        IAcsClient client = new DefaultAcsClient(profile);
-        return client;
+        client = new DefaultAcsClient(profile);
     }
 
     public static TextScanRequest request() {
@@ -48,28 +79,6 @@ public class AliyunGreenUtil {
         data.put("scenes", scenes);
         data.put("tasks", tasks);
         return data.toJSONString().getBytes("UTF-8");
-    }
-
-    public static AliyunGreenResult antispam(String content) {
-        AliyunGreenResult aliyunGreenResult = null;
-        try {
-            textScanRequest.setHttpContent(getData(Arrays.asList("antispam"), content), "UTF-8", FormatType.JSON);
-            textScanRequest.setConnectTimeout(3000);
-            textScanRequest.setReadTimeout(6000);
-            HttpResponse httpResponse = client.doAction(textScanRequest);
-            aliyunGreenResult = AliyunGreenResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
-        } catch (Exception e) {
-            ApiAssert.state(true, e.getMessage());
-        }
-        return aliyunGreenResult;
-    }
-
-    public static void main(String[] args) {
-        AliyunGreenResult result = antispam("习近平、99包邮、颜射、草泥马、轰炸小日本、砍死拜登");
-        System.out.println(result.isSuccess());
-        System.out.println(result.isBlock());
-        System.out.println(result.getLabel());
-//        AliyunGreenResult result1 = antispam("本校小额贷款，安全、快捷、方便、无抵押，随机随贷，当天放款，上门服务。联系weixin 946932");
     }
 
 }

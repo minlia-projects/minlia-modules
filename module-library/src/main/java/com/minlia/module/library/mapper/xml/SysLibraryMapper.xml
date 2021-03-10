@@ -5,6 +5,7 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.minlia.module.library.entity.SysLibraryEntity">
         <id column="id" property="id"/>
+        <result column="number" property="number"/>
         <result column="type" property="type"/>
         <result column="keyword" property="keyword"/>
         <result column="name" property="name"/>
@@ -22,7 +23,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, `type`, keyword, `name`, url, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
+        id
+        , `number`, `type`, keyword, `name`, url, remark, dis_flag, del_flag, create_by, create_date, last_modified_by, last_modified_date
     </sql>
 
 </mapper>

@@ -21,6 +21,10 @@ public class SysLibraryQro extends BaseQueryEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "编号")
+    @Size(max = 32)
+    private String number;
+
     @ApiModelProperty(value = "业务类型")
     @Size(max = 20)
     private String type;
@@ -30,7 +34,7 @@ public class SysLibraryQro extends BaseQueryEntity {
     private String keyword;
 
     @ApiModelProperty(value = "名称")
-    @Size(max = 50)
+    @Size(max = 200)
     private String name;
 
     @ApiModelProperty(value = "是否禁用")

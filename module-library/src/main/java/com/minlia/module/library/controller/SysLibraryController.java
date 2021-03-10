@@ -1,8 +1,6 @@
 package com.minlia.module.library.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
@@ -55,7 +53,7 @@ public class SysLibraryController {
     @PostMapping
     public Response create(@Valid @RequestBody SysLibrarySro sro) {
         sro.setId(null);
-        return Response.success(sysLibraryService.save(DozerUtils.map(sro, SysLibraryEntity.class)));
+        return Response.success(sysLibraryService.create(DozerUtils.map(sro, SysLibraryEntity.class)));
     }
 
     @AuditLog(type = AuditOperationTypeEnum.UPDATE)
@@ -95,14 +93,7 @@ public class SysLibraryController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody SysLibraryQro qro) {
-        SysLibraryEntity entity = DozerUtils.map(qro, SysLibraryEntity.class);
-        LambdaQueryWrapper<SysLibraryEntity> queryWrapper = new QueryWrapper<SysLibraryEntity>().lambda()
-                .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
-                .setEntity(entity);
-        if (!qro.hasOrder()) {
-            queryWrapper.orderByDesc(SysLibraryEntity::getCreateDate);
-        }
-        return Response.success(sysLibraryService.list(queryWrapper));
+        return Response.success(sysLibraryService.list(sysLibraryService.builderQueryWrapper(qro)));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysLibraryConstant.SEARCH + "')")
@@ -110,15 +101,8 @@ public class SysLibraryController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysLibraryQro qro) {
-        SysLibraryEntity entity = DozerUtils.map(qro, SysLibraryEntity.class);
-        LambdaQueryWrapper<SysLibraryEntity> queryWrapper = new QueryWrapper<SysLibraryEntity>().lambda()
-                .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
-                .setEntity(entity);
-        if (!qro.hasOrder()) {
-            queryWrapper.orderByDesc(SysLibraryEntity::getCreateDate);
-        }
         Page<SysLibraryEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysLibraryService.page(page, queryWrapper));
+        return Response.success(sysLibraryService.page(page, sysLibraryService.builderQueryWrapper(qro)));
     }
 
 }

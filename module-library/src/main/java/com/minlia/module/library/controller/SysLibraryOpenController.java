@@ -43,24 +43,6 @@ public class SysLibraryOpenController {
         this.sysLibraryService = sysLibraryService;
     }
 
-//    @AuditLog(type = AuditOperationTypeEnum.SELECT)
-//    @ApiOperation(value = "入库")
-//    @PostMapping(value = "input/{rootPath}")
-//    public Response input(@PathVariable String rootPath) {
-////        rootPath = "/Users/garen/Documents/环视技术/文库/Resource-to-20200905";
-//        rootPath = "/Users/garen/Documents/环视技术/文库/Resource-1-to-20200830";
-//        File dir = new File(rootPath);
-//        List<File> fileList = (List<File>) FileUtils.listFiles(dir, new String[]{"pdf","PDF"}, true);//列出该目录下的所有doc文件，递归（扩展名不必带.doc）
-//        fileList.stream().forEach(file -> {
-//            boolean bool = sysLibraryService.upload(file, "/Users/garen/Documents/环视技术/test/", "defaultt", "defaultt");
-//            if (bool) {
-//                //删除文件
-//                FileUtils.deleteQuietly(file);
-//            }
-//        });
-//        return Response.success();
-//    }
-
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @ApiOperation(value = "关键字")
     @PostMapping(value = "keyword")
@@ -70,6 +52,7 @@ public class SysLibraryOpenController {
                 .eq(SysLibraryEntity::getDisFlag, false);
         if (StringUtils.isNotBlank(qro.getKeyword())) {
             queryWrapper.like(SysLibraryEntity::getKeyword, qro.getKeyword());
+            queryWrapper.or().like(SysLibraryEntity::getName, qro.getKeyword());
             queryWrapper.or().like(SysLibraryEntity::getContent, qro.getKeyword());
         }
         Page page = sysLibraryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper);
@@ -81,28 +64,16 @@ public class SysLibraryOpenController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody SysLibraryQro qro) {
-        SysLibraryEntity entity = DozerUtils.map(qro, SysLibraryEntity.class);
-        entity.setDisFlag(false);
-        LambdaQueryWrapper<SysLibraryEntity> queryWrapper = new QueryWrapper<SysLibraryEntity>().lambda()
-                .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
-                .setEntity(entity)
-                .orderByDesc(SysLibraryEntity::getCreateDate)
-                ;
-        return Response.success(sysLibraryService.list(queryWrapper));
+        qro.setDisFlag(false);
+        return Response.success(sysLibraryService.list(sysLibraryService.builderQueryWrapper(qro)));
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysLibraryQro qro) {
-        SysLibraryEntity entity = DozerUtils.map(qro, SysLibraryEntity.class);
-        entity.setDisFlag(false);
-        LambdaQueryWrapper<SysLibraryEntity> queryWrapper = new QueryWrapper<SysLibraryEntity>().lambda()
-                .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary)
-                .setEntity(entity)
-                .orderByDesc(SysLibraryEntity::getCreateDate)
-                ;
-        Page page = sysLibraryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper);
+        qro.setDisFlag(false);
+        Page page = sysLibraryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), sysLibraryService.builderQueryWrapper(qro));
         page.setRecords(DozerUtils.map(page.getRecords(), SysLibraryVo.class));
         return Response.success(page);
     }
