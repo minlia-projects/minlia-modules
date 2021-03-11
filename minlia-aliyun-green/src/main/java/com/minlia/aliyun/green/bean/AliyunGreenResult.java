@@ -2,13 +2,17 @@ package com.minlia.aliyun.green.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class AliyunGreenResult {
 
     /**
@@ -109,6 +113,10 @@ public class AliyunGreenResult {
 
     public static AliyunGreenResult format(String result) {
         return new Gson().fromJson(result, AliyunGreenResult.class);
+    }
+
+    public static AliyunGreenResult success() {
+        return AliyunGreenResult.builder().code(200).msg("OK").build();
     }
 
 }

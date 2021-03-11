@@ -6,8 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigAutowired(type = "ALI_GREEN")
+@ConfigAutowired(type = "ALIYUN_GREEN")
 public class AliyunGreenConfig {
+
+    /**
+     * 是否开启
+     */
+    private Boolean enable;
 
     /**
      * 访问ID

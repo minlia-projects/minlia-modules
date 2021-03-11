@@ -11,16 +11,17 @@ import com.aliyuncs.profile.IClientProfile;
 import com.minlia.aliyun.green.bean.AliyunGreenResult;
 import com.minlia.aliyun.green.config.AliyunGreenConfig;
 import com.minlia.aliyun.green.constant.AliyunGreenCode;
-import com.minlia.aliyun.green.enums.GreenLabelEnum;
 import com.minlia.cloud.utils.ApiAssert;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class AliyunGreenService {
 
@@ -33,6 +34,10 @@ public class AliyunGreenService {
     }
 
     public AliyunGreenResult antispam(String content, boolean throwException) {
+        if (!aliyunGreenConfig.getEnable()) {
+            return AliyunGreenResult.success();
+        }
+
         AliyunGreenResult aliyunGreenResult = null;
         try {
             textScanRequest.setHttpContent(getData(Arrays.asList("antispam"), content), "UTF-8", FormatType.JSON);
@@ -50,7 +55,7 @@ public class AliyunGreenService {
         return aliyunGreenResult;
     }
 
-    @PostMapping
+    @PostConstruct
     public void init() {
         IClientProfile profile = DefaultProfile.getProfile("cn-shanghai", aliyunGreenConfig.getAccessKeyId(), aliyunGreenConfig.getAccessKeySecret());
         DefaultProfile.addEndpoint("cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");

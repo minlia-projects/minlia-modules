@@ -34,4 +34,40 @@
         </repository>
     </distributionManagement>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.minlia.cloud</groupId>
+                <artifactId>minlia-cloud-starter</artifactId>
+                <version>${minlia.cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-common</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>minlia-aliyun-green</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-rebecca</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-attachment</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+
+
+        </dependencies>
+    </dependencyManagement>
+
 </project>

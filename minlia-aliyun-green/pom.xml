@@ -34,13 +34,11 @@
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-common</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -116,9 +114,20 @@
 
     <build>
         <plugins>
+            <!-- 要排除启动类 -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source> <!--指明源码用的Jdk版本-->
+                    <target>${java.version}</target> <!--指明打包后的Jdk版本-->
+                    <!-- 如果发现依然排除不了，考虑先clean再install-->
+                    <excludes>
+                        <exclude>
+                            com.minlia.aliyun.green.AliyunGreenApplication
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>
