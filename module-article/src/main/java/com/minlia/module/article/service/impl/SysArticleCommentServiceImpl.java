@@ -34,11 +34,9 @@ import java.util.stream.Collectors;
 public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentMapper, SysArticleCommentEntity> implements SysArticleCommentService {
 
     private final SysArticleService sysArticleService;
-    private final AliyunGreenService aliyunGreenService;
 
-    public SysArticleCommentServiceImpl(@Lazy SysArticleService sysArticleService, AliyunGreenService aliyunGreenService) {
+    public SysArticleCommentServiceImpl(@Lazy SysArticleService sysArticleService) {
         this.sysArticleService = sysArticleService;
-        this.aliyunGreenService = aliyunGreenService;
     }
 
     @Override
@@ -46,8 +44,6 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
     public SysArticleCommentEntity create(ArticleCommentCro cro) {
         long countArticle = sysArticleService.count(Wrappers.<SysArticleEntity>lambdaQuery().eq(SysArticleEntity::getId, cro.getArticleId()).eq(SysArticleEntity::getDisFlag, false).eq(SysArticleEntity::getDraftFlag, false));
         ApiAssert.state(countArticle == 1, SystemCode.Message.DATA_NOT_EXISTS);
-
-        aliyunGreenService.antispam(cro.getContent(), true);
 
         SysArticleCommentEntity entity = DozerUtils.map(cro, SysArticleCommentEntity.class);
         entity.setOperator(SecurityContextHolder.getUid());

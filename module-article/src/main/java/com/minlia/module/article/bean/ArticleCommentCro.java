@@ -1,5 +1,6 @@
 package com.minlia.module.article.bean;
 
+import com.minlia.aliyun.green.annotation.Antispam;
 import com.minlia.cloud.body.ApiRequestBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,6 +24,7 @@ public class ArticleCommentCro implements ApiRequestBody {
     @ApiModelProperty(value = "内容", example = "XXXXXX")
     @NotBlank(message = "内容不能为空")
     @Size(max = 200)
+    @Antispam
     private String content;
 
 }

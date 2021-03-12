@@ -4,7 +4,7 @@ package com.minlia.aliyun.green.enums;
  * @author garen
  */
 public enum GreenLabelEnum {
-    //            spam：文字垃圾内容识别
+//            spam：文字垃圾内容识别
 //            politics：文字敏感内容识别
 //            abuse：文字辱骂内容识别
 //            terrorism：文字暴恐内容识别
@@ -20,6 +20,6 @@ public enum GreenLabelEnum {
     porn,
     flood,
     contraband,
-    ad
+    ad;
 
 }

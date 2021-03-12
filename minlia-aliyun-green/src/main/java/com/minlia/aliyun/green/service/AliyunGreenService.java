@@ -14,8 +14,6 @@ import com.minlia.aliyun.green.constant.AliyunGreenCode;
 import com.minlia.cloud.utils.ApiAssert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
