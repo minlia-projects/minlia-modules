@@ -3,6 +3,8 @@ package com.minlia.module.article.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.minlia.module.article.bean.ArticleCommentCro;
+import com.minlia.module.article.bean.SysArticleCommentQro;
+import com.minlia.module.article.bean.vo.ArticleCommentVO;
 import com.minlia.module.article.entity.SysArticleCommentEntity;
 
 /**
@@ -39,5 +41,7 @@ public interface SysArticleCommentService extends IService<SysArticleCommentEnti
      * @return
      */
     Page myPage(int pageNumber, int pageSize);
+
+    Page<ArticleCommentVO> detailsPage(SysArticleCommentQro qro);
 
 }

@@ -1,7 +1,6 @@
 package com.minlia.module.article.bean.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minlia.module.common.constant.LocalDateConstants;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,49 +17,40 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ArticleCommentVO {
 
-    /**
-     * 评论ID
-     */
-    private Long id;
-
-    /**
-     * 文章ID
-     */
+    @ApiModelProperty(value = "文章ID")
     private Long articleId;
 
-    /**
-     * 文章标题
-     */
-    private String articleTitle;
+    @ApiModelProperty(value = "操作人")
+    private Long operator;
 
-    /**
-     * 文章是否启用
-     */
-    private Boolean articleEnabled;
+    @ApiModelProperty(value = "时间")
+    private LocalDateTime time;
 
-    /**
-     * 评论内容
-     */
+    @ApiModelProperty(value = " 内容")
     private String content;
 
-    /**
-     * 评论时间
-     */
-    @JsonFormat(pattern = LocalDateConstants.DEFAULT_LOCAL_DATE_TIME_FORMAT)     private LocalDateTime createDate;
+    @ApiModelProperty(value = " 创建人")
+    private Creator creator;
 
-    /**
-     * 昵称
-     */
-    private String nickname;
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Creator {
+        /**
+         * 昵称
+         */
+        private String nickname;
 
-    /**
-     * 头像
-     */
-    private String avatar;
+        /**
+         * 头像
+         */
+        private String avatar;
 
-    /**
-     * 评论人
-     */
-    private String createBy;
+        /**
+         * 评论人
+         */
+        private Long createBy;
+    }
 
 }

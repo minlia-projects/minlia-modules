@@ -38,7 +38,7 @@ public class SysArticleCommentController {
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.CREATE + "')")
     @ApiOperation(value = "创建")
-    @PostMapping(value = "{articleId}")
+    @PostMapping
     public Response create(@Valid @RequestBody ArticleCommentCro cro) {
         return Response.success(sysArticleCommentService.create(cro));
     }

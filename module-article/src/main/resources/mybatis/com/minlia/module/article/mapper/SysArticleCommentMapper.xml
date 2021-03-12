@@ -13,8 +13,22 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id,
-        article_id, operator, `time`, content
+        id
+        , article_id, operator, `time`, content
     </sql>
+
+    <select id="selectDetailsPage" resultType="com.minlia.module.article.bean.vo.ArticleCommentVO">
+        SELECT sat.id, sat.article_id, sat.content, sat.time, sut.id AS uid, sut.avatar, sut.nickname
+        from sys_article_comment sat
+        INNER JOIN sys_user sut ON sut.id = sat.operator
+        <where>
+            <if test="qro.operator != null">
+                and sat.operator = #{qro.operator}
+            </if>
+            <if test="qro.articleId != null">
+                and sat.article_id = #{qro.articleId}
+            </if>
+        </where>
+    </select>
 
 </mapper>

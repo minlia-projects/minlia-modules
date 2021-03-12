@@ -44,7 +44,7 @@ public class UserRegisterRo implements ApiRequestBody {
     private Integer areaCode;
 
     @ApiModelProperty(value = "手机号码", example = "18888888888")
-//    @Cellphone
+    @Cellphone
     private String cellphone;
 
     @ApiModelProperty(value = "邮箱", example = "88888888@qq.com")

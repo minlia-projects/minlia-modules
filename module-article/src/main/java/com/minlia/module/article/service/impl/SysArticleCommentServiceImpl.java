@@ -1,12 +1,15 @@
 package com.minlia.module.article.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.minlia.aliyun.green.service.AliyunGreenService;
+import com.google.common.collect.Lists;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.ArticleCommentCro;
+import com.minlia.module.article.bean.SysArticleCommentQro;
+import com.minlia.module.article.bean.vo.ArticleCommentVO;
 import com.minlia.module.article.entity.SysArticleCommentEntity;
 import com.minlia.module.article.entity.SysArticleEntity;
 import com.minlia.module.article.mapper.SysArticleCommentMapper;
@@ -14,7 +17,6 @@ import com.minlia.module.article.service.SysArticleCommentService;
 import com.minlia.module.article.service.SysArticleService;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +66,11 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
                 .eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getUid()))
                 .stream().map(data -> data.getArticleId()).collect(Collectors.toList());
         return sysArticleService.page(new Page(pageNumber, pageSize), Wrappers.<SysArticleEntity>lambdaQuery().in(SysArticleEntity::getId, articleIds));
+    }
+
+    @Override
+    public Page<ArticleCommentVO> detailsPage(SysArticleCommentQro qro) {
+        return this.baseMapper.selectDetailsPage(qro.getPage(), qro);
     }
 
 }

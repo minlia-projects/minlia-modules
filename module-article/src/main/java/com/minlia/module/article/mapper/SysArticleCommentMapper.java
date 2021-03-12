@@ -1,7 +1,11 @@
 package com.minlia.module.article.mapper;
 
-import com.minlia.module.article.entity.SysArticleCommentEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.minlia.module.article.bean.SysArticleCommentQro;
+import com.minlia.module.article.bean.vo.ArticleCommentVO;
+import com.minlia.module.article.entity.SysArticleCommentEntity;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +16,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-09-02
  */
 public interface SysArticleCommentMapper extends BaseMapper<SysArticleCommentEntity> {
+
+    Page<ArticleCommentVO> selectDetailsPage(@Param("page") Page page, @Param("qro") SysArticleCommentQro qro);
 
 }
