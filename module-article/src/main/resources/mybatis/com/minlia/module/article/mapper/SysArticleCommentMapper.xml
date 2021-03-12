@@ -18,7 +18,8 @@
     </sql>
 
     <select id="selectDetailsPage" resultType="com.minlia.module.article.bean.vo.ArticleCommentVO">
-        SELECT sat.id, sat.article_id, sat.content, sat.time, sut.id AS uid, sut.avatar, sut.nickname
+        SELECT sat.id, sat.article_id, sat.content, sat.time,
+                sut.id AS 'creator.uid', sut.avatar as 'creator.avatar', sut.nickname as 'creator.nickname'
         from sys_article_comment sat
         INNER JOIN sys_user sut ON sut.id = sat.operator
         <where>
