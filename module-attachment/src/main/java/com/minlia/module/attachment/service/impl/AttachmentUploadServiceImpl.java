@@ -1,6 +1,9 @@
 package com.minlia.module.attachment.service.impl;
 
 
+import com.minlia.aliyun.green.bean.AliyunGreenImageResult;
+import com.minlia.aliyun.green.constant.AliyunGreenCode;
+import com.minlia.aliyun.green.service.AliyunGreenImageService;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
@@ -21,6 +24,7 @@ import com.minlia.module.attachment.property.AttachmentLocalConfig;
 import com.minlia.modules.qcloud.oss.service.QcloudCosService;
 import com.minlia.modules.qcloud.oss.util.QcloudCosUtils;
 import com.qcloud.cos.model.PutObjectResult;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,24 +35,17 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 
-@Service
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class AttachmentUploadServiceImpl implements AttachmentUploadService {
 
-    @Autowired
-    private OssService ossService;
-
-    @Autowired
-    private QcloudCosService qcloudCosService;
-
-    @Autowired
-    private AttachmentService attachmentService;
-
-    @Autowired
-    private AttachmentConfig attachmentConfig;
-
-    @Autowired
-    private AttachmentLocalConfig attachmentLocalConfig;
+    private final OssService ossService;
+    private final QcloudCosService qcloudCosService;
+    private final AttachmentService attachmentService;
+    private final AttachmentConfig attachmentConfig;
+    private final AttachmentLocalConfig attachmentLocalConfig;
+    private final AliyunGreenImageService aliyunGreenImageService;
 
     @Override
     public Response upload(MultipartFile file) throws Exception {
@@ -116,6 +113,11 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
                 .accessKey(ossFile.geteTag())
                 .build();
         attachmentService.save(attachment);
+
+        AliyunGreenImageResult aliyunGreenImageResult = aliyunGreenImageService.handle("https:" + ossFile.getUrl());
+        if (aliyunGreenImageResult.isBlock()) {
+            return Response.failure(AliyunGreenCode.Message.valueOf(aliyunGreenImageResult.getLabel()));
+        }
         return Response.success(ossFile);
     }
 

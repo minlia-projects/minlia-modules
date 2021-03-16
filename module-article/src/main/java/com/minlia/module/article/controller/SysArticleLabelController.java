@@ -38,35 +38,35 @@ public class SysArticleLabelController {
         this.sysArticleLabelService = sysArticleLabelService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.CREATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.CREATE + "')")
     @ApiOperation(value = "创建")
     @PostMapping
     public Response create(@Valid @RequestBody ArticleLabelSro sro) {
         return Response.success(sysArticleLabelService.save(DozerUtils.map(sro, SysArticleLabelEntity.class)));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.UPDATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.UPDATE + "')")
     @ApiOperation(value = "修改")
     @PutMapping
     public Response update(@Valid @RequestBody ArticleLabelSro sro) {
         return Response.success(sysArticleLabelService.updateById(DozerUtils.map(sro, SysArticleLabelEntity.class)));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.DELETE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.DELETE + "')")
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
         return Response.success(sysArticleLabelService.delete(id));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(value = "{id}")
     public Response id(@PathVariable Long id) {
         return Response.success(sysArticleLabelService.getById(id));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody ArticleLabelQro qro) {
@@ -76,7 +76,7 @@ public class SysArticleLabelController {
         return Response.success(sysArticleLabelService.list(queryWrapper));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleLabelQro qro) {

@@ -81,6 +81,10 @@
             <artifactId>commons-codec</artifactId>
             <!--<version>1.9</version>-->
         </dependency>
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>minlia-aliyun-green</artifactId>
+        </dependency>
 
     </dependencies>
 

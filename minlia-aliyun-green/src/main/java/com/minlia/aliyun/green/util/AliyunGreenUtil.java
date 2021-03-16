@@ -8,7 +8,7 @@ import com.aliyuncs.http.FormatType;
 import com.aliyuncs.http.HttpResponse;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.minlia.aliyun.green.bean.AliyunGreenResult;
+import com.minlia.aliyun.green.bean.AliyunGreenContentResult;
 import com.minlia.cloud.utils.ApiAssert;
 
 import java.io.UnsupportedEncodingException;
@@ -50,22 +50,22 @@ public class AliyunGreenUtil {
         return data.toJSONString().getBytes("UTF-8");
     }
 
-    public static AliyunGreenResult antispam(String content) {
-        AliyunGreenResult aliyunGreenResult = null;
+    public static AliyunGreenContentResult antispam(String content) {
+        AliyunGreenContentResult aliyunGreenContentResult = null;
         try {
             textScanRequest.setHttpContent(getData(Arrays.asList("antispam"), content), "UTF-8", FormatType.JSON);
             textScanRequest.setConnectTimeout(3000);
             textScanRequest.setReadTimeout(6000);
             HttpResponse httpResponse = client.doAction(textScanRequest);
-            aliyunGreenResult = AliyunGreenResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
+            aliyunGreenContentResult = AliyunGreenContentResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
         } catch (Exception e) {
             ApiAssert.state(true, e.getMessage());
         }
-        return aliyunGreenResult;
+        return aliyunGreenContentResult;
     }
 
     public static void main(String[] args) {
-        AliyunGreenResult result = antispam("习近平、99包邮、颜射、草泥马、轰炸小日本、砍死拜登");
+        AliyunGreenContentResult result = antispam("习近平、99包邮、颜射、草泥马、轰炸小日本、砍死拜登");
         System.out.println(result.isSuccess());
         System.out.println(result.isBlock());
         System.out.println(result.getLabel());

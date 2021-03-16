@@ -35,21 +35,21 @@ public class SysArticlePraiseController {
         this.sysArticlePraiseService = sysArticlePraiseService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.CREATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Praise.CREATE + "')")
     @ApiOperation(value = "点赞")
     @PostMapping(value = "{articleId}")
     public Response praise(@PathVariable Long articleId) {
         return Response.success(sysArticlePraiseService.praise(articleId));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.READ + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Praise.READ + "')")
     @ApiOperation(value = "是否点赞")
     @GetMapping(value = "praised/{articleId}")
     public Response isPraised(@PathVariable Long articleId) {
         return Response.success(sysArticlePraiseService.isPraised(articleId));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Praise.SEARCH + "')")
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody BaseQueryEntity qro) {
@@ -57,7 +57,7 @@ public class SysArticlePraiseController {
                 .eq(SysArticlePraiseEntity::getOperator, SecurityContextHolder.getUid())));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Praise.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BaseQueryEntity qro) {

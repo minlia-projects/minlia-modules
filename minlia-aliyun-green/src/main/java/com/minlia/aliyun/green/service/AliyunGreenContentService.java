@@ -8,7 +8,7 @@ import com.aliyuncs.http.FormatType;
 import com.aliyuncs.http.HttpResponse;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.minlia.aliyun.green.bean.AliyunGreenResult;
+import com.minlia.aliyun.green.bean.AliyunGreenContentResult;
 import com.minlia.aliyun.green.config.AliyunGreenConfig;
 import com.minlia.aliyun.green.constant.AliyunGreenCode;
 import com.minlia.cloud.utils.ApiAssert;
@@ -21,36 +21,36 @@ import java.util.*;
 
 @Component
 @RequiredArgsConstructor
-public class AliyunGreenService {
+public class AliyunGreenContentService {
 
     private final AliyunGreenConfig aliyunGreenConfig;
     private static IAcsClient client = null;
     private static TextScanRequest textScanRequest = request();
 
-    public AliyunGreenResult antispam(String content) {
-        return antispam(content, false);
+    public AliyunGreenContentResult handle(String content) {
+        return handle(content, false);
     }
 
-    public AliyunGreenResult antispam(String content, boolean throwException) {
+    public AliyunGreenContentResult handle(String content, boolean throwException) {
         if (!aliyunGreenConfig.getEnable()) {
-            return AliyunGreenResult.success();
+            return AliyunGreenContentResult.success();
         }
 
-        AliyunGreenResult aliyunGreenResult = null;
+        AliyunGreenContentResult aliyunGreenContentResult = null;
         try {
             textScanRequest.setHttpContent(getData(Arrays.asList("antispam"), content), "UTF-8", FormatType.JSON);
             textScanRequest.setConnectTimeout(3000);
             textScanRequest.setReadTimeout(6000);
             HttpResponse httpResponse = client.doAction(textScanRequest);
-            aliyunGreenResult = AliyunGreenResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
+            aliyunGreenContentResult = AliyunGreenContentResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
         } catch (Exception e) {
             ApiAssert.state(true, e.getMessage());
         }
 
         if (throwException) {
-            ApiAssert.state(aliyunGreenResult.isSuccess() && aliyunGreenResult.isPass(), AliyunGreenCode.Message.valueOf(aliyunGreenResult.getLabel()));
+            ApiAssert.state(aliyunGreenContentResult.isSuccess() && aliyunGreenContentResult.isPass(), AliyunGreenCode.Message.valueOf(aliyunGreenContentResult.getLabel()));
         }
-        return aliyunGreenResult;
+        return aliyunGreenContentResult;
     }
 
     @PostConstruct

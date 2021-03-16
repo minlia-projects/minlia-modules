@@ -40,42 +40,42 @@ public class SysArticleCategoryController {
         this.sysArticleCategoryService = sysArticleCategoryService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.CREATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.CREATE + "')")
     @ApiOperation(value = "创建")
     @PostMapping
     public Response create(@Valid @RequestBody ArticleCategorySro sro) {
         return Response.success(sysArticleCategoryService.saveOrUpdate(sro));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.UPDATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.UPDATE + "')")
     @ApiOperation(value = "修改")
     @PutMapping
     public Response update(@Valid @RequestBody ArticleCategorySro sro) {
         return Response.success(sysArticleCategoryService.saveOrUpdate(sro));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.UPDATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.UPDATE + "')")
     @ApiOperation(value = "禁用/启用")
     @PutMapping(value = "disable/{id}")
     public Response disable(@PathVariable Long id) {
         return Response.success(sysArticleCategoryService.disable(id));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.DELETE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.DELETE + "')")
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
         return Response.success(sysArticleCategoryService.delete(id));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(value = "{id}")
     public Response id(@PathVariable Long id) {
         return Response.success(sysArticleCategoryService.getById(id));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody ArticleCategoryQro qro) {
@@ -83,7 +83,7 @@ public class SysArticleCategoryController {
         return Response.success(sysArticleCategoryService.count(queryWrapper));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody ArticleCategoryQro qro) {
@@ -93,7 +93,7 @@ public class SysArticleCategoryController {
         return Response.success(list);
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleCategoryQro qro) {

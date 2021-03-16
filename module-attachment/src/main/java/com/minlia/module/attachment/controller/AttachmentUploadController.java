@@ -36,15 +36,15 @@ public class AttachmentUploadController {
         this.attachmentUploadService = attachmentUploadService;
     }
 
-    @AuditLog(value = "upload attachemnt by spring", type = AuditOperationTypeEnum.SELECT)
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.UPLOAD + "')")
     @ApiOperation(value = "上传")
-    @PostMapping(value = "")
-    public Response upload(MultipartFile file) throws Exception {
+    @PostMapping
+    public Response upload(@RequestPart("file") MultipartFile file) throws Exception {
         return attachmentUploadService.upload(file);
     }
 
-    @AuditLog(value = "upload attachemnt by base64", type = AuditOperationTypeEnum.SELECT)
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.UPLOAD + "')")
     @ApiOperation(value = "上传")
     @PostMapping(value = "base64")
@@ -62,7 +62,7 @@ public class AttachmentUploadController {
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.UPLOAD + "')")
     @ApiOperation(value = "上传")
     @PostMapping(value = "{relationId}/{relationTo}")
-    public Response upload(MultipartFile file, @PathVariable String relationId, @PathVariable String relationTo) throws Exception {
+    public Response upload(@RequestPart("file") MultipartFile file, @PathVariable String relationId, @PathVariable String relationTo) throws Exception {
         return attachmentUploadService.upload(file, relationId, relationTo);
     }
 

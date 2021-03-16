@@ -1,6 +1,7 @@
 package com.minlia.module.rebecca.user.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.aliyun.green.annotation.Antispam;
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
@@ -62,6 +63,7 @@ public class SysUserCro implements ApiRequestBody {
      * 昵称
      */
     @Size(min = 1, max = 11)
+    @Antispam
     private String nickname;
 
     /**

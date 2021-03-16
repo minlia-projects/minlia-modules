@@ -187,7 +187,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         ApiAssert.state(Pattern.matches(minliaValidProperties.getEmail(), newEmail), CommonCode.Message.EMAIL_FORMAT_ERROR);
 
         //检查邮箱是否存在
-        ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getEmail, newEmail)) == 0, SysUserCode.Message.CELLPHONE_ALREADY_EXISTS);
+        ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getEmail, newEmail)) == 0, SysUserCode.Message.EMAIL_ALREADY_EXISTS);
 
         //校验验证码
         captchaService.validity(newEmail, vcode);

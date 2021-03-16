@@ -1,9 +1,9 @@
 package com.minlia.aliyun.green.annotation;
 
-import com.minlia.aliyun.green.bean.AliyunGreenContentResult;
+import com.minlia.aliyun.green.bean.AliyunGreenImageResult;
 import com.minlia.aliyun.green.constant.AliyunGreenCode;
 import com.minlia.aliyun.green.enums.GreenLabelEnum;
-import com.minlia.aliyun.green.service.AliyunGreenContentService;
+import com.minlia.aliyun.green.service.AliyunGreenImageService;
 import com.minlia.cloud.i18n.Lang;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -20,8 +20,8 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {Antispam.AntispamValidator.class})
-public @interface Antispam {
+@Constraint(validatedBy = {GreenImage.GreenImageValidator.class})
+public @interface GreenImage {
 
     String message() default "system.validator.message.antispam";
 
@@ -41,25 +41,25 @@ public @interface Antispam {
     };
 
     @Component
-    class AntispamValidator implements ConstraintValidator<Antispam, String> {
+    class GreenImageValidator implements ConstraintValidator<GreenImage, String> {
 
-        private final AliyunGreenContentService aliyunGreenContentService;
+        private final AliyunGreenImageService aliyunGreenImageService;
 
-        public AntispamValidator(AliyunGreenContentService aliyunGreenContentService) {
-            this.aliyunGreenContentService = aliyunGreenContentService;
+        public GreenImageValidator(AliyunGreenImageService aliyunGreenImageService) {
+            this.aliyunGreenImageService = aliyunGreenImageService;
         }
 
         private GreenLabelEnum[] labels;
 
         @Override
-        public void initialize(Antispam antispam) {
+        public void initialize(GreenImage antispam) {
             labels = antispam.labels();
         }
 
         @Override
-        public boolean isValid(String content, ConstraintValidatorContext ctx) {
-            if (StringUtils.isNotEmpty(content)) {
-                AliyunGreenContentResult result = aliyunGreenContentService.handle(content);
+        public boolean isValid(String url, ConstraintValidatorContext ctx) {
+            if (StringUtils.isNotEmpty(url)) {
+                AliyunGreenImageResult result = aliyunGreenImageService.handle(url);
                 if (result.isSuccess() && result.isBlock()) {
                     //禁止默认消息返回
                     ctx.disableDefaultConstraintViolation();

@@ -35,21 +35,21 @@ public class SysArticleCollectionController {
         this.sysArticleCollectionService = sysArticleCollectionService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.CREATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Collection.CREATE + "')")
     @ApiOperation(value = "收藏")
     @PostMapping(value = "{articleId}")
     public Response collection(@PathVariable Long articleId) {
         return Response.success(sysArticleCollectionService.collection(articleId));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.READ + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Collection.READ + "')")
     @ApiOperation(value = "是否收藏")
     @GetMapping(value = "collected/{articleId}")
     public Response isCollected(@PathVariable Long articleId) {
         return Response.success(sysArticleCollectionService.isCollected(articleId));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Collection.SEARCH + "')")
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody BaseQueryEntity qro) {
@@ -57,7 +57,7 @@ public class SysArticleCollectionController {
                 .eq(SysArticleCollectionEntity::getOperator, SecurityContextHolder.getUid())));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Collection.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BaseQueryEntity qro) {

@@ -36,21 +36,21 @@ public class SysArticleCommentController {
         this.sysArticleCommentService = sysArticleCommentService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.CREATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Comment.CREATE + "')")
     @ApiOperation(value = "创建")
     @PostMapping
     public Response create(@Valid @RequestBody ArticleCommentCro cro) {
         return Response.success(sysArticleCommentService.create(cro));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.READ + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Comment.READ + "')")
     @ApiOperation(value = "是否评论")
     @GetMapping(value = "commented/{articleId}")
     public Response isCommented(@PathVariable Long articleId) {
         return Response.success(sysArticleCommentService.isCommented(articleId));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Comment.SEARCH + "')")
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody BaseQueryEntity qro) {
@@ -58,7 +58,7 @@ public class SysArticleCommentController {
                 .eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getUid())));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Comment.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BaseQueryEntity qro) {

@@ -44,21 +44,21 @@ public class SysArticleController {
         this.sysArticleCategoryService = sysArticleCategoryService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.CREATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.CREATE + "')")
     @ApiOperation(value = "创建")
     @PostMapping
     public Response create(@Valid @RequestBody ArticleSro sro) {
         return Response.success(sysArticleService.saveOrUpdate(sro));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.UPDATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.UPDATE + "')")
     @ApiOperation(value = "修改")
     @PutMapping
     public Response update(@Valid @RequestBody ArticleSro sro) {
         return Response.success(sysArticleService.saveOrUpdate(sro));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.DELETE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.DELETE + "')")
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
@@ -72,7 +72,7 @@ public class SysArticleController {
 //        return Response.success(sysArticleService.getById(id));
 //    }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "计数查询")
     @PostMapping(value = "count")
     public Response count(@Valid @RequestBody ArticleQro qro) {
@@ -84,7 +84,7 @@ public class SysArticleController {
         return Response.success(sysArticleService.count(queryWrapper));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody ArticleQro qro) {
@@ -96,7 +96,7 @@ public class SysArticleController {
         return Response.success(sysArticleService.page(qro.getPage(), queryWrapper));
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.SEARCH + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.SEARCH + "')")
     @ApiOperation(value = "详情")
     @GetMapping(value = "details/{id}")
     public Response details(@PathVariable Long id) {

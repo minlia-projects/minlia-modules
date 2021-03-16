@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AliyunGreenResult {
+public class AliyunGreenContentResult {
 
     /**
      * msg : OK
@@ -100,23 +100,23 @@ public class AliyunGreenResult {
      * block：文本违规，可以直接删除或者限制公开。
      */
     public boolean isPass() {
-        return isSuccess() && "pass".equals(data.get(0).getResults().get(0).getSuggestion());
+        return isSuccess() && data.get(0).getResults().stream().filter(resultsDTO -> "pass".equals(resultsDTO.getSuggestion())).count() == data.get(0).getResults().size();
     }
 
     public boolean isBlock() {
-        return isSuccess() && "block".equals(data.get(0).getResults().get(0).getSuggestion());
+        return isSuccess() && data.get(0).getResults().stream().filter(resultsDTO -> "block".equals(resultsDTO.getSuggestion())).count() > 0;
     }
 
     public String getLabel() {
-        return isSuccess() && isBlock() ? data.get(0).getResults().get(0).getLabel() : null;
+        return data.get(0).getResults().stream().filter(resultsDTO -> "block".equals(resultsDTO.getSuggestion())).findFirst().get().getLabel();
     }
 
-    public static AliyunGreenResult format(String result) {
-        return new Gson().fromJson(result, AliyunGreenResult.class);
+    public static AliyunGreenContentResult format(String result) {
+        return new Gson().fromJson(result, AliyunGreenContentResult.class);
     }
 
-    public static AliyunGreenResult success() {
-        return AliyunGreenResult.builder().code(200).msg("OK").build();
+    public static AliyunGreenContentResult success() {
+        return AliyunGreenContentResult.builder().code(200).msg("OK").build();
     }
 
 }
