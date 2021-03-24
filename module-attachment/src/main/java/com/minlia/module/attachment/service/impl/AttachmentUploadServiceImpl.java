@@ -114,9 +114,11 @@ public class AttachmentUploadServiceImpl implements AttachmentUploadService {
                 .build();
         attachmentService.save(attachment);
 
-        AliyunGreenImageResult aliyunGreenImageResult = aliyunGreenImageService.handle("https:" + ossFile.getUrl());
-        if (aliyunGreenImageResult.isBlock()) {
-            return Response.failure(AliyunGreenCode.Message.valueOf(aliyunGreenImageResult.getLabel()));
+        if (file.getContentType().contains("image")) {
+            AliyunGreenImageResult aliyunGreenImageResult = aliyunGreenImageService.handle("https:" + ossFile.getUrl());
+            if (aliyunGreenImageResult.isBlock()) {
+                return Response.failure(AliyunGreenCode.Message.valueOf(aliyunGreenImageResult.getLabel()));
+            }
         }
         return Response.success(ossFile);
     }
