@@ -72,6 +72,8 @@ public class DataPermissionHandlerImpl implements DataPermissionHandler {
                     .findBy("sys_org_relation", "ancestor", dataPermission.getOrgId())
                     .stream().map(entity -> entity.getLong("descendant"))
                     .collect(Collectors.toList()));
+        } else if (DataScopeTypeEnum.UID.getType() == dataPermission.getDpType()) {
+            condition = dataPermission.getDpScope() + MinliaSecurityContextHolder.getUid();
         }
         assert condition != null;
         return CCJSqlParserUtil.parseCondExpression(condition);

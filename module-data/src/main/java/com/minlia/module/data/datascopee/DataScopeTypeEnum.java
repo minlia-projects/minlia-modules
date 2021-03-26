@@ -47,7 +47,12 @@ public enum DataScopeTypeEnum {
     /**
      * 本级及上级
      */
-    OWN_PARENT(4, "本级及上级");
+    OWN_PARENT(4, "本级及上级"),
+
+    /**
+     * 自己
+     */
+    UID(5, "自己");
 
     /**
      * 类型

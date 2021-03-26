@@ -149,7 +149,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         sysUserService.update(userEntity, SysUserUpdateTypeEnum.SYSTEM_UPDATE);
 
         //获取用户上下文
-        UserContext userContext = loginService.getUserContext(userEntity, userEntity.getDefaultRole());
+        UserContext userContext = loginService.getUserContext(userEntity, Objects.nonNull(loginCredentials.getCurrrole()) ? loginCredentials.getCurrrole() : userEntity.getDefaultRole());
         checkDomain(userContext.getCurrdomain());
 
         //登录成功事件

@@ -2,12 +2,14 @@ package com.minlia.module.rebecca.authentication.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.rebecca.authentication.bean.UserLogonResponseBody;
 import com.minlia.module.rebecca.authentication.service.LoginService;
 import com.minlia.module.rebecca.permission.service.SysPermissionService;
 import com.minlia.module.rebecca.role.entity.SysRoleEntity;
 import com.minlia.module.rebecca.role.service.SysRoleService;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
+import com.minlia.modules.security.code.SecurityCode;
 import com.minlia.modules.security.constant.SecurityConstant;
 import com.minlia.modules.security.model.UserContext;
 import com.minlia.modules.security.model.token.AccessJwtToken;
@@ -23,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * @author garen
@@ -52,13 +53,13 @@ public class LoginServiceImpl implements LoginService {
             }
         }
 
-        SysRoleEntity roleEntity = sysRoleService.getOne(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getCode, currrole));
-//        List<String> permissions = sysPermissionService.getCodesByRoleId(roleEntity.getId());
+        //获取用户所有角色
+        List<String> roles = sysRoleService.getCodesByUserId(userEntity.getId());
+        //判断是否包含登陆角色
+        ApiAssert.state(roles.contains(currrole), SecurityCode.Message.NO_CURRENT_ROLE_PERMISSIONS);
 
-        //TODO 获取用户角色
-        List<Long> roleIds = sysRoleService.getRolesByUserId(userEntity.getId()).stream().map(SysRoleEntity::getId).collect(Collectors.toList());
-        //TODO 获取权限点
-        List<String> permissions = sysPermissionService.getCodesByRoleId(roleIds);
+        SysRoleEntity roleEntity = sysRoleService.getOne(Wrappers.<SysRoleEntity>lambdaQuery().eq(SysRoleEntity::getCode, currrole));
+        List<String> permissions = sysPermissionService.getCodesByRoleId(roleEntity.getId());
 
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {

@@ -16,6 +16,7 @@ import com.minlia.aliyun.green.constant.AliyunGreenCode;
 import com.minlia.aliyun.green.enums.GreenImageLabelEnum;
 import com.minlia.cloud.utils.ApiAssert;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AliyunGreenImageService {
@@ -44,6 +46,11 @@ public class AliyunGreenImageService {
         AliyunGreenImageResult result = null;
         try {
             HttpResponse httpResponse = client.doAction(imageSyncScanRequest);
+            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
+            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
+            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
+            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
+            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
             result = AliyunGreenImageResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
         } catch (Exception e) {
             ApiAssert.state(true, e.getMessage());

@@ -118,7 +118,9 @@ public class SecurityCode {
         /**
          * 没有操作此记录的权限
          */
-        NOT_DATA_AUTHORIZED;
+        NOT_DATA_AUTHORIZED,
+
+        NO_CURRENT_ROLE_PERMISSIONS;
 
         @Override
         public String module() {
