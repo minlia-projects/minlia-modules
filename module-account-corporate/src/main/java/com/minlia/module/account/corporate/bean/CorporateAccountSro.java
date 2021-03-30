@@ -27,12 +27,12 @@ public class CorporateAccountSro {
 
         @ApiModelProperty(value = "银行名称", required = true)
         @NotBlank
-        @Size(max = 20)
+        @Size(max = 200)
         private String bankName;
 
         @ApiModelProperty(value = "支行名称", required = true)
         @NotBlank
-        @Size(max = 20)
+        @Size(max = 200)
         private String branchName;
 
         @ApiModelProperty(value = "账户名称", required = true)
