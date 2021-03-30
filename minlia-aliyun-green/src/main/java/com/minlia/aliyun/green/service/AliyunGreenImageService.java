@@ -40,17 +40,12 @@ public class AliyunGreenImageService {
 
     public AliyunGreenImageResult handle(String url, boolean throwException) {
         ImageSyncScanRequest imageSyncScanRequest = getRequest();
-        JSONObject httpBody = getData(GreenImageLabelEnum.all(), url);
+        JSONObject httpBody = getData(GreenImageLabelEnum.black(), url);
         imageSyncScanRequest.setHttpContent(StringUtils.getBytesUtf8(httpBody.toJSONString()), "UTF-8", FormatType.JSON);
 
         AliyunGreenImageResult result = null;
         try {
             HttpResponse httpResponse = client.doAction(imageSyncScanRequest);
-            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
-            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
-            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
-            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
-            log.info("result {}", new String(httpResponse.getHttpContent(), "UTF-8"));
             result = AliyunGreenImageResult.format(new String(httpResponse.getHttpContent(), "UTF-8"));
         } catch (Exception e) {
             ApiAssert.state(true, e.getMessage());
@@ -95,6 +90,7 @@ public class AliyunGreenImageService {
          * porn：表示鉴黄场景。
          */
         httpBody.put("scenes", scenes);
+        httpBody.put("bizType", "default");
 
         /**
          * 设置待检测图片。一张图片对应一个task。

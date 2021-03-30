@@ -86,28 +86,25 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public UserLogonResponseBody loginWithRole(SysUserEntity entity, String currentRole) {
+    public UserLogonResponseBody loginWithRole(SysUserEntity entity, String currrole) {
         //如果当前角色为空获取默认角色
-        UserContext userContext = this.getUserContext(entity, currentRole);
+        UserContext userContext = this.getUserContext(entity, currrole);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
 
         String id = UUID.randomUUID().toString();
-        AccessJwtToken accessToken = tokenFactory.createAccessJwtToken(userContext, id);
-        AccessJwtToken refreshToken = tokenFactory.createRefreshToken(userContext, id);
+        AccessJwtToken accessToken = tokenFactory.createAccessJwtToken(userContext.getKey(), null, id);
+        AccessJwtToken refreshToken = tokenFactory.createRefreshToken(userContext.getKey(), null, id);
         AccessJwtToken rawToken = tokenFactory.createRawJwtToken(userContext, id);
 
-
-        UserLogonResponseBody userLogonResponseBody = UserLogonResponseBody.builder()
+        //缓存token
+        TokenCacheUtils.kill(userContext.getKey());
+        TokenCacheUtils.cache(userContext.getKey(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
+        return UserLogonResponseBody.builder()
                 .token(accessToken.getToken())
                 .loginEffectiveDate((accessToken).getClaims().getExpiration().getTime())
                 .refreshToken(refreshToken.getToken())
                 .build();
-
-        //缓存token TODO
-        TokenCacheUtils.kill(userContext.getUid());
-        TokenCacheUtils.cache(userContext.getUid(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
-        return userLogonResponseBody;
     }
 
 }

@@ -25,10 +25,16 @@ public class JwtTokenFactory {
         this.settings = settings;
     }
 
-    public AccessJwtToken createAccessJwtToken(UserContext userContext, String id) {
-        Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-        claims.put("uid", userContext.getUid());
+    public AccessJwtToken createAccessJwtToken(String key, String username, String id) {
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("key", key);
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
+    }
+
+    public AccessJwtToken createRefreshToken(String key, String username, String id) {
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("key", key);
+        return getJwtToken(claims, settings.getRefreshTokenExpTime(), id);
     }
 
     public AccessJwtToken createRawJwtToken(UserContext userContext, String id) {
@@ -45,12 +51,6 @@ public class JwtTokenFactory {
         claims.put("permissions", userContext.getPermissions());
 
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
-    }
-
-    public AccessJwtToken createRefreshToken(UserContext userContext, String id) {
-        Claims claims = Jwts.claims().setSubject(userContext.getUsername());
-        claims.put("uid", userContext.getUid());
-        return getJwtToken(claims, settings.getRefreshTokenExpTime(), id);
     }
 
     private AccessJwtToken getJwtToken(Claims claims, Integer tokenExpirationTime, String id) {

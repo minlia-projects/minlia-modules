@@ -42,8 +42,9 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         UserContext userContext = (UserContext) authentication.getPrincipal();
 
         String id = UUID.randomUUID().toString();
-        JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext, id);
-        JwtToken refreshToken = tokenFactory.createRefreshToken(userContext, id);
+        String key = userContext.getKey();
+        JwtToken accessToken = tokenFactory.createAccessJwtToken(key, null, id);
+        JwtToken refreshToken = tokenFactory.createRefreshToken(key, null, id);
         JwtToken rawToken = tokenFactory.createRawJwtToken(userContext, id);
 
         Map<String, Object> tokenMap = Maps.newHashMap();
@@ -59,11 +60,8 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         clearAuthenticationAttributes(request);
 
         //缓存token TODO
-        TokenCacheUtils.kill(userContext.getUid());
-        TokenCacheUtils.cache(userContext.getUid(), rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
-        //保存信息到redis：因为存在多端登录所以用Set
-//        RedisUtils.sSetAndTime(TokenRedisConstants.token + userContext.getUsername(), tokenFactory.getSettings().getTokenExpirationTime(), accessToken.getToken());
-//        RedisUtils.sSetAndTime(TokenRedisConstants.r_token + userContext.getUsername(), tokenFactory.getSettings().getRefreshTokenExpTime(), refreshToken.getToken());
+        TokenCacheUtils.kill(key);
+        TokenCacheUtils.cache(key, rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
     }
 
     /**

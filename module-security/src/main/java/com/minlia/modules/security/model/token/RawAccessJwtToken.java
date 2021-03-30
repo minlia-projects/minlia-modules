@@ -8,9 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RawAccessJwtToken implements JwtToken {
 
-    /**
-     * 令牌
-     */
     private String token;
 
     public RawAccessJwtToken(String token) {
@@ -38,7 +35,7 @@ public class RawAccessJwtToken implements JwtToken {
 
     public Jws<Claims> parseClaimsWithCache(String signingKey) {
         Jws<Claims> jwsClaims = this.parseClaims(signingKey);
-        Object token = TokenCacheUtils.get(jwsClaims.getBody().get("uid", Long.class));
+        Object token = TokenCacheUtils.get(jwsClaims.getBody().get("key", String.class));
         if (null == token) {
             throw new JwtExpiredTokenException("JWT Token expired");
         } else {
@@ -46,8 +43,8 @@ public class RawAccessJwtToken implements JwtToken {
         }
     }
 
-    public Jws<Claims> parseClaimsWithGuid(Long uid, String signingKey) {
-        Object token = TokenCacheUtils.get(uid);
+    public Jws<Claims> parseClaimsWithGuid(String tokenKey, String signingKey) {
+        Object token = TokenCacheUtils.get(tokenKey);
         if (null == token) {
             throw new JwtExpiredTokenException("JWT Token expired");
         } else {
@@ -61,8 +58,8 @@ public class RawAccessJwtToken implements JwtToken {
         }
     }
 
-    public void isExpired(Long uid) {
-        if (!TokenCacheUtils.exists(uid)) {
+    public void isExpired(String tokenKey) {
+        if (!TokenCacheUtils.exists(tokenKey)) {
             throw new JwtExpiredTokenException("JWT Token expired");
         }
     }

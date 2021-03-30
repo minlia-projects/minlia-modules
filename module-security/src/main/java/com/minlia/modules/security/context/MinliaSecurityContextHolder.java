@@ -80,6 +80,19 @@ public class MinliaSecurityContextHolder {
     }
 
     /**
+     * 获取用户ID
+     *
+     * @return
+     */
+    public static String getKey() {
+        if (isAnonymousUser()) {
+            return "anonymousUser";
+        } else {
+            return getUserContext().getKey();
+        }
+    }
+
+    /**
      * 是否匿名用户
      *
      * @return

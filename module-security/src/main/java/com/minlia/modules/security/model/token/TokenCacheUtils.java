@@ -1,11 +1,6 @@
 package com.minlia.modules.security.model.token;
 
 import com.minlia.module.redis.util.RedisUtils;
-import com.minlia.modules.security.constant.SecurityConstant;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author garen
@@ -16,39 +11,47 @@ import javax.servlet.http.HttpServletRequest;
 public class TokenCacheUtils {
 
     public static final String TOKEN = "token:";
-    public static final String TOKEN_GUID_SESSION = "token:%s_%s";
+//    public static final String TOKEN_GUID_SESSION = "token:%s_%s";
+//
+//    private static String getKeyWithSessionId(String key) {
+//        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+//        HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
+//        Object sid = servletRequest.getSession().getAttribute(SecurityConstant.SID);
+//        return String.format(TOKEN_GUID_SESSION, key, sid);
+//    }
 
-    public static final String TOKEN_R = "token.r:";
-
-    private static String getKey(Long uid) {
-        return TOKEN + uid;
+    /**
+     * 获取token
+     *
+     * @param key
+     */
+    public static Object get(String key) {
+        return RedisUtils.get(getKey(key));
     }
 
-    private static String getKeyWithSessionId(Long uid) {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest servletRequest = servletRequestAttributes.getRequest();
-        Object sid = servletRequest.getSession().getAttribute(SecurityConstant.SID);
-        return String.format(TOKEN_GUID_SESSION, uid, sid);
+    private static String getKey(String key) {
+        return TOKEN + key;
     }
 
     /**
      * 缓存token
      *
-     * @param uid
+     * @param key
      * @param token
      * @param expirationTime
      */
-    public static void cache(Long uid, String token, int expirationTime) {
-        RedisUtils.set(getKey(uid), token, expirationTime);
+    public static void cache(String key, String token, int expirationTime) {
+        RedisUtils.set(getKey(key), token, expirationTime);
     }
 
+
     /**
-     * 获取token
+     * 杀掉token
      *
-     * @param uid
+     * @param key
      */
-    public static Object get(Long uid) {
-        return RedisUtils.get(getKey(uid));
+    public static void kill(String key) {
+        RedisUtils.del(getKey(key));
     }
 
     /**
@@ -57,28 +60,27 @@ public class TokenCacheUtils {
      * @param uid
      */
     public static void kill(Long uid) {
-        RedisUtils.delByPrefix(getKey(uid));
-//        RedisUtils.del(getKey(uid));
+        RedisUtils.delByPrefix(TOKEN + uid);
     }
 
     /**
      * 是否存在
      *
-     * @param uid
+     * @param key
      * @return
      */
-    public static boolean exists(Long uid) {
-        return RedisUtils.getRedisTemplate().hasKey(getKey(uid));
+    public static boolean exists(String key) {
+        return RedisUtils.getRedisTemplate().hasKey(getKey(key));
     }
 
     /**
      * 续期
      *
-     * @param uid
+     * @param key
      * @return
      */
-    public static boolean expire(Long uid, long time) {
-        return RedisUtils.expire(getKey(uid), time);
+    public static boolean expire(String key, long time) {
+        return RedisUtils.expire(getKey(key), time);
     }
 
 }

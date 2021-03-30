@@ -18,7 +18,12 @@ public class AliyunGreenCode {
         porn,
         flood,
         contraband,
-        ad;
+        ad,
+
+        qrcode,
+        live,
+        flag,
+        logo;
 
         @Override
         public String module() {

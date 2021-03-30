@@ -2,6 +2,7 @@ package com.minlia.modules.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.Body;
+import com.minlia.cloud.constant.SymbolConstants;
 import com.minlia.module.common.annotation.SensitiveInfo;
 import com.minlia.module.common.enumeration.SensitiveTypeEnum;
 import lombok.AllArgsConstructor;
@@ -90,5 +91,9 @@ public class UserContext implements Body {
      */
     @JsonIgnore
     private List<GrantedAuthority> authorities;
+
+    public String getKey() {
+        return this.uid + SymbolConstants.COLON + this.currrole.hashCode();
+    }
 
 }

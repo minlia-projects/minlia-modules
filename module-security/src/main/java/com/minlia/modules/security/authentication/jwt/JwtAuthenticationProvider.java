@@ -28,7 +28,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -49,9 +48,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         RawAccessJwtToken rawAccessToken = (RawAccessJwtToken) authentication.getCredentials();
         Jws<Claims> rawClaims = rawAccessToken.parseClaims(jwtProperty.getTokenSigningKey());
-        Long uid = rawClaims.getBody().get("uid", Long.class);
-
-        Jws<Claims> jwsClaims = rawAccessToken.parseClaimsWithGuid(uid, jwtProperty.getTokenSigningKey());
+        String key = rawClaims.getBody().get("key", String.class);
+        Jws<Claims> jwsClaims = rawAccessToken.parseClaimsWithGuid(key, jwtProperty.getTokenSigningKey());
 
         if (!sysSecurityConfig.getMultiClientLogin() && !rawClaims.getBody().getId().equals(jwsClaims.getBody().getId())) {
             throw new DefaultAuthenticationException(SecurityCode.Exception.LOGGED_AT_ANOTHER_LOCATION);
@@ -63,7 +61,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         List<String> permissions = jwsClaims.getBody().get("permissions", List.class);
 
         UserContext userContext = UserContext.builder()
-                .uid(uid)
+                .uid(jwsClaims.getBody().get("uid", Long.class))
                 .orgId(Long.valueOf(jwsClaims.getBody().get("orgId").toString()))
                 .dpType(jwsClaims.getBody().get("dpType", Integer.class))
                 .dpScope(jwsClaims.getBody().get("dpScope", String.class))
@@ -78,7 +76,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .build();
 
         //重置缓存时间
-        TokenCacheUtils.expire(userContext.getUid(), jwtProperty.getTokenExpirationTime());
+        TokenCacheUtils.expire(key, jwtProperty.getTokenExpirationTime());
 
         List<GrantedAuthority> authorities = Lists.newArrayList();
         if (CollectionUtils.isNotEmpty(permissions)) {

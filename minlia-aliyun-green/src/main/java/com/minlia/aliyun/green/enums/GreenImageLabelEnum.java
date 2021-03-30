@@ -30,4 +30,8 @@ public enum GreenImageLabelEnum {
         return list;
     }
 
+    public static List<String> black() {
+        return Lists.newArrayList(porn.name(), terrorism.name(), live.name(), live.name());
+    }
+
 }
