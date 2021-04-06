@@ -1,4 +1,4 @@
-package com.minlia.module.disrtict.constant;
+package com.minlia.module.district.constant;
 
 import com.minlia.cloud.code.Code;
 

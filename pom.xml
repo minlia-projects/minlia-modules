@@ -37,7 +37,7 @@
         <module>module-redis</module>
 
         <!--    地址管理    -->
-        <!--        <module>module-district</module>-->
+        <module>module-district</module>
         <!--        <module>module-country</module>-->
         <!--        <module>module-address</module>-->
         <module>module-shipping-address</module>
@@ -70,7 +70,6 @@
         <module>module-attachment</module>
         <module>module-library</module>
         <module>module-article</module>
-
 
 
         <module>module-currency</module>

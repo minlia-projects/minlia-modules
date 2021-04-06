@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
+<!-- scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true -->
+<!-- scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
+<!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<configuration debug="false" scan="true" scanPeriod="60 seconds" packagingData="true">
+
+    <contextName>logback</contextName>
+    <springProperty scope="context" name="file-path" source="logging.file.path"/>
+    <springProperty scope="context" name="max-history" source="logging.logback.rollingpolicy.max-history"/>
+    <springProperty scope="context" name="max-file-size" source="logging.logback.rollingpolicy.max-file-size"/>
+    <springProperty scope="context" name="total-size-cap" source="logging.logback.rollingpolicy.total-size-cap"/>
+
+    <property name="charset" value="UTF-8"/>
+
+    <!-- 标准日志 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出（配色）：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <!--            <pattern>%yellow(%d{yyyy-MM-dd HH:mm:ss}) %contextName %red([%thread]) %highlight(%-5level)-->
+            <!--                %cyan(%logger{50}) - -->
+            <!--                %magenta(%msg) %n-->
+            <!--            </pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+    </appender>
+
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 文件路径 -->
+        <file>${file-path}/log_info.log</file>
+        <!-- 将 immediateFlush 设置为 false 可以获得更高的日志吞吐量 -->
+        <immediateFlush>true</immediateFlush>
+        <!--  -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+        <!-- 滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按天轮转 -->
+            <fileNamePattern>${file-path}/info/log-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--保存时长/月-->
+            <maxHistory>${max-history}</maxHistory>
+            <!--文件大小-->
+            <maxFileSize>${max-file-size}</maxFileSize>
+            <!--归档文件总大小-->
+            <totalSizeCap>${total-size-cap}</totalSizeCap>
+        </rollingPolicy>
+        <!-- 日志级别 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <!-- 追加方式记录日志 -->
+        <append>true</append>
+    </appender>
+
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${file-path}/log_debug.log</file>
+        <immediateFlush>true</immediateFlush>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${file-path}/debug/log-debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>${max-history}</maxHistory>
+            <maxFileSize>${max-file-size}</maxFileSize>
+            <totalSizeCap>${total-size-cap}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <append>true</append>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${file-path}/log_error.log</file>
+        <immediateFlush>true</immediateFlush>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${file-path}/error/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>${max-history}</maxHistory>
+            <maxFileSize>${max-file-size}</maxFileSize>
+            <totalSizeCap>${total-size-cap}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <append>true</append>
+    </appender>
+
+    <appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${file-path}/log_warn.log</file>
+        <immediateFlush>true</immediateFlush>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${file-path}/warn/log-warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>${max-history}</maxHistory>
+            <maxFileSize>${max-file-size}</maxFileSize>
+            <totalSizeCap>${total-size-cap}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <append>true</append>
+    </appender>
+
+    <!--日志异步到数据库  -->
+    <!--<appender name="DBAPPENDER" class="ch.qos.logback.classic.db.DBAppender">-->
+    <!--<connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">-->
+    <!--<dataSource class="com.zaxxer.hikari.HikariDataSource">-->
+    <!--<driverClassName>com.mysql.jdbc.Driver</driverClassName>-->
+    <!--<jdbcUrl>jdbc:mysql://localhost:3306/albedo-new?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</jdbcUrl>-->
+    <!--<username>root</username>-->
+    <!--<password>123456</password>-->
+    <!--<poolName>HikariPool-logback</poolName>-->
+    <!--</dataSource>-->
+    <!--</connectionSource>-->
+    <!--&lt;!&ndash; 此日志文件只记录info级别的 &ndash;&gt;-->
+    <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+    <!--<level>warn</level>-->
+    <!--<onMatch>ACCEPT</onMatch>-->
+    <!--<onMismatch>DENY</onMismatch>-->
+    <!--</filter>-->
+    <!--&lt;!&ndash; 此日志文件只记录info级别的 &ndash;&gt;-->
+    <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+    <!--<level>error</level>-->
+    <!--<onMatch>ACCEPT</onMatch>-->
+    <!--<onMismatch>DENY</onMismatch>-->
+    <!--</filter>-->
+    <!--</appender>-->
+
+    <logger name="com" level="DEBUG"/>
+    <logger name="org.springframework.data.mybatis" level="DEBUG"/>
+    <logger name="org.springframework.aop.aspectj" level="ERROR"/>
+
+    <logger name="org.mybatis.spring.SqlSessionUtils" level="ERROR"/>
+    <logger name="org.springframework.orm.jpa.JpaTransactionManager" level="ERROR"/>
+
+    <logger name="io.lettuce.core.protocol" level="ERROR"/>
+    <logger name="com.baomidou.mybatisplus.core.MybatisConfiguration" level="ERROR"/>
+    <logger name="com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor" level="ERROR"/>
+
+    <logger name="org.springframework.data.convert.CustomConversions" level="ERROR"/>
+    <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="ERROR"/>
+    <logger name="org.springframework.context.annotation.ClassPathBeanDefinitionScanner" level="ERROR"/>
+
+    <logger name="javax.activation" level="WARN"/>
+    <logger name="javax.mail" level="WARN"/>
+    <logger name="javax.xml.bind" level="WARN"/>
+    <logger name="ch.qos.logback" level="INFO"/>
+    <logger name="com.codahale.metrics" level="WARN"/>
+    <logger name="com.ryantenney" level="WARN"/>
+    <logger name="com.sun" level="WARN"/>
+    <logger name="com.zaxxer" level="WARN"/>
+    <logger name="io.undertow" level="WARN"/>
+    <logger name="net.sf.ehcache" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+    <logger name="org.bson" level="WARN"/>
+    <logger name="org.hibernate.validator" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
+    <logger name="org.springframework.web" level="INFO"/>
+    <logger name="org.springframework.security" level="WARN"/>
+
+    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.xnio" level="WARN"/>
+    <logger name="springfox" level="WARN"/>
+    <logger name="sun.rmi" level="WARN"/>
+    <logger name="liquibase" level="WARN"/>
+    <logger name="sun.rmi.transport" level="WARN"/>
+
+    <logger name="jdbc.sqlonly" level="INFO"/>
+    <logger name="org.apache.ibatis" level="DEBUG"/>
+    <logger name="org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer"
+            level="ERROR"/>
+    <logger name="org.springframework.core.io.support" level="INFO"/>
+    <logger name="org.springframework.cache" level="ALL"/>
+    <logger name="org.liquibase" level="TRACE"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+<!--        <appender-ref ref="DEBUG"/>-->
+        <appender-ref ref="INFO"/>
+        <appender-ref ref="WARN"/>
+        <appender-ref ref="ERROR"/>
+        <!--<appender-ref ref="DBAPPENDER"/>-->
+    </root>
+
+    <springProfile name="dev">
+        <root>
+            <level value="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!dev">
+        <root>
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="DEBUG"/>
+            <appender-ref ref="INFO"/>
+            <appender-ref ref="WARN"/>
+            <appender-ref ref="ERROR"/>
+        </root>
+    </springProfile>
+
+</configuration>

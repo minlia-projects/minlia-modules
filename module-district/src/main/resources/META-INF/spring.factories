@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.disrtict.DistrictAutoConfiguration
+com.minlia.module.district.DistrictAutoConfiguration
