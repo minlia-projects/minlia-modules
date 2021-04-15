@@ -58,10 +58,6 @@ public class SysUserEntity extends AbstractEntity {
     @TableField("invite_code")
     private String inviteCode;
 
-    @ApiModelProperty(value = "积分")
-    @TableField("integral")
-    private String integral;
-
     @ApiModelProperty(value = "头像")
     @TableField("avatar")
     private String avatar;

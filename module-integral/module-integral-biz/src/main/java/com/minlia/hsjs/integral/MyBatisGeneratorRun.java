@@ -60,7 +60,7 @@
 //    private final String author = "garen";
 //
 //    //指定生成的表名
-//    private final String[] tableNames = new String[]{"hsjs_integral_config"};
+//    private final String[] tableNames = new String[]{"hsjs_integral_user"};
 //
 //    @Test
 //    public void generateCode() {

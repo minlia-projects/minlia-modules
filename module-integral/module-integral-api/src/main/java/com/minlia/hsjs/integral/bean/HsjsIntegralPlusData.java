@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HsjsIntegralAddData {
+public class HsjsIntegralPlusData {
 
     private Long uid;
 

@@ -1,6 +1,7 @@
 package com.minlia.hsjs.integral.service;
 
-import com.minlia.hsjs.integral.bean.HsjsIntegralAddData;
+import com.minlia.hsjs.integral.bean.HsjsIntegralMinusData;
+import com.minlia.hsjs.integral.bean.HsjsIntegralPlusData;
 import com.minlia.hsjs.integral.entity.HsjsIntegralRecordEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,6 +15,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface HsjsIntegralRecordService extends IService<HsjsIntegralRecordEntity> {
 
-    void create(HsjsIntegralAddData data);
+    void plus(HsjsIntegralPlusData data);
+
+    void minus(HsjsIntegralMinusData data);
 
 }

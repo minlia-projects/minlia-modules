@@ -32,14 +32,14 @@ import javax.validation.Valid;
  */
 @Api(tags = "HSJS Integral Config", description = "积分-配置")
 @RestController
-@RequestMapping(value = ApiPrefix.V1 + "integral")
+@RequestMapping(value = ApiPrefix.V1 + "integral/config")
 @RequiredArgsConstructor
 public class HsjsIntegralConfigController {
 
     private final HsjsIntegralConfigService hsjsIntegralConfigService;
 
     @AuditLog(type = AuditOperationTypeEnum.CREATE)
-    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.CREATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.Config.CREATE + "')")
     @ApiOperation(value = "创建")
     @PostMapping(value = "")
     public Response create(@Valid @RequestBody HsjsIntegralConfigCro cro) {
@@ -47,7 +47,7 @@ public class HsjsIntegralConfigController {
     }
 
     @AuditLog(type = AuditOperationTypeEnum.UPDATE)
-    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.UPDATE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.Config.UPDATE + "')")
     @ApiOperation(value = "修改")
     @PutMapping(value = "")
     public Response update(@Valid @RequestBody HsjsIntegralConfigUro uro) {
@@ -55,7 +55,7 @@ public class HsjsIntegralConfigController {
     }
 
     @AuditLog(type = AuditOperationTypeEnum.DELETE)
-    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.DELETE + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.Config.DELETE + "')")
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
     public Response delete(@PathVariable Long id) {
@@ -63,7 +63,7 @@ public class HsjsIntegralConfigController {
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
-    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.SELECT + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.Config.SELECT + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(value = "{id}")
     public Response id(@PathVariable Long id) {
@@ -71,7 +71,7 @@ public class HsjsIntegralConfigController {
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
-    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.SELECT + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.Config.SELECT + "')")
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody HsjsIntegralConfigQro qro) {
@@ -80,7 +80,7 @@ public class HsjsIntegralConfigController {
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
-    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.SELECT + "')")
+    @PreAuthorize(value = "hasAnyAuthority('" + HsjsIntegralConstant.Authorize.Config.SELECT + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody HsjsIntegralConfigQro qro) {

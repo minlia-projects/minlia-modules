@@ -1,7 +1,9 @@
 package com.minlia.hsjs.integral.listener;
 
-import com.minlia.hsjs.integral.bean.HsjsIntegralAddData;
-import com.minlia.hsjs.integral.event.HsjsIntegralAddEvent;
+import com.minlia.hsjs.integral.bean.HsjsIntegralMinusData;
+import com.minlia.hsjs.integral.bean.HsjsIntegralPlusData;
+import com.minlia.hsjs.integral.event.HsjsIntegralMinusEvent;
+import com.minlia.hsjs.integral.event.HsjsIntegralPlusEvent;
 import com.minlia.hsjs.integral.service.HsjsIntegralRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -17,9 +19,15 @@ public class HsjsIntegralListener {
     private final HsjsIntegralRecordService hsjsIntegralRecordService;
 
     @EventListener
-    public void onPublish(HsjsIntegralAddEvent event) {
-        HsjsIntegralAddData data = (HsjsIntegralAddData) event.getSource();
-        hsjsIntegralRecordService.create(data);
+    public void plus(HsjsIntegralPlusEvent event) {
+        HsjsIntegralPlusData data = (HsjsIntegralPlusData) event.getSource();
+        hsjsIntegralRecordService.plus(data);
+    }
+
+    @EventListener
+    public void minus(HsjsIntegralMinusEvent event) {
+        HsjsIntegralMinusData data = (HsjsIntegralMinusData) event.getSource();
+        hsjsIntegralRecordService.minus(data);
     }
 
 }

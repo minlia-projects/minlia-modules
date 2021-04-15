@@ -43,6 +43,4 @@ public interface SysUserService extends IService<SysUserEntity> {
 
     Boolean grant(SysUserEntity entity, Set<String> roleCodes);
 
-    void addIntegral(Long uid, Long quantity);
-
 }
