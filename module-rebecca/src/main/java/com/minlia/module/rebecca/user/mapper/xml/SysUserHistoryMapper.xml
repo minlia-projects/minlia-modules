@@ -24,7 +24,7 @@
         <result column="status" property="status" />
         <result column="last_login_time" property="lastLoginTime" />
         <result column="last_login_ip" property="lastLoginIp" />
-        <result column="referral" property="referral" />
+        <result column="invite_code" property="inviteCode" />
         <result column="lock_limit" property="lockLimit" />
         <result column="lock_time" property="lockTime" />
         <result column="lock_flag" property="lockFlag" />
@@ -38,7 +38,7 @@
         create_date,
         last_modified_by,
         last_modified_date,
-        update_type, org_id, username, cellphone, email, nickname, password, avatar, account_effective_date, credentials_effective_date, default_role, default_locale, status, last_login_time, last_login_ip, referral, lock_limit, lock_time, lock_flag, dis_flag
+        update_type, org_id, username, cellphone, email, nickname, password, avatar, account_effective_date, credentials_effective_date, default_role, default_locale, status, last_login_time, last_login_ip, invite_code, lock_limit, lock_time, lock_flag, dis_flag
     </sql>
 
 </mapper>

@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.hsjs.integral.bean.HsjsIntegralAddData;
+import com.minlia.hsjs.integral.event.HsjsIntegralAddEvent;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.constant.CommonCode;
 import com.minlia.module.common.property.MinliaValidProperties;
+import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.rebecca.role.constant.SysRoleCode;
 import com.minlia.module.rebecca.role.entity.SysRoleEntity;
@@ -28,6 +31,7 @@ import com.minlia.module.rebecca.user.event.SysUserCreateEvent;
 import com.minlia.module.rebecca.user.event.SysUserDeleteEvent;
 import com.minlia.module.rebecca.user.mapper.SysUserMapper;
 import com.minlia.module.rebecca.user.service.SysUserHistoryService;
+import com.minlia.module.rebecca.user.service.SysUserRelationService;
 import com.minlia.module.rebecca.user.service.SysUserService;
 import com.minlia.modules.security.config.SysSecurityConfig;
 import org.apache.commons.collections.CollectionUtils;
@@ -40,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -69,12 +74,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
     private MinliaValidProperties minliaValidProperties;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private SysUserRelationService sysUserRelationService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SysUserEntity create(SysUserCro cro) {
         SysUserEntity entity = new SysUserEntity();
 
+        //邀请码验证
+        SysUserEntity parent = null;
+        if (Objects.nonNull(cro.getInviteCode())) {
+            parent = this.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getInviteCode, cro.getInviteCode()).eq(SysUserEntity::getDisFlag, false));
+            ApiAssert.notNull(parent, SysUserCode.Message.INVITE_CODE_NOT_EXISTS);
+        }
         //校验凭证是否有效
         if (StringUtils.isNotBlank(cro.getUsername())) {
             ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, cro.getUsername())) == 0, SysUserCode.Message.USERNAME_ALREADY_EXISTS);
@@ -87,11 +100,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
             ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getEmail, cro.getEmail())) == 0, SysUserCode.Message.EMAIL_ALREADY_EXISTS);
             entity.setEmail(cro.getEmail());
             entity.setUsername("mid_" + RandomStringUtils.randomAlphanumeric(16));
-        }
-        //校验推荐人是否存在
-        if (StringUtils.isNotEmpty(cro.getReferral())) {
-            ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, cro.getReferral())) > 0, SysUserCode.Message.REFERRAL_NOT_EXISTS);
-            entity.setReferral(cro.getReferral());
         }
 
         //校验角色是否存在
@@ -112,6 +120,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
         entity.setOrgId(cro.getOrgId());
         entity.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
+        entity.setInviteCode(NumberGenerator.generatorAlphanumeric(10));
         entity.setDefaultRole(cro.getDefaultRole());
         entity.setDefaultLocale(cro.getDefaultLocale());
         entity.setAccountEffectiveDate(null == cro.getAccountEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getAccountEffectiveDays()) : cro.getAccountEffectiveDate());
@@ -121,6 +130,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
         //给用户授予角色
         this.grant(entity, roles);
+
+        //设置邀请关系
+        if (Objects.nonNull(parent)) {
+            sysUserRelationService.create(parent.getId(), entity.getId());
+            HsjsIntegralAddEvent.publish(HsjsIntegralAddData.builder().uid(parent.getId()).businessId(parent.getId()).businessType("INVITATION_REGISTER").build());
+        }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
         SysUserCreateEvent.onCompleted(entity);
@@ -261,6 +276,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
     @Transactional(rollbackFor = Exception.class)
     public Boolean grant(SysUserEntity entity, Set<String> roleCodes) {
         return this.grantByRoleCodes(entity.getId(), roleCodes);
+    }
+
+    @Override
+    public void addIntegral(Long uid, Long quantity) {
+        SysUserEntity entity = this.getById(uid);
+        entity.setIntegral(entity.getIntegral() + quantity);
+        this.updateById(entity);
     }
 
 }

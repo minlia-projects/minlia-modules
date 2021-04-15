@@ -27,12 +27,6 @@
             <version>${minlia.cloud.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.aliyun</groupId>-->
-            <!--<artifactId>aliyun-java-sdk-dyplsapi</artifactId>-->
-            <!--<version>1.0.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>

@@ -29,22 +29,6 @@
             <version>${minlia.cloud.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.minlia.cloud</groupId>-->
-            <!--<artifactId>minlia-cloud-common</artifactId>-->
-<<<<<<< HEAD
-            <!--<version>2.0.0-SNAPSHOT</version>-->
-=======
-            <!--<version>1.0.0-SNAPSHOT</version>-->
->>>>>>> dev/garen
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.junit.jupiter</groupId>-->
-            <!--<artifactId>junit-jupiter-api</artifactId>-->
-            <!--<version>RELEASE</version>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

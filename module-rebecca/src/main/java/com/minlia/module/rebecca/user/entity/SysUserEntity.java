@@ -54,6 +54,14 @@ public class SysUserEntity extends AbstractEntity {
     @TableField("password")
     private String password;
 
+    @ApiModelProperty(value = "邀请码")
+    @TableField("invite_code")
+    private String inviteCode;
+
+    @ApiModelProperty(value = "积分")
+    @TableField("integral")
+    private String integral;
+
     @ApiModelProperty(value = "头像")
     @TableField("avatar")
     private String avatar;
@@ -85,10 +93,6 @@ public class SysUserEntity extends AbstractEntity {
     @ApiModelProperty(value = "最后登录IP")
     @TableField("last_login_ip")
     private String lastLoginIp;
-
-    @ApiModelProperty(value = "推荐人")
-    @TableField("referral")
-    private String referral;
 
     @ApiModelProperty(value = "锁定次数")
     @TableField("lock_limit")

@@ -56,8 +56,9 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
                     .password(ro.getPassword())
                     .defaultRole(ro.getRoleCode())
                     .roles(Sets.newHashSet())
-                    .referral(ro.getReferral())
+                    .inviteCode(ro.getInviteCode())
                     .nickname(ro.getNickname())
+                    .defaultRole("ROLE_MEMBER")
                     .build());
             return Response.success(entity);
         } else {
@@ -73,8 +74,9 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
                     .password(to.getPassword())
                     .defaultRole(to.getRoleCode())
                     .roles(Sets.newHashSet())
-                    .referral(to.getReferral())
+                    .inviteCode(to.getInviteCode())
                     .nickname(to.getNickname())
+                    .defaultRole("ROLE_MEMBER")
                     .build());
             return Response.success(entity);
         } else {

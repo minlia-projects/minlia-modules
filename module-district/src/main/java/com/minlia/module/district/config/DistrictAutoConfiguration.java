@@ -1,4 +1,4 @@
-package com.minlia.module.district;
+package com.minlia.module.district.config;
 
 import org.springframework.context.annotation.Configuration;
 

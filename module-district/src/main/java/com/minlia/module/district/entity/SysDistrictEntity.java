@@ -49,6 +49,10 @@ public class SysDistrictEntity extends AbstractEntity {
     @TableField("level")
     private DistrictLevel level;
 
+    @ApiModelProperty(value = "有子集")
+    @TableField("has_child")
+    private Boolean hasChild;
+
     @ApiModelProperty(value = "语言")
     @TableField("locale")
     private LocaleEnum locale;

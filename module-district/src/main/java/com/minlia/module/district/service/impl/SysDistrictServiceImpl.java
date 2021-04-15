@@ -1,6 +1,8 @@
 package com.minlia.module.district.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.minlia.module.common.util.NumberGenerator;
 import com.minlia.module.district.entity.DistrictDto;
 import com.minlia.module.district.entity.SysDistrictEntity;
 import com.minlia.module.district.enumeration.DistrictLevel;
@@ -11,6 +13,7 @@ import com.minlia.module.i18n.enumeration.LocaleEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -62,6 +65,56 @@ public class SysDistrictServiceImpl extends ServiceImpl<SysDistrictMapper, SysDi
                 }
             }
         }
+        return true;
+    }
+
+    @Override
+    public boolean init1() {
+        List<SysDistrictEntity> list = this.list(Wrappers.<SysDistrictEntity>lambdaQuery()
+                .eq(SysDistrictEntity::getLevel, DistrictLevel.city)
+                .eq(SysDistrictEntity::getLocale, LocaleEnum.zh_CN).le(SysDistrictEntity::getId, 45531));
+        for (SysDistrictEntity cityEntity : list) {
+            if (this.count(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, cityEntity.getAdcode())) > 0) {
+                List<SysDistrictEntity> districts = this.list(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, cityEntity.getAdcode()));
+                int num = 1;
+                for (SysDistrictEntity district : districts) {
+                    String newAdcode = NumberGenerator.generator(district.getAdcode(), num++, 2);
+
+
+                    if (this.count(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, district.getAdcode())) > 0) {
+                        List<SysDistrictEntity> streetList = this.list(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, district.getAdcode()));
+                        for (SysDistrictEntity districtEntity : streetList) {
+                            if (this.count(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, districtEntity.getAdcode())) > 0) {
+                                List<SysDistrictEntity> streets = this.list(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, districtEntity.getAdcode()));
+                                int numj = 1;
+                                for (SysDistrictEntity street : streets) {
+                                    street.setParent(newAdcode);
+                                    street.setAdcode(NumberGenerator.generator(newAdcode, numj++, 2));
+                                    this.updateById(street);
+                                }
+                            }
+                        }
+                    }
+
+                    district.setAdcode(newAdcode);
+                    this.updateById(district);
+                }
+            }
+        }
+
+//        List<SysDistrictEntity> list = this.list(Wrappers.<SysDistrictEntity>lambdaQuery()
+//                .eq(SysDistrictEntity::getLevel, DistrictLevel.district)
+//                .eq(SysDistrictEntity::getLocale, LocaleEnum.zh_CN));
+//        for (SysDistrictEntity districtEntity : list) {
+//            if (this.count(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, districtEntity.getAdcode())) > 0) {
+//                List<SysDistrictEntity> streets = this.list(Wrappers.<SysDistrictEntity>lambdaQuery().eq(SysDistrictEntity::getParent, districtEntity.getAdcode()));
+//                int num = 1;
+//                for (SysDistrictEntity street : streets) {
+//                    street.setAdcode(NumberGenerator.generator(street.getAdcode(), num++, 2));
+//                    this.updateById(street);
+//                }
+//            }
+//        }
         return true;
     }
 

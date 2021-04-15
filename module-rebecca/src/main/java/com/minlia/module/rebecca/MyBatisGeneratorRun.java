@@ -44,7 +44,7 @@
 //    /**
 //     * 指定包名
 //     */
-//    private final String packageName = "com.minlia.module.rebecca";
+//    private final String packageName = "com.minlia.module.rebecca.user";
 //
 //    /**
 //     * controller基础类
@@ -64,7 +64,7 @@
 //    /**
 //     * 指定生成的表名
 //     */
-//    private final String[] tableNames = new String[]{"sys_data_permission"};
+//    private final String[] tableNames = new String[]{"sys_user_relation"};
 //
 //    /**
 //     * 表前缀

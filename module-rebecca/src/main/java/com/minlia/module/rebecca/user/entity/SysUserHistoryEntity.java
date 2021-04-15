@@ -88,8 +88,8 @@ public class SysUserHistoryEntity extends AbstractEntity {
     private String lastLoginIp;
 
     @ApiModelProperty(value = "推荐人")
-    @TableField("referral")
-    private String referral;
+    @TableField("invite_code")
+    private String inviteCode;
 
     @ApiModelProperty(value = "锁定次数")
     @TableField("lock_limit")

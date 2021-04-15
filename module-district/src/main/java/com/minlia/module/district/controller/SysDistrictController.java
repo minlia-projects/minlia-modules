@@ -9,6 +9,7 @@ import com.minlia.module.district.entity.SysDistrictEntity;
 import com.minlia.module.district.enumeration.DistrictLevel;
 import com.minlia.module.district.service.SysDistrictService;
 import com.minlia.module.dozer.util.DozerUtils;
+import com.minlia.module.i18n.util.LocaleUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -25,22 +26,23 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "System district", description = "区域")
 @RestController
-@RequestMapping(value = ApiPrefix.API + "district")
+@RequestMapping(value = ApiPrefix.OPEN + "district")
 @RequiredArgsConstructor
 public class SysDistrictController {
 
     private final SysDistrictService sysDistrictService;
 
-//    @ApiOperation(value = "初始化")
-//    @GetMapping(value = "init")
-//    public Response init() {
-//        return Response.success(sysDistrictService.init());
-//    }
+    @ApiOperation(value = "初始化")
+    @GetMapping(value = "init")
+    public Response init() {
+        return Response.success(sysDistrictService.init1());
+    }
 
     @ApiOperation(value = "查询级别")
     @GetMapping(value = "level/{level}")
     public Response queryAllByParentCode(@PathVariable DistrictLevel level) {
         return Response.success(sysDistrictService.list(Wrappers.<SysDistrictEntity>lambdaQuery()
+                .eq(SysDistrictEntity::getLocale, LocaleUtils.locale())
                 .eq(SysDistrictEntity::getLevel, level)));
     }
 
@@ -48,13 +50,16 @@ public class SysDistrictController {
     @GetMapping(value = "children")
     public Response queryAllByParentCode(@RequestParam(required = false) String parent) {
         return Response.success(sysDistrictService.list(Wrappers.<SysDistrictEntity>lambdaQuery()
+                .eq(SysDistrictEntity::getLocale, LocaleUtils.locale())
                 .eq(SysDistrictEntity::getParent, StringUtils.isBlank(parent) ? DistrictLevel.country : parent)));
     }
 
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@RequestBody DistrictQro qro) {
-        return Response.success(sysDistrictService.list(Wrappers.<SysDistrictEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysDistrictEntity.class))));
+        qro.setLocale(LocaleUtils.locale());
+        return Response.success(sysDistrictService.list(Wrappers.<SysDistrictEntity>lambdaQuery()
+                .setEntity(DozerUtils.map(qro, SysDistrictEntity.class))));
     }
 
 }

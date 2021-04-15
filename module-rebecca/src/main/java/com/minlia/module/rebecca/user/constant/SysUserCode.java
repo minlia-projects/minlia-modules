@@ -46,9 +46,9 @@ public class SysUserCode {
         ALREADY_TERMINATED,
 
         /**
-         * 推荐人不存在
+         * 邀请码不存在
          */
-        REFERRAL_NOT_EXISTS,
+        INVITE_CODE_NOT_EXISTS,
 
         /**
          * 用户名已存在

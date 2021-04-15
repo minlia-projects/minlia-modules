@@ -15,4 +15,5 @@ public interface SysDistrictService extends IService<SysDistrictEntity> {
 
     boolean init();
 
+    boolean init1();
 }

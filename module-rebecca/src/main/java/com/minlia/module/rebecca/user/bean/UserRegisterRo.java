@@ -58,13 +58,12 @@ public class UserRegisterRo implements ApiRequestBody {
     private String password;
 
     @ApiModelProperty(value = "验证码", example = "8888")
-    @NotBlank(message = "验证码不能为空")
     @Size(min = 4, max = 8)
     private String vcode;
 
-    @ApiModelProperty("推荐人")
-    @Size(max = 15)
-    private String referral;
+    @ApiModelProperty("邀请码")
+    @Size(max = 30)
+    private String inviteCode;
 
     @ApiModelProperty("昵称")
     @Size(min = 1, max = 11)

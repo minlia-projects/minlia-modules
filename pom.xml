@@ -73,6 +73,8 @@
 
 
         <module>module-currency</module>
+        <!--积分-->
+        <module>module-integral</module>
 
 
         <!--        <module>module-websocket</module>-->

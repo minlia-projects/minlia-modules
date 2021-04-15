@@ -63,8 +63,8 @@ public class SysUserQro extends BaseQueryEntity {
     @ApiModelProperty(value = "最后登录IP")
     private String lastLoginIp;
 
-    @ApiModelProperty(value = "推荐人")
-    private String referral;
+    @ApiModelProperty(value = "邀请码")
+    private String inviteCode;
 
     @ApiModelProperty(value = "锁定次数")
     private Integer lockLimit;

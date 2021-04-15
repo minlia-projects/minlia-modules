@@ -57,7 +57,7 @@ public class SysUserCro implements ApiRequestBody {
     private Set<String> roles;
 
     @JsonIgnore
-    private String referral;
+    private String inviteCode;
 
     /**
      * 昵称

@@ -41,32 +41,78 @@
                 <artifactId>minlia-cloud-starter</artifactId>
                 <version>${minlia.cloud.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
                 <artifactId>module-common</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-swagger</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-data</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-security</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-http</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-i18n</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-captcha</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
                 <artifactId>minlia-aliyun-green</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
                 <artifactId>module-rebecca</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
                 <artifactId>module-attachment</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-audit</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-integral-api</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-integral-biz</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
 
 
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>riskcontrol-spring-boot-starter</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

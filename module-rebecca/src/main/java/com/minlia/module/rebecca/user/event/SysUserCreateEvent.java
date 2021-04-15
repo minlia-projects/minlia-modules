@@ -28,4 +28,3 @@ public class SysUserCreateEvent extends ApplicationEvent {
     }
 
 }
-

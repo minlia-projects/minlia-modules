@@ -49,14 +49,14 @@ public class SysUserRegisterController {
         return userRegistrationService.availablitity(body);
     }
 
-    @AuditLog(value = "user referral existence check", type = AuditOperationTypeEnum.SELECT)
-    @ApiOperation(value = "推荐人是否存在")
-    @PostMapping(value = "verifyReferral")
-    public Response invitationCode(@RequestParam String referral) {
-        if (sysUserService.count(Wrappers.<SysUserEntity>lambdaUpdate().eq(SysUserEntity::getUsername, referral).eq(SysUserEntity::getDisFlag, false)) > 0) {
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @ApiOperation(value = "邀请码是否存在")
+    @PostMapping(value = "verifyInviteCode")
+    public Response verifyInviteCode(@RequestParam String inviteCode) {
+        if (sysUserService.count(Wrappers.<SysUserEntity>lambdaUpdate().eq(SysUserEntity::getInviteCode, inviteCode).eq(SysUserEntity::getDisFlag, false)) > 0) {
             return Response.success(true);
         } else {
-            return Response.failure(SysUserCode.Message.REFERRAL_NOT_EXISTS, false);
+            return Response.failure(SysUserCode.Message.INVITE_CODE_NOT_EXISTS, false);
         }
     }
 
