@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.hsjs.integral.mapper.IntegralUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.hsjs.integral.entity.IntegralUserEntity">
+        <id column="id" property="id" />
+        <result column="uid" property="uid" />
+        <result column="available" property="available" />
+        <result column="freeze" property="freeze" />
+        <result column="total" property="total" />
+        <result column="grand_total" property="grandTotal" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, uid, available, freeze, total, grand_total, create_by, create_date, last_modified_by, last_modified_date
+    </sql>
+
+</mapper>

@@ -69,7 +69,7 @@
                     <!-- 如果发现依然排除不了，考虑先clean再install-->
                     <excludes>
                         <exclude>
-                            com.minlia.hsjs.integral.HsjsIntegralBizApplication
+                            com.minlia.hsjs.integral.IntegralBizApplication
                         </exclude>
                     </excludes>
                 </configuration>

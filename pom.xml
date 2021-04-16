@@ -31,7 +31,6 @@
 
         <module>module-security</module>
         <module>module-data</module>
-        <!--        <module>module-dict</module>-->
         <module>module-i18n</module>
         <module>module-audit</module>
         <module>module-redis</module>
@@ -79,7 +78,8 @@
 
         <!--        <module>module-websocket</module>-->
         <!--微信-->
-        <!--        <module>module-wechat</module>-->
+        <module>minlia-wechat</module>
+<!--        <module>module-wechat</module>-->
         <!--        <module>module-wechat-material</module>-->
 
         <!--腾讯云-->

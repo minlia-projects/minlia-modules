@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.hsjs.integral.bean.HsjsIntegralPlusData;
-import com.minlia.hsjs.integral.event.HsjsIntegralPlusEvent;
+import com.minlia.hsjs.integral.bean.IntegralPlusData;
+import com.minlia.hsjs.integral.event.IntegralPlusEvent;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.constant.CommonCode;
 import com.minlia.module.common.property.MinliaValidProperties;
@@ -134,7 +134,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         //设置邀请关系
         if (Objects.nonNull(parent)) {
             sysUserRelationService.create(parent.getId(), entity.getId());
-            HsjsIntegralPlusEvent.publish(HsjsIntegralPlusData.builder().uid(parent.getId()).businessId(parent.getId()).businessType("INVITATION_REGISTER").build());
+            IntegralPlusEvent.publish(IntegralPlusData.builder().uid(parent.getId()).businessId(parent.getId()).businessType("INVITATION_REGISTER").build());
         }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作
