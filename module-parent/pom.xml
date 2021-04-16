@@ -112,6 +112,11 @@
                 <version>${minlia.module.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>minlia-wechat-miniapp</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
