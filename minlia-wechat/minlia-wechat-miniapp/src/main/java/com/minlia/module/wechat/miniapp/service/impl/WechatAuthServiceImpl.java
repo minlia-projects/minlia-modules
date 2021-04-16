@@ -40,7 +40,7 @@ public class WechatAuthServiceImpl implements WechatAuthService {
             WxMaPhoneNumberInfo phoneNumberInfo = wxService.getUserService().getPhoneNoInfo(session.getSessionKey(), ro.getPhoneEncryptedData(), ro.getPhoneIv());
 
             //保存信息
-            WxMaUserInfoEntity userInfoEntity = wxMaUserInfoService.save(userInfo, phoneNumberInfo);
+            WxMaUserInfoEntity userInfoEntity = wxMaUserInfoService.save(session, userInfo, phoneNumberInfo);
             ApiAssert.state(Objects.nonNull(userInfoEntity.getUid()), WechatMiniappCode.Message.UNREGISTERED);
 
             //获取登陆信息

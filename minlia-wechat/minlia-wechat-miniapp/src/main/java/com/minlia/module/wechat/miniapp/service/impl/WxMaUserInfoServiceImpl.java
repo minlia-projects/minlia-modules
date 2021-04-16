@@ -1,5 +1,6 @@
 package com.minlia.module.wechat.miniapp.service.impl;
 
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -24,7 +25,7 @@ import java.util.Objects;
 public class WxMaUserInfoServiceImpl extends ServiceImpl<WxMaUserInfoMapper, WxMaUserInfoEntity> implements WxMaUserInfoService {
 
     @Override
-    public WxMaUserInfoEntity save(WxMaUserInfo userInfo, WxMaPhoneNumberInfo phoneNumberInfo) {
+    public WxMaUserInfoEntity save(WxMaJscode2SessionResult session, WxMaUserInfo userInfo, WxMaPhoneNumberInfo phoneNumberInfo) {
         WxMaUserInfoEntity entity = this.getByOpenId(userInfo.getOpenId());
         if (Objects.nonNull(entity)) {
             DozerUtils.map(userInfo, entity);
@@ -34,6 +35,8 @@ public class WxMaUserInfoServiceImpl extends ServiceImpl<WxMaUserInfoMapper, WxM
         } else {
             entity = DozerUtils.map(userInfo, WxMaUserInfoEntity.class);
             entity.setAppid(userInfo.getWatermark().getAppid());
+            entity.setOpenId(session.getOpenid());
+            entity.setUnionId(session.getUnionid());
             entity.setTimestamp(userInfo.getWatermark().getTimestamp());
             entity.setPhoneNumber(phoneNumberInfo.getCountryCode() + phoneNumberInfo.getPurePhoneNumber());
             this.save(entity);

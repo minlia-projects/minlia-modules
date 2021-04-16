@@ -1,5 +1,6 @@
 package com.minlia.module.wechat.miniapp.service;
 
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -15,7 +16,7 @@ import com.minlia.module.wechat.miniapp.entity.WxMaUserInfoEntity;
  */
 public interface WxMaUserInfoService extends IService<WxMaUserInfoEntity> {
 
-    WxMaUserInfoEntity save(WxMaUserInfo userInfo, WxMaPhoneNumberInfo phoneNumberInfo);
+    WxMaUserInfoEntity save(WxMaJscode2SessionResult session, WxMaUserInfo userInfo, WxMaPhoneNumberInfo phoneNumberInfo);
 
     WxMaUserInfoEntity getByOpenId(String openId);
 }
