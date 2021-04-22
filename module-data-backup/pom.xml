@@ -24,7 +24,7 @@
     <spring.data.mybatis.starter.version>1.0.17.RELEASE</spring.data.mybatis.starter.version>
 
     <springdata.commons.version>1.13.6.RELEASE</springdata.commons.version>
-    <mybatis.version>3.4.5</mybatis.version>
+    <mybatis.version>3.5.6</mybatis.version>
 
 
   </properties>
