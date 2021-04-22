@@ -5,19 +5,15 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import com.minlia.cloud.body.Response;
-import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.rebecca.authentication.service.LoginService;
 import com.minlia.module.wechat.miniapp.bean.WechatMaLoginRo;
 import com.minlia.module.wechat.miniapp.config.WxMaConfiguration;
-import com.minlia.module.wechat.miniapp.constant.WechatMiniappCode;
 import com.minlia.module.wechat.miniapp.entity.WxMaUserInfoEntity;
 import com.minlia.module.wechat.miniapp.service.WechatAuthService;
 import com.minlia.module.wechat.miniapp.service.WxMaUserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 
 /**
