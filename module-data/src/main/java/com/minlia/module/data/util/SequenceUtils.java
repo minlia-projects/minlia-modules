@@ -16,6 +16,10 @@ public class SequenceUtils {
         return getMapper().nextval(code);
     }
 
+    public static String nextval(String code, int length, String padStr, String prefix) {
+        return getMapper().nextvalWithLpad(code, length, padStr, prefix);
+    }
+
     public static SequenceMapper getMapper() {
         return ContextHolder.getContext().getBean(SequenceMapper.class);
     }

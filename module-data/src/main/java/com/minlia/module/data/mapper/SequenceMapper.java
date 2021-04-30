@@ -15,4 +15,7 @@ public interface SequenceMapper {
     @Select("select f_nextval(#{code})")
     long nextval(String code);
 
+    @Select("SELECT fun_nextval_lpad(#{code}, #{length}, #{padStr}, #{prefix})")
+    String nextvalWithLpad(String code, int length, String padStr, String prefix);
+
 }
