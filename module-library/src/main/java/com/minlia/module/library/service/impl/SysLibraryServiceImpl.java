@@ -108,7 +108,7 @@ public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibr
 
     @Override
     public SysLibraryEntity create(SysLibraryEntity entity) {
-        if (StringUtils.isNotBlank(entity.getNumber())) {
+        if (StringUtils.isBlank(entity.getNumber())) {
             entity.setNumber(this.generatorNumber());
         }
         this.save(entity);
