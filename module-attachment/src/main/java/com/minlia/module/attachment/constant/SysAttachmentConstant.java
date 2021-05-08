@@ -105,4 +105,11 @@ public class SysAttachmentConstant {
         VIDEO
     }
 
+    public enum File {
+        /**
+         * 文件
+         */
+        FILE
+    }
+
 }
