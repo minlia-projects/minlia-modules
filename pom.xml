@@ -53,12 +53,14 @@
 
         <module>drools-spring-boot-starter</module>
         <module>riskcontrol-spring-boot-starter</module>
+        <!--钱包-->
+        <module>minlia-wallet</module>
 
         <!--<module>module-bank</module>-->
         <!--<module>module-bank-branch</module>-->
         <!--<module>module-bank-card</module>-->
 
-        <!--<module>module-wallet</module>-->
+
         <module>module-advertisement</module>
         <!--<module>module-version</module>-->
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.wallet.mapper.SysWalletWithdrawMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.wallet.entity.SysWalletWithdrawEntity">
+        <id column="id" property="id" />
+        <result column="wallet_id" property="walletId" />
+        <result column="channel" property="channel" />
+        <result column="amount" property="amount" />
+        <result column="payee" property="payee" />
+        <result column="account" property="account" />
+        <result column="status" property="status" />
+        <result column="create_by" property="createBy" />
+        <result column="create_date" property="createDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, wallet_id, channel, amount, payee, account, status, create_by, create_date, last_modified_by, last_modified_date
+    </sql>
+
+</mapper>
