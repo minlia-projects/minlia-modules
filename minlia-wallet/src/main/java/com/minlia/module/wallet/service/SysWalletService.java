@@ -1,6 +1,7 @@
 package com.minlia.module.wallet.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.minlia.module.wallet.bean.WalletTransferRo;
 import com.minlia.module.wallet.bean.WalletUro;
 import com.minlia.module.wallet.entity.SysWalletEntity;
 
