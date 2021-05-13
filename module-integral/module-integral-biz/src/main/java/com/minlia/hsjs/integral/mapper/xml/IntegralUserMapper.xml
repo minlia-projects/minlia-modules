@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.minlia.hsjs.integral.entity.IntegralUserEntity">
         <id column="id" property="id" />
         <result column="uid" property="uid" />
-        <result column="available" property="available" />
+        <result column="balance" property="balance" />
         <result column="freeze" property="freeze" />
         <result column="total" property="total" />
         <result column="grand_total" property="grandTotal" />
@@ -18,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid, available, freeze, total, grand_total, create_by, create_date, last_modified_by, last_modified_date
+        id, uid, balance, freeze, total, grand_total, create_by, create_date, last_modified_by, last_modified_date
     </sql>
 
 </mapper>

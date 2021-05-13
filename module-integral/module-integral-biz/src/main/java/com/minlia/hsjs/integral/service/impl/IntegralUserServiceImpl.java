@@ -26,7 +26,7 @@ public class IntegralUserServiceImpl extends ServiceImpl<IntegralUserMapper, Int
     @Transactional(rollbackFor = Exception.class)
     public void plus(Long uid, Long quantity) {
         IntegralUserEntity entity = getByUid(uid);
-        entity.setAvailable(entity.getAvailable() + quantity);
+        entity.setBalance(entity.getBalance() + quantity);
         entity.setTotal(entity.getTotal() + quantity);
         entity.setGrandTotal(entity.getGrandTotal() + quantity);
         this.updateById(entity);
@@ -36,7 +36,7 @@ public class IntegralUserServiceImpl extends ServiceImpl<IntegralUserMapper, Int
     @Transactional(rollbackFor = Exception.class)
     public void minus(Long uid, Long quantity) {
         IntegralUserEntity entity = getByUid(uid);
-        entity.setAvailable(entity.getAvailable() - quantity);
+        entity.setBalance(entity.getBalance() - quantity);
         entity.setTotal(entity.getTotal() - quantity);
         this.updateById(entity);
     }
@@ -46,7 +46,7 @@ public class IntegralUserServiceImpl extends ServiceImpl<IntegralUserMapper, Int
     public IntegralUserEntity getByUid(Long uid) {
         IntegralUserEntity entity = this.getOne(Wrappers.<IntegralUserEntity>lambdaQuery().eq(IntegralUserEntity::getUid, uid));
         if (Objects.isNull(entity)) {
-            entity = IntegralUserEntity.builder().uid(uid).available(NumberUtils.LONG_ZERO).freeze(NumberUtils.LONG_ZERO).total(NumberUtils.LONG_ZERO).grandTotal(NumberUtils.LONG_ZERO).build();
+            entity = IntegralUserEntity.builder().uid(uid).balance(NumberUtils.LONG_ZERO).freeze(NumberUtils.LONG_ZERO).total(NumberUtils.LONG_ZERO).grandTotal(NumberUtils.LONG_ZERO).build();
             this.save(entity);
         }
         return entity;

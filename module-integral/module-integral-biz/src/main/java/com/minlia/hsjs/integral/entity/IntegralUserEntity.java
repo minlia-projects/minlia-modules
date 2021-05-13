@@ -34,9 +34,9 @@ public class IntegralUserEntity extends AbstractEntity {
     @TableField("uid")
     private Long uid;
 
-    @ApiModelProperty(value = "可用分数")
-    @TableField("available")
-    private Long available;
+    @ApiModelProperty(value = "余额")
+    @TableField("balance")
+    private Long balance;
 
     @ApiModelProperty(value = "冻结分数")
     @TableField("freeze")
