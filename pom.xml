@@ -53,8 +53,11 @@
 
         <module>drools-spring-boot-starter</module>
         <module>riskcontrol-spring-boot-starter</module>
+
+
         <!--钱包-->
         <module>minlia-wallet</module>
+        <module>minlia-pay</module>
 
         <!--<module>module-bank</module>-->
         <!--<module>module-bank-branch</module>-->
@@ -81,7 +84,7 @@
         <!--        <module>module-websocket</module>-->
         <!--微信-->
         <module>minlia-wechat</module>
-<!--        <module>module-wechat</module>-->
+        <!--        <module>module-wechat</module>-->
         <!--        <module>module-wechat-material</module>-->
 
         <!--腾讯云-->
@@ -106,7 +109,7 @@
         <!--<module>module-pooul</module>-->
 
         <!--统一支付-->
-        <module>module-unified-payment</module>
+        <!--        <module>module-unified-payment</module>-->
 
         <!--        <module>module-otp</module>-->
         <!--<module>module-registry</module>-->
