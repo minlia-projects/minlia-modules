@@ -1,5 +1,6 @@
 package com.minlia.module.attachment.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.attachment.bean.AttachmentCro;
@@ -32,7 +33,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAtta
     @Transactional(rollbackFor = Exception.class)
     public List<SysAttachmentEntity> create(AttachmentCro cro) {
         //移除之前的
-        this.remove(lambdaQuery().eq(SysAttachmentEntity::getRelationId, cro.getRelationId()).eq(SysAttachmentEntity::getRelationTo, cro.getRelationTo()));
+        this.remove(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getRelationId, cro.getRelationId()).eq(SysAttachmentEntity::getRelationTo, cro.getRelationTo()));
         //批量保存
         List<SysAttachmentEntity> entities = cro.getData().stream().map(data -> SysAttachmentEntity.builder().relationTo(cro.getRelationTo()).relationId(cro.getRelationId()).url(data.getUrl()).accessKey(data.getAccessKey()).build()).collect(Collectors.toList());
         this.saveBatch(entities);
@@ -56,13 +57,13 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAtta
             this.remove(lambdaQuery().eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
             return null;
         } else {
-            SysAttachmentEntity entity = this.getOne(lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).eq(SysAttachmentEntity::getRelationTo, relationTo).eq(SysAttachmentEntity::getRelationId, relationId));
+            SysAttachmentEntity entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).eq(SysAttachmentEntity::getRelationTo, relationTo).eq(SysAttachmentEntity::getRelationId, relationId));
             if (null != entity) {
                 return entity.getUrl();
             } else {
-                entity = this.getOne(lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).isNull(SysAttachmentEntity::getRelationTo).isNull(SysAttachmentEntity::getRelationId));
+                entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).isNull(SysAttachmentEntity::getRelationTo).isNull(SysAttachmentEntity::getRelationId));
                 ApiAssert.notNull(entity, SysAttachmentCode.Message.ETAG_NOT_EXISTS);
-                this.remove(lambdaQuery().eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
+                this.remove(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
                 entity.setRelationTo(relationTo);
                 entity.setRelationId(relationId);
                 this.saveOrUpdate(entity);
@@ -75,14 +76,14 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAtta
     @Transactional(rollbackFor = Exception.class)
     public void bindByAccessKey(List<String> accessKeys, String relationTo, String relationId, boolean allowNull) {
         if (CollectionUtils.isEmpty(accessKeys)) {
-            this.remove(lambdaQuery().eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
+            this.remove(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
         } else {
             for (String accessKey : accessKeys) {
-                long count = this.count(lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
+                long count = this.count(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
                 if (count == 0) {
-                    SysAttachmentEntity entity = this.getOne(lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).isNull(SysAttachmentEntity::getRelationTo).isNull(SysAttachmentEntity::getRelationId));
+                    SysAttachmentEntity entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).isNull(SysAttachmentEntity::getRelationTo).isNull(SysAttachmentEntity::getRelationId));
                     if (allowNull && null == entity) {
-                        entity = this.getOne(lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).orderByDesc(SysAttachmentEntity::getId));
+                        entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).orderByDesc(SysAttachmentEntity::getId));
                         entity.setId(null);
                         entity.setRelationId(relationTo);
                         entity.setRelationId(relationId);
@@ -96,7 +97,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAtta
                     }
                 }
             }
-            this.remove(lambdaQuery().eq(SysAttachmentEntity::getRelationTo, relationTo).eq(SysAttachmentEntity::getRelationId, relationId).notIn(SysAttachmentEntity::getAccessKey, accessKeys));
+            this.remove(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getRelationTo, relationTo).eq(SysAttachmentEntity::getRelationId, relationId).notIn(SysAttachmentEntity::getAccessKey, accessKeys));
         }
     }
 
