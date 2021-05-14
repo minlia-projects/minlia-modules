@@ -81,7 +81,7 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAtta
             for (String accessKey : accessKeys) {
                 long count = this.count(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo));
                 if (count == 0) {
-                    SysAttachmentEntity entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).isNull(SysAttachmentEntity::getRelationTo).isNull(SysAttachmentEntity::getRelationId));
+                    SysAttachmentEntity entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).isNull(SysAttachmentEntity::getRelationTo).isNull(SysAttachmentEntity::getRelationId), allowNull);
                     if (allowNull && null == entity) {
                         entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).orderByDesc(SysAttachmentEntity::getId));
                         entity.setId(null);
