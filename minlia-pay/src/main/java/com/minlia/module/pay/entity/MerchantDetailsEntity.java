@@ -1,14 +1,11 @@
 package com.minlia.module.pay.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -19,10 +16,9 @@ import lombok.EqualsAndHashCode;
  * @since 2021-05-14
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @TableName("merchant_details")
 @ApiModel(value="MerchantDetailsEntity对象", description="")
-public class MerchantDetailsEntity extends AbstractEntity {
+public class MerchantDetailsEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -93,6 +89,5 @@ public class MerchantDetailsEntity extends AbstractEntity {
     @ApiModelProperty(value = "是否为测试环境: 0 否，1 测试环境")
     @TableField("is_test")
     private Boolean isTest;
-
 
 }
