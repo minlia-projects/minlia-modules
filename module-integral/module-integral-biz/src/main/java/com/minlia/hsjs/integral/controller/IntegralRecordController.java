@@ -8,6 +8,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.hsjs.integral.bean.IntegralRecordQro;
 import com.minlia.hsjs.integral.constant.IntegralConstant;
 import com.minlia.hsjs.integral.entity.IntegralConfigEntity;
+import com.minlia.hsjs.integral.entity.IntegralRecordEntity;
 import com.minlia.hsjs.integral.service.IntegralRecordService;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
@@ -50,7 +51,7 @@ public class IntegralRecordController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody IntegralRecordQro qro) {
-        LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralConfigEntity.class));
+        LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralRecordEntity.class));
         return Response.success(integralRecordService.list(lambdaQueryWrapper));
     }
 
@@ -59,7 +60,7 @@ public class IntegralRecordController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody IntegralRecordQro qro) {
-        LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralConfigEntity.class));
+        LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralRecordEntity.class));
         return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
     }
 
@@ -69,7 +70,7 @@ public class IntegralRecordController {
     @PostMapping(value = "me")
     public Response me(@Valid @RequestBody IntegralRecordQro qro) {
         qro.setUid(MinliaSecurityContextHolder.getUid());
-        LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralConfigEntity.class));
+        LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralRecordEntity.class));
         return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
     }
 
