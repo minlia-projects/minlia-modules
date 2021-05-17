@@ -29,6 +29,7 @@ public class IntegralConstant {
             public static final String UPDATE = NAME + SecurityConstant.OPERATION_UPDATE_CODE;
             public static final String DELETE = NAME + SecurityConstant.OPERATION_DELETE_CODE;
             public static final String SELECT = NAME + SecurityConstant.OPERATION_SEARCH_CODE;
+            public static final String READ = NAME + SecurityConstant.OPERATION_READ_CODE;
         }
 
         public class User {

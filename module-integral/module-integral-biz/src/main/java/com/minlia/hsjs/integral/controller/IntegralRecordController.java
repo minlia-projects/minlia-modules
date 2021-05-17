@@ -12,6 +12,7 @@ import com.minlia.hsjs.integral.service.IntegralRecordService;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
+import com.minlia.modules.security.context.MinliaSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,16 @@ public class IntegralRecordController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody IntegralRecordQro qro) {
+        LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralConfigEntity.class));
+        return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
+    }
+
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @PreAuthorize(value = "hasAnyAuthority('" + IntegralConstant.Authorize.Record.READ + "')")
+    @ApiOperation(value = "我的分页")
+    @PostMapping(value = "me")
+    public Response me(@Valid @RequestBody IntegralRecordQro qro) {
+        qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralConfigEntity.class));
         return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
     }
