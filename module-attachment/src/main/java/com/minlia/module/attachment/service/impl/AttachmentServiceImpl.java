@@ -85,13 +85,13 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAtta
                     if (allowNull && null == entity) {
                         entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).orderByDesc(SysAttachmentEntity::getId));
                         entity.setId(null);
-                        entity.setRelationId(relationTo);
+                        entity.setRelationTo(relationTo);
                         entity.setRelationId(relationId);
                         entity.setCreateBy(MinliaSecurityContextHolder.getUid());
                         this.save(entity);
                     } else {
                         ApiAssert.notNull(entity, SysAttachmentCode.Message.ETAG_NOT_EXISTS);
-                        entity.setRelationId(relationTo);
+                        entity.setRelationTo(relationTo);
                         entity.setRelationId(relationId);
                         this.saveOrUpdate(entity);
                     }
