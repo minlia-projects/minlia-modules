@@ -31,6 +31,14 @@ public class IntegralConfigEntity extends AbstractEntity {
     @TableField("business_type")
     private String businessType;
 
+    @ApiModelProperty(value = "名称")
+    @TableField("name")
+    private String name;
+
+    @ApiModelProperty(value = "介绍")
+    @TableField("introduce")
+    private String introduce;
+
     @ApiModelProperty(value = "分数")
     @TableField("quantity")
     private Long quantity;

@@ -14,4 +14,16 @@
         ancestor, descendant, level
     </sql>
 
+    <select id="detailsPage" resultType="com.minlia.module.rebecca.user.bean.SysUserRelationVo">
+        SELECT
+            sut.nickname,
+            sut.avatar,
+            sut.create_date AS 'time'
+        FROM
+            sys_user_relation surt
+        LEFT JOIN sys_user sut ON sut.id = surt.ancestor
+        WHERE
+            surt.ancestor = #{qro.ancestor}
+    </select>
+
 </mapper>

@@ -61,4 +61,8 @@ public class SysWalletWithdrawEntity extends AbstractEntity {
     @TableField("status")
     private WithdrawStatusEnum status;
 
+    @ApiModelProperty(value = "收款码")
+    @TableField("qrcode")
+    private String qrcode;
+
 }

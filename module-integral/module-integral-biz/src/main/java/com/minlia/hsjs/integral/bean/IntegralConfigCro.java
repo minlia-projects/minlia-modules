@@ -1,5 +1,6 @@
 package com.minlia.hsjs.integral.bean;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,6 +29,16 @@ public class IntegralConfigCro {
     @NotBlank
     @Size(max = 100)
     private String businessType;
+
+    @ApiModelProperty(value = "名称")
+    @NotBlank
+    @Size(max = 100)
+    private String name;
+
+    @ApiModelProperty(value = "介绍")
+    @NotBlank
+    @Size(max = 500)
+    private String introduce;
 
     @ApiModelProperty(value = "分数")
     @NotNull
