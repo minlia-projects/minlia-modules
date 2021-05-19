@@ -13,10 +13,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -39,7 +36,7 @@ public class SysUserInviteController {
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + SysUserCode.READ + "')")
     @ApiOperation(value = "me")
-    @GetMapping(value = "me")
+    @PostMapping(value = "me")
     public Response me(@Valid @RequestBody SysUserRelationQro qro) {
         qro.setAncestor(SecurityContextHolder.getUid());
         return Response.success(sysUserRelationService.detailsPage(qro));
