@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  * 广告
@@ -49,6 +51,10 @@ public class SysAdvertisementEntity extends AbstractEntity {
     @ApiModelProperty(value = "封面")
     @TableField("cover")
     private String cover;
+
+    @ApiModelProperty(value = "排序", example = "0")
+    @NotNull
+    private Integer sort;
 
     @ApiModelProperty(value = "备注")
     @TableField("remark")
