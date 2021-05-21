@@ -21,9 +21,10 @@
             sut.create_date AS 'time'
         FROM
             sys_user_relation surt
-        LEFT JOIN sys_user sut ON sut.id = surt.ancestor
+        LEFT JOIN sys_user sut ON sut.id = surt.descendant
         WHERE
             surt.ancestor = #{qro.ancestor}
+        AND surt.`level` = 1
     </select>
 
 </mapper>

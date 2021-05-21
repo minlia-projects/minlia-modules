@@ -19,6 +19,7 @@ import com.minlia.module.pay.event.SysPaidEvent;
 import com.minlia.module.pay.mapper.SysPayOrderMapper;
 import com.minlia.module.pay.service.SysPayOrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,7 @@ import java.math.BigDecimal;
  * @author garen
  * @since 2021-05-14
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPayOrderEntity> implements SysPayOrderService {
@@ -75,10 +77,13 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void callback(String orderNo, String message) {
+    public void callback(String orderNo, String tradeNo) {
+        log.info("支付宝支付回调更新状态开始===================={} {}", orderNo, tradeNo);
         SysPayOrderEntity orderEntity = this.getByOrderNo(orderNo);
+        orderEntity.setTradeNo(tradeNo);
         orderEntity.setStatus(SysPayStatusEnum.PAID);
         this.updateById(orderEntity);
+        log.info("支付宝支付回调更新状态完成====================");
         //发布通知事件
         SysPaidEvent.onPaid(DozerUtils.map(orderEntity, SysPaidResult.class));
     }

@@ -43,7 +43,7 @@ public class AliPayMessageHandler implements PayMessageHandler<AliPayMessage, Al
         //日志存储
         //交易完成
         if ("TRADE_SUCCESS".equals(trade_status) || "TRADE_FINISHED".equals(trade_status)) {
-            sysPayOrderService.callback(payMessage.getTradeNo(), payMessage.getOutTradeNo());
+            sysPayOrderService.callback(payMessage.getOutTradeNo(), payMessage.getTradeNo());
             return payService.getPayOutMessage("success", "成功");
         } else if ("WAIT_BUYER_PAY".equals(trade_status) || "TRADE_CLOSED".equals(trade_status)) {
 

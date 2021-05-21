@@ -33,11 +33,11 @@ public class SysWalletTransferEntity extends AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "FROM")
-    @TableField("from")
+    @TableField("`from`")
     private Long from;
 
     @ApiModelProperty(value = "TO")
-    @TableField("to")
+    @TableField("`to`")
     private Long to;
 
     @ApiModelProperty(value = "金额")

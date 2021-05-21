@@ -33,7 +33,7 @@ public class PayPalPayMessageHandler implements PayMessageHandler<PayMessage, Pa
         //交易状态
         if ("SUCCESS".equals(payMessage.getPayMessage().get("result_code"))) {
             /////这里进行成功的处理
-            sysPayOrderService.callback(null, payMessage.getOutTradeNo());
+            sysPayOrderService.callback(payMessage.getOutTradeNo(),null);
             return payService.getPayOutMessage("SUCCESS", "OK");
         }
         return payService.getPayOutMessage("fail", "失败");
