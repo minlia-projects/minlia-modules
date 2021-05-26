@@ -1,7 +1,6 @@
 package com.minlia.module.library.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
@@ -101,8 +100,7 @@ public class SysLibraryController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysLibraryQro qro) {
-        Page<SysLibraryEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysLibraryService.page(page, sysLibraryService.builderQueryWrapper(qro)));
+        return Response.success(sysLibraryService.page(qro.getPage(), sysLibraryService.builderQueryWrapper(qro)));
     }
 
 }
