@@ -2,6 +2,7 @@ package com.minlia.module.wallet.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
@@ -48,7 +49,7 @@ public class SysWalletRecordController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Validated @RequestBody QueryRequest request) {
-        return Response.success(sysWalletRecordService.page(request.getPage()));
+        return Response.success(sysWalletRecordService.page(request.getPage().addOrder(OrderItem.desc("create_date"))));
     }
 
 }
