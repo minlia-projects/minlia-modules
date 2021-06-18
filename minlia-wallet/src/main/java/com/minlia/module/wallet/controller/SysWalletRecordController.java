@@ -42,7 +42,7 @@ public class SysWalletRecordController {
     @PostMapping(value = "me")
     public Response historyPage(@Validated @RequestBody QueryRequest qro) {
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.<SysWalletRecordEntity>lambdaQuery().eq(SysWalletRecordEntity::getUid, SecurityContextHolder.getUid());
-        return Response.success(sysWalletRecordService.page(qro.getPage(), lambdaQueryWrapper));
+        return Response.success(sysWalletRecordService.page(qro.getPage().addOrder(OrderItem.desc("create_date")), lambdaQueryWrapper));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + WalletConstant.Authorize.Withdraw.SELECT + "')")
