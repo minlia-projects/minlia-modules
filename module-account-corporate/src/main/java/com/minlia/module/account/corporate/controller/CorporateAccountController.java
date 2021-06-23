@@ -83,7 +83,7 @@ public class CorporateAccountController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody QueryRequest queryRequest) {
-        return Response.success(corporateAccountService.page(queryRequest.getPageNumber()));
+        return Response.success(corporateAccountService.page(queryRequest.getPage()));
     }
 
 }

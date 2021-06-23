@@ -83,8 +83,7 @@ public class SysArticleLabelController {
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery()
                 .setEntity(DozerUtils.map(qro, SysArticleLabelEntity.class))
                 ;
-        Page page = new Page(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysArticleLabelService.page(page, queryWrapper));
+        return Response.success(sysArticleLabelService.page(qro.getPage(), queryWrapper));
     }
 
 }

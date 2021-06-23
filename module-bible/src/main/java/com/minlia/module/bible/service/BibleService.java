@@ -1,11 +1,8 @@
 package com.minlia.module.bible.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.minlia.module.bible.bean.BibleSro;
 import com.minlia.module.bible.entity.BibleEntity;
-
-import java.util.List;
 
 /**
  * <p>
@@ -26,10 +23,6 @@ public interface BibleService extends IService<BibleEntity> {
     BibleEntity queryById(Long id);
 
     BibleEntity queryByCode(String code);
-
-    List<BibleEntity> list(BibleEntity entity);
-
-    Page<BibleEntity> page(BibleEntity entity, Page<BibleEntity> page);
 
     void reload();
 

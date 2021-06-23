@@ -94,16 +94,6 @@ public class BibleServiceImpl extends ServiceImpl<BibleMapper, BibleEntity> impl
     }
 
     @Override
-    public List<BibleEntity> list(BibleEntity entity) {
-        return this.list(new QueryWrapper<BibleEntity>().lambda().setEntity(entity));
-    }
-
-    @Override
-    public Page<BibleEntity> page(BibleEntity entity, Page<BibleEntity> page) {
-        return this.page(page, new QueryWrapper<BibleEntity>().lambda().setEntity(entity));
-    }
-
-    @Override
     public void reload() {
         //获取所有带有 BibleAutowired 注解的类
         Map<String, Object> beansWithAnnotationMap = ContextHolder.getContext().getBeansWithAnnotation(ConfigAutowired.class);

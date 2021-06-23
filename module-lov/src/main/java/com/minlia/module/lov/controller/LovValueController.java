@@ -102,7 +102,7 @@ public class LovValueController {
             qro.setLovId(lovService.getOne(Wrappers.<SysLovEntity>lambdaQuery().select(SysLovEntity::getId).eq(SysLovEntity::getCode, qro.getLovCode())).getId());
         }
         LambdaQueryWrapper<SysLovItemEntity> lambdaQueryWrapper = Wrappers.<SysLovItemEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysLovItemEntity.class));
-        return Response.success(lovValueService.page(qro.getPageNumber(), lambdaQueryWrapper));
+        return Response.success(lovValueService.page(qro.getPage(), lambdaQueryWrapper));
     }
 
 }

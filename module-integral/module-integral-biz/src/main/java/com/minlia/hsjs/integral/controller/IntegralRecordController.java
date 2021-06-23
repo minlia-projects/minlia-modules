@@ -60,7 +60,7 @@ public class IntegralRecordController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody IntegralRecordQro qro) {
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralRecordEntity.class));
-        return Response.success(integralRecordService.page(qro.getPageNumber(), lambdaQueryWrapper));
+        return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
@@ -70,7 +70,7 @@ public class IntegralRecordController {
     public Response me(@Valid @RequestBody IntegralRecordQro qro) {
         qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralRecordEntity.class));
-        return Response.success(integralRecordService.page(qro.getPageNumber(), lambdaQueryWrapper));
+        return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
     }
 
 }

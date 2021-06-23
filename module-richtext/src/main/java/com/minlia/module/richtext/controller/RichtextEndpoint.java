@@ -88,7 +88,7 @@ public class RichtextEndpoint {
     public Response page(@RequestBody RichtextQro qro) {
         LambdaQueryWrapper<RichtextEntity> queryWrapper = new QueryWrapper<RichtextEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, RichtextEntity.class));
-        return Response.success(richtextService.page(qro.getPageNumber(), queryWrapper));
+        return Response.success(richtextService.page(qro.getPage(), queryWrapper));
     }
 
 }

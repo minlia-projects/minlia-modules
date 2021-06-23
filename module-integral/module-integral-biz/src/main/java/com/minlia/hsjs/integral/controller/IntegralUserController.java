@@ -60,7 +60,7 @@ public class IntegralUserController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody IntegralUserQro qro) {
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralConfigEntity.class));
-        return Response.success(integralUserService.page(qro.getPageNumber(), lambdaQueryWrapper));
+        return Response.success(integralUserService.page(qro.getPage(), lambdaQueryWrapper));
     }
 
 }

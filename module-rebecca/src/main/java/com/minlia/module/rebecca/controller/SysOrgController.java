@@ -75,7 +75,7 @@ public class SysOrgController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @PathVariable BaseQueryEntity entity) {
-        return Response.success(sysOrgService.page(entity.getPageNumber()));
+        return Response.success(sysOrgService.page(entity.getPage()));
     }
 
 //    /**

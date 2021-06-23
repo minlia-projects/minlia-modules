@@ -6,6 +6,7 @@ import com.minlia.module.article.bean.ArticleCommentCro;
 import com.minlia.module.article.bean.SysArticleCommentQro;
 import com.minlia.module.article.bean.vo.ArticleCommentVO;
 import com.minlia.module.article.entity.SysArticleCommentEntity;
+import com.minlia.module.data.entity.BaseQueryEntity;
 
 /**
  * <p>
@@ -36,11 +37,9 @@ public interface SysArticleCommentService extends IService<SysArticleCommentEnti
     /**
      * 我的评论/分页
      *
-     * @param pageNumber
-     * @param pageSize
      * @return
      */
-    Page myPage(int pageNumber, int pageSize);
+    Page myPage(BaseQueryEntity qro);
 
     Page<ArticleCommentVO> detailsPage(SysArticleCommentQro qro);
 

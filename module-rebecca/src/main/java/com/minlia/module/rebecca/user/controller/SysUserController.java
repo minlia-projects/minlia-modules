@@ -138,10 +138,8 @@ public class SysUserController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysUserQro qro) {
         LambdaQueryWrapper<SysUserEntity> queryWrapper = new QueryWrapper<SysUserEntity>().lambda()
-                .setEntity(DozerUtils.map(qro, SysUserEntity.class))
-                ;
-        Page<SysUserEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysUserService.page(page, queryWrapper));
+                .setEntity(DozerUtils.map(qro, SysUserEntity.class));
+        return Response.success(sysUserService.page(qro.getPage(), queryWrapper));
     }
 
 }

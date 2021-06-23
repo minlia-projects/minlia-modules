@@ -33,7 +33,7 @@ public class QueryRequest implements Body {
         pageSize = 15;
     }
 
-    public Page getPageNumber() {
+    public Page getPage() {
         Page page = new Page(pageNumber, pageSize);
         if (StringUtils.isNotBlank(sorts)) {
             page.addOrder(getOrderItems());

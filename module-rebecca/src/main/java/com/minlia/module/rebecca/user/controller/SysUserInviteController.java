@@ -42,15 +42,4 @@ public class SysUserInviteController {
         return Response.success(sysUserRelationService.detailsPage(qro));
     }
 
-//    @AuditLog(value = "query user as paginated result", type = AuditOperationTypeEnum.SELECT)
-//    @PreAuthorize(value = "hasAnyAuthority('" + SysUserCode.SEARCH + "')")
-//    @ApiOperation(value = "分页查询")
-//    @PostMapping(value = "page")
-//    public Response page(@Valid @RequestBody SysUserQro qro) {
-//        LambdaQueryWrapper<SysUserEntity> queryWrapper = new QueryWrapper<SysUserEntity>().lambda()
-//                .setEntity(DozerUtils.map(qro, SysUserEntity.class));
-//        Page<SysUserEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-//        return Response.success(sysUserService.page(page, queryWrapper));
-//    }
-
 }

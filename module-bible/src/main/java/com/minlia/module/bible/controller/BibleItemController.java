@@ -101,8 +101,7 @@ public class BibleItemController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BibleItemQro qro) {
-        Page page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(bibleItemService.page(page, DozerUtils.map(qro, BibleItemEntity.class)));
+        return Response.success(bibleItemService.page(qro.getPage(), DozerUtils.map(qro, BibleItemEntity.class)));
     }
 
 }

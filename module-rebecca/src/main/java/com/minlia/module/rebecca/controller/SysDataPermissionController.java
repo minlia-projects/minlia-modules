@@ -79,7 +79,7 @@ public class SysDataPermissionController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @PathVariable BaseQueryEntity entity) {
-        return Response.success(sysDataPermissionService.page(entity.getPageNumber()));
+        return Response.success(sysDataPermissionService.page(entity.getPage()));
     }
 
 }

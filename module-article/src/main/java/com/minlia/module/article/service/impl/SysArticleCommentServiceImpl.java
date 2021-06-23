@@ -13,6 +13,7 @@ import com.minlia.module.article.entity.SysArticleEntity;
 import com.minlia.module.article.mapper.SysArticleCommentMapper;
 import com.minlia.module.article.service.SysArticleCommentService;
 import com.minlia.module.article.service.SysArticleService;
+import com.minlia.module.data.entity.BaseQueryEntity;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import org.springframework.context.annotation.Lazy;
@@ -58,17 +59,17 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
     }
 
     @Override
-    public Page myPage(int pageNumber, int pageSize) {
+    public Page myPage(BaseQueryEntity qro) {
         List<Long> articleIds = this.list(Wrappers.<SysArticleCommentEntity>lambdaQuery()
                 .select(SysArticleCommentEntity::getArticleId)
                 .eq(SysArticleCommentEntity::getOperator, SecurityContextHolder.getUid()))
                 .stream().map(data -> data.getArticleId()).collect(Collectors.toList());
-        return sysArticleService.page(new Page(pageNumber, pageSize), Wrappers.<SysArticleEntity>lambdaQuery().in(SysArticleEntity::getId, articleIds));
+        return sysArticleService.page(qro.getPage(), Wrappers.<SysArticleEntity>lambdaQuery().in(SysArticleEntity::getId, articleIds));
     }
 
     @Override
     public Page<ArticleCommentVO> detailsPage(SysArticleCommentQro qro) {
-        return this.baseMapper.selectDetailsPage(qro.getPageNumber(), qro);
+        return this.baseMapper.selectDetailsPage(qro.getPage(), qro);
     }
 
 }

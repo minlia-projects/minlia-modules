@@ -1,7 +1,7 @@
 package com.minlia.module.bible.controller;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
@@ -92,7 +92,7 @@ public class BibleController {
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@Valid @RequestBody BibleQro qro) {
-        return Response.success(bibleService.list(DozerUtils.map(qro, BibleEntity.class)));
+        return Response.success(bibleService.list(Wrappers.<BibleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, BibleEntity.class))));
     }
 
     @AuditLog(value = "query system bible by body as page", type = AuditOperationTypeEnum.SELECT)
@@ -100,8 +100,7 @@ public class BibleController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BibleQro qro) {
-        Page<BibleEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(bibleService.page(DozerUtils.map(qro, BibleEntity.class), page));
+        return Response.success(bibleService.page(qro.getPage(), Wrappers.<BibleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, BibleEntity.class))));
     }
 
 }

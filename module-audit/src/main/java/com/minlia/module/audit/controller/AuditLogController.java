@@ -50,8 +50,7 @@ public class AuditLogController {
     public Response page(@RequestBody AuditLogQro qro) {
         AuditLogEntity entity = DozerUtils.map(qro, AuditLogEntity.class);
         LambdaQueryWrapper<AuditLogEntity> queryWrapper = new QueryWrapper<AuditLogEntity>().lambda().setEntity(entity);
-        Page<AuditLogEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(auditLogService.page(page, queryWrapper));
+        return Response.success(auditLogService.page(qro.getPage(), queryWrapper));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + AuditConstants.READ + "')")
@@ -62,8 +61,7 @@ public class AuditLogController {
         AuditLogEntity entity = DozerUtils.map(qro, AuditLogEntity.class);
         entity.setCreateBy(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper<AuditLogEntity> queryWrapper = new QueryWrapper<AuditLogEntity>().lambda().setEntity(entity);
-        Page<AuditLogEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(auditLogService.page(page, queryWrapper));
+        return Response.success(auditLogService.page(qro.getPage(), queryWrapper));
     }
 
 }

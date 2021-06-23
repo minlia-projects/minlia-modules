@@ -60,14 +60,14 @@ public class SysWalletWithdrawController {
     @PostMapping(value = "me")
     public Response me(@Validated @RequestBody QueryRequest request) {
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.<SysWalletWithdrawEntity>lambdaQuery().eq(SysWalletWithdrawEntity::getUid, SecurityContextHolder.getUid());
-        return Response.success(sysWalletWithdrawService.page(request.getPageNumber(), lambdaQueryWrapper));
+        return Response.success(sysWalletWithdrawService.page(request.getPage(), lambdaQueryWrapper));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + WalletConstant.Authorize.Withdraw.SELECT + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Validated @RequestBody QueryRequest request) {
-        return Response.success(sysWalletWithdrawService.page(request.getPageNumber()));
+        return Response.success(sysWalletWithdrawService.page(request.getPage()));
     }
 
 }

@@ -63,7 +63,7 @@ public class SysArticleCategoryOpenController {
     public Response page(@Valid @RequestBody ArticleCategoryQro qro) {
         qro.setDisFlag(false);
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleCategoryEntity.class));
-        Page<SysArticleCategoryEntity> page = sysArticleCategoryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper);
+        Page<SysArticleCategoryEntity> page = sysArticleCategoryService.page(qro.getPage(), queryWrapper);
         setChildren(page.getRecords());
         return Response.success(page);
     }

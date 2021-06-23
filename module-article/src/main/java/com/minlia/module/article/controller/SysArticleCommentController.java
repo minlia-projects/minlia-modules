@@ -62,7 +62,7 @@ public class SysArticleCommentController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BaseQueryEntity qro) {
-        return Response.success(sysArticleCommentService.myPage(qro.getPageNumber(), qro.getPageSize()));
+        return Response.success(sysArticleCommentService.myPage(qro));
     }
 
 }

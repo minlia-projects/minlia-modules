@@ -109,7 +109,7 @@ public class AttachmentController {
     public Response page(@RequestBody AttachmentQro qro) {
         LambdaQueryWrapper<SysAttachmentEntity> queryWrapper = new QueryWrapper<SysAttachmentEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class));
-        return Response.success(attachmentService.page(qro.getPageNumber(), queryWrapper));
+        return Response.success(attachmentService.page(qro.getPage(), queryWrapper));
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
@@ -120,7 +120,7 @@ public class AttachmentController {
         qro.setCreateBy(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper<SysAttachmentEntity> queryWrapper = new QueryWrapper<SysAttachmentEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class));
-        return Response.success(attachmentService.page(qro.getPageNumber(), queryWrapper));
+        return Response.success(attachmentService.page(qro.getPage(), queryWrapper));
     }
 
 }

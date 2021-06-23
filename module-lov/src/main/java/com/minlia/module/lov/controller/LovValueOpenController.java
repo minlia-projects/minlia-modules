@@ -1,7 +1,6 @@
 package com.minlia.module.lov.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
@@ -68,8 +67,7 @@ public class LovValueOpenController {
             qro.setLovId(lovService.getOne(Wrappers.<SysLovEntity>lambdaQuery().select(SysLovEntity::getId).eq(SysLovEntity::getCode, qro.getLovCode())).getId());
         }
         LambdaQueryWrapper<SysLovItemEntity> lambdaQueryWrapper = Wrappers.<SysLovItemEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysLovItemEntity.class));
-        Page<SysLovItemEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(lovValueService.page(page, lambdaQueryWrapper));
+        return Response.success(lovValueService.page(qro.getPage(), lambdaQueryWrapper));
     }
 
 }

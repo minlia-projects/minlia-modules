@@ -3,6 +3,7 @@ package com.minlia.module.article.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.module.article.entity.SysArticleCollectionEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.minlia.module.data.entity.BaseQueryEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -34,10 +35,8 @@ public interface SysArticleCollectionService extends IService<SysArticleCollecti
     /**
      * 我的收藏/分页查询
      *
-     * @param pageNumber
-     * @param pageSize
      * @return
      */
-    Page myPage(int pageNumber, int pageSize);
+    Page myPage(BaseQueryEntity qro);
 
 }
