@@ -29,6 +29,14 @@
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-audit</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

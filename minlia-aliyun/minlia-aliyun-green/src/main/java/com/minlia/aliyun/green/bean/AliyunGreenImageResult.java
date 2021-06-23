@@ -82,7 +82,7 @@ public class AliyunGreenImageResult {
     }
 
     public boolean isSuccess() {
-        return 200 == code;
+        return 200 == code && 200 == data.get(0).getCode();
     }
 
     /**
