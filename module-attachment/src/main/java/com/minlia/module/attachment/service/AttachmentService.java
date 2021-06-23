@@ -1,8 +1,9 @@
 package com.minlia.module.attachment.service;
 
+import com.minlia.module.attachment.bean.AttachmentCro;
 import com.minlia.module.attachment.entity.SysAttachmentEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.minlia.module.attachment.bean.AttachmentCro;
+import com.minlia.module.attachment.bean.AttachmentRelationCro;
 
 import java.util.List;
 
@@ -16,7 +17,9 @@ import java.util.List;
  */
 public interface AttachmentService extends IService<SysAttachmentEntity> {
 
-    List<SysAttachmentEntity> create(AttachmentCro cro);
+    SysAttachmentEntity create(AttachmentCro cro);
+
+    List<SysAttachmentEntity> create(AttachmentRelationCro cro);
 
     SysAttachmentEntity update(SysAttachmentEntity entity);
 

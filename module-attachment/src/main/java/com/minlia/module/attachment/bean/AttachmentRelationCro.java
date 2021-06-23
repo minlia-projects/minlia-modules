@@ -15,7 +15,7 @@ import java.util.List;
  */
 @ApiModel(value = "附件-创建")
 @lombok.Data
-public class AttachmentCro implements ApiRequestBody {
+public class AttachmentRelationCro implements ApiRequestBody {
 
     @ApiModelProperty(value = "业务类型", example = "account.identity.frontend")
     @NotBlank

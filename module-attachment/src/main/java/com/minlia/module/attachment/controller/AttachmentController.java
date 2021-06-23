@@ -4,7 +4,6 @@ package com.minlia.module.attachment.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.attachment.bean.AttachmentCro;
@@ -16,6 +15,7 @@ import com.minlia.module.attachment.service.AttachmentService;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
+import com.minlia.modules.security.context.MinliaSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,15 +42,23 @@ public class AttachmentController {
         this.attachmentService = attachmentService;
     }
 
-    @AuditLog(value = "create attachment", type = AuditOperationTypeEnum.CREATE)
+//    @AuditLog(type = AuditOperationTypeEnum.CREATE)
+//    @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.CREATE + "')")
+//    @ApiOperation(value = "创建")
+//    @PostMapping
+//    public Response create(@Valid @RequestBody AttachmentRelationCro cro) {
+//        return Response.success(attachmentService.create(cro));
+//    }
+
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.CREATE + "')")
     @ApiOperation(value = "创建")
     @PostMapping
-    public Response create(@Valid @RequestBody AttachmentCro cto) {
-        return Response.success(attachmentService.create(cto));
+    public Response create(@Valid @RequestBody AttachmentCro cro) {
+        return Response.success(attachmentService.create(cro));
     }
 
-    @AuditLog(value = "update attachment by id", type = AuditOperationTypeEnum.UPDATE)
+    @AuditLog(type = AuditOperationTypeEnum.UPDATE)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.UPDATE + "')")
     @ApiOperation(value = "修改")
     @PutMapping
@@ -58,7 +66,7 @@ public class AttachmentController {
         return Response.success(attachmentService.saveOrUpdate(DozerUtils.map(uro, SysAttachmentEntity.class)));
     }
 
-    @AuditLog(value = "delete attachment by id", type = AuditOperationTypeEnum.DELETE)
+    @AuditLog(type = AuditOperationTypeEnum.DELETE)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.DELETE + "')")
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "{id}")
@@ -66,7 +74,7 @@ public class AttachmentController {
         return Response.success(attachmentService.removeById(id));
     }
 
-    @AuditLog(value = "select attachemnt by id", type = AuditOperationTypeEnum.SELECT)
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.SEARCH + "')")
     @ApiOperation(value = "ID查询")
     @GetMapping(value = "{id}")
@@ -74,35 +82,45 @@ public class AttachmentController {
         return Response.success(attachmentService.getById(id));
     }
 
-    @AuditLog(value = "select attachemnt by relationId with relationTo", type = AuditOperationTypeEnum.SELECT)
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.SEARCH + "')")
     @ApiOperation(value = "业务查询")
     @GetMapping(value = "fbb/{relationId}/{relationTo}")
     public Response queryAllByRelationIdAndBelongsTo(@PathVariable String relationId, @PathVariable String relationTo) {
-        return Response.success(attachmentService.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getRelationId, relationId).eq(SysAttachmentEntity::getRelationTo, relationTo)));
+        return Response.success(attachmentService.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery()
+                .eq(SysAttachmentEntity::getRelationId, relationId)
+                .eq(SysAttachmentEntity::getRelationTo, relationTo)));
     }
 
-    @AuditLog(value = "select attachemnt by qro as list", type = AuditOperationTypeEnum.SELECT)
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.SEARCH + "')")
     @ApiOperation(value = "集合查询")
     @PostMapping(value = "list")
     public Response list(@RequestBody AttachmentQro qro) {
         LambdaQueryWrapper<SysAttachmentEntity> queryWrapper = new QueryWrapper<SysAttachmentEntity>().lambda()
-                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class))
-                ;
+                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class));
         return Response.success(attachmentService.list(queryWrapper));
     }
 
-    @AuditLog(value = "select attachemnt by qro as page", type = AuditOperationTypeEnum.SELECT)
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.SEARCH + "')")
     @ApiOperation(value = "分页查询")
-    @RequestMapping(value = "page")
+    @PostMapping(value = "page")
     public Response page(@RequestBody AttachmentQro qro) {
         LambdaQueryWrapper<SysAttachmentEntity> queryWrapper = new QueryWrapper<SysAttachmentEntity>().lambda()
-                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class))
-                ;
-        Page<SysAttachmentEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(attachmentService.page(page, queryWrapper));
+                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class));
+        return Response.success(attachmentService.page(qro.getPage(), queryWrapper));
+    }
+
+    @AuditLog(type = AuditOperationTypeEnum.SELECT)
+    @PreAuthorize(value = "hasAnyAuthority('" + SysAttachmentConstant.READ + "')")
+    @ApiOperation(value = "分页查询-我的")
+    @PostMapping(value = "me/page")
+    public Response me(@RequestBody AttachmentQro qro) {
+        qro.setCreateBy(MinliaSecurityContextHolder.getUid());
+        LambdaQueryWrapper<SysAttachmentEntity> queryWrapper = new QueryWrapper<SysAttachmentEntity>().lambda()
+                .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class));
+        return Response.success(attachmentService.page(qro.getPage(), queryWrapper));
     }
 
 }
