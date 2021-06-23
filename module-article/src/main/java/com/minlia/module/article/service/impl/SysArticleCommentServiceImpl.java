@@ -1,10 +1,8 @@
 package com.minlia.module.article.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Lists;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.article.bean.ArticleCommentCro;
@@ -70,7 +68,7 @@ public class SysArticleCommentServiceImpl extends ServiceImpl<SysArticleCommentM
 
     @Override
     public Page<ArticleCommentVO> detailsPage(SysArticleCommentQro qro) {
-        return this.baseMapper.selectDetailsPage(qro.getPage(), qro);
+        return this.baseMapper.selectDetailsPage(qro.getPageNumber(), qro);
     }
 
 }

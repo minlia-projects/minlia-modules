@@ -11,7 +11,6 @@ import com.minlia.module.account.corporate.service.CorporateAccountService;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.data.bean.QueryRequest;
-import com.minlia.module.data.entity.BaseQueryEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -84,7 +83,7 @@ public class CorporateAccountController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody QueryRequest queryRequest) {
-        return Response.success(corporateAccountService.page(queryRequest.getPage()));
+        return Response.success(corporateAccountService.page(queryRequest.getPageNumber()));
     }
 
 }

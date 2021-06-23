@@ -96,7 +96,7 @@ public class EmailSenderController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody EmailSenderQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailSenderEntity.class));
-        return Response.success(emailFromService.page(qro.getPage(), queryWrapper));
+        return Response.success(emailFromService.page(qro.getPageNumber(), queryWrapper));
     }
 
 }

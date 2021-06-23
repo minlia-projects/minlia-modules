@@ -8,15 +8,12 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.wallet.bean.WalletTransferRo;
-import com.minlia.module.wallet.bean.WalletWithdrawApplyRo;
-import com.minlia.module.wallet.bean.WalletWithdrawApprovalRo;
 import com.minlia.module.wallet.constant.WalletConstant;
 import com.minlia.module.wallet.entity.SysWalletWithdrawEntity;
 import com.minlia.module.wallet.service.SysWalletTransferService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,14 +52,14 @@ public class SysWalletTransferController {
     @PostMapping(value = "me")
     public Response me(@Validated @RequestBody QueryRequest request) {
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.<SysWalletWithdrawEntity>lambdaQuery().eq(SysWalletWithdrawEntity::getUid, SecurityContextHolder.getUid());
-        return Response.success(sysWalletTransferService.page(request.getPage(), lambdaQueryWrapper));
+        return Response.success(sysWalletTransferService.page(request.getPageNumber(), lambdaQueryWrapper));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + WalletConstant.Authorize.Withdraw.SELECT + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Validated @RequestBody QueryRequest request) {
-        return Response.success(sysWalletTransferService.page(request.getPage()));
+        return Response.success(sysWalletTransferService.page(request.getPageNumber()));
     }
 
 }

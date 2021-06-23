@@ -86,7 +86,7 @@ public class SysCurrencyRateController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysCurrencyRateQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.<SysCurrencyRateEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysCurrencyRateEntity.class));
-        return Response.success(sysCurrencyRateService.page(qro.getPage(), queryWrapper));
+        return Response.success(sysCurrencyRateService.page(qro.getPageNumber(), queryWrapper));
     }
 
 }

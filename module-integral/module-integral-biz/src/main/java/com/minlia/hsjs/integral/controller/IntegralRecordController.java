@@ -7,7 +7,6 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.hsjs.integral.bean.IntegralRecordQro;
 import com.minlia.hsjs.integral.constant.IntegralConstant;
-import com.minlia.hsjs.integral.entity.IntegralConfigEntity;
 import com.minlia.hsjs.integral.entity.IntegralRecordEntity;
 import com.minlia.hsjs.integral.service.IntegralRecordService;
 import com.minlia.module.audit.annotation.AuditLog;
@@ -61,7 +60,7 @@ public class IntegralRecordController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody IntegralRecordQro qro) {
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralRecordEntity.class));
-        return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
+        return Response.success(integralRecordService.page(qro.getPageNumber(), lambdaQueryWrapper));
     }
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
@@ -71,7 +70,7 @@ public class IntegralRecordController {
     public Response me(@Valid @RequestBody IntegralRecordQro qro) {
         qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, IntegralRecordEntity.class));
-        return Response.success(integralRecordService.page(qro.getPage(), lambdaQueryWrapper));
+        return Response.success(integralRecordService.page(qro.getPageNumber(), lambdaQueryWrapper));
     }
 
 }

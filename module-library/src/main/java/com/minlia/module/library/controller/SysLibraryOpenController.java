@@ -73,7 +73,7 @@ public class SysLibraryOpenController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysLibraryQro qro) {
         qro.setDisFlag(false);
-        Page page = sysLibraryService.page(qro.getPage(), sysLibraryService.builderQueryWrapper(qro));
+        Page page = sysLibraryService.page(qro.getPageNumber(), sysLibraryService.builderQueryWrapper(qro));
         page.setRecords(DozerUtils.map(page.getRecords(), SysLibraryVo.class));
         return Response.success(page);
     }

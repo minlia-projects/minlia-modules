@@ -69,7 +69,7 @@ public class SysArticleOpenController {
             qro.setCategoryId(sysArticleCategoryEntity.getId());
         }
         LambdaQueryWrapper queryWrapper = Wrappers.<SysArticleEntity>lambdaQuery().setEntity(DozerUtils.map(qro, SysArticleEntity.class));
-        return Response.success(sysArticleService.page(qro.getPage(), queryWrapper));
+        return Response.success(sysArticleService.page(qro.getPageNumber(), queryWrapper));
     }
 
 //    @ApiOperation(value = "分页查询")

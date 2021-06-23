@@ -42,14 +42,14 @@ public class SysWalletRecordController {
     @PostMapping(value = "me")
     public Response historyPage(@Validated @RequestBody QueryRequest qro) {
         LambdaQueryWrapper lambdaQueryWrapper = Wrappers.<SysWalletRecordEntity>lambdaQuery().eq(SysWalletRecordEntity::getUid, SecurityContextHolder.getUid());
-        return Response.success(sysWalletRecordService.page(qro.getPage().addOrder(OrderItem.desc("create_date")), lambdaQueryWrapper));
+        return Response.success(sysWalletRecordService.page(qro.getPageNumber().addOrder(OrderItem.desc("create_date")), lambdaQueryWrapper));
     }
 
     @PreAuthorize(value = "hasAnyAuthority('" + WalletConstant.Authorize.Withdraw.SELECT + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Validated @RequestBody QueryRequest request) {
-        return Response.success(sysWalletRecordService.page(request.getPage().addOrder(OrderItem.desc("create_date"))));
+        return Response.success(sysWalletRecordService.page(request.getPageNumber().addOrder(OrderItem.desc("create_date"))));
     }
 
 }

@@ -100,7 +100,7 @@ public class SysLibraryController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysLibraryQro qro) {
-        return Response.success(sysLibraryService.page(qro.getPage(), sysLibraryService.builderQueryWrapper(qro)));
+        return Response.success(sysLibraryService.page(qro.getPageNumber(), sysLibraryService.builderQueryWrapper(qro)));
     }
 
 }

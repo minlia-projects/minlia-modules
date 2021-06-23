@@ -61,7 +61,7 @@ public class SysUserRelationServiceImpl extends ServiceImpl<SysUserRelationMappe
 
     @Override
     public Page<SysUserRelationVo> detailsPage(SysUserRelationQro qro) {
-        return this.baseMapper.detailsPage(qro.getPage(), qro);
+        return this.baseMapper.detailsPage(qro.getPageNumber(), qro);
     }
 
 }

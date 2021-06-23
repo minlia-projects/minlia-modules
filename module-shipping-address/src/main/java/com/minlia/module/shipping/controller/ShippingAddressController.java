@@ -100,7 +100,7 @@ public class ShippingAddressController {
         qro.setUid(MinliaSecurityContextHolder.getUid());
         LambdaQueryWrapper<ShippingAddressEntity> queryWrapper = Wrappers.<ShippingAddressEntity>lambdaQuery()
                 .setEntity(DozerUtils.map(qro, ShippingAddressEntity.class));
-        return Response.success(shippingAddressService.page(qro.getPage(), queryWrapper));
+        return Response.success(shippingAddressService.page(qro.getPageNumber(), queryWrapper));
     }
 
 }
