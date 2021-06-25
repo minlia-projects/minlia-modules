@@ -28,8 +28,10 @@ public class SysAttachmentRelationServiceImpl extends ServiceImpl<SysAttachmentR
     @Transactional(rollbackFor = Exception.class)
     public void save(Long relationId, String relationTo, Set<String> urls) {
         this.remove(Wrappers.<SysAttachmentRelationEntity>lambdaQuery().eq(SysAttachmentRelationEntity::getRelationId, relationId).eq(SysAttachmentRelationEntity::getRelationTo, relationTo));
-        this.saveBatch(urls.stream().map(url -> SysAttachmentRelationEntity.builder()
-                .relationId(relationId).relationTo(relationTo).url(url).build()).collect(Collectors.toList()));
+        if (CollectionUtils.isNotEmpty(urls)) {
+            this.saveBatch(urls.stream().map(url -> SysAttachmentRelationEntity.builder()
+                    .relationId(relationId).relationTo(relationTo).url(url).build()).collect(Collectors.toList()));
+        }
     }
 
     @Override

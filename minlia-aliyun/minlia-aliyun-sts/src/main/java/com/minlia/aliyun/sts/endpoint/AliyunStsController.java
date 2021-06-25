@@ -1,6 +1,8 @@
 package com.minlia.aliyun.sts.endpoint;
 
 
+import com.minlia.aliyun.sts.bean.AliyunStsDto;
+import com.minlia.aliyun.sts.config.AliyunStsConfig;
 import com.minlia.aliyun.sts.service.AliyunStsService;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AliyunStsController {
 
+    private final AliyunStsConfig aliyunStsConfig;
     private final AliyunStsService aliyunStsService;
 
     @AuditLog(type = AuditOperationTypeEnum.SELECT)
@@ -35,7 +38,12 @@ public class AliyunStsController {
     @ApiOperation(value = "获取凭证")
     @GetMapping
     public Response getCredentials() {
-        return Response.success(aliyunStsService.getCredentials());
+        return Response.success(AliyunStsDto.builder()
+                .endpoint(aliyunStsConfig.getEndpoint())
+                .durationSeconds(aliyunStsConfig.getDurationSeconds())
+                .bucket(aliyunStsConfig.getBucket())
+                .credentials(aliyunStsService.getCredentials())
+                .build());
     }
 
 }

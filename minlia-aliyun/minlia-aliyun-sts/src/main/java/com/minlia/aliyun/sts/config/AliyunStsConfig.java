@@ -41,4 +41,6 @@ public class AliyunStsConfig {
      */
     private Long durationSeconds;
 
+    private String bucket;
+
 }
