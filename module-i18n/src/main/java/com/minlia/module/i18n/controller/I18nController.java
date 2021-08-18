@@ -108,8 +108,7 @@ public class I18nController {
         LambdaQueryWrapper<I18nEntity> queryWrapper = new QueryWrapper<I18nEntity>()
                 .lambda()
                 .setEntity(DozerUtils.map(qro, I18nEntity.class));
-        Page<I18nEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(i18nService.page(page, queryWrapper));
+        return Response.success(i18nService.page(qro.getPage(), queryWrapper));
 //        return PageHelper.startPage(qro.getPageNumber(),qro.getPageSize(), qro.getOrderBy()).doSelectPageInfo(()->i18nMapper.queryList(qro));
     }
 

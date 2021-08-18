@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
+import java.math.BigInteger;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -161,6 +162,9 @@ public class RSAEncryptUtil {
     }
 
     public static void main(String[] args) throws Exception {
+        RSA.generatePrivateKey(BigInteger.ONE, BigInteger.ONE);
+        
+
         //随机生成公钥和私钥
 //        Map<String, Object> map = getKeyPair();
 //        System.out.println(map.get(PUBLIC_KEY).toString());

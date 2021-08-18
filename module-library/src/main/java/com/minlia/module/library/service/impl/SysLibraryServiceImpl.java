@@ -126,7 +126,7 @@ public class SysLibraryServiceImpl extends ServiceImpl<SysLibraryMapper, SysLibr
     @Override
     public LambdaQueryWrapper builderQueryWrapper(SysLibraryQro qro) {
         LambdaQueryWrapper<SysLibraryEntity> queryWrapper = Wrappers.<SysLibraryEntity>lambdaQuery()
-                .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary);
+                .select(SysLibraryEntity::getId, SysLibraryEntity::getName, SysLibraryEntity::getUrl, SysLibraryEntity::getSummary, SysLibraryEntity::getCreateBy, SysLibraryEntity::getCreateDate, SysLibraryEntity::getLastModifiedBy, SysLibraryEntity::getLastModifiedDate);
         if (StringUtils.isNotBlank(qro.getNumber())) {
             queryWrapper.eq(SysLibraryEntity::getNumber, qro.getNumber());
         }

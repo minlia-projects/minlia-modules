@@ -55,7 +55,7 @@ public class SysLibraryOpenController {
             queryWrapper.or().like(SysLibraryEntity::getName, qro.getKeyword());
             queryWrapper.or().like(SysLibraryEntity::getContent, qro.getKeyword());
         }
-        Page page = sysLibraryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper);
+        Page page = sysLibraryService.page(qro.getPage(), queryWrapper);
         page.setRecords(DozerUtils.map(page.getRecords(), SysLibraryVo.class));
         return Response.success(page);
     }
@@ -73,7 +73,7 @@ public class SysLibraryOpenController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysLibraryQro qro) {
         qro.setDisFlag(false);
-        Page page = sysLibraryService.page(new Page(qro.getPageNumber(), qro.getPageSize()), sysLibraryService.builderQueryWrapper(qro));
+        Page page = sysLibraryService.page(qro.getPage(), sysLibraryService.builderQueryWrapper(qro));
         page.setRecords(DozerUtils.map(page.getRecords(), SysLibraryVo.class));
         return Response.success(page);
     }

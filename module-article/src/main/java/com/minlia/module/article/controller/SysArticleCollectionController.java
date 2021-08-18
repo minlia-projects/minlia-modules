@@ -61,7 +61,7 @@ public class SysArticleCollectionController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody BaseQueryEntity qro) {
-        return Response.success(sysArticleCollectionService.myPage(qro.getPageNumber(), qro.getPageSize()));
+        return Response.success(sysArticleCollectionService.myPage(qro));
     }
 
 }

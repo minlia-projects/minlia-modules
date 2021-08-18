@@ -127,8 +127,7 @@ public class SysNavigationController {
     public Response page(@RequestBody SysNavigationQro qro) {
         LambdaQueryWrapper<SysNavigationEntity> queryWrapper = new QueryWrapper<SysNavigationEntity>()
                 .lambda().setEntity(DozerUtils.map(qro, SysNavigationEntity.class)).orderByAsc(SysNavigationEntity::getSort);
-        Page<SysNavigationEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        sysNavigationService.page(page, queryWrapper);
+        Page<SysNavigationEntity> page = sysNavigationService.page(qro.getPage(), queryWrapper);
         sysNavigationService.setChildren(page.getRecords(), null, null, null);
         return Response.success(page);
     }

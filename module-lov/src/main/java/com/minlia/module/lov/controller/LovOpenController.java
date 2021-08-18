@@ -60,8 +60,7 @@ public class LovOpenController {
         qro.setDisFlag(false);
         LambdaQueryWrapper<SysLovEntity> queryWrapper = new QueryWrapper<SysLovEntity>().lambda()
                 .setEntity(DozerUtils.map(qro, SysLovEntity.class));
-        Page<SysLovEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(lovService.page(page, queryWrapper));
+        return Response.success(lovService.page(qro.getPage(), queryWrapper));
     }
 
 

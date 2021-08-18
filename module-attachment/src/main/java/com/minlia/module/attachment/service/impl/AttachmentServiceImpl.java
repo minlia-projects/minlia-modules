@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.attachment.bean.AttachmentCro;
+import com.minlia.module.attachment.bean.AttachmentRelationCro;
 import com.minlia.module.attachment.constant.SysAttachmentCode;
 import com.minlia.module.attachment.entity.SysAttachmentEntity;
 import com.minlia.module.attachment.event.AttachmentEvent;
 import com.minlia.module.attachment.mapper.AttachmentMapper;
 import com.minlia.module.attachment.service.AttachmentService;
+import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.modules.security.context.MinliaSecurityContextHolder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,8 +32,15 @@ import java.util.stream.Collectors;
 public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAttachmentEntity> implements AttachmentService {
 
     @Override
+    public SysAttachmentEntity create(AttachmentCro cro) {
+        SysAttachmentEntity entity = DozerUtils.map(cro, SysAttachmentEntity.class);
+        this.save(entity);
+        return entity;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<SysAttachmentEntity> create(AttachmentCro cro) {
+    public List<SysAttachmentEntity> create(AttachmentRelationCro cro) {
         //移除之前的
         this.remove(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getRelationId, cro.getRelationId()).eq(SysAttachmentEntity::getRelationTo, cro.getRelationTo()));
         //批量保存
@@ -85,13 +94,13 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, SysAtta
                     if (allowNull && null == entity) {
                         entity = this.getOne(Wrappers.<SysAttachmentEntity>lambdaQuery().eq(SysAttachmentEntity::getAccessKey, accessKey).orderByDesc(SysAttachmentEntity::getId));
                         entity.setId(null);
-                        entity.setRelationId(relationTo);
+                        entity.setRelationTo(relationTo);
                         entity.setRelationId(relationId);
                         entity.setCreateBy(MinliaSecurityContextHolder.getUid());
                         this.save(entity);
                     } else {
                         ApiAssert.notNull(entity, SysAttachmentCode.Message.ETAG_NOT_EXISTS);
-                        entity.setRelationId(relationTo);
+                        entity.setRelationTo(relationTo);
                         entity.setRelationId(relationId);
                         this.saveOrUpdate(entity);
                     }

@@ -15,6 +15,7 @@ public class SysAttachmentConstant {
     public final static String UPDATE = MODULE_NAME + SecurityConstant.OPERATION_UPDATE_CODE;
     public final static String DELETE = MODULE_NAME + SecurityConstant.OPERATION_DELETE_CODE;
     public final static String SEARCH = MODULE_NAME + SecurityConstant.OPERATION_SEARCH_CODE;
+    public final static String READ = MODULE_NAME + SecurityConstant.OPERATION_READ_CODE;
     public final static String UPLOAD = MODULE_NAME + ".upload";
 
     /**

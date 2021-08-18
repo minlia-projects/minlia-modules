@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 /**
  * @author garen
  */
-@ApiModel(value = "AdvertisementSro")
+@ApiModel(value = "SysAdvertisementsSro")
 @Data
 public class SysAdvertisementsSro implements ApiRequestBody {
 

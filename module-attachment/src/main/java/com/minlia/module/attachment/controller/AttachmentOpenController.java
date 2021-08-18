@@ -50,7 +50,7 @@ public class AttachmentOpenController {
     public Response page(@RequestBody AttachmentQro qro) {
         return Response.success(attachmentService.lambdaQuery()
                 .setEntity(DozerUtils.map(qro, SysAttachmentEntity.class))
-                .page(new Page<>(qro.getPageNumber(), qro.getPageSize())));
+                .page(qro.getPage()));
     }
 
 }

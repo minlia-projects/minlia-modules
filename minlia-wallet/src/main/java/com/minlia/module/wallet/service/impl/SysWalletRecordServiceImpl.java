@@ -20,7 +20,7 @@ public class SysWalletRecordServiceImpl extends ServiceImpl<SysWalletRecordMappe
 
     @Override
     public void create(Long walletId, WalletUro uro) {
-        this.save(SysWalletRecordEntity.builder().walletId(walletId).uid(uro.getUid()).type(uro.getType()).amount(uro.getAmount()).remark(uro.getRemark()).build());
+        this.save(SysWalletRecordEntity.builder().walletId(walletId).uid(uro.getUid()).type(uro.getType()).businessId(uro.getBusinessId()).amount(uro.getAmount()).remark(uro.getRemark()).build());
     }
 
 }

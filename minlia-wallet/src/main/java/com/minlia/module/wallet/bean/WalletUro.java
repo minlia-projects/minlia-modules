@@ -1,6 +1,7 @@
 package com.minlia.module.wallet.bean;
 
 import com.minlia.module.wallet.enums.WalletOperationTypeEnum;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,9 @@ public class WalletUro {
     private BigDecimal amount;
 
     private WalletOperationTypeEnum type;
+
+    @ApiModelProperty(value = "业务ID")
+    private Long businessId;
 
     private String remark;
 

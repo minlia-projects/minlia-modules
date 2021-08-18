@@ -88,8 +88,7 @@ public class EmailRecordController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody EmailRecordQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, EmailRecordEntity.class));
-        Page<EmailRecordEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(emailRecordService.page(page, queryWrapper));
+        return Response.success(emailRecordService.page(qro.getPage(), queryWrapper));
     }
 
 }

@@ -1,49 +1,45 @@
 package com.minlia.module.attachment.bean;
 
-
-import com.minlia.cloud.body.ApiRequestBody;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 /**
+ * <p>
+ * 附件
+ * </p>
+ *
  * @author garen
+ * @since 2020-08-26
  */
-@ApiModel(value = "附件-创建")
-@lombok.Data
-public class AttachmentCro implements ApiRequestBody {
+@Data
+@ApiModel(value = "AttachmentCro", description = "附件")
+public class AttachmentCro {
 
-    @ApiModelProperty(value = "业务类型", example = "account.identity.frontend")
-    @NotBlank
-    @Size(max = 20)
-    private String relationTo;
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "业务ID", example = "123")
+    @ApiModelProperty(value = "令牌")
     @NotBlank
     @Size(max = 32)
-    private String relationId;
+    private String accessKey;
 
-    @ApiModelProperty(value = "数据")
-    @NotEmpty
-    private List<Data> data;
+    @ApiModelProperty(value = "名称")
+    @NotBlank
+    private String name;
 
-    @lombok.Data
-    public static class Data {
+    @ApiModelProperty(value = "类型")
+    @NotBlank
+    private String type;
 
-        @ApiModelProperty(value = "附件类型", example = "jpg")
-        @NotBlank
-        @Size(max = 300)
-        private String url;
+    @ApiModelProperty(value = "地址")
+    @NotBlank
+    @Size(max = 255)
+    private String url;
 
-        @ApiModelProperty(value = "访问令牌", example = "234ehdskjds-sdfas-dfds-fds-fa-sdfs-sdfas-d")
-        @NotBlank
-        @Size(max = 32)
-        private String accessKey;
-
-    }
+    @ApiModelProperty(value = "大小")
+    private Long size;
 
 }

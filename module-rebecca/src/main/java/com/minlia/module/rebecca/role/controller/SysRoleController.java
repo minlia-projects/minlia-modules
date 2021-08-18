@@ -107,8 +107,7 @@ public class SysRoleController {
     public Response page(@Valid @RequestBody SysRoleQro qro) {
         LambdaQueryWrapper<SysRoleEntity> queryWrapper = new QueryWrapper<SysRoleEntity>()
                 .lambda().setEntity(DozerUtils.map(qro, SysRoleEntity.class));
-        Page<SysRoleEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysRoleService.page(page, queryWrapper));
+        return Response.success(sysRoleService.page(qro.getPage(), queryWrapper));
     }
 
 //    @AuditLog(value = "query system role tree", type = AuditOperationTypeEnum.SELECT)

@@ -2,11 +2,15 @@ package com.minlia.module.pay.controller;
 
 import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
+import com.minlia.module.pay.service.SysPayOrderService;
 import io.swagger.annotations.Api;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +28,11 @@ import java.io.IOException;
 @Api(tags = "Hsjs Pay Back", description = "支付-回调")
 @Controller
 @RequestMapping(value = ApiPrefix.OPEN + "/pay/back")
+@RequiredArgsConstructor
 public class SysPaybackController {
 
+    private final SysPayOrderService sysPayOrderService;
     private final MerchantPayServiceManager merchantPayServiceManager;
-
-    public SysPaybackController(MerchantPayServiceManager merchantPayServiceManager) {
-        this.merchantPayServiceManager = merchantPayServiceManager;
-    }
 
 //    /**
 //     * 支付回调地址
@@ -65,22 +67,28 @@ public class SysPaybackController {
      * @return 支付是否成功
      * @throws IOException IOException
      */
-    @RequestMapping(value = "alipay{detailsId}")
+    @PostMapping(value = "alipay{detailsId}")
     public String aliPayBack(HttpServletRequest request, @PathVariable String detailsId) throws IOException {
         log.info("支付宝支付回调开始=============================={}", detailsId);
         return merchantPayServiceManager.payBack(detailsId, request.getParameterMap(), request.getInputStream());
     }
 
-    @RequestMapping(value = "wechat{detailsId}")
+    @PostMapping(value = "wechat{detailsId}")
     public String wxPayBack(HttpServletRequest request, @PathVariable String detailsId) throws IOException {
         log.info("微信支付回调开始=============================={}", detailsId);
         return merchantPayServiceManager.payBack(detailsId, request.getParameterMap(), request.getInputStream());
     }
 
-    @RequestMapping(value = "paypal{detailsId}")
+    @PostMapping(value = "paypal{detailsId}")
     public String paypalPayBack(HttpServletRequest request, @PathVariable String detailsId) throws IOException {
         log.info("Paypal支付回调开始=============================={}", detailsId);
         return merchantPayServiceManager.payBack(detailsId, request.getParameterMap(), request.getInputStream());
     }
+
+//    @PostMapping(value = "{orderNo}/{tradeNo}")
+//    public Response payBack(@PathVariable("orderNo") String orderNo, @PathVariable("tradeNo") String tradeNo) {
+//        sysPayOrderService.callback(orderNo, tradeNo);
+//        return Response.success();
+//    }
 
 }

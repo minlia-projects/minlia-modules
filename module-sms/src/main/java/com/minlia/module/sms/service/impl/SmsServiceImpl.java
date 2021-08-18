@@ -2,6 +2,9 @@ package com.minlia.module.sms.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.minlia.cloud.constant.SymbolConstants;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
@@ -32,18 +35,16 @@ public class SmsServiceImpl implements SmsService {
 
     @Autowired
     private SmsConfig smsConfig;
-
     @Autowired
     private SmsProperties smsProperties;
-
+    @Autowired
+    private RichtextService richtextService;
+    @Autowired
+    private SmsRecordService smsRecordService;
     @Autowired
     private AliyunSmsSendService aliyunSmsSendService;
 
-    @Autowired
-    private RichtextService richtextService;
-
-    @Autowired
-    private SmsRecordService smsRecordService;
+    private static final Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
     @Override
     public SmsRecordEntity sendRichtextSms(String[] to, String richtextCode, Map<String, ?> variables) {
@@ -58,7 +59,7 @@ public class SmsServiceImpl implements SmsService {
         SmsRecordEntity smsRecord = SmsRecordEntity.builder().channel(smsProperties.getType()).sendTo(String.join(SymbolConstants.COMMA, Lists.newArrayList(to))).templateCode(richtextCode).subject(richtext.getSubject()).content(content).locale(richtext.getLocale()).build();
         try {
             if (smsConfig.getRealSwitchFlag()) {
-                Boolean result = aliyunSmsSendService.send(to[0], richtext.getSubject(), String.format("{\"code\":\"%s\"}", variables.get("code")));
+                Boolean result = aliyunSmsSendService.send(to[0], richtext.getSubject(), gson.toJson(variables));
                 smsRecord.setRemark(result.toString());
 //                String result = otpSmsService.send(null, String.join(SymbolConstants.COMMA, Lists.newArrayList(to)), content);
 //                smsRecord.setRemark(result);

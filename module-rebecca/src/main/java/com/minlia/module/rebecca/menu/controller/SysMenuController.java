@@ -109,8 +109,7 @@ public class SysMenuController {
     public Response queryPage(@PageableDefault(direction = Sort.Direction.ASC, sort = "id") Pageable pageable, @RequestBody SysMenuQro qro) {
         LambdaQueryWrapper<SysMenuEntity> queryWrapper = new QueryWrapper<SysMenuEntity>()
                 .lambda().setEntity(DozerUtils.map(qro, SysMenuEntity.class));
-        Page<SysMenuEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysMenuService.page(page, queryWrapper));
+        return Response.success(sysMenuService.page(qro.getPage(), queryWrapper));
     }
 
     private void setChildren(List<SysMenuEntity> entities, Long roleId) {

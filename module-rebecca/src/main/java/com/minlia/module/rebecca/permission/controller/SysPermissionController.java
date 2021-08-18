@@ -118,8 +118,7 @@ public class SysPermissionController {
                 return Response.success();
             }
         }
-        Page<SysPermissionEntity> page = new Page<>(qro.getPageNumber(), qro.getPageSize());
-        return Response.success(sysPermissionService.page(page, queryWrapper));
+        return Response.success(sysPermissionService.page(qro.getPage(), queryWrapper));
     }
 
 }

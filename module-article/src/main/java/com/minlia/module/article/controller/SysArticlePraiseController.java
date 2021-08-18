@@ -7,6 +7,7 @@ import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.article.constant.SysArticleConstants;
 import com.minlia.module.article.entity.SysArticlePraiseEntity;
 import com.minlia.module.article.service.SysArticlePraiseService;
+import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.data.entity.BaseQueryEntity;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import io.swagger.annotations.Api;
@@ -60,7 +61,7 @@ public class SysArticlePraiseController {
     @PreAuthorize(value = "hasAnyAuthority('" + SysArticleConstants.Authorize.Praise.SEARCH + "')")
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
-    public Response page(@Valid @RequestBody BaseQueryEntity qro) {
+    public Response page(@Valid @RequestBody QueryRequest qro) {
         return Response.success(sysArticlePraiseService.page(qro.getPageNumber(), qro.getPageSize()));
     }
 

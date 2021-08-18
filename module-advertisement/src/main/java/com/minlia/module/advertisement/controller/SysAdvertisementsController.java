@@ -87,7 +87,7 @@ public class SysAdvertisementsController {
     @PostMapping(value = "page")
     public Response page(@Valid @RequestBody SysAdvertisementsQro qro) {
         LambdaQueryWrapper queryWrapper = Wrappers.lambdaQuery().setEntity(DozerUtils.map(qro, SysAdvertisementsEntity.class));
-        return Response.success(sysAdvertisementsService.page(new Page(qro.getPageNumber(), qro.getPageSize()), queryWrapper));
+        return Response.success(sysAdvertisementsService.page(qro.getPage(), queryWrapper));
     }
 
 }

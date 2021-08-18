@@ -31,7 +31,7 @@ public class WxPayMessageHandler implements PayMessageHandler<WxPayMessage, PayS
         log.info("微信支付回调处理开始===================={}", JSON.toJSONString(payMessage));
         //交易状态
         if ("SUCCESS".equals(payMessage.getPayMessage().get("result_code"))) {
-            sysPayOrderService.callback(payMessage.getTransactionId(), payMessage.getOutTradeNo());
+            sysPayOrderService.callback(payMessage.getOutTradeNo(), payMessage.getTransactionId());
             return payService.getPayOutMessage("SUCCESS", "OK");
         }
         return payService.getPayOutMessage("FAIL", "失败");

@@ -1,7 +1,10 @@
 package com.minlia.module.rebecca.user.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.minlia.module.rebecca.user.bean.SysUserRelationQro;
+import com.minlia.module.rebecca.user.bean.SysUserRelationVo;
 import com.minlia.module.rebecca.user.entity.SysUserRelationEntity;
 import com.minlia.module.rebecca.user.mapper.SysUserRelationMapper;
 import com.minlia.module.rebecca.user.service.SysUserRelationService;
@@ -54,6 +57,11 @@ public class SysUserRelationServiceImpl extends ServiceImpl<SysUserRelationMappe
         remove(Wrappers.<SysUserRelationEntity>lambdaQuery()
                 .eq(SysUserRelationEntity::getDescendant, uid)
                 .or().eq(SysUserRelationEntity::getAncestor, uid));
+    }
+
+    @Override
+    public Page<SysUserRelationVo> detailsPage(SysUserRelationQro qro) {
+        return this.baseMapper.detailsPage(qro.getPage(), qro);
     }
 
 }

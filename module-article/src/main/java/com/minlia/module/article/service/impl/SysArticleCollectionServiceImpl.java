@@ -10,6 +10,7 @@ import com.minlia.module.article.entity.SysArticleEntity;
 import com.minlia.module.article.mapper.SysArticleCollectionMapper;
 import com.minlia.module.article.service.SysArticleCollectionService;
 import com.minlia.module.article.service.SysArticleService;
+import com.minlia.module.data.entity.BaseQueryEntity;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -57,12 +58,12 @@ public class SysArticleCollectionServiceImpl extends ServiceImpl<SysArticleColle
     }
 
     @Override
-    public Page myPage(int pageNumber, int pageSize) {
+    public Page myPage(BaseQueryEntity qro) {
         List<Long> articleIds = this.list(Wrappers.<SysArticleCollectionEntity>lambdaQuery()
                 .select(SysArticleCollectionEntity::getArticleId)
                 .eq(SysArticleCollectionEntity::getOperator, SecurityContextHolder.getUid()))
                 .stream().map(data -> data.getArticleId()).collect(Collectors.toList());
-        return sysArticleService.page(new Page(pageNumber, pageSize), Wrappers.<SysArticleEntity>lambdaQuery().in(SysArticleEntity::getId, articleIds));
+        return sysArticleService.page(qro.getPage(), Wrappers.<SysArticleEntity>lambdaQuery().in(SysArticleEntity::getId, articleIds));
     }
 
 }

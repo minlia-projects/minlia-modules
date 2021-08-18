@@ -6,7 +6,6 @@ import com.minlia.module.i18n.enumeration.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +14,7 @@ import javax.validation.constraints.Size;
 /**
  * @author garen
  */
-@ApiModel(value = "AdvertisementSro")
+@ApiModel(value = "SysAdvertisementSro")
 @Data
 public class SysAdvertisementSro implements ApiRequestBody {
 
@@ -45,6 +44,10 @@ public class SysAdvertisementSro implements ApiRequestBody {
     @Size(max = 255)
 //    @URL
     private String cover;
+
+    @ApiModelProperty(value = "排序", example = "0")
+    @NotNull
+    private Integer sort;
 
     @ApiModelProperty(value = "备注", example = "XXXXXX")
     @Size(max = 255)
