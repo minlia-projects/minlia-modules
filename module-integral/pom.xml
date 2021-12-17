@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.minlia.cloud.modules</groupId>
         <artifactId>module-parent</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>2.1.0-SNAPSHOT</version>
         <relativePath>../module-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>module-integral</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.1.0-SNAPSHOT</version>
     <name>module-integral</name>
     <packaging>pom</packaging>
     <description>Demo project for Spring Boot</description>
