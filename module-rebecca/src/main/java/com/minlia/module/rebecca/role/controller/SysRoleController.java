@@ -31,7 +31,7 @@ import javax.validation.Valid;
  * @author garen
  * @since 2020-08-22
  */
-@Api(tags = "System SysRole", description = "角色")
+@Api(tags = "System Role", description = "角色")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "security/role")
 public class SysRoleController {
