@@ -5,18 +5,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.bean.DefaultCurType;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
-import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
+import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import com.egzosn.pay.wx.v3.bean.WxTransactionType;
-import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.currency.service.SysCurrencyRateService;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.pay.bean.SysPaidResult;
 import com.minlia.module.pay.bean.SysPayOrderCro;
 import com.minlia.module.pay.bean.SysPayOrderDto;
-import com.minlia.module.pay.entity.MerchantDetailsEntity;
 import com.minlia.module.pay.entity.SysPayOrderEntity;
-import com.minlia.module.pay.enums.SysPayChannelEnum;
 import com.minlia.module.pay.enums.SysPayStatusEnum;
 import com.minlia.module.pay.event.SysPaidEvent;
 import com.minlia.module.pay.mapper.SysPayOrderMapper;
@@ -43,9 +40,9 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPayOrderEntity> implements SysPayOrderService {
 
+    private final PayServiceManager payServiceManager;
     private final MerchantDetailsService merchantDetailsService;
     private final SysCurrencyRateService sysCurrencyRateService;
-    private final MerchantPayServiceManager merchantPayServiceManager;
 
     //@Transactional(rollbackFor = Exception.class)
     //public SysPayOrderDto create1(SysPayOrderCro cro) {
@@ -101,19 +98,19 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
                 actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
                 MerchantPayOrder aliPayOrder = new MerchantPayOrder("1", AliTransactionType.PAGE.getType(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
                 aliPayOrder.setCurType(DefaultCurType.CNY);
-                result = merchantPayServiceManager.toPay(aliPayOrder);
+                result = payServiceManager.toPay(aliPayOrder);
                 break;
             case WECHAT:
                 actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
                 MerchantPayOrder wxPayOrder = new MerchantPayOrder("2", WxTransactionType.NATIVE.getType(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
                 wxPayOrder.setCurType(DefaultCurType.CNY);
-                result = merchantPayServiceManager.getQrPay(wxPayOrder);
+                result = payServiceManager.getQrPay(wxPayOrder);
                 break;
             case PAYPAL:
                 actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.USD.name());
                 MerchantPayOrder paypalPayOrder = new MerchantPayOrder("3", PayPalTransactionType.sale.getType(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
                 paypalPayOrder.setCurType(DefaultCurType.USD);
-                result = merchantPayServiceManager.toPay(paypalPayOrder);
+                result = payServiceManager.toPay(paypalPayOrder);
                 break;
             default:
         }

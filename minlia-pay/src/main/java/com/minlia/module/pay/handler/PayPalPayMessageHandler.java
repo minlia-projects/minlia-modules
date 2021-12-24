@@ -8,6 +8,8 @@ import com.egzosn.pay.common.exception.PayErrorException;
 import com.egzosn.pay.paypal.api.PayPalPayService;
 import com.minlia.module.pay.service.SysPayOrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -20,11 +22,9 @@ import java.util.Map;
 @Component
 public class PayPalPayMessageHandler implements PayMessageHandler<PayMessage, PayPalPayService> {
 
-    private final SysPayOrderService sysPayOrderService;
-
-    public PayPalPayMessageHandler(SysPayOrderService sysPayOrderService) {
-        this.sysPayOrderService = sysPayOrderService;
-    }
+    @Lazy
+    @Autowired
+    private SysPayOrderService sysPayOrderService;
 
     @Override
     public PayOutMessage handle(PayMessage payMessage, Map<String, Object> context, PayPalPayService payService) throws PayErrorException {

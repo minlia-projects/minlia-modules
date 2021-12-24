@@ -8,6 +8,8 @@ import com.egzosn.pay.common.bean.PayOutMessage;
 import com.egzosn.pay.common.exception.PayErrorException;
 import com.minlia.module.pay.service.SysPayOrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -20,11 +22,9 @@ import java.util.Map;
 @Component
 public class AliPayMessageHandler implements PayMessageHandler<AliPayMessage, AliPayService> {
 
-    private final SysPayOrderService sysPayOrderService;
-
-    public AliPayMessageHandler(SysPayOrderService sysPayOrderService) {
-        this.sysPayOrderService = sysPayOrderService;
-    }
+    @Lazy
+    @Autowired
+    private SysPayOrderService sysPayOrderService;
 
     /**
      * 处理支付回调消息的处理器接口
