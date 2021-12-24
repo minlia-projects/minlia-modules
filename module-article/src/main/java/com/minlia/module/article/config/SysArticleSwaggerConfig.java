@@ -31,7 +31,7 @@ public class SysArticleSwaggerConfig {
     @Bean
     public Docket webApiArticle() {
         return new Docket(DocumentationType.OAS_30)
-                .groupName("广告")
+                .groupName("文章")
                 .pathMapping("/")
                 .enable(swaggerProperties.getEnable())
                 .apiInfo(apiInfo())
