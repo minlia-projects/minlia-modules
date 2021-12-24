@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minlia.module.member.mapper.SysPersonalAuthenticationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.minlia.module.member.entity.SysPersonalAuthenticationEntity">
+        <result column="id" property="id"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
+        <result column="uid" property="uid"/>
+        <result column="status" property="status"/>
+        <result column="reason" property="reason"/>
+        <result column="fullname" property="fullname"/>
+        <result column="id_number" property="idNumber"/>
+        <result column="id_front_photo" property="idFrontPhoto"/>
+        <result column="id_reverse_photo" property="idReversePhoto"/>
+        <result column="bank_name" property="bankName"/>
+        <result column="bank_account_name" property="bankAccountName"/>
+        <result column="bank_card_number" property="bankCardNumber"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_date,
+        last_modified_by,
+        last_modified_date,
+        uid, status, reason, fullname, id_number, id_front_photo, id_reverse_photo, bank_name, bank_account_name,
+        bank_card_number
+    </sql>
+
+    <select id="selectMemberByUid" resultType="com.minlia.module.member.bean.vo.SysMemberInfoVo">
+        SELECT
+            sut.id AS 'uid',
+            sut.avatar,
+            sut.nickname,
+            sut.email,
+            sut.cellphone,
+            sut.invite_code,
+            sut.`status`,
+            sut.last_login_ip,
+            sut.last_login_time,
+            sut.create_date AS 'registerTime',
+            swt.balance	AS 'walletBalance',
+            (SELECT `status` FROM sys_personal_authentication WHERE uid = #{uid}) AS 'personalAuthStatus'
+        FROM
+            sys_user sut
+        LEFT JOIN sys_wallet swt ON swt.uid = sut.id
+        WHERE
+            sut.id = #{uid}
+        AND sut.default_role IN ('ROLE_MEMBER','ROLE_STORE','ROLE_SUB_STORE')
+    </select>
+
+    <select id="selectMemberPage" resultType="com.minlia.module.member.bean.vo.SysMemberInfoVo">
+        SELECT
+            sut.id AS 'uid',
+            sut.avatar,
+            sut.nickname,
+            sut.email,
+            sut.cellphone,
+            sut.invite_code,
+            sut.`status`,
+            sut.create_date,
+            sut.last_login_ip,
+            sut.last_login_time,
+            swt.balance	AS 'walletBalance'
+        FROM
+            sys_user sut
+        LEFT JOIN sys_wallet swt ON sut.id = swt.uid
+        WHERE
+            sut.default_role IN ('ROLE_MEMBER')
+    </select>
+
+</mapper>

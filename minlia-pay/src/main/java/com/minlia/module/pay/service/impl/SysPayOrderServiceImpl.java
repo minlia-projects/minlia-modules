@@ -7,16 +7,20 @@ import com.egzosn.pay.common.bean.DefaultCurType;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.MerchantPayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
-import com.egzosn.pay.wx.bean.WxTransactionType;
+import com.egzosn.pay.wx.v3.bean.WxTransactionType;
+import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.currency.service.SysCurrencyRateService;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.pay.bean.SysPaidResult;
 import com.minlia.module.pay.bean.SysPayOrderCro;
 import com.minlia.module.pay.bean.SysPayOrderDto;
+import com.minlia.module.pay.entity.MerchantDetailsEntity;
 import com.minlia.module.pay.entity.SysPayOrderEntity;
+import com.minlia.module.pay.enums.SysPayChannelEnum;
 import com.minlia.module.pay.enums.SysPayStatusEnum;
 import com.minlia.module.pay.event.SysPaidEvent;
 import com.minlia.module.pay.mapper.SysPayOrderMapper;
+import com.minlia.module.pay.service.MerchantDetailsService;
 import com.minlia.module.pay.service.SysPayOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +43,49 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPayOrderEntity> implements SysPayOrderService {
 
+    private final MerchantDetailsService merchantDetailsService;
     private final SysCurrencyRateService sysCurrencyRateService;
     private final MerchantPayServiceManager merchantPayServiceManager;
+
+    //@Transactional(rollbackFor = Exception.class)
+    //public SysPayOrderDto create1(SysPayOrderCro cro) {
+    //    MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(cro.getChannel(), cro.getPayMethod());
+    //    ApiAssert.notNull(merchantDetailsEntity, "MERCHANT_NOT_EXISTS", "商户不存在");
+    //
+    //    SysPayOrderEntity orderEntity = DozerUtils.map(cro, SysPayOrderEntity.class);
+    //    orderEntity.setStatus(SysPayStatusEnum.UNPAID);
+    //    this.save(orderEntity);
+    //
+    //    String result = "";
+    //    BigDecimal actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
+    //    MerchantPayOrder payOrder = new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), cro.getPayMethod().getType(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
+    //
+    //    switch (cro.getChannel()) {
+    //        case ALIPAY:
+    //            payOrder.setCurType(DefaultCurType.CNY);
+    //            result = merchantPayServiceManager.toPay(payOrder);
+    //            break;
+    //        case WECHAT:
+    //            payOrder.setCurType(DefaultCurType.CNY);
+    //            result = merchantPayServiceManager.getQrPay(payOrder);
+    //            break;
+    //        case PAYPAL:
+    //            payOrder.setCurType(DefaultCurType.USD);
+    //            result = merchantPayServiceManager.toPay(payOrder);
+    //            break;
+    //        default:
+    //    }
+    //    return SysPayOrderDto.builder().orderNo(cro.getOrderNo()).channel(cro.getChannel()).payload(result).build();
+    //}
+
+    //private String aliPay(SysPayChannelEnum channelEnum, MerchantPayOrder payOrder) {
+    //    String result = "";
+    //    payOrder.setCurType(DefaultCurType.CNY);
+    //    switch (payOrder.getTransactionType()) {
+    //        case PAGE result = merchantPayServiceManager.toPay(payOrder);
+    //    }
+    //
+    //}
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -78,12 +123,12 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void callback(String orderNo, String tradeNo) {
-        log.info("支付宝支付回调更新状态开始===================={} {}", orderNo, tradeNo);
+        log.info("支付回调更新状态开始===================={} {}", orderNo, tradeNo);
         SysPayOrderEntity orderEntity = this.getByOrderNo(orderNo);
         orderEntity.setTradeNo(tradeNo);
         orderEntity.setStatus(SysPayStatusEnum.PAID);
         this.updateById(orderEntity);
-        log.info("支付宝支付回调更新状态完成====================");
+        log.info("支付回调更新状态完成====================");
         //发布通知事件
         SysPaidEvent.onPaid(DozerUtils.map(orderEntity, SysPaidResult.class));
     }

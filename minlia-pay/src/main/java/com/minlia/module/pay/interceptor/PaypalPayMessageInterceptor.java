@@ -1,11 +1,13 @@
 
 package com.minlia.module.pay.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.egzosn.pay.common.api.PayMessageHandler;
 import com.egzosn.pay.common.api.PayMessageInterceptor;
 import com.egzosn.pay.common.bean.PayMessage;
 import com.egzosn.pay.common.exception.PayErrorException;
 import com.egzosn.pay.paypal.api.PayPalPayService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -17,6 +19,7 @@ import java.util.Map;
  * email egzosn@gmail.com
  * date 2017/1/18 19:28
  */
+@Slf4j
 @Component
 public class PaypalPayMessageInterceptor implements PayMessageInterceptor<PayMessage, PayPalPayService> {
 
@@ -32,7 +35,7 @@ public class PaypalPayMessageInterceptor implements PayMessageInterceptor<PayMes
      */
     @Override
     public boolean intercept(PayMessage payMessage, Map<String, Object> context, PayPalPayService payService) throws PayErrorException {
-
+        log.info("支付宝回调信息拦截开始===================={}", JSON.toJSONString(payMessage));
         //这里进行拦截器处理，自行实现
         String outTradeNo = payMessage.getOutTradeNo();
         // 设置外部单号

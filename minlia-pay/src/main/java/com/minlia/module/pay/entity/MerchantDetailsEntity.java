@@ -3,13 +3,15 @@ package com.minlia.module.pay.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.egzosn.pay.ali.bean.AliTransactionType;
+import com.minlia.module.pay.enums.SysPayChannelEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author garen
@@ -17,7 +19,7 @@ import lombok.Data;
  */
 @Data
 @TableName("merchant_details")
-@ApiModel(value="MerchantDetailsEntity对象", description="")
+@ApiModel(value = "MerchantDetailsEntity对象", description = "")
 public class MerchantDetailsEntity {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +30,11 @@ public class MerchantDetailsEntity {
 
     @ApiModelProperty(value = "支付类型(支付渠道) 详情查看com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform对应子类，aliPay 支付宝， wxPay微信..等等")
     @TableField("pay_type")
-    private String payType;
+    private SysPayChannelEnum payType;
+
+    @ApiModelProperty(value = "支付方式")
+    @TableField("pay_method")
+    private AliTransactionType payMethod;
 
     @ApiModelProperty(value = "应用id")
     @TableField("appid")
@@ -89,5 +95,9 @@ public class MerchantDetailsEntity {
     @ApiModelProperty(value = "是否为测试环境: 0 否，1 测试环境")
     @TableField("is_test")
     private Boolean isTest;
+
+    @ApiModelProperty(value = "是否禁用")
+    @TableField("dis_flag")
+    private Boolean disFlag;
 
 }

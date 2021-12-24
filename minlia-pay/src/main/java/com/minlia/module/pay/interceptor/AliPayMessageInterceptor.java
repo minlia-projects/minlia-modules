@@ -41,12 +41,21 @@ public class AliPayMessageInterceptor implements PayMessageInterceptor<AliPayMes
         // 设置外部单号
 //        amtApplyService.fillApplyoutId(outTradeNo, (String) payMessage.getPayMessage().get("trade_no"));
 
+
+        //获取账单
+//        AmtApply amtApply = amtApplyService.getAmtApplyByApplyId(outTradeNo);
+//        if (null == amtApply){
+//            Log4jUtil.info("app 阿里pay：" + outTradeNo);
+//            return false;
+//        }
+//
 //        重复回调不进行处理
 //        if(amtApply.getApplyState().shortValue()== ApplyStateEnum.success.getCode()){
 //            return false;
 //        }
         //将账单存储至上下文对象中
 //        context.put("amtApply", amtApply);
+
         return true;
     }
 }

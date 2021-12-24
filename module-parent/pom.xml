@@ -21,6 +21,7 @@
     <properties>
         <minlia.cloud.version>2.1.0-SNAPSHOT</minlia.cloud.version>
         <minlia.module.version>2.1.0-SNAPSHOT</minlia.module.version>
+        <springfox.version>3.0.0</springfox.version>
     </properties>
 
     <distributionManagement>

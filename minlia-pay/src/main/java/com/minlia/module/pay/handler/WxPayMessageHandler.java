@@ -5,7 +5,7 @@ import com.egzosn.pay.common.api.PayMessageHandler;
 import com.egzosn.pay.common.api.PayService;
 import com.egzosn.pay.common.bean.PayOutMessage;
 import com.egzosn.pay.common.exception.PayErrorException;
-import com.egzosn.pay.wx.bean.WxPayMessage;
+import com.egzosn.pay.wx.v3.bean.response.WxPayMessage;
 import com.minlia.module.pay.service.SysPayOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -6,7 +6,7 @@ server:
       force: true
 
 system:
-  appId: hsjs-product
+  appId: minlia-product
   token: bWlubGlhCg==
   security:
     jwt:
@@ -23,7 +23,7 @@ spring:
   aop:
     auto: true
   application:
-    name: hsjs
+    name: district
   servlet:
     multipart:
       enabled: true
@@ -71,11 +71,11 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     name:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hsjs?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/minlia?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
     username: root
     password:
     hikari:
-      pool-name: HsjsHikariCP           #连接池的名字。一般会出现在日志和JMX控制台中。默认值：auto-genenrated。建议取一个合适的名字，便于监控。
+      pool-name: MinliaHikariCP           #连接池的名字。一般会出现在日志和JMX控制台中。默认值：auto-genenrated。建议取一个合适的名字，便于监控。
       minimum-idle: 5                   #池中最小空闲连接数量。默认值10
       maximum-pool-size: 15             #池中最大连接数（包括空闲和正在使用的连接）。默认值是10
       auto-commit: true                 #是否自动提交池中返回的连接。默认值为true。一般是有必要自动提交上一个连接中的事物的。如果为false，那么就需要应用层手动提交事物。
@@ -106,7 +106,7 @@ swagger:
   title: ${spring.application.name}
   version: 1.0
   path: /api/.*
-  description: Hsjs Swagger
+  description: Minlia Swagger
   termsOfServiceUrl: https://www.google.com/tos
   redirect: true
   contact:

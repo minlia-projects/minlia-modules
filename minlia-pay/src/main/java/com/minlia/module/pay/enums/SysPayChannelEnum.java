@@ -1,28 +1,30 @@
 package com.minlia.module.pay.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 支付通道
  */
+@Getter
+@AllArgsConstructor
 public enum SysPayChannelEnum {
 
     /**
      * 微信
      */
-    WECHAT,
+    WECHAT("wxPay"),
 
     /**
      * 支付宝
      */
-    ALIPAY,
+    ALIPAY("aliPay"),
 
     /**
      * PAYPAL
      */
-    PAYPAL,
+    PAYPAL("paypalPay");
 
-//    /**
-//     * 线下
-//     */
-//    OFFLINE
+    private String name;
 
 }

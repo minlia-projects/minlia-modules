@@ -25,7 +25,7 @@ import java.io.IOException;
  * @since 2020-08-18
  */
 @Slf4j
-@Api(tags = "Hsjs Pay Back", description = "支付-回调")
+@Api(tags = "System Pay Back", description = "支付-回调")
 @Controller
 @RequestMapping(value = ApiPrefix.OPEN + "/pay/back")
 @RequiredArgsConstructor

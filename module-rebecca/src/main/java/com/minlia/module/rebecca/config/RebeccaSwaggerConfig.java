@@ -1,6 +1,5 @@
 package com.minlia.module.rebecca.config;
 
-import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 import com.minlia.module.swagger.properties.SwaggerProperties;
 import io.swagger.annotations.Api;
@@ -32,7 +31,7 @@ public class RebeccaSwaggerConfig {
     @Bean
     public Docket webApiRebecca() {
         return new Docket(DocumentationType.OAS_30)
-                .groupName("Rebecca")
+                .groupName("RBAC")
                 .pathMapping("/")
                 .enable(swaggerProperties.getEnable())
                 .apiInfo(apiInfo())
