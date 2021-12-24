@@ -29,7 +29,7 @@ public class SysAdvertisementSwaggerConfig {
     private final SwaggerProperties swaggerProperties;
 
     @Bean
-    public Docket advertisementApiMember() {
+    public Docket webApiAdvertisement() {
         return new Docket(DocumentationType.OAS_30)
                 .groupName("广告")
                 .pathMapping("/")
