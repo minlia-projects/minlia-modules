@@ -4,22 +4,72 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.minlia.module.member.entity.SysMemberEntity">
-        <id column="id" property="id" />
-        <result column="uid" property="uid" />
-        <result column="name" property="name" />
-        <result column="id_number" property="idNumber" />
-        <result column="real_name" property="realName" />
-        <result column="secondary_password" property="secondaryPassword" />
-        <result column="balance" property="balance" />
-        <result column="create_by" property="createBy" />
-        <result column="create_date" property="createDate" />
-        <result column="last_modified_by" property="lastModifiedBy" />
-        <result column="last_modified_date" property="lastModifiedDate" />
+        <id column="id" property="id"/>
+        <result column="uid" property="uid"/>
+        <result column="name" property="name"/>
+        <result column="id_number" property="idNumber"/>
+        <result column="real_name" property="realName"/>
+        <result column="secondary_password" property="secondaryPassword"/>
+        <result column="balance" property="balance"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="last_modified_by" property="lastModifiedBy"/>
+        <result column="last_modified_date" property="lastModifiedDate"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, uid, name, id_number, real_name, secondary_password, balance, create_by, create_date, last_modified_by, last_modified_date
+        id, uid, `name`, id_number, real_name, secondary_password, balance, create_by, create_date, last_modified_by, last_modified_date
     </sql>
+
+    <select id="selectDetailsByUid" resultType="com.minlia.module.member.bean.vo.SysMemberInfoVo">
+        SELECT
+            sut.id AS 'uid',
+            sut.avatar,
+            sut.nickname,
+            sut.email,
+            sut.cellphone,
+            sut.invite_code,
+            sut.`status`,
+            sut.last_login_ip,
+            sut.last_login_time,
+            sut.create_date AS 'registerTime',
+            swt.balance	AS 'walletBalance',
+            smt.real_name
+        FROM
+            sys_member smt
+        LEFT JOIN sys_user sut ON sut.id = smt.uid
+        LEFT JOIN sys_wallet swt ON swt.uid = smt.uid
+        WHERE
+            smt.uid = #{uid}
+    </select>
+
+    <select id="selectDetailsPage" resultType="com.minlia.module.member.bean.vo.SysMemberInfoVo">
+        SELECT
+            sut.id AS 'uid',
+            sut.avatar,
+            sut.nickname,
+            sut.email,
+            sut.cellphone,
+            sut.invite_code,
+            sut.`status`,
+            sut.last_login_ip,
+            sut.last_login_time,
+            sut.create_date AS 'registerTime',
+            swt.balance AS 'walletBalance',
+            smt.real_name
+        FROM
+            sys_member smt
+        LEFT JOIN sys_user sut ON sut.id = smt.uid
+        LEFT JOIN sys_wallet swt ON swt.uid = smt.uid
+        <where>
+            <if test="qro.uid != null">
+                AND smt.uid = #{qro.uid}
+            </if>
+            <if test="qro.realName != null">
+                AND smt.real_name = #{qro.realName}
+            </if>
+        </where>
+    </select>
 
 </mapper>

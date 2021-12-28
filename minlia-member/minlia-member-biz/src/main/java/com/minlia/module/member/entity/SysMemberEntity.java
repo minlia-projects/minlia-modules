@@ -2,6 +2,7 @@ package com.minlia.module.member.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.module.data.entity.AbstractEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -49,6 +50,7 @@ public class SysMemberEntity extends AbstractEntity {
     private Boolean realName;
 
     @ApiModelProperty(value = "二级密码")
+    @JsonIgnore
     @TableField("secondary_password")
     private String secondaryPassword;
 

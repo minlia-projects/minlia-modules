@@ -1,6 +1,6 @@
 package com.minlia.module.member.bean.vo;
 
-import com.minlia.module.member.enums.MemberAuthenticationStatusEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -52,9 +52,10 @@ public class SysMemberInfoVo {
     private BigDecimal walletBalance;
 
     @ApiModelProperty(value = "积分余额")
+    @JsonIgnore
     private Long integralBalance;
 
-    @ApiModelProperty(value = "个人认证状态")
-    private MemberAuthenticationStatusEnum personalAuthStatus;
+    @ApiModelProperty(value = "实名认证")
+    private Boolean realName;
 
 }

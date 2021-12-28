@@ -5,22 +5,26 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Size;
+
 @Data
 @ApiModel(value = "SysMemberQro")
 public class SysMemberQro extends QueryRequest {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "GUID")
+    @ApiModelProperty(value = "用户ID")
     private Long uid;
 
-    @ApiModelProperty(value = "邮箱")
-    private String email;
+    @ApiModelProperty(value = "姓名")
+    @Size(max = 20)
+    private String name;
 
-    @ApiModelProperty(value = "手机")
-    private String cellphone;
+    @ApiModelProperty(value = "身份证号码")
+    @Size(max = 20)
+    private String idNumber;
 
-    @ApiModelProperty(value = "是否认证")
-    private boolean authFlag;
+    @ApiModelProperty(value = "实名认证")
+    private Boolean realName;
 
 }
