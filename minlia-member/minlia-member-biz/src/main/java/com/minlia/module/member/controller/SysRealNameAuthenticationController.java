@@ -31,14 +31,14 @@ import javax.validation.Valid;
  * @author garen
  * @since 2020-09-08
  */
-@Api(tags = "System Member Personal Authentication", description = "个人认证")
+@Api(tags = "System real name", description = "实名认证")
 @RestController
-@RequestMapping(value = ApiPrefix.V1 + "member/personal/authentication")
-public class SysPersonalAuthenticationController {
+@RequestMapping(value = ApiPrefix.V1 + "member/real-name")
+public class SysRealNameAuthenticationController {
 
     private final SysPersonalAuthenticationService sysPersonalAuthenticationService;
 
-    public SysPersonalAuthenticationController(SysPersonalAuthenticationService sysPersonalAuthenticationService) {
+    public SysRealNameAuthenticationController(SysPersonalAuthenticationService sysPersonalAuthenticationService) {
         this.sysPersonalAuthenticationService = sysPersonalAuthenticationService;
     }
 

@@ -1,8 +1,10 @@
 package com.minlia.module.member.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.minlia.cloud.body.Response;
 import com.minlia.module.member.bean.SysMemberQro;
 import com.minlia.module.member.bean.vo.SysMemberInfoVo;
+import com.minlia.module.rebecca.user.bean.UserRegisterRo;
 
 /**
  * <p>
@@ -14,8 +16,9 @@ import com.minlia.module.member.bean.vo.SysMemberInfoVo;
  */
 public interface SysMemberService {
 
+    Response register(UserRegisterRo registerRo);
+
     SysMemberInfoVo me();
 
     Page<SysMemberInfoVo> page(SysMemberQro qro);
-
 }

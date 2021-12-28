@@ -1,4 +1,4 @@
-//package com.minlia.module.member;
+//package com.minlia.module.realname;
 //
 //import com.baomidou.mybatisplus.annotation.DbType;
 //import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -29,12 +29,12 @@
 //    private final String dbUrl = "jdbc:mysql://127.0.0.1:3306/minlia?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai&useSSL=false&autoReconnect=true&autoReconnectForPools=true&allowMultiQueries=true";
 //    private final String driver = "com.mysql.cj.jdbc.Driver";
 //    private final String userName = "root";
-//    private final String password = "";
+//    private final String password = "Root.2020";
 //
 //    /**
 //     * 项目名
 //     */
-//    private final String projectName = "minlia-modules/minlia-member";
+//    private final String projectName = "minlia-modules/minlia-real-name";
 //
 //    /**
 //     * 模块名 如果有模块名，则需在模块名前加. 例：.log
@@ -44,7 +44,7 @@
 //    /**
 //     * 指定包名
 //     */
-//    private final String packageName = "com.minlia.minlia.member";
+//    private final String packageName = "com.minlia.module.realname";
 //
 //    /**
 //     * controller基础类
@@ -60,7 +60,7 @@
 //    private final String author = "garen";
 //
 //    //指定生成的表名
-//    private final String[] tableNames = new String[]{"sysenterprise_bank_account"};
+//    private final String[] tableNames = new String[]{"sys_real_name"};
 //
 //    @Test
 //    public void generateCode() {

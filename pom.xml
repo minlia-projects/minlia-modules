@@ -59,6 +59,11 @@
         <module>minlia-wallet</module>
         <module>minlia-pay</module>
 
+        <!--实名认证-->
+        <module>minlia-real-name</module>
+
+
+
         <!--<module>module-bank</module>-->
         <!--<module>module-bank-branch</module>-->
         <!--<module>module-bank-card</module>-->
