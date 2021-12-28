@@ -1,24 +1,20 @@
 package com.minlia.module.member.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.minlia.cloud.body.Response;
-import com.minlia.module.member.bean.SysMemberQro;
-import com.minlia.module.member.bean.vo.SysMemberInfoVo;
+import com.minlia.module.member.entity.SysMemberEntity;
 import com.minlia.module.rebecca.user.bean.UserRegisterRo;
 
 /**
  * <p>
- * 会员 服务类
+ * 会员信息 服务类
  * </p>
  *
  * @author garen
- * @since 2020-09-08
+ * @since 2021-12-28
  */
-public interface SysMemberService {
+public interface SysMemberService extends IService<SysMemberEntity> {
 
     Response register(UserRegisterRo registerRo);
 
-    SysMemberInfoVo me();
-
-    Page<SysMemberInfoVo> page(SysMemberQro qro);
 }

@@ -1,4 +1,4 @@
-//package com.minlia.module.realname;
+//package com.minlia.module.member;
 //
 //import com.baomidou.mybatisplus.annotation.DbType;
 //import com.baomidou.mybatisplus.generator.AutoGenerator;
@@ -34,7 +34,7 @@
 //    /**
 //     * 项目名
 //     */
-//    private final String projectName = "minlia-modules/minlia-real-name";
+//    private final String projectName = "minlia-modules/minlia-member/minlia-member-biz";
 //
 //    /**
 //     * 模块名 如果有模块名，则需在模块名前加. 例：.log
@@ -44,7 +44,7 @@
 //    /**
 //     * 指定包名
 //     */
-//    private final String packageName = "com.minlia.module.realname";
+//    private final String packageName = "com.minlia.module.member";
 //
 //    /**
 //     * controller基础类
@@ -60,7 +60,7 @@
 //    private final String author = "garen";
 //
 //    //指定生成的表名
-//    private final String[] tableNames = new String[]{"sys_real_name"};
+//    private final String[] tableNames = new String[]{"sys_member"};
 //
 //    @Test
 //    public void generateCode() {

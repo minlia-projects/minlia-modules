@@ -33,7 +33,7 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response register(UserRegisterRo registerRo) {
+    public Response<SysUserEntity> register(UserRegisterRo registerRo) {
         switch (registerRo.getType()) {
             case USERNAME:
                 ApiAssert.state(false, SysUserCode.Message.UNSUPPORTED_USERNAME_REGISTERED);
@@ -48,7 +48,7 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
         return Response.failure();
     }
 
-    private Response registerByCellphone(UserRegisterRo ro) {
+    private Response<SysUserEntity> registerByCellphone(UserRegisterRo ro) {
         Response response = captchaService.validity(ro.getAreaCode() + ro.getCellphone(), ro.getVcode());
         if (response.isSuccess()) {
             SysUserEntity entity = sysUserService.create(SysUserCro.builder()
@@ -66,7 +66,7 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
         }
     }
 
-    private Response registerByEmail(UserRegisterRo to) {
+    private Response<SysUserEntity> registerByEmail(UserRegisterRo to) {
         Response response = captchaService.validity(to.getEmail(), to.getVcode());
         if (response.isSuccess()) {
             SysUserEntity entity = sysUserService.create(SysUserCro.builder()

@@ -19,7 +19,9 @@ public class SysMemberCode {
         /**
          * 未开通个人认证
          */
-        PERSONAL_CERTIFICATION_NOT_OPENED;
+        PERSONAL_CERTIFICATION_NOT_OPENED,
+
+        REGISTRATION_SUCCESS, REGISTRATION_FAILURE;
 
         @Override
         public String module() {

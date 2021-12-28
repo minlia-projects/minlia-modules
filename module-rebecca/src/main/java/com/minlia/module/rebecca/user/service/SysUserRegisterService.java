@@ -18,7 +18,7 @@ public interface SysUserRegisterService {
      * @param to
      * @return
      */
-    Response register(UserRegisterRo to);
+    Response<SysUserEntity> register(UserRegisterRo to);
 
     /**
      * 用户可用性验证

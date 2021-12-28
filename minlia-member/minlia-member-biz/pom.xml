@@ -35,6 +35,12 @@
             <artifactId>module-rebecca</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>minlia-real-name</artifactId>
+            <version>${minlia.module.version}</version>
+        </dependency>
+
         <!--        <dependency>-->
         <!--            <groupId>com.minlia.cloud.modules</groupId>-->
         <!--            <artifactId>minlia-member-api</artifactId>-->
