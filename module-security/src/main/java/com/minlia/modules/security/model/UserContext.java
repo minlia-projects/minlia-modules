@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.cloud.body.Body;
 import com.minlia.cloud.constant.SymbolConstants;
 import com.minlia.module.common.annotation.SensitiveInfo;
-import com.minlia.module.common.enumeration.SensitiveTypeEnum;
+import com.minlia.module.common.enums.SensitiveTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

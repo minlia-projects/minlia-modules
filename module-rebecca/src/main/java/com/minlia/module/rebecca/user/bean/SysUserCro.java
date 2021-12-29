@@ -5,7 +5,7 @@ import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

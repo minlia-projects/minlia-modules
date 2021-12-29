@@ -1,4 +1,4 @@
-package com.minlia.module.i18n.enumeration;
+package com.minlia.module.i18n.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
@@ -18,9 +18,9 @@ public enum LocaleEnum {
 
     en_US(2, "en_US");
 
-    private Integer code;
+    private Integer value;
 
     @EnumValue
-    private String desc;
+    private String code;
 
 }

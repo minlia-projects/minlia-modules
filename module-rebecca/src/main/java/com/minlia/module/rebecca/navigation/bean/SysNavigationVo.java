@@ -1,10 +1,8 @@
 package com.minlia.module.rebecca.navigation.bean;
 
-import com.minlia.module.common.enumeration.TreeNodeTypeEnum;
-import io.swagger.annotations.ApiModelProperty;
+import com.minlia.module.common.enums.TreeNodeTypeEnum;
 import lombok.Data;
 
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 

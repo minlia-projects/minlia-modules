@@ -1,8 +1,8 @@
 package com.minlia.module.rebecca.menu.bean;
 
-import com.minlia.module.common.enumeration.TreeNodeTypeEnum;
+import com.minlia.module.common.enums.TreeNodeTypeEnum;
 import com.minlia.module.data.bean.QueryRequest;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

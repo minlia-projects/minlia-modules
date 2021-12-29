@@ -10,7 +10,7 @@ import com.minlia.module.email.holder.EmailSenderHolder;
 import com.minlia.module.email.service.EmailRecordService;
 import com.minlia.module.email.service.EmailService;
 import com.minlia.module.email.util.TextReplaceUtils;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import com.minlia.module.i18n.util.LocaleUtils;
 import com.minlia.module.richtext.constant.RichtextCode;
 import com.minlia.module.richtext.entity.RichtextEntity;

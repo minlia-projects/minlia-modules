@@ -1,7 +1,7 @@
 package com.minlia.module.richtext.bean;
 
 import com.minlia.module.data.entity.BaseQueryEntity;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import lombok.Data;
 
 import javax.validation.constraints.Size;

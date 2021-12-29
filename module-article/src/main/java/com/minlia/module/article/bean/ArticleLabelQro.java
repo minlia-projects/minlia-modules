@@ -1,18 +1,11 @@
 package com.minlia.module.article.bean;
 
-import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.data.entity.BaseQueryEntity;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
 
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 /**
  * @author garen

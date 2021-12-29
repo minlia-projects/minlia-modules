@@ -1,4 +1,4 @@
-package com.minlia.module.common.enumeration;
+package com.minlia.module.common.enums;
 
 /**
  * 敏感信息类型枚举

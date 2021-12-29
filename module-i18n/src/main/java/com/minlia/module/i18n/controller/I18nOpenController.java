@@ -2,7 +2,7 @@ package com.minlia.module.i18n.controller;
 
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import com.minlia.module.i18n.resource.MessageSource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

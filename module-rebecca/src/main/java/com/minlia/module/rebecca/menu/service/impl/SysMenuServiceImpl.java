@@ -3,7 +3,7 @@ package com.minlia.module.rebecca.menu.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.code.SystemCode;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.common.enumeration.TreeNodeTypeEnum;
+import com.minlia.module.common.enums.TreeNodeTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.rebecca.menu.bean.SysMenuSro;
 import com.minlia.module.rebecca.menu.entity.SysMenuEntity;

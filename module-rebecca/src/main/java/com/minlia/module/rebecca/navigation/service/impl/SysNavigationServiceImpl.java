@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.common.enumeration.TreeNodeTypeEnum;
+import com.minlia.module.common.enums.TreeNodeTypeEnum;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.rebecca.navigation.bean.SysNavigationSro;

@@ -8,7 +8,7 @@ import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.captcha.bean.CaptchaCro;
 import com.minlia.module.captcha.entity.CaptchaEntity;
-import com.minlia.module.captcha.enumeration.CaptchaTypeEnum;
+import com.minlia.module.captcha.enums.CaptchaTypeEnum;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.rebecca.user.constant.SysUserCode;

@@ -1,11 +1,10 @@
 package com.minlia.module.captcha.service;
 
 import com.minlia.cloud.body.Response;
-import com.minlia.cloud.code.Code;
 import com.minlia.module.captcha.bean.CaptchaCro;
 import com.minlia.module.captcha.entity.CaptchaEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 
 import java.util.Map;
 

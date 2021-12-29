@@ -1,7 +1,6 @@
 package com.minlia.module.captcha.bean;
 
-import com.minlia.module.captcha.enumeration.CaptchaTypeEnum;
-import com.minlia.module.common.validation.Cellphone;
+import com.minlia.module.captcha.enums.CaptchaTypeEnum;
 import lombok.Data;
 
 import javax.validation.constraints.Email;

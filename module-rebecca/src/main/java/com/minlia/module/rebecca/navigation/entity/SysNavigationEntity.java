@@ -1,7 +1,7 @@
 package com.minlia.module.rebecca.navigation.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.minlia.module.common.enumeration.TreeNodeTypeEnum;
+import com.minlia.module.common.enums.TreeNodeTypeEnum;
 import com.minlia.module.data.entity.AbstractEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

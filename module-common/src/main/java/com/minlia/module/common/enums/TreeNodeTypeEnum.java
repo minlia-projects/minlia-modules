@@ -1,4 +1,4 @@
-package com.minlia.module.common.enumeration;
+package com.minlia.module.common.enums;
 
 /**
  * 树节点类型

@@ -1,6 +1,6 @@
 package com.minlia.module.i18n.util;
 
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 /**

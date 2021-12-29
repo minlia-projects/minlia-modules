@@ -1,7 +1,7 @@
 package com.minlia.module.email.service;
 
 import com.minlia.module.email.entity.EmailRecordEntity;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Map;

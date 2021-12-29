@@ -4,7 +4,7 @@ import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
 import com.minlia.module.common.validation.Username;
 import com.minlia.module.data.entity.BaseQueryEntity;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import com.minlia.module.rebecca.user.enums.SysUserStatusEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

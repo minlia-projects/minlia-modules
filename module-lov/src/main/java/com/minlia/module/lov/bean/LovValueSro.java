@@ -1,11 +1,10 @@
 package com.minlia.module.lov.bean;
 
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.*;
-import java.time.LocalDateTime;
 
 /**
  * @author garen

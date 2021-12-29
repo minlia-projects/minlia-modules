@@ -1,7 +1,7 @@
 package com.minlia.module.common.util;
 
 
-import com.minlia.module.common.enumeration.GenderEnum;
+import com.minlia.module.common.enums.GenderEnum;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

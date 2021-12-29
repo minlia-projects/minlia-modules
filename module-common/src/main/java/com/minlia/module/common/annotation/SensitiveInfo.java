@@ -3,7 +3,7 @@ package com.minlia.module.common.annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.minlia.cloud.constant.SymbolConstants;
-import com.minlia.module.common.enumeration.SensitiveTypeEnum;
+import com.minlia.module.common.enums.SensitiveTypeEnum;
 import com.minlia.module.common.util.SensitiveInfoSerialize;
 
 import java.lang.annotation.ElementType;

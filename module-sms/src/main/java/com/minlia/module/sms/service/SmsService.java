@@ -1,6 +1,6 @@
 package com.minlia.module.sms.service;
 
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import com.minlia.module.sms.entity.SmsRecordEntity;
 import org.springframework.scheduling.annotation.Async;
 

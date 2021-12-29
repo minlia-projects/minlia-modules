@@ -1,7 +1,6 @@
 package com.minlia.module.rebecca.navigation.bean;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.minlia.module.common.enumeration.TreeNodeTypeEnum;
+import com.minlia.module.common.enums.TreeNodeTypeEnum;
 import com.minlia.module.data.entity.BaseQueryEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

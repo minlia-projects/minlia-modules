@@ -12,7 +12,7 @@ import com.minlia.module.captcha.bean.CaptchaSendResult;
 import com.minlia.module.captcha.bean.CaptchaVerifyRo;
 import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.CaptchaEntity;
-import com.minlia.module.captcha.enumeration.CaptchaTypeEnum;
+import com.minlia.module.captcha.enums.CaptchaTypeEnum;
 import com.minlia.module.captcha.service.CaptchaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

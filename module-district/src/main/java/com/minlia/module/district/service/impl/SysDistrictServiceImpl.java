@@ -9,7 +9,7 @@ import com.minlia.module.district.enumeration.DistrictLevel;
 import com.minlia.module.district.mapper.SysDistrictMapper;
 import com.minlia.module.district.service.SysDistrictService;
 import com.minlia.module.district.util.XmlUtil;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 

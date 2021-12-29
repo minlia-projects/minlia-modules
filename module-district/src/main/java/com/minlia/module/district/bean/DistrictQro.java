@@ -2,7 +2,7 @@ package com.minlia.module.district.bean;
 
 import com.minlia.module.data.bean.QueryRequest;
 import com.minlia.module.district.enumeration.DistrictLevel;
-import com.minlia.module.i18n.enumeration.LocaleEnum;
+import com.minlia.module.i18n.enums.LocaleEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

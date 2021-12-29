@@ -1,4 +1,4 @@
-package com.minlia.module.captcha.enumeration;
+package com.minlia.module.captcha.enums;
 
 /**
  * @author garen
