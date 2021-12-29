@@ -42,7 +42,7 @@ public class SysMemberServiceImpl extends ServiceImpl<SysMemberMapper, SysMember
     public Response register(UserRegisterRo registerRo) {
         registerRo.setRoleCode(SysMemberConstants.DEFAULT_ROLE);
         Response<SysUserEntity> response = sysUserRegisterService.register(registerRo);
-        ApiAssert.state(response.isSuccess(), SysMemberCode.Message.REGISTRATION_FAILURE);
+        ApiAssert.state(response.isSuccess(), response.getCode(), response.getMessage());
         this.save(SysMemberEntity.builder().uid(response.getPayload().getId()).build());
         return response;
     }

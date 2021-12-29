@@ -2,6 +2,7 @@ package com.minlia.module.rebecca.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
 import io.swagger.annotations.ApiModel;
@@ -53,6 +54,7 @@ public class SysUserHistoryEntity extends AbstractEntity {
 
     @ApiModelProperty(value = "密码")
     @TableField("password")
+    @JsonIgnore
     private String password;
 
     @ApiModelProperty(value = "头像")

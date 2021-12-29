@@ -1,18 +1,17 @@
 package com.minlia.module.rebecca.user.entity;
 
-import com.minlia.module.data.entity.AbstractEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
-
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.i18n.enumeration.LocaleEnum;
 import com.minlia.module.rebecca.user.enums.SysUserStatusEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -52,6 +51,7 @@ public class SysUserEntity extends AbstractEntity {
 
     @ApiModelProperty(value = "密码")
     @TableField("password")
+    @JsonIgnore
     private String password;
 
     @ApiModelProperty(value = "邀请码")
