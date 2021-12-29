@@ -2,9 +2,12 @@ package com.minlia.module.pay.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.bean.DefaultCurType;
+import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
+import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.currency.service.SysCurrencyRateService;
 import com.minlia.module.dozer.util.DozerUtils;
@@ -55,49 +58,58 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         orderEntity.setStatus(SysPayStatusEnum.UNPAID);
         this.save(orderEntity);
 
-        Object result = "";
-        MerchantPayOrder payOrder = getPayOrder(cro);
-
-        switch (cro.getPayMethod()) {
-            case PAGE:
-                payOrder.setCurType(DefaultCurType.CNY);
-                result = payServiceManager.toPay(payOrder);
-                break;
-            case QR:
-                payOrder.setCurType(DefaultCurType.CNY);
-                result = payServiceManager.getQrPay(payOrder);
-                break;
-            case APP:
-                payOrder.setCurType(DefaultCurType.USD);
-                result = payServiceManager.app(payOrder);
-                break;
-            //case WAP:
-            //    payOrder.setCurType(DefaultCurType.USD);
-            //    result = payServiceManager.toPay(payOrder);
-            //    break;
-            //case MINAPP:
-            //    payOrder.setCurType(DefaultCurType.USD);
-            //    result = payServiceManager.toPay(payOrder);
-            //    break;
-            default:
-        }
+        //BigDecimal actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
+        BigDecimal actualAmount = cro.getAmount();
+        String method = getMethod(cro.getChannel(), cro.getPayMethod());
+        MerchantPayOrder payOrder = new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), method, cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
+        payOrder.setCurType(DefaultCurType.CNY);
+        Object result = payServiceManager.toPay(payOrder);
         return SysPayOrderDto.builder().orderNo(cro.getOrderNo()).channel(cro.getChannel()).payload(result).build();
     }
 
-    private MerchantPayOrder getPayOrder(SysPayOrderCro cro) {
-        BigDecimal actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
-        //new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), cro.getPayMethod(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
+    private String getMethod(SysPayChannelEnum channelEnum, SysPayMethodEnum methodEnum) {
+        String method = null;
+        if (channelEnum.equals(SysPayChannelEnum.ALIPAY)) {
+            switch (methodEnum) {
+                case PAGE:
+                    method = AliTransactionType.PAGE.getType();
+                    break;
+                case QR:
+                    method = AliTransactionType.BAR_CODE.getType();
+                    break;
+                case APP:
+                    method = AliTransactionType.APP.getType();
+                    break;
+                case WAP:
+                    method = AliTransactionType.WAP.getType();
+                    break;
+                case MINAPP:
+                    method = AliTransactionType.MINAPP.getType();
+                    break;
+            }
 
-        return null;
-    }
-
-    private String aliPay(SysPayChannelEnum channelEnum, SysPayMethodEnum methodEnum) {
-        //switch (payOrder.getTransactionType()) {
-        //    case PAGE
-        //        result = payServiceManager.toPay(payOrder);
-        //}
-
-        return null;
+        } else if (channelEnum.equals(SysPayChannelEnum.WECHAT)) {
+            switch (methodEnum) {
+                case PAGE:
+                    method = WxTransactionType.JSAPI.getType();
+                    break;
+                case QR:
+                    method = WxTransactionType.NATIVE.getType();
+                    break;
+                case APP:
+                    method = WxTransactionType.APP.getType();
+                    break;
+                case WAP:
+                    method = WxTransactionType.H5.getType();
+                    break;
+                case MINAPP:
+                    method = WxTransactionType.JSAPI.getType();
+                    break;
+            }
+        } else if (channelEnum.equals(SysPayChannelEnum.ALIPAY)) {
+            method = PayPalTransactionType.sale.getType();
+        }
+        return method;
     }
 
     //@Override

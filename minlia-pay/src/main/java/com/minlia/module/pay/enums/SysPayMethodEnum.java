@@ -24,17 +24,17 @@ public enum SysPayMethodEnum {
     /**
      * APP
      */
-    APP(2, "APP");
-    //
-    ///**
-    // * WAP
-    // */
-    //WAP(3, "WAP"),
-    //
-    ///**
-    // * 小程序
-    // */
-    //MINAPP(4, "MINAPP");
+    APP(2, "APP"),
+
+    /**
+     * WAP
+     */
+    WAP(3, "WAP"),
+
+    /**
+     * 小程序
+     */
+    MINAPP(4, "MINAPP");
 
     private Integer value;
 
