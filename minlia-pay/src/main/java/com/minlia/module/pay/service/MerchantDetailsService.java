@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.minlia.module.pay.entity.MerchantDetailsEntity;
 import com.minlia.module.pay.enums.SysPayChannelEnum;
+import com.minlia.module.pay.enums.SysPayMethodEnum;
 
 /**
  * <p>
@@ -15,6 +16,6 @@ import com.minlia.module.pay.enums.SysPayChannelEnum;
  */
 public interface MerchantDetailsService extends IService<MerchantDetailsEntity> {
 
-    MerchantDetailsEntity getByTypeAndMethod(SysPayChannelEnum type, String method);
+    MerchantDetailsEntity getByTypeAndMethod(SysPayChannelEnum type, SysPayMethodEnum method);
 
 }

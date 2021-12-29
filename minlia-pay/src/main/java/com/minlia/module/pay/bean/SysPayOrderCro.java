@@ -1,7 +1,7 @@
 package com.minlia.module.pay.bean;
 
-import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.minlia.module.pay.enums.SysPayChannelEnum;
+import com.minlia.module.pay.enums.SysPayMethodEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -42,7 +42,7 @@ public class SysPayOrderCro {
 
     @ApiModelProperty(value = "支付方式")
     @NotNull
-    private AliTransactionType payMethod;
+    private SysPayMethodEnum payMethod;
 
     @ApiModelProperty(value = "币种")
     private String currency;

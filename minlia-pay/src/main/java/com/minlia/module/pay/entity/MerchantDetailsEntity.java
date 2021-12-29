@@ -3,8 +3,8 @@ package com.minlia.module.pay.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.minlia.module.pay.enums.SysPayChannelEnum;
+import com.minlia.module.pay.enums.SysPayMethodEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class MerchantDetailsEntity {
 
     @ApiModelProperty(value = "支付方式")
     @TableField("pay_method")
-    private AliTransactionType payMethod;
+    private SysPayMethodEnum payMethod;
 
     @ApiModelProperty(value = "应用id")
     @TableField("appid")
