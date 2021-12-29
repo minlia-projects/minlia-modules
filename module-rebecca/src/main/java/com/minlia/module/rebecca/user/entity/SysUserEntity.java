@@ -37,6 +37,10 @@ public class SysUserEntity extends AbstractEntity {
     @TableField("username")
     private String username;
 
+    @ApiModelProperty(value = "区号")
+    @TableField("area_code")
+    private Integer areaCode;
+
     @ApiModelProperty(value = "手机号码")
     @TableField("cellphone")
     private String cellphone;

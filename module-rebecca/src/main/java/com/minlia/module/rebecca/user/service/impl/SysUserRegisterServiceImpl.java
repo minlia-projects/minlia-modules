@@ -52,7 +52,8 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
         Response response = captchaService.validity(ro.getAreaCode() + ro.getCellphone(), ro.getVcode());
         if (response.isSuccess()) {
             SysUserEntity entity = sysUserService.create(SysUserCro.builder()
-                    .cellphone(ro.getAreaCode() + ro.getCellphone())
+                    .areaCode(ro.getAreaCode())
+                    .cellphone(ro.getCellphone())
                     .password(ro.getPassword())
                     .defaultRole(ro.getRoleCode())
                     .roles(Sets.newHashSet())

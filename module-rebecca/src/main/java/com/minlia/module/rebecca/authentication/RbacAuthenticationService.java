@@ -88,8 +88,9 @@ public class RbacAuthenticationService implements AuthenticationService {
                 userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, loginCredentials.getName()));
                 break;
             case CELLPHONE:
+                ApiAssert.notNull(loginCredentials.getAreaCode(), SysUserCode.Message.AREA_CODE_NOT_NULL);
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.CELLPHONE_NOT_NULL);
-                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, loginCredentials.getName()));
+                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, loginCredentials.getName()).eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
                 break;
             case EMAIL:
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.EMAIL_NOT_NULL);

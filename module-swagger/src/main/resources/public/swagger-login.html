@@ -95,6 +95,10 @@
         <option value="CELLPHONE">手机号码</option>
         <option value="EMAIL">邮箱</option>
     </select> <br/>
+    <select id="areaCode" name="areaCode" hidden="hidden" class="btn" placeholder="区域">
+        <option value="86">+86</option>
+        <option value="852">+852</option>
+    </select> <br/>
     <input type="text" id="username" name="username" class="btn" placeholder="用户名/手机号码/邮箱"/> <br/>
     <input type="text" id="password" name="password" class="btn" placeholder="密码"/> <br/>
     <input type="button" id="login" class="btn" value="登录"/> <br/>
@@ -142,6 +146,14 @@
 
         $('#login').on('click', function () {
             login();
+        });
+
+        $('#type').on('change', function () {
+            if($(this).val() == "CELLPHONE"){
+                $('#areaCode').show();
+            }else{
+                $('#areaCode').show();
+            }
         });
 
         //复制

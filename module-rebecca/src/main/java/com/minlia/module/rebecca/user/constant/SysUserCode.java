@@ -86,6 +86,11 @@ public class SysUserCode {
         CELLPHONE_NOT_NULL,
 
         /**
+         * 区号不能为空
+         */
+        AREA_CODE_NOT_NULL,
+
+        /**
          * 邮箱不能为空
          */
         EMAIL_NOT_NULL,

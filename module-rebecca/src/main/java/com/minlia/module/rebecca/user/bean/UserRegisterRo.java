@@ -1,7 +1,6 @@
 package com.minlia.module.rebecca.user.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.minlia.aliyun.green.annotation.Antispam;
 import com.minlia.cloud.body.ApiRequestBody;
 import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.Password;
@@ -40,7 +39,7 @@ public class UserRegisterRo implements ApiRequestBody {
     private String username;
 
     /**
-     * 手机区号
+     * 区号
      */
     private Integer areaCode;
 

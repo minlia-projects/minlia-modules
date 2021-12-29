@@ -93,7 +93,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
             ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername, cro.getUsername())) == 0, SysUserCode.Message.USERNAME_ALREADY_EXISTS);
             entity.setUsername(cro.getUsername());
         } else if (StringUtils.isNotBlank(cro.getCellphone())) {
-            ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, cro.getCellphone())) == 0, SysUserCode.Message.CELLPHONE_ALREADY_EXISTS);
+            ApiAssert.state(this.count(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, cro.getCellphone()).eq(SysUserEntity::getAreaCode, cro.getAreaCode())) == 0, SysUserCode.Message.CELLPHONE_ALREADY_EXISTS);
+            entity.setAreaCode(cro.getAreaCode());
             entity.setCellphone(cro.getCellphone());
             entity.setUsername("mid_" + RandomStringUtils.randomAlphanumeric(16));
         } else if (StringUtils.isNotBlank(cro.getEmail())) {
