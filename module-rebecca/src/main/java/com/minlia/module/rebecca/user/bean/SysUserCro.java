@@ -63,7 +63,7 @@ public class SysUserCro implements ApiRequestBody {
      * 昵称
      */
     @Size(min = 1, max = 11)
-    @Antispam
+    //@Antispam
     private String nickname;
 
     /**

@@ -67,7 +67,7 @@ public class UserRegisterRo implements ApiRequestBody {
 
     @ApiModelProperty("昵称")
     @Size(min = 1, max = 11)
-    @Antispam
+    //@Antispam
     private String nickname;
 
     @JsonIgnore

@@ -24,7 +24,7 @@ public class ArticleCommentCro implements ApiRequestBody {
     @ApiModelProperty(value = "内容", example = "XXXXXX")
     @NotBlank(message = "内容不能为空")
     @Size(max = 200)
-    @Antispam
+    //@Antispam
     private String content;
 
 }

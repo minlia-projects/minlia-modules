@@ -19,7 +19,7 @@ public class SysUserChangeRo implements ApiRequestBody {
     private String avatar;
 
     @ApiModelProperty(value = "昵称")
-    @Antispam
+    //@Antispam
     private String nickname;
 
 }
