@@ -130,7 +130,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         } else if (StringUtils.isNotBlank(vcode)) {
             Response response;
             if (LoginTypeEnum.CELLPHONE.equals(loginCredentials.getType())) {
-                response = captchaService.validity(userEntity.getCellphone(), vcode);
+                response = captchaService.validity(userEntity.getAreaCode() + userEntity.getCellphone(), vcode);
             } else {
                 response = captchaService.validity(userEntity.getEmail(), vcode);
             }
