@@ -87,7 +87,6 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
                     method = AliTransactionType.MINAPP.getType();
                     break;
             }
-
         } else if (channelEnum.equals(SysPayChannelEnum.WECHAT)) {
             switch (methodEnum) {
                 case PAGE:
