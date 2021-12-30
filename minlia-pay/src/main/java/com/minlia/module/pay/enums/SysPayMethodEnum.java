@@ -36,9 +36,9 @@ public enum SysPayMethodEnum {
      */
     MINAPP(4, "MINAPP");
 
-    private Integer value;
+    private final Integer value;
 
     @EnumValue
-    private String code;
+    private final String code;
 
 }

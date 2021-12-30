@@ -1,5 +1,6 @@
 package com.minlia.module.pay.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,18 +14,21 @@ public enum SysPayChannelEnum {
     /**
      * 微信
      */
-    WECHAT("wxPay"),
+    WECHAT(0, "wxPay"),
 
     /**
      * 支付宝
      */
-    ALIPAY("aliPay"),
+    ALIPAY(1, "aliPay"),
 
     /**
      * PAYPAL
      */
-    PAYPAL("paypalPay");
+    PAYPAL(2, "paypalPay");
 
-    private String name;
+    private final Integer value;
+
+    @EnumValue
+    private final String code;
 
 }

@@ -13,7 +13,6 @@ import com.egzosn.pay.spring.boot.core.provider.merchant.platform.AliPaymentPlat
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaymentPlatforms;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaypalPaymentPlatform;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.WxPaymentPlatform;
-import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.pay.entity.MerchantDetailsEntity;
 import com.minlia.module.pay.handler.AliPayMessageHandler;
 import com.minlia.module.pay.handler.PayPalPayMessageHandler;
@@ -42,6 +41,12 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private AutowireCapableBeanFactory spring;
+    @Autowired
+    private WxPayMessageHandler wxPayMessageHandler;
+    @Autowired
+    private AliPayMessageHandler aliPayMessageHandler;
+    @Autowired
+    private PayPalPayMessageHandler payPalPayMessageHandler;
 
     /**
      * 商户配置
@@ -117,9 +122,10 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      */
     @Override
     public void configure(PayMessageConfigurer configurer) {
-        WxPayMessageHandler wxPayMessageHandler = ContextHolder.getContext().getBean(WxPayMessageHandler.class);
-        AliPayMessageHandler aliPayMessageHandler = ContextHolder.getContext().getBean(AliPayMessageHandler.class);
-        PayPalPayMessageHandler payPalPayMessageHandler = ContextHolder.getContext().getBean(PayPalPayMessageHandler.class);
+        //WxPayMessageHandler wxPayMessageHandler = ContextHolder.getContext().getBean(WxPayMessageHandler.class);
+        //AliPayMessageHandler aliPayMessageHandler = ContextHolder.getContext().getBean(AliPayMessageHandler.class);
+        //PayPalPayMessageHandler payPalPayMessageHandler = ContextHolder.getContext().getBean(PayPalPayMessageHandler.class);
+
 
         PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.platformName);
         configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
