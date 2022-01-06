@@ -11,11 +11,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SysPayStatusEnum {
 
-    UNPAID(0, "APP"),
+    UNPAID(0, "UNPAID"),
 
-    PAID(1, "APP"),
+    PAID(1, "PAID"),
 
-    CANCELED(2, "APP");
+    CANCELED(2, "CANCELED");
 
     private final Integer value;
 

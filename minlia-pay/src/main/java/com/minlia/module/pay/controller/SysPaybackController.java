@@ -47,7 +47,7 @@ public class SysPaybackController {
      */
     @PostMapping(value = "{detailsId}")
     public String aliPayBack(HttpServletRequest request, @PathVariable String detailsId) {
-        log.info("支付宝支付回调开始=============================={}", detailsId);
+        log.info("支付回调开始=============================={}", detailsId);
         return payServiceManager.payBack(detailsId, new HttpRequestNoticeParams(request));
     }
 
