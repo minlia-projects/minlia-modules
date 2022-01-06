@@ -26,7 +26,7 @@ import java.io.IOException;
 @Slf4j
 @Api(tags = "System Pay Back", description = "支付-回调")
 @Controller
-@RequestMapping(value = ApiPrefix.API + "/pay/back")
+@RequestMapping(value = ApiPrefix.API + "/payback")
 @RequiredArgsConstructor
 public class SysPaybackController {
 

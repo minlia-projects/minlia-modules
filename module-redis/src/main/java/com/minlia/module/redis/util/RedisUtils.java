@@ -447,7 +447,41 @@ public class RedisUtils {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public static long sSetAndTime(String key, long time, Object... values) {
+    public static long sSet(String key, long time, Object... values) {
+        try {
+            Long count = getRedisTemplate().opsForSet().add(key, values);
+            if (time > 0) expire(key, time);
+            return count;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * 将数据放入set缓存
+     *
+     * @param key    键
+     * @param values 值 可以是多个
+     * @return 成功个数
+     */
+    public static long sSet(String key, Set values) {
+        try {
+            return getRedisTemplate().opsForSet().add(key, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * 将数据放入set缓存
+     *
+     * @param key    键
+     * @param values 值 可以是多个
+     * @return 成功个数
+     */
+    public static long sSet(String key, Set values, long time) {
         try {
             Long count = getRedisTemplate().opsForSet().add(key, values);
             if (time > 0) expire(key, time);
@@ -658,13 +692,13 @@ public class RedisUtils {
     /**
      * 将list放入缓存
      *
-     * @param key   键
-     * @param value 值
+     * @param key    键
+     * @param values 值
      * @return
      */
-    public static boolean lSet(String key, Object value) {
+    public static boolean lSet(String key, Object... values) {
         try {
-            getRedisTemplate().opsForList().rightPush(key, value);
+            getRedisTemplate().opsForList().rightPush(key, values);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -675,15 +709,17 @@ public class RedisUtils {
     /**
      * 将list放入缓存
      *
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒)
+     * @param key    键
+     * @param time   时间(秒)
+     * @param values 值
      * @return
      */
-    public static boolean lSet(String key, Object value, long time) {
+    public static boolean lSet(String key, long time, Object... values) {
         try {
-            getRedisTemplate().opsForList().rightPush(key, value);
-            if (time > 0) expire(key, time);
+            getRedisTemplate().opsForList().rightPushAll(key, values);
+            if (time > 0) {
+                expire(key, time);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -719,7 +755,9 @@ public class RedisUtils {
     public static boolean lSet(String key, List<Object> value, long time) {
         try {
             getRedisTemplate().opsForList().rightPushAll(key, value);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return true;
         } catch (Exception e) {
             e.printStackTrace();
