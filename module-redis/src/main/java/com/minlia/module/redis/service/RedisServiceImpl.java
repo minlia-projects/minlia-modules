@@ -8,7 +8,6 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -21,12 +20,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
-public class RedisServiceImpl implements RedisService {
+public class RedisServiceImpl<K, V> implements RedisService<K, V> {
 
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final ZSetOperations<String, Object> zSetOperations;
+    private final RedisTemplate<K, V> redisTemplate;
+    private final ZSetOperations<K, V> zSetOperations;
 
-    public RedisServiceImpl(RedisTemplate<String, Object> redisTemplate, ZSetOperations<String, Object> zSetOperations) {
+    public RedisServiceImpl(RedisTemplate<K, V> redisTemplate, ZSetOperations<K, V> zSetOperations) {
         this.redisTemplate = redisTemplate;
         this.zSetOperations = zSetOperations;
     }
@@ -55,7 +54,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public boolean expire(String key, long time) {
+    public boolean expire(K key, long time) {
         try {
             if (time > 0) {
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);
@@ -74,7 +73,7 @@ public class RedisServiceImpl implements RedisService {
      * @return 时间(秒) 返回0代表为永久有效
      */
     @Override
-    public long getExpire(String key) {
+    public long getExpire(K key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
@@ -85,7 +84,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true 存在 false不存在
      */
     @Override
-    public boolean hasKey(String key) {
+    public boolean hasKey(K key) {
         try {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
@@ -100,7 +99,7 @@ public class RedisServiceImpl implements RedisService {
      * @param key 可以传一个值 或多个
      */
     @Override
-    public void del(String... key) {
+    public void del(K... key) {
         if (key != null && key.length > 0) {
             if (key.length == 1) {
                 redisTemplate.delete(key[0]);
@@ -119,7 +118,7 @@ public class RedisServiceImpl implements RedisService {
      * @return 值
      */
     @Override
-    public Object get(String key) {
+    public Object get(K key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
@@ -131,7 +130,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true成功 false失败
      */
     @Override
-    public boolean set(String key, Object value) {
+    public boolean set(K key, V value) {
         try {
             redisTemplate.opsForValue().set(key, value);
             return true;
@@ -151,7 +150,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true成功 false 失败
      */
     @Override
-    public boolean set(String key, Object value, long time) {
+    public boolean set(K key, V value, long time) {
         try {
             if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
@@ -173,7 +172,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public long incr(String key, long delta) {
+    public long incr(K key, long delta) {
         if (delta < 0) {
             throw new RuntimeException("递增因子必须大于0");
         }
@@ -188,7 +187,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public long decr(String key, long delta) {
+    public long decr(K key, long delta) {
         if (delta < 0) {
             throw new RuntimeException("递减因子必须大于0");
         }
@@ -205,7 +204,7 @@ public class RedisServiceImpl implements RedisService {
      * @return 值
      */
     @Override
-    public Object hget(String key, String item) {
+    public Object hget(K key, String item) {
         return redisTemplate.opsForHash().get(key, item);
     }
 
@@ -216,7 +215,7 @@ public class RedisServiceImpl implements RedisService {
      * @return 对应的多个键值
      */
     @Override
-    public Map<Object, Object> hmget(String key) {
+    public Map<Object, Object> hmget(K key) {
         return redisTemplate.opsForHash().entries(key);
     }
 
@@ -228,7 +227,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true 成功 false 失败
      */
     @Override
-    public boolean hmset(String key, Map<String, Object> map) {
+    public boolean hmset(K key, Map<String, Object> map) {
         try {
             redisTemplate.opsForHash().putAll(key, map);
             return true;
@@ -247,7 +246,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true成功 false失败
      */
     @Override
-    public boolean hmset(String key, Map<Object, Object> map, long time) {
+    public boolean hmset(K key, Map<Object, Object> map, long time) {
         try {
             redisTemplate.opsForHash().putAll(key, map);
             if (time > 0) {
@@ -269,7 +268,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true 成功 false失败
      */
     @Override
-    public boolean hset(String key, String item, Object value) {
+    public boolean hset(K key, String item, V value) {
         try {
             redisTemplate.opsForHash().put(key, item, value);
             return true;
@@ -289,7 +288,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true 成功 false失败
      */
     @Override
-    public boolean hset(String key, String item, Object value, long time) {
+    public boolean hset(K key, String item, V value, long time) {
         try {
             redisTemplate.opsForHash().put(key, item, value);
             if (time > 0) {
@@ -309,7 +308,7 @@ public class RedisServiceImpl implements RedisService {
      * @param item 项 可以使多个 不能为null
      */
     @Override
-    public void hdel(String key, Object... item) {
+    public void hdel(K key, Object... item) {
         redisTemplate.opsForHash().delete(key, item);
     }
 
@@ -321,7 +320,7 @@ public class RedisServiceImpl implements RedisService {
      * @return true 存在 false不存在
      */
     @Override
-    public boolean hHasKey(String key, String item) {
+    public boolean hHasKey(K key, String item) {
         return redisTemplate.opsForHash().hasKey(key, item);
     }
 
@@ -334,7 +333,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public double hincr(String key, String item, double by) {
+    public double hincr(K key, String item, double by) {
         return redisTemplate.opsForHash().increment(key, item, by);
     }
 
@@ -347,20 +346,14 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public double hdecr(String key, String item, double by) {
+    public double hdecr(K key, String item, double by) {
         return redisTemplate.opsForHash().increment(key, item, -by);
     }
 
     //============================set=============================
 
-    /**
-     * 根据key获取Set中的所有值
-     *
-     * @param key 键
-     * @return
-     */
     @Override
-    public Set<Object> sGet(String key) {
+    public Set<V> sGet(K key) {
         try {
             return redisTemplate.opsForSet().members(key);
         } catch (Exception e) {
@@ -369,15 +362,8 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
-    /**
-     * 根据value从一个set中查询,是否存在
-     *
-     * @param key   键
-     * @param value 值
-     * @return true 存在 false不存在
-     */
     @Override
-    public boolean sHasKey(String key, Object value) {
+    public boolean sHasKey(K key, V value) {
         try {
             return redisTemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
@@ -386,15 +372,8 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
-    /**
-     * 将数据放入set缓存
-     *
-     * @param key    键
-     * @param values 值 可以是多个
-     * @return 成功个数
-     */
     @Override
-    public long sSet(String key, Object... values) {
+    public long sSet(K key, V... values) {
         try {
             return redisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {
@@ -403,19 +382,13 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
-    /**
-     * 将set数据放入缓存
-     *
-     * @param key    键
-     * @param time   时间(秒)
-     * @param values 值 可以是多个
-     * @return 成功个数
-     */
     @Override
-    public long sSetAndTime(String key, long time, Object... values) {
+    public long sSetAndTime(K key, long time, V... values) {
         try {
             Long count = redisTemplate.opsForSet().add(key, values);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return count;
         } catch (Exception e) {
             e.printStackTrace();
@@ -430,7 +403,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public long sGetSetSize(String key) {
+    public long sGetSetSize(K key) {
         try {
             return redisTemplate.opsForSet().size(key);
         } catch (Exception e) {
@@ -447,7 +420,7 @@ public class RedisServiceImpl implements RedisService {
      * @return 移除的个数
      */
     @Override
-    public long setRemove(String key, Object... values) {
+    public long setRemove(K key, V... values) {
         try {
             Long count = redisTemplate.opsForSet().remove(key, values);
             return count;
@@ -466,7 +439,7 @@ public class RedisServiceImpl implements RedisService {
      * @param value
      */
     @Override
-    public boolean zset(String key, Object value) {
+    public boolean zset(K key, V value) {
         long now = System.currentTimeMillis();
         return zSetOperations.add(key, value, now);
     }
@@ -478,7 +451,7 @@ public class RedisServiceImpl implements RedisService {
      * @param value
      */
     @Override
-    public boolean zset(String key, Object value, long scope) {
+    public boolean zset(K key, V value, long scope) {
         return zSetOperations.add(key, value, scope);
     }
 
@@ -489,7 +462,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<Object> zgetAll(String key, long expireSec) {
+    public Set<V> zgetAll(K key, long expireSec) {
         long now = System.currentTimeMillis();
         long tts = now - expireSec;
 
@@ -506,7 +479,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public long zCount(String key, long expire) {
+    public long zCount(K key, long expire) {
         long now = System.currentTimeMillis();
         long tts = now - expire;
 
@@ -516,7 +489,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public long zRemove(String key, Object object) {
+    public long zRemove(K key, V object) {
         return zSetOperations.remove(key, object);
     }
 
@@ -529,7 +502,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public long zRemoveRange(String key, long start, long end) {
+    public long zRemoveRange(K key, long start, long end) {
         return zSetOperations.removeRange(key, start, end);
     }
 
@@ -542,7 +515,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public long zremoveRangeByScore(String key, long start, long end) {
+    public long zremoveRangeByScore(K key, long start, long end) {
         return zSetOperations.removeRangeByScore(key, start, end);
     }
 
@@ -558,7 +531,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public List<Object> lGet(String key, long start, long end) {
+    public List<V> lGet(K key, long start, long end) {
         try {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
@@ -574,7 +547,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public long lGetListSize(String key) {
+    public long lGetListSize(K key) {
         try {
             return redisTemplate.opsForList().size(key);
         } catch (Exception e) {
@@ -591,7 +564,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Object lGetIndex(String key, long index) {
+    public V lGetIndex(K key, long index) {
         try {
             return redisTemplate.opsForList().index(key, index);
         } catch (Exception e) {
@@ -608,7 +581,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public boolean lSet(String key, Object value) {
+    public boolean lSet(K key, V value) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
             return true;
@@ -627,7 +600,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public boolean lSet(String key, Object value, long time) {
+    public boolean lSet(K key, V value, long time) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
             if (time > 0) {
@@ -648,7 +621,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public boolean lSet(String key, List<Object> value) {
+    public boolean lSet(K key, List<V> value) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
             return true;
@@ -667,7 +640,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public boolean lSet(String key, List<Object> value, long time) {
+    public boolean lSet(K key, List<V> value, long time) {
         try {
             redisTemplate.opsForList().rightPushAll(key, value);
             if (time > 0) {
@@ -689,7 +662,7 @@ public class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public boolean lUpdateIndex(String key, long index, Object value) {
+    public boolean lUpdateIndex(K key, long index, V value) {
         try {
             redisTemplate.opsForList().set(key, index, value);
             return true;
@@ -708,7 +681,7 @@ public class RedisServiceImpl implements RedisService {
      * @return 移除的个数
      */
     @Override
-    public long lRemove(String key, long count, Object value) {
+    public long lRemove(K key, long count, V value) {
         try {
             Long remove = redisTemplate.opsForList().remove(key, count, value);
             return remove;
@@ -761,7 +734,7 @@ public class RedisServiceImpl implements RedisService {
 //     * @param value
 //     * @param liveTime
 //     */
-//    public void set(String key, String value, long liveTime) {
+//    public void set(K key, String value, long liveTime) {
 //        this.set(key.getBytes(), value.getBytes(), liveTime);
 //    }
 //
@@ -769,7 +742,7 @@ public class RedisServiceImpl implements RedisService {
 //     * @param key
 //     * @param value
 //     */
-//    public void set(String key, String value) {
+//    public void set(K key, String value) {
 //        this.set(key, value, 0);
 //    }
 //
@@ -785,7 +758,7 @@ public class RedisServiceImpl implements RedisService {
 //     * @param key
 //     * @return
 //     */
-//    public String get(final String key) {
+//    public String get(final K key) {
 //        return redisTemplate.execute(new RedisCallback() {
 //            public String doInRedis(RedisConnection connection) throws DataAccessException {
 //                try {
@@ -811,7 +784,7 @@ public class RedisServiceImpl implements RedisService {
 //     * @param key
 //     * @return
 //     */
-//    public boolean exists(final String key) {
+//    public boolean exists(final K key) {
 //        return redisTemplate.execute(new RedisCallback() {
 //            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
 //                return connection.exists(key.getBytes());
