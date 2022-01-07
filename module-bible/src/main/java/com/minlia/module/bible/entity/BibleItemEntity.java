@@ -43,8 +43,8 @@ public class BibleItemEntity extends AbstractEntity {
     private String notes;
 
     @ApiModelProperty(value = "排序")
-    @TableField("sorts")
-    private Integer sorts;
+    @TableField("`sort`")
+    private Integer sort;
 
     @ApiModelProperty(value = "扩展字段1")
     @TableField("attribute1")
