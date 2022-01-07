@@ -53,14 +53,18 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SysPayOrderDto create(SysPayOrderCro cro) {
-        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(cro.getChannel(), cro.getPayMethod());
-        ApiAssert.notNull(merchantDetailsEntity, "MERCHANT_NOT_EXISTS", "商户不存在");
-
+        Object result = getPayInfo(cro);
         SysPayOrderEntity orderEntity = DozerUtils.map(cro, SysPayOrderEntity.class);
         orderEntity.setStatus(SysPayStatusEnum.UNPAID);
         this.save(orderEntity);
+        return SysPayOrderDto.builder().orderNo(cro.getOrderNo()).channel(cro.getChannel()).payload(result).build();
+    }
 
-        //BigDecimal actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
+    @Override
+    public Object getPayInfo(SysPayOrderCro cro) {
+        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(cro.getChannel(), cro.getPayMethod());
+        ApiAssert.notNull(merchantDetailsEntity, "MERCHANT_NOT_EXISTS", "商户不存在");
+
         BigDecimal actualAmount = cro.getAmount();
         String method = getMethod(cro.getChannel(), cro.getPayMethod());
         MerchantPayOrder payOrder = new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), method, cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
@@ -69,7 +73,12 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
             payOrder.setExpirationTime(LocalDateUtils.localDateTimeToDate(cro.getExpireTime()));
         }
         Object result = payServiceManager.toPay(payOrder);
-        return SysPayOrderDto.builder().orderNo(cro.getOrderNo()).channel(cro.getChannel()).payload(result).build();
+        return result;
+    }
+
+    @Override
+    public Object getPayInfo(String orderNo) {
+        return null;
     }
 
     private String getMethod(SysPayChannelEnum channelEnum, SysPayMethodEnum methodEnum) {

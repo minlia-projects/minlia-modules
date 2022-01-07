@@ -18,6 +18,10 @@ public interface SysPayOrderService extends IService<SysPayOrderEntity> {
 
     SysPayOrderDto create(SysPayOrderCro cro);
 
+    Object getPayInfo(SysPayOrderCro cro);
+
+    Object getPayInfo(String orderNo);
+
     void callback(String orderNo, String tradeNo);
 
     SysPayOrderEntity getByOrderNo(String orderNo);
