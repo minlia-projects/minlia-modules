@@ -35,12 +35,12 @@ class RedisApplicationTests {
         for (int i = 0; i < 10; i++) {
             values.add(new DemoEntity(i, "aaaaa", "但撒发生大"));
         }
-        RedisUtils.sSetsAndTime("test:set", 100, values);
+        RedisUtils.sSetsAndTime("test:set", 10000, values);
     }
 
     @Test
     void sPop() {
-        List<DemoEntity> list = redisService.sPop("test:set", 3);
+        List<DemoEntity> list = redisService.sPop("test:set", 30);
         for (DemoEntity s : list) {
             System.out.println(s);
         }
