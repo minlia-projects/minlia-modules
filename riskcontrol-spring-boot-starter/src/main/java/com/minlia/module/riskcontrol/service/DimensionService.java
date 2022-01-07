@@ -30,7 +30,7 @@ public class DimensionService {
     private final static String RISK_KEY_FORMAT = "risk_%s_%s:%s_%s";
 
     @Resource
-    private StringRedisTemplate redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private RiskcontrolConfig riskcontrolConfig;
@@ -62,7 +62,7 @@ public class DimensionService {
 //            luaSha = redisDao.scriptLoad(luaScript);
 //        }
 //        return redisDao.evalsha(luaSha, 1, key, remMaxScore, expire, score, value, queryMinScore, queryMaxScore);
-        String result = redisTemplate.execute(longDefaultRedisScript, Collections.singletonList("1"), key, remMaxScore, expire, score, value, queryMinScore, queryMaxScore);
+        String result = stringRedisTemplate.execute(longDefaultRedisScript, Collections.singletonList("1"), key, remMaxScore, expire, score, value, queryMinScore, queryMaxScore);
         return Long.valueOf(result);
     }
 
