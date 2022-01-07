@@ -15,6 +15,7 @@ import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.pay.bean.SysPaidResult;
 import com.minlia.module.pay.bean.SysPayOrderCro;
 import com.minlia.module.pay.bean.SysPayOrderDto;
+import com.minlia.module.pay.constant.SysPayCode;
 import com.minlia.module.pay.entity.MerchantDetailsEntity;
 import com.minlia.module.pay.entity.SysPayOrderEntity;
 import com.minlia.module.pay.enums.SysPayChannelEnum;
@@ -53,10 +54,19 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SysPayOrderDto create(SysPayOrderCro cro) {
-        Object result = getPayInfo(cro);
-        SysPayOrderEntity orderEntity = DozerUtils.map(cro, SysPayOrderEntity.class);
-        orderEntity.setStatus(SysPayStatusEnum.UNPAID);
-        this.save(orderEntity);
+        SysPayOrderEntity entity = this.getByOrderNo(cro.getOrderNo());
+        Object result;
+        if (Objects.isNull(entity)) {
+            result = getPayInfo(cro);
+            entity = DozerUtils.map(cro, SysPayOrderEntity.class);
+            entity.setStatus(SysPayStatusEnum.UNPAID);
+            this.save(entity);
+        } else {
+            ApiAssert.state(SysPayStatusEnum.UNPAID.equals(entity.getStatus()), SysPayCode.Message.ORDER_ALREADY_FINISHED);
+            result = getPayInfo(cro);
+            DozerUtils.map(cro, entity);
+            this.updateById(entity);
+        }
         return SysPayOrderDto.builder().orderNo(cro.getOrderNo()).channel(cro.getChannel()).payload(result).build();
     }
 
