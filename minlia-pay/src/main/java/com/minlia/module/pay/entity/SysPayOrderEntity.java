@@ -11,8 +11,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -61,6 +63,10 @@ public class SysPayOrderEntity extends AbstractEntity {
     @ApiModelProperty(value = "内容")
     @TableField("body")
     private String body;
+
+    @ApiModelProperty(value = "订单绝对超时时间。" + "格式为yyyy-MM-dd HH:mm:ss.")
+    @TableField("expire_time")
+    private LocalDateTime expireTime;
 
     @ApiModelProperty(value = "是否删除")
     @TableField("del_flag")
