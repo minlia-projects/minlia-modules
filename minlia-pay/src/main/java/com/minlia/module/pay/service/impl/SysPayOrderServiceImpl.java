@@ -9,6 +9,7 @@ import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.module.currency.service.SysCurrencyRateService;
 import com.minlia.module.dozer.util.DozerUtils;
 import com.minlia.module.pay.bean.SysPaidResult;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 
 /**
@@ -63,6 +65,9 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         String method = getMethod(cro.getChannel(), cro.getPayMethod());
         MerchantPayOrder payOrder = new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), method, cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
         payOrder.setCurType(DefaultCurType.CNY);
+        if (Objects.nonNull(cro.getExpireTime())) {
+            payOrder.setExpirationTime(LocalDateUtils.localDateTimeToDate(cro.getExpireTime()));
+        }
         Object result = payServiceManager.toPay(payOrder);
         return SysPayOrderDto.builder().orderNo(cro.getOrderNo()).channel(cro.getChannel()).payload(result).build();
     }

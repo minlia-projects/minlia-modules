@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -60,5 +61,11 @@ public class SysPayOrderCro {
     @NotBlank
     @Size(max = 200)
     private String body;
+
+    @ApiModelProperty(value = "订单绝对超时时间。\n" +
+            "格式为yyyy-MM-dd HH:mm:ss。\n" +
+            "注：time_expire和timeout_express两者只需传入一个或者都不传，如果两者都传，优先使用time_expire。")
+    @NotNull
+    private LocalDateTime expireTime;
 
 }
