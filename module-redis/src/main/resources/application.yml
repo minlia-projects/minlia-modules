@@ -4,11 +4,11 @@ spring:
       use-key-prefix: true
       time-to-live: 1d
   redis:
-    port: 6379
     host: 127.0.0.1
+    port: 6379
     password:
     database: 0
-    timeout: 1s
+    timeout: 500
     # Lettuce 是一个可伸缩线程安全的 Redis 客户端，多个线程可以共享同一个 RedisConnection，它利用优秀 netty NIO 框架来高效地管理多个连接
     lettuce:
       pool:

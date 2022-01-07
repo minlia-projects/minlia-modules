@@ -70,7 +70,7 @@ public class TokenCacheUtils {
      * @return
      */
     public static boolean exists(String key) {
-        return RedisUtils.getRedisTemplate().hasKey(getKey(key));
+        return RedisUtils.hasKey(getKey(key));
     }
 
     /**
