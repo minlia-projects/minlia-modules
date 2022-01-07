@@ -118,7 +118,7 @@ public class RedisUtils {
             if (time > DEFAULT_EXPIRE_TIME) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             } else {
-                set(key, value);
+                redisTemplate.opsForValue().set(key, value, time);
             }
             return true;
         } catch (Exception e) {
