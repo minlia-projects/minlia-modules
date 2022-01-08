@@ -17,10 +17,20 @@ import com.minlia.module.pay.entity.SysPayOrderEntity;
  */
 public interface SysPayOrderService extends IService<SysPayOrderEntity> {
 
+    /**
+     * 创建
+     * @param cro
+     * @return
+     */
     SysPayOrderDto create(SysPayOrderCro cro);
 
     Object getPayInfo(SysPayOrderCro cro);
 
+    /**
+     * 退款
+     * @param orderNo
+     * @return
+     */
     RefundResult refund(String orderNo);
 
     void callback(String orderNo, String tradeNo);
