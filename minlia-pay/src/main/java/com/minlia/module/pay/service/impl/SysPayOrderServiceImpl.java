@@ -1,9 +1,12 @@
 package com.minlia.module.pay.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.bean.DefaultCurType;
+import com.egzosn.pay.common.bean.RefundOrder;
+import com.egzosn.pay.common.bean.RefundResult;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
@@ -25,6 +28,9 @@ import com.minlia.module.pay.event.SysPaidEvent;
 import com.minlia.module.pay.mapper.SysPayOrderMapper;
 import com.minlia.module.pay.service.MerchantDetailsService;
 import com.minlia.module.pay.service.SysPayOrderService;
+import com.minlia.module.wallet.bean.WalletUro;
+import com.minlia.module.wallet.enums.WalletOperationTypeEnum;
+import com.minlia.module.wallet.service.SysWalletService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,9 +53,11 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPayOrderEntity> implements SysPayOrderService {
 
+    private final SysWalletService sysWalletService;
     private final PayServiceManager payServiceManager;
     private final MerchantDetailsService merchantDetailsService;
     private final SysCurrencyRateService sysCurrencyRateService;
+    //private final SysWalletTransferService sysWalletTransferService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -57,9 +65,20 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         SysPayOrderEntity entity = this.getByOrderNo(cro.getOrderNo());
         Object result;
         if (Objects.isNull(entity)) {
-            result = getPayInfo(cro);
             entity = DozerUtils.map(cro, SysPayOrderEntity.class);
-            entity.setStatus(SysPayStatusEnum.UNPAID);
+            if (SysPayChannelEnum.BALANCE == cro.getChannel()) {
+                result = sysWalletService.update(WalletUro.builder()
+                        .uid(cro.getUid())
+                        .type(WalletOperationTypeEnum.PAY)
+                        .amount(cro.getAmount())
+                        .businessType(null)
+                        .businessId(cro.getOrderNo())
+                        .build());
+                entity.setStatus(SysPayStatusEnum.PAID);
+            } else {
+                result = getPayInfo(cro);
+                entity.setStatus(SysPayStatusEnum.UNPAID);
+            }
             this.save(entity);
         } else {
             ApiAssert.state(SysPayStatusEnum.UNPAID.equals(entity.getStatus()), SysPayCode.Message.ORDER_ALREADY_FINISHED);
@@ -72,11 +91,11 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
 
     @Override
     public Object getPayInfo(SysPayOrderCro cro) {
-        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(cro.getChannel(), cro.getPayMethod());
+        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(cro.getChannel(), cro.getMethod());
         ApiAssert.notNull(merchantDetailsEntity, "MERCHANT_NOT_EXISTS", "商户不存在");
 
         BigDecimal actualAmount = cro.getAmount();
-        String method = getMethod(cro.getChannel(), cro.getPayMethod());
+        String method = getMethod(cro.getChannel(), cro.getMethod());
         MerchantPayOrder payOrder = new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), method, cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
         payOrder.setCurType(DefaultCurType.CNY);
         if (Objects.nonNull(cro.getExpireTime())) {
@@ -87,8 +106,12 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
     }
 
     @Override
-    public Object getPayInfo(String orderNo) {
-        return null;
+    public RefundResult refund(String orderNo) {
+        SysPayOrderEntity entity = this.getByOrderNo(orderNo);
+        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(entity.getChannel(), entity.getMethod());
+        ApiAssert.notNull(merchantDetailsEntity, "MERCHANT_NOT_EXISTS", "商户不存在");
+        RefundOrder refundOrder = new RefundOrder(IdWorker.getIdStr(), entity.getTradeNo(), entity.getAmount());
+        return payServiceManager.refund(merchantDetailsEntity.getDetailsId(), refundOrder);
     }
 
     private String getMethod(SysPayChannelEnum channelEnum, SysPayMethodEnum methodEnum) {

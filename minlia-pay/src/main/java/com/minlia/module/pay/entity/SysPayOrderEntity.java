@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.minlia.module.data.entity.AbstractEntity;
 import com.minlia.module.pay.enums.SysPayChannelEnum;
+import com.minlia.module.pay.enums.SysPayMethodEnum;
 import com.minlia.module.pay.enums.SysPayStatusEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -43,6 +44,10 @@ public class SysPayOrderEntity extends AbstractEntity {
     @ApiModelProperty(value = "通道")
     @TableField("channel")
     private SysPayChannelEnum channel;
+
+    @ApiModelProperty(value = "支付方式")
+    @TableField("method")
+    private SysPayMethodEnum method;
 
     @ApiModelProperty(value = "状态")
     @TableField("status")

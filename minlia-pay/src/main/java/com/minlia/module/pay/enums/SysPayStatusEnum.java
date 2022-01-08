@@ -15,7 +15,9 @@ public enum SysPayStatusEnum {
 
     PAID(1, "PAID"),
 
-    CANCELED(2, "CANCELED");
+    CANCELED(2, "CANCELED"),
+
+    REFUND(3, "REFUND");
 
     private final Integer value;
 

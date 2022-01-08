@@ -15,14 +15,20 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class WalletUro {
 
+    @ApiModelProperty(value = "UID")
     private Long uid;
 
-    private BigDecimal amount;
-
+    @ApiModelProperty(value = "类型")
     private WalletOperationTypeEnum type;
 
+    @ApiModelProperty(value = "金额")
+    private BigDecimal amount;
+
+    @ApiModelProperty(value = "业务类型")
+    private String businessType;
+
     @ApiModelProperty(value = "业务ID")
-    private Long businessId;
+    private String businessId;
 
     private String remark;
 

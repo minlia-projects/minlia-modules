@@ -45,13 +45,17 @@ public class SysWalletRecordEntity extends AbstractEntity {
     @TableField("type")
     private WalletOperationTypeEnum type;
 
-    @ApiModelProperty(value = "业务ID")
-    @TableField("business_id")
-    private Long businessId;
-
     @ApiModelProperty(value = "金额")
     @TableField("amount")
     private BigDecimal amount;
+
+    @ApiModelProperty(value = "业务类型")
+    @TableField("business_type")
+    private String businessType;
+
+    @ApiModelProperty(value = "业务ID")
+    @TableField("business_id")
+    private String businessId;
 
     @ApiModelProperty(value = "备注")
     @TableField("remark")

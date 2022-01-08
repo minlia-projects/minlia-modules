@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,6 +33,10 @@ public class SysPayOrderCro {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "用户ID")
+    @NotNull
+    private Long uid;
+
     @ApiModelProperty(value = "订单号")
     @NotBlank
     @Size(max = 32)
@@ -41,20 +46,21 @@ public class SysPayOrderCro {
     @NotNull
     private SysPayChannelEnum channel;
 
-    @ApiModelProperty(value = "支付方式")
+    @ApiModelProperty(value = "方式")
     @NotNull
-    private SysPayMethodEnum payMethod;
+    private SysPayMethodEnum method;
 
     @ApiModelProperty(value = "币种")
     private String currency;
 
     @ApiModelProperty(value = "总金额")
     @NotNull
+    @DecimalMin("0.01")
     private BigDecimal amount;
 
     @ApiModelProperty(value = "主题")
     @NotBlank
-    @Size(max = 200)
+    @Size(max = 100)
     private String subject;
 
     @ApiModelProperty(value = "内容")

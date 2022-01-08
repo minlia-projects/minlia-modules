@@ -24,7 +24,7 @@ public class WalletTransferRo {
     private String businessType;
 
     @ApiModelProperty(value = "业务ID")
-    private Long businessId;
+    private String businessId;
 
     private String remark;
 

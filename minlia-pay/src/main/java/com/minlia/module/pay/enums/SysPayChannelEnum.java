@@ -22,9 +22,14 @@ public enum SysPayChannelEnum {
     ALIPAY(1, "aliPay"),
 
     /**
+     * 余额
+     */
+    BALANCE(2, "balance"),
+
+    /**
      * PAYPAL
      */
-    PAYPAL(2, "paypalPay");
+    PAYPAL(3, "paypalPay");
 
     private final Integer value;
 

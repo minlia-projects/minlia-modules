@@ -1,6 +1,7 @@
 package com.minlia.module.pay.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.egzosn.pay.common.bean.RefundResult;
 import com.minlia.module.pay.bean.SysPayOrderCro;
 import com.minlia.module.pay.bean.SysPayOrderDto;
 import com.minlia.module.pay.entity.SysPayOrderEntity;
@@ -20,7 +21,7 @@ public interface SysPayOrderService extends IService<SysPayOrderEntity> {
 
     Object getPayInfo(SysPayOrderCro cro);
 
-    Object getPayInfo(String orderNo);
+    RefundResult refund(String orderNo);
 
     void callback(String orderNo, String tradeNo);
 
