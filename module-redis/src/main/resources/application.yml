@@ -16,3 +16,15 @@ spring:
         max-idle: 8
         min-idle: 0
         max-wait: -1ms
+#redis锁
+  klock:
+    address: 127.0.0.1:6379
+
+
+#spring.klock.address  : redis链接地址
+#spring.klock.password : redis密码
+#spring.klock.database : redis数据索引
+#spring.klock.waitTime : 获取锁最长阻塞时间（默认：60，单位：秒）
+#spring.klock.leaseTime: 已获取锁后自动释放时间（默认：60，单位：秒）
+#spring.klock.cluster-server.node-addresses : redis集群配置 如 127.0.0.1:7000,127.0.0.1:7001，127.0.0.1:7002
+#spring.klock.address 和 spring.klock.cluster-server.node-addresses 选其一即可

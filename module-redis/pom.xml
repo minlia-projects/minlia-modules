@@ -66,6 +66,18 @@
             <artifactId>aspectjweaver</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.keking</groupId>
+            <artifactId>spring-boot-klock-starter</artifactId>
+            <version>1.4-RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <!--<dependency>-->
         <!--<groupId>org.springframework.session</groupId>-->
         <!--<artifactId>spring-session-data-redis</artifactId>-->
