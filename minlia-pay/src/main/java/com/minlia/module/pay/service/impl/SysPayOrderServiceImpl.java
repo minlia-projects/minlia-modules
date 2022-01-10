@@ -7,6 +7,7 @@ import com.egzosn.pay.ali.bean.AliTransactionType;
 import com.egzosn.pay.common.bean.DefaultCurType;
 import com.egzosn.pay.common.bean.RefundOrder;
 import com.egzosn.pay.common.bean.RefundResult;
+import com.egzosn.pay.common.bean.TransferOrder;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
@@ -129,6 +130,15 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
             return Response.success(payServiceManager.refund(merchantDetailsEntity.getDetailsId(), refundOrder));
         }
     }
+
+    //@Override
+    //@Transactional(rollbackFor = Exception.class)
+    //public Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount) {
+    //    MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(channel, SysPayMethodEnum.PAGE);
+    //    TransferOrder transferOrder = new TransferOrder();
+    //
+    //    //payServiceManager.transfer(transferOrder);
+    //}
 
     private String getMethod(SysPayChannelEnum channelEnum, SysPayMethodEnum methodEnum) {
         String method = null;
