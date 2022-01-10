@@ -1,17 +1,26 @@
 package com.minlia.module.rebecca.authentication;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.util.RequestIpUtils;
+import com.minlia.module.common.validation.Cellphone;
+import com.minlia.module.common.validation.Password;
+import com.minlia.module.common.validation.Username;
 import com.minlia.module.rebecca.authentication.service.LoginService;
 import com.minlia.module.rebecca.risk.event.RiskLoginFailureEvent;
+import com.minlia.module.rebecca.user.bean.SysUserCro;
+import com.minlia.module.rebecca.user.bean.UserRegisterRo;
 import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
+import com.minlia.module.rebecca.user.enums.SysRegisterTypeEnum;
 import com.minlia.module.rebecca.user.enums.SysUserStatusEnum;
 import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
 import com.minlia.module.rebecca.user.event.SysLoginSuccessEvent;
+import com.minlia.module.rebecca.user.service.SysUserRegisterService;
 import com.minlia.module.rebecca.user.service.SysUserService;
 import com.minlia.module.riskcontrol.service.DimensionService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
@@ -23,7 +32,9 @@ import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.exception.DefaultAuthenticationException;
 import com.minlia.modules.security.model.UserContext;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +54,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -71,6 +86,8 @@ public class RbacAuthenticationService implements AuthenticationService {
     private DimensionService dimensionService;
     @Autowired
     private SysSecurityConfig sysSecurityConfig;
+    @Autowired
+    private SysUserRegisterService userRegistrationService;
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -90,7 +107,32 @@ public class RbacAuthenticationService implements AuthenticationService {
             case CELLPHONE:
                 ApiAssert.notNull(loginCredentials.getAreaCode(), SysUserCode.Message.AREA_CODE_NOT_NULL);
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.CELLPHONE_NOT_NULL);
-                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, loginCredentials.getName()).eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
+
+                Response response = captchaService.validity(userEntity.getAreaCode() + userEntity.getCellphone(), vcode);
+                if (!response.isSuccess()) {
+                    throw new DefaultAuthenticationException(response.getI18nCode());
+                }
+
+                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
+                        .eq(SysUserEntity::getCellphone, loginCredentials.getName())
+                        .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
+                if (Objects.isNull(userEntity)) {
+                    SysUserEntity entity = sysUserService.create(SysUserCro.builder()
+                            .areaCode(loginCredentials.getAreaCode())
+                            .cellphone(loginCredentials.getCellphone())
+                            .password(RandomStringUtils.randomAlphanumeric(16))
+                            .roles(Sets.newHashSet())
+                            .defaultRole("ROLE_MEMBER")
+                            .build());
+
+                    //获取用户上下文
+                    UserContext userContext = loginService.getUserContext(userEntity, Objects.nonNull(loginCredentials.getCurrrole()) ? loginCredentials.getCurrrole() : userEntity.getDefaultRole());
+                    checkDomain(userContext.getCurrdomain());
+
+                    //登录成功事件
+                    SysLoginSuccessEvent.publish(userEntity);
+                    return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
+                }
                 break;
             case EMAIL:
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.EMAIL_NOT_NULL);
@@ -157,6 +199,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         SysLoginSuccessEvent.publish(userEntity);
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }
+
 
     /**
      * 判断域名是否匹配

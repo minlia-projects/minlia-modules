@@ -48,14 +48,15 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
         return Response.failure();
     }
 
-    private Response<SysUserEntity> registerByCellphone(UserRegisterRo ro) {
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response<SysUserEntity> registerByCellphone(UserRegisterRo ro) {
         Response response = captchaService.validity(ro.getAreaCode() + ro.getCellphone(), ro.getVcode());
         if (response.isSuccess()) {
             SysUserEntity entity = sysUserService.create(SysUserCro.builder()
                     .areaCode(ro.getAreaCode())
                     .cellphone(ro.getCellphone())
                     .password(ro.getPassword())
-                    .defaultRole(ro.getRoleCode())
                     .roles(Sets.newHashSet())
                     .inviteCode(ro.getInviteCode())
                     .nickname(ro.getNickname())
