@@ -55,53 +55,53 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
         this.save(withdrawEntity);
 
         //更新钱包冻结金额,可用余额
-        WalletUro walletRequestBody = WalletUro.builder()
+        WalletUro walletUro = WalletUro.builder()
                 .uid(walletEntity.getUid())
+                .type(WalletOperationTypeEnum.FREEZE)
                 .amount(applyRo.getAmount())
-                .type(WalletOperationTypeEnum.WITHDRAW_APPLY)
+                .businessType("withdraw_apply")
+                .businessId(withdrawEntity.getId().toString())
                 .build();
-        sysWalletService.update(walletRequestBody);
-
-        //判断是否秒批 TODO
-        if (false) {
-//            this.approval(WithdrawApprovalRequestBody.builder().id(withdrawApply.getId()).settlementAmount(withdrawApply.getApplyAmount()).note(withdrawApply.getNote()).build());
-        }
+        sysWalletService.update(walletUro);
 
         return withdrawEntity;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean approval(WalletWithdrawApprovalRo approvalRo) {
-        return false;
+        SysWalletWithdrawEntity withdrawEntity = this.getById(approvalRo.getId());
+        ApiAssert.notNull(withdrawEntity, WalletCode.Message.WITHDRAW_RECOED_NOT_EXISTS);
+        ApiAssert.state(withdrawEntity.getStatus().equals(WithdrawStatusEnum.PENDING), WalletCode.Message.WITHDRAW_STATUS_ERROR);
+
+        if (approvalRo.getPass()) {
+            withdrawEntity.setStatus(WithdrawStatusEnum.SETTLED);
+            withdrawEntity.setSettledAmount(approvalRo.getSettledAmount());
+
+            //更新钱包冻结金额,可用余额
+            WalletUro walletUro = WalletUro.builder()
+                    .uid(withdrawEntity.getUid())
+                    .type(WalletOperationTypeEnum.FREEZE_SETTLED)
+                    .amount(withdrawEntity.getAmount())
+                    .businessType("withdraw_settled")
+                    .businessId(withdrawEntity.getId().toString())
+                    .build();
+            sysWalletService.update(walletUro);
+        } else {
+            withdrawEntity.setStatus(WithdrawStatusEnum.REJECTED);
+
+            //更新钱包冻结金额,可用余额
+            WalletUro walletUro = WalletUro.builder()
+                    .uid(withdrawEntity.getUid())
+                    .type(WalletOperationTypeEnum.THAW)
+                    .amount(withdrawEntity.getAmount())
+                    .businessType("withdraw_thaw")
+                    .businessId(withdrawEntity.getId().toString())
+                    .build();
+            sysWalletService.update(walletUro);
+        }
+
+        return this.updateById(withdrawEntity);
     }
-//
-//    @Override
-//    public synchronized WithdrawApply approval(WithdrawApprovalRequestBody requestBody) {
-//        //先不考虑驳回 TODO
-//        WithdrawApply withdrawApply = repository.findOne(requestBody.getId());
-//        ApiPreconditions.is(null == withdrawApply,ApiCode.NOT_FOUND,"提现记录不存在");
-//        ApiPreconditions.is(withdrawApply.getWithdrawStatus().equals(WithdrawStatusEnum.settled),ApiCode.NOT_AUTHORIZED,"已结算");
-//        ApiPreconditions.is(withdrawApply.getWithdrawStatus().equals(WithdrawStatusEnum.reject),ApiCode.NOT_AUTHORIZED,"已驳回");
-//        User user = userQueryService.findOne(withdrawApply.getUserId());
-//
-//        //更新状态为完成
-//        withdrawApply.setWithdrawStatus(WithdrawStatusEnum.settled);
-//        withdrawApply.setSettledAmount(withdrawApply.getApplyAmount());
-//        repository.save(withdrawApply);
-//
-//        //更新钱包总额及冻结金额
-//        WalletURO walletRequestBody = WalletURO.builder()
-//                .userId(user.getId())
-//                .amount(withdrawApply.getApplyAmount())
-//                .walletOperationType(WalletOperationTypeEnum.WITHDRAW_SETTLED)
-//                .note(withdrawApply.getNote())
-//                .build();
-//        walletService.update(walletRequestBody);
-//
-//        //TODO 调用第三方代付接口
-//
-//        return withdrawApply;
-//    }
-//
 
 }

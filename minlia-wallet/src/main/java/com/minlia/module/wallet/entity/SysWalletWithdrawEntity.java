@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
 /**
@@ -49,6 +50,14 @@ public class SysWalletWithdrawEntity extends AbstractEntity {
     @TableField("amount")
     private BigDecimal amount;
 
+    @ApiModelProperty(value = "结算金额")
+    @TableField("settled_amount")
+    private BigDecimal settledAmount;
+
+    @ApiModelProperty(value = "状态")
+    @TableField("status")
+    private WithdrawStatusEnum status;
+
     @ApiModelProperty(value = "收款人")
     @TableField("payee")
     private String payee;
@@ -56,10 +65,6 @@ public class SysWalletWithdrawEntity extends AbstractEntity {
     @ApiModelProperty(value = "账号")
     @TableField("account")
     private String account;
-
-    @ApiModelProperty(value = "状态")
-    @TableField("status")
-    private WithdrawStatusEnum status;
 
     @ApiModelProperty(value = "收款码")
     @TableField("qrcode")

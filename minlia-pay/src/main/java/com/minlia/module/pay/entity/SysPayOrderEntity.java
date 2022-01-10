@@ -33,6 +33,10 @@ public class SysPayOrderEntity extends AbstractEntity {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "用户ID")
+    @TableField("uid")
+    private Long uid;
+
     @ApiModelProperty(value = "订单号")
     @TableField("order_no")
     private String orderNo;

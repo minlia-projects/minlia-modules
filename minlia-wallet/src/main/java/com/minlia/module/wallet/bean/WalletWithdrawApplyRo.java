@@ -16,15 +16,17 @@ public class WalletWithdrawApplyRo {
     @NotBlank
     private String channel;
 
-    @ApiModelProperty(value = "收款人")
+    @ApiModelProperty(value = "金额")
     @NotNull
     @DecimalMin("1")
     private BigDecimal amount;
 
     @ApiModelProperty(value = "收款人")
+    @Size(max = 32)
     private String payee;
 
     @ApiModelProperty(value = "账号")
+    @Size(max = 32)
     private String account;
 
     @ApiModelProperty(value = "收款码")

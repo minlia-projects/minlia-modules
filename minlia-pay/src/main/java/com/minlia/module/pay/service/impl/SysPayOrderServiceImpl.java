@@ -11,6 +11,7 @@ import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
 import com.egzosn.pay.wx.v3.bean.WxTransactionType;
+import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.cloud.utils.LocalDateUtils;
 import com.minlia.module.currency.service.SysCurrencyRateService;
@@ -29,8 +30,10 @@ import com.minlia.module.pay.mapper.SysPayOrderMapper;
 import com.minlia.module.pay.service.MerchantDetailsService;
 import com.minlia.module.pay.service.SysPayOrderService;
 import com.minlia.module.wallet.bean.WalletUro;
+import com.minlia.module.wallet.bean.WalletWithdrawApplyRo;
 import com.minlia.module.wallet.enums.WalletOperationTypeEnum;
 import com.minlia.module.wallet.service.SysWalletService;
+import com.minlia.module.wallet.service.SysWalletWithdrawService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -57,7 +60,23 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
     private final PayServiceManager payServiceManager;
     private final MerchantDetailsService merchantDetailsService;
     private final SysCurrencyRateService sysCurrencyRateService;
-    //private final SysWalletTransferService sysWalletTransferService;
+    private final SysWalletWithdrawService sysWalletWithdrawService;
+
+    @Override
+    public Object getPayInfo(SysPayOrderCro cro) {
+        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(cro.getChannel(), cro.getMethod());
+        ApiAssert.notNull(merchantDetailsEntity, SysPayCode.Message.MERCHANT_NOT_EXISTS);
+
+        BigDecimal actualAmount = cro.getAmount();
+        String method = getMethod(cro.getChannel(), cro.getMethod());
+        MerchantPayOrder payOrder = new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), method, cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
+        payOrder.setCurType(DefaultCurType.CNY);
+        if (Objects.nonNull(cro.getExpireTime())) {
+            payOrder.setExpirationTime(LocalDateUtils.localDateTimeToDate(cro.getExpireTime()));
+        }
+        Object result = payServiceManager.toPay(payOrder);
+        return result;
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -69,7 +88,7 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
             if (SysPayChannelEnum.BALANCE == cro.getChannel()) {
                 result = sysWalletService.update(WalletUro.builder()
                         .uid(cro.getUid())
-                        .type(WalletOperationTypeEnum.PAY)
+                        .type(WalletOperationTypeEnum.OUT)
                         .amount(cro.getAmount())
                         .businessType(null)
                         .businessId(cro.getOrderNo())
@@ -90,28 +109,25 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
     }
 
     @Override
-    public Object getPayInfo(SysPayOrderCro cro) {
-        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(cro.getChannel(), cro.getMethod());
-        ApiAssert.notNull(merchantDetailsEntity, "MERCHANT_NOT_EXISTS", "商户不存在");
-
-        BigDecimal actualAmount = cro.getAmount();
-        String method = getMethod(cro.getChannel(), cro.getMethod());
-        MerchantPayOrder payOrder = new MerchantPayOrder(merchantDetailsEntity.getDetailsId(), method, cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
-        payOrder.setCurType(DefaultCurType.CNY);
-        if (Objects.nonNull(cro.getExpireTime())) {
-            payOrder.setExpirationTime(LocalDateUtils.localDateTimeToDate(cro.getExpireTime()));
-        }
-        Object result = payServiceManager.toPay(payOrder);
-        return result;
-    }
-
-    @Override
-    public RefundResult refund(String orderNo) {
+    @Transactional(rollbackFor = Exception.class)
+    public Response refund(String orderNo) {
         SysPayOrderEntity entity = this.getByOrderNo(orderNo);
-        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(entity.getChannel(), entity.getMethod());
-        ApiAssert.notNull(merchantDetailsEntity, "MERCHANT_NOT_EXISTS", "商户不存在");
-        RefundOrder refundOrder = new RefundOrder(IdWorker.getIdStr(), entity.getTradeNo(), entity.getAmount());
-        return payServiceManager.refund(merchantDetailsEntity.getDetailsId(), refundOrder);
+        ApiAssert.notNull(entity, SysPayCode.Message.ORDER_NOT_EXISTS);
+        if (SysPayChannelEnum.BALANCE == entity.getChannel()) {
+             boolean result = sysWalletService.update(WalletUro.builder()
+                    .uid(entity.getUid())
+                    .type(WalletOperationTypeEnum.IN)
+                    .amount(entity.getAmount())
+                    .businessType("refund")
+                    .businessId(entity.getOrderNo())
+                    .build());
+            return Response.success(result);
+        } else {
+            MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(entity.getChannel(), entity.getMethod());
+            ApiAssert.notNull(merchantDetailsEntity, SysPayCode.Message.MERCHANT_NOT_EXISTS);
+            RefundOrder refundOrder = new RefundOrder(IdWorker.getIdStr(), entity.getTradeNo(), entity.getAmount());
+            return Response.success(payServiceManager.refund(merchantDetailsEntity.getDetailsId(), refundOrder));
+        }
     }
 
     private String getMethod(SysPayChannelEnum channelEnum, SysPayMethodEnum methodEnum) {
@@ -157,39 +173,6 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         }
         return method;
     }
-
-    //@Override
-    //@Transactional(rollbackFor = Exception.class)
-    //public SysPayOrderDto create(SysPayOrderCro cro) {
-    //    SysPayOrderEntity orderEntity = DozerUtils.map(cro, SysPayOrderEntity.class);
-    //    orderEntity.setStatus(SysPayStatusEnum.UNPAID);
-    //    this.save(orderEntity);
-    //
-    //    String result = "";
-    //    BigDecimal actualAmount;
-    //    switch (cro.getChannel()) {
-    //        case ALIPAY:
-    //            actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
-    //            MerchantPayOrder aliPayOrder = new MerchantPayOrder("1", AliTransactionType.PAGE.getType(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
-    //            aliPayOrder.setCurType(DefaultCurType.CNY);
-    //            result = payServiceManager.toPay(aliPayOrder);
-    //            break;
-    //        case WECHAT:
-    //            actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.CNY.name());
-    //            MerchantPayOrder wxPayOrder = new MerchantPayOrder("2", WxTransactionType.NATIVE.getType(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
-    //            wxPayOrder.setCurType(DefaultCurType.CNY);
-    //            result = payServiceManager.getQrPay(wxPayOrder);
-    //            break;
-    //        case PAYPAL:
-    //            actualAmount = sysCurrencyRateService.convert(cro.getAmount(), cro.getCurrency(), DefaultCurType.USD.name());
-    //            MerchantPayOrder paypalPayOrder = new MerchantPayOrder("3", PayPalTransactionType.sale.getType(), cro.getSubject(), cro.getBody(), actualAmount, cro.getOrderNo());
-    //            paypalPayOrder.setCurType(DefaultCurType.USD);
-    //            result = payServiceManager.toPay(paypalPayOrder);
-    //            break;
-    //        default:
-    //    }
-    //    return SysPayOrderDto.builder().orderNo(cro.getOrderNo()).channel(cro.getChannel()).payload(result).build();
-    //}
 
     @Override
     @Transactional(rollbackFor = Exception.class)

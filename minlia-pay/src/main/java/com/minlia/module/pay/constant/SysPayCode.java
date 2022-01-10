@@ -11,7 +11,7 @@ public class SysPayCode {
 
     public enum Message implements Code {
 
-        ORDER_ALREADY_FINISHED;
+        ORDER_ALREADY_FINISHED, MERCHANT_NOT_EXISTS, ORDER_NOT_EXISTS;
 
         @Override
         public String module() {

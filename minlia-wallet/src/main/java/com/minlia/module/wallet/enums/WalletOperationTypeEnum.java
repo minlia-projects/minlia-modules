@@ -1,48 +1,44 @@
 package com.minlia.module.wallet.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 区分钱包交易类型
  */
+@Getter
+@AllArgsConstructor
 public enum WalletOperationTypeEnum {
 
     /**
-     * 收款
+     * 进
      */
-    RECEIVABLES,
+    IN(0, "IN"),
 
     /**
-     * 付款
+     * 出
      */
-    PAY,
+    OUT(1, "OUT"),
 
     /**
-     * 取消付款
+     * 冻结
      */
-    CANCEL_PAY,
+    FREEZE(2, "FREEZE"),
 
     /**
-     * 充值
+     * 解冻
      */
-    RECHARGE,
+    THAW(3, "THAW"),
 
     /**
-     * 提现，非申请
+     * 冻结-结算
      */
-    WITHDRAW,
+    FREEZE_SETTLED(4, "FREEZE_SETTLED");
 
-    /**
-     * 提现申请
-     */
-    WITHDRAW_APPLY,
+    @EnumValue
+    private final int value;
 
-    /**
-     * 提现结算
-     */
-    WITHDRAW_SETTLED,
-
-    /**
-     * 退款
-     */
-    REFUND
+    private final String code;
 
 }

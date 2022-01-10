@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.minlia.module.wallet.bean.WalletTransferRo;
 import com.minlia.module.wallet.bean.WalletUro;
 import com.minlia.module.wallet.entity.SysWalletEntity;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -17,9 +20,7 @@ public interface SysWalletService extends IService<SysWalletEntity> {
 
     SysWalletEntity init(Long uid);
 
-    SysWalletEntity update(WalletUro uro);
-
-//    SysWalletEntity recharge(WalletRechargeRo ro);
+    boolean update(WalletUro uro);
 
     SysWalletEntity getByUid(Long uid);
 

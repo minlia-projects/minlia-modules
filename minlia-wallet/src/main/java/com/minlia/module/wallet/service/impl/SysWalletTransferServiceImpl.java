@@ -37,8 +37,8 @@ public class SysWalletTransferServiceImpl extends ServiceImpl<SysWalletTransferM
         SysWalletEntity walletEntity = sysWalletService.getByUid(transferRo.getFrom());
         ApiAssert.state(NumberUtil.isGreaterOrEqual(walletEntity.getBalance(), transferRo.getAmount()), WalletCode.Message.BALANCE_NOT_ENOUGH);
 
-        sysWalletService.update(WalletUro.builder().uid(transferRo.getFrom()).businessId(transferRo.getBusinessId()).type(WalletOperationTypeEnum.PAY).amount(transferRo.getAmount()).remark(transferRo.getRemark()).build());
-        sysWalletService.update(WalletUro.builder().uid(transferRo.getTo()).businessId(transferRo.getBusinessId()).type(WalletOperationTypeEnum.RECEIVABLES).amount(transferRo.getAmount()).remark(transferRo.getRemark()).build());
+        sysWalletService.update(WalletUro.builder().uid(transferRo.getFrom()).businessId(transferRo.getBusinessId()).type(WalletOperationTypeEnum.OUT).amount(transferRo.getAmount()).remark(transferRo.getRemark()).build());
+        sysWalletService.update(WalletUro.builder().uid(transferRo.getTo()).businessId(transferRo.getBusinessId()).type(WalletOperationTypeEnum.IN).amount(transferRo.getAmount()).remark(transferRo.getRemark()).build());
 
         SysWalletTransferEntity transferEntity = DozerUtils.map(transferRo, SysWalletTransferEntity.class);
         return this.save(transferEntity);

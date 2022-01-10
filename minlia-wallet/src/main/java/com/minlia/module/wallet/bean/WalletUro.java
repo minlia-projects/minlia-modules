@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Data
@@ -30,6 +31,8 @@ public class WalletUro {
     @ApiModelProperty(value = "业务ID")
     private String businessId;
 
+    @ApiModelProperty(value = "备注")
+    @Size(max = 200)
     private String remark;
 
 }
