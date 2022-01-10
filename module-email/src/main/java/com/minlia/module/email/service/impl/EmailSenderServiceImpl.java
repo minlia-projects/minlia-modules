@@ -11,6 +11,7 @@ import com.minlia.module.email.holder.EmailSenderHolder;
 import com.minlia.module.email.mapper.EmailSenderMapper;
 import com.minlia.module.email.service.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EmailSenderServiceImpl extends ServiceImpl<EmailSenderMapper, EmailSenderEntity> implements EmailSenderService {
 
     @Autowired
+    @Lazy
     private EmailSenderHolder emailSenderHolder;
 
     @Override

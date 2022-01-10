@@ -45,7 +45,9 @@ public class SysUserPasswordServiceImpl implements SysUserPasswordService {
         //校验凭证是否有效
         switch (to.getType()) {
             case CELLPHONE:
-                entity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, to.getAreaCode() + to.getCellphone()));
+                entity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
+                        .eq(SysUserEntity::getCellphone, to.getCellphone())
+                        .eq(SysUserEntity::getAreaCode, to.getAreaCode()));
                 ApiAssert.notNull(entity, SysUserCode.Message.NOT_EXISTS);
                 Response response = captchaService.validity(to.getAreaCode() + to.getCellphone(), to.getVcode());
                 ApiAssert.state(response.isSuccess(), response.getCode(), response.getMessage());
@@ -64,7 +66,8 @@ public class SysUserPasswordServiceImpl implements SysUserPasswordService {
     @Override
     public boolean change(SysPasswordByCaptchaChangeTo to) {
         SysUserEntity entity = SecurityContextHolder.getCurrentUser();
-        CaptchaEntity captcha = captchaService.getOne(Wrappers.<CaptchaEntity>lambdaQuery().eq(CaptchaEntity::getLastModifiedBy, entity.getId()).eq(CaptchaEntity::getVcode, to.getVcode()));
+        CaptchaEntity captcha = captchaService.getOne(Wrappers.<CaptchaEntity>lambdaQuery()
+                .eq(CaptchaEntity::getLastModifiedBy, entity.getId()).eq(CaptchaEntity::getVcode, to.getVcode()));
         ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
 
         //验证验证码是否正确
