@@ -42,7 +42,7 @@ public class BibleItemOpenController {
     @AuditLog(value = "query system bible item by body as list", type = AuditOperationTypeEnum.SELECT)
     @PreAuthorize(value = "hasAnyAuthority('" + BibleConstants.SEARCH + "')")
     @ApiOperation(value = "查询集合")
-    @GetMapping(value = "list")
+    @PostMapping(value = "list")
     public Response queryList(@Valid @RequestBody BibleItemQro qro) {
         qro.setOpenFlag(true);
         return Response.success(bibleItemService.list(DozerUtils.map(qro, BibleItemEntity.class)));
