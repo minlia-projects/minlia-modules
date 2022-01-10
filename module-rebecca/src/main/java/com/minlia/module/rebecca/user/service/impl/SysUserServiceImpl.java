@@ -128,7 +128,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         entity.setCredentialsEffectiveDate(null == cro.getCredentialsEffectiveDate() ? LocalDateTime.now().plusDays(sysSecurityConfig.getCredentialsEffectiveDays()) : cro.getCredentialsEffectiveDate());
         entity.setStatus(SysUserStatusEnum.ACTIVE);
         if (StringUtils.isBlank(cro.getAvatar())) {
-            entity.setAvatar("//static.camelsc.com/static/default_avatar.png");
+            entity.setAvatar(sysSecurityConfig.getDefaultAvatar());
         }
         this.save(entity);
 

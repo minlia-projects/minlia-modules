@@ -45,6 +45,11 @@ public class SysSecurityConfig {
      */
     private String nicknamePrefix;
 
+    /**
+     * 默认头像
+     */
+    private String defaultAvatar;
+
 //    /**
 //     * 数据传输加密
 //     */
