@@ -19,6 +19,9 @@ public class BibleItemUro implements ApiRequestBody {
     @Size(max = 255)
     private String value;
 
+    @ApiModelProperty(value = "是否公开")
+    private Boolean openFlag;
+
     @ApiModelProperty(value = "描述性说明", example = "用于性别选择")
     @Size(max = 255)
     private String notes;

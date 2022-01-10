@@ -1,5 +1,6 @@
 package com.minlia.module.bible.bean;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.minlia.cloud.body.ApiRequestBody;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,9 @@ public class BibleItemCro implements ApiRequestBody {
     @ApiModelProperty(value = "值", example = "1")
     @Size(max = 250)
     private String value;
+
+    @ApiModelProperty(value = "是否公开")
+    private Boolean openFlag;
 
     @ApiModelProperty(value = "描述性说明", example = "用于性别选择")
     @Size(max = 500)

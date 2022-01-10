@@ -38,6 +38,10 @@ public class BibleItemEntity extends AbstractEntity {
     @TableField("value")
     private String value;
 
+    @ApiModelProperty(value = "是否公开")
+    @TableField("`open_flag`")
+    private Boolean openFlag;
+
     @ApiModelProperty(value = "说明")
     @TableField("notes")
     private String notes;

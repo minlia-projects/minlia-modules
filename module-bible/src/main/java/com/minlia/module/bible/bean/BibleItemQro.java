@@ -1,5 +1,6 @@
 package com.minlia.module.bible.bean;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.minlia.module.data.bean.QueryRequest;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,9 @@ public class BibleItemQro extends QueryRequest {
     @ApiModelProperty(value = "值", example = "1")
     @Size(max = 250)
     private String value;
+
+    @ApiModelProperty(value = "是否公开")
+    private Boolean openFlag;
 
     private String attribute1;
 
