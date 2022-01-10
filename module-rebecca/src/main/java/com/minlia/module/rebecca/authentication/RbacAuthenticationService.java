@@ -108,18 +108,18 @@ public class RbacAuthenticationService implements AuthenticationService {
                 ApiAssert.notNull(loginCredentials.getAreaCode(), SysUserCode.Message.AREA_CODE_NOT_NULL);
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.CELLPHONE_NOT_NULL);
 
-                Response response = captchaService.validity(userEntity.getAreaCode() + userEntity.getCellphone(), vcode);
-                if (!response.isSuccess()) {
-                    throw new DefaultAuthenticationException(response.getI18nCode());
-                }
-
                 userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
                         .eq(SysUserEntity::getCellphone, loginCredentials.getName())
                         .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
                 if (Objects.isNull(userEntity)) {
-                    SysUserEntity entity = sysUserService.create(SysUserCro.builder()
+                    Response response = captchaService.validity(loginCredentials.getAreaCode() + loginCredentials.getName(), vcode);
+                    if (!response.isSuccess()) {
+                        throw new DefaultAuthenticationException(response.getI18nCode());
+                    }
+
+                    userEntity = sysUserService.create(SysUserCro.builder()
                             .areaCode(loginCredentials.getAreaCode())
-                            .cellphone(loginCredentials.getCellphone())
+                            .cellphone(loginCredentials.getName())
                             .password(RandomStringUtils.randomAlphanumeric(16))
                             .roles(Sets.newHashSet())
                             .defaultRole("ROLE_MEMBER")
