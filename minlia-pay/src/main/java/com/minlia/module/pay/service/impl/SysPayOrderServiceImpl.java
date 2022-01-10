@@ -95,6 +95,9 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
                         .businessId(cro.getOrderNo())
                         .build());
                 entity.setStatus(SysPayStatusEnum.PAID);
+
+                //发布通知事件
+                SysPaidEvent.onPaid(DozerUtils.map(entity, SysPaidResult.class));
             } else {
                 result = getPayInfo(cro);
                 entity.setStatus(SysPayStatusEnum.UNPAID);

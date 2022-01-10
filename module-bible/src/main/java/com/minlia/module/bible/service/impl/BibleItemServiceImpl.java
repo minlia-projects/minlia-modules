@@ -23,6 +23,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,10 +45,8 @@ public class BibleItemServiceImpl extends ServiceImpl<BibleItemMapper, BibleItem
     private Mapper mapper;
 
     @Autowired
+    @Lazy
     private BibleService bibleService;
-
-    @Autowired
-    private BibleItemMapper bibleItemMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -61,7 +60,7 @@ public class BibleItemServiceImpl extends ServiceImpl<BibleItemMapper, BibleItem
     public BibleItemEntity create(BibleItemCro cto) {
         ApiAssert.state(bibleService.count(new QueryWrapper<BibleEntity>().lambda().eq(BibleEntity::getCode, cto.getParentCode())) == 1, BibleCode.Message.PARENT_NOT_EXISTS);
         BibleItemEntity bibleItemEntity = mapper.map(cto, BibleItemEntity.class);
-        bibleItemMapper.insert(bibleItemEntity);
+        this.getBaseMapper().insert(bibleItemEntity);
         return bibleItemEntity;
     }
 
@@ -138,7 +137,7 @@ public class BibleItemServiceImpl extends ServiceImpl<BibleItemMapper, BibleItem
 
     @Override
     public Map<String, String> queryValueMap(String bibleCode) {
-        Map<String, Map<String, String>> source = bibleItemMapper.queryValueMap(bibleCode);
+        Map<String, Map<String, String>> source = this.getBaseMapper().queryValueMap(bibleCode);
         Map<String, String> result = Maps.newHashMap();
         if (MapUtils.isNotEmpty(source)) {
             source.entrySet().stream().forEach(entry -> {

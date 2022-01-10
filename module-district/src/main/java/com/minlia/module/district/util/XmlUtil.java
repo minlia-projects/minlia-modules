@@ -5,8 +5,6 @@ package com.minlia.module.district.util;
  */
 
 import com.minlia.module.district.entity.DistrictDto;
-import org.dom4j.Document;
-import org.dom4j.io.SAXReader;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBContext;
@@ -141,18 +139,19 @@ public class XmlUtil {
      */
 
     public static Object getDocument(HttpServletRequest request, Object object) {
-        SAXReader saxReader = null;
-        String xmlStr = null;
-        Document doc = null;
-        XmlUtil xml = new XmlUtil();
-        try {
-            saxReader = new SAXReader();
-            doc = saxReader.read(request.getInputStream());
-            xmlStr = doc.asXML();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return xml.getXml(object.getClass(), object, xmlStr);
+        //SAXReader saxReader = null;
+        //String xmlStr = null;
+        //Document doc = null;
+        //XmlUtil xml = new XmlUtil();
+        //try {
+        //    saxReader = new SAXReader();
+        //    doc = saxReader.read(request.getInputStream());
+        //    xmlStr = doc.asXML();
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //}
+        //return xml.getXml(object.getClass(), object, xmlStr);
+        return null;
     }
 
     /**

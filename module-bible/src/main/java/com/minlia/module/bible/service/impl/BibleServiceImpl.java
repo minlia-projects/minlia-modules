@@ -18,7 +18,10 @@ import com.minlia.module.bible.service.BibleService;
 import com.minlia.module.bible.util.BibleMapUtils;
 import com.minlia.module.common.annotation.ConfigAutowired;
 import com.minlia.module.dozer.util.DozerUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,11 +40,9 @@ import java.util.Map;
 @Service
 public class BibleServiceImpl extends ServiceImpl<BibleMapper, BibleEntity> implements BibleService {
 
-    private final BibleItemService bibleItemService;
-
-    public BibleServiceImpl(BibleItemService bibleItemService) {
-        this.bibleItemService = bibleItemService;
-    }
+    @Autowired
+    @Lazy
+    private BibleItemService bibleItemService;
 
     @Override
     @Transactional

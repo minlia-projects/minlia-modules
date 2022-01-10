@@ -36,7 +36,7 @@
         <module>module-redis</module>
 
         <!--    地址管理    -->
-        <module>module-district</module>
+<!--        <module>module-district</module>-->
         <!--        <module>module-country</module>-->
         <!--        <module>module-address</module>-->
         <module>module-shipping-address</module>
@@ -54,6 +54,8 @@
         <module>drools-spring-boot-starter</module>
         <module>riskcontrol-spring-boot-starter</module>
 
+        <!--Redis-->
+        <module>minlia-redis</module>
 
         <!--钱包-->
         <module>minlia-wallet</module>
