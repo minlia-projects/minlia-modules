@@ -55,7 +55,7 @@
         <module>riskcontrol-spring-boot-starter</module>
 
         <!--Redis-->
-<!--        <module>minlia-redis</module>-->
+        <module>minlia-redis</module>
 
         <!--钱包-->
         <module>minlia-wallet</module>
