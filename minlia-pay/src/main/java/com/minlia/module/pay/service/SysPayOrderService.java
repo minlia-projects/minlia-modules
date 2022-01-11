@@ -38,6 +38,14 @@ public interface SysPayOrderService extends IService<SysPayOrderEntity> {
     SysPayOrderDto create(SysPayOrderCro cro);
 
     /**
+     * 关闭
+     *
+     * @param orderNo
+     * @return
+     */
+    Response close(String orderNo);
+
+    /**
      * 退款
      *
      * @param orderNo 订单号

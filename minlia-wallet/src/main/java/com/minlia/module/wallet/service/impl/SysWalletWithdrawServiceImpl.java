@@ -95,7 +95,7 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
                     .uid(withdrawEntity.getUid())
                     .type(WalletOperationTypeEnum.THAW)
                     .amount(withdrawEntity.getAmount())
-                    .businessType("WITHDRAW_THAW")
+                    .businessType("WITHDRAW_CANCEL")
                     .businessId(withdrawEntity.getId().toString())
                     .build();
             sysWalletService.update(walletUro);

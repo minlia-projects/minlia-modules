@@ -11,6 +11,7 @@ import com.egzosn.pay.common.bean.TransferOrder;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
 import com.egzosn.pay.spring.boot.core.bean.MerchantPayOrder;
+import com.egzosn.pay.spring.boot.core.bean.MerchantQueryOrder;
 import com.egzosn.pay.wx.v3.bean.WxTransactionType;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
@@ -40,6 +41,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -126,6 +128,23 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public Response close(String orderNo) {
+        SysPayOrderEntity entity = this.getByOrderNo(orderNo);
+        ApiAssert.notNull(entity, SysPayCode.Message.ORDER_NOT_EXISTS);
+        ApiAssert.state(entity.getStatus().equals(SysPayStatusEnum.UNPAID), SysPayCode.Message.ORDER_ALREADY_FINISHED);
+
+        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(entity.getChannel(), entity.getMethod());
+        ApiAssert.notNull(merchantDetailsEntity, SysPayCode.Message.MERCHANT_NOT_EXISTS);
+        MerchantQueryOrder queryOrder = new MerchantQueryOrder();
+        queryOrder.setDetailsId(merchantDetailsEntity.getDetailsId());
+        queryOrder.setTradeNo(entity.getTradeNo());
+        queryOrder.setOutTradeNo(entity.getOrderNo());
+        Map<String, Object> result = payServiceManager.close(queryOrder);
+        return Response.success(result);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response refund(String orderNo) {
         SysPayOrderEntity entity = this.getByOrderNo(orderNo);
         ApiAssert.notNull(entity, SysPayCode.Message.ORDER_NOT_EXISTS);
@@ -134,7 +153,7 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
                     .uid(entity.getUid())
                     .type(WalletOperationTypeEnum.IN)
                     .amount(entity.getAmount())
-                    .businessType("refund")
+                    .businessType("REFUND")
                     .businessId(entity.getOrderNo())
                     .build());
             return Response.success(result);
