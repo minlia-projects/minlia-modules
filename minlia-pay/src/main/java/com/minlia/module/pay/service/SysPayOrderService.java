@@ -5,6 +5,10 @@ import com.minlia.cloud.body.Response;
 import com.minlia.module.pay.bean.SysPayOrderCro;
 import com.minlia.module.pay.bean.SysPayOrderDto;
 import com.minlia.module.pay.entity.SysPayOrderEntity;
+import com.minlia.module.pay.enums.SysPayChannelEnum;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -40,6 +44,12 @@ public interface SysPayOrderService extends IService<SysPayOrderEntity> {
      * @return 退款结果
      */
     Response refund(String orderNo);
+
+    @Transactional(rollbackFor = Exception.class)
+    Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount);
+
+    @Transactional(rollbackFor = Exception.class)
+    Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount, String title);
 
     /**
      * 回调

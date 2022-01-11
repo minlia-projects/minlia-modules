@@ -21,6 +21,13 @@ import org.springframework.stereotype.Service;
 public class MerchantDetailsServiceImpl extends ServiceImpl<MerchantDetailsMapper, MerchantDetailsEntity> implements MerchantDetailsService {
 
     @Override
+    public MerchantDetailsEntity getByTypeAndMethod(SysPayChannelEnum type) {
+        return this.getOne(Wrappers.<MerchantDetailsEntity>lambdaQuery()
+                .eq(MerchantDetailsEntity::getPayType, type)
+                .eq(MerchantDetailsEntity::getDisFlag, false), false);
+    }
+
+    @Override
     public MerchantDetailsEntity getByTypeAndMethod(SysPayChannelEnum type, SysPayMethodEnum method) {
         return this.getOne(Wrappers.<MerchantDetailsEntity>lambdaQuery()
                 .eq(MerchantDetailsEntity::getPayType, type)

@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.egzosn.pay.ali.bean.AliTransactionType;
+import com.egzosn.pay.ali.bean.AliTransferType;
 import com.egzosn.pay.common.bean.DefaultCurType;
 import com.egzosn.pay.common.bean.RefundOrder;
-import com.egzosn.pay.common.bean.RefundResult;
 import com.egzosn.pay.common.bean.TransferOrder;
 import com.egzosn.pay.paypal.bean.PayPalTransactionType;
 import com.egzosn.pay.spring.boot.core.PayServiceManager;
@@ -31,7 +31,6 @@ import com.minlia.module.pay.mapper.SysPayOrderMapper;
 import com.minlia.module.pay.service.MerchantDetailsService;
 import com.minlia.module.pay.service.SysPayOrderService;
 import com.minlia.module.wallet.bean.WalletUro;
-import com.minlia.module.wallet.bean.WalletWithdrawApplyRo;
 import com.minlia.module.wallet.enums.WalletOperationTypeEnum;
 import com.minlia.module.wallet.service.SysWalletService;
 import com.minlia.module.wallet.service.SysWalletWithdrawService;
@@ -102,7 +101,19 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
             this.save(entity);
         } else {
             ApiAssert.state(SysPayStatusEnum.UNPAID.equals(entity.getStatus()), SysPayCode.Message.ORDER_ALREADY_FINISHED);
-            result = getPayInfo(cro);
+            if (SysPayChannelEnum.BALANCE == cro.getChannel()) {
+                result = sysWalletService.update(WalletUro.builder()
+                        .uid(cro.getUid())
+                        .type(WalletOperationTypeEnum.OUT)
+                        .amount(cro.getAmount())
+                        .businessType(null)
+                        .businessId(cro.getOrderNo())
+                        .build());
+                entity.setChannel(SysPayChannelEnum.BALANCE);
+                entity.setStatus(SysPayStatusEnum.PAID);
+            } else {
+                result = getPayInfo(cro);
+            }
             DozerUtils.map(cro, entity);
             this.updateById(entity);
         }
@@ -133,14 +144,60 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         }
     }
 
-    //@Override
-    //@Transactional(rollbackFor = Exception.class)
-    //public Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount) {
-    //    MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(channel, SysPayMethodEnum.PAGE);
-    //    TransferOrder transferOrder = new TransferOrder();
-    //
-    //    //payServiceManager.transfer(transferOrder);
-    //}
+    @Override
+    public Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount) {
+        return null;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount, String title) {
+        MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(channel);
+        TransferOrder transferOrder = new TransferOrder();
+        transferOrder.setTransferType(AliTransferType.TRANS_ACCOUNT_NO_PWD);
+        transferOrder.setOutNo(IdWorker.getIdStr());
+        transferOrder.setAmount(amount);
+        transferOrder.setRemark("withdraw");
+        transferOrder.setPayeeAccount("18566297716");
+        transferOrder.setPayeeName("侯志鹏");
+        transferOrder.addAttr("order_title", title);
+        transferOrder.addAttr("identity_type", "ALIPAY_LOGON_ID");
+        transferOrder.addAttr("identity", "18566297716");
+        transferOrder.addAttr("name", "侯志鹏");
+
+
+        //TransferType transferType = order.getTransferType();
+        //Map<String, Object> parameters = this.getPublicParameters(transferType);
+        //this.setAppAuthToken(parameters, order.getAttrs());
+        //Map<String, Object> bizContent = new LinkedHashMap();
+        //bizContent.put("out_biz_no", order.getOutNo());
+        //bizContent.put("trans_amount", order.getAmount());
+        //transferType.setAttr(bizContent, order);
+        //OrderParaStructure.loadParameters(bizContent, "order_title", order);
+        //OrderParaStructure.loadParameters(bizContent, "original_order_id", order);
+        //this.setPayeeInfo(bizContent, order);
+        //bizContent.put("remark", order.getRemark());
+        //OrderParaStructure.loadParameters(bizContent, "business_params", order);
+        //parameters.put("biz_content", JSON.toJSONString(bizContent));
+        //this.setSign(parameters);
+
+        //private String batchNo;
+        //private String outNo;
+        //private String payeeAccount;
+        //private String payerName;
+        //private String payeeName;
+        //private String payeeAddress;
+        //private String remark;
+        //private Bank bank;
+        //private String payeeBankAddress;
+        //private CurType curType;
+        //private CountryCode countryCode;
+        //private TransferType transferType;
+        //private String ip;
+        //private Map<String, Object> attr;
+
+        return Response.success(payServiceManager.transfer(merchantDetailsEntity.getDetailsId(), transferOrder));
+    }
 
     private String getMethod(SysPayChannelEnum channelEnum, SysPayMethodEnum methodEnum) {
         String method = null;

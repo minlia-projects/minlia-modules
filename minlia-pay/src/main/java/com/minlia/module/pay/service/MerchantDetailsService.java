@@ -16,6 +16,8 @@ import com.minlia.module.pay.enums.SysPayMethodEnum;
  */
 public interface MerchantDetailsService extends IService<MerchantDetailsEntity> {
 
+    MerchantDetailsEntity getByTypeAndMethod(SysPayChannelEnum type);
+
     MerchantDetailsEntity getByTypeAndMethod(SysPayChannelEnum type, SysPayMethodEnum method);
 
 }
