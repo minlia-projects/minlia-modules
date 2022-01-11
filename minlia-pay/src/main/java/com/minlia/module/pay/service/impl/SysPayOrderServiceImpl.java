@@ -90,8 +90,9 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
                         .uid(cro.getUid())
                         .type(WalletOperationTypeEnum.OUT)
                         .amount(cro.getAmount())
-                        .businessType(null)
+                        .businessType(cro.getSubject())
                         .businessId(cro.getOrderNo())
+                        .remark(cro.getBody())
                         .build());
                 entity.setStatus(SysPayStatusEnum.PAID);
             } else {
@@ -106,8 +107,9 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
                         .uid(cro.getUid())
                         .type(WalletOperationTypeEnum.OUT)
                         .amount(cro.getAmount())
-                        .businessType(null)
+                        .businessType(cro.getSubject())
                         .businessId(cro.getOrderNo())
+                        .remark(cro.getBody())
                         .build());
                 entity.setChannel(SysPayChannelEnum.BALANCE);
                 entity.setStatus(SysPayStatusEnum.PAID);
@@ -128,7 +130,7 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         SysPayOrderEntity entity = this.getByOrderNo(orderNo);
         ApiAssert.notNull(entity, SysPayCode.Message.ORDER_NOT_EXISTS);
         if (SysPayChannelEnum.BALANCE == entity.getChannel()) {
-             boolean result = sysWalletService.update(WalletUro.builder()
+            boolean result = sysWalletService.update(WalletUro.builder()
                     .uid(entity.getUid())
                     .type(WalletOperationTypeEnum.IN)
                     .amount(entity.getAmount())
