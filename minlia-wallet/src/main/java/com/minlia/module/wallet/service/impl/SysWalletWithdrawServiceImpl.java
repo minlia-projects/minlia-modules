@@ -59,7 +59,7 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
                 .uid(walletEntity.getUid())
                 .type(WalletOperationTypeEnum.FREEZE)
                 .amount(applyRo.getAmount())
-                .businessType("withdraw_apply")
+                .businessType("WITHDRAW_APPLY")
                 .businessId(withdrawEntity.getId().toString())
                 .build();
         sysWalletService.update(walletUro);
@@ -83,7 +83,7 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
                     .uid(withdrawEntity.getUid())
                     .type(WalletOperationTypeEnum.FREEZE_SETTLED)
                     .amount(withdrawEntity.getAmount())
-                    .businessType("withdraw_settled")
+                    .businessType("WITHDRAW_SETTLED")
                     .businessId(withdrawEntity.getId().toString())
                     .build();
             sysWalletService.update(walletUro);
@@ -95,7 +95,7 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
                     .uid(withdrawEntity.getUid())
                     .type(WalletOperationTypeEnum.THAW)
                     .amount(withdrawEntity.getAmount())
-                    .businessType("withdraw_thaw")
+                    .businessType("WITHDRAW_THAW")
                     .businessId(withdrawEntity.getId().toString())
                     .build();
             sysWalletService.update(walletUro);
