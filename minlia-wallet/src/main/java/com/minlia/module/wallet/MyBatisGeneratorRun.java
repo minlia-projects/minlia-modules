@@ -34,7 +34,7 @@
 //    /**
 //     * 项目名
 //     */
-//    private final String projectName = "minlia-modules/minlia-member/minlia-member-biz";
+//    private final String projectName = "minlia-modules/minlia-wallet";
 //
 //    /**
 //     * 模块名 如果有模块名，则需在模块名前加. 例：.log
@@ -44,7 +44,7 @@
 //    /**
 //     * 指定包名
 //     */
-//    private final String packageName = "com.minlia.module.member";
+//    private final String packageName = "com.minlia.module.wallet";
 //
 //    /**
 //     * controller基础类
@@ -60,7 +60,7 @@
 //    private final String author = "garen";
 //
 //    //指定生成的表名
-//    private final String[] tableNames = new String[]{"sys_member"};
+//    private final String[] tableNames = new String[]{"sys_wallet_ali"};
 //
 //    @Test
 //    public void generateCode() {

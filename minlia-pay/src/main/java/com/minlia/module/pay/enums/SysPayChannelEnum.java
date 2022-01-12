@@ -31,9 +31,9 @@ public enum SysPayChannelEnum {
      */
     PAYPAL(3, "paypalPay");
 
+    @EnumValue
     private final Integer value;
 
-    @EnumValue
     private final String code;
 
 }
