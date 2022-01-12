@@ -35,9 +35,9 @@ public class KlockTests {
     @Test
     public void multithreadingTest() throws Exception {
         ExecutorService executorService = Executors.newFixedThreadPool(6);
-        IntStream.range(0, 100).forEach(i -> executorService.submit(() -> {
+        IntStream.range(0, 1).forEach(i -> executorService.submit(() -> {
             try {
-                String result = testService.getValue("sleep1");
+                String result = testService.getValue("sleep");
                 System.err.println("线程:[" + Thread.currentThread().getName() + "]拿到结果=》" + i + "==>" + result + new Date().toLocaleString());
             } catch (Exception e) {
                 e.printStackTrace();

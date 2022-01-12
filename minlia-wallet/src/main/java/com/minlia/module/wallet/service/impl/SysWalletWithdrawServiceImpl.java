@@ -18,6 +18,7 @@ import com.minlia.module.wallet.service.SysWalletService;
 import com.minlia.module.wallet.service.SysWalletWithdrawService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -68,7 +69,7 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public boolean approval(WalletWithdrawApprovalRo approvalRo) {
         SysWalletWithdrawEntity withdrawEntity = this.getById(approvalRo.getId());
         ApiAssert.notNull(withdrawEntity, WalletCode.Message.WITHDRAW_RECOED_NOT_EXISTS);
@@ -76,7 +77,6 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
 
         if (approvalRo.getPass()) {
             withdrawEntity.setStatus(WithdrawStatusEnum.SETTLED);
-            withdrawEntity.setSettledAmount(approvalRo.getSettledAmount());
 
             //更新钱包冻结金额,可用余额
             WalletUro walletUro = WalletUro.builder()
@@ -91,16 +91,18 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
             withdrawEntity.setStatus(WithdrawStatusEnum.REJECTED);
 
             //更新钱包冻结金额,可用余额
-            WalletUro walletUro = WalletUro.builder()
-                    .uid(withdrawEntity.getUid())
-                    .type(WalletOperationTypeEnum.THAW)
-                    .amount(withdrawEntity.getAmount())
-                    .businessType("WITHDRAW_CANCEL")
-                    .businessId(withdrawEntity.getId().toString())
-                    .build();
-            sysWalletService.update(walletUro);
+            //WalletUro walletUro = WalletUro.builder()
+            //        .uid(withdrawEntity.getUid())
+            //        .type(WalletOperationTypeEnum.THAW)
+            //        .amount(withdrawEntity.getAmount())
+            //        .businessType("WITHDRAW_CANCEL")
+            //        .businessId(withdrawEntity.getId().toString())
+            //        .build();
+            //sysWalletService.update(walletUro);
         }
 
+        withdrawEntity.setSettledAmount(approvalRo.getSettledAmount());
+        withdrawEntity.setRemark(approvalRo.getRemark());
         return this.updateById(withdrawEntity);
     }
 

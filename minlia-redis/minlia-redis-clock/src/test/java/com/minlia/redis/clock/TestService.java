@@ -13,10 +13,10 @@ public class TestService {
 
     int i = 0;
 
-    @Klock(waitTime = 10,leaseTime = 60,keys = {"#param"},lockTimeoutStrategy = LockTimeoutStrategy.FAIL_FAST)
+    @Klock(waitTime = 10,leaseTime = 10,keys = {"#param","222222","333333"},lockTimeoutStrategy = LockTimeoutStrategy.FAIL_FAST)
     public String getValue(String param) throws Exception {
         if ("sleep".equals(param)) {//线程休眠或者断点阻塞，达到一直占用锁的测试效果
-            Thread.sleep(1000*1);
+            Thread.sleep(1000*20);
         }
         System.out.println(i++);
         return "success";

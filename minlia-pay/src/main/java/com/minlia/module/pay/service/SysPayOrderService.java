@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.minlia.cloud.body.Response;
 import com.minlia.module.pay.bean.SysPayOrderCro;
 import com.minlia.module.pay.bean.SysPayOrderDto;
+import com.minlia.module.pay.bean.SysPayTransferOrder;
 import com.minlia.module.pay.entity.SysPayOrderEntity;
 import com.minlia.module.pay.enums.SysPayChannelEnum;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,11 +54,13 @@ public interface SysPayOrderService extends IService<SysPayOrderEntity> {
      */
     Response refund(String orderNo);
 
-    @Transactional(rollbackFor = Exception.class)
-    Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount);
-
-    @Transactional(rollbackFor = Exception.class)
-    Response transfer(Long uid, SysPayChannelEnum channel, BigDecimal amount, String title);
+    /**
+     * 转账
+     *
+     * @param order
+     * @return
+     */
+    Response transfer(SysPayTransferOrder order);
 
     /**
      * 回调

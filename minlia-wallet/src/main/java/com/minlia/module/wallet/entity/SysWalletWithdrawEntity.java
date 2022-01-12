@@ -58,6 +58,10 @@ public class SysWalletWithdrawEntity extends AbstractEntity {
     @TableField("status")
     private WithdrawStatusEnum status;
 
+    @ApiModelProperty(value = "备注")
+    @TableField("remark")
+    private String remark;
+
     @ApiModelProperty(value = "收款人")
     @TableField("payee")
     private String payee;

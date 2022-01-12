@@ -1,19 +1,13 @@
 package com.minlia.module.pay.config;
 
-import com.egzosn.pay.common.bean.CertStoreType;
-import com.egzosn.pay.common.http.HttpConfigStorage;
 import com.egzosn.pay.spring.boot.core.PayServiceConfigurer;
 import com.egzosn.pay.spring.boot.core.configurers.MerchantDetailsServiceConfigurer;
 import com.egzosn.pay.spring.boot.core.configurers.PayMessageConfigurer;
 import com.egzosn.pay.spring.boot.core.merchant.PaymentPlatform;
-import com.egzosn.pay.spring.boot.core.merchant.bean.AliMerchantDetails;
-import com.egzosn.pay.spring.boot.core.merchant.bean.PaypalMerchantDetails;
-import com.egzosn.pay.spring.boot.core.merchant.bean.WxMerchantDetails;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.AliPaymentPlatform;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaymentPlatforms;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.PaypalPaymentPlatform;
 import com.egzosn.pay.spring.boot.core.provider.merchant.platform.WxPaymentPlatform;
-import com.minlia.module.pay.entity.MerchantDetailsEntity;
 import com.minlia.module.pay.handler.AliPayMessageHandler;
 import com.minlia.module.pay.handler.PayPalPayMessageHandler;
 import com.minlia.module.pay.handler.WxPayMessageHandler;
@@ -122,11 +116,6 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
      */
     @Override
     public void configure(PayMessageConfigurer configurer) {
-        //WxPayMessageHandler wxPayMessageHandler = ContextHolder.getContext().getBean(WxPayMessageHandler.class);
-        //AliPayMessageHandler aliPayMessageHandler = ContextHolder.getContext().getBean(AliPayMessageHandler.class);
-        //PayPalPayMessageHandler payPalPayMessageHandler = ContextHolder.getContext().getBean(PayPalPayMessageHandler.class);
-
-
         PaymentPlatform aliPaymentPlatform = PaymentPlatforms.getPaymentPlatform(AliPaymentPlatform.platformName);
         configurer.addHandler(aliPaymentPlatform, aliPayMessageHandler);
         configurer.addInterceptor(aliPaymentPlatform, spring.getBean(AliPayMessageInterceptor.class));
@@ -140,66 +129,66 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
         configurer.addInterceptor(paypalPaymentPlatform, spring.getBean(PaypalPayMessageInterceptor.class));
     }
 
-    public AliMerchantDetails aliMerchantDetails(MerchantDetailsEntity merchantDetailsEntity) {
-        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
-        httpConfigStorage.setMaxTotal(20);
-        httpConfigStorage.setDefaultMaxPerRoute(10);
+    //public AliMerchantDetails aliMerchantDetails(MerchantDetailsEntity merchantDetailsEntity) {
+    //    HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
+    //    httpConfigStorage.setMaxTotal(20);
+    //    httpConfigStorage.setDefaultMaxPerRoute(10);
+    //
+    //    AliMerchantDetails details = new AliMerchantDetails();
+    //    details.detailsId(merchantDetailsEntity.getDetailsId());
+    //    details.appid(merchantDetailsEntity.getAppid());
+    //    details.pid(merchantDetailsEntity.getMchId());
+    //    details.seller(merchantDetailsEntity.getSeller());
+    //    details.keyPrivate(merchantDetailsEntity.getKeyPrivate());
+    //    details.keyPublic(merchantDetailsEntity.getKeyPublic());
+    //    details.inputCharset(merchantDetailsEntity.getInputCharset());
+    //    details.notifyUrl(merchantDetailsEntity.getNotifyUrl());
+    //    details.returnUrl(merchantDetailsEntity.getReturnUrl());
+    //    details.signType(merchantDetailsEntity.getSignType());
+    //    details.setTest(merchantDetailsEntity.getIsTest());
+    //    details.httpConfigStorage(httpConfigStorage);
+    //    return details;
+    //}
 
-        AliMerchantDetails details = new AliMerchantDetails();
-        details.detailsId(merchantDetailsEntity.getDetailsId());
-        details.appid(merchantDetailsEntity.getAppid());
-        details.pid(merchantDetailsEntity.getMchId());
-        details.seller(merchantDetailsEntity.getSeller());
-        details.keyPrivate(merchantDetailsEntity.getKeyPrivate());
-        details.keyPublic(merchantDetailsEntity.getKeyPublic());
-        details.inputCharset(merchantDetailsEntity.getInputCharset());
-        details.notifyUrl(merchantDetailsEntity.getNotifyUrl());
-        details.returnUrl(merchantDetailsEntity.getReturnUrl());
-        details.signType(merchantDetailsEntity.getSignType());
-        details.setTest(merchantDetailsEntity.getIsTest());
-        details.httpConfigStorage(httpConfigStorage);
-        return details;
-    }
+    //public WxMerchantDetails wxMerchantDetails(MerchantDetailsEntity merchantDetailsEntity) {
+    //    HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
+    //    httpConfigStorage.setMaxTotal(20);
+    //    httpConfigStorage.setDefaultMaxPerRoute(10);
+    //
+    //    httpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书");
+    //    httpConfigStorage.setCertStoreType(CertStoreType.URL);
+    //    httpConfigStorage.setStorePassword("ssl 证书对应的密码， 默认为商户号");
+    //
+    //    WxMerchantDetails details = new WxMerchantDetails();
+    //    details.detailsId(merchantDetailsEntity.getDetailsId());
+    //    details.appid(merchantDetailsEntity.getAppid());
+    //    details.mchId(merchantDetailsEntity.getMchId());
+    //    details.secretKey(merchantDetailsEntity.getKeyCert());
+    //    details.inputCharset(merchantDetailsEntity.getInputCharset());
+    //    details.notifyUrl(merchantDetailsEntity.getNotifyUrl());
+    //    details.returnUrl(merchantDetailsEntity.getReturnUrl());
+    //    details.signType(merchantDetailsEntity.getSignType());
+    //    details.setTest(merchantDetailsEntity.getIsTest());
+    //    details.httpConfigStorage(httpConfigStorage);
+    //    return details;
+    //}
 
-    public WxMerchantDetails wxMerchantDetails(MerchantDetailsEntity merchantDetailsEntity) {
-        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
-        httpConfigStorage.setMaxTotal(20);
-        httpConfigStorage.setDefaultMaxPerRoute(10);
-
-        httpConfigStorage.setKeystore("http://www.egzosn.com/certs/ssl 退款证书");
-        httpConfigStorage.setCertStoreType(CertStoreType.URL);
-        httpConfigStorage.setStorePassword("ssl 证书对应的密码， 默认为商户号");
-
-        WxMerchantDetails details = new WxMerchantDetails();
-        details.detailsId(merchantDetailsEntity.getDetailsId());
-        details.appid(merchantDetailsEntity.getAppid());
-        details.mchId(merchantDetailsEntity.getMchId());
-        details.secretKey(merchantDetailsEntity.getKeyCert());
-        details.inputCharset(merchantDetailsEntity.getInputCharset());
-        details.notifyUrl(merchantDetailsEntity.getNotifyUrl());
-        details.returnUrl(merchantDetailsEntity.getReturnUrl());
-        details.signType(merchantDetailsEntity.getSignType());
-        details.setTest(merchantDetailsEntity.getIsTest());
-        details.httpConfigStorage(httpConfigStorage);
-        return details;
-    }
-
-    public PaypalMerchantDetails paypalMerchantDetails(MerchantDetailsEntity merchantDetailsEntity) {
-        HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
-        httpConfigStorage.setMaxTotal(20);
-        httpConfigStorage.setDefaultMaxPerRoute(10);
-
-        PaypalMerchantDetails details = new PaypalMerchantDetails();
-        details.detailsId(merchantDetailsEntity.getDetailsId());
-        details.setClientID(merchantDetailsEntity.getMchId());
-        details.setClientSecret(merchantDetailsEntity.getKeyCert());
-        details.setNotifyUrl(merchantDetailsEntity.getNotifyUrl());
-        details.setReturnUrl(merchantDetailsEntity.getReturnUrl());
-        details.httpConfigStorage(httpConfigStorage);
-        details.cancelUrl(merchantDetailsEntity.getReturnUrl());
-        details.setTest(false);
-        details.initService();
-        return details;
-    }
+    //public PaypalMerchantDetails paypalMerchantDetails(MerchantDetailsEntity merchantDetailsEntity) {
+    //    HttpConfigStorage httpConfigStorage = new HttpConfigStorage();
+    //    httpConfigStorage.setMaxTotal(20);
+    //    httpConfigStorage.setDefaultMaxPerRoute(10);
+    //
+    //    PaypalMerchantDetails details = new PaypalMerchantDetails();
+    //    details.detailsId(merchantDetailsEntity.getDetailsId());
+    //    details.setClientID(merchantDetailsEntity.getMchId());
+    //    details.setClientSecret(merchantDetailsEntity.getKeyCert());
+    //    details.setNotifyUrl(merchantDetailsEntity.getNotifyUrl());
+    //    details.setReturnUrl(merchantDetailsEntity.getReturnUrl());
+    //    details.httpConfigStorage(httpConfigStorage);
+    //    details.cancelUrl(merchantDetailsEntity.getReturnUrl());
+    //    details.setTest(false);
+    //    details.initService();
+    //    return details;
+    //}
 
 }

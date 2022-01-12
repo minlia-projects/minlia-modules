@@ -11,7 +11,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.4.2</spring-boot.version>
+        <spring-boot.version>2.6.2</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -52,13 +52,7 @@
             <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--            <version>${spring-boot.version}</version>-->
-<!--            <optional>true</optional>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -95,11 +89,11 @@
                     <source>${java.version}</source> <!--指明源码用的Jdk版本-->
                     <target>${java.version}</target> <!--指明打包后的Jdk版本-->
                     <!-- 如果发现依然排除不了，考虑先clean再install-->
-                    <excludes>
-                        <exclude>
-                            com.minlia.module.realname.MinliaRealNameApplication
-                        </exclude>
-                    </excludes>
+<!--                    <excludes>-->
+<!--                        <exclude>-->
+<!--                            com.minlia.redis.clock.KlockTestApplication-->
+<!--                        </exclude>-->
+<!--                    </excludes>-->
                 </configuration>
             </plugin>
         </plugins>
