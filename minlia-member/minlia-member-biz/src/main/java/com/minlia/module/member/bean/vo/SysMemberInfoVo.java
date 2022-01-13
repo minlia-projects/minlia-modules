@@ -64,6 +64,9 @@ public class SysMemberInfoVo {
     @ApiModelProperty(value = "身份证")
     private String idNumber;
 
+    @ApiModelProperty(value = "阿里账号")
+    private String aliAccount;
+
     @ApiModelProperty(value = "有设置二级密码")
     private Boolean hasSecondaryPassword;
 
