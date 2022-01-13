@@ -87,10 +87,13 @@ public class SysRealNameDTO {
         @JsonProperty("address")
         private String address;
 
+        public boolean isSuccess() {
+            return res == 1;
+        }
     }
 
     public boolean isSuccess() {
-        return code == 0 && result.getRes() == 1;
+        return code == 0;
     }
 
     public boolean isFailure() {

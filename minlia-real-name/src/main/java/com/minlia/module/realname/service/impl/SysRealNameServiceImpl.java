@@ -52,16 +52,33 @@ public class SysRealNameServiceImpl extends ServiceImpl<SysRealNameMapper, SysRe
 
         //保存记录
         SysRealNameEntity entity = DozerUtils.map(cro, SysRealNameEntity.class);
+
         if (realNameDTO.isSuccess()) {
-            entity.setStatus(SysAuthenticationStatusEnum.PASSED);
-            this.save(entity);
-            //发送成功事件 TODO
-            SysRealNameAuthEvent.publish(realNameDTO);
-            return Response.success(realNameDTO.getCode().toString(), realNameDTO.getResult().getDescription());
+            Response response = null;
+            //1 一致；2 不一致；3 无记
+            switch (realNameDTO.getResult().getRes()) {
+                case 1:
+                    entity.setStatus(SysAuthenticationStatusEnum.PASSED);
+                    this.save(entity);
+                    //发送成功事件 TODO
+                    SysRealNameAuthEvent.publish(realNameDTO);
+                    response = Response.success(SysRealNameCode.Message.AUTHENTICATION_SUCCESSFUL);
+                    break;
+                case 2:
+                    entity.setStatus(SysAuthenticationStatusEnum.FAILED);
+                    this.save(entity);
+                    response = Response.failure(SysRealNameCode.Message.IDENTITY_INCONSISTENCY);
+                    break;
+                case 3:
+                    entity.setStatus(SysAuthenticationStatusEnum.FAILED);
+                    this.save(entity);
+                    response = Response.failure(SysRealNameCode.Message.INCORRECT_IDENTITY_INFORMATION);
+                    break;
+                default:
+            }
+            return response;
         } else {
-            entity.setStatus(SysAuthenticationStatusEnum.FAILED);
-            this.save(entity);
-            return Response.failure(realNameDTO.getCode().toString(), realNameDTO.isFailure() ? realNameDTO.getMessage() : realNameDTO.getResult().getDescription());
+            return Response.failure(realNameDTO.getCode().toString(), realNameDTO.getMessage());
         }
     }
 
