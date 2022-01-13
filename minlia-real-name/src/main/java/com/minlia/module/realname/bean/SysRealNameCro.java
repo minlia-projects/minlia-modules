@@ -1,6 +1,8 @@
 package com.minlia.module.realname.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.module.common.validation.IdCard;
+import com.minlia.module.common.validation.NameZh;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,24 +30,24 @@ public class SysRealNameCro {
 
     @ApiModelProperty(value = "姓名")
     @NotBlank
-    @Size(max = 20)
+    @NameZh
     private String name;
 
     @ApiModelProperty(value = "身份证号码")
     @NotBlank
-    @Size(max = 20)
+    @IdCard
     private String idNumber;
 
-    @ApiModelProperty(value = "身份证正面照片")
-    @Size(max = 255)
-    private String frontPhoto;
-
-    @ApiModelProperty(value = "身份证反面照片")
-    @Size(max = 255)
-    private String reversePhoto;
-
-    @ApiModelProperty(value = "身份证手持照片")
-    @Size(max = 255)
-    private String holdPhoto;
+    //@ApiModelProperty(value = "身份证正面照片")
+    //@Size(max = 255)
+    //private String frontPhoto;
+    //
+    //@ApiModelProperty(value = "身份证反面照片")
+    //@Size(max = 255)
+    //private String reversePhoto;
+    //
+    //@ApiModelProperty(value = "身份证手持照片")
+    //@Size(max = 255)
+    //private String holdPhoto;
 
 }
