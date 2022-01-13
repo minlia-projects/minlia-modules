@@ -35,11 +35,15 @@
             sut.last_login_time,
             sut.create_date AS 'registerTime',
             swt.balance	AS 'walletBalance',
-            smt.real_name
+            smt.real_name,
+            smt.`name`,
+            smt.id_number,
+            IF(smt.secondary_password IS NULL, 0, 1) AS hasSecondaryPassword,
+            (SELECT COUNT(1) FROM sys_wallet_ali WHERE uid = #{uid}) AS hasBindAlipay
         FROM
             sys_member smt
-        LEFT JOIN sys_user sut ON sut.id = smt.uid
-        LEFT JOIN sys_wallet swt ON swt.uid = smt.uid
+                LEFT JOIN sys_user sut ON sut.id = smt.uid
+                LEFT JOIN sys_wallet swt ON swt.uid = smt.uid
         WHERE
             smt.uid = #{uid}
     </select>

@@ -58,4 +58,16 @@ public class SysMemberInfoVo {
     @ApiModelProperty(value = "实名认证")
     private Boolean realName;
 
+    @ApiModelProperty(value = "姓名")
+    private String name;
+
+    @ApiModelProperty(value = "身份证")
+    private String idNumber;
+
+    @ApiModelProperty(value = "有设置二级密码")
+    private Boolean hasSecondaryPassword;
+
+    @ApiModelProperty(value = "有绑定支付宝")
+    private Boolean hasBindAlipay;
+
 }
