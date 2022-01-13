@@ -39,11 +39,13 @@
             smt.`name`,
             smt.id_number,
             IF(smt.secondary_password IS NULL, 0, 1) AS hasSecondaryPassword,
-            (SELECT COUNT(1) FROM sys_wallet_ali WHERE uid = #{uid}) AS hasBindAlipay
+            swit.number AS aliAccount,
+            IF(swit.number IS NULL, 0, 1) AS hasBindAlipay
         FROM
             sys_member smt
-                LEFT JOIN sys_user sut ON sut.id = smt.uid
-                LEFT JOIN sys_wallet swt ON swt.uid = smt.uid
+        LEFT JOIN sys_user sut ON sut.id = smt.uid
+        LEFT JOIN sys_wallet swt ON swt.uid = smt.uid
+        LEFT JOIN sys_wallet_ali swit ON swit.uid = smt.uid
         WHERE
             smt.uid = #{uid}
     </select>
