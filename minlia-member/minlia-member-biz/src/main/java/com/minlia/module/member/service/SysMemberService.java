@@ -23,8 +23,13 @@ public interface SysMemberService extends IService<SysMemberEntity> {
 
     Response realName(SysRealNameCro cro);
 
+    boolean setPassword(String password, String verificationCode);
+
+    boolean verifyPassword(String password);
+
     SysMemberInfoVo me();
 
     Page<SysMemberInfoVo> page(SysMemberQro qro);
 
+    SysMemberEntity getByUid(Long uid);
 }

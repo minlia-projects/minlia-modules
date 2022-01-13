@@ -87,6 +87,7 @@ public class LoginServiceImpl implements LoginService {
                 .dpType(roleEntity.getDpType())
                 .dpScope(roleEntity.getDpScope())
                 .username(userEntity.getUsername())
+                .areaCode(userEntity.getAreaCode())
                 .cellphone(userEntity.getCellphone())
                 .email(userEntity.getEmail())
                 .uid(userEntity.getId())

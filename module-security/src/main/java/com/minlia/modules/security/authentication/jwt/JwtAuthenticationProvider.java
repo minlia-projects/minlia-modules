@@ -66,6 +66,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
                 .dpType(jwsClaims.getBody().get("dpType", Integer.class))
                 .dpScope(jwsClaims.getBody().get("dpScope", String.class))
                 .username(jwsClaims.getBody().getSubject())
+                .areaCode(jwsClaims.getBody().get("areaCode", Integer.class))
                 .cellphone(jwsClaims.getBody().get("cellphone", String.class))
                 .email(jwsClaims.getBody().get("email", String.class))
                 .roles(jwsClaims.getBody().get("roles", List.class))

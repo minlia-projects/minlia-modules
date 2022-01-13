@@ -17,11 +17,15 @@ public class SysMemberCode {
         NOT_MEMBER,
 
         /**
-         * 未开通个人认证
+         * 未开通实名认证
          */
-        PERSONAL_CERTIFICATION_NOT_OPENED,
+        REAL_NAME_NOT_OPENED,
 
-        REGISTRATION_SUCCESS, REGISTRATION_FAILURE;
+        VERIFY_PASSWORD_FAILURE,
+
+        REGISTRATION_SUCCESS,
+
+        REGISTRATION_FAILURE;
 
         @Override
         public String module() {

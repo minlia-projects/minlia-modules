@@ -43,13 +43,13 @@ public class JwtTokenFactory {
         claims.put("orgId", userContext.getOrgId());
         claims.put("dpType", userContext.getDpType());
         claims.put("dpScope", userContext.getDpScope());
+        claims.put("areaCode", userContext.getAreaCode());
         claims.put("cellphone", userContext.getCellphone());
         claims.put("email", userContext.getEmail());
         claims.put("currrole", userContext.getCurrrole());
         claims.put("currdomain", userContext.getCurrdomain());
         claims.put("roles", userContext.getRoles());
         claims.put("permissions", userContext.getPermissions());
-
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
     }
 

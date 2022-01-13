@@ -45,6 +45,8 @@ public class UserContext implements Body {
      */
     private String username;
 
+    private Integer areaCode;
+
     /**
      * 手机号码
      */

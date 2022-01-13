@@ -5,6 +5,7 @@ import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
+import com.minlia.module.member.bean.SysMemberPasswordSro;
 import com.minlia.module.member.bean.SysMemberQro;
 import com.minlia.module.member.constant.SysMemberConstants;
 import com.minlia.module.member.service.SysMemberService;
@@ -40,6 +41,22 @@ public class SysMemberController {
     public Response authentication(@Valid @RequestBody SysRealNameCro cro) {
         return sysMemberService.realName(cro);
     }
+
+    @PreAuthorize(value = "hasAnyAuthority('" + SysMemberConstants.Authorize.AUTH + "')")
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
+    @ApiOperation(value = "设置二级密码")
+    @PostMapping(value = "password")
+    public Response setPassword(@Valid @RequestBody SysMemberPasswordSro sro) {
+        return Response.success(sysMemberService.setPassword(sro.getPassword(), sro.getCaptcha()));
+    }
+
+    //@PreAuthorize(value = "hasAnyAuthority('" + SysMemberConstants.Authorize.AUTH + "')")
+    //@AuditLog(type = AuditOperationTypeEnum.CREATE)
+    //@ApiOperation(value = "验证二级密码")
+    //@PostMapping(value = "password/verify/{password}")
+    //public Response verifyPassword(@PathVariable("password") String password) {
+    //    return Response.success(sysMemberService.verifyPassword(password));
+    //}
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysMemberConstants.Authorize.READ + "')")
     @AuditLog(type = AuditOperationTypeEnum.SELECT)

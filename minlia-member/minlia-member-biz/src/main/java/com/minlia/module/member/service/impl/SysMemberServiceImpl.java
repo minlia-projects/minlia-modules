@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.member.bean.SysMemberQro;
 import com.minlia.module.member.bean.vo.SysMemberInfoVo;
-import com.minlia.module.member.constant.SysMemberCode;
 import com.minlia.module.member.constant.SysMemberConstants;
 import com.minlia.module.member.entity.SysMemberEntity;
 import com.minlia.module.member.mapper.SysMemberMapper;
@@ -19,6 +19,7 @@ import com.minlia.module.rebecca.user.bean.UserRegisterRo;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.service.SysUserRegisterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SysMemberServiceImpl extends ServiceImpl<SysMemberMapper, SysMemberEntity> implements SysMemberService {
 
+    private final CaptchaService captchaService;
     private final SysRealNameService sysRealNameService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final SysUserRegisterService sysUserRegisterService;
 
     @Override
@@ -62,6 +65,22 @@ public class SysMemberServiceImpl extends ServiceImpl<SysMemberMapper, SysMember
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean setPassword(String password, String verificationCode) {
+        SysMemberEntity entity = this.getByUid(SecurityContextHolder.getUid());
+        Response response = captchaService.validity(SecurityContextHolder.getUserContext().getAreaCode() + SecurityContextHolder.getUserContext().getCellphone(), verificationCode);
+        ApiAssert.state(response.isSuccess(), response.getCode(), response.getMessage());
+        entity.setSecondaryPassword(bCryptPasswordEncoder.encode(password));
+        return this.updateById(entity);
+    }
+
+    @Override
+    public boolean verifyPassword(String password) {
+        SysMemberEntity entity = this.getByUid(SecurityContextHolder.getUid());
+        return bCryptPasswordEncoder.matches(password, entity.getSecondaryPassword());
+    }
+
+    @Override
     public SysMemberInfoVo me() {
         return this.baseMapper.selectDetailsByUid(SecurityContextHolder.getUid());
     }
@@ -71,6 +90,7 @@ public class SysMemberServiceImpl extends ServiceImpl<SysMemberMapper, SysMember
         return this.baseMapper.selectDetailsPage(qro.getPage(), qro);
     }
 
+    @Override
     public SysMemberEntity getByUid(Long uid) {
         return this.getOne(Wrappers.<SysMemberEntity>lambdaQuery().eq(SysMemberEntity::getUid, uid));
     }

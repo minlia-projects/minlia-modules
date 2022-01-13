@@ -3,17 +3,22 @@ package com.minlia.module.wallet.service.impl;
 import cn.hutool.core.util.NumberUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.minlia.cloud.utils.ApiAssert;
+import com.minlia.module.member.constant.SysMemberCode;
+import com.minlia.module.member.entity.SysMemberEntity;
+import com.minlia.module.member.service.SysMemberService;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.wallet.bean.WalletUro;
 import com.minlia.module.wallet.bean.WalletWithdrawApplyRo;
 import com.minlia.module.wallet.bean.WalletWithdrawApprovalRo;
 import com.minlia.module.wallet.config.WalletConfig;
 import com.minlia.module.wallet.constant.WalletCode;
+import com.minlia.module.wallet.entity.SysWalletAliEntity;
 import com.minlia.module.wallet.entity.SysWalletEntity;
 import com.minlia.module.wallet.entity.SysWalletWithdrawEntity;
 import com.minlia.module.wallet.enums.WalletOperationTypeEnum;
 import com.minlia.module.wallet.enums.WithdrawStatusEnum;
 import com.minlia.module.wallet.mapper.SysWalletWithdrawMapper;
+import com.minlia.module.wallet.service.SysWalletAliService;
 import com.minlia.module.wallet.service.SysWalletService;
 import com.minlia.module.wallet.service.SysWalletWithdrawService;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +40,24 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
 
     private final WalletConfig walletConfig;
     private final SysWalletService sysWalletService;
+    private final SysMemberService sysMemberService;
+    private final SysWalletAliService sysWalletAliService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public SysWalletWithdrawEntity apply(WalletWithdrawApplyRo applyRo) {
+        //验证二级密码
+        boolean result = sysMemberService.verifyPassword(applyRo.getPassword());
+        ApiAssert.state(result, SysMemberCode.Message.VERIFY_PASSWORD_FAILURE);
+
+        //是否实名
+        SysMemberEntity memberEntity = sysMemberService.getByUid(SecurityContextHolder.getUid());
+        ApiAssert.state(memberEntity.getRealName(), SysMemberCode.Message.REAL_NAME_NOT_OPENED);
+
+        //获取支付宝账号
+        SysWalletAliEntity walletAliEntity = sysWalletAliService.getByUid(memberEntity.getUid());
+        ApiAssert.notNull(walletAliEntity, WalletCode.Message.ALIPAY_ACCOUNT_NOT_SETUP);
+
         SysWalletEntity walletEntity = sysWalletService.getByUid(SecurityContextHolder.getUid());
         ApiAssert.state(NumberUtil.isGreaterOrEqual(applyRo.getAmount(), walletConfig.getMinimumWithdrawalAmount()), WalletCode.Message.LESS_THAN_MINIMUM_WITHDRAWAL_AMOUNT);
         ApiAssert.state(NumberUtil.isGreaterOrEqual(walletEntity.getBalance(), applyRo.getAmount()), WalletCode.Message.BALANCE_NOT_ENOUGH);
@@ -49,8 +68,8 @@ public class SysWalletWithdrawServiceImpl extends ServiceImpl<SysWalletWithdrawM
                 .walletId(walletEntity.getId())
                 .channel(applyRo.getChannel())
                 .amount(applyRo.getAmount())
-                .payee(applyRo.getPayee())
-                .account(applyRo.getAccount())
+                .payee(walletAliEntity.getName())
+                .account(walletAliEntity.getNumber())
                 .status(WithdrawStatusEnum.PENDING)
                 .build();
         this.save(withdrawEntity);
