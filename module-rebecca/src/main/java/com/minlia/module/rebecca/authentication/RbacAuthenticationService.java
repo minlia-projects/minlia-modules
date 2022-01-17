@@ -108,30 +108,32 @@ public class RbacAuthenticationService implements AuthenticationService {
                 ApiAssert.notNull(loginCredentials.getAreaCode(), SysUserCode.Message.AREA_CODE_NOT_NULL);
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.CELLPHONE_NOT_NULL);
 
-                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
-                        .eq(SysUserEntity::getCellphone, loginCredentials.getName())
-                        .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
-                if (Objects.isNull(userEntity)) {
-                    Response response = captchaService.validity(loginCredentials.getAreaCode() + loginCredentials.getName(), vcode);
-                    if (!response.isSuccess()) {
-                        throw new DefaultAuthenticationException(response.getI18nCode());
+                if (StringUtils.isNotBlank(vcode)) {
+                    userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
+                            .eq(SysUserEntity::getCellphone, loginCredentials.getName())
+                            .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
+                    if (Objects.isNull(userEntity)) {
+                        Response response = captchaService.validity(loginCredentials.getAreaCode() + loginCredentials.getName(), vcode);
+                        if (!response.isSuccess()) {
+                            throw new DefaultAuthenticationException(response.getI18nCode());
+                        }
+
+                        userEntity = sysUserService.create(SysUserCro.builder()
+                                .areaCode(loginCredentials.getAreaCode())
+                                .cellphone(loginCredentials.getName())
+                                .password(RandomStringUtils.randomAlphanumeric(16))
+                                .roles(Sets.newHashSet())
+                                .defaultRole("ROLE_MEMBER")
+                                .build());
+
+                        //获取用户上下文
+                        UserContext userContext = loginService.getUserContext(userEntity, Objects.nonNull(loginCredentials.getCurrrole()) ? loginCredentials.getCurrrole() : userEntity.getDefaultRole());
+                        checkDomain(userContext.getCurrdomain());
+
+                        //登录成功事件
+                        SysLoginSuccessEvent.publish(userEntity);
+                        return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
                     }
-
-                    userEntity = sysUserService.create(SysUserCro.builder()
-                            .areaCode(loginCredentials.getAreaCode())
-                            .cellphone(loginCredentials.getName())
-                            .password(RandomStringUtils.randomAlphanumeric(16))
-                            .roles(Sets.newHashSet())
-                            .defaultRole("ROLE_MEMBER")
-                            .build());
-
-                    //获取用户上下文
-                    UserContext userContext = loginService.getUserContext(userEntity, Objects.nonNull(loginCredentials.getCurrrole()) ? loginCredentials.getCurrrole() : userEntity.getDefaultRole());
-                    checkDomain(userContext.getCurrdomain());
-
-                    //登录成功事件
-                    SysLoginSuccessEvent.publish(userEntity);
-                    return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
                 }
                 break;
             case EMAIL:

@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @Data
 public class SysWalletAliSro {
 
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "二级密码")
     @NotBlank
     @Size(min = 6, max = 6)
     private String password;
