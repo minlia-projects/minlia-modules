@@ -107,11 +107,11 @@ public class RbacAuthenticationService implements AuthenticationService {
             case CELLPHONE:
                 ApiAssert.notNull(loginCredentials.getAreaCode(), SysUserCode.Message.AREA_CODE_NOT_NULL);
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.CELLPHONE_NOT_NULL);
+                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
+                        .eq(SysUserEntity::getCellphone, loginCredentials.getName())
+                        .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
 
                 if (StringUtils.isNotBlank(vcode)) {
-                    userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
-                            .eq(SysUserEntity::getCellphone, loginCredentials.getName())
-                            .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
                     if (Objects.isNull(userEntity)) {
                         Response response = captchaService.validity(loginCredentials.getAreaCode() + loginCredentials.getName(), vcode);
                         if (!response.isSuccess()) {
