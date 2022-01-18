@@ -52,7 +52,7 @@ public class MerchantPayServiceConfigurer implements PayServiceConfigurer {
         log.info("初始化支付商户配置==============================================");
         merchants.jdbc()
                 //是否开启缓存，默认不开启,这里开启缓存
-                .cache(true)
+                .cache(false)
                 .template(jdbcTemplate);
 
         //内存Builder方式
