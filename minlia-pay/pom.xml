@@ -98,6 +98,7 @@
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
             <version>4.22.17.ALL</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
