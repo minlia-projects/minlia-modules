@@ -37,7 +37,7 @@ public class SysUserRelationServiceImpl extends ServiceImpl<SysUserRelationMappe
                     return relation;
                 }).collect(Collectors.toList());
         //自己也要维护到关系表中
-        relationList.add(SysUserRelationEntity.builder().ancestor(ancestor).descendant(descendant).level(1).build());
+        relationList.add(SysUserRelationEntity.builder().ancestor(descendant).descendant(descendant).level(0).build());
         this.saveBatch(relationList);
     }
 
