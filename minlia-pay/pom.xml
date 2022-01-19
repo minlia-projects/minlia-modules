@@ -16,8 +16,8 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <pay-starter.starter>1.0.2-b1</pay-starter.starter>
-        <pay-java.version>2.14.3-b4</pay-java.version>
+        <pay-starter.starter>1.0.2-b</pay-starter.starter>
+        <pay-java.version>2.14.3-b</pay-java.version>
     </properties>
 
     <dependencies>
@@ -91,6 +91,13 @@
             <groupId>com.egzosn</groupId>
             <artifactId>pay-java-paypal</artifactId>
             <version>${pay-java.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.22.17.ALL</version>
         </dependency>
     </dependencies>
 
