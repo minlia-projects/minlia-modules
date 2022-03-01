@@ -29,7 +29,7 @@ import javax.validation.Valid;
  * @author garen
  * @since 2021-04-14
  */
-@Api(tags = "HSJS Integral Record", description = "积分-记录")
+@Api(tags = "System Integral Record", description = "积分-记录")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "integral/record")
 @RequiredArgsConstructor

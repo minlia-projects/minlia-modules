@@ -46,8 +46,8 @@ public class RestConfiguration {
 //        RestTemplate restTemplate = restTemplateBuilder.setReadTimeout(5000).setConnectTimeout(5000).build();
 
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setReadTimeout(10000);
-        requestFactory.setConnectTimeout(10000);
+        requestFactory.setReadTimeout(1000 * 60);
+        requestFactory.setConnectTimeout(1000 * 60);
         RestTemplate restTemplate = new RestTemplate(requestFactory);
 
         List<HttpMessageConverter<?>> converters = new ArrayList<>();

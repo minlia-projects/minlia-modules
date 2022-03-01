@@ -29,7 +29,7 @@ import javax.validation.Valid;
  * @author garen
  * @since 2021-04-15
  */
-@Api(tags = "HSJS Integral User", description = "积分-用户")
+@Api(tags = "System Integral User", description = "积分-用户")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "integral/user")
 @RequiredArgsConstructor

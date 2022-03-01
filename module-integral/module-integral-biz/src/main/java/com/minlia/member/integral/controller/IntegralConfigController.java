@@ -30,7 +30,7 @@ import javax.validation.Valid;
  * @author garen
  * @since 2021-04-14
  */
-@Api(tags = "HSJS Integral Config", description = "积分-配置")
+@Api(tags = "System Integral Config", description = "积分-配置")
 @RestController
 @RequestMapping(value = ApiPrefix.V1 + "integral/config")
 @RequiredArgsConstructor
