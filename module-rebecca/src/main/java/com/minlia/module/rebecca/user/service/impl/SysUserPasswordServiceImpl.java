@@ -3,8 +3,6 @@ package com.minlia.module.rebecca.user.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
-import com.minlia.module.captcha.constant.CaptchaCode;
-import com.minlia.module.captcha.entity.CaptchaEntity;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
 import com.minlia.module.rebecca.user.bean.SysPasswordByCaptchaChangeTo;
@@ -16,7 +14,6 @@ import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
 import com.minlia.module.rebecca.user.service.SysUserPasswordService;
 import com.minlia.module.rebecca.user.service.SysUserService;
 import com.minlia.modules.security.model.token.TokenCacheUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,16 +63,8 @@ public class SysUserPasswordServiceImpl implements SysUserPasswordService {
     @Override
     public boolean change(SysPasswordByCaptchaChangeTo to) {
         SysUserEntity entity = SecurityContextHolder.getCurrentUser();
-        CaptchaEntity captcha = captchaService.getOne(Wrappers.<CaptchaEntity>lambdaQuery()
-                .eq(CaptchaEntity::getLastModifiedBy, entity.getId()).eq(CaptchaEntity::getVcode, to.getVcode()));
-        ApiAssert.notNull(captcha, CaptchaCode.Message.NOT_FOUND);
-
-        //验证验证码是否正确
-        if (StringUtils.isNotBlank(captcha.getCellphone())) {
-            captchaService.validity(captcha.getCellphone(), to.getVcode());
-        } else {
-            captchaService.validity(captcha.getEmail(), to.getVcode());
-        }
+        Response response = captchaService.validity(entity.getAreaCode() + entity.getCellphone(), to.getVcode());
+        ApiAssert.state(response.isSuccess(), response.getCode(), response.getMessage());
         return change(entity, to.getNewPassword());
     }
 
@@ -99,7 +88,7 @@ public class SysUserPasswordServiceImpl implements SysUserPasswordService {
         entity.setLockTime(LocalDateTime.now());
         sysUserService.update(entity, SysUserUpdateTypeEnum.CHANGE_PASSWORD);
         //注销token
-        TokenCacheUtils.kill(entity.getId());
+        //TokenCacheUtils.kill(entity.getId());
         return true;
     }
 

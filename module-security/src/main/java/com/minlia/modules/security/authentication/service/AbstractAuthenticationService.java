@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
  */
 public abstract class AbstractAuthenticationService implements AuthenticationService {
 
+    @Override
     public Authentication authentication(Authentication authentication) {
         return authentication;
     }

@@ -38,6 +38,8 @@
             smt.real_name,
             smt.`name`,
             smt.id_number,
+            smt.chain_address,
+            IF(sut.`password` IS NULL, 0, 1) AS hasPassword,
             IF(smt.secondary_password IS NULL, 0, 1) AS hasSecondaryPassword,
             swit.number AS aliAccount,
             IF(swit.number IS NULL, 0, 1) AS hasBindAlipay

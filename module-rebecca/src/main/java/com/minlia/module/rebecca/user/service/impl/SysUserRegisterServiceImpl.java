@@ -60,7 +60,7 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
                     .roles(Sets.newHashSet())
                     .inviteCode(ro.getInviteCode())
                     .nickname(ro.getNickname())
-                    .defaultRole("ROLE_MEMBER")
+                    .defaultRole(ro.getRoleCode())
                     .build());
             return Response.success(entity);
         } else {
@@ -68,17 +68,17 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
         }
     }
 
-    private Response<SysUserEntity> registerByEmail(UserRegisterRo to) {
-        Response response = captchaService.validity(to.getEmail(), to.getVcode());
+    private Response<SysUserEntity> registerByEmail(UserRegisterRo ro) {
+        Response response = captchaService.validity(ro.getEmail(), ro.getVcode());
         if (response.isSuccess()) {
             SysUserEntity entity = sysUserService.create(SysUserCro.builder()
-                    .email(to.getEmail())
-                    .password(to.getPassword())
-                    .defaultRole(to.getRoleCode())
+                    .email(ro.getEmail())
+                    .password(ro.getPassword())
+                    .defaultRole(ro.getRoleCode())
                     .roles(Sets.newHashSet())
-                    .inviteCode(to.getInviteCode())
-                    .nickname(to.getNickname())
-                    .defaultRole("ROLE_MEMBER")
+                    .inviteCode(ro.getInviteCode())
+                    .nickname(ro.getNickname())
+                    .defaultRole(ro.getRoleCode())
                     .build());
             return Response.success(entity);
         } else {

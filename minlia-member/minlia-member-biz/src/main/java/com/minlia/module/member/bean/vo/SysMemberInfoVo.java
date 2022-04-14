@@ -1,6 +1,8 @@
 package com.minlia.module.member.bean.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.module.common.annotation.SensitiveInfo;
+import com.minlia.module.common.enums.SensitiveTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -28,10 +30,15 @@ public class SysMemberInfoVo {
     private String nickname;
 
     @ApiModelProperty(value = "邮箱")
+    //@SensitiveInfo(value = SensitiveTypeEnum.EMAIL)
     private String email;
 
     @ApiModelProperty(value = "手机")
+    //@SensitiveInfo(value = SensitiveTypeEnum.MOBILE_PHONE)
     private String cellphone;
+
+    @ApiModelProperty(value = "链上地址")
+    private String chainAddress;
 
     @ApiModelProperty(value = "邀请码")
     private String inviteCode;
@@ -55,17 +62,21 @@ public class SysMemberInfoVo {
     @JsonIgnore
     private Long integralBalance;
 
-    @ApiModelProperty(value = "实名认证")
-    private Boolean realName;
-
     @ApiModelProperty(value = "姓名")
     private String name;
 
     @ApiModelProperty(value = "身份证")
+    @SensitiveInfo(value = SensitiveTypeEnum.ID_CARD)
     private String idNumber;
 
     @ApiModelProperty(value = "阿里账号")
     private String aliAccount;
+
+    @ApiModelProperty(value = "实名认证")
+    private Boolean realName;
+
+    @ApiModelProperty(value = "有设置密码")
+    private Boolean hasPassword;
 
     @ApiModelProperty(value = "有设置二级密码")
     private Boolean hasSecondaryPassword;

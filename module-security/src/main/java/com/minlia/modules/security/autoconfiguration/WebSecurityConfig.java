@@ -2,6 +2,7 @@ package com.minlia.modules.security.autoconfiguration;
 
 import com.minlia.modules.security.authentication.ajax.AjaxLoginAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.ajax.DefaultLogoutSuccessHandler;
+import com.minlia.modules.security.authentication.cellphone.CellphoneCaptchaAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.SkipPathRequestMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,82 +42,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String JWT_TOKEN_HEADER_PARAM = "X-Auth-Token";
 //    public static final String JWT_TOKEN_HEADER_PARAM = "X-Authorization";
 
-    /**
-     * 公开入口
-     */
     public static final String OPEN_ENTRY_POINT = "/api/open/**";
-    /**
-     * 登陆入口
-     */
     public static final String LOGIN_ENTRY_POINT = "/api/auth/login";
-    /**
-     * 注销入口
-     */
+    public static final String LOGIN_CELLPHONE_ENTRY_POINT = "/api/auth/cellphone";
     public static final String LOGOUT_ENTRY_POINT = "/api/auth/logout";
-    /**
-     * 令牌刷新入口
-     */
     public static final String TOKEN_REFRESH_ENTRY_POINT = "/api/auth/token";
-    /**
-     * 令牌访问入口
-     */
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/v*/**";
-//    public static final String TOKEN_OTHER_AUTH_ENTRY_POINT = "/admin/**";
 
     @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;  // 未登陆时返回 JSON 格式的数据给前端（否则为 html）
-//    AjaxAuthenticationEntryPoint authenticationEntryPoint;
-
+    private AuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
     @Autowired
     @Qualifier("ajaxAwareAuthenticationSuccessHandler")
     private AuthenticationSuccessHandler ajaxAuthenticationSuccessHandler;
-
     @Autowired
     @Qualifier("ajaxAwareAuthenticationFailureHandler")
     private AuthenticationFailureHandler ajaxAuthenticationFailureHandler;
 
     @Autowired
-    private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
-
-//    @Autowired
-//    private CellphoneAuthenticationSuccessHandler cellphoneAuthenticationSuccessHandler;
-//
-//    @Autowired
-//    private CellphoneAuthenticationFailureHandler cellphoneAuthenticationFailureHandler;
-
-
-//    @Autowired
-//    private CellphoneCaptchaAuthenticationProvider cellphoneCaptchaAuthenticationProvider;
-//
-//    @Autowired
-//    private UserDetailsAuthenticationProvider userDetailsAuthenticationProvider;
-
+    private AuthenticationProvider jwtAuthenticationProvider;
     @Autowired
     private AuthenticationProvider ajaxAuthenticationProvider;
-
     @Autowired
-    private AuthenticationProvider jwtAuthenticationProvider;
-
-
-//    @Autowired
-//    private CellphoneCaptchaAuthenticationProcessingFilter cellphoneCaptchaAuthenticationProcessingFilter;
-//
-//    @Autowired
-//    private UserDetailsAuthenticationProcessingFilter userDetailsAuthenticationProcessingFilter;
-
-    @Autowired
-    private AjaxLoginAuthenticationProcessingFilter ajaxLoginAuthenticationProcessingFilter;
-
-    @Autowired
-    private JwtTokenAuthenticationProcessingFilter jwtTokenAuthenticationProcessingFilter;
-
+    private AuthenticationProvider cellphoneCaptchaAuthenticationProvider;
 
     @Autowired
     SessionRegistry sessionRegistry;
-
-//    @Autowired
-//    @Qualifier("authenticationManagerBean")
-//    private AuthenticationManager authenticationManager;
 
     @Bean
     @Override
@@ -126,12 +78,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(cellphoneCaptchaAuthenticationProvider);
-        auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
-
+        auth.authenticationProvider(ajaxAuthenticationProvider);
+        auth.authenticationProvider(cellphoneCaptchaAuthenticationProvider);
 //        auth.userDetailsService(MinliaUserDetailsService)
-
 //        auth.inMemoryAuthentication()
 //                .withUser("memuser")
 //                .password(encoder().encode("pass"))
@@ -143,26 +93,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .headers().httpStrictTransportSecurity().maxAgeInSeconds(Duration.ofDays(365L).getSeconds()).includeSubDomains(true).and()  //HTTP Strict Transport Security（通常简称为 HSTS）是一个安全功能，它告诉浏览器只能通过HTTPS访问当前资源，而不是HTTP
-                .frameOptions().sameOrigin()    //X-Frame-Options HTTP 响应头是用来给浏览器指示允许一个页面可否在 <frame>, <iframe>或者 <object> 中展现的标记。网站可以使用此功能，来确保自己网站的内容没有被嵌到别人的网站中去，也从而避免了点击劫持 (clickjacking) 的攻击。
-
+                .frameOptions().sameOrigin()    //X-Frame-Options HTTP 响应头是用来给浏览器指示允许一个页面可否在 <frame>, <iframe>或者 <object> 中展现的标记。网站可以使用此功能，来确保自己网站的内容没有被嵌到别人的网站中去，也从而避免了点击劫持 (clickjacking) 的攻击。
                 .and().csrf().disable() // We don't need CSRF for JWT based authentication
                 .exceptionHandling()
                 .authenticationEntryPoint(this.authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
                 .antMatchers(LOGOUT_ENTRY_POINT, TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
-                .antMatchers(OPEN_ENTRY_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
+                .antMatchers(OPEN_ENTRY_POINT, LOGIN_CELLPHONE_ENTRY_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
 //                .anyRequest().authenticated()
                 .and()
 //                .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(cellphoneCaptchaAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(userDetailsAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(ajaxLoginAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtTokenAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(ajaxLoginAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(cellphoneCaptchaAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
 
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_ENTRY_POINT))
-//                .addLogoutHandler(new DisableMultipleSecurityContextLogoutHandler())
+                //.addLogoutHandler(new DisableMultipleSecurityContextLogoutHandler())
                 .logoutSuccessHandler(defaultLogoutSuccessHandler)
 
                 .and()
@@ -197,16 +147,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-//    @Bean
-//    CellphoneCaptchaAuthenticationProcessingFilter cellphoneCapachaAuthenticationProcessingFilter() {
-//        CellphoneCaptchaAuthenticationProcessingFilter filter = new CellphoneCaptchaAuthenticationProcessingFilter();
-//        ProviderManager providerManager = new ProviderManager(Collections.singletonList(cellphoneCaptchaAuthenticationProvider));
-//        filter.setAuthenticationManager(providerManager);
-//        filter.setAuthenticationSuccessHandler(cellphoneAuthenticationSuccessHandler);
-//        filter.setAuthenticationFailureHandler(cellphoneAuthenticationFailureHandler);
-////        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
-//        return filter;
-//    }
+    @Bean
+    CellphoneCaptchaAuthenticationProcessingFilter cellphoneCaptchaAuthenticationProcessingFilter() {
+        CellphoneCaptchaAuthenticationProcessingFilter filter = new CellphoneCaptchaAuthenticationProcessingFilter(LOGIN_CELLPHONE_ENTRY_POINT);
+        ProviderManager providerManager = new ProviderManager(Collections.singletonList(cellphoneCaptchaAuthenticationProvider));
+        filter.setAuthenticationManager(providerManager);
+        filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
+        filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
+//        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
+        return filter;
+    }
 
     @Bean
     JwtTokenAuthenticationProcessingFilter jwtTokenAuthenticationProcessingFilter() throws Exception {
@@ -222,13 +172,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
         return filter;
     }
-
-
-//    @Bean(name = "minliaUserDetailsService")
-//    @Override
-//    public UserDetailsService userDetailsServiceBean() {
-//        return new MinliaUserDetailsService();
-//    }
 
     @Bean
     public SessionRegistry getSessionRegistry() {

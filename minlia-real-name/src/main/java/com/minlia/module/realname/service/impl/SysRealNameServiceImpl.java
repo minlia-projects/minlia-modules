@@ -1,5 +1,6 @@
 package com.minlia.module.realname.service.impl;
 
+import cn.hutool.core.util.IdcardUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
@@ -46,6 +47,9 @@ public class SysRealNameServiceImpl extends ServiceImpl<SysRealNameMapper, SysRe
     @Transactional(rollbackFor = Exception.class)
     public Response auth(SysRealNameCro cro) {
         ApiAssert.state(!isAuthenticated(cro.getUid()), SysRealNameCode.Message.ALREADY_AUTHENTICATED);
+
+        //判断大于14岁
+        ApiAssert.state(IdcardUtil.getAgeByIdCard(cro.getIdNumber()) > 14, SysRealNameCode.Message.AGE_MUST_BE_OVER14);
 
         //调用第三方认证服务 TODO
         SysRealNameDTO realNameDTO = auth(cro.getName(), cro.getIdNumber());

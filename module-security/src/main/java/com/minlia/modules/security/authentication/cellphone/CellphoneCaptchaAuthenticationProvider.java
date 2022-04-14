@@ -1,18 +1,21 @@
-package com.minlia.modules.security.authentication.ajax;
+package com.minlia.modules.security.authentication.cellphone;
 
 import com.minlia.modules.security.authentication.service.AuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author garen
+ */
 @Component
-public class AjaxAuthenticationProvider implements AuthenticationProvider {
+@RequiredArgsConstructor
+public class CellphoneCaptchaAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
-    private AuthenticationService rbacAuthenticationService;
+    private final AuthenticationService cellphoneVerificationCodeAuthenticationService;
 
     /**
      * 具体实现请参见 @see RbacAuthenticationService
@@ -23,7 +26,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        return rbacAuthenticationService.authentication(authentication);
+        return cellphoneVerificationCodeAuthenticationService.authentication(authentication);
     }
 
     @Override

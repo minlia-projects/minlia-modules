@@ -1,7 +1,5 @@
 package com.minlia.module.riskcontrol.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minlia.module.common.constant.LocalDateConstants;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

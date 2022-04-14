@@ -28,7 +28,7 @@ public class BlackListOncePreFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        log.info("请求地址：{}", httpServletRequest.getRequestURI());
+        log.info("请求地址：{} method {}", httpServletRequest.getRequestURI(), httpServletRequest.getMethod());
         //IP范围
 //        RiskIpScopeEvent riskIpScopeEvent = new RiskIpScopeEvent();
 //        KieService.execute(riskIpScopeEvent);

@@ -58,4 +58,7 @@ public class SysMemberEntity extends AbstractEntity {
     @TableField("balance")
     private BigDecimal balance;
 
+    @ApiModelProperty(value = "链上地址")
+    private String chainAddress;
+
 }

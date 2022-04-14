@@ -16,15 +16,22 @@
 
     <select id="detailsPage" resultType="com.minlia.module.rebecca.user.bean.SysUserRelationVo">
         SELECT
+            sut.cellphone,
             sut.nickname,
             sut.avatar,
-            sut.create_date AS 'time'
+            sut.create_date AS 'time',
+            smt.real_name
         FROM
             sys_user_relation surt
-        LEFT JOIN sys_user sut ON sut.id = surt.descendant
-        WHERE
+        INNER JOIN sys_user sut ON sut.id = surt.descendant
+        INNER JOIN sys_member smt ON smt.uid = sut.id
+        <where>
             surt.ancestor = #{qro.ancestor}
-        AND surt.`level` = 1
+            <if test="qro.realName != null">
+                AND smt.real_name = #{qro.realName}
+            </if>
+            AND surt.`level` = 1
+        </where>
     </select>
 
 </mapper>

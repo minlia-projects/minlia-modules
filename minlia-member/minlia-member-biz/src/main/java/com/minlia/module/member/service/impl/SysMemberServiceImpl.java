@@ -10,14 +10,18 @@ import com.minlia.module.member.bean.SysMemberQro;
 import com.minlia.module.member.bean.vo.SysMemberInfoVo;
 import com.minlia.module.member.constant.SysMemberConstants;
 import com.minlia.module.member.entity.SysMemberEntity;
+import com.minlia.module.member.event.SysUserAuthEvent;
 import com.minlia.module.member.mapper.SysMemberMapper;
 import com.minlia.module.member.service.SysMemberService;
 import com.minlia.module.realname.bean.SysRealNameCro;
 import com.minlia.module.realname.service.SysRealNameService;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
+import com.minlia.module.rebecca.user.bean.MemberRegisterRo;
 import com.minlia.module.rebecca.user.bean.UserRegisterRo;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
+import com.minlia.module.rebecca.user.enums.SysRegisterTypeEnum;
 import com.minlia.module.rebecca.user.service.SysUserRegisterService;
+import com.minlia.module.rebecca.user.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,19 +40,47 @@ import org.springframework.transaction.annotation.Transactional;
 public class SysMemberServiceImpl extends ServiceImpl<SysMemberMapper, SysMemberEntity> implements SysMemberService {
 
     private final CaptchaService captchaService;
+    private final SysUserService sysUserService;
     private final SysRealNameService sysRealNameService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final SysUserRegisterService sysUserRegisterService;
 
     @Override
+    public void create(SysUserEntity sysUserEntity) {
+        this.save(SysMemberEntity.builder().uid(sysUserEntity.getId()).build());
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public Response register(UserRegisterRo registerRo) {
-        registerRo.setRoleCode(SysMemberConstants.DEFAULT_ROLE);
-        Response<SysUserEntity> response = sysUserRegisterService.register(registerRo);
+    public Response register(MemberRegisterRo registerRo) {
+        Response<SysUserEntity> response = sysUserRegisterService.register(UserRegisterRo.builder()
+                .type(SysRegisterTypeEnum.CELLPHONE)
+                .areaCode(registerRo.getAreaCode())
+                .cellphone(registerRo.getCellphone())
+                .vcode(registerRo.getVcode())
+                .inviteCode(registerRo.getInviteCode())
+                .roleCode(SysMemberConstants.DEFAULT_ROLE)
+                .build());
         ApiAssert.state(response.isSuccess(), response.getCode(), response.getMessage());
         this.save(SysMemberEntity.builder().uid(response.getPayload().getId()).build());
         return response;
     }
+
+    //@Override
+    //@Transactional(rollbackFor = Exception.class)
+    //public Response login(MemberLoginRequest loginRequest) {
+    //    Response<SysUserEntity> response = sysUserRegisterService.register(UserRegisterRo.builder()
+    //            .type(SysRegisterTypeEnum.CELLPHONE)
+    //            .areaCode(loginRequest.getAreaCode())
+    //            .cellphone(loginRequest.getCellphone())
+    //            .vcode(loginRequest.getVcode())
+    //            .inviteCode(loginRequest.getInviteCode())
+    //            .roleCode(SysMemberConstants.DEFAULT_ROLE)
+    //            .build());
+    //    ApiAssert.state(response.isSuccess(), response.getCode(), response.getMessage());
+    //    this.save(SysMemberEntity.builder().uid(response.getPayload().getId()).build());
+    //    return response;
+    //}
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -61,6 +93,11 @@ public class SysMemberServiceImpl extends ServiceImpl<SysMemberMapper, SysMember
         entity.setIdNumber(cro.getIdNumber());
         entity.setRealName(realNameResponse.isSuccess());
         this.updateById(entity);
+
+        if (realNameResponse.isSuccess()) {
+            //发布认证成功事件
+            SysUserAuthEvent.onAuthed(entity.getUid());
+        }
         return realNameResponse;
     }
 

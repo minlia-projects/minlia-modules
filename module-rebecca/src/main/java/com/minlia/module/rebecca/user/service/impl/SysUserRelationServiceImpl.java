@@ -3,6 +3,7 @@ package com.minlia.module.rebecca.user.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.minlia.module.rebecca.user.bean.SysUserRelationQro;
 import com.minlia.module.rebecca.user.bean.SysUserRelationVo;
 import com.minlia.module.rebecca.user.entity.SysUserRelationEntity;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -28,14 +30,17 @@ public class SysUserRelationServiceImpl extends ServiceImpl<SysUserRelationMappe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Long ancestor, Long descendant) {
-        //查询所有出先人并绑定关系
-        List<SysUserRelationEntity> relationList = list(
-                Wrappers.<SysUserRelationEntity>query().lambda().eq(SysUserRelationEntity::getDescendant, ancestor))
-                .stream().map(relation -> {
-                    relation.setDescendant(descendant);
-                    relation.setLevel(relation.getLevel() + 1);
-                    return relation;
-                }).collect(Collectors.toList());
+        List<SysUserRelationEntity> relationList = Lists.newArrayList();
+        if (Optional.ofNullable(ancestor).isPresent()) {
+            //查询所有出先人并绑定关系
+            relationList = list(
+                    Wrappers.<SysUserRelationEntity>query().lambda().eq(SysUserRelationEntity::getDescendant, ancestor))
+                    .stream().map(relation -> {
+                        relation.setDescendant(descendant);
+                        relation.setLevel(relation.getLevel() + 1);
+                        return relation;
+                    }).collect(Collectors.toList());
+        }
         //自己也要维护到关系表中
         relationList.add(SysUserRelationEntity.builder().ancestor(descendant).descendant(descendant).level(0).build());
         this.saveBatch(relationList);

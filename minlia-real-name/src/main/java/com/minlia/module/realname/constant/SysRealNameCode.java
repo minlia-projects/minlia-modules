@@ -17,6 +17,11 @@ public class SysRealNameCode {
         ALREADY_AUTHENTICATED,
 
         /**
+         * 年龄必须大于14岁
+         */
+        AGE_MUST_BE_OVER14,
+
+        /**
          * 认证成功
          */
         AUTHENTICATION_SUCCESSFUL,

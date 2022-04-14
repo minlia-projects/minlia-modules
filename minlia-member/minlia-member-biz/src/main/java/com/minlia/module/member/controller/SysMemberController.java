@@ -50,13 +50,13 @@ public class SysMemberController {
         return Response.success(sysMemberService.setPassword(sro.getPassword(), sro.getCaptcha()));
     }
 
-    //@PreAuthorize(value = "hasAnyAuthority('" + SysMemberConstants.Authorize.AUTH + "')")
-    //@AuditLog(type = AuditOperationTypeEnum.CREATE)
-    //@ApiOperation(value = "验证二级密码")
-    //@PostMapping(value = "password/verify/{password}")
-    //public Response verifyPassword(@PathVariable("password") String password) {
-    //    return Response.success(sysMemberService.verifyPassword(password));
-    //}
+    @PreAuthorize(value = "hasAnyAuthority('" + SysMemberConstants.Authorize.AUTH + "')")
+    @AuditLog(type = AuditOperationTypeEnum.CREATE)
+    @ApiOperation(value = "验证二级密码")
+    @PostMapping(value = "password/verify/{password}")
+    public Response verifyPassword(@PathVariable("password") String password) {
+        return Response.success(sysMemberService.verifyPassword(password));
+    }
 
     @PreAuthorize(value = "hasAnyAuthority('" + SysMemberConstants.Authorize.READ + "')")
     @AuditLog(type = AuditOperationTypeEnum.SELECT)

@@ -33,16 +33,19 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+        log.info("Authentication method . Request method: {}.", request.getMethod());
         if (!HttpMethod.POST.name().equals(request.getMethod())) {
-            if (log.isDebugEnabled()) {
-                log.debug("Authentication method not supported. Request method: {}, only ajax request is supported.", request.getMethod());
+            if (HttpMethod.OPTIONS.name().equals(request.getMethod())) {
+                //匿名登陆
+                //AnonymousAuthenticationToken token = new AnonymousAuthenticationToken();
+                //SecurityContextHolder.getContext().setAuthentication(token);
+                return null;
+            } else {
+                if (log.isInfoEnabled()) {
+                    log.info("Authentication method not supported. Request method: {}, only ajax request is supported.", request.getMethod());
+                }
+                throw new AuthMethodNotSupportedException("Authentication method not supported");
             }
-            //匿名登陆 TODO
-//            AnonymousAuthenticationToken ret=new AnonymousAuthenticationToken();
-//            org.springframework.security.authentication.AnonymousAuthenticationToken token = new org.springframework.security.authentication.AnonymousAuthenticationToken();
-//            SecurityContextHolder.getContext().setAuthentication(ret);
-//            return ret;
-            throw new AuthMethodNotSupportedException("Authentication method not supported");
         }
 
         //获取登录凭证：用户名、邮箱、手机号码、密码

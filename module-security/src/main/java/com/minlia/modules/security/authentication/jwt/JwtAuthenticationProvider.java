@@ -88,6 +88,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         return new JwtAuthenticationToken(userContext, authorities);
     }
 
+    public static void main(String[] args) {
+        Long.valueOf(null);
+    }
+
     @Override
     public boolean supports(Class<?> authentication) {
         return (JwtAuthenticationToken.class.isAssignableFrom(authentication));

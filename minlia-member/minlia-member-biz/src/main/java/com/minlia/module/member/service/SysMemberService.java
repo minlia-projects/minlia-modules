@@ -7,7 +7,8 @@ import com.minlia.module.member.bean.SysMemberQro;
 import com.minlia.module.member.bean.vo.SysMemberInfoVo;
 import com.minlia.module.member.entity.SysMemberEntity;
 import com.minlia.module.realname.bean.SysRealNameCro;
-import com.minlia.module.rebecca.user.bean.UserRegisterRo;
+import com.minlia.module.rebecca.user.bean.MemberRegisterRo;
+import com.minlia.module.rebecca.user.entity.SysUserEntity;
 
 /**
  * <p>
@@ -19,7 +20,11 @@ import com.minlia.module.rebecca.user.bean.UserRegisterRo;
  */
 public interface SysMemberService extends IService<SysMemberEntity> {
 
-    Response register(UserRegisterRo registerRo);
+    void create(SysUserEntity sysUserEntity);
+
+    Response register(MemberRegisterRo registerRo);
+
+    //Response login(MemberLoginRequest registerRo);
 
     Response realName(SysRealNameCro cro);
 
@@ -32,4 +37,5 @@ public interface SysMemberService extends IService<SysMemberEntity> {
     Page<SysMemberInfoVo> page(SysMemberQro qro);
 
     SysMemberEntity getByUid(Long uid);
+
 }

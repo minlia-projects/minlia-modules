@@ -28,4 +28,7 @@ public class SysUserRelationQro extends QueryRequest {
     @ApiModelProperty(value = "等级")
     private Integer level;
 
+    @ApiModelProperty(value = "实名")
+    private Boolean realName;
+
 }

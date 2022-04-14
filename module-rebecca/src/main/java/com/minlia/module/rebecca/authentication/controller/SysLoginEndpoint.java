@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Api(tags = "System Login", description = "登录")
-@CrossOrigin
+//@CrossOrigin
 @RestController
 @RequestMapping(value = ApiPrefix.API + "auth/login")
-public class LoginEndpoint {
+public class SysLoginEndpoint {
 
     @AuditLog(value = "login", type = AuditOperationTypeEnum.LOGIN)
     @ApiOperation(value = "登录", notes = "登录")

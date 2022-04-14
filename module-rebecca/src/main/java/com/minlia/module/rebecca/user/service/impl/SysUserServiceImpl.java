@@ -37,6 +37,7 @@ import com.minlia.modules.security.config.SysSecurityConfig;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -86,7 +88,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         SysUserEntity parent = null;
         if (Objects.nonNull(cro.getInviteCode())) {
             parent = this.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getInviteCode, cro.getInviteCode()).eq(SysUserEntity::getDisFlag, false));
-            ApiAssert.notNull(parent, SysUserCode.Message.INVITE_CODE_NOT_EXISTS);
+            //ApiAssert.notNull(parent, SysUserCode.Message.INVITE_CODE_NOT_EXISTS);
         }
         //校验凭证是否有效
         if (StringUtils.isNotBlank(cro.getUsername())) {
@@ -118,9 +120,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         } else {
             entity.setNickname(cro.getNickname());
         }
+        if (StringUtils.isNotBlank(cro.getPassword())) {
+            entity.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
+        }
 
-        entity.setOrgId(cro.getOrgId());
-        entity.setPassword(bCryptPasswordEncoder.encode(cro.getPassword()));
+        entity.setOrgId(Optional.ofNullable(cro.getOrgId()).orElse(NumberUtils.LONG_ZERO));
         entity.setInviteCode(NumberGenerator.generatorAlphanumeric(10));
         entity.setDefaultRole(cro.getDefaultRole());
         entity.setDefaultLocale(cro.getDefaultLocale());
@@ -135,10 +139,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         //给用户授予角色
         this.grant(entity, roles);
 
-        //设置邀请关系
-        if (Objects.nonNull(parent)) {
+        //保存用户关系
+        //sysUserRelationService.create(Optional.ofNullable(parent).map(p -> p.getId()).orElse(null), entity.getId());
+        if (Optional.ofNullable(parent).isPresent()) {
             sysUserRelationService.create(parent.getId(), entity.getId());
             IntegralPlusEvent.publish(IntegralPlusData.builder().uid(parent.getId()).businessId(parent.getId()).businessType("INVITATION_REGISTER").build());
+        } else {
+            sysUserRelationService.create(null, entity.getId());
         }
 
         //调用事件发布器, 发布系统用户系统注册完成事件, 由业务系统接收到此事件后进行相关业务操作

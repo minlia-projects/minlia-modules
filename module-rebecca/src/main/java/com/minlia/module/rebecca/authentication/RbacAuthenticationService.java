@@ -1,22 +1,16 @@
 package com.minlia.module.rebecca.authentication;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.util.RequestIpUtils;
-import com.minlia.module.common.validation.Cellphone;
-import com.minlia.module.common.validation.Password;
-import com.minlia.module.common.validation.Username;
 import com.minlia.module.rebecca.authentication.service.LoginService;
 import com.minlia.module.rebecca.risk.event.RiskLoginFailureEvent;
 import com.minlia.module.rebecca.user.bean.SysUserCro;
-import com.minlia.module.rebecca.user.bean.UserRegisterRo;
 import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
-import com.minlia.module.rebecca.user.enums.SysRegisterTypeEnum;
 import com.minlia.module.rebecca.user.enums.SysUserStatusEnum;
 import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
 import com.minlia.module.rebecca.user.event.SysLoginSuccessEvent;
@@ -32,13 +26,11 @@ import com.minlia.modules.security.exception.AjaxBadCredentialsException;
 import com.minlia.modules.security.exception.AjaxLockedException;
 import com.minlia.modules.security.exception.DefaultAuthenticationException;
 import com.minlia.modules.security.model.UserContext;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -54,10 +46,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -71,7 +59,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
-@Primary
+//@Primary
 public class RbacAuthenticationService implements AuthenticationService {
 
     @Autowired

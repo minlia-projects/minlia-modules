@@ -23,7 +23,7 @@ import java.io.IOException;
 public class UserDetailsAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
     public UserDetailsAuthenticationProcessingFilter() {
-        super(new AntPathRequestMatcher("/auth/login", "GET"));
+        super(new AntPathRequestMatcher("/auth/login/username", "GET"));
     }
 
 
