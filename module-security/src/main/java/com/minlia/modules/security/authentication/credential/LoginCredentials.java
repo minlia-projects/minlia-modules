@@ -12,6 +12,7 @@ import org.springframework.security.core.AuthenticatedPrincipal;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -26,7 +27,7 @@ public class LoginCredentials implements AuthenticatedPrincipal, WithUsernameCre
     /**
      * 登陆方式
      */
-    @NotBlank(message = "登陆方式不能为空")
+    @NotNull(message = "登陆方式不能为空")
     private LoginTypeEnum type;
 
     /**

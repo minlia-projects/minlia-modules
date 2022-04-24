@@ -1,27 +1,27 @@
-package rules;
-
-import com.minlia.module.rebecca.risk.event.ChangeCellphoneEvent
-
-import com.minlia.module.riskcontrol.enums.RiskLevelEnum
-import com.minlia.module.riskcontrol.service.DimensionService
-import com.minlia.module.riskcontrol.service.RiskRecordService
-import com.minlia.cloud.utils.ApiAssert
-import com.minlia.module.rebecca.user.constant.SysUserCode
-
-global DimensionService dimensionService
-global RiskRecordService riskRecordService
-
-rule "80_user_change_cellphone"
-    salience 80
-    lock-on-active true
-    when
-        event:ChangeCellphoneEvent()
-    then
-        RiskLevelEnum riskLevel = dimensionService.calculationLevelWithConfig(event, event.getCount());
-        if(!riskLevel.equals(RiskLevelEnum.NORMAL)) {
-            riskRecordService.createEvent(event, SysUserCode.Message.CHANGE_CELLPHONE_OVER_TIMES, 6, event.getCount());
-            if (riskLevel.equals(RiskLevelEnum.DANGER)) {
-                ApiAssert.state(false, SysUserCode.Message.CHANGE_CELLPHONE_OVER_TIMES, 6, event.getCount());
-            }
-        }
-end
+//package rules;
+//
+//import com.minlia.module.rebecca.risk.event.ChangeCellphoneEvent
+//
+//import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+//import com.minlia.module.riskcontrol.service.RiskDimensionService
+//import com.minlia.module.riskcontrol.service.RiskRecordService
+//import com.minlia.cloud.utils.ApiAssert
+//import com.minlia.module.rebecca.user.constant.SysUserCode
+//
+//global DimensionService dimensionService
+//global RiskRecordService riskRecordService
+//
+//rule "80_user_change_cellphone"
+//    salience 80
+//    lock-on-active true
+//    when
+//        event:ChangeCellphoneEvent()
+//    then
+//        RiskLevelEnum riskLevel = dimensionService.calculationLevelWithConfig(event, event.getCount());
+//        if(!riskLevel.equals(RiskLevelEnum.NORMAL)) {
+//            riskRecordService.createEvent(event, SysUserCode.Message.CHANGE_CELLPHONE_OVER_TIMES, 6, event.getCount());
+//            if (riskLevel.equals(RiskLevelEnum.DANGER)) {
+//                ApiAssert.state(false, SysUserCode.Message.CHANGE_CELLPHONE_OVER_TIMES, 6, event.getCount());
+//            }
+//        }
+//end

@@ -1,10 +1,8 @@
 package com.minlia.module.riskcontrol.entity;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -45,11 +43,18 @@ public class RiskBlackList {
     /**
      * 维度枚举
      */
-    public static enum EnumDimension {
-        MOBILE,
-        EMAIIL,
-        IP,
-        DEVICEID;
+    @Getter
+    @AllArgsConstructor
+    public enum EnumDimension {
+        MOBILE(0, "MOBILE"),
+        EMAIIL(1, "EMAIIL"),
+        IP(2, "IP"),
+        DEVICEID(3, "DEVICEID");
+
+        private Integer value;
+
+        @EnumValue
+        private String code;
     }
 
 }

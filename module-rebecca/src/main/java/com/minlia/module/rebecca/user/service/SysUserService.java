@@ -5,7 +5,6 @@ import com.minlia.module.rebecca.user.bean.SysUserCro;
 import com.minlia.module.rebecca.user.bean.SysUserUro;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -29,18 +28,22 @@ public interface SysUserService extends IService<SysUserEntity> {
 
     void changeEmail(SysUserEntity entity, String newEmail, String vcode);
 
-    Boolean delete(Long id);
+    boolean delete(Long id);
 
-    Boolean lock(Long id);
+    boolean lockToggle(Long id);
 
-    Boolean disable(Long id);
+    boolean lock(Long id, long seconds, String remark);
 
-    Boolean addRole(Long id, String roleCode);
+    boolean disable(Long id, String remark);
 
-    Boolean grant(Long id, Set<Long> roles);
+    boolean disableToggle(Long id);
 
-    Boolean grantByRoleCodes(Long id, Set<String> roleCodes);
+    boolean addRole(Long id, String roleCode);
 
-    Boolean grant(SysUserEntity entity, Set<String> roleCodes);
+    boolean grant(Long id, Set<Long> roles);
+
+    boolean grantByRoleCodes(Long id, Set<String> roleCodes);
+
+    boolean grant(SysUserEntity entity, Set<String> roleCodes);
 
 }

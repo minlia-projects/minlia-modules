@@ -1,12 +1,19 @@
 package com.minlia.modules.security.model.token;
 
+import com.minlia.modules.security.authentication.jwt.JwtAuthenticationToken;
+import com.minlia.modules.security.authentication.jwt.JwtTokenParser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import lombok.Data;
 
 import java.util.Optional;
 
-@SuppressWarnings("unchecked")
-public class RefreshToken implements JwtToken {
+/**
+ * @author garen
+ */
+@Data
+public class RefreshToken {
+
     private Jws<Claims> claims;
 
     private RefreshToken(Jws<Claims> claims) {
@@ -20,14 +27,9 @@ public class RefreshToken implements JwtToken {
      * @param signingKey
      * @return
      */
-    public static Optional<RefreshToken> create(RawAccessJwtToken token, String signingKey) {
-        Jws<Claims> claims = token.parseClaims(signingKey);
+    public static Optional<RefreshToken> create(JwtAuthenticationToken token, String signingKey) {
+        Jws<Claims> claims = JwtTokenParser.parse((String) token.getPrincipal(), signingKey);
         return Optional.of(new RefreshToken(claims));
-    }
-
-    @Override
-    public String getToken() {
-        return null;
     }
 
     public Jws<Claims> getClaims() {

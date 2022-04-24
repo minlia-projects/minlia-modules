@@ -8,6 +8,7 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.rebecca.authentication.service.LoginService;
 import com.minlia.module.rebecca.risk.event.RiskLoginFailureEvent;
+import com.minlia.module.rebecca.risk.event.RiskRegistrationEvent;
 import com.minlia.module.rebecca.user.bean.SysUserCro;
 import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
@@ -16,7 +17,8 @@ import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
 import com.minlia.module.rebecca.user.event.SysLoginSuccessEvent;
 import com.minlia.module.rebecca.user.service.SysUserRegisterService;
 import com.minlia.module.rebecca.user.service.SysUserService;
-import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.RiskDimensionService;
+import com.minlia.module.riskcontrol.service.RiskKieService;
 import com.minlia.modules.security.authentication.credential.LoginCredentials;
 import com.minlia.modules.security.authentication.service.AuthenticationService;
 import com.minlia.modules.security.code.SecurityCode;
@@ -59,7 +61,6 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
-//@Primary
 public class RbacAuthenticationService implements AuthenticationService {
 
     @Autowired
@@ -71,9 +72,9 @@ public class RbacAuthenticationService implements AuthenticationService {
     @Autowired
     private BCryptPasswordEncoder encoder;
     @Autowired
-    private DimensionService dimensionService;
-    @Autowired
     private SysSecurityConfig sysSecurityConfig;
+    @Autowired
+    private RiskDimensionService riskDimensionService;
     @Autowired
     private SysUserRegisterService userRegistrationService;
 
@@ -95,9 +96,7 @@ public class RbacAuthenticationService implements AuthenticationService {
             case CELLPHONE:
                 ApiAssert.notNull(loginCredentials.getAreaCode(), SysUserCode.Message.AREA_CODE_NOT_NULL);
                 ApiAssert.hasLength(loginCredentials.getName(), SysUserCode.Message.CELLPHONE_NOT_NULL);
-                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
-                        .eq(SysUserEntity::getCellphone, loginCredentials.getName())
-                        .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
+                userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, loginCredentials.getName()).eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
 
                 if (StringUtils.isNotBlank(vcode)) {
                     if (Objects.isNull(userEntity)) {
@@ -105,14 +104,10 @@ public class RbacAuthenticationService implements AuthenticationService {
                         if (!response.isSuccess()) {
                             throw new DefaultAuthenticationException(response.getI18nCode());
                         }
-
-                        userEntity = sysUserService.create(SysUserCro.builder()
-                                .areaCode(loginCredentials.getAreaCode())
-                                .cellphone(loginCredentials.getName())
-                                .password(RandomStringUtils.randomAlphanumeric(16))
-                                .roles(Sets.newHashSet())
-                                .defaultRole("ROLE_MEMBER")
-                                .build());
+                        //注册风控 TODO
+                        RiskKieService.execute(new RiskRegistrationEvent(loginCredentials.getName()));
+                        //创建用户
+                        userEntity = sysUserService.create(SysUserCro.builder().areaCode(loginCredentials.getAreaCode()).cellphone(loginCredentials.getName()).password(RandomStringUtils.randomAlphanumeric(16)).roles(Sets.newHashSet()).defaultRole("ROLE_MEMBER").build());
 
                         //获取用户上下文
                         UserContext userContext = loginService.getUserContext(userEntity, Objects.nonNull(loginCredentials.getCurrrole()) ? loginCredentials.getCurrrole() : userEntity.getDefaultRole());
@@ -172,7 +167,7 @@ public class RbacAuthenticationService implements AuthenticationService {
         }
 
         //清除缓存登陆失败记录 TODO
-        dimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
+        riskDimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(loginCredentials.getName()), new String[]{RiskLoginFailureEvent.SCENE_VALUE}, RiskLoginFailureEvent.TIME);
 
         //更新用户信息
         userEntity.setLockFlag(Boolean.FALSE);
@@ -183,7 +178,7 @@ public class RbacAuthenticationService implements AuthenticationService {
 
         //获取用户上下文
         UserContext userContext = loginService.getUserContext(userEntity, Objects.nonNull(loginCredentials.getCurrrole()) ? loginCredentials.getCurrrole() : userEntity.getDefaultRole());
-        checkDomain(userContext.getCurrdomain());
+        //checkDomain(userContext.getCurrdomain());
 
         //登录成功事件
         SysLoginSuccessEvent.publish(userEntity);

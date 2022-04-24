@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.module.rebecca.risk.event.RiskRegistrationEvent;
 import com.minlia.module.rebecca.user.bean.SysUserCro;
 import com.minlia.module.rebecca.user.bean.UserAvailablitityTo;
 import com.minlia.module.rebecca.user.bean.UserRegisterRo;
@@ -12,6 +13,7 @@ import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
 import com.minlia.module.rebecca.user.service.SysUserRegisterService;
 import com.minlia.module.rebecca.user.service.SysUserService;
+import com.minlia.module.riskcontrol.service.RiskKieService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +55,9 @@ public class SysUserRegisterServiceImpl implements SysUserRegisterService {
     public Response<SysUserEntity> registerByCellphone(UserRegisterRo ro) {
         Response response = captchaService.validity(ro.getAreaCode() + ro.getCellphone(), ro.getVcode());
         if (response.isSuccess()) {
+            //注册风控 TODO
+            RiskKieService.execute(new RiskRegistrationEvent(ro.getCellphone()));
+
             SysUserEntity entity = sysUserService.create(SysUserCro.builder()
                     .areaCode(ro.getAreaCode())
                     .cellphone(ro.getCellphone())

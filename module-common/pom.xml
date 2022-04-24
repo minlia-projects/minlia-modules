@@ -21,7 +21,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
@@ -48,9 +47,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-annotation</artifactId>
-            <version>3.4.1</version>
         </dependency>
-
     </dependencies>
 
 </project>

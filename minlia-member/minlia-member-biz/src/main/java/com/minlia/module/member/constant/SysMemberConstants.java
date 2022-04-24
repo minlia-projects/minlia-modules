@@ -1,6 +1,7 @@
 package com.minlia.module.member.constant;
 
 
+import com.minlia.module.common.constant.MinliaConstants;
 import com.minlia.modules.security.constant.SecurityConstant;
 
 /**
@@ -8,7 +9,7 @@ import com.minlia.modules.security.constant.SecurityConstant;
  */
 public class SysMemberConstants {
 
-    public final static String MODULE_NAME = "member";
+    public final static String MODULE_NAME = MinliaConstants.APP_NAME + ".member";
 
     public static class Authorize {
         public final static String READ = MODULE_NAME + SecurityConstant.OPERATION_READ_CODE;

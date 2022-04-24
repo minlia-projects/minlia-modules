@@ -92,8 +92,10 @@ public class CaptchaCode {
 
         VERIFY_SUCCESS,
 
-
-        NUM_OTP_MINS;
+        /**
+         *
+         */
+        num_otp_mins;
 
         @Override
         public String module() {

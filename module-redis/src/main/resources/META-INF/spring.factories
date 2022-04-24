@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.minlia.module.redis.RedisAutoConfiguration
+com.minlia.module.redis.config.RedisAutoConfiguration

@@ -1,6 +1,5 @@
 package com.minlia.module.riskcontrol.service;
 
-import com.alibaba.fastjson.JSON;
 import com.minlia.cloud.code.Code;
 import com.minlia.module.riskcontrol.config.RiskcontrolConfig;
 import com.minlia.module.riskcontrol.entity.RiskRecord;
@@ -8,7 +7,6 @@ import com.minlia.module.riskcontrol.event.Event;
 import com.minlia.module.riskcontrol.repository.RiskRecordRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,14 +21,15 @@ import java.util.List;
 @Service
 public class RiskRecordService {
 
-    @Autowired
-    private Mapper mapper;
+    private final Mapper mapper;
+    private final RiskcontrolConfig riskcontrolConfig;
+    private final RiskRecordRepository riskRecordRepository;
 
-    @Autowired
-    private RiskcontrolConfig riskcontrolConfig;
-
-    @Autowired
-    private RiskRecordRepository riskRecordRepository;
+    public RiskRecordService(Mapper mapper, RiskcontrolConfig riskcontrolConfig, RiskRecordRepository riskRecordRepository) {
+        this.mapper = mapper;
+        this.riskcontrolConfig = riskcontrolConfig;
+        this.riskRecordRepository = riskRecordRepository;
+    }
 
     /**
      * 创建
@@ -39,7 +38,17 @@ public class RiskRecordService {
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void createEvent(Event event) {
-        this.createEvent(event, null);
+        this.createEvent(event, event.getDetails());
+    }
+
+    /**
+     * 创建
+     *
+     * @param event
+     */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void createEvent(Event event, Code code, Object... args) {
+        this.createEvent(event, code.message(args));
     }
 
     /**
@@ -51,23 +60,8 @@ public class RiskRecordService {
     public void createEvent(Event event, String details) {
         if (riskcontrolConfig.getRealSwitchFlag()) {
             RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
+            riskRecord.setSceneValue(event.getSceneValue());
             riskRecord.setDetails(details);
-            riskRecord.setEventDetails(JSON.toJSONString(event));
-            riskRecordRepository.save(riskRecord);
-        }
-    }
-
-    /**
-     * 创建
-     *
-     * @param event
-     */
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public void createEvent(Event event, Code code, Object... args) {
-        if (riskcontrolConfig.getRealSwitchFlag()) {
-            RiskRecord riskRecord = mapper.map(event, RiskRecord.class);
-            riskRecord.setDetails(code.message(args));
-            riskRecord.setEventDetails(JSON.toJSONString(event));
             riskRecordRepository.save(riskRecord);
         }
     }

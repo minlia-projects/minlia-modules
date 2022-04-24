@@ -1,0 +1,36 @@
+package rules;
+
+import java.time.LocalDateTime
+import com.minlia.module.riskcontrol.entity.RiskList
+import com.minlia.module.riskcontrol.enums.RiskTypeEnum
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+import com.minlia.module.riskcontrol.service.RiskListService
+import com.minlia.module.riskcontrol.service.RiskRecordService
+import com.minlia.module.riskcontrol.service.RiskDimensionService
+import com.minlia.module.rebecca.risk.event.RiskRegistrationEvent
+
+global RiskListService riskListService
+global RiskRecordService riskRecordService
+global RiskDimensionService riskDimensionService
+
+rule "99_same_ip_register"
+    salience 99
+    lock-on-active true
+    when
+        event:RiskRegistrationEvent()
+    then
+        long count  = riskDimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskRegistrationEvent.IP}, RiskRegistrationEvent.SCENE_VALUE);
+        if (!event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+            if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
+                riskRecordService.createEvent(event);
+                //禁用IP
+                riskListService.save(RiskList.builder()
+                    .type(RiskTypeEnum.BLACK)
+                    .dimension(RiskList.EnumDimension.IP)
+                    .value(event.getIp())
+                    .time(LocalDateTime.now())
+                    .detail(event.getDetails())
+                    .build());
+            }
+        }
+end

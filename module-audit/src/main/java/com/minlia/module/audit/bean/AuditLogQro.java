@@ -1,6 +1,7 @@
 package com.minlia.module.audit.bean;
 
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
+import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.data.entity.BaseQueryEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,6 +16,10 @@ public class AuditLogQro extends BaseQueryEntity {
 
     @ApiModelProperty(value = "用户名")
     private String username;
+
+    @ApiModelProperty(value = "手机号码")
+    @Cellphone
+    private String cellphone;
 
     @ApiModelProperty(value = "操作方式")
     private String method;

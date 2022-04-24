@@ -52,9 +52,10 @@
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>minlia-aliyun-green</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>riskcontrol-spring-boot-starter</artifactId>
+            <artifactId>minlia-riskcontrol-drool</artifactId>
         </dependency>
     </dependencies>
 

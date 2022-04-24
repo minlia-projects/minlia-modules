@@ -6,25 +6,10 @@ import lombok.Setter;
 @Setter
 public class RiskLoginEvent extends Event {
 
-    public RiskLoginEvent() {
+    public RiskLoginEvent(String username) {
         super();
         this.setScene("login_ip");
-    }
-
-    public final static String USERNAME = "username";
-
-    public final static String TIME = "time";
-
-    private String username;
-
-    private String time;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getTime() {
-        return System.currentTimeMillis() + "";
+        this.setSceneValue(username);
     }
 
 }

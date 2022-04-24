@@ -3,6 +3,7 @@ package com.minlia.module.riskcontrol.service;
 import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.module.drools.service.ReloadDroolsRulesService;
 import lombok.extern.slf4j.Slf4j;
+import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,7 @@ public class KieService {
         INSTANCE;
 
         public StatelessKieSession instance() {
+            //KieSession kieSession = ReloadDroolsRulesService.kieContainer.newKieSession();
             if (null == statelessKieSession) {
                 statelessKieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
                 setGlobal();

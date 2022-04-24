@@ -12,14 +12,16 @@ import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.CaptchaEntity;
 import com.minlia.module.captcha.enums.CaptchaTypeEnum;
 import com.minlia.module.captcha.mapper.CaptchaMapper;
+import com.minlia.module.captcha.risk.event.RiskCaptchaSmsEvent;
 import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.email.service.EmailService;
 import com.minlia.module.i18n.enums.LocaleEnum;
 import com.minlia.module.i18n.util.LocaleUtils;
+import com.minlia.module.riskcontrol.service.RiskKieService;
 import com.minlia.module.sms.service.SmsService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,14 +42,12 @@ import static com.minlia.module.captcha.constant.CaptchaCode.CAPTCHA_DEFAULT_TEM
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CaptchaServiceImpl extends ServiceImpl<CaptchaMapper, CaptchaEntity> implements CaptchaService {
 
-    @Autowired
-    private SmsService smsService;
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private CaptchaConfig captchaConfig;
+    private final SmsService smsService;
+    private final EmailService emailService;
+    private final CaptchaConfig captchaConfig;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -85,6 +85,8 @@ public class CaptchaServiceImpl extends ServiceImpl<CaptchaMapper, CaptchaEntity
     @Transactional(rollbackFor = Exception.class)
     public CaptchaEntity sendByCellphone(String cellphone, String templateCode, Map<String, Object> variables, LocaleEnum locale) {
         log.info("Sending security code for cellphone: {}", cellphone);
+        //短信频率风控
+        RiskKieService.execute(new RiskCaptchaSmsEvent(cellphone));
         CaptchaEntity entity = this.save(cellphone, CaptchaTypeEnum.CELLPHONE);
         if (captchaConfig.getRealSwitchFlag()) {
             if (null == variables) {

@@ -6,12 +6,15 @@ import com.minlia.module.audit.annotation.AuditLog;
 import com.minlia.module.audit.enums.AuditOperationTypeEnum;
 import com.minlia.module.rebecca.authentication.bean.UserLogonResponseBody;
 import com.minlia.module.rebecca.context.SecurityContextHolder;
+import com.minlia.modules.security.authentication.jwt.JwtAuthenticationToken;
 import com.minlia.modules.security.authentication.jwt.extractor.TokenExtractor;
 import com.minlia.modules.security.authentication.jwt.verifier.TokenVerifier;
 import com.minlia.modules.security.autoconfiguration.JwtProperty;
 import com.minlia.modules.security.autoconfiguration.WebSecurityConfig;
-import com.minlia.modules.security.exception.InvalidJwtTokenException;
-import com.minlia.modules.security.model.token.*;
+import com.minlia.modules.security.model.token.JwtToken;
+import com.minlia.modules.security.model.token.JwtTokenFactory;
+import com.minlia.modules.security.model.token.RefreshToken;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -60,13 +63,8 @@ public class AuthEndpoint {
     public @ResponseBody
     Response refreshToken(HttpServletRequest request, HttpServletResponse response) {
         String tokenPayload = tokenExtractor.extract(request.getHeader(WebSecurityConfig.JWT_TOKEN_HEADER_PARAM));
-        RawAccessJwtToken rawToken = new RawAccessJwtToken(tokenPayload);
+        JwtAuthenticationToken rawToken = new JwtAuthenticationToken(tokenPayload, null);
         RefreshToken refreshToken = RefreshToken.create(rawToken, jwtProperty.getTokenSigningKey()).get();
-
-        String jti = refreshToken.getJti();
-        if (!tokenVerifier.verify(jti)) {
-            throw new InvalidJwtTokenException();
-        }
 
         String id = UUID.randomUUID().toString();
         String key = refreshToken.getClaims().getBody().get("key", String.class);
@@ -78,7 +76,7 @@ public class AuthEndpoint {
         return Response.success(UserLogonResponseBody.builder()
                 .token(accessToken.getToken())
                 .refreshToken(refreshToken1.getToken())
-                .loginEffectiveDate(((AccessJwtToken) accessToken).getClaims().getExpiration().getTime())
+                .loginEffectiveDate(accessToken.getClaims().getExpiration().getTime())
                 .build());
     }
 

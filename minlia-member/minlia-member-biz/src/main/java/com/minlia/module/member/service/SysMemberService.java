@@ -24,8 +24,6 @@ public interface SysMemberService extends IService<SysMemberEntity> {
 
     Response register(MemberRegisterRo registerRo);
 
-    //Response login(MemberLoginRequest registerRo);
-
     Response realName(SysRealNameCro cro);
 
     boolean setPassword(String password, String verificationCode);

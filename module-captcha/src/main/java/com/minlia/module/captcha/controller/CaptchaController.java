@@ -14,6 +14,7 @@ import com.minlia.module.captcha.constant.CaptchaCode;
 import com.minlia.module.captcha.entity.CaptchaEntity;
 import com.minlia.module.captcha.enums.CaptchaTypeEnum;
 import com.minlia.module.captcha.service.CaptchaService;
+import com.minlia.module.riskcontrol.annotation.NoRepeatSubmit;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,7 @@ public class CaptchaController {
         this.captchaService = captchaService;
     }
 
+    @NoRepeatSubmit
     @AuditLog(value = "send captcha", type = AuditOperationTypeEnum.CREATE)
     @ApiOperation(value = "发送")
     @PostMapping(value = "send")

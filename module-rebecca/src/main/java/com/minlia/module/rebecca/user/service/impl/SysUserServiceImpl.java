@@ -34,11 +34,12 @@ import com.minlia.module.rebecca.user.service.SysUserHistoryService;
 import com.minlia.module.rebecca.user.service.SysUserRelationService;
 import com.minlia.module.rebecca.user.service.SysUserService;
 import com.minlia.modules.security.config.SysSecurityConfig;
+import com.minlia.modules.security.model.token.TokenCacheUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,24 +61,17 @@ import java.util.stream.Collectors;
  * @since 2020-08-24
  */
 @Service
+@RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity> implements SysUserService {
 
-    @Autowired
-    private SysRoleService sysRoleService;
-    @Autowired
-    private CaptchaService captchaService;
-    @Autowired
-    private SysSecurityConfig sysSecurityConfig;
-    @Autowired
-    private SysRoleUserService sysRoleUserService;
-    @Autowired
-    private SysUserHistoryService sysUserHistoryService;
-    @Autowired
-    private MinliaValidProperties minliaValidProperties;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private SysUserRelationService sysUserRelationService;
+    private final SysRoleService sysRoleService;
+    private final CaptchaService captchaService;
+    private final SysSecurityConfig sysSecurityConfig;
+    private final SysRoleUserService sysRoleUserService;
+    private final SysUserHistoryService sysUserHistoryService;
+    private final MinliaValidProperties minliaValidProperties;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final SysUserRelationService sysUserRelationService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -225,7 +219,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean delete(Long id) {
+    public boolean delete(Long id) {
         SysUserEntity entity = this.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getId, id));
         boolean result = this.removeById(entity.getId());
         SysUserDeleteEvent.onDelete(entity);
@@ -234,7 +228,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean lock(Long id) {
+    public boolean lock(Long id, long seconds, String remark) {
+        SysUserEntity entity = this.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getId, id));
+        entity.setLockFlag(true);
+        entity.setRemark(remark);
+        if (Optional.ofNullable(entity.getLockTime()).orElse(LocalDateTime.now()).isAfter(entity.getLockTime())) {
+            entity.setLockTime(LocalDateTime.now().plusSeconds(seconds));
+        } else {
+            entity.setLockTime(entity.getLockTime().plusSeconds(seconds));
+        }
+        this.update(entity, SysUserUpdateTypeEnum.SYSTEM_UPDATE);
+        return entity.getLockFlag();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean lockToggle(Long id) {
         SysUserEntity entity = this.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getId, id));
         if (entity.getLockFlag()) {
             entity.setLockFlag(false);
@@ -250,24 +259,35 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean disable(Long id) {
+    public boolean disable(Long id, String remark) {
         SysUserEntity entity = this.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getId, id));
-        entity.setDisFlag(!entity.getDisFlag());
+        entity.setDisFlag(true);
+        entity.setRemark(remark);
         this.update(entity, SysUserUpdateTypeEnum.SYSTEM_UPDATE);
-        return entity.getDisFlag();
+        TokenCacheUtils.kill(id);
+        return true;
     }
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean addRole(Long id, String roleCode) {
+    public boolean disableToggle(Long id) {
+        SysUserEntity entity = this.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getId, id));
+        entity.setDisFlag(!entity.getDisFlag());
+        this.update(entity, SysUserUpdateTypeEnum.SYSTEM_UPDATE);
+        TokenCacheUtils.kill(id);
+        return entity.getDisFlag();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addRole(Long id, String roleCode) {
         SysRoleEntity sysRoleEntity = sysRoleService.getOne(new QueryWrapper<SysRoleEntity>().lambda().select(SysRoleEntity::getId).eq(SysRoleEntity::getCode, roleCode));
         return sysRoleUserService.save(SysRoleUserEntity.builder().roleId(sysRoleEntity.getId()).userId(id).build());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean grant(Long id, Set<Long> roleIds) {
+    public boolean grant(Long id, Set<Long> roleIds) {
         //移除用户-角色关系
         sysRoleUserService.remove(Wrappers.<SysRoleUserEntity>lambdaUpdate().eq(SysRoleUserEntity::getUserId, id));
         //批量保存
@@ -277,7 +297,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean grantByRoleCodes(Long id, Set<String> roleCodes) {
+    public boolean grantByRoleCodes(Long id, Set<String> roleCodes) {
         List<SysRoleEntity> roles = sysRoleService.list(new QueryWrapper<SysRoleEntity>().lambda().select(SysRoleEntity::getId).in(SysRoleEntity::getCode, roleCodes));
         Set<Long> roleIds = roles.stream().map(role -> role.getId()).collect(Collectors.toSet());
         return this.grant(id, roleIds);
@@ -285,7 +305,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean grant(SysUserEntity entity, Set<String> roleCodes) {
+    public boolean grant(SysUserEntity entity, Set<String> roleCodes) {
         return this.grantByRoleCodes(entity.getId(), roleCodes);
     }
 

@@ -5,6 +5,7 @@ import com.minlia.modules.security.authentication.ajax.DefaultLogoutSuccessHandl
 import com.minlia.modules.security.authentication.cellphone.CellphoneCaptchaAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.JwtTokenAuthenticationProcessingFilter;
 import com.minlia.modules.security.authentication.jwt.SkipPathRequestMatcher;
+import com.minlia.modules.security.config.SysSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -22,6 +23,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,11 +38,11 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //TODO 分离开发环境与生产环境 X-Authorization, 需要同时修改 swagger项目里面Swagger2Config文件
     public static final String JWT_TOKEN_HEADER_PARAM = "X-Auth-Token";
-//    public static final String JWT_TOKEN_HEADER_PARAM = "X-Authorization";
 
     public static final String OPEN_ENTRY_POINT = "/api/open/**";
     public static final String LOGIN_ENTRY_POINT = "/api/auth/login";
@@ -50,7 +52,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/api/v*/**";
 
     @Autowired
+    private JwtProperty jwtProperty;
+    //@Autowired
+    //private SysSecurityConfig sysSecurityConfig;
+
+    //@Autowired
+    //@Qualifier("minliaAccessDeniedHandler")
+    //private AccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    //@Qualifier("minliaAuthenticationEntryPoint")
     private AuthenticationEntryPoint authenticationEntryPoint;
+
     @Autowired
     private DefaultLogoutSuccessHandler defaultLogoutSuccessHandler;
     @Autowired
@@ -92,49 +104,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .headers().httpStrictTransportSecurity().maxAgeInSeconds(Duration.ofDays(365L).getSeconds()).includeSubDomains(true).and()  //HTTP Strict Transport Security（通常简称为 HSTS）是一个安全功能，它告诉浏览器只能通过HTTPS访问当前资源，而不是HTTP
-                .frameOptions().sameOrigin()    //X-Frame-Options HTTP 响应头是用来给浏览器指示允许一个页面可否在 <frame>, <iframe>或者 <object> 中展现的标记。网站可以使用此功能，来确保自己网站的内容没有被嵌到别人的网站中去，也从而避免了点击劫持 (clickjacking) 的攻击。
-                .and().csrf().disable() // We don't need CSRF for JWT based authentication
-                .exceptionHandling()
+                //禁用表单登录，前后端分离用不上
+                //.formLogin().disable()
+                //HTTP Strict Transport Security（通常简称为 HSTS）是一个安全功能，它告诉浏览器只能通过HTTPS访问当前资源，而不是HTTP
+                .headers().httpStrictTransportSecurity().maxAgeInSeconds(Duration.ofDays(365L).getSeconds()).includeSubDomains(true)
+                //X-Frame-Options HTTP 响应头是用来给浏览器指示允许一个页面可否在 <frame>, <iframe>或者 <object> 中展现的标记。网站可以使用此功能，来确保自己网站的内容没有被嵌到别人的网站中去，也从而避免了点击劫持 (clickjacking) 的攻击。
+                .and().frameOptions().sameOrigin()
+                //异常处理器
+                .and().exceptionHandling()
+                //认证通过，但是没权限处理器
+                //.accessDeniedHandler(accessDeniedHandler)
+                //认证未通过，不允许访问异常处理器
                 .authenticationEntryPoint(this.authenticationEntryPoint)
-                .and()
-                .authorizeRequests()
+                //设置URL的授权
+                .and().authorizeRequests()
+                //需要认证的接口
                 .antMatchers(LOGOUT_ENTRY_POINT, TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
+                //不需要认证的接口
                 .antMatchers(OPEN_ENTRY_POINT, LOGIN_CELLPHONE_ENTRY_POINT, LOGIN_ENTRY_POINT, TOKEN_REFRESH_ENTRY_POINT).permitAll()
-//                .anyRequest().authenticated()
+                //.anyRequest().authenticated()
+                //将TOKEN校验过滤器配置到过滤器链中，否则不生效，放到UsernamePasswordAuthenticationFilter之前
                 .and()
-//                .addFilterBefore(new SystemCorsFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(cellphoneCaptchaAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(userDetailsAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtTokenAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(ajaxLoginAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(cellphoneCaptchaAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
-
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_ENTRY_POINT))
+                //退出登陆
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher(LOGOUT_ENTRY_POINT))
                 //.addLogoutHandler(new DisableMultipleSecurityContextLogoutHandler())
                 .logoutSuccessHandler(defaultLogoutSuccessHandler)
-
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)     //不使用session
-//                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-//                .maximumSessions(1)
-//                .maxSessionsPreventsLogin(true)
-//                .sessionRegistry(sessionRegistry)
-        ;
+                //禁用session，JWT校验不需要session
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //We don't need CSRF for JWT based authentication
+                .and().csrf().disable();
     }
-
-//    @Bean
-//    UserDetailsAuthenticationProcessingFilter userDetailsAuthenticationProcessingFilter() {
-//        UserDetailsAuthenticationProcessingFilter filter = new UserDetailsAuthenticationProcessingFilter();
-//        ProviderManager providerManager = new ProviderManager(Collections.singletonList(userDetailsAuthenticationProvider));
-//        filter.setAuthenticationManager(providerManager);
-//        filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
-//        filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
-////        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
-//        return filter;
-//    }
 
     @Bean
     AjaxLoginAuthenticationProcessingFilter ajaxLoginAuthenticationProcessingFilter() {
@@ -143,7 +145,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationManager(providerManager);
         filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
-//        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
         return filter;
     }
 
@@ -154,22 +155,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationManager(providerManager);
         filter.setAuthenticationSuccessHandler(ajaxAuthenticationSuccessHandler);
         filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
-//        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
         return filter;
     }
 
-    @Bean
+    //@Bean
     JwtTokenAuthenticationProcessingFilter jwtTokenAuthenticationProcessingFilter() throws Exception {
         List<String> pathsToSkip = Arrays.asList(TOKEN_REFRESH_ENTRY_POINT, LOGIN_ENTRY_POINT);
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
-        JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(matcher);
-
-//        filter.setAuthenticationManager(this.authenticationManager);
-
+        JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(matcher, jwtProperty);
         ProviderManager providerManager = new ProviderManager(Collections.singletonList(jwtAuthenticationProvider));
         filter.setAuthenticationManager(providerManager);
         filter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
-//        filter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
         return filter;
     }
 

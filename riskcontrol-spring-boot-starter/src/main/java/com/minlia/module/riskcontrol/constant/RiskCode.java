@@ -28,7 +28,9 @@ public class RiskCode {
         /**
          * 近15分钟内同ip出现多次登陆失败,count=
          */
-        NUM_SAME_IP_LOGIN_FAILURE_MINS;
+        NUM_SAME_IP_LOGIN_FAILURE_MINS,
+
+        SAME_ACCOUNT_DIFFERENT_LOGIN_IP;
 
         @Override
         public String module() {

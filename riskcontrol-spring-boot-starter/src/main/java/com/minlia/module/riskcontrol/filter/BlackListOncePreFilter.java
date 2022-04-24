@@ -1,12 +1,10 @@
 package com.minlia.module.riskcontrol.filter;
 
-import com.minlia.cloud.holder.ContextHolder;
 import com.minlia.cloud.utils.ApiAssert;
 import com.minlia.module.riskcontrol.constant.RiskCode;
-import com.minlia.module.riskcontrol.enums.RiskTypeEnum;
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum;
 import com.minlia.module.riskcontrol.event.RiskBlackIpEvent;
 import com.minlia.module.riskcontrol.service.KieService;
-import com.minlia.module.riskcontrol.service.RiskBlackUrlService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -34,13 +32,17 @@ public class BlackListOncePreFilter extends OncePerRequestFilter {
 //        KieService.execute(riskIpScopeEvent);
 //        ApiAssert.state(riskIpScopeEvent.isMatched(), RiskCode.Message.BLACK_IP_SCOPE.code(), RiskCode.Message.BLACK_IP_SCOPE.i18nKey());
 
-        //黑名单IP
-        RiskBlackUrlService riskBlackUrlService = ContextHolder.getContext().getBean(RiskBlackUrlService.class);
-        if (!riskBlackUrlService.contain(RiskTypeEnum.WHITE, httpServletRequest.getRequestURI())) {
-            RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent(httpServletRequest.getRequestURI());
-            KieService.execute(riskBlackIpEvent);
-            ApiAssert.state(!riskBlackIpEvent.isMatched(), RiskCode.Message.BLACK_IP.code(), RiskCode.Message.BLACK_IP.i18nKey());
-        }
+        //风控黑名单
+        RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent();
+        KieService.execute(riskBlackIpEvent);
+        ApiAssert.state(riskBlackIpEvent.getLevel() != RiskLevelEnum.DANGER, RiskCode.Message.BLACK_IP);
+
+
+        ////黑名单IP
+        //RiskBlackUrlService riskBlackUrlService = ContextHolder.getContext().getBean(RiskBlackUrlService.class);
+        //if (!riskBlackUrlService.contain(RiskTypeEnum.WHITE, httpServletRequest.getRequestURI())) {
+        //    RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent(httpServletRequest.getRequestURI());
+        //}
 
 
 //        StatelessKieSession kieSession = ReloadDroolsRulesService.kieContainer.newStatelessKieSession();
@@ -54,17 +56,6 @@ public class BlackListOncePreFilter extends OncePerRequestFilter {
 //        kieSession.execute(riskIpScopeEvent);
 //        ApiAssert.state(riskIpScopeEvent.isMatched(), RiskCode.Message.BLACK_IP_SCOPE.code(), RiskCode.Message.BLACK_IP_SCOPE.i18nKey());
 
-        //黑名单
-//        RiskBlackUrlService riskBlackUrlService = ContextHolder.getContext().getBean(RiskBlackUrlService.class);
-//        if (!riskBlackUrlService.contain(RiskTypeEnum.WHITE, httpServletRequest.getRequestURI())) {
-//            RiskBlackListService riskBlackListService = ContextHolder.getContext().getBean(RiskBlackListService.class);
-//            kieSession.setGlobal("riskBlackListService", riskBlackListService);
-//            kieSession.setGlobal("riskRecordService", riskRecordService);
-//            RiskBlackIpEvent riskBlackIpEvent = new RiskBlackIpEvent();
-//            riskBlackIpEvent.setScene(httpServletRequest.getRequestURI());
-//            kieSession.execute(riskBlackIpEvent);
-//            ApiAssert.state(!riskBlackIpEvent.isBlack(), RiskCode.Message.BLACK_IP.code(), RiskCode.Message.BLACK_IP.i18nKey());
-//        }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 

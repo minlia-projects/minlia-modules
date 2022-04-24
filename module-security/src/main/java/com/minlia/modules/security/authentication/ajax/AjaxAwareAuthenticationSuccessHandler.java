@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.minlia.cloud.body.Response;
 import com.minlia.modules.security.model.UserContext;
-import com.minlia.modules.security.model.token.AccessJwtToken;
 import com.minlia.modules.security.model.token.JwtToken;
 import com.minlia.modules.security.model.token.JwtTokenFactory;
 import com.minlia.modules.security.model.token.TokenCacheUtils;
@@ -24,11 +23,13 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @author garen
+ */
 @Component
 public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final ObjectMapper mapper;
-
     private final JwtTokenFactory tokenFactory;
 
     @Autowired
@@ -49,7 +50,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
         Map<String, Object> tokenMap = Maps.newHashMap();
         tokenMap.put("token", accessToken.getToken());
-        tokenMap.put("expireDate", ((AccessJwtToken) accessToken).getClaims().getExpiration());
+        tokenMap.put("expireDate", accessToken.getClaims().getExpiration());
         tokenMap.put("refreshToken", refreshToken.getToken());
 
         response.setStatus(HttpStatus.OK.value());
@@ -59,7 +60,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
         clearAuthenticationAttributes(request);
 
-        //缓存token TODO
+        //缓存token
         TokenCacheUtils.kill(key);
         TokenCacheUtils.cache(key, rawToken.getToken(), tokenFactory.getSettings().getTokenExpirationTime());
     }
@@ -75,4 +76,5 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         }
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
+
 }

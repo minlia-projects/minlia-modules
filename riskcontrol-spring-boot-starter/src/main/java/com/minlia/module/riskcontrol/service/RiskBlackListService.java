@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 public class RiskBlackListService {
 
     public static String channel = "risk:blacklist";
-
     private Map<String, RiskBlackList> blackListMap;
 
     @Resource(name = "redisTemplate")
@@ -97,8 +96,8 @@ public class RiskBlackListService {
     }
 
     public boolean contain(RiskBlackList.EnumDimension enumDimension, RiskTypeEnum enumType, String value) {
-        RiskBlackList riskBlackList1 = blackListMap.get(value);
-        return riskBlackList1 == null ? false : (riskBlackList1.getDimension().equals(enumDimension) && riskBlackList1.getType().equals(enumType));
+        RiskBlackList riskBlackList = blackListMap.get(value);
+        return riskBlackList == null ? false : (riskBlackList.getDimension().equals(enumDimension) && riskBlackList.getType().equals(enumType));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.minlia.module.captcha.bean;
 
 import com.minlia.module.captcha.enums.CaptchaTypeEnum;
+import com.minlia.module.common.validation.Cellphone;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -19,13 +20,12 @@ public class CaptchaCro {
     @Email
     private String email;
 
-
     /**
      * 手机区号
      */
     private Integer areaCode;
 
-//    @Cellphone
+    @Cellphone
     private String cellphone;
 
     @Size(max = 50)

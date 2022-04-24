@@ -48,6 +48,9 @@ public class AuditLogController {
     @ApiOperation(value = "分页查询")
     @PostMapping(value = "page")
     public Response page(@RequestBody AuditLogQro qro) {
+
+
+
         AuditLogEntity entity = DozerUtils.map(qro, AuditLogEntity.class);
         LambdaQueryWrapper<AuditLogEntity> queryWrapper = new QueryWrapper<AuditLogEntity>().lambda().setEntity(entity);
         return Response.success(auditLogService.page(qro.getPage(), queryWrapper));

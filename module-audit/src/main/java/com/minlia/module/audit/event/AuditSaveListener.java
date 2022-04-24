@@ -3,6 +3,7 @@ package com.minlia.module.audit.event;
 import com.minlia.module.audit.entity.AuditLogEntity;
 import com.minlia.module.audit.service.AuditLogService;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +19,7 @@ public class AuditSaveListener {
         this.auditLogService = auditLogService;
     }
 
+    @Async
     @EventListener
     public void onSave(AuditSaveEvent event) {
         AuditLogEntity entity = (AuditLogEntity) event.getSource();

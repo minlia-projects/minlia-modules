@@ -22,6 +22,9 @@
         <minlia.cloud.version>2.1.0-SNAPSHOT</minlia.cloud.version>
         <minlia.module.version>2.1.0-SNAPSHOT</minlia.module.version>
         <springfox.version>3.0.0</springfox.version>
+
+        <mybatis-plus-version>3.4.1</mybatis-plus-version>
+        <mybatis-plus-extension-version>3.4.1</mybatis-plus-extension-version>
     </properties>
 
     <distributionManagement>
@@ -38,8 +41,36 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus-extension-version}</version>
+            </dependency>
+
+
+            <dependency>
                 <groupId>com.minlia.cloud</groupId>
                 <artifactId>minlia-cloud-starter</artifactId>
+                <version>${minlia.cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-redis</artifactId>
                 <version>${minlia.cloud.version}</version>
             </dependency>
             <dependency>
@@ -69,6 +100,16 @@
             </dependency>
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-sms</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-email</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
                 <artifactId>module-i18n</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
@@ -82,6 +123,12 @@
                 <artifactId>module-bible</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>module-richtext</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
                 <artifactId>minlia-aliyun-green</artifactId>
@@ -112,16 +159,24 @@
                 <artifactId>module-integral-biz</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
                 <artifactId>minlia-wechat-miniapp</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.minlia.cloud.modules</groupId>
-                <artifactId>riskcontrol-spring-boot-starter</artifactId>
+                <artifactId>minlia-riskcontrol-basic</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>minlia-riskcontrol-drool</artifactId>
+                <version>${minlia.module.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.minlia.cloud.modules</groupId>
+                <artifactId>minlia-real-name</artifactId>
                 <version>${minlia.module.version}</version>
             </dependency>
         </dependencies>

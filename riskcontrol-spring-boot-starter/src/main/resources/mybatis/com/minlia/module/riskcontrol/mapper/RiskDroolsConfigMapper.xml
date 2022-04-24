@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.riskcontrol.mapper.RiskDroolsConfigMapper">
-    <resultMap id="BaseResultMap" type="com.minlia.module.riskcontrol.entity.RiskDroolsConfig">
+    <resultMap id="BaseResultMap" type="com.minlia.module.riskcontrol.entity.RiskDrools">
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="rule_key" jdbcType="VARCHAR" property="ruleKey"/>
@@ -32,7 +32,7 @@
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="com.minlia.module.riskcontrol.entity.RiskDroolsConfig" useGeneratedKeys="true">
+            parameterType="com.minlia.module.riskcontrol.entity.RiskDrools" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into mdl_risk_drools_config
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -94,7 +94,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.riskcontrol.entity.RiskDroolsConfig">
+    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.riskcontrol.entity.RiskDrools">
         <!--@mbg.generated-->
         update mdl_risk_drools_config
         <set>

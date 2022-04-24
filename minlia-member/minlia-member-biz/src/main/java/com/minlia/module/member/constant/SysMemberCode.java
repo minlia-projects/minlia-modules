@@ -23,6 +23,11 @@ public class SysMemberCode {
 
         VERIFY_PASSWORD_FAILURE,
 
+        /**
+         * 多次失败，请稍后
+         */
+        MULTIPLE_FAILURES_PLEASE_WAIT,
+
         REGISTRATION_SUCCESS,
 
         REGISTRATION_FAILURE;

@@ -12,14 +12,19 @@ public class SysRealNameCode {
     public enum Message implements Code {
 
         /**
+         * 通道额度超限
+         */
+        CHANNEL_MORE_THAN_LIMIT,
+
+        /**
          * 已认证
          */
         ALREADY_AUTHENTICATED,
 
         /**
-         * 年龄必须大于14岁
+         * 年龄必须大于18岁
          */
-        AGE_MUST_BE_OVER14,
+        AGE_MUST_BE_OVER18,
 
         /**
          * 认证成功
@@ -27,14 +32,19 @@ public class SysRealNameCode {
         AUTHENTICATION_SUCCESSFUL,
 
         /**
-         * 姓名身份证不一致
+         * 身份信息不一致
          */
         IDENTITY_INCONSISTENCY,
 
         /**
          * 身份信息有误
          */
-        INCORRECT_IDENTITY_INFORMATION;
+        INCORRECT_IDENTITY_INFORMATION,
+
+        /**
+         * 请求频繁
+         */
+        FREQUENT_REQUESTS;
 
         @Override
         public String module() {

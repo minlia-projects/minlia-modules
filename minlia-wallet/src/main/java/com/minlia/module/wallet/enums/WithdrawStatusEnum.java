@@ -1,5 +1,6 @@
 package com.minlia.module.wallet.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,6 +14,7 @@ public enum WithdrawStatusEnum {
 
     REJECTED(2, "REJECTED");
 
+    @EnumValue
     private final int value;
 
     private final String code;

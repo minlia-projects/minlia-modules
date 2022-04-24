@@ -27,8 +27,7 @@ public class ReloadDroolsRulesService {
     private RuleRepository ruleRepository;
 
     public void reload() {
-        KieContainer kieContainer = loadContainerFromString(loadRules());
-        this.kieContainer = kieContainer;
+        kieContainer = loadContainerFromString(loadRules());
     }
 
     private List<Rule> loadRules() {

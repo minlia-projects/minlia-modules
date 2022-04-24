@@ -7,6 +7,7 @@ import com.minlia.module.captcha.service.CaptchaService;
 import com.minlia.module.common.util.RequestIpUtils;
 import com.minlia.module.rebecca.authentication.service.LoginService;
 import com.minlia.module.rebecca.risk.event.RiskLoginFailureEvent;
+import com.minlia.module.rebecca.risk.event.RiskRegistrationEvent;
 import com.minlia.module.rebecca.user.bean.SysUserCro;
 import com.minlia.module.rebecca.user.constant.SysUserCode;
 import com.minlia.module.rebecca.user.entity.SysUserEntity;
@@ -14,7 +15,8 @@ import com.minlia.module.rebecca.user.enums.SysUserStatusEnum;
 import com.minlia.module.rebecca.user.enums.SysUserUpdateTypeEnum;
 import com.minlia.module.rebecca.user.event.SysLoginSuccessEvent;
 import com.minlia.module.rebecca.user.service.SysUserService;
-import com.minlia.module.riskcontrol.service.DimensionService;
+import com.minlia.module.riskcontrol.service.RiskDimensionService;
+import com.minlia.module.riskcontrol.service.RiskKieService;
 import com.minlia.modules.security.authentication.cellphone.CellphoneLoginCredentials;
 import com.minlia.modules.security.authentication.service.AuthenticationService;
 import com.minlia.modules.security.exception.AjaxLockedException;
@@ -36,6 +38,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 
+/**
+ * 短信验证码认证 服务类
+ *
+ * @author garen
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -44,7 +51,7 @@ public class CellphoneVerificationCodeAuthenticationService implements Authentic
     private final LoginService loginService;
     private final SysUserService sysUserService;
     private final CaptchaService captchaService;
-    private final DimensionService dimensionService;
+    private final RiskDimensionService riskDimensionService;
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -57,21 +64,12 @@ public class CellphoneVerificationCodeAuthenticationService implements Authentic
         if (!response.isSuccess()) {
             throw new DefaultAuthenticationException(response.getI18nCode());
         }
-
-        SysUserEntity userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery()
-                .eq(SysUserEntity::getCellphone, loginCredentials.getCellphone())
-                .eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
-
+        SysUserEntity userEntity = sysUserService.getOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getCellphone, loginCredentials.getCellphone()).eq(SysUserEntity::getAreaCode, loginCredentials.getAreaCode()));
         if (Objects.isNull(userEntity)) {
+            //注册风控 TODO
+            RiskKieService.execute(new RiskRegistrationEvent(loginCredentials.getCellphone()));
             log.info("手机号码不存在，创建账号------------------------------------");
-            userEntity = sysUserService.create(SysUserCro.builder()
-                    .areaCode(loginCredentials.getAreaCode())
-                    .cellphone(loginCredentials.getCellphone())
-                    .inviteCode(loginCredentials.getInviteCode())
-                    .roles(Sets.newHashSet())
-                    .defaultRole("ROLE_MEMBER")
-                    .build());
-
+            userEntity = sysUserService.create(SysUserCro.builder().areaCode(loginCredentials.getAreaCode()).cellphone(loginCredentials.getCellphone()).inviteCode(loginCredentials.getInviteCode()).roles(Sets.newHashSet()).defaultRole("ROLE_MEMBER").build());
         } else {
             log.info("手机号码存在，更新信息------------------------------------");
             update(userEntity);
@@ -81,7 +79,7 @@ public class CellphoneVerificationCodeAuthenticationService implements Authentic
         SysLoginSuccessEvent.publish(userEntity);
 
         //清除缓存登陆失败记录 TODO
-        dimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(), new String[]{RiskLoginFailureEvent.IP}, RiskLoginFailureEvent.TIME);
+        riskDimensionService.cleanCountWithRedis(new RiskLoginFailureEvent(loginCredentials.getCellphone()), new String[]{RiskLoginFailureEvent.SCENE_VALUE}, RiskLoginFailureEvent.TIME);
         return getUsernamePasswordAuthenticationToken(userEntity);
     }
 

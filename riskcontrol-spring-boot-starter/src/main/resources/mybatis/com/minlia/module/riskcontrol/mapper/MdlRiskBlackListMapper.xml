@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minlia.module.riskcontrol.mapper.RiskBlackListMapper">
-    <resultMap id="BaseResultMap" type="com.minlia.module.riskcontrol.entity.RiskBlackList">
+    <resultMap id="BaseResultMap" type="com.minlia.module.riskcontrol.entity.RiskList">
         <!--@mbg.generated-->
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
@@ -27,7 +27,7 @@
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insertSelective" keyColumn="id" keyProperty="id"
-            parameterType="com.minlia.module.riskcontrol.entity.RiskBlackList" useGeneratedKeys="true">
+            parameterType="com.minlia.module.riskcontrol.entity.RiskList" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into mdl_risk_black_list
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -65,7 +65,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.riskcontrol.entity.RiskBlackList">
+    <update id="updateByPrimaryKeySelective" parameterType="com.minlia.module.riskcontrol.entity.RiskList">
         <!--@mbg.generated-->
         update mdl_risk_black_list
         <set>

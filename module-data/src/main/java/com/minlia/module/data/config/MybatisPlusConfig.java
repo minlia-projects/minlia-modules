@@ -2,6 +2,10 @@ package com.minlia.module.data.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.core.config.GlobalConfig;
+import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
@@ -53,6 +57,17 @@ public class MybatisPlusConfig {
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {
         return configuration -> configuration.setUseDeprecatedExecutor(false);
+    }
+
+    @Bean
+    public MybatisPlusPropertiesCustomizer mybatisPlusPropertiesCustomizer() {
+        return properties -> {
+            GlobalConfig globalConfig = properties.getGlobalConfig();
+            globalConfig.setBanner(false);
+            MybatisConfiguration configuration = new MybatisConfiguration();
+            configuration.setDefaultEnumTypeHandler(MybatisEnumTypeHandler.class);
+            properties.setConfiguration(configuration);
+        };
     }
 
     private TenantLineInnerInterceptor tenantLineInnerInterceptor() {

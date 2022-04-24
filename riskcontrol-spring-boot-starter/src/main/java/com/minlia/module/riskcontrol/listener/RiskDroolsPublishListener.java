@@ -15,8 +15,6 @@ public class RiskDroolsPublishListener implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        System.out.println(new String(message.getBody()));
-        System.out.println(new String(message.getChannel()));
         riskDroolsConfigService.updateCache();
     }
 

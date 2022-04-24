@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author garen
+ */
 @Component
 public class JwtTokenFactory {
 
@@ -25,19 +28,19 @@ public class JwtTokenFactory {
         this.settings = settings;
     }
 
-    public AccessJwtToken createAccessJwtToken(String key, String username, String id) {
+    public JwtToken createAccessJwtToken(String key, String username, String id) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("key", key);
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
     }
 
-    public AccessJwtToken createRefreshToken(String key, String username, String id) {
+    public JwtToken createRefreshToken(String key, String username, String id) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("key", key);
         return getJwtToken(claims, settings.getRefreshTokenExpTime(), id);
     }
 
-    public AccessJwtToken createRawJwtToken(UserContext userContext, String id) {
+    public JwtToken createRawJwtToken(UserContext userContext, String id) {
         Claims claims = Jwts.claims().setSubject(userContext.getUsername());
         claims.put("uid", userContext.getUid());
         claims.put("orgId", userContext.getOrgId());
@@ -53,7 +56,7 @@ public class JwtTokenFactory {
         return getJwtToken(claims, settings.getTokenExpirationTime(), id);
     }
 
-    private AccessJwtToken getJwtToken(Claims claims, Integer tokenExpirationTime, String id) {
+    private JwtToken getJwtToken(Claims claims, Integer tokenExpirationTime, String id) {
         LocalDateTime currentTime = LocalDateTime.now();
         String token = Jwts.builder()
                 .setClaims(claims)
@@ -65,7 +68,7 @@ public class JwtTokenFactory {
                 .setExpiration(LocalDateUtils.localDateTimeToDate(LocalDateTime.now().plusMonths(1)))
                 .signWith(SignatureAlgorithm.HS512, settings.getTokenSigningKey())
                 .compact();
-        return new AccessJwtToken(token, claims);
+        return new JwtToken(token, claims);
     }
 
 }

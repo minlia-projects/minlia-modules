@@ -4,7 +4,7 @@
 //import com.minlia.module.riskcontrol.entity.RiskBlackListList
 //import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 //import com.minlia.module.riskcontrol.enums.TimePeriodEnum
-//import com.minlia.module.riskcontrol.service.DimensionService
+//import com.minlia.module.riskcontrol.service.RiskDimensionService
 //import com.minlia.module.riskcontrol.service.BlackListService
 //import com.minlia.module.riskcontrol.service.RiskRecordService
 //import com.minlia.module.riskcontrol.event.RiskLoginEvent

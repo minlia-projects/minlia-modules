@@ -1,14 +1,29 @@
 package com.minlia.modules.security.authentication.jwt;
 
 import com.minlia.cloud.utils.LocalDateUtils;
+import com.minlia.modules.security.code.SecurityCode;
+import com.minlia.modules.security.exception.JwtAcceptableException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class JWT {
+
+    public static String HEADER_PREFIX = "Bearer ";
+
+    public static String extract(String header) {
+        if (StringUtils.isBlank(header)) {
+            throw new JwtAcceptableException(SecurityCode.Exception.JWT_TOKEN_NOT_NULL.message());
+        }
+        if (header.length() < HEADER_PREFIX.length()) {
+            throw new JwtAcceptableException(SecurityCode.Exception.JWT_TOKEN_INVALID.message());
+        }
+        return header.substring(HEADER_PREFIX.length());
+    }
 
     /**
      * 利用jwt生成token信息.

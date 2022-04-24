@@ -1,0 +1,160 @@
+server:
+  port: ${SERVER_PORT:9991}
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+system:
+  appId: nft-product
+  token: bWl1uBbG1lhCg==
+  security:
+    jwt:
+      tokenExpirationTime: 90000 # Number of Seconds
+      refreshTokenExpTime: 90000 # Seconds
+      tokenIssuer: http://minlia.com
+      tokenSigningKey: minlia8EV6Hy15RMFK4EEA1CIDAwQus
+  sms:
+    type: aliyun
+
+# SPRING PROFILES
+spring:
+  aop:
+    auto: true
+  application:
+    name: nft
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 30MB
+      max-request-size: 30MB
+  http:
+    encoding.enable: true
+  session:
+    store-type: none
+  main:
+    sources:
+  mail:
+    host: smtpdm.aliyun.com
+    #    port: 465
+    username: inquiry@dm.camelsc.com
+    password: vNp8E7AKbRGYecW7
+    default-encoding: UTF-8
+    #    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls:
+        enable: true
+        required: true
+      ssl:
+        trust: smtpdm.aliyun.com
+        enable: true
+      socketFactory:
+        port: 465
+        #        class: javax.net.ssl.SSLSocketFactory
+        class: com.sun.mail.util.MailSSLSocketFactory
+  redis:
+    host: ${SPRING_REDIS_HOST:127.0.0.1}
+    port: ${SPRING_REDIS_PORT:6379}
+    password: ${SPRING_REDIS_PASSWORD:123456}
+    database: ${SPRING_REDIS_DATABASE:1}
+    lettuce:
+      pool:
+        max-active: 300
+        max-wait: 10000
+        max-idle: 100
+        min-idle: 50
+    timeout: 500
+  datasource:
+    name:
+    type: ${SPRING_DATASOURCE_TYPE:com.zaxxer.hikari.HikariDataSource}
+    driverClassName: ${SPRING_DATASOURCE_DRIVER-CLASS-NAME:com.mysql.cj.jdbc.Driver}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://127.0.0.1:3306/nft-backend?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:Root.2020}
+    hikari:
+      pool-name: HsjsHikariCP           #连接池的名字。一般会出现在日志和JMX控制台中。默认值：auto-genenrated。建议取一个合适的名字，便于监控。
+      auto-commit: true                 #是否自动提交池中返回的连接。默认值为true。一般是有必要自动提交上一个连接中的事物的。如果为false，那么就需要应用层手动提交事物。
+      minimum-idle: 5                   #池中最小空闲连接数量。默认值10
+      maximum-pool-size: 200            #池中最大连接数（包括空闲和正在使用的连接）。默认值是10
+      idle-timeout: 600000              #空闲时间。仅在minimum-idle小于maximum-poop-size的时候才会起作用。默认值10分钟。根据应用实际情况做调整，对于一些间歇性流量达到峰值的应用，一般需要考虑设置的比间歇时间更大，防止创建数据库连接拖慢了应用速度。
+      max-lifetime: 28740000            #一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟 1800000ms，建议设置比数据库超时时长少60秒，参考MySQL wait_timeout参数
+      connection-timeout: 30000         #连接超时时间。默认值为30s，可以接收的最小超时时间为250ms
+      connection-test-query: SELECT 1
+      leak-detection-threshold: 5000
+#
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml,classpath*:mybatis/**/*Mapper.xml
+  global-config:
+    db-config:
+      id-type: assign_id      #主键策略
+      #table-prefix: t        #表名前缀
+      table-underline: true   #表名是否使用下划线间隔，默认：是
+  #config-location: mybatis-config.xml  #添加mybatis配置文件路径
+  configuration:
+    map-underscore-to-camel-case: true  #驼峰转下划线
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  type-enums-package: com.minlia.**.enums #配置枚举 支持通配符 * 或者 ; 分割
+  type-aliases-package: com.minlia.**.entity #配置实体类包地址
+#
+springfox:
+  documentation:
+    enabled: true
+    swagger-ui:
+      enabled: true
+#
+swagger:
+  enable: true
+  host: http://localhost:${server.port}
+  title: ${spring.application.name}
+  version: 1.0
+  path: /api/.*
+  description: NFT Swagger
+  termsOfServiceUrl: https://www.google.com/tos
+  redirect: true
+  contact:
+    name: garen
+    url: https://www.google.com
+    email: cloud@google.com
+#
+encrypt:
+  body:
+    aes-key: zZyWl39ow6T0i4zIWJbfkA== #AES加密秘钥
+    aes-iv: YSqr2v2jOsAZtQZi #AES加密秘钥
+    des-key: 12345678 #DES加密秘钥
+    rsa-public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDKfxQMr/QZekhZur/SWXN32Bd4bnnj5AcQtXxMY3IpNdLz1sySaEzO+YsFWhWWvualApTP2MhhjsA3hGexc4g1XhEvKCXmSbtAu/tsYe+iBulufX+I2K5QN/A5yH8Dt5Cf+pxMMP+E6WHwTptuHEL7ywb9J0EPcbiArW5fciLXsQIDAQAB
+    rsa-private-key: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMp/FAyv9Bl6SFm6v9JZc3fYF3hueePkBxC1fExjcik10vPWzJJoTM75iwVaFZa+5qUClM/YyGGOwDeEZ7FziDVeES8oJeZJu0C7+2xh76IG6W59f4jYrlA38DnIfwO3kJ/6nEww/4TpYfBOm24cQvvLBv0nQQ9xuICtbl9yItexAgMBAAECgYA/FAzr0tfII/ZrtSfR37l/aJoPEuL3YW3t/4rDxOqn+bNH7+5z4PekNcnfletJtRfl6QLwKAhrk2s/IAipF2MjJtsPY5ptFDa10pJR/DQ5SEAiZ83hzvsgyuLFjm+rAAmveAcr/XIBGWg7TQXK59Q8MpVMfXar2xx5WWqLxf+ZnQJBAOUtl/w4vDLWuTn8S+GkrJVhTzKg+8mdv6/2TIcXqqlxE6kQzqmjvms8hHUwnDb3fSMLObyhhPpE8mgTrwpVkt8CQQDiMhL0x1kuTqDMCtUHseeH6Piu5U1iKrAUxBzqqcDQKwQDtwDTQxCsTRAxVSbrlo7CcuDDOjceBqROAg4vDfdvAkBs3OKUWfL0B1GHPNRixBGDB+1R9GyGUhvLHyktBs33nRIkviodJP3//IhDDqs15QwZSGzNsL/1DilDzQ3Zz9prAkEAnCKgfyKT5qkTyYS4pAUjoucnseJKVjbNMKhmpXzjwU3QCZhrE2k5uxW+1a7HnNtiU8rkZx5qKWnARLCahdSINQJBAOBiIvDlIbcLvFxHc+1Nct7N/jtrrA02ITQzREKGAOZ9KEGv7cDtZxXA1TlQlt4VvN1REEX0cZH37NWuTRM9wYg=
+    xor-key: 136
+#
+
+#
+unifiedpayment:
+  wechat:
+    appId: 1
+    mchId: 1519330341
+    key: 1
+    callback: https://www.qq.com/api/open/callback/unified/payment/wechat
+  alipay:
+    appId: 2021002123696275
+    callback: https://www.qq.com/api/open/callback/unified/payment/alipay
+    certificate:
+      appPrivateKey: /VyVy3mGN4dbtoYFA3jKSWgg5jpOvGqrF8Gz6vNEZk0+iP15RvOZsnROUp5zaxFrzFm1/m8QXm2GQ3axbt+42i/dkdQjKPO/lpBhKK/EX40Bn/2KqDkzi0xjp1H9AHZTx3pzNgQmMAbBOS9TsOHxlBrde2wm2ABa2qkknvoosnlj4MAAe7DEJYwCeow09E8TIr/DT94RxwjyzOmTx0LQ6tgG+gdzAgMBAAECggEAZP+e7HY8XNk5/QFJbDuLkTBLL7qGJnHzFIafNIO3g2dhJXFcrRLVMf3mUEetmF3eNXTYvAPqEG1YByIEXsvS7kVSfc9fnqpfzJ118NPirmVftsw2FMhaaliznLeKrqsmPrlyxVNLRtveS9PLfAL3YHK9hWrHqsIMrVFrRPCa3QBSVMySM1bmr58LH9D4+KECRSBrJW0Xw2dbwoHmpnmL6qWRLHobbzSv1AggqzWFBWu5aXjrxW8bHHivYiD23fck9kk9VUxbWs8XLwgSZfBrgAHJ8VvZd/7vGI02SWrpOqCzr5yIBlC4xZM75n6c1+j8H6BxSO9bKzZh+E+le3xTcQKBgQDdTtg50Q0ReT4ploqOb0jIZeeiQTBZfCXoJl9webDYXXuW4CoQiQksFD10XHLERy70XGsSGHAg+TtkXLq8e4+ZteykrarQiuqg4LLwDFnaGfNPijq+BYvSZfsytxs4VBllk+PDjUfLT8RyQsX7HE0R1CAjoL3bUSuG/vr1rt9oiQKBgQDOycx703kgxYHkh3flhibDQPlsQOdpAif1iJTG+p7kHI99Org2vd7LHDteWTu9wSmrrs8M3DwlGuQmJ6NY1OvtqS8JyFJODvfJAzkPc6SbKrQ2ALZMwpsb7Xgcrr2dtEQpLxSBsD6W5fmgeLRpuzirpQRw7EEnJW2PwpO7Bie5GwKBgQCl3tJxgx4oWpcc1JhE6WPDz50tH279ou9GcHxX8N17TZW0H49nlU4qm4D0FdZvBmtK+3nEtkxUanj5YAcV/gZDTvdu9jtw0q3IpqF3CcrOjWSv2QruIXoK2CTOfi8IqP/gAlhT2TBWUhMLEMES1MNu+W6dRX0HRG87XyD5w3fvAQKBgFQSnY12hBe71TypiyiJKzdVMlM97Be4ZbCg8AQaHwGVTw1WE1FGTs97UfPhCbXzU9LWRp3u6JEZZsrQcMwL/UPp9hLfG/9afImAQvGyTak8anpOPc/lixSGrr/Sl4sHoHKyDn9PvZKyO5RvnsIh+T9n3u9eTnrw76N0M4XlUb8jAoGBANnsvwJLlrbajkOsBoF7Wbe40k2XY5CEd5iWmBHqXrf97PTJlxxa+CqcXte+dKaAGAnCF+nQohlV1x7bb5rGfMD6yETcFGdUXZsl89TbnwzuQDKfr8roZWX4mkfo1p/Q7FF63X9RKcqwNnaS1vV9yXEtXKeKr4sXmoZscxo9CTDF
+      appPublicKey: olge0Y9khHgOJYALKlZhOUHS81mAFTI3OLzAWjeZ5HhemQNTvTxegEMFQp1RzFIPKVc2MPe786OaUtd8J2rEIg08E+OYgoGQbewa6Fv1clct5hjeHW7aGBQN4ykloIOY6TrxqqxfBs+rzRGZNPoj9eUbzmbJ0TlKec2sRa8xZtf5vEF5thkN2sW7fuNov3ZHUIyjzv5aQYSivxF+NAZ/9iqg5M4tMY6dR/QB2U8d6czYEJjAGwTkvU7Dh8ZQa3XtsJtgAWtqpJJ76KLJ5Y+DAAHuwxCWMAnqMNPRPEyK/w0/eEccI8szpk8dC0OrYBvoHcwIDAQAB
+      platformPublicKey: F5AZ5hAKUHS6smr3wroc1fUwHaIxBQR2iCtkZ+ubBvou9Vm/JIirClaB7vcB5aoGu+z8itc/VjFliwKM9KgifqzLzSskPJOwpIsqDgPC+TOqRQ/jxyrQUYvWpHvVLrj+Mybb3y/9w+utGtvePlsI4gCAP0ZWJwA9L31Z6mMFhakxG8TDJ8jJ6RZHz2kgOCVX4v0jnucjcGaU3ZwT05hl0QXmajD+REZKn7ISMjgnMtv82ZxfqhAoDRa01Cqe/DuLVg31/Y0vssnwA+EsZ8vX79VwX2w1AAh+/GzE/IXIT70jnCxSmK9aurDvYl26PS39wIDAQAB
+  paypal:
+    test: false
+    account: xx
+    client-id: 1-yvcCT7xpJ06BQ9fUUmRoJ20j4bAxpTu51dWakiyWFAgVtQFJlUj0wyu
+    client-secret: 1-9lHI_keOeda9clMV7KK
+    notify-url: http://payment/paypal
+    return-url: http://order/paypal
+
+wx:
+  miniapp:
+    configs:
+      - appid: 11
+        secret: 11
+        token: #微信小程序消息服务器配置的token
+        aesKey: #微信小程序消息服务器配置的EncodingAESKey
+        msgDataFormat: JSON

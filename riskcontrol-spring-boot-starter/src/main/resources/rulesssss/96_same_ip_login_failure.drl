@@ -1,13 +1,13 @@
 //package rules;
 //
 //import com.minlia.module.riskcontrol.event.RiskLoginFailureEvent
-//import com.minlia.module.riskcontrol.entity.RiskBlackList
+//import com.minlia.module.riskcontrol.entity.RiskList
 //import com.minlia.module.riskcontrol.enums.RiskLevelEnum
 //import com.minlia.module.riskcontrol.enums.TimePeriodEnum
-//import com.minlia.module.riskcontrol.service.DimensionService
-//import com.minlia.module.riskcontrol.service.RiskBlackListService
+//import com.minlia.module.riskcontrol.service.RiskDimensionService
+//import com.minlia.module.riskcontrol.service.RiskListService
 //import com.minlia.module.riskcontrol.service.RiskRecordService
-//import com.minlia.module.riskcontrol.entity.RiskBlackList
+//import com.minlia.module.riskcontrol.entity.RiskList
 //
 //global RiskBlackListService riskBlackListService
 //global RiskRecordService riskRecordService

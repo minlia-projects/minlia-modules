@@ -7,47 +7,26 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * @author garen
+ */
 public class MinliaSecurityContextHolder {
 
+    /**
+     * 获取上下文
+     *
+     * @return
+     */
     public static UserContext getUserContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserContext) {
                 UserContext userContext = (UserContext) authentication.getPrincipal();
                 return userContext;
-            }
-        }
-        return null;
-    }
-
-    public static DataPermission getDataPermission() {
-        UserContext userContext = getUserContext();
-        if (Objects.nonNull(userContext)) {
-            return DataPermission.builder().orgId(userContext.getOrgId()).dpType(userContext.getDpType()).dpScope(userContext.getDpScope()).build();
-        }
-        return null;
-    }
-
-    public static String getUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserContext) {
-                UserContext userContext = (UserContext) authentication.getPrincipal();
-                return userContext.getUsername();
-            } else if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                return userDetails.getUsername();
-            } else if (authentication.getPrincipal() instanceof String) {
-                if ("anonymousUser".equalsIgnoreCase((String) authentication.getPrincipal())) {
-                    return null;
-                } else {
-                    return (String) authentication.getPrincipal();
-                }
             }
         }
         return null;
@@ -67,20 +46,20 @@ public class MinliaSecurityContextHolder {
     }
 
     /**
-     * 获取用户ID
+     * 获取用户名
      *
      * @return
      */
-    public static String getName() {
+    public static String getUsername() {
         if (isAnonymousUser()) {
             return "anonymousUser";
         } else {
-            return SecurityContextHolder.getContext().getAuthentication().getName();
+            return getUserContext().getUsername();
         }
     }
 
     /**
-     * 获取用户ID
+     * 获取用户缓存KEY
      *
      * @return
      */
@@ -90,6 +69,19 @@ public class MinliaSecurityContextHolder {
         } else {
             return getUserContext().getKey();
         }
+    }
+
+    /**
+     * 获取数据权限
+     *
+     * @return
+     */
+    public static DataPermission getDataPermission() {
+        UserContext userContext = getUserContext();
+        if (Objects.nonNull(userContext)) {
+            return DataPermission.builder().orgId(userContext.getOrgId()).dpType(userContext.getDpType()).dpScope(userContext.getDpScope()).build();
+        }
+        return null;
     }
 
     /**
@@ -112,7 +104,7 @@ public class MinliaSecurityContextHolder {
      * @return
      */
     public static boolean hasAuthority(String authority) {
-        Collection<? extends GrantedAuthority> authorities = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         return authorities.contains(new SimpleGrantedAuthority(authority));
     }
 

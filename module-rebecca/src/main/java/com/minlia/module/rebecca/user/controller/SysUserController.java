@@ -3,7 +3,6 @@ package com.minlia.module.rebecca.user.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.minlia.cloud.body.Response;
 import com.minlia.cloud.constant.ApiPrefix;
 import com.minlia.module.audit.annotation.AuditLog;
@@ -74,7 +73,7 @@ public class SysUserController {
     @ApiOperation(value = "锁定用户")
     @PutMapping(value = "lock/{id}")
     public Response locked(@PathVariable Long id) {
-        return Response.success(sysUserService.lock(id));
+        return Response.success(sysUserService.lockToggle(id));
     }
 
     @AuditLog(value = "disable user by uid", type = AuditOperationTypeEnum.UPDATE)
@@ -82,7 +81,7 @@ public class SysUserController {
     @ApiOperation(value = "禁用用户")
     @PutMapping(value = "disable/{id}")
     public Response disable(@PathVariable Long id) {
-        return Response.success(sysUserService.disable(id));
+        return Response.success(sysUserService.disableToggle(id));
     }
 
     @AuditLog(value = "grant roles to user", type = AuditOperationTypeEnum.UPDATE)

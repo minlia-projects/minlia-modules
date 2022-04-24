@@ -1,6 +1,7 @@
 package com.minlia.module.realname.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minlia.module.common.validation.Cellphone;
 import com.minlia.module.common.validation.IdCard;
 import com.minlia.module.common.validation.NameZh;
 import io.swagger.annotations.ApiModel;
@@ -37,6 +38,11 @@ public class SysRealNameCro {
     @NotBlank
     @IdCard
     private String idNumber;
+
+    @ApiModelProperty(value = "身份证号码")
+    @Cellphone
+    @JsonIgnore
+    private String cellphone;
 
     //@ApiModelProperty(value = "身份证正面照片")
     //@Size(max = 255)

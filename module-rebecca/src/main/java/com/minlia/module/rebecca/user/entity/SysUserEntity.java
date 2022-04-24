@@ -110,5 +110,8 @@ public class SysUserEntity extends AbstractEntity {
     @TableField("dis_flag")
     private Boolean disFlag;
 
+    @ApiModelProperty(value = "备注")
+    @TableField("remark")
+    private String remark;
 
 }

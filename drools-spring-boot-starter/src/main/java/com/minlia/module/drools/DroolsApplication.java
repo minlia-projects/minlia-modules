@@ -3,7 +3,8 @@ package com.minlia.module.drools;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+
+@SpringBootApplication(scanBasePackages = {"com.minlia.*"})
 public class DroolsApplication {
 
 	public static void main(String[] args) {

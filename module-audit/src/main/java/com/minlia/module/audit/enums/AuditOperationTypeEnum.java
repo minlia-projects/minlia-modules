@@ -1,18 +1,29 @@
 package com.minlia.module.audit.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
- * @author Henry Lin badcop@163.com
+ * @author Garen
  */
+@Getter
+@AllArgsConstructor
 public enum AuditOperationTypeEnum {
 
-    CREATE,
+    CREATE(0, "CREATE"),
 
-    DELETE,
+    DELETE(1, "DELETE"),
 
-    UPDATE,
+    UPDATE(2, "DELETE"),
 
-    SELECT,
+    SELECT(3, "SELECT"),
 
-    LOGIN,
+    LOGIN(4, "LOGIN");
+
+    private Integer value;
+
+    @EnumValue
+    private String code;
 
 }

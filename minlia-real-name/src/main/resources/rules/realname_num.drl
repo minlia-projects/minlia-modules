@@ -1,0 +1,29 @@
+package rules;
+
+import com.minlia.cloud.utils.ApiAssert
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+import com.minlia.module.riskcontrol.enums.TimePeriodEnum
+import com.minlia.module.realname.event.RiskRealNameEvent
+import com.minlia.module.realname.constant.SysRealNameCode
+import com.minlia.module.riskcontrol.service.RiskRecordService
+import com.minlia.module.riskcontrol.service.RiskDimensionService
+import com.minlia.module.realname.event.RiskRealNameTriggerEvent
+
+global RiskRecordService riskRecordService
+global RiskDimensionService riskDimensionService
+
+rule "realname_num"
+    salience 99
+    lock-on-active true
+    when
+        event:RiskRealNameEvent()
+    then
+        long count  = riskDimensionService.distinctCountWithRedisAndConfig(event, new String[]{RiskRealNameEvent.SCENE_VALUE}, RiskRealNameEvent.TIME);
+        if(!event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+            riskRecordService.createEvent(event);
+            if (event.getLevel().equals(RiskLevelEnum.DANGER)) {
+                RiskRealNameTriggerEvent.publish(event.getUid());
+                ApiAssert.state(false, SysRealNameCode.Message.FREQUENT_REQUESTS);
+            }
+        }
+end

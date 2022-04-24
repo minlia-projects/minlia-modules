@@ -1,0 +1,24 @@
+package rules;
+
+import com.minlia.cloud.utils.ApiAssert
+import com.minlia.module.captcha.constant.CaptchaCode
+import com.minlia.module.captcha.risk.event.RiskCaptchaSmsEvent
+import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+import com.minlia.module.riskcontrol.service.RiskRecordService
+import com.minlia.module.riskcontrol.service.RiskDimensionService
+
+global RiskRecordService riskRecordService
+global RiskDimensionService riskDimensionService
+
+rule "same_id_sms_num"
+    salience 110
+    lock-on-active true
+    when
+        event:RiskCaptchaSmsEvent()
+    then
+        long count  = riskDimensionService.distinctCountWithRedisAndConfig(event, new String[]{event.SCENE_VALUE}, event.TIME);
+        if (!event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+            riskRecordService.createEvent(event);
+            ApiAssert.state(event.getLevel().equals(RiskLevelEnum.DANGER), CaptchaCode.Message.OVER_SEND_TIMES);
+        }
+end

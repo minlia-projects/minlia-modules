@@ -1,0 +1,24 @@
+//package rules;
+//
+//import com.minlia.module.riskcontrol.event.Event
+//import com.minlia.module.riskcontrol.enums.RiskLevelEnum
+//import com.minlia.module.riskcontrol.service.RiskRecordService
+//import org.apache.commons.lang3.StringUtils
+//import org.springframework.core.Ordered
+//
+//global RiskRecordService riskRecordService
+//
+//rule "all_event"
+//    salience 2147483647
+//    lock-on-active true
+//    when
+//        event:Event()
+//    then
+//        for(int i = 0; i < 100; i++) {
+//          System.out.println("-----------------");
+//        }
+//        if(null != event.getLevel() && event.getLevel().equals(RiskLevelEnum.NORMAL)) {
+//            event.setDetails(event.getDetails() + "----after");
+//            riskRecordService.createEvent(event);
+//        }
+//end

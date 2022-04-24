@@ -9,25 +9,10 @@ import lombok.Setter;
 @Setter
 public class RiskLoginFailureEvent extends Event {
 
-    public RiskLoginFailureEvent() {
+    public RiskLoginFailureEvent(String username) {
         super();
         this.setScene("MAX_NUM_ACCESS_15MINS");
-    }
-
-    public final static String ACCOUNT = "account";
-
-    public final static String TIME = "time";
-
-    private String account;
-
-    private String time;
-
-    public String getAccount() {
-        return account;
-    }
-
-    public String getTime() {
-        return System.currentTimeMillis() + "";
+        this.setSceneValue(username);
     }
 
 }
