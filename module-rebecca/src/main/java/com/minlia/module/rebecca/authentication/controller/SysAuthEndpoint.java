@@ -55,7 +55,7 @@ public class SysAuthEndpoint {
     @ApiOperation(value = "check", notes = "检查")
     @GetMapping(value = "check")
     public void session(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().setAttribute(SecurityConstant.SID, request.getSession().getId());
+        //request.getSession().setAttribute(SecurityConstant.SID, request.getSession().getId());
     }
 
 }

@@ -110,8 +110,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().httpStrictTransportSecurity().maxAgeInSeconds(Duration.ofDays(365L).getSeconds()).includeSubDomains(true)
                 //X-Frame-Options HTTP 响应头是用来给浏览器指示允许一个页面可否在 <frame>, <iframe>或者 <object> 中展现的标记。网站可以使用此功能，来确保自己网站的内容没有被嵌到别人的网站中去，也从而避免了点击劫持 (clickjacking) 的攻击。
                 .and().frameOptions().sameOrigin()
+                //We don't need CSRF for JWT based authentication
+                .and().csrf().disable()
                 //异常处理器
-                .and().exceptionHandling()
+                .exceptionHandling()
                 //认证通过，但是没权限处理器
                 //.accessDeniedHandler(accessDeniedHandler)
                 //认证未通过，不允许访问异常处理器
@@ -133,9 +135,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.addLogoutHandler(new DisableMultipleSecurityContextLogoutHandler())
                 .logoutSuccessHandler(defaultLogoutSuccessHandler)
                 //禁用session，JWT校验不需要session
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                //We don't need CSRF for JWT based authentication
-                .and().csrf().disable();
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean

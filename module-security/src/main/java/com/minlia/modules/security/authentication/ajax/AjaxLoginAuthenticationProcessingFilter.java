@@ -34,6 +34,10 @@ public class AjaxLoginAuthenticationProcessingFilter extends AbstractAuthenticat
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         log.info("Authentication method . Request method: {}.", request.getMethod());
+        response.setHeader("Access-Control-Allow-Credentials", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         if (!HttpMethod.POST.name().equals(request.getMethod())) {
             if (HttpMethod.OPTIONS.name().equals(request.getMethod())) {
                 //匿名登陆
