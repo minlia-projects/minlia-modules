@@ -1,5 +1,6 @@
 package com.minlia.module.pay.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,9 +35,11 @@ import com.minlia.module.pay.service.SysPayOrderService;
 import com.minlia.module.wallet.bean.WalletUro;
 import com.minlia.module.wallet.enums.WalletOperationTypeEnum;
 import com.minlia.module.wallet.service.SysWalletService;
+import com.minlia.redis.clock.annotation.Klock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -86,14 +89,7 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         if (Objects.isNull(entity)) {
             entity = DozerUtils.map(cro, SysPayOrderEntity.class);
             if (SysPayChannelEnum.BALANCE == cro.getChannel()) {
-                result = sysWalletService.update(WalletUro.builder()
-                        .uid(cro.getUid())
-                        .type(WalletOperationTypeEnum.OUT)
-                        .amount(cro.getAmount())
-                        .businessType(cro.getSubject())
-                        .businessId(cro.getOrderNo())
-                        .remark(cro.getBody())
-                        .build());
+                result = sysWalletService.update(WalletUro.builder().uid(cro.getUid()).type(WalletOperationTypeEnum.OUT).amount(cro.getAmount()).businessType(cro.getSubject()).businessId(cro.getOrderNo()).remark(cro.getBody()).build());
                 entity.setStatus(SysPayStatusEnum.PAID);
             } else {
                 result = getPayInfo(cro);
@@ -103,14 +99,7 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         } else {
             ApiAssert.state(SysPayStatusEnum.UNPAID.equals(entity.getStatus()), SysPayCode.Message.ORDER_ALREADY_FINISHED);
             if (SysPayChannelEnum.BALANCE == cro.getChannel()) {
-                result = sysWalletService.update(WalletUro.builder()
-                        .uid(cro.getUid())
-                        .type(WalletOperationTypeEnum.OUT)
-                        .amount(cro.getAmount())
-                        .businessType(cro.getSubject())
-                        .businessId(cro.getOrderNo())
-                        .remark(cro.getBody())
-                        .build());
+                result = sysWalletService.update(WalletUro.builder().uid(cro.getUid()).type(WalletOperationTypeEnum.OUT).amount(cro.getAmount()).businessType(cro.getSubject()).businessId(cro.getOrderNo()).remark(cro.getBody()).build());
                 entity.setChannel(SysPayChannelEnum.BALANCE);
                 entity.setStatus(SysPayStatusEnum.PAID);
             } else {
@@ -145,13 +134,7 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         SysPayOrderEntity entity = this.getByOrderNo(orderNo);
         ApiAssert.notNull(entity, SysPayCode.Message.ORDER_NOT_EXISTS);
         if (SysPayChannelEnum.BALANCE == entity.getChannel()) {
-            boolean result = sysWalletService.update(WalletUro.builder()
-                    .uid(entity.getUid())
-                    .type(WalletOperationTypeEnum.IN)
-                    .amount(entity.getAmount())
-                    .businessType("REFUND")
-                    .businessId(entity.getOrderNo())
-                    .build());
+            boolean result = sysWalletService.update(WalletUro.builder().uid(entity.getUid()).type(WalletOperationTypeEnum.IN).amount(entity.getAmount()).businessType("REFUND").businessId(entity.getOrderNo()).build());
             return Response.success(result);
         } else {
             MerchantDetailsEntity merchantDetailsEntity = merchantDetailsService.getByTypeAndMethod(entity.getChannel(), entity.getMethod());
@@ -229,6 +212,7 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Klock(waitTime = 10, leaseTime = 20, keys = {"#orderNo"})
     public void callback(String orderNo, String tradeNo) {
         log.info("支付回调更新状态开始===================={} {}", orderNo, tradeNo);
         SysPayOrderEntity orderEntity = this.getByOrderNo(orderNo);
@@ -238,6 +222,37 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
         log.info("支付回调更新状态完成====================");
         //发布通知事件
         SysPaidEvent.onPaid(DozerUtils.map(orderEntity, SysPaidResult.class));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
+    @Klock(waitTime = 10, leaseTime = 20, keys = {"#outTradeNo"})
+    public boolean async(String outTradeNo) {
+        SysPayOrderEntity orderEntity = this.getByOrderNo(outTradeNo);
+        if (Objects.nonNull(orderEntity)) {
+            MerchantDetailsEntity merchantDetailsEntity = this.merchantDetailsService.getByTypeAndMethod(orderEntity.getChannel(), orderEntity.getMethod());
+            MerchantQueryOrder queryOrder = new MerchantQueryOrder();
+            queryOrder.setDetailsId(merchantDetailsEntity.getDetailsId());
+            queryOrder.setOutTradeNo(orderEntity.getOrderNo());
+            String wayTrade = getMethod(orderEntity.getChannel(), orderEntity.getMethod());
+            queryOrder.setWayTrade(wayTrade);
+            Map<String, Object> map = payServiceManager.query(queryOrder);
+            //SysAlipayOrderDto orderDto = new Gson().fromJson(map.toString(), SysAlipayOrderDto.class);
+            SysAlipayOrderDto orderDto = JSONObject.parseObject(map.toString(), SysAlipayOrderDto.class);
+            if (orderDto.isSuccess()) {
+                orderEntity.setTradeNo(orderDto.getAlipayTradeQueryResponse().getTradeNo());
+                orderEntity.setStatus(orderDto.getStatus());
+                orderEntity.setRemark(orderDto.getAlipayTradeQueryResponse().getMsg());
+            } else if (orderDto.isUnpaid()) {
+                //不存在时更新状态为超时
+                orderEntity.setStatus(SysPayStatusEnum.CANCELED);
+                orderEntity.setRemark(orderDto.getAlipayTradeQueryResponse().getMsg());
+            } else {
+                System.out.println(1);
+            }
+            return this.updateById(orderEntity);
+        }
+        return true;
     }
 
     @Override

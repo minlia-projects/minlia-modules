@@ -31,7 +31,7 @@ public class PaySwaggerConfig extends SwaggerConfiguration {
                 .host(getSwaggerProperties().getHost())
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-                .paths(PathSelectors.ant("/api/v1/pay/**"))
+                .paths(PathSelectors.ant("/api/*/pay/**"))
                 .build()
                 .directModelSubstitute(Long.class, String.class)
                 .directModelSubstitute(long.class, String.class)

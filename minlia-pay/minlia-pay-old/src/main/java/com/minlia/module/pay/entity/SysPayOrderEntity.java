@@ -12,8 +12,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -64,6 +62,10 @@ public class SysPayOrderEntity extends AbstractEntity {
     @ApiModelProperty(value = "总金额")
     @TableField("amount")
     private BigDecimal amount;
+
+    @ApiModelProperty(value = "备注")
+    @TableField("remark")
+    private String remark;
 
     @ApiModelProperty(value = "主题")
     @TableField("subject")

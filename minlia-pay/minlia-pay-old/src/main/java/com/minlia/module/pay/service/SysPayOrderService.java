@@ -68,6 +68,14 @@ public interface SysPayOrderService extends IService<SysPayOrderEntity> {
     void callback(String orderNo, String tradeNo);
 
     /**
+     * 同步订单信息
+     *
+     * @param outTradeNo
+     * @return
+     */
+    boolean async(String outTradeNo);
+
+    /**
      * 根据订单号查询
      *
      * @param orderNo 订单号
