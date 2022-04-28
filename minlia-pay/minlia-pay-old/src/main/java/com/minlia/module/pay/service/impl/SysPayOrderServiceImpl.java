@@ -243,14 +243,15 @@ public class SysPayOrderServiceImpl extends ServiceImpl<SysPayOrderMapper, SysPa
                 orderEntity.setTradeNo(orderDto.getAlipayTradeQueryResponse().getTradeNo());
                 orderEntity.setStatus(orderDto.getStatus());
                 orderEntity.setRemark(orderDto.getAlipayTradeQueryResponse().getMsg());
+                return this.updateById(orderEntity);
             } else if (orderDto.isUnpaid()) {
                 //不存在时更新状态为超时
                 orderEntity.setStatus(SysPayStatusEnum.CANCELED);
                 orderEntity.setRemark(orderDto.getAlipayTradeQueryResponse().getMsg());
+                return this.updateById(orderEntity);
             } else {
                 System.out.println(1);
             }
-            return this.updateById(orderEntity);
         }
         return true;
     }

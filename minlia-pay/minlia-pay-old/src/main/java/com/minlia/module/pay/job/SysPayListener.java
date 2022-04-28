@@ -25,9 +25,9 @@ public class SysPayListener {
     /**
      * 订单失效
      */
-    @Scheduled(cron = "0/20 * * * * ?")
+    @Scheduled(fixedDelay = 5 * 1000)
     public void expire() {
-        Page<SysPayOrderEntity> page = sysPayOrderService.page(new Page<>(0, 100),
+        Page<SysPayOrderEntity> page = sysPayOrderService.page(new Page<>(0, 500),
                 Wrappers.<SysPayOrderEntity>lambdaQuery()
                         .eq(SysPayOrderEntity::getStatus, SysPayStatusEnum.UNPAID)
                         .lt(SysPayOrderEntity::getExpireTime, LocalDateTime.now()));
