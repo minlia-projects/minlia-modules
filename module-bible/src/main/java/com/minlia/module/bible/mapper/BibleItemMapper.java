@@ -1,8 +1,9 @@
 package com.minlia.module.bible.mapper;
 
-import com.minlia.module.bible.entity.BibleItemEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.minlia.module.bible.entity.BibleItemEntity;
 import org.apache.ibatis.annotations.MapKey;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -17,6 +18,6 @@ import java.util.Map;
 public interface BibleItemMapper extends BaseMapper<BibleItemEntity> {
 
     @MapKey("code")
-    Map<String, Map<String, String>> queryValueMap(String bibleCode);
-    
+    Map<String, Map<String, String>> queryValueMap(@Param("bibleCode") String bibleCode);
+
 }

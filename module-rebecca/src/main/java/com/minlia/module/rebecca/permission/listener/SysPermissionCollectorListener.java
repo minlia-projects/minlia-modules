@@ -6,6 +6,7 @@ import com.minlia.module.rebecca.permission.service.SysPermissionService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.ReflectionUtils;
@@ -19,6 +20,7 @@ import java.lang.reflect.Method;
  */
 //@Component
 //@Order(value = Ordered.HIGHEST_PRECEDENCE)
+@ConditionalOnBean(value = SysPermissionService.class)
 public class SysPermissionCollectorListener implements BeanPostProcessor {
 
     public static final String[] AUTHORITIES = new String[]{"hasAnyAuthority", "hasAuthority"};

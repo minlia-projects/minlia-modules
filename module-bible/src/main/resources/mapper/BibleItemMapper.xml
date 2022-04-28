@@ -9,7 +9,6 @@
         <result column="code" property="code" />
         <result column="value" property="value" />
         <result column="notes" property="notes" />
-        <result column="sorts" property="sorts" />
         <result column="attribute1" property="attribute1" />
         <result column="attribute2" property="attribute2" />
         <result column="attribute3" property="attribute3" />

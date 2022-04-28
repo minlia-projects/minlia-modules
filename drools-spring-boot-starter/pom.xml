@@ -24,6 +24,11 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
                 <exclusion>
@@ -32,30 +37,24 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-swagger</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-data</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.kie</groupId>
             <artifactId>kie-spring</artifactId>
@@ -83,11 +82,6 @@
             <groupId>org.drools</groupId>
             <artifactId>drools-compiler</artifactId>
             <version>${drools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-swagger</artifactId>
-            <version>${minlia.module.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -56,6 +56,7 @@ local.properties
 ######################
 .idea/
 *.iml
+*.imi
 *.iws
 *.ipr
 *.ids

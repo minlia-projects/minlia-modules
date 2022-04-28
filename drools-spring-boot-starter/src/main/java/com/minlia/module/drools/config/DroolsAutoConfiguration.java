@@ -54,7 +54,7 @@ public class DroolsAutoConfiguration {
     }
 
     private KieServices getKieServices() {
-        return KieServices.Factory.get();
+        return KieServices.get();
     }
 
     @Bean

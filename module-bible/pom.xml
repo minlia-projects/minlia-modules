@@ -20,48 +20,34 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.minlia.cloud</groupId>
             <artifactId>minlia-cloud-starter</artifactId>
-            <version>${minlia.cloud.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-common</artifactId>
-            <version>${minlia.module.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-swagger</artifactId>
-            <version>${minlia.module.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-data</artifactId>
-            <version>${minlia.module.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.minlia.cloud.modules</groupId>
             <artifactId>module-security</artifactId>
-            <version>${minlia.module.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.minlia.cloud.modules</groupId>
+            <artifactId>module-audit</artifactId>
+        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.minlia.cloud.modules</groupId>
-            <artifactId>module-audit</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -80,23 +66,6 @@
                         </exclude>
                     </excludes>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-            </plugin>
-            <!--<plugin>-->
-            <!--<groupId>com.mysema.maven</groupId>-->
-            <!--<artifactId>apt-maven-plugin</artifactId>-->
-            <!--</plugin>-->
-            <!---->
-            <!--<plugin>-->
-            <!--<groupId>org.bsc.maven</groupId>-->
-            <!--<artifactId>maven-processor-plugin</artifactId>-->
-            <!--</plugin>-->
-            <plugin>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
